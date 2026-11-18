@@ -9,22 +9,29 @@ from pathlib import Path
 from typing import Any
 
 from .detection import DetectorConfig, detect_chat_spikes
+from .consent_registry import ConsentRegistry
 from .models import PermissionRecord
 from .youtube_live_chat import YouTubeLiveChatClient
 
 
 def run(
     video_id: str,
-    permission_path: Path,
+    permission_path: Path | None,
     output_path: Path,
     *,
+    registry_path: Path | None = None,
     live_chat_id: str | None = None,
     page_token: str | None = None,
     max_results: int = 200,
 ) -> int:
     try:
-        permission_data: dict[str, Any] = json.loads(permission_path.read_text(encoding="utf-8"))
-        permission = PermissionRecord.from_dict(permission_data)
+        if (permission_path is None) == (registry_path is None):
+            raise ValueError("provide exactly one of permission_path or registry_path")
+        if registry_path is not None:
+            permission = ConsentRegistry(registry_path).require(video_id, "analyze_chat")
+        else:
+            permission_data: dict[str, Any] = json.loads(permission_path.read_text(encoding="utf-8"))
+            permission = PermissionRecord.from_dict(permission_data)
         client = YouTubeLiveChatClient()
         batch = client.fetch_recent_messages(
             video_id,
@@ -59,7 +66,9 @@ def run(
 def main() -> int:
     parser = argparse.ArgumentParser(description="Analyze one bounded page of an authorized public YouTube live chat.")
     parser.add_argument("video_id")
-    parser.add_argument("--permission", type=Path, required=True, help="JSON permission record for this video source")
+    source = parser.add_mutually_exclusive_group(required=True)
+    source.add_argument("--permission", type=Path, help="JSON permission record for this video source")
+    source.add_argument("--registry", type=Path, help="SQLite consent registry containing a valid grant for this video")
     parser.add_argument("--output", type=Path, default=Path("youtube_clip_plan.json"))
     parser.add_argument("--live-chat-id", help="Reuse the live chat ID returned by the previous run")
     parser.add_argument("--page-token", help="Continue from the next_page_token in a previous output")
@@ -69,6 +78,7 @@ def main() -> int:
         args.video_id,
         args.permission,
         args.output,
+        registry_path=args.registry,
         live_chat_id=args.live_chat_id,
         page_token=args.page_token,
         max_results=args.max_results,
