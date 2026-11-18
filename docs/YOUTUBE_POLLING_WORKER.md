@@ -40,17 +40,19 @@ Pass a `PollingCheckpointStore` to persist the last successfully handled live-ch
 
 ```python
 from backend.app.polling_checkpoint_store import PollingCheckpointStore
+from backend.app.chat_event_store import ChatEventStore
 
 checkpoints = PollingCheckpointStore("data/polling.sqlite3")
+events = ChatEventStore("data/events.sqlite3")
 result = run_bounded_polling(
     client=client, registry=registry, video_id="AUTHORIZED_PUBLIC_VIDEO_ID",
-    on_batch=process_and_persist_batch, stop_event=stop,
+    on_batch=events.persist_batch, stop_event=stop,
     max_batches=100, max_runtime_seconds=1800,
     checkpoint_store=checkpoints,
 )
 ```
 
-This is **at-least-once**, not exactly-once, delivery. A crash after the callback commits its events but before the checkpoint commits can replay a batch. The callback must be idempotent. Checkpoints do not replace event-level deduplication.
+This is **at-least-once**, not exactly-once, delivery. A crash after the callback commits its events but before the checkpoint commits can replay a batch. `ChatEventStore.persist_batch` provides durable event-level deduplication: identical re-deliveries are counted as duplicates, while conflicting reuse of an event ID is rejected. Event persistence and cursor advancement are separate SQLite transactions, so a crash between them safely causes a harmless replay rather than a skipped batch.
 
 ## Production gap
 
