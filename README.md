@@ -28,7 +28,7 @@ python -m backend.app.cli examples/sample_events.json --output clip_plan.json
 python -m unittest discover -s tests -v
 ```
 
-See [MVP usage](docs/MVP_USAGE.md) and [YouTube adapter setup](docs/YOUTUBE_LIVE_CHAT.md).
+See [MVP usage](docs/MVP_USAGE.md), [YouTube adapter setup](docs/YOUTUBE_LIVE_CHAT.md), and [bounded polling worker](docs/YOUTUBE_POLLING_WORKER.md).
 
 ## Repository map
 
@@ -38,6 +38,8 @@ See [MVP usage](docs/MVP_USAGE.md) and [YouTube adapter setup](docs/YOUTUBE_LIVE
 - `backend/app/clipping.py`: local-only FFmpeg clip renderer.
 - `backend/app/youtube_live_chat.py`: read-only YouTube public live-chat API adapter.
 - `backend/app/youtube_cli.py`: one-page YouTube chat analysis command.
+- `backend/app/consent_registry.py`: SQLite-backed creator consent and revocation audit registry.
+- `backend/app/youtube_polling_worker.py`: bounded REST polling worker with consent re-checks.
 - `examples/`: synthetic test data only.
 - `tests/`: unit and CLI integration tests.
 - `docs/`: plans, architecture, rights, security, testing, and owner actions.
