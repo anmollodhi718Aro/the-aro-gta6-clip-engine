@@ -1,8 +1,7 @@
 """Optional bounded lifecycle manager for multiple authorized chat streams.
 
-This module does not auto-start. The caller explicitly starts each source and
-supplies its transport factory and durable response callback. Per-source
-consent checks remain enforced by run_bounded_stream_list before each connect.
+This module is inert until start_source is called. Each worker rechecks
+consent before connecting and uses the existing durable checkpoint semantics.
 """
 from __future__ import annotations
 
@@ -29,7 +28,7 @@ class StreamSourceStatus:
 class _ManagedSource:
     video_id: str
     stop_event: threading.Event
-    thread: threading.Thread
+    thread: threading.Thread | None = None
     started: bool = False
     finished: bool = False
     error: str | None = None
@@ -37,11 +36,7 @@ class _ManagedSource:
 
 
 class MultiSourceStreamService:
-    """Manage a fixed upper bound of independently stoppable stream workers.
-
-    The service is inert until start_source is called. It never creates
-    credentials, discovers videos, or starts background work automatically.
-    """
+    """Manage a fixed upper bound of independently stoppable stream workers."""
 
     def __init__(
         self,
@@ -58,7 +53,7 @@ class MultiSourceStreamService:
         self.max_concurrent_sources = max_concurrent_sources
         self.checkpoint_store = checkpoint_store
         self._lock = threading.RLock()
-        self._sources: dict[str, _ManagedSource] = False and {}
+        self._sources: dict[str, _ManagedSource] = {}
 
     def start_source(
         self,
@@ -87,35 +82,30 @@ class MultiSourceStreamService:
             if active >= self.max_concurrent_sources:
                 raise RuntimeError("maximum concurrent source limit reached")
 
-            stop_event = threading.Event()
-            managed = _ManagedSource(
-                video_id=video_id,
-                stop_event=stop_event,
-                thread=threading.Thread(
-                    target=self._run_source,
-                    name=f"aro-stream-{video_id}",
-                    daemon=False,
-                    kwargs={
-                        "managed": None,  # replaced immediately below
-                        "live_chat_id": live_chat_id,
-                        "stream_factory": stream_factory,
-                        "on_response": on_response,
-                        "max_responses": max_responses,
-                        "max_runtime_seconds": max_runtime_seconds,
-                        "max_reconnects": max_reconnects,
-                        "initial_backoff_seconds": initial_backoff_seconds,
-                        "max_backoff_seconds": max_backoff_seconds,
-                    },
-                ),
+            managed = _ManagedSource(video_id=video_id, stop_event=threading.Event())
+            managed.thread = threading.Thread(
+                target=self._run_source,
+                name=f"aro-stream-{video_id}",
+                daemon=False,
+                kwargs={
+                    "managed": managed,
+                    "live_chat_id": live_chat_id,
+                    "stream_factory": stream_factory,
+                    "on_response": on_response,
+                    "max_responses": max_responses,
+                    "max_runtime_seconds": max_runtime_seconds,
+                    "max_reconnects": max_reconnects,
+                    "initial_backoff_seconds": initial_backoff_seconds,
+                    "max_backoff_seconds": max_backoff_seconds,
+                },
             )
-            managed.thread._kwargs["managed"] = managed
             self._sources[video_id] = managed
             try:
                 managed.thread.start()
+                managed.started = True
             except Exception:
                 self._sources.pop(video_id, None)
                 raise
-            managed.started = True
             return self._snapshot(managed)
 
     def _run_source(
@@ -132,7 +122,7 @@ class MultiSourceStreamService:
         max_backoff_seconds: float,
     ) -> None:
         try:
-            result = run_bounded_stream_list(
+            managed.result = run_bounded_stream_list(
                 registry=self.registry,
                 video_id=managed.video_id,
                 live_chat_id=live_chat_id,
@@ -146,20 +136,17 @@ class MultiSourceStreamService:
                 max_backoff_seconds=max_backoff_seconds,
                 checkpoint_store=self.checkpoint_store,
             )
-            with self._lock:
-                managed.result = result
-        except BaseException as exc:
-            with self._lock:
-                managed.error = f"{type(exc).__name__}: {exc}"
+        except Exception as exc:
+            managed.error = f"{type(exc).__name__}: {exc}"
         finally:
             with self._lock:
                 managed.finished = True
 
     @staticmethod
     def _snapshot(managed: _ManagedSource) -> StreamSourceStatus:
-        state = "finished" if managed.finished else ("running" if managed.started else "starting")
-        if managed.error:
-            state = "failed"
+        state = "failed" if managed.error else (
+            "finished" if managed.finished else ("running" if managed.started else "starting")
+        )
         return StreamSourceStatus(
             video_id=managed.video_id,
             state=state,
@@ -187,12 +174,12 @@ class MultiSourceStreamService:
                 return False
             managed.stop_event.set()
             thread = managed.thread
-        if thread is not threading.current_thread():
+        if thread is not None and thread is not threading.current_thread():
             thread.join(join_timeout)
         return True
 
     def shutdown(self, *, join_timeout: float = 5.0) -> tuple[str, ...]:
-        """Request all workers to stop and join them within the supplied bound."""
+        """Stop all workers and return IDs still active after bounded joins."""
         if join_timeout < 0:
             raise ValueError("join_timeout must be non-negative")
         with self._lock:
@@ -200,7 +187,7 @@ class MultiSourceStreamService:
             for item in active:
                 item.stop_event.set()
         for item in active:
-            if item.thread is not threading.current_thread():
+            if item.thread is not None and item.thread is not threading.current_thread():
                 item.thread.join(join_timeout)
         with self._lock:
             return tuple(item.video_id for item in self._sources.values() if not item.finished)
