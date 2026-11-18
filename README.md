@@ -43,6 +43,7 @@ See [MVP usage](docs/MVP_USAGE.md), [YouTube adapter setup](docs/YOUTUBE_LIVE_CH
 - `backend/app/polling_checkpoint_store.py`: SQLite page-token checkpoints for resumable polling.
 - `backend/app/chat_event_store.py`: durable SQLite event ingestion with duplicate detection and conflicting-ID rejection.
 - `backend/app/quota_scheduler.py`: SQLite multi-source due-time scheduler with atomic daily quota reservations.
+- `backend/app/scheduled_ingestion.py`: one-page orchestration joining quota reservation, consent recheck, event persistence, and cursor checkpointing.
 - `examples/`: synthetic test data only.
 - `tests/`: unit and CLI integration tests.
 - `docs/`: plans, architecture, rights, security, testing, and owner actions.
