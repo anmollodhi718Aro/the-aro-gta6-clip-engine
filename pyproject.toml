@@ -1,0 +1,10 @@
+[project]
+name = "the-aro-gta6-clip-engine"
+version = "0.1.0"
+description = "Permission-gated highlight candidate detection for authorized GTA 6 creator workflows."
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
