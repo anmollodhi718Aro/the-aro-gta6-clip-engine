@@ -41,6 +41,7 @@ See [MVP usage](docs/MVP_USAGE.md), [YouTube adapter setup](docs/YOUTUBE_LIVE_CH
 - `backend/app/consent_registry.py`: SQLite-backed creator consent and revocation audit registry.
 - `backend/app/youtube_polling_worker.py`: bounded REST polling worker with consent re-checks and restart resume.
 - `backend/app/polling_checkpoint_store.py`: SQLite page-token checkpoints for resumable polling.
+- `backend/app/chat_event_store.py`: durable SQLite event ingestion with duplicate detection and conflicting-ID rejection.
 - `examples/`: synthetic test data only.
 - `tests/`: unit and CLI integration tests.
 - `docs/`: plans, architecture, rights, security, testing, and owner actions.
