@@ -9,16 +9,19 @@ Last reviewed: 2026-11-18
 - [x] Permission-gated deterministic chat-spike detection
 - [x] Idempotent duplicate event handling
 - [x] Local JSON CLI and synthetic sample data
+- [x] Read-only one-page YouTube public live-chat REST adapter
+- [x] Permission check before YouTube chat API access
+- [x] One-shot YouTube chat analysis CLI with pagination metadata
 - [x] Review-only clip decision list; publishing is disabled
-- [x] Local-only FFmpeg MP4 renderer with rights confirmation, bounded duration, no-overwrite behavior, and subprocess timeout
-- [x] Unit tests for detector, permission gates, CLI, and clipper guards
+- [x] Local-only FFmpeg renderer with rights confirmation, bounded duration, no-overwrite behavior, and process timeout
+- [x] Unit tests for detector, permission gates, CLI, YouTube adapter, and clipper guards
 - [x] GitHub Actions compile and unit-test workflow
 
 ## Not implemented yet
 
 - [ ] Persistent creator/source consent registry and revocation UI
-- [ ] Official YouTube Live Chat adapter and OAuth authorization
-- [ ] Live source polling, reconnect logic, and quota-aware scheduling
+- [ ] Continuous low-latency YouTube streamList/gRPC worker and reconnect logic
+- [ ] Quota-aware scheduler across multiple live sources
 - [ ] Video/chat clock synchronization
 - [ ] Automatic selection of a valid video cut window from synchronized timestamps
 - [ ] AI-assisted context and highlight scoring
@@ -32,6 +35,8 @@ Last reviewed: 2026-11-18
 
 ## Known limits
 
+- Current YouTube adapter is a bounded REST page fetch, not a continuous stream worker.
+- It only handles publicly accessible live chat via an API key; private account data and OAuth flows are not implemented.
 - A local clip render is not evidence that a creator has granted distribution rights.
 - Chat spike detection finds activity changes, not guaranteed entertaining or viral moments.
 - Chat timestamps cannot be mapped to video offsets without a measured synchronization offset.
