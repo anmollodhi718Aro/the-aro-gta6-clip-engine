@@ -6,17 +6,18 @@ A creator-first workflow for finding and preparing short highlights from **autho
 
 ## Current status
 
-**Stage:** Local MVP core  
-**Implemented:** permission-gated chat-spike detection, synthetic JSON demo, review-only clip plans, and local-only FFmpeg MP4 rendering.  
-**Not yet implemented:** YouTube live-source integration, OAuth, chat/video clock synchronization, AI context analysis, dashboard, cloud workers, or publishing.
+**Stage:** Local MVP core with a read-only public YouTube chat adapter.  
+**Implemented:** permission-gated chat-spike detection, synthetic JSON demo, one-page YouTube Live Chat API adapter, review-only clip plans, and local-only FFmpeg MP4 rendering.  
+**Not yet implemented:** continuous low-latency chat streaming, OAuth/private-channel access, chat/video clock synchronization, AI context analysis, dashboard, cloud workers, or publishing.
 
 ## MVP workflow
 
 1. Analyze permitted chat/event data.
-2. Detect unusual chat activity and produce explainable candidate timestamps.
-3. Review candidate moments manually.
-4. Render a short MP4 from a local media file that the operator owns or is authorized to process.
-5. Keep distribution manual and owner-approved.
+2. Optionally fetch one bounded page of public live-chat events through the official YouTube Data API.
+3. Detect unusual chat activity and produce explainable candidate timestamps.
+4. Review candidate moments manually.
+5. Render a short MP4 from a local media file that the operator owns or is authorized to process.
+6. Keep distribution manual and owner-approved.
 
 ## Quick start
 
@@ -27,7 +28,7 @@ python -m backend.app.cli examples/sample_events.json --output clip_plan.json
 python -m unittest discover -s tests -v
 ```
 
-See [MVP usage](docs/MVP_USAGE.md) for event analysis and authorized local rendering.
+See [MVP usage](docs/MVP_USAGE.md) and [YouTube adapter setup](docs/YOUTUBE_LIVE_CHAT.md).
 
 ## Repository map
 
@@ -35,6 +36,8 @@ See [MVP usage](docs/MVP_USAGE.md) for event analysis and authorized local rende
 - `backend/app/detection.py`: deterministic, permission-gated chat-spike detector.
 - `backend/app/cli.py`: local JSON analysis command.
 - `backend/app/clipping.py`: local-only FFmpeg clip renderer.
+- `backend/app/youtube_live_chat.py`: read-only YouTube public live-chat API adapter.
+- `backend/app/youtube_cli.py`: one-page YouTube chat analysis command.
 - `examples/`: synthetic test data only.
 - `tests/`: unit and CLI integration tests.
 - `docs/`: plans, architecture, rights, security, testing, and owner actions.
@@ -47,10 +50,11 @@ Only use footage and data that you own or have permission to process. The clippe
 
 - GitHub is the source of truth.
 - Build in small, reviewable commits.
-- Keep secrets out of Git.
+- Keep API keys and tokens out of Git.
 - Use synthetic data or authorized sample assets first.
 - Do not scrape, rip, or bypass platform controls.
 - Do not map chat timestamps to video offsets without a measured clock synchronization offset.
+- Respect API quota and server-provided polling intervals.
 - Automatic recovery must be bounded; code changes and production deployment require owner review.
 - Publishing requires explicit human approval.
 
