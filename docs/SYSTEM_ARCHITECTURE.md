@@ -38,11 +38,13 @@ Local MP4 for Review (no publishing)
 
 Synthetic JSON events can also enter directly at the normalization stage.
 
+The YouTube adapter currently accepts a permission record directly. The persistent registry is available as a local service for upcoming worker integration; the current one-shot CLI has not yet been switched to load grants from the database.
+
 ## Planned next layers
 
 - Official YouTube `streamList` gRPC adapter for continuous low-latency ingestion
 - Quota-aware multi-source scheduler, reconnect/resume, and durable cursor storage
-- Persistent consent registry with revocation
+- SQLite-backed persistent consent registry with grant/expiry/scope checks, idempotent revocation, and append-only grant/revocation audit events (local MVP)
 - Measured stream/video clock synchronization
 - AI context scoring and captions, behind provider adapters and quota limits
 - Dashboard, authenticated API, database, queue, and storage
