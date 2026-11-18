@@ -38,7 +38,7 @@ Local MP4 for Review (no publishing)
 
 Synthetic JSON events can also enter directly at the normalization stage.
 
-The YouTube adapter currently accepts a permission record directly. The persistent registry is available as a local service for upcoming worker integration; the current one-shot CLI has not yet been switched to load grants from the database.
+The YouTube adapter currently accepts a permission record directly. The one-shot CLI can load a valid grant from the local SQLite registry (or use the legacy JSON permission file).
 
 ## Planned next layers
 
