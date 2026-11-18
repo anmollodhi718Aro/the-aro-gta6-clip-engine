@@ -34,6 +34,24 @@ print(result)
 
 The callback process_and_persist_batch is application-provided. It should persist events with idempotency keys and must not publish. Keep API credentials server-side.
 
+## Restart-safe cursor storage
+
+Pass a `PollingCheckpointStore` to persist the last successfully handled live-chat/page cursor. The store is keyed by video ID and uses SQLite. The callback runs before the checkpoint is advanced, so callback failures leave the previous cursor intact.
+
+```python
+from backend.app.polling_checkpoint_store import PollingCheckpointStore
+
+checkpoints = PollingCheckpointStore("data/polling.sqlite3")
+result = run_bounded_polling(
+    client=client, registry=registry, video_id="AUTHORIZED_PUBLIC_VIDEO_ID",
+    on_batch=process_and_persist_batch, stop_event=stop,
+    max_batches=100, max_runtime_seconds=1800,
+    checkpoint_store=checkpoints,
+)
+```
+
+This is **at-least-once**, not exactly-once, delivery. A crash after the callback commits its events but before the checkpoint commits can replay a batch. The callback must be idempotent. Checkpoints do not replace event-level deduplication.
+
 ## Production gap
 
-Add durable page-token checkpoints, a queue with backpressure, monitoring, authenticated stop controls, managed database storage, and authorized integration tests before continuous operation. Prefer the official streamList/gRPC transport for low-latency ingestion once implemented and validated.
+Add a queue with backpressure, monitoring, authenticated stop controls, managed database storage, and authorized integration tests before continuous operation. The REST worker remains a bounded transitional transport; prefer the official streamList/gRPC transport for low-latency ingestion once implemented and validated.
