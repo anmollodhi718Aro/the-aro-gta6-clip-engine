@@ -26,7 +26,8 @@ Last reviewed: 2026-11-18
 - [x] SQLite polling checkpoints with restart resume and callback-before-cursor-advance semantics
 - [x] SQLite chat-event store with durable deduplication and conflicting event-ID rejection
 - [ ] Continuous low-latency YouTube streamList/gRPC worker and reconnect/resume logic
-- [ ] Quota-aware scheduler across multiple live sources
+- [x] SQLite quota-aware multi-source scheduler with priority, per-source intervals, and atomic daily quota reservations
+- [ ] Scheduler-to-worker orchestration and live quota calibration
 - [ ] Video/chat clock synchronization
 - [ ] Automatic selection of a valid video cut window from synchronized timestamps
 - [ ] AI-assisted context and highlight scoring
