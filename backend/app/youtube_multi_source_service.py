@@ -6,6 +6,7 @@ consent before connecting and uses the existing durable checkpoint semantics.
 from __future__ import annotations
 
 import threading
+import time
 from dataclasses import dataclass
 from typing import Any, Callable
 
@@ -186,8 +187,10 @@ class MultiSourceStreamService:
             active = [item for item in self._sources.values() if not item.finished]
             for item in active:
                 item.stop_event.set()
+        deadline = time.monotonic() + join_timeout
         for item in active:
             if item.thread is not None and item.thread is not threading.current_thread():
-                item.thread.join(join_timeout)
+                remaining = max(0.0, deadline - time.monotonic())
+                item.thread.join(remaining)
         with self._lock:
             return tuple(item.video_id for item in self._sources.values() if not item.finished)
