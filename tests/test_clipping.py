@@ -1,5 +1,7 @@
 """Safety and behavior tests for local FFmpeg clipping."""
 
+import shutil
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -22,6 +24,13 @@ class ClipRenderTests(unittest.TestCase):
             source.write_bytes(b"synthetic")
             with self.assertRaises(ValueError):
                 render_clip(source, Path(folder) / "clip.mp4", 3, 2, rights_confirmed=True)
+
+    def test_rejects_non_finite_bounds(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            source.write_bytes(b"synthetic")
+            with self.assertRaises(ValueError):
+                render_clip(source, Path(folder) / "clip.mp4", float("nan"), 2, rights_confirmed=True)
 
     def test_rejects_long_clip(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
@@ -58,6 +67,19 @@ class ClipRenderTests(unittest.TestCase):
             self.assertTrue(kwargs["check"])
             self.assertEqual(args[0][args[0].index("-t") + 1], "3.000")
             self.assertNotIn("shell", kwargs)
+
+    @unittest.skipUnless(shutil.which("ffmpeg"), "FFmpeg is not installed on this runner")
+    def test_renders_a_generated_synthetic_video(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "synthetic.mp4"
+            output = Path(folder) / "clip.mp4"
+            subprocess.run(
+                [shutil.which("ffmpeg"), "-nostdin", "-hide_banner", "-loglevel", "error", "-f", "lavfi", "-i", "color=c=black:s=160x120:d=3", "-pix_fmt", "yuv420p", str(source)],
+                check=True, capture_output=True, timeout=60,
+            )
+            result = render_clip(source, output, 0.5, 2.0, rights_confirmed=True)
+            self.assertTrue(result.is_file())
+            self.assertGreater(result.stat().st_size, 0)
 
     def test_reports_missing_ffmpeg(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
