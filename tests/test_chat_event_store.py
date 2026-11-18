@@ -27,11 +27,13 @@ class ChatEventStoreTests(unittest.TestCase):
         self.assertEqual(self.store.list_events("video-1"), [self.event])
 
     def test_conflicting_reuse_is_rejected_and_batch_rolls_back(self):
+        self.store.persist([self.event])
         new_event = ChatEvent("event-2", "video-1", self.event.timestamp, "new")
         conflict = ChatEvent("event-1", "video-1", self.event.timestamp, "changed")
         with self.assertRaisesRegex(ValueError, "conflicting duplicate"):
             self.store.persist([new_event, conflict])
-        self.assertEqual(self.store.list_events("video-1"), [])
+        # The pre-existing row remains, but the earlier event-2 insert rolls back.
+        self.assertEqual(self.store.list_events("video-1"), [self.event])
 
     def test_same_event_id_on_different_source_is_independent(self):
         other = ChatEvent("event-1", "video-2", self.event.timestamp, "other source")
