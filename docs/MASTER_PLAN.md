@@ -14,9 +14,11 @@ THE ARO GTA 6 Clip Engine helps a creator or authorized editor identify promisin
 - [x] Synthetic event fixture and local CLI
 - [x] Human-review-only candidate output
 - [x] Local-only FFmpeg rendering from an authorized media file
+- [x] Official YouTube public chat REST page adapter
+- [x] One-shot YouTube chat-to-candidate CLI
 - [x] Automated unit and CLI tests
 - [ ] Persistent creator/source consent registry
-- [ ] Official source adapter and OAuth setup
+- [ ] Continuous streamList/gRPC worker and resume handling
 - [ ] Clock synchronization and real source pilot
 - [ ] Caption and quality checks
 
@@ -43,6 +45,7 @@ Schedules are targets, not guarantees. Public release depends on owner approvals
 - A known synthetic chat spike is detected in tests.
 - Candidate scores are explainable from recorded signals.
 - Clip plans are deterministic for fixed inputs.
+- YouTube API access is read-only, bounded, permission-gated, and quota-aware.
 - Local video rendering refuses unconfirmed rights, remote URLs, invalid durations, and accidental overwrite.
 - No clip is published without explicit human approval.
 - Secrets are not committed.
