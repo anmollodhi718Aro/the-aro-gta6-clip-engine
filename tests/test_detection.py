@@ -1,0 +1,75 @@
+"""Tests for permission-gated deterministic chat spike detection."""
+
+import unittest
+from datetime import datetime, timedelta, timezone
+
+from backend.app.detection import DetectorConfig, detect_chat_spikes
+from backend.app.models import ChatEvent, PermissionRecord
+
+
+class DetectionTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.start = datetime(2026, 11, 18, 12, 0, 0, tzinfo=timezone.utc)
+        self.permission = PermissionRecord(
+            source_id="sample-stream",
+            granted_by="test-creator",
+            scopes=frozenset({"analyze_chat"}),
+            granted_at=self.start - timedelta(minutes=1),
+            expires_at=self.start + timedelta(hours=1),
+        )
+        self.config = DetectorConfig(
+            window_seconds=10,
+            baseline_windows=3,
+            spike_multiplier=2,
+            min_messages=5,
+            pre_roll_seconds=15,
+            post_roll_seconds=15,
+        )
+
+    def make_events(self, counts: list[int]) -> list[ChatEvent]:
+        events: list[ChatEvent] = []
+        for bucket, count in enumerate(counts):
+            for item in range(count):
+                events.append(ChatEvent(
+                    event_id=f"{bucket}-{item}",
+                    source_id="sample-stream",
+                    timestamp=self.start + timedelta(seconds=bucket * 10 + item),
+                    text="synthetic test event",
+                ))
+        return events
+
+    def test_detects_a_clear_spike(self) -> None:
+        events = self.make_events([2, 2, 2, 9])
+        candidates = detect_chat_spikes(events, self.permission, self.config)
+        self.assertEqual(len(candidates), 1)
+        self.assertEqual(candidates[0].peak_message_count, 9)
+        self.assertGreater(candidates[0].score, 50)
+        self.assertIn("previous 3-window average", candidates[0].explanation)
+
+    def test_does_not_flag_normal_traffic(self) -> None:
+        candidates = detect_chat_spikes(self.make_events([2, 2, 2, 3]), self.permission, self.config)
+        self.assertEqual(candidates, [])
+
+    def test_rejects_revoked_permission(self) -> None:
+        revoked = PermissionRecord(
+            source_id="sample-stream",
+            granted_by="test-creator",
+            scopes=frozenset({"analyze_chat"}),
+            granted_at=self.start - timedelta(minutes=1),
+            revoked_at=self.start + timedelta(seconds=15),
+        )
+        with self.assertRaises(PermissionError):
+            detect_chat_spikes(self.make_events([2, 2, 2, 9]), revoked, self.config)
+
+    def test_rejects_wrong_source(self) -> None:
+        event = ChatEvent("wrong", "another-stream", self.start)
+        with self.assertRaises(ValueError):
+            detect_chat_spikes([event], self.permission, self.config)
+
+    def test_rejects_timezone_naive_timestamps(self) -> None:
+        with self.assertRaises(ValueError):
+            ChatEvent("naive", "sample-stream", datetime(2026, 11, 18, 12, 0, 0))
+
+
+if __name__ == "__main__":
+    unittest.main()
