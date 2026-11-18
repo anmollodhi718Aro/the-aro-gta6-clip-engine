@@ -17,7 +17,7 @@ It:
 1. Create an eligible Google Cloud project and enable YouTube Data API v3.
 2. Create an API key restricted to the YouTube Data API and suitable application restrictions.
 3. Set `YOUTUBE_API_KEY` as an environment variable on the machine running the adapter.
-4. Create a permission JSON file for the source. Example:
+4. Create a local SQLite consent registry and record the creator grant, or use the JSON fallback below. Registry example:
 
 ```json
 {
@@ -29,7 +29,13 @@ It:
 }
 ```
 
-5. Run one bounded request:
+5. Run one bounded request using the registry (recommended for the local MVP):
+
+```bash
+python -m backend.app.youtube_cli YOUR_VIDEO_ID --registry data/consent.sqlite3 --output youtube_clip_plan.json
+```
+
+Alternatively, run with the legacy JSON permission file:
 
 ```bash
 python -m backend.app.youtube_cli YOUR_VIDEO_ID --permission permission.json --output youtube_clip_plan.json
