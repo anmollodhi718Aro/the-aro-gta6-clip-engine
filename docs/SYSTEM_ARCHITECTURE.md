@@ -3,40 +3,45 @@
 ## Current local MVP
 
 ```text
-Synthetic / Permitted Chat JSON
-             |
-             v
+Public YouTube Video ID
+          |
+          v
+Official YouTube Data API (read-only)
+          |
+          v
+Permission Check + Bounded Chat Page
+          |
+          v
 Timezone + Source Validation
-             |
-             v
-Permission Scope / Expiry / Revocation Check
-             |
-             v
+          |
+          v
 Idempotent Event Normalization
-             |
-             v
+          |
+          v
 Rolling Chat-Rate Spike Detector
-             |
-             v
+          |
+          v
 Explainable Candidate Clip Plan
-             |
-             v
+          |
+          v
 Human Review
-             |
-             v
+          |
+          v
 Local Authorized Media File
-             |
-             v
+          |
+          v
 Rights Confirmation + Local FFmpeg Renderer
-             |
-             v
+          |
+          v
 Local MP4 for Review (no publishing)
 ```
 
+Synthetic JSON events can also enter directly at the normalization stage.
+
 ## Planned next layers
 
-- Provider adapter interface and official YouTube Live Chat API integration
-- OAuth authorization handled by the owner
+- Official YouTube `streamList` gRPC adapter for continuous low-latency ingestion
+- Quota-aware multi-source scheduler, reconnect/resume, and durable cursor storage
 - Persistent consent registry with revocation
 - Measured stream/video clock synchronization
 - AI context scoring and captions, behind provider adapters and quota limits
@@ -59,6 +64,7 @@ Local MP4 for Review (no publishing)
 - queue limits and backpressure
 - idempotency keys for ingestion
 - explicit permission expiry and revocation checks
+- API quota limits and server-provided polling intervals
 - clear states: pending, processing, needs_review, approved, rejected, failed
 - manual pause/stop control
 - no automatic code edits to the production branch
