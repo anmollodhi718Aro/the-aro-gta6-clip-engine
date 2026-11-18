@@ -22,9 +22,12 @@ class QuotaAwareSchedulerTests(unittest.TestCase):
         claimed = self.scheduler.claim_next(daily_quota_units=100, now=self.now)
         self.assertEqual(claimed.source_id, "high")
         self.assertEqual(claimed.quota_remaining_today, 95)
-        self.assertIsNone(self.scheduler.claim_next(daily_quota_units=100, now=self.now))
-        later = self.scheduler.claim_next(daily_quota_units=100, now=self.now + timedelta(seconds=31))
-        self.assertEqual(later.source_id, "low")
+        second = self.scheduler.claim_next(daily_quota_units=100, now=self.now)
+        self.assertEqual(second.source_id, "low")
+        self.assertEqual(second.quota_used_today, 10)
+        self.assertIsNone(self.scheduler.claim_next(daily_quota_units=100, now=self.now + timedelta(seconds=31)))
+        later = self.scheduler.claim_next(daily_quota_units=100, now=self.now + timedelta(seconds=60))
+        self.assertEqual(later.source_id, "high")
 
     def test_daily_quota_never_exceeded_and_resets_utc_day(self):
         self.scheduler.configure_source("a", interval_seconds=1, request_cost_units=7, now=self.now)
