@@ -4,6 +4,7 @@ import math, threading, time
 from dataclasses import dataclass
 from typing import Callable
 from .consent_registry import ConsentRegistry
+from .polling_checkpoint_store import PollingCheckpointStore
 from .youtube_live_chat import YouTubeChatBatch, YouTubeLiveChatClient
 
 @dataclass(frozen=True)
@@ -17,7 +18,8 @@ def run_bounded_polling(*, client: YouTubeLiveChatClient, registry: ConsentRegis
                         video_id: str, on_batch: Callable[[YouTubeChatBatch], None],
                         stop_event: threading.Event, max_batches: int,
                         max_runtime_seconds: float, wait: Callable[[float], bool] | None = None,
-                        monotonic: Callable[[], float] = time.monotonic) -> PollingResult:
+                        monotonic: Callable[[], float] = time.monotonic,
+                        checkpoint_store: PollingCheckpointStore | None = None) -> PollingResult:
     """Poll within explicit limits. wait(seconds) returns True if stop interrupted it.
 
     Permission/API errors propagate. No silent retries occur after a failed check.
@@ -30,8 +32,9 @@ def run_bounded_polling(*, client: YouTubeLiveChatClient, registry: ConsentRegis
         raise ValueError("max_runtime_seconds must be greater than 0 and at most 86400")
     wait_fn = wait or stop_event.wait
     deadline = monotonic() + max_runtime_seconds
-    page_token = None
-    live_chat_id = None
+    checkpoint = checkpoint_store.load(video_id) if checkpoint_store else None
+    page_token = checkpoint.page_token if checkpoint else None
+    live_chat_id = checkpoint.live_chat_id if checkpoint else None
     batches = events = 0
     while batches < max_batches and not stop_event.is_set():
         remaining = deadline - monotonic()
@@ -39,7 +42,13 @@ def run_bounded_polling(*, client: YouTubeLiveChatClient, registry: ConsentRegis
         permission = registry.require(video_id, "analyze_chat")
         batch = client.fetch_recent_messages(video_id, permission,
             live_chat_id=live_chat_id, page_token=page_token)
+        # Persist the batch through the callback before advancing the cursor.
+        # A crash between these operations can replay the batch; ingestion must
+        # therefore remain idempotent (at-least-once, not exactly-once).
         on_batch(batch)
+        if checkpoint_store is not None:
+            checkpoint_store.save(video_id, live_chat_id=batch.live_chat_id,
+                                  page_token=batch.next_page_token)
         batches += 1
         events += len(batch.events)
         live_chat_id = batch.live_chat_id
