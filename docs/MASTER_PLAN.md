@@ -17,8 +17,11 @@ THE ARO GTA 6 Clip Engine helps a creator or authorized editor identify promisin
 - [x] Official YouTube public chat REST page adapter
 - [x] One-shot YouTube chat-to-candidate CLI
 - [x] Automated unit and CLI tests
-- [ ] Persistent creator/source consent registry
+- [x] Persistent creator/source consent registry
+- [x] Durable chat-event ingestion and resumable REST polling checkpoints
+- [x] Configurable quota-aware multi-source scheduler
 - [ ] Continuous streamList/gRPC worker and resume handling
+- [ ] Scheduler-to-worker orchestration, live API quota calibration, and monitoring
 - [ ] Clock synchronization and real source pilot
 - [ ] Caption and quality checks
 
