@@ -42,6 +42,7 @@ See [MVP usage](docs/MVP_USAGE.md), [YouTube adapter setup](docs/YOUTUBE_LIVE_CH
 - `backend/app/youtube_polling_worker.py`: bounded REST polling worker with consent re-checks and restart resume.
 - `backend/app/youtube_stream_list_worker.py`: bounded official streamList/gRPC worker with checkpoint resume, consent re-checks, and transient reconnect handling.
 - `backend/app/youtube_stream_list_grpc.py`: optional official gRPC transport adapter and protobuf-to-event conversion.
+- `backend/app/youtube_stream_ingestion.py`: durable stream response handler that commits converted events before checkpoint advancement.
 - `backend/app/polling_checkpoint_store.py`: SQLite page-token checkpoints for resumable polling.
 - `backend/app/chat_event_store.py`: durable SQLite event ingestion with duplicate detection and conflicting-ID rejection.
 - `backend/app/quota_scheduler.py`: SQLite multi-source due-time scheduler with atomic daily quota reservations.
