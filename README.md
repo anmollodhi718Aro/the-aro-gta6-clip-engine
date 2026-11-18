@@ -6,57 +6,54 @@ A creator-first workflow for finding and preparing short highlights from **autho
 
 ## Current status
 
-**Stage:** Project foundation and architecture  
-**Not yet implemented:** live monitoring, AI highlight detection, video cutting, dashboard, publishing, or mobile app.
+**Stage:** Local MVP core  
+**Implemented:** permission-gated chat-spike detection, synthetic JSON demo, review-only clip plans, and local-only FFmpeg MP4 rendering.  
+**Not yet implemented:** YouTube live-source integration, OAuth, chat/video clock synchronization, AI context analysis, dashboard, cloud workers, or publishing.
 
-The first milestone is a small, testable MVP that can analyze permitted chat/event data, rank candidate moments, and produce a reviewable clip plan. Video processing will only use footage the operator owns or is authorized to use.
+## MVP workflow
 
-## MVP goals
+1. Analyze permitted chat/event data.
+2. Detect unusual chat activity and produce explainable candidate timestamps.
+3. Review candidate moments manually.
+4. Render a short MP4 from a local media file that the operator owns or is authorized to process.
+5. Keep distribution manual and owner-approved.
 
-1. Register a source and record its permission status.
-2. Ingest supported metadata and chat events through permitted interfaces.
-3. Detect unusual chat activity and score candidate timestamps.
-4. Produce a clip decision list for human review.
-5. Validate an authorized media asset before any local clip rendering.
-6. Keep publishing manual and owner-approved.
+## Quick start
 
-## Non-goals for the first MVP
-
-- No scraping, stream ripping, or bypassing platform controls.
-- No automatic public uploads.
-- No promise of virality, monetization, or unlimited free AI/API usage.
-- No always-on cloud service until cost, quotas, security, and reliability are understood.
-
-## Safety and rights
-
-Only use footage and data that you own or have permission to process. Platform APIs and creator permission do not automatically clear music, game footage, or third-party rights. See [Copyright and Permissions](docs/COPYRIGHT_POLICY.md).
-
-## Repository map
-
-- `docs/`: project plan, architecture, security, testing, rights, and deployment notes.
-- `backend/`: backend implementation (planned).
-- `tests/`: automated tests (planned).
-
-## Development principles
-
-- GitHub is the source of truth.
-- Build in small, reviewable commits.
-- Keep secrets out of Git; use environment variables and a secrets manager.
-- Test with synthetic data or authorized sample assets first.
-- Automatic recovery may retry bounded, reversible operations. Code changes and production deployment require owner review.
-- Publishing requires an explicit human approval step.
-
-## Getting started
-
-The implementation dependencies and local run instructions will be added with the first executable backend milestone. Start with [the master plan](docs/MASTER_PLAN.md) and [system architecture](docs/SYSTEM_ARCHITECTURE.md).
-
-## Try the synthetic MVP demo
-
-With Python 3.11 or newer, from the repository root:
+Python 3.11+ is required. FFmpeg is required only for local video rendering.
 
 ```bash
 python -m backend.app.cli examples/sample_events.json --output clip_plan.json
 python -m unittest discover -s tests -v
 ```
 
-The sample contains synthetic timestamps and events only. It should produce one candidate marked `needs_review`; it cannot publish anything. See [MVP usage](docs/MVP_USAGE.md).
+See [MVP usage](docs/MVP_USAGE.md) for event analysis and authorized local rendering.
+
+## Repository map
+
+- `backend/app/models.py`: timezone-aware permission and event models.
+- `backend/app/detection.py`: deterministic, permission-gated chat-spike detector.
+- `backend/app/cli.py`: local JSON analysis command.
+- `backend/app/clipping.py`: local-only FFmpeg clip renderer.
+- `examples/`: synthetic test data only.
+- `tests/`: unit and CLI integration tests.
+- `docs/`: plans, architecture, rights, security, testing, and owner actions.
+
+## Safety and rights
+
+Only use footage and data that you own or have permission to process. The clipper requires an explicit rights-confirmation flag, but that is an engineering guardrail, not legal verification. Creator permission does not automatically clear music, game publisher rights, or third-party content. See [Copyright and Permissions](docs/COPYRIGHT_POLICY.md).
+
+## Development principles
+
+- GitHub is the source of truth.
+- Build in small, reviewable commits.
+- Keep secrets out of Git.
+- Use synthetic data or authorized sample assets first.
+- Do not scrape, rip, or bypass platform controls.
+- Do not map chat timestamps to video offsets without a measured clock synchronization offset.
+- Automatic recovery must be bounded; code changes and production deployment require owner review.
+- Publishing requires explicit human approval.
+
+## Status and handoff
+
+See [Project Status](docs/PROJECT_STATUS.md) for implemented and outstanding work, and [Owner Actions](docs/OWNER_ACTIONS.md) for tasks that require account-owner authorization or external setup.
