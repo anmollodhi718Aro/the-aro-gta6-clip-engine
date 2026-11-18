@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 import subprocess
 from pathlib import Path
 
@@ -41,6 +42,8 @@ def render_clip(
         raise ValueError("output path must use the .mp4 extension")
     if destination.exists():
         raise FileExistsError(f"output already exists: {destination}")
+    if not math.isfinite(start_seconds) or not math.isfinite(end_seconds):
+        raise ValueError("clip bounds must be finite numbers")
     if start_seconds < 0 or end_seconds <= start_seconds:
         raise ValueError("clip bounds must satisfy 0 <= start < end")
     duration = end_seconds - start_seconds
