@@ -11,6 +11,7 @@ Last reviewed: 2026-11-18
 - [x] Local JSON CLI and synthetic sample data
 - [x] Read-only one-page YouTube public live-chat REST adapter
 - [x] Permission check before YouTube chat API access
+- [x] YouTube one-shot CLI integration with SQLite consent registry (JSON permission file remains supported)
 - [x] One-shot YouTube chat analysis CLI with pagination metadata
 - [x] Review-only clip decision list; publishing is disabled
 - [x] Local-only FFmpeg renderer with rights confirmation, bounded duration, no-overwrite behavior, and process timeout
