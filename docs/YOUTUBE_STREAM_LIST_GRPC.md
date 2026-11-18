@@ -23,9 +23,11 @@ YOUTUBE_OAUTH_ACCESS_TOKEN. Never commit credentials or paste them into chat.
 
 Call make_stream_factory(), then pass the returned factory to
 run_bounded_stream_list(). The adapter sends part=["snippet"], live_chat_id,
-and the saved page_token. Convert each response with
-response_to_chat_events(response, video_id) and persist through the idempotent
-event store before the callback returns.
+and the saved page_token. Use make_durable_response_handler(video_id=..., event_store=...) to convert
+protobuf items and persist them through the idempotent SQLite event store.
+The helper returns only after the transaction commits, so the worker can safely
+advance its page-token checkpoint. Replayed responses are deduplicated; event
+ID reuse with different content fails closed.
 
 Each connection owns a TLS channel which closes when the stream iterator
 ends. The worker provides bounded reconnect and checkpoint resume. Delivery
