@@ -40,6 +40,7 @@ See [MVP usage](docs/MVP_USAGE.md), [YouTube adapter setup](docs/YOUTUBE_LIVE_CH
 - `backend/app/youtube_cli.py`: one-page YouTube chat analysis command.
 - `backend/app/consent_registry.py`: SQLite-backed creator consent and revocation audit registry.
 - `backend/app/youtube_polling_worker.py`: bounded REST polling worker with consent re-checks and restart resume.
+- `backend/app/youtube_stream_list_worker.py`: bounded official streamList/gRPC worker with checkpoint resume, consent re-checks, and transient reconnect handling.
 - `backend/app/polling_checkpoint_store.py`: SQLite page-token checkpoints for resumable polling.
 - `backend/app/chat_event_store.py`: durable SQLite event ingestion with duplicate detection and conflicting-ID rejection.
 - `backend/app/quota_scheduler.py`: SQLite multi-source due-time scheduler with atomic daily quota reservations.
