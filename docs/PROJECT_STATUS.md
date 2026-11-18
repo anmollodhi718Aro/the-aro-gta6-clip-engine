@@ -23,6 +23,7 @@ Last reviewed: 2026-11-18
 - [x] SQLite-backed persistent creator/source consent registry with grant, expiry, scope checks, idempotent revocation, and audit events
 - [ ] Consent registry authenticated management UI
 - [x] Bounded YouTube REST polling worker with server-interval respect, stop event, batch/runtime limits, and permission re-check before every fetch
+- [x] SQLite polling checkpoints with restart resume and callback-before-cursor-advance semantics
 - [ ] Continuous low-latency YouTube streamList/gRPC worker and reconnect/resume logic
 - [ ] Quota-aware scheduler across multiple live sources
 - [ ] Video/chat clock synchronization
@@ -38,7 +39,7 @@ Last reviewed: 2026-11-18
 
 ## Known limits
 
-- Current YouTube adapter is a bounded REST page fetch, not a continuous stream worker.
+- Current YouTube adapter is a bounded REST page fetch, not a continuous stream worker. REST polling checkpoints support restart resume, but delivery is at-least-once: a crash after callback completion and before checkpoint commit can replay a batch.
 - It only handles publicly accessible live chat via an API key; private account data and OAuth flows are not implemented.
 - A local clip render is not evidence that a creator has granted distribution rights.
 - Chat spike detection finds activity changes, not guaranteed entertaining or viral moments.
