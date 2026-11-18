@@ -14,12 +14,13 @@ Last reviewed: 2026-11-18
 - [x] One-shot YouTube chat analysis CLI with pagination metadata
 - [x] Review-only clip decision list; publishing is disabled
 - [x] Local-only FFmpeg renderer with rights confirmation, bounded duration, no-overwrite behavior, and process timeout
-- [x] Unit tests for detector, permission gates, CLI, YouTube adapter, and clipper guards
+- [x] Unit tests for detector, permission gates, CLI, YouTube adapter, clipper guards, and persistent consent registry
 - [x] GitHub Actions compile and unit-test workflow
 
 ## Not implemented yet
 
-- [ ] Persistent creator/source consent registry and revocation UI
+- [x] SQLite-backed persistent creator/source consent registry with grant, expiry, scope checks, idempotent revocation, and audit events
+- [ ] Consent registry authenticated management UI
 - [ ] Continuous low-latency YouTube streamList/gRPC worker and reconnect logic
 - [ ] Quota-aware scheduler across multiple live sources
 - [ ] Video/chat clock synchronization
