@@ -57,3 +57,25 @@ This is **at-least-once**, not exactly-once, delivery. A crash after the callbac
 ## Production gap
 
 Add a queue with backpressure, monitoring, authenticated stop controls, managed database storage, and authorized integration tests before continuous operation. The REST worker remains a bounded transitional transport; prefer the official streamList/gRPC transport for low-latency ingestion once implemented and validated.
+## Multi-source quota scheduling
+
+`QuotaAwareScheduler` is a separate allocation component. It stores source intervals, priorities, enabled state, and request-cost units in SQLite. `claim_next` atomically selects one due source and reserves its configured units against a daily UTC budget. Reservations are conservative and are not refunded after a failed request.
+
+```python
+from backend.app.quota_scheduler import QuotaAwareScheduler
+
+scheduler = QuotaAwareScheduler("data/scheduler.sqlite3")
+scheduler.configure_source(
+    "AUTHORIZED_PUBLIC_VIDEO_ID",
+    interval_seconds=10,
+    request_cost_units=5,  # operator-configured estimate, not an API guarantee
+    priority=10,
+)
+job = scheduler.claim_next(daily_quota_units=1000)
+if job is not None:
+    # Before network access, still check ConsentRegistry.require(...).
+    # Then perform one bounded fetch and persist the returned batch.
+    print(job.source_id, job.quota_remaining_today)
+```
+
+The scheduler does not itself call YouTube, validate creator consent, or calibrate API costs. The caller must check consent immediately before network access and configure request costs from current official quota documentation. It reserves budget before the call, so failures consume the reservation conservatively. This is a scheduling primitive, not a production multi-tenant service.
