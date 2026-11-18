@@ -24,6 +24,7 @@ Last reviewed: 2026-11-18
 - [ ] Consent registry authenticated management UI
 - [x] Bounded YouTube REST polling worker with server-interval respect, stop event, batch/runtime limits, and permission re-check before every fetch
 - [x] SQLite polling checkpoints with restart resume and callback-before-cursor-advance semantics
+- [x] SQLite chat-event store with durable deduplication and conflicting event-ID rejection
 - [ ] Continuous low-latency YouTube streamList/gRPC worker and reconnect/resume logic
 - [ ] Quota-aware scheduler across multiple live sources
 - [ ] Video/chat clock synchronization
