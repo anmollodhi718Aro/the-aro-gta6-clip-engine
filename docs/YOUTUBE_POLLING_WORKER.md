@@ -79,3 +79,19 @@ if job is not None:
 ```
 
 The scheduler does not itself call YouTube, validate creator consent, or calibrate API costs. The caller must check consent immediately before network access and configure request costs from current official quota documentation. It reserves budget before the call, so failures consume the reservation conservatively. This is a scheduling primitive, not a production multi-tenant service.
+## One-page scheduler orchestration
+
+`poll_one_due_source` connects the scheduler to the existing consent registry, read-only YouTube client, event store, and checkpoint store. Each call claims at most one due source, rechecks `analyze_chat` consent immediately before the API request, fetches one page, persists events, and only then advances the cursor. If consent is revoked, the API call is blocked. The quota reservation remains consumed conservatively even if consent validation or the request fails.
+
+```python
+from backend.app.scheduled_ingestion import poll_one_due_source
+
+result = poll_one_due_source(
+    scheduler=scheduler, registry=registry, client=client,
+    checkpoints=checkpoints, events=events, daily_quota_units=1000,
+)
+if result is not None:
+    print(result.reservation.source_id, result.ingestion)
+```
+
+This is a one-shot orchestration primitive, not a continuously running service. A production loop still needs operator-controlled lifecycle, monitoring, backpressure, and quota configuration from current provider documentation.
