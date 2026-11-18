@@ -49,3 +49,14 @@ Only use footage and data that you own or have permission to process. Platform A
 ## Getting started
 
 The implementation dependencies and local run instructions will be added with the first executable backend milestone. Start with [the master plan](docs/MASTER_PLAN.md) and [system architecture](docs/SYSTEM_ARCHITECTURE.md).
+
+## Try the synthetic MVP demo
+
+With Python 3.11 or newer, from the repository root:
+
+```bash
+python -m backend.app.cli examples/sample_events.json --output clip_plan.json
+python -m unittest discover -s tests -v
+```
+
+The sample contains synthetic timestamps and events only. It should produce one candidate marked `needs_review`; it cannot publish anything. See [MVP usage](docs/MVP_USAGE.md).
