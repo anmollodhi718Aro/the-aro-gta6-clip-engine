@@ -22,7 +22,8 @@ Last reviewed: 2026-11-18
 
 - [x] SQLite-backed persistent creator/source consent registry with grant, expiry, scope checks, idempotent revocation, and audit events
 - [ ] Consent registry authenticated management UI
-- [ ] Continuous low-latency YouTube streamList/gRPC worker and reconnect logic
+- [x] Bounded YouTube REST polling worker with server-interval respect, stop event, batch/runtime limits, and permission re-check before every fetch
+- [ ] Continuous low-latency YouTube streamList/gRPC worker and reconnect/resume logic
 - [ ] Quota-aware scheduler across multiple live sources
 - [ ] Video/chat clock synchronization
 - [ ] Automatic selection of a valid video cut window from synchronized timestamps
