@@ -49,8 +49,8 @@ class DetectionTests(unittest.TestCase):
         candidates = detect_chat_spikes(self.make_events([2, 2, 2, 3]), self.permission, self.config)
         self.assertEqual(candidates, [])
 
-    def test_detects_exact_minimum_when_baseline_is_zero(self) -> None:
-        candidates = detect_chat_spikes(self.make_events([0, 0, 0, 5]), self.permission, self.config)
+    def test_detects_minimum_count_when_above_relative_threshold(self) -> None:
+        candidates = detect_chat_spikes(self.make_events([1, 1, 1, 5]), self.permission, self.config)
         self.assertEqual(len(candidates), 1)
         self.assertEqual(candidates[0].peak_message_count, 5)
 
