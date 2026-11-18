@@ -25,7 +25,9 @@ class QuotaAwareSchedulerTests(unittest.TestCase):
         second = self.scheduler.claim_next(daily_quota_units=100, now=self.now)
         self.assertEqual(second.source_id, "low")
         self.assertEqual(second.quota_used_today, 10)
-        self.assertIsNone(self.scheduler.claim_next(daily_quota_units=100, now=self.now + timedelta(seconds=31)))
+        third = self.scheduler.claim_next(daily_quota_units=100, now=self.now + timedelta(seconds=31))
+        self.assertEqual(third.source_id, "low")
+        self.assertEqual(third.quota_used_today, 15)
         later = self.scheduler.claim_next(daily_quota_units=100, now=self.now + timedelta(seconds=60))
         self.assertEqual(later.source_id, "high")
 
