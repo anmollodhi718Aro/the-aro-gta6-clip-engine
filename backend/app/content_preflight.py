@@ -33,6 +33,8 @@ def preflight_content_pack(
 
     checked: list[dict[str, Any]] = []
     errors: list[str] = []
+    if not assets:
+        errors.append("content pack must declare at least one visual asset")
     required_attributions: list[str] = []
     required_disclosures: list[str] = []
     seen_ids: set[str] = set()
