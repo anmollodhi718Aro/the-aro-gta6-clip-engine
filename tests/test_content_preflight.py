@@ -82,6 +82,11 @@ class ContentPreflightTests(unittest.TestCase):
         self.assertEqual(report["status"], "blocked")
         self.assertEqual(len(report["errors"]), 2)
 
+    def test_missing_visual_asset_declarations_are_blocked(self):
+        report = preflight_content_pack({}, self.registry, "youtube", at=self.now)
+        self.assertEqual(report["status"], "blocked")
+        self.assertIn("at least one visual asset", report["errors"][0])
+
     def test_duplicate_asset_ids_and_unknown_kinds_are_blocked(self):
         report = preflight_content_pack(
             {"visual_assets": [
