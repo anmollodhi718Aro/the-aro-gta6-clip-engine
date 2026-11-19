@@ -11,6 +11,11 @@ youtube-stream = [
     "grpcio-tools>=1.60",
 ]
 
+youtube-upload = [
+    "google-api-python-client>=2.150",
+    "google-auth-oauthlib>=1.2",
+]
+
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
