@@ -24,7 +24,7 @@ Date: 2026-11-19
 ## Implementation
 
 - [x] Added `backend/app/render_validation.py` with ffprobe-based output inspection.
-- [x] Require a readable video stream, finite positive duration, valid dimensions, and duration within max(1 second, 10%) of the requested clip.
+- [x] Require a readable video stream, finite positive duration, valid dimensions, and duration within `max(0.5 seconds, 1% of requested duration)` of the requested clip (matching the implementation).
 - [x] Require exactly 1080x1920 for vertical renders.
 - [x] Validate the temporary file before the no-overwrite publication step; invalid output is cleaned up and never published.
 - [x] Added unit tests for normal landscape metadata, vertical dimensions, duration mismatch, malformed metadata, empty files, missing ffprobe, and paths containing spaces/Unicode.
@@ -71,3 +71,31 @@ Date: 2026-11-19
 - Windows verification: **NOT VERIFIED**
 - Real-media verification: **NOT VERIFIED**
 - Release readiness: **BLOCKED pending tests and owner-side Windows media run**
+
+
+## Chat Execution Registry
+
+| Chat ID | Chat Title | Workstream ID | Branch | PR | Status |
+|---|---|---|---|---|---|
+| CHAT-002 | CHAT-002 | ARO-GTA-P0-05 | FFprobe path propagation and output-validation regression | `workstream/post-render-media-verification` | #60 (existing) | IN PROGRESS |
+
+## Execution Attribution — CHAT-002
+
+- Chat ID: CHAT-002
+- Chat Title: `CHAT-002 | ARO-GTA-P0-05 | FFprobe Path Propagation & Output Validation`
+- Workstream ID: ARO-GTA-P0-05
+- Task: Carry the operator-selected `--ffprobe` executable through batch rendering into post-render MP4 validation; add regression coverage and align the documented duration tolerance with the code.
+- Branch: `workstream/post-render-media-verification`
+- Pull Request: #60 — existing draft PR, continued rather than duplicated.
+- Commits:
+  - `57c1a8e76c4b3c5c4f383826309be215d8ffa7c6` — pass custom ffprobe into render validation.
+  - `200f217e54d14f220bd38c93a5731381c71c6989` — forward ffprobe from batch renderer.
+  - `319bc012f03e7cca5d78a37b1073b33522854134` — test custom ffprobe in direct render path.
+  - `6faddc73e5f4260a49aa34efeb4e3151f8ba846b` — test custom ffprobe propagation through batch rendering.
+- Files: `backend/app/clipping.py`, `backend/app/batch_render.py`, `tests/test_clipping.py`, `tests/test_batch_render.py`, `docs/WORKSTREAM_PROGRESS.md`.
+- Tests added: direct custom-ffprobe forwarding; batch CLI/service propagation using a path containing spaces.
+- Tests executed: NOT RUN in this GitHub connector session.
+- CI: NOT VERIFIED on these new commits. Earlier workflow jobs on this repository have failed before step allocation; inspect the new exact-head run before classification.
+- Windows verification: NOT VERIFIED.
+- Real authorized-media verification: NOT VERIFIED.
+- Completion: IN PROGRESS. No merge, publication, deployment, or destructive action performed.
