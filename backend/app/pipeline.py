@@ -98,7 +98,7 @@ def run_pipeline(
         summary_path = destination / "pipeline_summary.json"
         with summary_path.open("x", encoding="utf-8") as handle:
             json.dump(summary, handle, indent=2)
-            handle.write("\\n")
+            handle.write("\n")
         return summary
     except Exception:
         # This directory was created exclusively by this invocation. Remove
