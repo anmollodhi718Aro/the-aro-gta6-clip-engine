@@ -1,7 +1,7 @@
 """Transparent seven-day GTA creator ranking; no scraping or media downloads."""
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Iterable
 from urllib.parse import urlparse
@@ -34,7 +34,7 @@ DEFAULT_CREATORS: tuple[Creator, ...] = (
     Creator("ishowspeed", "iShowSpeed", "Global"),
     Creator("pewdiepie", "PewDiePie", "Global"),
     Creator("death-rush-gaming", "Death Rush Gaming", "Unverified"),
-    Creator("death-tracks", "Death Tracks", "Unverified"),
+    Creator("death-tracks-gaming", "Death Tracks Gaming", "Unverified"),
 )
 
 
@@ -53,10 +53,7 @@ class SevenDayMetrics:
     def validate(self) -> None:
         if not self.creator_id.strip():
             raise ValueError("creator_id is required")
-        for name, value in (
-            ("window_start", self.window_start),
-            ("window_end", self.window_end),
-        ):
+        for name, value in (("window_start", self.window_start), ("window_end", self.window_end)):
             if value.tzinfo is None or value.utcoffset() is None:
                 raise ValueError(f"{name} must be timezone-aware")
         if self.window_end - self.window_start != WINDOW:
@@ -106,7 +103,6 @@ def rank_seven_day_creators(
             pair[0].creator_id,
         )
     )
-
     return [
         {
             "rank": index,
