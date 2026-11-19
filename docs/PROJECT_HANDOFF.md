@@ -66,15 +66,15 @@ Creator-authorized GTA 6 source discovery and event analysis, candidate generati
 | Post-render FFprobe acceptance | NOT VERIFIED | PR #60 contains separate work; not integrated or executed here |
 | Creator permission foundation | IMPLEMENTED on PR #65 | Synthetic adapter contract; production provider auth absent |
 | Owner approval foundation | IMPLEMENTED on PR #65 | Immutable approval object and publish permission gate; no persistent UI/store |
-| Python tests | NOT RUN in this connector session | No local execution environment/repository checkout available through this GitHub action |
-| CI | NOT VERIFIED | Latest inspected PR #64 run #44613819073 failed with runner/job evidence unavailable; no test result inferred |
+| Python tests | TESTED | Exact-head CI run `44631339620`: `Ran 249 tests`; `OK (skipped=1)` |
+| CI | CI_VERIFIED | PR #66 exact head `bcd023810ccea625ffebbcbb81d6e8598310b83f`; run `44631339620` passed compile and all executed unit tests |
 | Windows | NOT VERIFIED | No Windows runtime execution in this session |
 | Real media | NOT VERIFIED | No authorized GTA 6 recording supplied |
 | Production ready | NO | OAuth, durable ingest, post-render verification integration, review persistence, and real-media acceptance remain |
 
 ## CI diagnosis
 
-The latest sampled run for PR #64 head `e61a5310e75086586dd876708ec51e1618b19a4b` is run `44613819073`, conclusion `failure`. Prior project evidence reports empty step lists, runner ID 0, and unavailable job logs. This does not prove Python tests failed or passed. Recover one controlled run with runner assignment and visible steps/logs before classifying test outcomes.
+Earlier runs did fail before exposing runner steps. This workstream obtained a fully provisioned runner and actionable logs. The first full run exposed seven failures/errors; fixes were applied to the creator-watchlist test helper, research validation messages, YouTube upload rights-check ordering/messages, and Studio checklist wording. Final exact-head run `44631339620` completed successfully: compile step passed; `Ran 249 tests`; `OK (skipped=1)`. The skipped test remains skipped, not counted as executed.
 
 ## Next priorities
 
@@ -92,8 +92,8 @@ The latest sampled run for PR #64 head `e61a5310e75086586dd876708ec51e1618b19a4b
 - Workstream: ARO-ZERO-ONE
 - Branch: `workstream/aro-zero-one-clipping-first-2026-11-20`
 - Starting SHA: `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`
-- Current branch SHA at PR creation: `bd741402576e6b389d8486339a33cf347b953fc6`
+- Current branch SHA: `bcd023810ccea625ffebbcbb81d6e8598310b83f`
 - PR: [#66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66)
 - Changes: canonical handoff plus preservation of the existing chat/workstream registry, startup prompt and consolidation audit.
-- Tests: documentation-only; no code tests run.
-- CI: pending on exact PR head; no passing result claimed.
+- Tests: 249 unit tests executed; all passed; 1 skipped.
+- CI: PASS on exact branch SHA `bcd023810ccea625ffebbcbb81d6e8598310b83f`; run `44631339620`.
