@@ -26,8 +26,10 @@ Do not proceed if either command reports an error. Save the final test summary a
 ## 2. Start the local Studio
 
 ```powershell
-py THE_ARO_STUDIO.py
+powershell -ExecutionPolicy Bypass -File scripts/start_studio.ps1
 ```
+
+The launcher selects Python 3.11+ and binds the dashboard to 127.0.0.1. Keep the PowerShell window open. You can also start it directly with `py THE_ARO_STUDIO.py`.
 
 Open http://127.0.0.1:8765. Keep the terminal open while using the dashboard. The dashboard is local-only.
 
