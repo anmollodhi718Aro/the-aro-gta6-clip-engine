@@ -205,6 +205,11 @@ def run_batch(
     return report
 
 
+def batch_exit_code(results: list[dict[str, Any]]) -> int:
+    """Return non-zero when an explicitly selected row failed or was blocked."""
+    return 1 if any(item.get("status") in {"failed", "blocked"} for item in results) else 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Dry-run or render explicitly approved candidates from a local review CSV."
@@ -248,7 +253,7 @@ def main() -> int:
         for result in results:
             counts[result["status"]] = counts.get(result["status"], 0) + 1
         print(f"Run: {run_id} | Report: {report_path} | " + ", ".join(f"{key}={value}" for key, value in sorted(counts.items())))
-        return 1 if any(item["status"] == "failed" for item in results) else 0
+        return batch_exit_code(results)
     except (OSError, ValueError, PermissionError, RuntimeError) as exc:
         print(f"Batch render stopped: {exc}", file=sys.stderr)
         return 2
