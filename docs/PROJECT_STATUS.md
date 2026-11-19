@@ -49,3 +49,26 @@ Last reviewed: 2026-11-18
 - Chat timestamps cannot be mapped to video offsets without a measured synchronization offset.
 - GitHub Actions is CI, not a persistent 24/7 livestream worker.
 - A green test run only validates the tests that actually ran.
+
+
+## Additional feature-branch work (review required)
+
+The following capabilities have been added in open draft feature branches and must not be treated as merged or production-verified until their PRs are reviewed and CI passes:
+
+- [x] Evidence-backed seven-day creator activity ranking from operator-supplied metrics; missing creators are omitted and no live data is fabricated.
+- [x] Creator ranking CLI with timezone/window/evidence validation and atomic JSON output.
+- [x] Offline creator watchlist HTML dashboard with escaped report fields, HTTPS-only evidence links, restrictive Content Security Policy, and no external assets.
+- [x] CLI and dashboard regression tests added.
+
+## Remaining work before a complete usable release
+
+- [ ] Reconcile and review all open draft PRs; resolve dependency/base-branch order and merge only after owner approval.
+- [ ] Run the full test suite and GitHub Actions successfully on the final integrated branch.
+- [ ] Implement measured chat/video clock synchronization and validate drift against real, authorized recordings.
+- [ ] Connect the clip-plan, measured clip-pack, render/retry, rights preflight, commentary pack, and review dashboard into one end-to-end operator workflow.
+- [ ] Add captions/subtitle generation and human-review quality checks.
+- [ ] Add authenticated consent-management UI only after threat-model and owner review.
+- [ ] Complete authorized sample-footage end-to-end acceptance testing.
+- [ ] Document installation, configuration, recovery, backup, and operator runbooks.
+
+A feature marked implemented above means code exists in a draft feature branch; it does not mean merged, CI-passing, deployed, or ready for public use.
