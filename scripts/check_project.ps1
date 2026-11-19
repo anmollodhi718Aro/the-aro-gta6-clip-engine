@@ -32,16 +32,22 @@ Write-Host "`n[2/3] Run unit tests..." -ForegroundColor Yellow
 & $pythonExe @pythonPrefix -m unittest discover -s tests -v
 if ($LASTEXITCODE -ne 0) { throw "Unit tests failed. Review the failing test output above." }
 
-Write-Host "`n[3/3] Check optional FFmpeg tools..." -ForegroundColor Yellow
-if (Get-Command ffmpeg -ErrorAction SilentlyContinue) {
-    ffmpeg -version | Select-Object -First 1
-} else {
-    Write-Warning "FFmpeg not found. Local MP4 rendering is unavailable."
-}
-if (Get-Command ffprobe -ErrorAction SilentlyContinue) {
-    ffprobe -version | Select-Object -First 1
-} else {
-    Write-Warning "ffprobe not found. Actual-media duration validation will stop before rendering."
-}
+Write-Host "`n[3/3] Verify required FFmpeg tools..." -ForegroundColor Yellow
+$ffmpeg = Get-Command ffmpeg -ErrorAction SilentlyContinue
+if (-not $ffmpeg) { throw "FFmpeg not found on PATH. Install FFmpeg with the libx264 encoder and reopen this window." }
+$ffprobe = Get-Command ffprobe -ErrorAction SilentlyContinue
+if (-not $ffprobe) { throw "ffprobe not found on PATH. Install FFmpeg including ffprobe and reopen this window." }
 
-Write-Host "`nAll available local checks passed." -ForegroundColor Green
+$ffmpegVersion = & $ffmpeg.Source -version 2>&1 | Select-Object -First 1
+if ($LASTEXITCODE -ne 0) { throw "FFmpeg could not start." }
+Write-Host $ffmpegVersion
+
+$encoderList = & $ffmpeg.Source -hide_banner -encoders 2>&1 | Out-String
+if ($LASTEXITCODE -ne 0 -or $encoderList -notmatch "(?m)\blibx264\b") {
+    throw "FFmpeg is installed but the required libx264 encoder is unavailable."
+}
+$ffprobeVersion = & $ffprobe.Source -version 2>&1 | Select-Object -First 1
+if ($LASTEXITCODE -ne 0) { throw "ffprobe could not start." }
+Write-Host $ffprobeVersion
+
+Write-Host "`nPython checks and required media-tool preflight passed." -ForegroundColor Green
