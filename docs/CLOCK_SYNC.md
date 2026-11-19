@@ -52,7 +52,7 @@ media_position = sync.map_chat_time(
 Run the focused tests with:
 
 \`\`\`bash
-python -m unittest tests.test_clock_sync -v
+python -m unittest discover -s tests -p "test_clock_sync.py" -v
 \`\`\`
 
 The feature does not fetch, download, or publish video. Existing human review
