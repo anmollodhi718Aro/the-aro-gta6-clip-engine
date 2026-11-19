@@ -31,15 +31,15 @@ def build_content_pack(data: dict[str, Any]) -> dict[str, Any]:
     beats = []
     for index, note in enumerate(notes, start=1):
         if not isinstance(note, dict):
-            raise ValueError(f"research_notes[{index - 1}] must be an object")
+            raise ValueError(f"research note {index} must be an object")
         claim = str(note.get("claim", "")).strip()
         source = str(note.get("source_url", "")).strip()
         parsed = urlparse(source)
         if not claim or parsed.scheme not in {"http", "https"} or not parsed.netloc:
-            raise ValueError(f"research_notes[{index - 1}] needs a claim and http(s) source_url")
+            raise ValueError(f"research note {index} needs a claim and http(s) source_url")
         commentary = str(note.get("aro_commentary", "")).strip()
         if not commentary:
-            raise ValueError(f"research_notes[{index - 1}] needs original aro_commentary")
+            raise ValueError(f"research note {index} needs original aro_commentary")
         beats.append({
             "claim": claim, "source_url": source,
             "aro_commentary": commentary,
@@ -136,7 +136,7 @@ def render_markdown(pack: dict[str, Any]) -> str:
     lines.extend(["", "## Upload description", "", pack["metadata"]["description"], "",
                   "## Pre-upload gate", "",
                   "- [ ] Verify every factual statement against its source.",
-                  "- [ ] Confirm each visual is original, owned, licensed, or explicitly authorized.",
+                  "- [ ] Confirm rights for every visual and audio asset, including embedded music and third-party material.",
                   "- [ ] Add required attribution and disclosures.",
                   "- [ ] Review the finished edit and audio manually.",
                   "- [ ] Confirm platform rules and audience suitability.",
