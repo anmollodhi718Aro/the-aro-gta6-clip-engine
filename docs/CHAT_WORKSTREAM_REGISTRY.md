@@ -77,3 +77,8 @@
 - PR #66 latest audited head: `a8cc3e49dab46ce554c2d18d567ff82c53c5a60d`; open, unmerged, 14 changed files. Renderer code at functional head `02527cfdc978e085a61373146bdaa07249eec746` passed compile and 258 unit tests (1 skipped) in run `44632625889` on merge ref `1813d291c21a870d557f51fdf40d0acb6a78649d`. The later docs-only head has no associated run returned, so latest-head CI is NOT VERIFIED.
 - `backend/app/live_sources.py` and `backend/app/approval.py` from PR #65 are absent from the selected branch; creator permission and owner approval are not yet integrated into PR #66.
 - Windows and real-media verification remain NOT VERIFIED. The single first-real-clip blocker is an authorized creator recording/export/media handoff.
+
+
+### Final branch-tip reconciliation
+- Registry update begins from branch head `e54d80e3d848c1df3def7ab2031c3a6cc18d3e24`; this is the docs-only ARO-CHAT-0007 update that records the successful PR CI evidence.
+- Last successful PR CI run remains `44632671652`, on merge ref `c04fee2179f725212c50f4ce9dcb17b9092d14db`, which incorporated implementation head `6c5d0fd2228da963fc61c39403645e347a4cd3af`. The two subsequent commits in this session are documentation/PR-description updates, not renderer code changes; they have not been separately rerun in CI.
