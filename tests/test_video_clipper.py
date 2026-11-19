@@ -7,7 +7,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from backend.app.models import PermissionRecord
-from backend.app.video_clipper import ClipError, render_clip
+from backend.app.video_clipper import ClipError, probe_duration, render_clip
 
 
 class VideoClipperTests(unittest.TestCase):
@@ -31,7 +31,7 @@ class VideoClipperTests(unittest.TestCase):
     @patch("backend.app.video_clipper.subprocess.run")
     def test_renders_authorized_clip_to_atomic_destination(self, run) -> None:
         run.side_effect = [
-            subprocess.CompletedProcess([], 0, stdout="120.0\n", stderr=""),
+            subprocess.CompletedProcess([], 0, stdout="120.0\\n", stderr=""),
             subprocess.CompletedProcess([], 0, stdout="", stderr=""),
         ]
         output = self.root / "clip.mp4"
@@ -128,6 +128,32 @@ class VideoClipperTests(unittest.TestCase):
         link.assert_called_once()
         self.assertFalse(output.exists())
         self.assertEqual(list(self.root.glob(".raced.*.tmp.mp4")), [])
+
+    @patch("backend.app.video_clipper.subprocess.run", side_effect=FileNotFoundError)
+    def test_probe_reports_missing_ffprobe(self, run) -> None:
+        with self.assertRaisesRegex(ClipError, "FFprobe was not found"):
+            probe_duration(self.source)
+        run.assert_called_once()
+
+    @patch("backend.app.video_clipper.subprocess.run", side_effect=subprocess.TimeoutExpired("ffprobe", 30))
+    def test_probe_reports_timeout(self, run) -> None:
+        with self.assertRaisesRegex(ClipError, "FFprobe timed out"):
+            probe_duration(self.source)
+        run.assert_called_once()
+
+    @patch("backend.app.video_clipper.subprocess.run")
+    def test_probe_rejects_non_numeric_or_non_finite_duration(self, run) -> None:
+        for output in ("", "not-a-number", "nan", "inf", "0", "-1"):
+            with self.subTest(output=output):
+                run.return_value = subprocess.CompletedProcess([], 0, stdout=output, stderr="")
+                with self.assertRaises(ClipError):
+                    probe_duration(self.source)
+
+    @patch("backend.app.video_clipper.subprocess.run")
+    def test_probe_reports_invalid_media(self, run) -> None:
+        run.side_effect = subprocess.CalledProcessError(1, ["ffprobe"], stderr="invalid data")
+        with self.assertRaisesRegex(ClipError, "FFprobe failed: invalid data"):
+            probe_duration(self.source)
 
 
 if __name__ == "__main__":
