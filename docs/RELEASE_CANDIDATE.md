@@ -28,7 +28,8 @@ It is a consolidated review target, not a production release declaration.
 - [ ] Map the candidate plan using a measured single media-origin timestamp and separately using three synthetic clock anchors.
 - [ ] Confirm clock-fit drift/residual rejection and calibrated-interval no-extrapolation.
 - [ ] Dry-run batch rendering.
-- [ ] Run a synthetic local FFmpeg render if FFmpeg is installed.
+- [ ] Confirm actual execution probes media duration and blocks clips that exceed it.
+- [ ] Run a synthetic local FFmpeg render if FFmpeg and ffprobe are installed.
 - [ ] Verify dashboard report discovery and failed-only retry behavior.
 - [ ] Generate the offline creator watchlist dashboard from synthetic ranking JSON.
 
