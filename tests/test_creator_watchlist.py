@@ -70,6 +70,14 @@ class CreatorWatchlistTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "cannot be negative"):
             metric("mythpat", -1).validate()
 
+    def test_rejects_non_integer_view_counts(self):
+        with self.assertRaisesRegex(ValueError, "must be an integer"):
+            metric("mythpat", 10.5).validate()
+
+    def test_rejects_non_finite_average_viewers(self):
+        with self.assertRaisesRegex(ValueError, "finite and nonnegative"):
+            metric("mythpat", 10, average=float("nan")).validate()
+
     def test_requires_https_evidence_url(self):
         with self.assertRaisesRegex(ValueError, "HTTPS"):
             metric("mythpat", 10, source_url="http://example.com").validate()
