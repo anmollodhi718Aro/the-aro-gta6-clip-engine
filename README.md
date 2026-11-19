@@ -115,7 +115,7 @@ python -m backend.app.batch_render clip_pack/clip_candidates.csv \
   --output-dir rendered_clips
 ```
 
-Retry defaults to dry-run and verifies source ID and time bounds against the current CSV.
+Retry defaults to dry-run and verifies source ID, time bounds, and exact local media identity (resolved path, size, and modification timestamp). Old reports without media identity are not retryable through the CLI.
 
 ### 6. Review output locally
 
