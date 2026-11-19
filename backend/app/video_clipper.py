@@ -5,7 +5,10 @@ local file after an explicit authorization attestation and permission check.
 """
 from __future__ import annotations
 
+import math
+import os
 import subprocess
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -17,19 +20,28 @@ class ClipError(RuntimeError):
 
 
 def probe_duration(input_path: Path, ffprobe_bin: str = "ffprobe") -> float:
-    result = subprocess.run(
-        [
-            ffprobe_bin, "-v", "error", "-show_entries", "format=duration",
-            "-of", "default=noprint_wrappers=1:nokey=1", str(input_path),
-        ],
-        check=True, capture_output=True, text=True, timeout=30,
-    )
+    try:
+        result = subprocess.run(
+            [
+                ffprobe_bin, "-v", "error", "-show_entries", "format=duration",
+                "-of", "default=noprint_wrappers=1:nokey=1", str(input_path),
+            ],
+            check=True, capture_output=True, text=True, timeout=30,
+        )
+    except FileNotFoundError as exc:
+        raise ClipError("FFprobe was not found; install FFmpeg and ensure ffprobe is on PATH") from exc
+    except subprocess.TimeoutExpired as exc:
+        raise ClipError("FFprobe timed out while inspecting the source video") from exc
+    except subprocess.CalledProcessError as exc:
+        detail = (exc.stderr or "").strip()[-1200:]
+        raise ClipError(f"FFprobe failed: {detail or 'unable to inspect source video'}") from exc
+
     try:
         duration = float(result.stdout.strip())
-    except ValueError as exc:
+    except (TypeError, ValueError) as exc:
         raise ClipError("ffprobe did not return a valid media duration") from exc
-    if duration <= 0:
-        raise ClipError("input media has no valid duration")
+    if not math.isfinite(duration) or duration <= 0:
+        raise ClipError("input media has no valid finite duration")
     return duration
 
 
@@ -61,8 +73,14 @@ def render_clip(
         raise ClipError("output file must use the .mp4 extension")
     if destination.exists():
         raise ClipError("output already exists; choose a new filename")
-    if start_seconds < 0 or duration_seconds <= 0:
-        raise ClipError("start must be non-negative and duration must be positive")
+    if (
+        isinstance(start_seconds, bool) or isinstance(duration_seconds, bool)
+        or not isinstance(start_seconds, (int, float))
+        or not isinstance(duration_seconds, (int, float))
+        or not math.isfinite(start_seconds) or not math.isfinite(duration_seconds)
+        or start_seconds < 0 or duration_seconds <= 0
+    ):
+        raise ClipError("start must be finite and non-negative; duration must be finite and positive")
     if duration_seconds > 600:
         raise ClipError("single-clip duration is limited to 600 seconds")
 
@@ -71,8 +89,13 @@ def render_clip(
         raise ClipError("requested clip range extends beyond the source video")
 
     destination.parent.mkdir(parents=True, exist_ok=True)
+    fd, temporary_name = tempfile.mkstemp(
+        prefix=f".{destination.stem}.", suffix=".tmp.mp4", dir=destination.parent
+    )
+    os.close(fd)
+    temporary = Path(temporary_name)
     command = [
-        ffmpeg_bin, "-hide_banner", "-loglevel", "error", "-ss", str(start_seconds),
+        ffmpeg_bin, "-y", "-hide_banner", "-loglevel", "error", "-ss", str(start_seconds),
         "-i", str(source), "-t", str(duration_seconds),
         "-map", "0:v:0", "-map", "0:a?", "-c:v", "libx264",
         "-preset", "veryfast", "-crf", "23", "-c:a", "aac",
@@ -83,13 +106,25 @@ def render_clip(
             "-vf",
             "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920",
         ])
-    command.append(str(destination))
+    command.append(str(temporary))
 
     try:
-        subprocess.run(command, check=True, capture_output=True, text=True, timeout=1800)
-    except FileNotFoundError as exc:
-        raise ClipError("FFmpeg was not found; install FFmpeg and ensure it is on PATH") from exc
-    except subprocess.CalledProcessError as exc:
-        detail = (exc.stderr or "").strip()[-1200:]
-        raise ClipError(f"FFmpeg failed: {detail or 'unknown encoding error'}") from exc
-    return destination
+        try:
+            subprocess.run(command, check=True, capture_output=True, text=True, timeout=1800)
+        except FileNotFoundError as exc:
+            raise ClipError("FFmpeg was not found; install FFmpeg and ensure it is on PATH") from exc
+        except subprocess.TimeoutExpired as exc:
+            raise ClipError("FFmpeg timed out while rendering the clip") from exc
+        except subprocess.CalledProcessError as exc:
+            detail = (exc.stderr or "").strip()[-1200:]
+            raise ClipError(f"FFmpeg failed: {detail or 'unknown encoding error'}") from exc
+
+        # Same-directory hard-link publication is atomic and never replaces an
+        # existing destination, including when another process races this render.
+        try:
+            os.link(temporary, destination)
+        except FileExistsError:
+            raise ClipError("output appeared during rendering; refusing to overwrite it") from None
+        return destination
+    finally:
+        temporary.unlink(missing_ok=True)
