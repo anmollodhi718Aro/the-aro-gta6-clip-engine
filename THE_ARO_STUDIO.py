@@ -23,6 +23,9 @@ from urllib.parse import parse_qs, urlparse
 from urllib.parse import urlsplit
 from typing import Any
 from backend.app.rights_registry import SourceRightsRegistry
+from backend.app.content_studio import build_content_pack, render_markdown as pack_markdown
+from backend.app.content_preflight import preflight_content_pack
+from backend.app.output_manager import write_json_atomic
 
 APP_NAME = "THE ARO Studio"
 STATUSES = {"planned", "rendered", "blocked", "not_approved", "failed"}
@@ -105,79 +108,6 @@ def load_reports(root: Path) -> tuple[list[dict[str, Any]], list[str]]:
     return rows, errors
 
 
-def build_content_pack(data: dict[str, Any]) -> dict[str, Any]:
-    def required(key: str) -> str:
-        value = data.get(key)
-        if not isinstance(value, str) or not value.strip():
-            raise ValueError(f"{key} must be a non-empty string")
-        return value.strip()
-
-    title, topic, angle = required("working_title"), required("topic"), required("original_angle")
-    notes = data.get("research_notes")
-    if not isinstance(notes, list) or not notes:
-        raise ValueError("research_notes must contain at least one sourced fact")
-    beats = []
-    for index, note in enumerate(notes, 1):
-        if not isinstance(note, dict):
-            raise ValueError(f"research_notes[{index - 1}] must be an object")
-        claim = str(note.get("claim", "")).strip()
-        commentary = str(note.get("aro_commentary", "")).strip()
-        source = str(note.get("source_url", "")).strip()
-        parsed = urlsplit(source)
-        if not claim or not commentary or parsed.scheme not in {"http", "https"} or not parsed.netloc:
-            raise ValueError(f"research note {index} needs claim, original aro_commentary, and http(s) source_url")
-        beats.append({
-            "claim": claim, "aro_commentary": commentary, "source_url": source,
-            "visual": str(note.get("visual") or "Create original graphics or use footage explicitly authorized for this use.")
-        })
-    hook = str(data.get("hook") or f"GTA 6 में {topic} पर एक बात समझना ज़रूरी है।").strip()
-    cta = str(data.get("call_to_action") or "ऐसी ही original GTA 6 analysis के लिए THE ARO को subscribe करें।").strip()
-    voiceover = [hook]
-    for beat in beats:
-        voiceover.extend([beat["claim"], beat["aro_commentary"]])
-    voiceover.append(cta)
-    return {
-        "working_title": title, "topic": topic, "original_angle": angle,
-        "audience": str(data.get("audience") or "GTA fans"),
-        "format": "YouTube Short / vertical 9:16",
-        "voiceover_script": voiceover,
-        "research_beats": beats,
-        "visual_plan": [{"beat": "hook", "direction": "Original THE ARO title card."}]
-            + [{"beat": f"research_{i}", "direction": beat["visual"]} for i, beat in enumerate(beats, 1)]
-            + [{"beat": "outro", "direction": "Original THE ARO end card."}],
-        "metadata": {
-            "description": f"{title}\n\nTHE ARO की original commentary और analysis.",
-            "source_links": [beat["source_url"] for beat in beats],
-            "tags": ["GTA6", "GTA6Hindi", "THEARO", "GamingAnalysis"]
-        },
-        "review": {
-            "human_fact_check_required": True, "rights_review_required_for_each_visual": True,
-            "human_edit_review_required": True, "approved_for_upload": False,
-            "monetization_guaranteed": False
-        }
-    }
-
-
-def pack_markdown(pack: dict[str, Any]) -> str:
-    lines = [f"# {pack['working_title']}", "", f"**Topic:** {pack['topic']}",
-             f"**Original angle:** {pack['original_angle']}", f"**Audience:** {pack['audience']}",
-             "", "## Voiceover draft", ""]
-    lines += [f"{i}. {line}" for i, line in enumerate(pack["voiceover_script"], 1)]
-    lines += ["", "## Research checks", ""]
-    for i, beat in enumerate(pack["research_beats"], 1):
-        lines += [f"### Beat {i}", f"- Claim: {beat['claim']}", f"- Source: {beat['source_url']}",
-                  f"- THE ARO commentary: {beat['aro_commentary']}", ""]
-    lines += ["## Visual plan", ""]
-    lines += [f"- **{item['beat']}**: {item['direction']}" for item in pack["visual_plan"]]
-    lines += ["", "## Pre-upload review", "", "- [ ] Fact-check every claim.",
-              "- [ ] Confirm rights for every visual and audio asset.",
-              "- [ ] Add required attribution and disclosures.",
-              "- [ ] Review the finished edit manually.",
-              "- [ ] Human owner explicitly approves any upload.",
-              "", "> Draft only. This tool does not grant rights, verify claims, upload, or publish."]
-    return "\n".join(lines) + "\n"
-
-
 class RightsStore:
     """Dashboard adapter for the shared, preflight-compatible rights registry."""
 
@@ -248,7 +178,7 @@ textarea{{min-height:210px;font:12px/1.5 ui-monospace,monospace}}button{{margin-
 <section class="grid">{stats}<article class="stat"><span>Rights records</span><b>{rights_count}</b></article></section>
 <section class="columns">
 <div class="panel"><h2>Original content pack</h2><p class="hint">Paste your own research notes as JSON. Each factual beat needs a source URL and original commentary.</p>
-<form method="post" action="/generate">{csrf_field}<label>Research JSON</label><textarea name="payload" required>{html.escape(json.dumps({"working_title":"GTA 6: Sample topic","topic":"sample topic","original_angle":"An original analysis angle","research_notes":[{"claim":"Research-backed claim to verify","source_url":"https://example.com/source","aro_commentary":"Your own explanation in your words."}]},ensure_ascii=False,indent=2))}</textarea>
+<form method="post" action="/generate">{csrf_field}<label>Research JSON</label><textarea name="payload" required>{html.escape(json.dumps({"working_title":"GTA 6: Sample topic","topic":"sample topic","original_angle":"An original analysis angle","research_notes":[{"claim":"Research-backed claim to verify","source_url":"https://example.com/source","aro_commentary":"Your own explanation in your words."}],"visual_assets":[{"asset_id":"aro-original-chart","kind":"original"}]},ensure_ascii=False,indent=2))}</textarea>
 <button type="submit">Generate local draft</button></form></div>
 <div class="panel"><h2>Source permission record</h2><p class="hint">Metadata only. This does not authenticate permission or provide legal clearance.</p>
 <form method="post" action="/rights">{csrf_field}
@@ -261,7 +191,12 @@ textarea{{min-height:210px;font:12px/1.5 ui-monospace,monospace}}button{{margin-
 <label>Valid from (ISO timestamp with timezone)</label><input name="valid_from" placeholder="2026-11-19T00:00:00+00:00" required>
 <label>Expiry (optional ISO timestamp)</label><input name="expires_at">
 <label>Attribution / disclosure</label><input name="attribution">
-<button type="submit">Save rights metadata</button></form></div></section>
+<button type="submit">Save rights metadata</button></form></div>
+<div class="panel"><h2>Rights-aware visual preflight</h2><p class="hint">Check declared assets against the shared permission registry before editing or publishing. A metadata match is not legal clearance or upload approval.</p>
+<form method="post" action="/preflight">{csrf_field}
+<label>Target platform</label><input name="platform" value="youtube" required>
+<label>Structured content pack JSON</label><textarea name="payload" required>{html.escape(json.dumps({"working_title":"GTA 6: Sample topic","topic":"sample topic","original_angle":"Original analysis","research_notes":[{"claim":"Claim to verify","source_url":"https://example.com/source","aro_commentary":"Our original explanation."}],"visual_assets":[{"asset_id":"aro-original-chart","kind":"original"}]},ensure_ascii=False,indent=2))}</textarea>
+<button type="submit">Run rights preflight</button></form></div></section>
 <section class="panel" style="margin-top:14px"><h2>Clip review reports</h2><p class="hint">Read-only view of local JSON batch reports. A rendered clip is not approved for publishing.</p>
 <div class="tablewrap"><table><thead><tr><th>Row</th><th>Source</th><th>Start</th><th>End</th><th>Status</th><th>Details</th><th>Output</th></tr></thead><tbody>{table}</tbody></table></div></section>
 {f'<section class="panel" style="margin-top:14px"><h2>Report warnings</h2><ul>{error_html}</ul></section>' if error_html else ""}
@@ -371,6 +306,21 @@ def serve(args: argparse.Namespace) -> int:
                     md_path.write_text(pack_markdown(pack), encoding="utf-8")
                     json_path.write_text(json.dumps(pack, ensure_ascii=False, indent=2), encoding="utf-8")
                     notice = f"Draft created locally: {md_path.name} and {json_path.name}. Upload approval remains false."
+                elif self.path == "/preflight":
+                    raw = fields.get("payload", [""])[0]
+                    platform = fields.get("platform", [""])[0].strip()
+                    pack = json.loads(raw)
+                    registry = SourceRightsRegistry(db_path)
+                    report = preflight_content_pack(pack, registry, platform)
+                    out_dir = data_dir / "preflight_reports"
+                    out_dir.mkdir(parents=True, exist_ok=True)
+                    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+                    report_path = out_dir / f"preflight_{stamp}_{secrets.token_hex(3)}.json"
+                    write_json_atomic(report_path, report)
+                    notice = (
+                        f"Preflight {report['status']}: {len(report['assets'])} asset(s) checked. "
+                        f"Report saved as {report_path.name}. Human review remains required."
+                    )
                 elif self.path == "/rights":
                     def val(key: str) -> str:
                         return fields.get(key, [""])[0].strip()
