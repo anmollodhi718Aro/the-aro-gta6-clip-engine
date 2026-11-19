@@ -17,13 +17,13 @@ notepad my_clips.json
 3. Generate the review CSV:
 
 ```powershell
-python -m backend.app.manual_clip my_clips.json --output manual_clips.csv
+py -3 -m backend.app.manual_clip my_clips.json --output manual_clips.csv
 ```
 
 4. Preview safely (replace the media path and approve only the row you reviewed):
 
 ```powershell
-python -m backend.app.batch_render manual_clips.csv --media "D:\Videos\your-recording.mp4" --approve 1 --output-dir rendered_clips
+py -3 -m backend.app.batch_render manual_clips.csv --media "D:\Videos\your-recording.mp4" --approve 1 --output-dir rendered_clips
 ```
 
 Dry-run is the default. Inspect the report and verify the exact time range and media file.
@@ -46,7 +46,7 @@ This is the shortest safe path from a fresh clone to a reviewed vertical clip. U
 
 ## 0. One-time setup
 
-Install Python 3.11 or newer and FFmpeg (including ffprobe). Open PowerShell in the cloned repository folder.
+Install Python 3.11 or newer and FFmpeg (including ffprobe). Open PowerShell in the cloned repository folder. The commands below use the Windows `py -3` launcher and require Python 3.11+.
 
 ```powershell
 py --version
@@ -54,7 +54,7 @@ ffmpeg -version
 ffprobe -version
 ```
 
-If py is unavailable but python works, replace py with python below.
+If `py` is unavailable but `python` works, replace the `py -3` prefix with `python` in the commands below.
 
 ## 1. Validate the project
 
