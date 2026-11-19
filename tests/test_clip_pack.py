@@ -99,7 +99,7 @@ class ClipPackTests(unittest.TestCase):
                 {"source_id": "authorized-demo", "chat_time": (self.origin + timedelta(seconds=offset)).isoformat(), "media_seconds": (True if offset == 0 else offset)}
                 for offset in (0, 60, 120)
             ]}), encoding="utf-8")
-            with self.assertRaisesRegex(ValueError, "finite non-negative"):
+            with self.assertRaisesRegex(ValueError, "finite number"):
                 load_clock_sync(path)
 
     def test_loads_operator_measured_clock_anchor_json(self) -> None:
