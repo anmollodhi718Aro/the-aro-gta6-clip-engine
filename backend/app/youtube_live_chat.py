@@ -1,8 +1,9 @@
 """Read-only adapter for public YouTube live chat via the official Data API.
 
-This adapter uses the documented REST list methods as a bounded fallback.
-For continuous low-latency ingestion, the official streamList/gRPC path should
-be implemented in a later worker milestone.
+This adapter uses the documented REST list methods as a bounded polling path.
+The repository also includes an optional bounded streamList/gRPC worker for
+lower-latency ingestion when the owner generates the protobuf bindings and
+configures an authorized API key or OAuth access token.
 """
 
 from __future__ import annotations
