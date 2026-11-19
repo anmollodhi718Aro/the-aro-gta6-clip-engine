@@ -1,6 +1,8 @@
 # First Clip Today — Windows Quick Start
 
-**Fastest route: use a local recording and manually select clip timestamps.** This path needs no YouTube API key, OAuth, chat export, or cloud service.
+**Fastest route: double-click `START_MANUAL_CLIPPING.bat` in the repository folder.** The Windows wizard asks for your local recording and clip timestamps, validates the file and time range, runs a dry-run, and renders only after you type `RENDER`. No YouTube API key, OAuth, chat export, or cloud service is needed.
+
+If you prefer the command-line route, follow the manual steps below. The wizard and CLI both use local files only.
 
 Use only gameplay footage you recorded or are explicitly authorized to edit and distribute.
 
