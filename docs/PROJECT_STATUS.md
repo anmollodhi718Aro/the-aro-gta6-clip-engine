@@ -4,6 +4,11 @@ Last reviewed: 2026-11-19
 
 ## Branch and release state
 
+- Current release-candidate head also includes the Windows one-click manual clipping workflow from PR #48: up to 50 selected moments, Python 3.11 selection, FFprobe media validation, optional full-frame 9:16 output, dry-run first, two explicit render/rights confirmations, and a local review dashboard.
+- PR #48 was stacked directly on this branch and its head was fast-forwarded into this branch; PR #18 is the canonical review target for the combined code.
+- Latest recorded Actions run for the integrated head failed before runner assignment (`runner_id=0`, no steps). This is an infrastructure/account-side blocker until GitHub allocates a runner; it is not evidence that tests passed or that application tests failed.
+- Owner-side Windows smoke testing with an authorized local recording is still required before the first real clip.
+
 - Integrated candidate branch: `integration/release-candidate`
 - Source baseline: single-file Studio feature line plus latest reviewed changes from the previously separate feature branches.
 - This branch is a consolidated release candidate for review.
