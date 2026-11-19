@@ -30,6 +30,9 @@ It is a consolidated review target, not a production release declaration.
 - [ ] Dry-run batch rendering.
 - [ ] Confirm actual execution probes media duration and blocks clips that exceed it.
 - [ ] Run a synthetic local FFmpeg render if FFmpeg and ffprobe are installed.
+- [ ] On Windows, run `scripts/check_project.ps1` on this exact commit and save the compile/test summary.
+- [ ] With an owner-supplied authorized local recording, run `START_CLIPPING_TODAY.bat`, verify multi-clip entry and dry-run output, then explicitly test the optional 9:16 render and local review dashboard.
+- [ ] Confirm stopping at either confirmation prompt performs no render; only proceed with `RENDER` and `I CONFIRM RIGHTS` when the exact media and intended distribution are authorized.
 - [ ] Verify dashboard report discovery and failed-only retry behavior.
 - [ ] Generate the offline creator watchlist dashboard from synthetic ranking JSON.
 
