@@ -1,5 +1,47 @@
 # First Clip Today — Windows Quick Start
 
+**Fastest route: use a local recording and manually select clip timestamps.** This path needs no YouTube API key, OAuth, chat export, or cloud service.
+
+Use only gameplay footage you recorded or are explicitly authorized to edit and distribute.
+
+## Fast path: manual local clipping
+
+1. Open your authorized recording in a video player/editor and note start/end offsets in seconds from the beginning of that exact file. Each range must be 180 seconds or shorter.
+2. Copy and edit the sample input:
+
+```powershell
+Copy-Item examples/manual_clips.example.json my_clips.json
+notepad my_clips.json
+```
+
+3. Generate the review CSV:
+
+```powershell
+python -m backend.app.manual_clip my_clips.json --output manual_clips.csv
+```
+
+4. Preview safely (replace the media path and approve only the row you reviewed):
+
+```powershell
+python -m backend.app.batch_render manual_clips.csv --media "D:\Videos\your-recording.mp4" --approve 1 --output-dir rendered_clips
+```
+
+Dry-run is the default. Inspect the report and verify the exact time range and media file.
+
+5. Render only after confirming rights for this exact recording and intended distribution:
+
+```powershell
+python -m backend.app.batch_render manual_clips.csv --media "D:\Videos\your-recording.mp4" --approve 1 --output-dir rendered_clips --execute --confirm-rights
+```
+
+The renderer requires FFmpeg/ffprobe, checks the actual video stream and duration, writes to a unique run folder, and refuses to overwrite. Review the resulting MP4 before any separate upload decision.
+
+For more detail, see [Manual Clipping](MANUAL_CLIPPING.md).
+
+## Optional: chat-assisted workflow
+
+The remaining steps below are for authorized chat-event analysis and manually measured synchronization. They are not required for the manual path above.
+
 This is the shortest safe path from a fresh clone to a reviewed vertical clip. Use only media you created or are explicitly authorized to edit and publish.
 
 ## 0. One-time setup
