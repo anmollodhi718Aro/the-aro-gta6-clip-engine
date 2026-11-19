@@ -17,9 +17,9 @@ class RenderedMediaValidationTests(unittest.TestCase):
     def tearDown(self):
         self.temp.cleanup()
 
-    def _payload(self, duration="10.0", width=1920, height=1080):
+    def _payload(self, duration="10.0", width=1920, height=1080, format_name="mov,mp4,m4a,3gp,3g2,mj2"):
         return (
-            '{"format":{"duration":"' + str(duration) + '"},'
+            '{"format":{"format_name":"' + format_name + '","duration":"' + str(duration) + '"},'
             '"streams":[{"codec_type":"video","width":' + str(width)
             + ',"height":' + str(height)
             + '},{"codec_type":"audio"}]}'
@@ -32,6 +32,13 @@ class RenderedMediaValidationTests(unittest.TestCase):
         self.assertEqual((info.width, info.height), (1920, 1080))
         self.assertTrue(info.has_audio)
         self.assertEqual(run.call_args.args[0][-1], str(self.output.resolve()))
+        self.assertIn("format=format_name,duration", run.call_args.args[0])
+
+    def test_rejects_non_mp4_container_even_when_filename_ends_in_mp4(self):
+        with patch("backend.app.render_validation.subprocess.run") as run:
+            run.return_value.stdout = self._payload(format_name="matroska,webm")
+            with self.assertRaisesRegex(ValueError, "not an MP4 container"):
+                verify_rendered_media(self.output, expected_duration_seconds=10)
 
     def test_requires_1080x1920_for_vertical_output(self):
         with patch("backend.app.render_validation.subprocess.run") as run:
@@ -57,8 +64,9 @@ class RenderedMediaValidationTests(unittest.TestCase):
     def test_rejects_incomplete_or_non_finite_metadata(self):
         malformed = [
             "not json",
-            '{"format":{"duration":"10"},"streams":[]}',
-            '{"format":{"duration":"nan"},"streams":[{"codec_type":"video","width":1,"height":1}]}',
+            '{"format":{"format_name":"mp4","duration":"10"},"streams":[]}',
+            '{"format":{"format_name":"mp4","duration":"nan"},"streams":[{"codec_type":"video","width":1,"height":1}]}',
+            '{"format":{"duration":"10"},"streams":[{"codec_type":"video","width":1,"height":1}]}',
         ]
         for raw in malformed:
             with self.subTest(raw=raw), patch(
