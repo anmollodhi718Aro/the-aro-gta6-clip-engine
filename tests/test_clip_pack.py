@@ -28,6 +28,14 @@ class ClipPackTests(unittest.TestCase):
         self.assertEqual(rows[0]["end_seconds"], 60.0)
         self.assertTrue(rows[0]["renderable"])
 
+    def test_normalizes_non_utc_offsets_in_exported_timestamps(self) -> None:
+        candidate = self.candidate()
+        candidate["clip_start"] = "2026-11-19T17:30:30+05:30"
+        candidate["clip_end"] = "2026-11-19T17:31:00+05:30"
+        rows = map_candidates_to_media([candidate], self.origin)
+        self.assertEqual(rows[0]["clip_start_utc"], "2026-11-19T12:00:30+00:00")
+        self.assertEqual(rows[0]["start_seconds"], 30.0)
+
     def test_rejects_timezone_naive_media_origin(self) -> None:
         with self.assertRaisesRegex(ValueError, "timezone"):
             map_candidates_to_media([self.candidate()], "2026-11-19T12:00:00")
@@ -45,6 +53,10 @@ class ClipPackTests(unittest.TestCase):
         rows = map_candidates_to_media([self.candidate(0, 181)], self.origin)
         self.assertFalse(rows[0]["renderable"])
         self.assertIn("180-second", rows[0]["review_note"])
+
+    def test_exact_renderer_limit_is_allowed_for_review(self) -> None:
+        rows = map_candidates_to_media([self.candidate(0, 180)], self.origin)
+        self.assertTrue(rows[0]["renderable"])
 
     def test_writes_csv_and_markdown_review_files(self) -> None:
         rows = map_candidates_to_media([self.candidate()], self.origin)
