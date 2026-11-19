@@ -17,7 +17,7 @@ python -m backend.app.batch_render clip_pack/clip_candidates.csv \
   --output-dir rendered_clips
 ```
 
-The command is dry-run by default. It writes a JSON report and does not invoke FFmpeg.
+The command is dry-run by default. It writes a JSON report and does not invoke FFmpeg. Each run gets its own folder under the output root; omit `--run-id` to generate a unique ID. A supplied run ID must be a safe 1-64 character name.
 
 Row numbers are the 1-based positions in the CSV, excluding the header. Inspect the CSV and report, then approve only the exact rows you reviewed.
 
@@ -42,6 +42,8 @@ Both `--execute` and `--confirm-rights` are required for rendering. The rights c
 - Every candidate must be explicitly selected by its 1-based CSV row number.
 - Candidates marked non-renderable are blocked even if selected.
 - Invalid, negative, non-finite, or over-limit time bounds are rejected.
+- Every execution creates a new run folder and refuses to reuse an existing folder. Use a new `--run-id` for another attempt.
+- JSON reports are written through a sibling temporary file and atomically replaced.
 - FFmpeg's existing no-overwrite behavior is preserved.
 - A JSON report records planned, rendered, blocked, skipped, or failed rows.
 - Rendering never implies approval to distribute. Human review and all applicable rights checks remain necessary.
