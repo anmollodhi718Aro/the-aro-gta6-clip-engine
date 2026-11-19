@@ -178,3 +178,10 @@
 - Latest Actions run `44633107036` for branch SHA `b21e50e1c3310344412077e2a18237880961c36d` was queued with runner_id 0 and zero steps. Exact-head CI NOT VERIFIED. Earlier passing run `44632671652` applies only to tested revision `6c5d0fd2228da963fc61c39403645e347a4cd3af` (258 tests, 257 passed, 1 skipped).
 - No local tests were executed in this connector session. Windows runtime and authorized GTA 6 MP4/playback remain NOT VERIFIED. No merge, deployment, upload or public publication.
 - Single outstanding first-clip external dependency: creator-authorized recording/export or supported media handoff. Next: process that media through the existing Windows/local workflow, capture FFmpeg/FFprobe/playback evidence, then add durable `needs_review` state and explicit owner approval.
+
+
+### ARO-CHAT-0011 live-state correction
+- Later live comparison found four commits after the ARO-CHAT-0011 docs commits; the selected PR #66 branch now contains `backend/app/live_sources.py`, `backend/app/approval.py`, `tests/test_live_sources_and_approval.py`, and `docs/AUTHORIZED_LIVE_SOURCE_PIPELINE.md`. The earlier ARO-CHAT-0011 note that these files were absent described the earlier snapshot and is superseded.
+- This is selective integration of PR #65's foundation into PR #66; PR #65 remains open and unmerged. The foundation supplies permission-gated adapter contracts and immutable approval/publish-scope checks, not production OAuth, video-byte ingestion, durable review storage/UI, or an uploader.
+- Observed branch/PR #66 head at correction: `30eb31c3a8d8bf98f4108c8acc4ad00c72e75311`; PR open/unmerged and reported non-mergeable. Main remains unchanged.
+- No completed exact-head CI evidence was available. Run `44633213798` was pending on a different observed head with no job assigned; earlier green run `44632671652` applies only to renderer revision `6c5d0fd2228da963fc61c39403645e347a4cd3af` (258 tests, 257 passed, 1 skipped). Windows and authorized GTA 6 real-media verification remain NOT VERIFIED.
