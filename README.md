@@ -7,7 +7,7 @@ A local-first, zero-mandatory-dependency creator workflow for analysing authoriz
 ## Requirements
 
 - Python 3.11+
-- FFmpeg on PATH only for local video rendering.
+- FFmpeg and ffprobe on PATH for actual local video rendering and media preflight.
 - No mandatory third-party Python packages.
 - Optional YouTube stream/gRPC adapter dependencies: `pip install -e ".[youtube-stream]"`.
 - A YouTube Data API key is required only for supported public live-chat API operations. Keep credentials in local environment configuration; never commit them.
