@@ -44,10 +44,12 @@ Goal: replace assumptions based only on Ubuntu CI with an actual Windows runner 
 - Base: `integration/aro-release-candidate-2026-11-19` at `625425987b8381c5a7d16313f5fbb96abcfcff21`
 - Test commit: `5cac413388ee971540103cb36e57866347fd555e`
 - Workflow commit: `b4c79e276301df942712bd3879944e8d493c4adc`
+- Workflow push-trigger follow-up commit: `419cc5c554a909d9fc7372aba47cbe4de6821bd6`
+- Draft PR: #57 (open, not merged)
 
 ## Remaining actions
 
-1. Open a focused draft PR against `integration/aro-release-candidate-2026-11-19`.
-2. Inspect the Windows Actions result and repair any actual failures without weakening tests.
+1. Draft PR #57 is open against `integration/aro-release-candidate-2026-11-19`: https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/57.
+2. A branch-push trigger was added so the new workflow can execute before its first merge; inspect the resulting Windows Actions run and repair actual failures without weakening tests.
 3. If the hosted runner is unavailable, record that separately and ask the owner to run the documented checks on Windows.
 4. Perform a real authorized-media render on the owner's Windows laptop; verify video dimensions, duration, audio presence, playback and output collision behavior.
