@@ -238,3 +238,12 @@
 - Added `analytics/ai_chat_sessions.json` and `docs/AI_CHAT_ANALYTICS.md`. Only ARO-CHAT-0014 is recorded; historical chats are not scored or backfilled without reliable measurements. Elapsed time, active time and final score remain unknown/null.
 - Prior green run `44633588158` is valid only for implementation/test SHA `a1dbff89f07e1b1466288695bc910902cf92a904`: 270 tests passed, including synthetic FFmpeg/FFprobe render and decode. It does not verify the new Windows workflow or real GTA 6 footage.
 - First authorized GTA 6 clip remains blocked on creator-authorized local media or a supported media handoff. No Windows laptop test, real GTA 6 render, merge, deployment, upload or public publishing is claimed.
+
+
+### ARO-CHAT-0014 closeout (2026-11-20 04:55 IST)
+- End timestamp: `2026-11-20T04:55:08+05:30`. Start time is minute-resolution; elapsed and active work durations remain UNKNOWN/null.
+- Structured analytics record: `analytics/ai_chat_sessions.json`; evidence and scoring rules: `docs/AI_CHAT_ANALYTICS.md`. Final score remains null. Historical chats are not backfilled or ranked without comparable evidence.
+- Analytics closeout commit: `a30f0588c03b1e44be05304d0f96f6c01ccba71b`; handoff closeout commit: `32e73ac24e4a5a7ab9a69430b0216f8d6973c6e6`.
+- No completed Windows run or exact-final-head CI result is available in this session. PR-triggered Windows and Ubuntu attempts were cancelled during FFmpeg installation before compilation/tests. The revised Windows workflow is push-triggered on the selected branch; its push-run result was not exposed by the available PR-only workflow query.
+- ARO-CHAT-0014 status: IMPLEMENTED for workflow/test/analytics documentation; TESTED and CI_VERIFIED on new changes NOT CLAIMED; WINDOWS_VERIFIED NOT VERIFIED; REAL_MEDIA_VERIFIED NOT VERIFIED; COMPLETE NOT CLAIMED.
+- No merge, retarget, deployment, upload, public publishing, or main-branch changes. The first GTA 6 clip still requires an expressly authorized media handoff.
