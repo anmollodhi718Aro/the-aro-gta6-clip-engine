@@ -4,6 +4,10 @@ A local-first, zero-mandatory-dependency creator workflow for analysing authoriz
 
 > This is the separate GTA 6 project, not the ARO History Engine or THE ARO Deployment Network.
 
+## Start clipping today
+
+See [`docs/START_CLIPPING_TODAY.md`](docs/START_CLIPPING_TODAY.md) for the shortest Windows/macOS/Linux setup and local clip workflow.
+
 ## Requirements
 
 - Python 3.11+
