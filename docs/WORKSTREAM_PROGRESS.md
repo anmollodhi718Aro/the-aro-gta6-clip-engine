@@ -27,14 +27,14 @@ Goal: replace assumptions based only on Ubuntu CI with an actual Windows runner 
 ## Verification
 
 - NOT STARTED locally: this connector session has GitHub repository read/write and Actions visibility, but no repository checkout or local Windows runtime.
-- NOT VERIFIED ON WINDOWS: workflow must run on a GitHub-hosted Windows runner after the PR is opened.
-- No real media file has been rendered in this session.
-- The latest observed Actions run for PR #55 failed with `runner_id=0`, zero steps and no runner logs. This is infrastructure/runner-assignment evidence, not a Python test failure. A passing result is not claimed.
+- NOT VERIFIED ON WINDOWS: the workflow was triggered on the branch, but all three Windows workflow attempts immediately failed before runner assignment (`runner_id=0`, zero steps); the concurrent Ubuntu Python CI attempt failed identically. No Python test step ran.
+- Run evidence: [Windows attempt 1](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44548199080), [Windows attempt 2](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44548245947), [Windows attempt 3](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44548255131), [Ubuntu attempt](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44548199296).
+- This is a GitHub runner-assignment/infrastructure blocker, not evidence of a test failure or success. No real media file has been rendered in this session.
 
 ## Status
 
 - Windows path regression test: IMPLEMENTED, NOT TESTED.
-- Native Windows CI workflow: IMPLEMENTED, NOT VERIFIED ON WINDOWS.
+- Native Windows CI workflow: IMPLEMENTED, TRIGGERED, BLOCKED before runner startup; NOT VERIFIED ON WINDOWS.
 - Core clip rendering: existing integration implementation inspected; real-media success NOT VERIFIED.
 - No PR has been merged, no default/shared branch changed, and no deployment performed.
 
