@@ -120,6 +120,44 @@ class BatchRenderTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "no safely retryable"):
             load_failed_rows(report, self.csv_path)
 
+    def test_retry_checks_exact_local_media_identity_when_media_is_supplied(self) -> None:
+        stat = self.media.stat()
+        identity = {
+            "path": str(self.media.resolve()),
+            "size_bytes": stat.st_size,
+            "mtime_ns": stat.st_mtime_ns,
+        }
+        report = self._write_retry_report([
+            {
+                "candidate_row": 1, "source_id": "demo-a",
+                "start_seconds": 10.0, "end_seconds": 25.0,
+                "status": "failed", "media_identity": identity,
+            },
+        ])
+        self.assertEqual(load_failed_rows(report, self.csv_path, self.media), {1})
+
+        identity["size_bytes"] += 1
+        report = self._write_retry_report([
+            {
+                "candidate_row": 1, "source_id": "demo-a",
+                "start_seconds": 10.0, "end_seconds": 25.0,
+                "status": "failed", "media_identity": identity,
+            },
+        ])
+        with self.assertRaisesRegex(ValueError, "media file changed or differs"):
+            load_failed_rows(report, self.csv_path, self.media)
+
+    def test_retry_rejects_legacy_report_without_media_identity(self) -> None:
+        report = self._write_retry_report([
+            {
+                "candidate_row": 1, "source_id": "demo-a",
+                "start_seconds": 10.0, "end_seconds": 25.0,
+                "status": "failed",
+            },
+        ])
+        with self.assertRaisesRegex(ValueError, "does not record local media identity"):
+            load_failed_rows(report, self.csv_path, self.media)
+
     def test_retry_rejects_legacy_failure_without_recorded_bounds(self) -> None:
         report = self._write_retry_report([
             {"candidate_row": 1, "source_id": "demo-a", "status": "failed"},
