@@ -103,6 +103,24 @@ class ClipRenderTests(unittest.TestCase):
             self.assertEqual(output.read_bytes(), b"another render output")
             self.assertFalse(list(Path(folder).glob(".clip-*.mp4")))
 
+    def test_invalid_rendered_media_is_never_published(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            output = Path(folder) / "clip.mp4"
+            source.write_bytes(b"synthetic")
+
+            def fake_ffmpeg(command, **kwargs):
+                Path(command[-1]).write_bytes(b"not a valid mp4")
+
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg), patch(
+                "backend.app.clipping.verify_rendered_media", side_effect=ValueError("no video stream")
+            ):
+                with self.assertRaisesRegex(ClipRenderError, "failed media validation"):
+                    render_clip(source, output, 0, 2, rights_confirmed=True)
+
+            self.assertFalse(output.exists())
+            self.assertFalse(list(Path(folder).glob(".clip-*.mp4")))
+
     def test_vertical_mode_uses_full_frame_9_by_16_layout(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / "source.mov"
