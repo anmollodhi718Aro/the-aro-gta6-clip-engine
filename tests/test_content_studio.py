@@ -10,6 +10,7 @@ class ContentStudioTests(unittest.TestCase):
             "working_title": "GTA 6 feature explained",
             "topic": "weather system",
             "original_angle": "Why dynamic weather changes gameplay",
+            "visual_assets": [{"asset_id": "aro-weather-chart", "kind": "original", "description": "Self-made weather graphic"}],
             "research_notes": [{
                 "claim": "The supplied source describes a dynamic weather feature.",
                 "source_url": "https://example.com/gta6",
@@ -25,10 +26,11 @@ class ContentStudioTests(unittest.TestCase):
         self.assertFalse(pack["review"]["approved_for_upload"])
         self.assertFalse(pack["review"]["monetization_guaranteed"])
         self.assertIn("human_fact_check_required", pack["review"])
+        self.assertEqual(pack["visual_assets"][0]["asset_id"], "aro-weather-chart")
 
     def test_requires_sourced_research_and_original_commentary(self):
         data = self.payload()
-        data["research_notes"] = [{"claim": "Unsourced claim", "aro_commentary": "My view"}]
+        data["research_notes"] = [{"claim": "Unsourced claim", "aro_commentary": "My view", "source_url": "https://example.com"}]
         with self.assertRaises(ValueError):
             build_content_pack(data)
         data = self.payload()
