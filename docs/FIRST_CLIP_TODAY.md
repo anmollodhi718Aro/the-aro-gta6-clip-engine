@@ -31,7 +31,7 @@ Dry-run is the default. Inspect the report and verify the exact time range and m
 5. Render only after confirming rights for this exact recording and intended distribution:
 
 ```powershell
-python -m backend.app.batch_render manual_clips.csv --media "D:\Videos\your-recording.mp4" --approve 1 --output-dir rendered_clips --execute --confirm-rights
+py -3 -m backend.app.batch_render manual_clips.csv --media "D:\Videos\your-recording.mp4" --approve 1 --output-dir rendered_clips --execute --confirm-rights
 ```
 
 The renderer requires FFmpeg/ffprobe, checks the actual video stream and duration, writes to a unique run folder, and refuses to overwrite. Review the resulting MP4 before any separate upload decision.
