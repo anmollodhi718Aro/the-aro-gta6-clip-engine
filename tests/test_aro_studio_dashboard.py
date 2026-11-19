@@ -3,6 +3,7 @@ import json
 import sqlite3
 import tempfile
 import unittest
+from unittest.mock import patch
 from datetime import datetime
 from pathlib import Path
 
@@ -51,6 +52,32 @@ class ContentPackTests(unittest.TestCase):
         payload["research_notes"][0]["aro_commentary"] = "   "
         with self.assertRaisesRegex(ValueError, "research note 1"):
             studio.build_content_pack(payload)
+
+    def test_draft_pair_uses_unique_names_for_same_title_and_timestamp(self):
+        with tempfile.TemporaryDirectory() as temp:
+            pack = studio.build_content_pack(self.valid_payload())
+            with patch.object(studio.secrets, "token_hex", side_effect=["first", "second"]):
+                first = studio.write_content_pack(pack, Path(temp), stamp="fixed-time")
+                second = studio.write_content_pack(pack, Path(temp), stamp="fixed-time")
+            self.assertEqual(len(set(first + second)), 4)
+            for path in first + second:
+                self.assertTrue(path.is_file())
+            self.assertEqual(json.loads(first[1].read_text(encoding="utf-8"))["working_title"], pack["working_title"])
+
+    def test_draft_pair_never_overwrites_existing_json_and_rolls_back_partial_file(self):
+        with tempfile.TemporaryDirectory() as temp:
+            out_dir = Path(temp)
+            pack = studio.build_content_pack(self.valid_payload())
+            existing = out_dir / "GTA_6_Test_topic_fixed-time_collision.json"
+            existing.write_text("owner data", encoding="utf-8")
+            with patch.object(studio.secrets, "token_hex", return_value="collision"):
+                with self.assertRaises(FileExistsError):
+                    studio.write_content_pack(pack, out_dir, stamp="fixed-time")
+            self.assertEqual(existing.read_text(encoding="utf-8"), "owner data")
+            self.assertEqual(
+                sorted(path.name for path in out_dir.iterdir()),
+                [existing.name],
+            )
 
     def test_markdown_contains_review_gate_and_source(self):
         pack = studio.build_content_pack(self.valid_payload())
