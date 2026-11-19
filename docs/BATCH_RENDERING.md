@@ -36,15 +36,28 @@ python -m backend.app.batch_render clip_pack/clip_candidates.csv \
 
 Both `--execute` and `--confirm-rights` are required for rendering. The rights confirmation applies to the exact local media file supplied. This is an engineering guardrail, not legal verification.
 
+## 4. Retry only failed rows
+
+A previous report can be used to select failed rows without re-running successful, blocked, or unapproved candidates:
+
+```bash
+python -m backend.app.batch_render clip_pack/clip_candidates.csv \
+  --media "/path/to/authorized-local-recording.mp4" \
+  --retry-report rendered_clips/previous-run/batch_render_report.json \
+  --output-dir rendered_clips
+```
+
+This is a dry-run. To execute the retry, add `--execute --confirm-rights` after reviewing the failed-row selection and confirming authorization for the exact local media file. The retry creates a new run folder, never reuses the previous run's output paths, and retries only rows whose source ID and measured start/end bounds still match the current candidate CSV. Older reports without recorded bounds are rejected rather than guessed.
+
 ## Safeguards
 
 - Only local filesystem media paths are accepted; remote URLs are not supported.
-- Every candidate must be explicitly selected by its 1-based CSV row number.
+- Every candidate must be explicitly selected by its 1-based CSV row number, or selected from a prior report's failed rows with `--retry-report`.
 - Candidates marked non-renderable are blocked even if selected.
 - Invalid, negative, non-finite, or over-limit time bounds are rejected.
 - Every execution creates a new run folder and refuses to reuse an existing folder. Use a new `--run-id` for another attempt.
 - JSON reports are written through a sibling temporary file and atomically replaced.
 - FFmpeg's existing no-overwrite behavior is preserved.
-- A JSON report records planned, rendered, blocked, skipped, or failed rows.
+- A JSON report records planned, rendered, blocked, skipped, or failed rows. Failed-row retries do not select successful, blocked, or unapproved rows.
 - Rendering never implies approval to distribute. Human review and all applicable rights checks remain necessary.
 - No upload, publishing, stream downloading, or scraping is implemented.
