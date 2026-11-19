@@ -68,7 +68,8 @@ The integrated branch contains 34 files under `tests/` (33 Python test modules p
 - Core event models and detection
 - Consent registry, chat event storage and quota scheduler
 - YouTube adapter, workers, stream ingestion and multi-source lifecycle
-- Clip analysis CLI, timestamp mapping, FFmpeg rendering and batch rendering
+- Clip analysis CLI, timestamp mapping, ffprobe media validation, FFmpeg rendering and batch rendering
+- End-to-end synthetic chat-to-clip preparation smoke test
 - Output safety, retry validation and local dashboards
 - Candidate scoring
 - Original content studio and rights preflight
@@ -77,7 +78,7 @@ The integrated branch contains 34 files under `tests/` (33 Python test modules p
 - Subtitle quality
 - Synthetic end-to-end chat-to-candidate-to-scored-review-to-batch-dry-run workflow
 
-A test file being present is not proof it passed. Run the exact suite on the latest integrated commit and record the result. The GitHub Actions failures previously observed often ended before the job exposed any steps/logs; this means remote CI execution remains unverified, not that all tests passed.
+A test file being present is not proof it passed. The candidate includes an end-to-end synthetic smoke test spanning chat analysis, measured clock mapping, clip-pack export, quality scoring and batch dry-run. Run the exact suite on the latest integrated commit and record the result. GitHub Actions issue #26 tracks jobs that fail before runner assignment (runner_id 0, no steps/logs); remote CI execution remains unverified, not that all tests passed.
 
 ## Not implemented / external setup still required
 
