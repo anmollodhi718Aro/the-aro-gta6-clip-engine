@@ -83,3 +83,17 @@ python -m backend.app.clip_pack youtube_clip_plan.json \
 ```
 
 This creates a sortable CSV and a Markdown review sheet. It does not download, render, upload, or publish video. See [Measured Clip Candidate Pack](docs/CLIP_CANDIDATE_PACK.md).
+
+
+## Human-approved batch rendering
+
+The measured candidate CSV can be used to prepare a batch of local render jobs. The command is **dry-run by default** and requires explicit row approvals:
+
+```bash
+python -m backend.app.batch_render clip_pack/clip_candidates.csv \
+  --media "/path/to/authorized-local-recording.mp4" \
+  --approve 1,3 \
+  --output-dir rendered_clips
+```
+
+Inspect the JSON report, then add `--execute --confirm-rights` only when you have reviewed those exact candidates and are authorized to process the exact local media file. Non-renderable rows remain blocked. No downloading, uploading, or publishing is performed. See [Human-Approved Batch Rendering](docs/BATCH_RENDERING.md).
