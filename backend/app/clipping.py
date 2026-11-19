@@ -24,6 +24,7 @@ def render_clip(
     *,
     rights_confirmed: bool,
     ffmpeg_binary: str = "ffmpeg",
+    vertical: bool = False,
 ) -> Path:
     """Render a bounded MP4 from a local file without overwriting prior output.
 
@@ -74,7 +75,7 @@ def render_clip(
         "-ss", f"{start_seconds:.3f}",
         "-i", str(source),
         "-t", f"{duration:.3f}",
-        "-map", "0:v:0",
+        "-map", "[v]" if vertical else "0:v:0",
         "-map", "0:a?",
         "-c:v", "libx264",
         "-preset", "veryfast",
@@ -83,6 +84,19 @@ def render_clip(
         "-movflags", "+faststart",
         str(temporary_output),
     ]
+
+    if vertical:
+        # Preserve the full gameplay frame in a 9:16 canvas. A blurred,
+        # cover-scaled copy fills the background so HUD/action are not cropped.
+        filter_graph = (
+            "[0:v]split=2[bg][fg];"
+            "[bg]scale=1080:1920:force_original_aspect_ratio=increase,"
+            "crop=1080:1920,boxblur=20:10[bg];"
+            "[fg]scale=1080:1920:force_original_aspect_ratio=decrease[fg];"
+            "[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1[v]"
+        )
+        command[command.index("-map"):command.index("-map")] = ["-filter_complex", filter_graph]
+        command.extend(["-pix_fmt", "yuv420p"])
 
     try:
         try:
