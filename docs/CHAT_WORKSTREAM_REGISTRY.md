@@ -131,16 +131,6 @@
 - PR #65's creator permission/approval foundation is still not integrated into PR #66. The first real GTA 6 clip remains blocked on the creator-authorized recording/export/media handoff.
 
 
-| ARO-CHAT-0009 | ARO-CHAT-0009 | ARO-ZERO-ONE (continuation) | Live clipping-first repository audit, correct Option A/B compare direction, reconcile latest PR #66 CI state, and update the canonical first-clip handoff | `workstream/aro-zero-one-clipping-first-2026-11-20` / [PR #66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66) | IMPLEMENTED (documentation/audit); prior renderer revision TESTED and CI_VERIFIED (257 passed, 1 skipped); current PR head CI NOT VERIFIED (no associated run; inspected run cancelled before compile); WINDOWS_NOT_VERIFIED; REAL_MEDIA_NOT_VERIFIED | Starting/base SHA `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`; PR head at audit `4c9448d5d6b913148d862524e67768f659873578`; prior successful renderer SHA `6c5d0fd2228da963fc61c39403645e347a4cd3af` / run `44632671652`; inspected cancelled run `44632888314` |
-
-### ARO-CHAT-0009 evidence notes
-- Existing ARO-ZERO-ONE branch and PR #66 were reused. No duplicate branch or PR was created.
-- Live compare corrects the prior direction: Option B is 1 commit ahead and 4 behind Option A, not the reverse. Option A remains the selected clipping-first base.
-- Exact PR #66 head at this audit: `4c9448d5d6b913148d862524e67768f659873578`. Exact-head workflow lookup returned no runs. Inspected run `44632888314` was cancelled during compile; unit tests were skipped. This is neither a test failure nor a passing verification.
-- The last proven renderer CI remains run `44632671652` on renderer revision `6c5d0fd2228da963fc61c39403645e347a4cd3af`: 258 tests, 257 passed, 1 skipped. It does not certify the latest PR head.
-- Windows-native execution and authorized real-media output/playback remain unverified. The external first-clip dependency is an authorized GTA 6 media handoff.
-
-
 ## ARO-CHAT-0010 continuation record (2026-11-20)
 
 | Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
