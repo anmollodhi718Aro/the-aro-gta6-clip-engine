@@ -8,7 +8,6 @@ from backend.app.creator_watchlist import (
     ranking_report,
 )
 
-
 START = datetime(2026, 11, 12, tzinfo=timezone.utc)
 END = START + timedelta(days=7)
 SOURCE = "https://www.youtube.com/watch?v=example"
@@ -30,13 +29,13 @@ def metric(creator_id, views, peak=0, average=0.0, **overrides):
 
 
 class CreatorWatchlistTests(unittest.TestCase):
-    def test_candidate_list_contains_user_requested_names(self):
-        names = {creator.display_name for creator in DEFAULT_CREATORS}
-        self.assertIn("Death Tracks", names)
-        self.assertIn("Death Rush Gaming", names)
-        self.assertIn("iShowSpeed", names)
-        self.assertIn("Techno Gamerz", names)
-        self.assertIn("CarryisLive", names)
+    def test_candidate_list_contains_user_requested_names_and_exact_id(self):
+        creators = {creator.creator_id: creator.display_name for creator in DEFAULT_CREATORS}
+        self.assertEqual(creators["death-tracks-gaming"], "Death Tracks Gaming")
+        self.assertIn("Death Rush Gaming", creators.values())
+        self.assertIn("iShowSpeed", creators.values())
+        self.assertIn("Techno Gamerz", creators.values())
+        self.assertIn("CarryisLive", creators.values())
         self.assertEqual(len(DEFAULT_CREATORS), 16)
 
     def test_ranks_by_seven_day_views(self):
@@ -56,8 +55,7 @@ class CreatorWatchlistTests(unittest.TestCase):
         self.assertEqual(rows[0]["creator_id"], "tgg")
 
     def test_missing_metrics_are_not_fabricated(self):
-        rows = rank_seven_day_creators([metric("mythpat", 10)])
-        self.assertEqual(len(rows), 1)
+        self.assertEqual(len(rank_seven_day_creators([metric("mythpat", 10)])), 1)
 
     def test_rejects_naive_timestamps(self):
         with self.assertRaisesRegex(ValueError, "timezone-aware"):
