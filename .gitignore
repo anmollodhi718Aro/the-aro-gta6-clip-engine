@@ -234,3 +234,8 @@ token.pickle
 client_secret*.json
 oauth_client*.json
 .secrets/
+
+# Local wizard session inputs and generated review files
+manual_clip_sessions/
+my_clips.json
+manual_clips.csv
