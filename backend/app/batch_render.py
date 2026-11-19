@@ -40,8 +40,12 @@ def _load_candidates(csv_path: Path) -> list[dict[str, str]]:
         return list(reader)
 
 
-def load_failed_rows(report_path: str | Path, csv_path: str | Path) -> set[int]:
-    """Select only failed rows whose identity and bounds still match the source CSV."""
+def load_failed_rows(
+    report_path: str | Path,
+    csv_path: str | Path,
+    media_path: str | Path | None = None,
+) -> set[int]:
+    """Select only failed rows whose candidate and optional media identity still match."""
     report_file = Path(report_path).expanduser()
     with report_file.open("r", encoding="utf-8") as handle:
         previous = json.load(handle)
@@ -49,6 +53,17 @@ def load_failed_rows(report_path: str | Path, csv_path: str | Path) -> set[int]:
         raise ValueError("retry report must contain a JSON list of candidate results")
 
     candidates = _load_candidates(Path(csv_path).expanduser())
+    current_media_identity = None
+    if media_path is not None:
+        media = Path(media_path).expanduser().resolve()
+        if not media.is_file():
+            raise FileNotFoundError(f"local media file does not exist: {media}")
+        media_stat = media.stat()
+        current_media_identity = {
+            "path": str(media),
+            "size_bytes": media_stat.st_size,
+            "mtime_ns": media_stat.st_mtime_ns,
+        }
     failed: set[int] = set()
     for item in previous:
         if not isinstance(item, dict) or item.get("status") != "failed":
@@ -59,6 +74,12 @@ def load_failed_rows(report_path: str | Path, csv_path: str | Path) -> set[int]:
         if row_number in failed:
             raise ValueError("retry report contains duplicate failed candidate rows")
         source = candidates[row_number - 1]
+        if current_media_identity is not None:
+            previous_media_identity = item.get("media_identity")
+            if not isinstance(previous_media_identity, dict):
+                raise ValueError(f"retry report does not record local media identity for candidate row {row_number}")
+            if previous_media_identity != current_media_identity:
+                raise ValueError(f"local media file changed or differs from the previous render for candidate row {row_number}")
         if str(item.get("source_id", "")) != source.get("source_id", ""):
             raise ValueError(f"candidate row {row_number} no longer matches the retry report")
         try:
@@ -113,8 +134,15 @@ def run_batch(
     safe_run_id = make_run_id(run_id)
     if not source_csv.is_file():
         raise FileNotFoundError(f"candidate CSV does not exist: {source_csv}")
+    media = media.resolve()
     if not media.is_file():
         raise FileNotFoundError(f"local media file does not exist: {media}")
+    media_stat = media.stat()
+    media_identity = {
+        "path": str(media),
+        "size_bytes": media_stat.st_size,
+        "mtime_ns": media_stat.st_mtime_ns,
+    }
     if execute and not rights_confirmed:
         raise PermissionError("execution requires explicit local-media rights confirmation")
 
@@ -134,6 +162,7 @@ def run_batch(
             "run_id": safe_run_id,
             "candidate_row": number,
             "source_id": row.get("source_id", ""),
+            "media_identity": media_identity,
             "output_path": "",
             "status": "not_approved",
             "message": "not selected for rendering",
@@ -182,7 +211,7 @@ def main() -> int:
     parser.add_argument("--run-id", help="optional safe, unique run folder name; generated when omitted")
     selection = parser.add_mutually_exclusive_group(required=True)
     selection.add_argument("--approve", help="comma-separated 1-based row numbers approved by a human")
-    selection.add_argument("--retry-report", type=Path, help="previous batch JSON report; retries only failed rows whose source identity and bounds still match")
+    selection.add_argument("--retry-report", type=Path, help="previous batch JSON report; retries only failed rows whose source, media file identity and bounds still match")
     parser.add_argument("--execute", action="store_true", help="perform local rendering; default is dry-run")
     parser.add_argument("--confirm-rights", action="store_true", help="confirm authorization for this exact local media file")
     parser.add_argument("--report", type=Path, help="optional report path; defaults inside this run folder")
@@ -193,7 +222,7 @@ def main() -> int:
         if args.execute and not args.confirm_rights:
             raise PermissionError("--execute requires --confirm-rights")
         approvals = (parse_approvals(args.approve) if args.approve is not None
-                     else load_failed_rows(args.retry_report, args.candidate_csv))
+                     else load_failed_rows(args.retry_report, args.candidate_csv, args.media))
         run_id = make_run_id(args.run_id)
         run_dir = create_run_directory(args.output_dir, run_id)
         results = run_batch(
