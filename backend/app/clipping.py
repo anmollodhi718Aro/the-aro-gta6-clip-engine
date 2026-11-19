@@ -8,6 +8,8 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+from .media_probe import probe_media
+
 
 MAX_CLIP_SECONDS = 180.0
 
@@ -24,13 +26,15 @@ def render_clip(
     *,
     rights_confirmed: bool,
     ffmpeg_binary: str = "ffmpeg",
+    ffprobe_binary: str = "ffprobe",
     vertical: bool = False,
 ) -> Path:
-    """Render a bounded MP4 from a local file without overwriting prior output.
+    """Render and probe a bounded MP4 before publishing it without overwriting.
 
     Vertical mode creates a 1080x1920 canvas with a blurred, cover-scaled
-    background and the complete source frame fitted in front. This preserves
-    gameplay HUD/action instead of cropping the source frame.
+    background and the complete source frame fitted in front. The temporary
+    output is not published unless ffprobe confirms a readable video stream
+    and a duration close to the requested clip interval.
     """
     if not rights_confirmed:
         raise PermissionError("media processing requires explicit rights confirmation")
@@ -111,6 +115,20 @@ def render_clip(
 
         if not temporary_output.is_file() or temporary_output.stat().st_size == 0:
             raise ClipRenderError("FFmpeg completed without creating a valid output file")
+
+        try:
+            output_info = probe_media(temporary_output, ffprobe_binary=ffprobe_binary)
+        except (OSError, RuntimeError, ValueError) as exc:
+            raise ClipRenderError(f"FFprobe could not verify the rendered MP4: {exc}") from exc
+
+        # Allow small container/frame-timestamp rounding differences while
+        # rejecting truncated or unexpectedly extended output.
+        duration_tolerance = max(0.25, min(1.0, duration * 0.02))
+        if abs(output_info.duration_seconds - duration) > duration_tolerance:
+            raise ClipRenderError(
+                "rendered MP4 duration does not match the requested clip "
+                f"({output_info.duration_seconds:.3f}s reported, {duration:.3f}s expected)"
+            )
 
         try:
             os.link(temporary_output, destination)
