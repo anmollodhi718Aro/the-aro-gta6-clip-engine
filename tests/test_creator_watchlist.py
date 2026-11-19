@@ -13,12 +13,12 @@ END = START + timedelta(days=7)
 SOURCE = "https://www.youtube.com/watch?v=example"
 
 
-def metric(creator_id, views, peak=0, average=0.0, **overrides):
+def metric(creator_id, default_views, peak=0, average=0.0, **overrides):
     values = dict(
         creator_id=creator_id,
         window_start=START,
         window_end=END,
-        views=views,
+        views=default_views,
         live_streams=1,
         peak_concurrent_viewers=peak,
         average_concurrent_viewers=average,
