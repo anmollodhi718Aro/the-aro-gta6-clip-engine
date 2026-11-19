@@ -4,6 +4,7 @@ import csv
 import json
 import tempfile
 import unittest
+from types import SimpleNamespace
 from pathlib import Path
 from unittest.mock import patch
 
@@ -64,7 +65,13 @@ class BatchRenderTests(unittest.TestCase):
             run_batch(self.csv_path, self.media, self.root / "out", {1}, execute=True)
 
     def test_execution_calls_renderer_only_for_approved_renderable_rows(self) -> None:
-        with patch("backend.app.batch_render.render_clip") as render:
+        with patch("backend.app.batch_render.render_clip") as render, patch(
+            "backend.app.batch_render.probe_media",
+            side_effect=[
+                SimpleNamespace(duration_seconds=15.0),
+                SimpleNamespace(duration_seconds=10.0),
+            ],
+        ):
             result = run_batch(
                 self.csv_path, self.media, self.root / "out", {1, 2, 3},
                 execute=True, rights_confirmed=True, media_duration_seconds=100.0,
@@ -73,8 +80,24 @@ class BatchRenderTests(unittest.TestCase):
         self.assertEqual([item["status"] for item in result], ["rendered", "blocked", "rendered"])
         self.assertTrue(all(call.kwargs["rights_confirmed"] for call in render.call_args_list))
 
+    def test_output_duration_mismatch_marks_render_as_failed(self) -> None:
+        with patch("backend.app.batch_render.render_clip"), patch(
+            "backend.app.batch_render.probe_media",
+            return_value=SimpleNamespace(duration_seconds=12.0),
+        ):
+            result = run_batch(
+                self.csv_path, self.media, self.root / "bad-output", {1},
+                execute=True, rights_confirmed=True, media_duration_seconds=100.0,
+            )
+        self.assertEqual(result[0]["status"], "failed")
+        self.assertIn("does not match selected range", result[0]["message"])
+        self.assertEqual(batch_exit_code(result), 1)
+
     def test_vertical_option_is_recorded_and_forwarded_to_renderer(self) -> None:
-        with patch("backend.app.batch_render.render_clip") as render:
+        with patch("backend.app.batch_render.render_clip") as render, patch(
+            "backend.app.batch_render.probe_media",
+            return_value=SimpleNamespace(duration_seconds=15.0),
+        ):
             result = run_batch(
                 self.csv_path, self.media, self.root / "vertical-out", {1},
                 execute=True, rights_confirmed=True, media_duration_seconds=100.0,
@@ -85,7 +108,10 @@ class BatchRenderTests(unittest.TestCase):
         self.assertTrue(render.call_args.kwargs["vertical"])
 
     def test_each_execution_uses_a_new_run_folder(self) -> None:
-        with patch("backend.app.batch_render.render_clip"):
+        with patch("backend.app.batch_render.render_clip"), patch(
+            "backend.app.batch_render.probe_media",
+            return_value=SimpleNamespace(duration_seconds=15.0),
+        ):
             first = run_batch(self.csv_path, self.media, self.root / "out", {1},
                               execute=True, rights_confirmed=True, media_duration_seconds=100.0, run_id="run-one")
             second = run_batch(self.csv_path, self.media, self.root / "out", {1},
@@ -95,7 +121,10 @@ class BatchRenderTests(unittest.TestCase):
         self.assertNotEqual(first[0]["output_path"], second[0]["output_path"])
 
     def test_existing_run_folder_is_never_reused(self) -> None:
-        with patch("backend.app.batch_render.render_clip"):
+        with patch("backend.app.batch_render.render_clip"), patch(
+            "backend.app.batch_render.probe_media",
+            return_value=SimpleNamespace(duration_seconds=15.0),
+        ):
             run_batch(self.csv_path, self.media, self.root / "out", {1},
                       execute=True, rights_confirmed=True, media_duration_seconds=100.0, run_id="same-run")
             with self.assertRaisesRegex(FileExistsError, "already exists"):
