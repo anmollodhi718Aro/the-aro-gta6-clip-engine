@@ -36,7 +36,8 @@ Creator-authorized GTA 6 source discovery and event analysis, candidate generati
 
 - `backend/app/manual_clip.py`: validates human-selected timestamps and creates renderer-compatible CSV.
 - `backend/app/batch_render.py`: dry-run-first batch render, explicit row approvals, local-media identity and retry handling.
-- `backend/app/clipping.py`: local FFmpeg rendering, finite timestamp validation, temporary output and no-overwrite publication; optional full-frame 9:16 presentation.
+- `backend/app/clipping.py`: local FFmpeg rendering, finite timestamp validation, temporary output, FFprobe validation before publication, and no-overwrite finalization; optional full-frame 9:16 presentation.
+- `backend/app/render_validation.py`: verifies non-empty output, readable video stream, finite duration, duration tolerance, and exact 1080x1920 vertical dimensions before the temporary MP4 can be published.
 - `backend/app/media_probe.py`: local FFprobe source-media preflight.
 - `backend/app/clip_pack.py`, `clock_sync.py`, candidate scoring and pipeline modules: authorized chat-to-timestamp review workflow.
 - `START_CLIPPING_TODAY.bat`, `scripts/manual_clip_wizard.ps1`, `docs/MANUAL_CLIPPING.md`, `docs/FIRST_CLIP_TODAY.md`: Windows/manual first-clip flow.
@@ -63,7 +64,7 @@ Creator-authorized GTA 6 source discovery and event analysis, candidate generati
 | Manual clip input | IMPLEMENTED in selected baseline | `manual_clip.py` and documented workflow inspected |
 | Batch FFmpeg renderer | IMPLEMENTED in selected baseline | `batch_render.py` and `clipping.py` inspected |
 | Source media duration preflight | IMPLEMENTED in selected baseline | `media_probe.py` imported by batch renderer |
-| Post-render FFprobe acceptance | NOT VERIFIED | PR #60 contains separate work; not integrated or executed here |
+| Post-render FFprobe acceptance | IMPLEMENTED; CI PENDING | Integrated compatible validation logic into this workstream; exact-head CI still required; real-media verification remains separate |
 | Creator permission foundation | IMPLEMENTED on PR #65 | Synthetic adapter contract; production provider auth absent |
 | Owner approval foundation | IMPLEMENTED on PR #65 | Immutable approval object and publish permission gate; no persistent UI/store |
 | Python tests | TESTED | Exact-head CI run `44631339620`: `Ran 249 tests`; `OK (skipped=1)` |
@@ -92,7 +93,7 @@ Earlier runs did fail before exposing runner steps. This workstream obtained a f
 - Workstream: ARO-ZERO-ONE
 - Branch: `workstream/aro-zero-one-clipping-first-2026-11-20`
 - Starting SHA: `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`
-- Latest implementation/tested SHA: `bcd023810ccea625ffebbcbb81d6e8598310b83f`; subsequent handoff/registry commits are documentation-only and are tracked by PR #66.
+- Latest implementation SHA before documentation refresh: `02527cfdc978e085a61373146bdaa07249eec746`; includes post-render FFprobe validation integration and regression tests. Exact-head CI run is pending.
 - PR: [#66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66)
 - Changes: canonical handoff plus preservation of the existing chat/workstream registry, startup prompt and consolidation audit.
 - Tests: 249 unit tests executed; all passed; 1 skipped.
