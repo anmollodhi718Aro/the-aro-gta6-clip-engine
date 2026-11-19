@@ -1,0 +1,73 @@
+# YouTube OAuth Upload Adapter
+
+This is an optional, explicit-approval upload path for a local video file. It uses the official YouTube Data API v3 and a loopback desktop OAuth flow. It does not access other creators' video bytes or download streams.
+
+## 1. Set up Google OAuth locally
+
+1. Create or select a Google Cloud project owned/authorized by the channel owner.
+2. Enable **YouTube Data API v3** for that project.
+3. Configure the OAuth consent screen and add the appropriate test users if the app is in testing mode.
+4. Create an OAuth client with application type **Desktop app**.
+5. Download the client JSON and save it locally as `client_secret.json` in the repository root, or pass another path using `--client-secrets`.
+6. Do not commit this file. The repository ignores `client_secret*.json`, `token.json`, and local state.
+
+Install the optional uploader dependencies:
+
+```bash
+pip install -e ".[youtube-upload]"
+```
+
+The uploader requests only the `youtube.upload` OAuth scope. On first use, it opens a loopback browser flow at 127.0.0.1 and stores a local token file with restricted permissions where supported.
+
+## 2. Create a rights preflight report
+
+Use a structured content pack and the same local rights database used by THE ARO Studio:
+
+```bash
+python -m backend.app.content_preflight output/gta6_short.json \
+  --rights-db aro_studio_data/source_rights.sqlite3 \
+  --platform youtube \
+  --output output/preflight_report.json
+```
+
+A report must be `ready_for_human_review` and contain no blocking errors. This checks stored permission metadata only; the channel owner must still verify the underlying evidence and all embedded rights.
+
+## 3. Dry-run upload metadata (default)
+
+```bash
+python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
+  --rights-report output/preflight_report.json \
+  --title "THE ARO GTA 6 Highlight" \
+  --description "Original THE ARO commentary and analysis." \
+  --tags "GTA6,GTAVI,THEARO" \
+  --privacy private \
+  --not-made-for-kids
+```
+
+No API upload occurs unless `--upload` is supplied. The uploader requires an explicit audience declaration using exactly one of `--made-for-kids` or `--not-made-for-kids`.
+
+## 4. Perform an explicitly approved upload
+
+Only after reviewing the exact finished file, all source permissions, attribution/disclosures, title, description and audience declaration:
+
+```bash
+python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
+  --rights-report output/preflight_report.json \
+  --title "THE ARO GTA 6 Highlight" \
+  --description "Original THE ARO commentary and analysis." \
+  --tags "GTA6,GTAVI,THEARO" \
+  --privacy private \
+  --not-made-for-kids \
+  --upload --owner-approved --confirm-rights
+```
+
+The default privacy setting is private. Choose unlisted/public only after checking the final video and channel settings. The upload flags are explicit engineering gates; they do not guarantee legal clearance, platform acceptance, copyright safety, or monetization.
+
+## Limits
+
+- The source file must already exist locally and be authorized for this use.
+- The adapter never downloads or extracts YouTube or Kick livestream video.
+- A YouTube API key is not a substitute for the OAuth upload scope.
+- OAuth client secrets and refresh tokens must remain local and out of Git.
+- No scheduling or automatic posting is implemented; each upload is a deliberate CLI action.
+- The owner must supply the correct made-for-kids declaration. Do not guess.

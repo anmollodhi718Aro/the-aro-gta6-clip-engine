@@ -2,9 +2,17 @@ name: Python CI
 
 on:
   push:
-    branches: [main]
+    branches: ["main"]
   pull_request:
-    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+
+# Pull-request updates supersede earlier runs for the same PR.
+# Feature/integration branches are tested through their PR event, avoiding
+# a duplicate push-triggered run for every commit.
+concurrency:
+  group: gta6-python-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -12,6 +20,7 @@ permissions:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -20,6 +29,6 @@ jobs:
         with:
           python-version: "3.11"
       - name: Compile source
-        run: python -m compileall -q backend tests
+        run: python -m compileall -q backend tests THE_ARO_STUDIO.py
       - name: Run unit tests
         run: python -m unittest discover -s tests -v

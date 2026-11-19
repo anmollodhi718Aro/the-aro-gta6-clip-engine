@@ -16,6 +16,8 @@
 - event batch to candidate list
 - candidate list to human review state
 - authorized asset check to render-job request
+- manually selected local time ranges to batch-render CSV
+- one-command analysis, measured clock mapping, candidate scoring and dry-run review pack
 
 ### End-to-end tests
 Use synthetic events and a short, owned or explicitly authorized sample video. Confirm that the workflow creates a candidate clip plan and does not publish anything.
@@ -44,3 +46,8 @@ Do not include real user tokens, private chat archives, or copyrighted footage w
 - known limitations are documented
 
 A green CI run only proves the checks that actually ran. It does not prove live-source reliability or production readiness.
+
+
+## End-to-end synthetic smoke test
+
+`tests/test_end_to_end_pipeline.py` exercises the local path from synthetic permission-gated chat events through spike detection, measured multi-anchor mapping, clip-pack export, explainable quality scoring, and batch-render dry-run. It uses a placeholder local file and mocks the renderer, so it does not require real GTA footage, FFmpeg, credentials, network access, or upload permissions.

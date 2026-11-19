@@ -1,0 +1,21 @@
+{
+  "anchors": [
+    {
+      "source_id": "synthetic-authorized-stream",
+      "chat_time": "2026-11-19T12:00:00+00:00",
+      "media_seconds": 5.0
+    },
+    {
+      "source_id": "synthetic-authorized-stream",
+      "chat_time": "2026-11-19T12:01:00+00:00",
+      "media_seconds": 65.0
+    },
+    {
+      "source_id": "synthetic-authorized-stream",
+      "chat_time": "2026-11-19T12:02:00+00:00",
+      "media_seconds": 125.0
+    }
+  ],
+  "max_residual_seconds": 1.0,
+  "max_drift_ppm": 1000.0
+}
