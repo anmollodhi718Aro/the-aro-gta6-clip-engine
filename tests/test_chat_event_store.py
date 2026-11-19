@@ -40,35 +40,39 @@ class ChatEventStoreTests(unittest.TestCase):
         self.assertEqual(self.store.persist([self.event, other]).inserted, 2)
 
     def test_timezone_equivalent_duplicate_is_idempotent(self):
-        self.store.persist([self.event])
-        equivalent_instant = ChatEvent(
-            "event-1", "video-1",
-            datetime(2026, 11, 18, 17, 30, tzinfo=timezone(timedelta(hours=5, minutes=30))),
-            "hello",
-        )
-        result = self.store.persist([equivalent_instant])
+        # Simulate a row written by the previous version before UTC normalization.
+        with self.store._connect() as db:
+            db.execute(
+                "INSERT INTO chat_events (source_id, event_id, timestamp, text, ingested_at) "
+                "VALUES (?, ?, ?, ?, ?)",
+                ("video-1", "event-1", "2026-11-18T17:30:00+05:30", "hello",
+                 "2026-11-18T12:00:00+00:00"),
+            )
+        result = self.store.persist([self.event])
         self.assertEqual((result.inserted, result.duplicates), (0, 1))
         stored = self.store.list_events(
             "video-1"
         )[0]
         self.assertEqual(stored.timestamp.utcoffset(), timedelta(0))
 
-    def test_events_list_instant_order_across_timezones(self):
-        later = ChatEvent(
-            "event-later", "video-1",
-            datetime(2026, 11, 18, 18, 0, tzinfo=timezone(timedelta(hours=5, minutes=30))),
-            "later",
-        )
-        earlier = ChatEvent(
-            "event-earlier", "video-1",
-            datetime(2026, 11, 18, 12, 0, tzinfo=timezone.utc),
-            "earlier",
-        )
-        self.store.persist([later, earlier])
+    def test_events_list_instant_order_for_legacy_timezone_offsets(self):
+        # The later instant sorts first as text; parsed UTC ordering must win.
+        with self.store._connect() as db:
+            db.executemany(
+                "INSERT INTO chat_events (source_id, event_id, timestamp, text, ingested_at) "
+                "VALUES (?, ?, ?, ?, ?)",
+                [
+                    ("video-1", "event-later", "2026-11-18T07:30:00-05:00", "later",
+                     "2026-11-19T00:00:00+00:00"),
+                    ("video-1", "event-earlier", "2026-11-18T12:00:00+00:00", "earlier",
+                     "2026-11-19T00:00:00+00:00"),
+                ],
+            )
         listed = self.store.list_events(
             "video-1"
         )
         self.assertEqual([event.event_id for event in listed], ["event-earlier", "event-later"])
+
     def test_batch_callback_helper(self):
         class Batch:
             events = (self.event,)
