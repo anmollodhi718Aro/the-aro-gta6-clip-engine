@@ -82,3 +82,19 @@
 ### Final branch-tip reconciliation
 - Registry update begins from branch head `e54d80e3d848c1df3def7ab2031c3a6cc18d3e24`; this is the docs-only ARO-CHAT-0007 update that records the successful PR CI evidence.
 - Last successful PR CI run remains `44632671652`, on merge ref `c04fee2179f725212c50f4ce9dcb17b9092d14db`, which incorporated implementation head `6c5d0fd2228da963fc61c39403645e347a4cd3af`. The two subsequent commits in this session are documentation/PR-description updates, not renderer code changes; they have not been separately rerun in CI.
+
+
+## ARO-CHAT-0008 continuation record (2026-11-20)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0008 | ARO-CHAT-0008 | ARO-ZERO-ONE (continuation) | Re-audit current PR #66, reconcile current branch SHA against renderer CI, verify FFprobe forwarding, and record first-real-clip blocker | `workstream/aro-zero-one-clipping-first-2026-11-20` / [PR #66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66) | IMPLEMENTED (audit/docs); renderer code CI_VERIFIED on tested integration ref at `6c5d0fd2228da963fc61c39403645e347a4cd3af`; 257 passed, 1 skipped; current documentation-only tip has no separate run; WINDOWS_NOT_VERIFIED; REAL_MEDIA_NOT_VERIFIED | Current branch head `3e37578b46264b6d2c3a61d83e7d1c74ff943fe0`; run [44632671652](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44632671652); 18 commits after tested renderer SHA touch only this handoff and registry |
+
+### ARO-CHAT-0008 evidence notes
+- ARO-CHAT-0007 was already present in the registry; this continuation therefore uses ARO-CHAT-0008 and does not overwrite the earlier attribution.
+- Live compare confirms Option A and Option B share merge base `625425987b8381c5a7d16313f5fbb96abcfcff21`; Option B is 1 commit ahead and 4 behind Option A. Option A remains the selected clipping-first base.
+- PR #66 remains open and targets `integration/release-candidate`; no merge, retarget, close, or force-push was performed.
+- The 18 commits after renderer-tested SHA `6c5d0fd2228da963fc61c39403645e347a4cd3af` affect only `docs/PROJECT_HANDOFF.md` and `docs/CHAT_WORKSTREAM_REGISTRY.md`; source and tests are unchanged.
+- Run `44632671652` completed successfully: Python 3.11.18, compileall passed, 258 tests run, 257 passed and 1 skipped. This is CI evidence for the tested renderer implementation, not Windows or real-media evidence.
+- Batch rendering forwards the selected `ffprobe_binary` to source probing and post-render `render_clip`; `tests/test_batch_render.py` includes a custom-FFprobe forwarding regression test.
+- The remaining real-clip blocker is an expressly authorized GTA 6 recording/export/media handoff. No such media is present in the repository audit context.
