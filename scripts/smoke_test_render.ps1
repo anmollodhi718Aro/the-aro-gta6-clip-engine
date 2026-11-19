@@ -83,14 +83,22 @@ try {
         if ($rendered.Count -ne 1) { throw "Expected exactly one rendered $mode clip in the report." }
         $output = $rendered[0].output_path
         if (-not (Test-Path -LiteralPath $output -PathType Leaf)) { throw "Rendered MP4 is missing: $output" }
+        $outputItem = Get-Item -LiteralPath $output
+        if ($outputItem.Length -le 0) { throw "Rendered MP4 is empty: $output" }
 
         $probeText = & ffprobe -v error -show_entries "format=duration:stream=codec_type,width,height" -of json $output
         if ($LASTEXITCODE -ne 0) { throw "ffprobe could not inspect the $mode MP4." }
         $metadata = $probeText | ConvertFrom-Json
         $video = @($metadata.streams | Where-Object { $_.codec_type -eq "video" })
         if ($video.Count -lt 1) { throw "$mode output has no video stream." }
-        $duration = [double]$metadata.format.duration
-        if ($duration -le 0 -or $duration -gt 7) { throw "$mode duration is outside the expected six-second range." }
+        $duration = 0.0
+        $durationText = [string]$metadata.format.duration
+        if (-not [double]::TryParse($durationText, [System.Globalization.NumberStyles]::Float,
+            [System.Globalization.CultureInfo]::InvariantCulture, [ref]$duration) -or
+            [double]::IsNaN($duration) -or [double]::IsInfinity($duration) -or
+            $duration -le 0 -or $duration -gt 7) {
+            throw "$mode duration is not finite and positive or is outside the expected six-second range."
+        }
 
         if ($mode -eq "vertical" -and ($video[0].width -ne 1080 -or $video[0].height -ne 1920)) {
             throw "Vertical output must be 1080x1920; got $($video[0].width)x$($video[0].height)."
