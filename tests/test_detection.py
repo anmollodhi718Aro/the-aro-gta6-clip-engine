@@ -39,8 +39,7 @@ class DetectionTests(unittest.TestCase):
         return events
 
     def test_detects_a_clear_spike(self) -> None:
-        events = self.make_events([2, 2, 2, 9])
-        candidates = detect_chat_spikes(events, self.permission, self.config)
+        candidates = detect_chat_spikes(self.make_events([2, 2, 2, 9]), self.permission, self.config)
         self.assertEqual(len(candidates), 1)
         self.assertEqual(candidates[0].peak_message_count, 9)
         self.assertGreater(candidates[0].score, 50)
@@ -49,6 +48,24 @@ class DetectionTests(unittest.TestCase):
     def test_does_not_flag_normal_traffic(self) -> None:
         candidates = detect_chat_spikes(self.make_events([2, 2, 2, 3]), self.permission, self.config)
         self.assertEqual(candidates, [])
+
+    def test_detects_minimum_count_when_above_relative_threshold(self) -> None:
+        candidates = detect_chat_spikes(self.make_events([1, 1, 1, 5]), self.permission, self.config)
+        self.assertEqual(len(candidates), 1)
+        self.assertEqual(candidates[0].peak_message_count, 5)
+
+    def test_duplicate_delivery_does_not_inflate_spike(self) -> None:
+        events = self.make_events([2, 2, 2, 5])
+        repeated = events + [events[-1], events[-1]]
+        candidates = detect_chat_spikes(repeated, self.permission, self.config)
+        self.assertEqual(len(candidates), 1)
+        self.assertEqual(candidates[0].peak_message_count, 5)
+
+    def test_conflicting_duplicate_id_is_rejected(self) -> None:
+        event = ChatEvent("same-id", "sample-stream", self.start, "first")
+        conflict = ChatEvent("same-id", "sample-stream", self.start + timedelta(seconds=1), "second")
+        with self.assertRaisesRegex(ValueError, "conflicting duplicate"):
+            detect_chat_spikes([event, conflict], self.permission, self.config)
 
     def test_rejects_revoked_permission(self) -> None:
         revoked = PermissionRecord(
@@ -69,6 +86,17 @@ class DetectionTests(unittest.TestCase):
     def test_rejects_timezone_naive_timestamps(self) -> None:
         with self.assertRaises(ValueError):
             ChatEvent("naive", "sample-stream", datetime(2026, 11, 18, 12, 0, 0))
+
+    def test_rejects_expired_permission(self) -> None:
+        expired = PermissionRecord(
+            source_id="sample-stream",
+            granted_by="test-creator",
+            scopes=frozenset({"analyze_chat"}),
+            granted_at=self.start - timedelta(minutes=2),
+            expires_at=self.start - timedelta(seconds=1),
+        )
+        with self.assertRaises(PermissionError):
+            detect_chat_spikes(self.make_events([2]), expired, self.config)
 
 
 if __name__ == "__main__":

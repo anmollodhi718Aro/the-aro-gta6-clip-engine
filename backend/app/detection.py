@@ -27,12 +27,28 @@ class DetectorConfig:
             raise ValueError("clip padding cannot be negative")
 
 
+def _deduplicate_events(events: list[ChatEvent]) -> list[ChatEvent]:
+    """Make ingestion idempotent; reject an ID reused for different event data."""
+    by_id: dict[str, ChatEvent] = {}
+    for event in events:
+        previous = by_id.get(event.event_id)
+        if previous is None:
+            by_id[event.event_id] = event
+        elif previous != event:
+            raise ValueError(f"conflicting duplicate event_id: {event.event_id}")
+    return sorted(by_id.values(), key=lambda event: (event.timestamp, event.event_id))
+
+
 def detect_chat_spikes(
     events: list[ChatEvent],
     permission: PermissionRecord,
     config: DetectorConfig | None = None,
 ) -> list[CandidateMoment]:
-    """Return explainable spike candidates only when chat-analysis permission is valid."""
+    """Return explainable spike candidates only when chat-analysis permission is valid.
+
+    Duplicate identical event IDs are ignored so retrying an event batch cannot
+    inflate the chat rate. Reusing an ID for different data is rejected.
+    """
     config = config or DetectorConfig()
     if not events:
         return []
@@ -42,7 +58,10 @@ def detect_chat_spikes(
     if any(not permission.allows("analyze_chat", event.timestamp) for event in events):
         raise PermissionError("source permission is missing, expired, revoked, or out of scope")
 
-    ordered = sorted(events, key=lambda event: event.timestamp)
+    ordered = _deduplicate_events(events)
+    if not ordered:
+        return []
+
     counts: Counter[int] = Counter()
     for event in ordered:
         bucket = int(event.timestamp.timestamp()) // config.window_seconds
@@ -56,8 +75,8 @@ def detect_chat_spikes(
         current_count = counts.get(bucket, 0)
         previous = [counts.get(index, 0) for index in range(bucket - config.baseline_windows, bucket)]
         baseline = sum(previous) / config.baseline_windows
-        threshold = max(config.min_messages, baseline * config.spike_multiplier)
-        if current_count < config.min_messages or current_count <= threshold:
+        relative_threshold = baseline * config.spike_multiplier
+        if current_count < config.min_messages or current_count <= relative_threshold:
             continue
 
         peak_start = datetime.fromtimestamp(bucket * config.window_seconds, tz=timezone.utc)
@@ -66,9 +85,10 @@ def detect_chat_spikes(
         ratio = current_count / max(baseline, 1.0)
         score = min(100, max(0, round(50 + ratio * 10)))
         explanation = (
-            f"{current_count} chat events in {config.window_seconds}s; "
+            f"{current_count} unique chat events in {config.window_seconds}s; "
             f"previous {config.baseline_windows}-window average was {baseline:.2f}; "
-            f"spike threshold was {threshold:.2f}."
+            f"relative spike threshold was {relative_threshold:.2f}; "
+            f"minimum event count was {config.min_messages}."
         )
         candidates.append(CandidateMoment(
             source_id=permission.source_id,
