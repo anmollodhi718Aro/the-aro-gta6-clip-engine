@@ -64,6 +64,16 @@ class BatchRenderTests(unittest.TestCase):
         self.assertEqual([item["status"] for item in result], ["rendered", "blocked", "rendered"])
         self.assertTrue(all(call.kwargs["rights_confirmed"] for call in render.call_args_list))
 
+    def test_vertical_option_is_forwarded_to_renderer(self) -> None:
+        with patch("backend.app.batch_render.render_clip") as render:
+            result = run_batch(
+                self.csv_path, self.media, self.root / "out", {1},
+                execute=True, rights_confirmed=True, media_duration_seconds=100.0,
+                vertical=True,
+            )
+        self.assertEqual(result[0]["status"], "rendered")
+        self.assertTrue(render.call_args.kwargs["vertical"])
+
     def test_each_execution_uses_a_new_run_folder(self) -> None:
         with patch("backend.app.batch_render.render_clip"):
             first = run_batch(self.csv_path, self.media, self.root / "out", {1},
