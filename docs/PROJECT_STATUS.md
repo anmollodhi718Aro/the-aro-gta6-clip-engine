@@ -29,6 +29,7 @@ Last reviewed: 2026-11-19
 - [x] Local JSON analysis CLI
 - [x] UTC chat candidate timestamps
 - [x] Measured media-origin mapping to local file offsets
+- [x] Multi-anchor clock calibration with residual/drift validation and no extrapolation
 - [x] CSV and Markdown candidate packs with safe output handling
 - [x] Explainable candidate review score with component reasons
 - [x] Local FFmpeg rendering with duration/timeouts, explicit rights confirmation and no-overwrite publication
@@ -54,6 +55,7 @@ Last reviewed: 2026-11-19
 - [x] Dashboard visual preflight uses the shared rights registry
 - [x] Seven-day evidence-backed creator activity ranking CLI
 - [x] Atomic creator-ranking report output
+- [x] Offline creator watchlist dashboard with escaped fields and HTTPS-only evidence links
 - [x] Subtitle Studio for supplied timed transcripts and quality checks
 - [x] Optional official YouTube OAuth upload CLI with dry-run default, local token storage, exact rights-report gate, owner approval, and explicit audience declaration
 
@@ -81,7 +83,7 @@ A test file being present is not proof it passed. Run the exact suite on the lat
 - [ ] Packaged Windows desktop executable/installer
 - [ ] Automatic speech-to-text; Subtitle Studio requires supplied timed transcripts
 - [ ] Automatic visual highlight recognition from video frames/audio
-- [ ] Automatic chat-to-video synchronization; operator must measure media origin
+- [ ] Automatic synchronization marker detection; current mapping requires manually measured origin or three+ manually matched anchors
 - [ ] Official access to video-file bytes; YouTube chat APIs do not provide VOD files
 - [ ] Persistent cloud workers, distributed queue, remote storage or 24/7 runtime
 - [ ] Public multi-user authentication, privacy policy, terms and production security review
