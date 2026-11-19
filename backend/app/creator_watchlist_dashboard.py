@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import html
 import json
+import math
 import sys
 from pathlib import Path
 from urllib.parse import urlparse
@@ -27,15 +28,25 @@ def load_ranking_report(path: Path) -> dict[str, object]:
     rows = payload.get("rankings")
     if not isinstance(rows, list):
         raise ValueError("ranking report must contain a rankings array")
+    period = payload.get("period_days", 7)
+    if type(period) is not int or period <= 0:
+        raise ValueError("period_days must be a positive integer")
     for index, row in enumerate(rows):
         if not isinstance(row, dict):
             raise ValueError(f"rankings[{index}] must be an object")
         for field in ("rank", "creator", "views_7d", "live_streams_7d"):
             if field not in row:
                 raise ValueError(f"rankings[{index}] is missing {field}")
+        if type(row["rank"]) is not int or row["rank"] < 1:
+            raise ValueError(f"rankings[{index}].rank must be a positive integer")
+        if not isinstance(row["creator"], str) or not row["creator"].strip():
+            raise ValueError(f"rankings[{index}].creator must be a non-empty string")
         for field in ("views_7d", "live_streams_7d", "peak_concurrent_viewers"):
-            if field in row and (isinstance(row[field], bool) or not isinstance(row[field], (int, float)) or row[field] < 0):
-                raise ValueError(f"rankings[{index}].{field} must be a non-negative number")
+            if field not in row:
+                continue
+            value = row[field]
+            if type(value) is not int or value < 0:
+                raise ValueError(f"rankings[{index}].{field} must be a non-negative integer")
     return payload
 
 
