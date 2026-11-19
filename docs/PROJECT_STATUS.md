@@ -71,7 +71,7 @@ Last reviewed: 2026-11-19
 
 ## Test inventory
 
-The integrated branch contains 36 files under `tests/` (35 Python test modules plus `tests/README.md` and one test-support file), including coverage for:
+The integrated branch contains 36 files under `tests/` (35 Python test modules plus `tests/README.md`), including coverage for:
 - Core event models and detection
 - Consent registry, chat event storage and quota scheduler
 - YouTube adapter, workers, stream ingestion and multi-source lifecycle
