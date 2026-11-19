@@ -21,7 +21,7 @@ python -m backend.app.quick_clip "recordings/gta_gameplay.mp4" \
   --confirm-rights
 ```
 
-Replace the example paths and times with your own recording and selected moment.
+Windows PowerShell users can run the same command on one line:\n\n```powershell\npy -3.11 -m backend.app.quick_clip "recordings\\gta_gameplay.mp4" --start 42.5 --end 68 --output "clips\\gta_moment_001.mp4" --confirm-rights\n```\n\nReplace the example paths and times with your own recording and selected moment.
 Times are seconds from the beginning of that exact file. The command only accepts
 local files, limits each clip to 180 seconds, and refuses to overwrite an output.
 The explicit confirmation is for a recording you own or are authorized to edit.
