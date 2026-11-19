@@ -2,6 +2,7 @@
 from __future__ import annotations
 import os
 from collections.abc import Iterator
+from datetime import datetime, timezone
 from typing import Any
 
 GRPC_TARGET = "dns:///youtube.googleapis.com:443"
@@ -39,9 +40,31 @@ def make_stream_factory(*, api_key: str | None = None, oauth_token: str | None =
             yield from stub.StreamList(request, metadata=metadata)
     return stream_factory
 
+def _timestamp_to_iso(value: Any) -> str:
+    """Normalize REST strings and protobuf Timestamp values to timezone-aware ISO."""
+    if isinstance(value, datetime):
+        if value.tzinfo is None or value.utcoffset() is None:
+            raise ValueError("published_at datetime must be timezone-aware")
+        return value.astimezone(timezone.utc).isoformat()
+    to_datetime = getattr(value, "ToDatetime", None)
+    if callable(to_datetime):
+        converted = to_datetime(tzinfo=timezone.utc)
+        if converted.tzinfo is None or converted.utcoffset() is None:
+            raise ValueError("protobuf timestamp conversion did not include a timezone")
+        return converted.astimezone(timezone.utc).isoformat()
+    to_json_string = getattr(value, "ToJsonString", None)
+    if callable(to_json_string):
+        return str(to_json_string())
+    if isinstance(value, str):
+        return value
+    raise ValueError("published_at must be an ISO string or protobuf Timestamp")
+
+
 def response_to_chat_events(response: Any, video_id: str) -> tuple:
     """Convert text-bearing protobuf chat items into validated ChatEvent objects."""
     from .models import ChatEvent
+    if not isinstance(video_id, str) or not video_id.strip():
+        raise ValueError("video_id is required")
     events = []
     for item in getattr(response, "items", ()):
         snippet = getattr(item, "snippet", None)
@@ -52,5 +75,5 @@ def response_to_chat_events(response: Any, video_id: str) -> tuple:
         message = getattr(snippet, "display_message", "")
         if event_id and published_at and message:
             events.append(ChatEvent(event_id=str(event_id), source_id=video_id,
-                timestamp=str(published_at), text=str(message)))
+                timestamp=_timestamp_to_iso(published_at), text=str(message)))
     return tuple(events)
