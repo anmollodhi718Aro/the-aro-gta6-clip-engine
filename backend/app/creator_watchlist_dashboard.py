@@ -4,7 +4,6 @@ from __future__ import annotations
 import argparse
 import html
 import json
-import math
 import sys
 from pathlib import Path
 from urllib.parse import urlparse
