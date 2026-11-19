@@ -32,6 +32,10 @@ Data defaults:
 - `aro_studio_data/content_packs/`: generated content drafts.
 - `aro_studio_data/preflight_reports/`: preflight reports.
 
+## Start clipping today from a local recording
+
+If you already have an authorized local video but not yet a chat export or OAuth setup, use the manual timestamp workflow in [Manual Clipping Quick Start](docs/MANUAL_CLIPPING.md). It creates a batch-render CSV from selected offsets, runs a dry-run first, and renders only after explicit rights confirmation.
+
 ## End-to-end local workflow
 
 ### 1. Detect chat spikes
