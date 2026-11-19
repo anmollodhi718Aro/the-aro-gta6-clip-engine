@@ -16,6 +16,7 @@ function Read-ClipSeconds([string]$Prompt) {
 Write-Host ""
 Write-Host "THE ARO GTA 6 Clip Engine | Local clip session" -ForegroundColor Cyan
 Write-Host "Use only a recording you own or are authorized to edit and publish."
+Write-Host "Short-form target: each selected clip must be 15-35 seconds."
 Write-Host "You can queue up to 50 moments from the same video in one session."
 Write-Host ""
 
@@ -62,7 +63,10 @@ while ($true) {
     $start = Read-ClipSeconds "Start time in seconds"
     $end = Read-ClipSeconds "End time in seconds"
     if ($start -lt 0 -or $end -le $start) { throw "Clip $number range must satisfy 0 <= start < end." }
-    if (($end - $start) -gt 180) { throw "Clip $number is longer than 180 seconds." }
+    $clipDuration = $end - $start
+    if ($clipDuration -lt 15 -or $clipDuration -gt 35) {
+        throw "Clip $number must be 15-35 seconds for the short-form workflow (selected: $([math]::Round($clipDuration, 2))s)."
+    }
     if ($end -gt $mediaDuration) { throw "Clip $number ends beyond the actual video duration." }
     $note = Read-Host "Moment note (optional)"
     if ([string]::IsNullOrWhiteSpace($note)) { $note = "Manually selected moment; review before sharing." }
