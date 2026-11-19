@@ -33,8 +33,26 @@ jobs:
       - name: Install FFmpeg and FFprobe
         shell: pwsh
         run: |
-          choco install ffmpeg --yes --no-progress
-          if ($LASTEXITCODE -ne 0) { throw "FFmpeg installation failed." }
+          # Chocolatey's community feed can briefly return HTTP 503. Retry the
+          # dependency install with bounded backoff before failing the job.
+          $maxAttempts = 4
+          $installed = $false
+          for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
+            choco install ffmpeg --yes --no-progress --execution-timeout=600
+            $installExitCode = $LASTEXITCODE
+            if ($installExitCode -eq 0) {
+              $installed = $true
+              break
+            }
+            if ($attempt -lt $maxAttempts) {
+              $delaySeconds = 10 * $attempt
+              Write-Warning "FFmpeg install attempt $attempt/$maxAttempts failed (exit $installExitCode). Retrying in $delaySeconds seconds."
+              Start-Sleep -Seconds $delaySeconds
+            }
+          }
+          if (-not $installed) { throw "FFmpeg installation failed after $maxAttempts attempts." }
+          if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) { throw "FFmpeg is not available on PATH after installation." }
+          if (-not (Get-Command ffprobe -ErrorAction SilentlyContinue)) { throw "FFprobe is not available on PATH after installation." }
           ffmpeg -version
           if ($LASTEXITCODE -ne 0) { throw "FFmpeg is unavailable." }
           ffprobe -version
