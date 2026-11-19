@@ -221,3 +221,16 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# THE ARO local runtime state and generated media (never commit)
+aro_studio_data/
+rendered_clips/
+clip_pack/
+output/
+*.sqlite3
+*.sqlite3-journal
+token.json
+token.pickle
+client_secret*.json
+oauth_client*.json
+.secrets/
