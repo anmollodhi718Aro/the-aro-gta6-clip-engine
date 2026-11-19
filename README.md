@@ -1,62 +1,60 @@
 # THE ARO GTA 6 Clip Engine
 
-A creator-first workflow for finding and preparing short highlights from **authorized** GTA 6 livestreams and recordings.
+A creator-first workflow for finding and preparing short highlights from **authorized GTA 6 recordings and streams**.
 
 > This repository is the separate GTA 6 project. It is not the ARO History Engine.
 
 ## Current status
 
-**Stage:** Project foundation and architecture  
-**Not yet implemented:** live monitoring, AI highlight detection, video cutting, dashboard, publishing, or mobile app.
+**Local MVP:** chat-spike candidate detection plus permission-gated FFmpeg clipping from a local video file.  
+**Not yet implemented:** live monitoring, video/audio AI highlight detection, dashboard, platform integrations, or publishing.
 
-The first milestone is a small, testable MVP that can analyze permitted chat/event data, rank candidate moments, and produce a reviewable clip plan. Video processing will only use footage the operator owns or is authorized to use.
+## Implemented
 
-## MVP goals
+1. Permission-gated analysis of chat event JSON.
+2. Deterministic chat-spike detection and reviewable clip decision lists.
+3. Permission-gated local MP4 clipping with FFmpeg.
+4. Optional 9:16, 1080x1920 center-cropped output.
+5. Unit tests and GitHub Actions CI.
 
-1. Register a source and record its permission status.
-2. Ingest supported metadata and chat events through permitted interfaces.
-3. Detect unusual chat activity and score candidate timestamps.
-4. Produce a clip decision list for human review.
-5. Validate an authorized media asset before any local clip rendering.
-6. Keep publishing manual and owner-approved.
+## Start clipping
 
-## Non-goals for the first MVP
+Requirements: Python 3.11+, FFmpeg, and FFprobe.
 
-- No scraping, stream ripping, or bypassing platform controls.
-- No automatic public uploads.
-- No promise of virality, monetization, or unlimited free AI/API usage.
-- No always-on cloud service until cost, quotas, security, and reliability are understood.
+Create a permission file for footage you own or are authorized to use:
 
-## Safety and rights
+```json
+{
+  "source_id": "my-recording",
+  "granted_by": "owner-or-license-attestation",
+  "scopes": ["render_video"],
+  "granted_at": "2026-11-19T00:00:00+05:30"
+}
+```
 
-Only use footage and data that you own or have permission to process. Platform APIs and creator permission do not automatically clear music, game footage, or third-party rights. See [Copyright and Permissions](docs/COPYRIGHT_POLICY.md).
+Render a vertical 35-second clip starting at 45 seconds:
 
-## Repository map
+```bash
+python -m backend.app.clip_cli recording.mp4 output/clip-001.mp4 --start 45 --duration 35 --permission permission.json --confirm-authorized --vertical
+```
 
-- `docs/`: project plan, architecture, security, testing, rights, and deployment notes.
-- `backend/`: backend implementation (planned).
-- `tests/`: automated tests (planned).
+Remove `--vertical` to preserve the source aspect ratio. The command works only with a local file, validates the requested range, requires an explicit authorization attestation, and never publishes automatically.
 
-## Development principles
-
-- GitHub is the source of truth.
-- Build in small, reviewable commits.
-- Keep secrets out of Git; use environment variables and a secrets manager.
-- Test with synthetic data or authorized sample assets first.
-- Automatic recovery may retry bounded, reversible operations. Code changes and production deployment require owner review.
-- Publishing requires an explicit human approval step.
-
-## Getting started
-
-The implementation dependencies and local run instructions will be added with the first executable backend milestone. Start with [the master plan](docs/MASTER_PLAN.md) and [system architecture](docs/SYSTEM_ARCHITECTURE.md).
-
-## Try the synthetic MVP demo
-
-With Python 3.11 or newer, from the repository root:
+For chat-based candidate detection:
 
 ```bash
 python -m backend.app.cli examples/sample_events.json --output clip_plan.json
+```
+
+## Tests
+
+```bash
+python -m compileall -q backend tests
 python -m unittest discover -s tests -v
 ```
 
-The sample contains synthetic timestamps and events only. It should produce one candidate marked `needs_review`; it cannot publish anything. See [MVP usage](docs/MVP_USAGE.md).
+See [MVP usage](docs/MVP_USAGE.md), [copyright and permissions](docs/COPYRIGHT_POLICY.md), and [system architecture](docs/SYSTEM_ARCHITECTURE.md).
+
+## Rights and safety
+
+Only process footage and data you own or are authorized to use. Game footage, music, and third-party material may have separate rights. This project does not scrape, rip streams, bypass platform controls, or automatically publish. See [Copyright and Permissions](docs/COPYRIGHT_POLICY.md).
