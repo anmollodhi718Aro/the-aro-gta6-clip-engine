@@ -247,3 +247,6 @@
 - No completed Windows run or exact-final-head CI result is available in this session. PR-triggered Windows and Ubuntu attempts were cancelled during FFmpeg installation before compilation/tests. The revised Windows workflow is push-triggered on the selected branch; its push-run result was not exposed by the available PR-only workflow query.
 - ARO-CHAT-0014 status: IMPLEMENTED for workflow/test/analytics documentation; TESTED and CI_VERIFIED on new changes NOT CLAIMED; WINDOWS_VERIFIED NOT VERIFIED; REAL_MEDIA_VERIFIED NOT VERIFIED; COMPLETE NOT CLAIMED.
 - No merge, retarget, deployment, upload, public publishing, or main-branch changes. The first GTA 6 clip still requires an expressly authorized media handoff.
+
+
+- Final analytics reconciliation commit: `93135b572ef6e3dc4c40792c11f0de8c24785bcc`; final handoff reference commit: `28d16085657e455ffb450d25457f583aa3607246`. The analytics ledger includes the final handoff/registry evidence; timing and score remain null where not measurable.
