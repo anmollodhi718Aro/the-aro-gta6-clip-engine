@@ -178,6 +178,20 @@ python -m backend.app.subtitle_studio transcript.json \
 
 This does not transcribe audio or synchronize captions automatically. Human review is required.
 
+## Manual clip session (no chat export required)
+
+When you already have a local recording but no synchronized chat data, select time ranges in your editor and create a batch-render CSV:
+
+```bash
+python -m backend.app.manual_clip examples/manual_clips.example.json --output manual_clips.csv
+python -m backend.app.batch_render manual_clips.csv \
+  --media "/path/to/your-authorized-recording.mp4" \
+  --approve 1 \
+  --output-dir rendered_clips
+```
+
+This first command creates review rows only. The batch renderer is dry-run by default. Only after reviewing the selected range and confirming rights should you rerun with `--execute --confirm-rights`. See [Manual Clipping](docs/MANUAL_CLIPPING.md).
+
 ## Test suite
 
 Run all local checks:
