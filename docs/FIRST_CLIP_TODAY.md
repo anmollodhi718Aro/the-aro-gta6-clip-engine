@@ -36,6 +36,8 @@ python -m backend.app.batch_render manual_clips.csv --media "D:\Videos\your-reco
 
 The renderer requires FFmpeg/ffprobe, checks the actual video stream and duration, writes to a unique run folder, and refuses to overwrite. Review the resulting MP4 before any separate upload decision.
 
+For YouTube Shorts/Reels-style output, add `--vertical` to both batch-render commands. The Windows one-click wizard asks whether to use vertical 9:16 output (default: yes); answer `n` to preserve the source aspect ratio.
+
 For more detail, see [Manual Clipping](MANUAL_CLIPPING.md).
 
 ## Optional: chat-assisted workflow
