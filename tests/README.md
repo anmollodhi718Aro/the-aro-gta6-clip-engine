@@ -2,6 +2,8 @@
 
 The suite is designed to run without a GTA recording, YouTube credentials, or network access. Prefer synthetic chat events, temporary SQLite databases, generated JSON fixtures, and mocked subprocess/API boundaries.
 
+`test_end_to_end_pipeline.py` covers synthetic permission-gated chat analysis, measured three-anchor clock mapping, candidate-pack export, explainable scoring, and a non-rendering batch dry-run. It uses a placeholder local file and mocks the renderer; it does not need real GTA footage, FFmpeg, network access, or credentials.
+
 ## Requirements
 
 - Python 3.11 or newer
