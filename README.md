@@ -17,7 +17,7 @@ python -m backend.app.cli examples/sample_events.json --output clip_plan.json
 python -m unittest discover -s tests -v
 ```
 
-## Original THE ARO content workflow
+\n## Make your first clip today\n\nIf you already have a local gameplay recording and know the moment timestamps, you can export a clip without waiting for chat analysis:\n\n```bash\npython -m backend.app.quick_clip "recordings/gta_gameplay.mp4" --start 42.5 --end 68 --output "clips/gta_moment_001.mp4" --confirm-rights\n```\n\nInstall FFmpeg first. Replace the example paths and times with your own. The command accepts local recordings, refuses to overwrite outputs, and requires confirmation that you own or are authorized to edit the recording. It creates a local MP4 only, not a vertical crop or upload. See [Quick Clip Guide](docs/QUICK_CLIP.md).\n\n## Original THE ARO content workflow
 
 Prepare a sourced commentary and editing package from your own research notes:
 
