@@ -173,7 +173,7 @@ GitHub Actions runs the same compile and unittest discovery workflow on pull req
 - YouTube chat access does not provide the stream's video bytes. Video must be separately supplied as a local file with adequate rights.
 - No automatic chat-to-video synchronization: the media-origin offset must be measured.
 - No packaged Windows desktop installer; the current unified app is a local Python HTTP dashboard.
-- No Google OAuth login or YouTube upload adapter is included in this release candidate.
+- The optional OAuth uploader is implemented, but owner-side Google Cloud setup and a private/unlisted end-to-end upload test remain outstanding.
 - No automatic posting, background cloud worker, billing, or monetization guarantee.
 - The creator watchlist only ranks supplied, evidence-backed metrics.
 - A score or successful rights-metadata preflight is not an upload or monetization approval.
