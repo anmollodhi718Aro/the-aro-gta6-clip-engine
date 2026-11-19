@@ -13,16 +13,18 @@ class MediaInfo:
     path: Path
     duration_seconds: float
     format_name: str
+    video_width: int | None = None
+    video_height: int | None = None
 
 
 def probe_media(path: str | Path, *, ffprobe_binary: str = "ffprobe") -> MediaInfo:
-    """Return validated duration metadata for an existing local media file."""
+    """Return validated duration and first-video-stream metadata for a local file."""
     source = Path(path).expanduser().resolve()
     if not source.is_file():
         raise FileNotFoundError(f"local media file does not exist: {source}")
     command = [
         ffprobe_binary, "-v", "error", "-show_entries",
-        "format=duration,format_name:stream=codec_type", "-of", "json", str(source),
+        "format=duration,format_name:stream=codec_type,width,height", "-of", "json", str(source),
     ]
     try:
         result = subprocess.run(
@@ -42,11 +44,19 @@ def probe_media(path: str | Path, *, ffprobe_binary: str = "ffprobe") -> MediaIn
         streams = payload.get("streams", [])
     except (json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
         raise ValueError("ffprobe returned incomplete or invalid media metadata") from exc
-    if not isinstance(streams, list) or not any(
-        isinstance(stream, dict) and stream.get("codec_type") == "video"
-        for stream in streams
-    ):
+    if not isinstance(streams, list):
+        raise ValueError("ffprobe returned an invalid stream list")
+    video_stream = next((
+        stream for stream in streams
+        if isinstance(stream, dict) and stream.get("codec_type") == "video"
+    ), None)
+    if video_stream is None:
         raise ValueError("local media file does not contain a video stream")
+    try:
+        width = int(video_stream["width"]) if video_stream.get("width") is not None else None
+        height = int(video_stream["height"]) if video_stream.get("height") is not None else None
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ValueError("ffprobe returned invalid video dimensions") from exc
     if not math.isfinite(duration) or duration <= 0:
         raise ValueError("media duration must be finite and positive")
-    return MediaInfo(source, duration, format_name)
+    return MediaInfo(source, duration, format_name, width, height)
