@@ -97,3 +97,16 @@ python -m backend.app.batch_render clip_pack/clip_candidates.csv \
 ```
 
 Each run gets a separate folder under `rendered_clips`; pass `--run-id review-01` to choose a safe, unique folder name. The JSON report is written atomically inside that run folder. Inspect the report, then add `--execute --confirm-rights` only when you have reviewed those exact candidates and are authorized to process the exact local media file. Non-renderable rows remain blocked. No downloading, uploading, or publishing is performed. Generate a local read-only HTML review page from a report with `python -m backend.app.review_dashboard rendered_clips/RUN_ID/batch_render_report.json --output rendered_clips/review.html`. See [Human-Approved Batch Rendering](docs/BATCH_RENDERING.md).
+
+
+
+## Explainable candidate review scoring
+
+Add a transparent, non-predictive review score to a measured candidate CSV:
+
+```bash
+python -m backend.app.candidate_quality clip_pack/clip_candidates.csv \
+  --output clip_pack/quality_scored_candidates.csv
+```
+
+The score breaks down chat activity, duration suitability, and measured recording alignment. It is a human-review sorting aid only; it does not predict virality, grant rights, approve clips, or render/publish anything. See [Human-Approved Batch Rendering](docs/BATCH_RENDERING.md).

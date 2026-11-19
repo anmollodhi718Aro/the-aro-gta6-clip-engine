@@ -72,3 +72,17 @@ python -m backend.app.review_dashboard rendered_clips/REPLACE_WITH_RUN_ID/batch_
 ```
 
 Open the generated HTML file locally in a browser. It provides status totals, candidate rows, and simple text/status filters. The page is read-only, has no external assets or network calls, and escapes report text before displaying it. It does not play or upload media. A rendered clip still requires manual review and separate approval before any distribution.
+
+
+## 6. Add explainable review-suitability scores
+
+Score the measured candidate CSV without rendering or changing its approval state:
+
+```bash
+python -m backend.app.candidate_quality clip_pack/clip_candidates.csv \
+  --output clip_pack/quality_scored_candidates.csv
+```
+
+The 0-100 heuristic is composed of chat activity (40 points, capped at 20 messages in the detected peak window), duration suitability (30 points, full credit from 15 to 90 seconds), and measured recording alignment (30 points, only when mapped bounds are renderable). The output retains the original candidate metadata and adds each component plus plain-language reasons.
+
+This score is only a sorting aid for a human reviewer. It does not estimate views or virality, judge entertainment value, verify rights, approve a candidate, or trigger rendering. The existing explicit row approval and rights-confirmation steps still apply.
