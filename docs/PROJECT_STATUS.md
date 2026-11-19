@@ -35,6 +35,8 @@ Last reviewed: 2026-11-19
 - [x] Explainable candidate review score with component reasons
 - [x] Local FFmpeg rendering with duration/timeouts, explicit rights confirmation and no-overwrite publication
 - [x] Local `ffprobe` inspection and pre-render rejection when selected clip bounds exceed actual media duration
+- [x] Manual local clip-session CSV generator compatible with the reviewed batch renderer
+- [x] One-command offline pipeline from permission-gated chat data through calibrated clip pack and quality-scored review CSV
 - [x] Human-approved batch rendering and dry-run default
 - [x] Collision-safe per-run directories and atomic JSON reports
 - [x] Failed-only retry with candidate identity and time-bound verification
@@ -51,6 +53,7 @@ Last reviewed: 2026-11-19
 
 ### Unified Studio and creator research
 - [x] Local THE ARO Studio dashboard
+- [x] Windows PowerShell launcher for the loopback-only Studio dashboard
 - [x] Dashboard-generated content, preflight, clock-calibration and creator-watchlist files use collision-safe no-overwrite publication
 - [x] Dashboard content/creator multi-file outputs roll back only files created by a failed publication attempt
 - [x] Creator watchlist dashboard numeric validation imports and uses finite-number checks
@@ -78,6 +81,7 @@ The integrated branch contains 34 files under `tests/` (33 Python test modules p
 - Candidate scoring
 - Original content studio and rights preflight
 - Source rights registry
+- Manual clip session and end-to-end pipeline
 - Creator watchlist and CLI
 - Subtitle quality
 - Synthetic end-to-end chat-to-candidate-to-scored-review-to-batch-dry-run workflow
