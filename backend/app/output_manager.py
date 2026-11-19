@@ -79,7 +79,7 @@ def write_texts_no_overwrite(files: dict[str | Path, str]) -> tuple[Path, ...]:
 def write_json_no_overwrite(path: str | Path, payload: Any) -> Path:
     """Serialize JSON and publish it without replacing an existing file."""
     target = Path(path).expanduser()
-    write_texts_no_overwrite({target: json.dumps(payload, indent=2, ensure_ascii=False) + "\\n"})
+    write_texts_no_overwrite({target: json.dumps(payload, indent=2, ensure_ascii=False) + "\n"})
     return target
 
 
