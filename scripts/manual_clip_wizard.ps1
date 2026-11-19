@@ -57,6 +57,12 @@ $end = Read-ClipSeconds "Clip end in seconds"
 if ($start -lt 0 -or $end -le $start) { throw "Range must satisfy 0 <= start < end." }
 if (($end - $start) -gt 180) { throw "Clip must be 180 seconds or shorter." }
 if ($end -gt $mediaDuration) { throw "Clip end exceeds the actual video duration." }
+$formatChoice = Read-Host "Create vertical 9:16 Short/Reel output? (Y/n)"
+$renderOptions = @()
+if ([string]::IsNullOrWhiteSpace($formatChoice) -or $formatChoice -match "^(y|yes)$") {
+    $renderOptions = @("--vertical")
+}
+
 $note = Read-Host "Moment note (optional)"
 if ([string]::IsNullOrWhiteSpace($note)) { $note = "Manually selected moment; review before sharing." }
 
@@ -81,7 +87,7 @@ if ($LASTEXITCODE -ne 0) { throw "Clip-plan generation failed." }
 
 Write-Host ""
 Write-Host "[2/3] Running dry-run. No video is rendered..." -ForegroundColor Yellow
-& $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve 1 --output-dir $reportRoot
+& $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve 1 --output-dir $reportRoot @renderOptions
 if ($LASTEXITCODE -ne 0) { throw "Dry-run failed. No render was started." }
 
 Write-Host ""
@@ -94,7 +100,7 @@ if ($confirm -cne "RENDER") {
 
 Write-Host ""
 Write-Host "[3/3] Rendering locally..." -ForegroundColor Green
-& $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve 1 --output-dir $reportRoot --execute --confirm-rights
+& $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve 1 --output-dir $reportRoot @renderOptions --execute --confirm-rights
 if ($LASTEXITCODE -ne 0) { throw "Rendering failed. Inspect the session report: $sessionDir" }
 Write-Host ""
 Write-Host "Done. Watch the MP4 and review all rights before sharing." -ForegroundColor Green
