@@ -53,10 +53,10 @@ def write_texts_no_overwrite(files: dict[str | Path, str]) -> tuple[Path, ...]:
                 prefix=f".{target.name}.", suffix=".tmp", delete=False,
             ) as handle:
                 temporary = Path(handle.name)
+                staged.append((temporary, target))
                 handle.write(content)
                 handle.flush()
                 os.fsync(handle.fileno())
-            staged.append((temporary, target))
 
         for temporary, target in staged:
             os.link(temporary, target)
