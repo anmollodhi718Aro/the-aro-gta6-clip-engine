@@ -29,7 +29,8 @@ Last reviewed: 2026-11-18
 - [x] SQLite quota-aware multi-source scheduler with priority, per-source intervals, and atomic daily quota reservations
 - [x] One-page scheduler-to-ingestion orchestration with consent recheck and persist-before-checkpoint ordering
 - [ ] Continuous scheduler service, live quota calibration, and monitoring
-- [ ] Video/chat clock synchronization
+- [x] Operator-measured video/chat timestamp mapping with bounds validation (manual offset required)
+- [ ] Automatic video/chat clock synchronization and offset calibration
 - [ ] Automatic selection of a valid video cut window from synchronized timestamps
 - [ ] AI-assisted context and highlight scoring
 - [x] Deterministic SRT formatting and caption quality checks from operator-supplied timed transcripts
@@ -48,6 +49,6 @@ Last reviewed: 2026-11-18
 - It only handles publicly accessible live chat via an API key; private account data and OAuth flows are not implemented.
 - A local clip render is not evidence that a creator has granted distribution rights.
 - Chat spike detection finds activity changes, not guaranteed entertaining or viral moments.
-- Chat timestamps cannot be mapped to video offsets without a measured synchronization offset.
+- Chat timestamps can be mapped to video offsets only when an operator supplies a measured offset; automatic synchronization and calibration are not implemented.
 - GitHub Actions is CI, not a persistent 24/7 livestream worker.
 - A green test run only validates the tests that actually ran.
