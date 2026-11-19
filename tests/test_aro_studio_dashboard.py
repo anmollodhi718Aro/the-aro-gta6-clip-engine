@@ -141,3 +141,54 @@ class LocalDataTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LocalRequestGuardTests(unittest.TestCase):
+    def test_accepts_local_same_origin_request(self):
+        self.assertTrue(
+            studio.is_trusted_local_request(
+                "127.0.0.1:8765", "http://127.0.0.1:8765", "same-origin", 8765
+            )
+        )
+
+    def test_accepts_localhost_without_fetch_metadata(self):
+        self.assertTrue(
+            studio.is_trusted_local_request("localhost:8765", "", "", 8765)
+        )
+
+    def test_rejects_remote_host_and_dns_rebinding_port(self):
+        self.assertFalse(
+            studio.is_trusted_local_request("attacker.example:8765", "", "", 8765)
+        )
+        self.assertFalse(
+            studio.is_trusted_local_request("localhost:9999", "", "", 8765)
+        )
+
+    def test_rejects_cross_site_fetch_and_mismatched_origin(self):
+        self.assertFalse(
+            studio.is_trusted_local_request(
+                "localhost:8765", "http://localhost:8765", "cross-site", 8765
+            )
+        )
+        self.assertFalse(
+            studio.is_trusted_local_request(
+                "localhost:8765", "http://attacker.example:8765", "same-origin", 8765
+            )
+        )
+
+    def test_rejects_malformed_host_header(self):
+        self.assertFalse(
+            studio.is_trusted_local_request("localhost:not-a-port", "", "", 8765)
+        )
+
+    def test_csrf_token_must_match(self):
+        self.assertTrue(studio.is_valid_csrf_token("known-token", "known-token"))
+        self.assertFalse(studio.is_valid_csrf_token("wrong-token", "known-token"))
+        self.assertFalse(studio.is_valid_csrf_token("", "known-token"))
+
+    def test_dashboard_embeds_token_in_both_post_forms(self):
+        rendered = studio.page([], [], 0, csrf_token="owner-session-token")
+        self.assertEqual(rendered.count('name="csrf_token"'), 2)
+        self.assertEqual(rendered.count('value="owner-session-token"'), 2)
+
+
