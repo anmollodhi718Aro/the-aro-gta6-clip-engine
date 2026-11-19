@@ -2,21 +2,34 @@ param()
 
 $ErrorActionPreference = "Stop"
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
-$python = Get-Command py -ErrorAction SilentlyContinue
+
+# Prefer an explicit Python 3.11 launcher target. Do not silently select an
+# older default Python just because the Windows py launcher exists.
+$pythonExe = $null
 $pythonArgs = @()
-if ($python) {
-    $pythonExe = $python.Source
-    $pythonArgs = @("-3")
-} else {
+$launcher = Get-Command py -ErrorAction SilentlyContinue
+if ($launcher) {
+    & $launcher.Source -3.11 -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)" *> $null
+    if ($LASTEXITCODE -eq 0) {
+        $pythonExe = $launcher.Source
+        $pythonArgs = @("-3.11")
+    }
+}
+if (-not $pythonExe) {
     $python = Get-Command python -ErrorAction SilentlyContinue
-    if (-not $python) { throw "Python 3.11+ was not found. Install Python and reopen PowerShell." }
-    $pythonExe = $python.Source
+    if ($python) {
+        & $python.Source -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)" *> $null
+        if ($LASTEXITCODE -eq 0) { $pythonExe = $python.Source }
+    }
+}
+if (-not $pythonExe) {
+    throw "Python 3.11+ was not found. Install Python 3.11 or newer and reopen PowerShell."
 }
 
 Push-Location $repoRoot
 try {
-    & $pythonExe @pythonArgs -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)"
-    if ($LASTEXITCODE -ne 0) { throw "Python 3.11 or newer is required." }
+    & $pythonExe @pythonArgs -c "import sys; print('Using Python', sys.version.split()[0])"
+    if ($LASTEXITCODE -ne 0) { throw "Python preflight failed." }
 
     foreach ($tool in @("ffmpeg", "ffprobe")) {
         if (-not (Get-Command $tool -ErrorAction SilentlyContinue)) {
@@ -26,11 +39,30 @@ try {
 
     Write-Host ""
     Write-Host "THE ARO - Guided First Clip" -ForegroundColor Cyan
-    Write-Host "This uses a local recording and manually selected timestamps. It does not download streams or upload anything."
-    $mediaInput = Read-Host "Full path to your authorized local video file"
+    Write-Host "Local recording only. No stream downloads, uploads, or automatic publishing."
+    $mediaInput = Read-Host "Full path to your own or authorized local video file"
     if ([string]::IsNullOrWhiteSpace($mediaInput)) { throw "A video path is required." }
     $media = (Resolve-Path -LiteralPath $mediaInput).Path
     if (-not (Test-Path -LiteralPath $media -PathType Leaf)) { throw "The selected media path is not a file." }
+
+    # Validate the real video stream and duration before accepting timestamps.
+    $videoStream = (& ffprobe -v error -select_streams v:0 -show_entries stream=codec_type -of csv=p=0 $media | Out-String).Trim()
+    if ($LASTEXITCODE -ne 0 -or $videoStream -ne "video") {
+        throw "ffprobe could not find a readable video stream in the selected file."
+    }
+    $durationText = (& ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $media | Out-String).Trim()
+    $mediaDuration = 0.0
+    $durationOk = [double]::TryParse(
+        $durationText,
+        [Globalization.NumberStyles]::Float,
+        [Globalization.CultureInfo]::InvariantCulture,
+        [ref]$mediaDuration
+    )
+    if ($LASTEXITCODE -ne 0 -or -not $durationOk -or [double]::IsNaN($mediaDuration) -or
+        [double]::IsInfinity($mediaDuration) -or $mediaDuration -le 0) {
+        throw "Could not read a finite, positive duration from the selected video."
+    }
+    Write-Host ("Verified video duration: {0:N2} seconds" -f $mediaDuration) -ForegroundColor Gray
 
     $sourceId = Read-Host "Short source ID (Enter to use the video filename)"
     if ([string]::IsNullOrWhiteSpace($sourceId)) { $sourceId = [IO.Path]::GetFileNameWithoutExtension($media) }
@@ -56,8 +88,12 @@ try {
     $end = Read-Seconds "Clip end in seconds (maximum clip length: 180 seconds)"
     if ($end -le $start) { throw "End time must be greater than start time." }
     if (($end - $start) -gt 180) { throw "This project limits each clip to 180 seconds. Choose a shorter range." }
+    if ($end -gt $mediaDuration) {
+        throw ("Clip end ({0:N3}s) exceeds the verified video duration ({1:N3}s)." -f $end, $mediaDuration)
+    }
 
-    $stamp = Get-Date -Format "yyyyMMdd-HHmmss-fff"
+    # Timestamp plus random suffix prevents simultaneous sessions from colliding.
+    $stamp = (Get-Date -Format "yyyyMMdd-HHmmss-fff") + "-" + ([guid]::NewGuid().ToString("N").Substring(0,8))
     $sessionDir = Join-Path $repoRoot "aro_studio_data\manual_sessions"
     $renderRoot = Join-Path $repoRoot "rendered_clips"
     New-Item -ItemType Directory -Force -Path $sessionDir | Out-Null
@@ -115,7 +151,7 @@ try {
     Write-Host "Clip workflow completed. Review the MP4 before sharing." -ForegroundColor Green
     Write-Host "Render report: $renderReport"
     Write-Host "Review page:   $reviewHtml"
-    Start-Process $reviewHtml
+    Start-Process -FilePath $reviewHtml
 }
 finally {
     Pop-Location
