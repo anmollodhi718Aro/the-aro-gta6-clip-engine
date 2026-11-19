@@ -77,15 +77,34 @@ try {
     }
     Write-Host ("Actual video duration: {0:N2} seconds" -f $mediaDuration) -ForegroundColor Gray
 
-    $start = Read-ClipSeconds "Clip start in seconds"
-    $end = Read-ClipSeconds "Clip end in seconds"
-    if ($start -lt 0 -or $end -le $start) { throw "Range must satisfy 0 <= start < end." }
-    if (($end - $start) -gt 180) { throw "Clip must be 180 seconds or shorter." }
-    if ($end -gt $mediaDuration) { throw "Clip end exceeds the actual video duration." }
+    $formatChoice = Read-Host "Create vertical 9:16 Shorts/Reels output? (Y/n)"
+    $renderOptions = @()
+    if ([string]::IsNullOrWhiteSpace($formatChoice) -or $formatChoice -match "^(y|yes)$") {
+        $renderOptions = @("--vertical")
+    }
 
-    $note = Read-Host "Moment note (optional)"
-    if ([string]::IsNullOrWhiteSpace($note)) {
-        $note = "Manually selected moment; review before sharing."
+    $clips = [System.Collections.Generic.List[object]]::new()
+    while ($true) {
+        if ($clips.Count -ge 50) {
+            Write-Host "The 50-clip session limit has been reached." -ForegroundColor Yellow
+            break
+        }
+        $number = $clips.Count + 1
+        Write-Host ""
+        Write-Host ("Clip {0}" -f $number) -ForegroundColor Cyan
+        $start = Read-ClipSeconds "Start time in seconds"
+        $end = Read-ClipSeconds "End time in seconds"
+        if ($start -lt 0 -or $end -le $start) { throw "Clip $number range must satisfy 0 <= start < end." }
+        if (($end - $start) -gt 180) { throw "Clip $number must be 180 seconds or shorter." }
+        if ($end -gt $mediaDuration) { throw "Clip $number ends beyond the actual video duration." }
+
+        $note = Read-Host "Moment note (optional)"
+        if ([string]::IsNullOrWhiteSpace($note)) { $note = "Manually selected moment; review before sharing." }
+        $clips.Add(@{ start_seconds = $start; end_seconds = $end; note = $note })
+
+        if ($clips.Count -ge 50) { break }
+        $more = Read-Host "Add another clip? Type Y for yes, anything else to finish"
+        if ($more -notmatch "^(?i:y)$") { break }
     }
 
     $sessionRoot = Join-Path $repoRoot "manual_clip_sessions"
@@ -100,12 +119,8 @@ try {
 
     $payload = @{
         source_id = [IO.Path]::GetFileName($mediaPath)
-        clips = @(@{
-            start_seconds = $start
-            end_seconds = $end
-            note = $note
-        })
-    } | ConvertTo-Json -Depth 5
+        clips = @($clips.ToArray())
+    } | ConvertTo-Json -Depth 6
     [IO.File]::WriteAllText(
         $jsonPath,
         $payload + [Environment]::NewLine,
@@ -119,19 +134,20 @@ try {
 
     Write-Host ""
     Write-Host "[2/3] Running dry-run. No video is rendered..." -ForegroundColor Yellow
-    & $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve 1 --output-dir $reportRoot
+    $approvedRows = (1..$clips.Count) -join ","
+    & $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve $approvedRows --output-dir $reportRoot @renderOptions
     if ($LASTEXITCODE -ne 0) { throw "Dry-run failed. No render was started." }
 
     Write-Host ""
     Write-Host "Review the exact source and time range above." -ForegroundColor Cyan
-    $renderChoice = Read-Host "Type RENDER to continue, or press Enter to stop"
+    $renderChoice = Read-Host ("Review all {0} candidates. Type RENDER to continue, or press Enter to stop" -f $clips.Count)
     if ($renderChoice -cne "RENDER") {
         Write-Host "Stopped safely. Session files: $sessionDir" -ForegroundColor Yellow
         return
     }
 
     Write-Host "Confirm only if you have rights to edit and distribute this exact recording and have checked embedded third-party content." -ForegroundColor Yellow
-    $rightsChoice = Read-Host "Type I CONFIRM RIGHTS to authorize this local render"
+    $rightsChoice = Read-Host "Type I CONFIRM RIGHTS to authorize rendering every selected clip"
     if ($rightsChoice -cne "I CONFIRM RIGHTS") {
         Write-Host "Stopped safely. No video was rendered." -ForegroundColor Yellow
         return
@@ -139,7 +155,7 @@ try {
 
     Write-Host ""
     Write-Host "[3/3] Rendering locally..." -ForegroundColor Green
-    & $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve 1 --output-dir $reportRoot --execute --confirm-rights
+    & $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve $approvedRows --output-dir $reportRoot @renderOptions --execute --confirm-rights
     if ($LASTEXITCODE -ne 0) { throw "Rendering failed. Inspect the session folder: $sessionDir" }
 
     $latestRun = Get-ChildItem -LiteralPath $reportRoot -Directory |
@@ -155,7 +171,7 @@ try {
     if ($LASTEXITCODE -ne 0) { throw "Clip rendered, but review dashboard generation failed. Report: $renderReport" }
 
     Write-Host ""
-    Write-Host "Clip rendered. Review the MP4 and local dashboard before sharing." -ForegroundColor Green
+    Write-Host ("Rendered {0} clip(s). Review every MP4 and the local dashboard before sharing." -f $clips.Count) -ForegroundColor Green
     Write-Host "Session folder: $sessionDir"
     Write-Host "Review dashboard: $reviewHtml"
     Start-Process -FilePath $reviewHtml
