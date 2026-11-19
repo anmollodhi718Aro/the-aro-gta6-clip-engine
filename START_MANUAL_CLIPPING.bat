@@ -3,9 +3,12 @@ setlocal
 cd /d "%~dp0"
 title THE ARO Manual Clip Wizard
 powershell -NoProfile -ExecutionPolicy Bypass -File "scripts\manual_clip_wizard.ps1"
-if errorlevel 1 (
-  echo.
+set "EXIT_CODE=%ERRORLEVEL%"
+echo.
+if not "%EXIT_CODE%"=="0" (
   echo The clip wizard stopped with an error. Read the message above.
-  pause
+) else (
+  echo Wizard finished. Review the session folder, MP4, and local review dashboard.
 )
-endlocal
+pause
+exit /b %EXIT_CODE%
