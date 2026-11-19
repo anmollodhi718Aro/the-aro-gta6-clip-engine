@@ -24,7 +24,7 @@ Date: 2026-11-19
 ## Implementation
 
 - [x] Added `backend/app/render_validation.py` with ffprobe-based output inspection.
-- [x] Require a readable video stream, finite positive duration, valid dimensions, and duration within `max(0.5 seconds, 1% of requested duration)` of the requested clip (matching the implementation).
+- [x] Require a readable video stream, finite positive duration, valid dimensions, and duration within `min(0.5 seconds, max(0.05 seconds, 1% of requested duration))` of the requested clip (a bounded tolerance that avoids large relative errors on short clips).
 - [x] Require exactly 1080x1920 for vertical renders.
 - [x] Validate the temporary file before the no-overwrite publication step; invalid output is cleaned up and never published.
 - [x] Added unit tests for normal landscape metadata, vertical dimensions, duration mismatch, malformed metadata, empty files, missing ffprobe, and paths containing spaces/Unicode.
@@ -92,10 +92,21 @@ Date: 2026-11-19
   - `200f217e54d14f220bd38c93a5731381c71c6989` — forward ffprobe from batch renderer.
   - `319bc012f03e7cca5d78a37b1073b33522854134` — test custom ffprobe in direct render path.
   - `6faddc73e5f4260a49aa34efeb4e3151f8ba846b` — test custom ffprobe propagation through batch rendering.
-- Files: `backend/app/clipping.py`, `backend/app/batch_render.py`, `tests/test_clipping.py`, `tests/test_batch_render.py`, `docs/WORKSTREAM_PROGRESS.md`.
-- Tests added: direct custom-ffprobe forwarding; batch CLI/service propagation using a path containing spaces.
+  - `bbe6db9ca86a49c1c471563d7f360d08fe909375` — bound duration tolerance for short/long clips.
+  - `84d0c1829c0788e0e8b3345d5224a06ba381b8c8` — test bounded duration tolerance.
+- Files: `backend/app/clipping.py`, `backend/app/batch_render.py`, `tests/test_clipping.py`, `tests/test_batch_render.py`, `backend/app/render_validation.py`, `tests/test_render_validation.py`, `docs/WORKSTREAM_PROGRESS.md`.
+- Tests added: direct custom-ffprobe forwarding; batch CLI/service propagation using a path containing spaces; rejection of large relative duration errors for very short clips; cap on duration tolerance for long clips.
 - Tests executed: NOT RUN in this GitHub connector session.
 - CI: NOT VERIFIED on these new commits. Earlier workflow jobs on this repository have failed before step allocation; inspect the new exact-head run before classification.
 - Windows verification: NOT VERIFIED.
 - Real authorized-media verification: NOT VERIFIED.
 - Completion: IN PROGRESS. No merge, publication, deployment, or destructive action performed.
+
+
+## Exact-head CI classification update
+
+- Previous code/documentation head `8bdbd127e31c6f43e38b69f703a8a70ce34cb737` had workflow run `44590329121` (Python CI), conclusion `failure`.
+- Job `135794276607` returned `steps: null`; step listing was empty; log retrieval returned `BlobNotFound`.
+- Required classification: **CI JOB FAILED — TEST EXECUTION NOT VERIFIED — LOGS/STEPS UNAVAILABLE**.
+- This is not evidence of a Python test failure and is not a pass.
+- The bounded-tolerance code/tests are newer than that run; their exact HEAD requires a new CI result.
