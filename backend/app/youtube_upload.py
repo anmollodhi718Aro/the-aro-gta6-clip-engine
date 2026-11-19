@@ -28,8 +28,6 @@ def load_rights_report(path: str | Path) -> dict[str, Any]:
         raise PermissionError("rights preflight report must target youtube")
     if payload.get("status") != "ready_for_human_review":
         raise PermissionError("rights preflight is not ready for human review")
-    if str(payload.get("platform", "")).strip().lower() != "youtube":
-        raise PermissionError("rights preflight must target the youtube platform")
     if payload.get("errors"):
         raise PermissionError("rights preflight contains blocking errors")
     assets = payload.get("assets")
