@@ -64,7 +64,7 @@ Last reviewed: 2026-11-19
 
 ## Test inventory
 
-The integrated branch contains 33 files under `tests/` (32 Python test modules plus `tests/README.md`), including coverage for:
+The integrated branch contains 34 files under `tests/` (33 Python test modules plus `tests/README.md`), including coverage for:
 - Core event models and detection
 - Consent registry, chat event storage and quota scheduler
 - YouTube adapter, workers, stream ingestion and multi-source lifecycle
@@ -75,6 +75,7 @@ The integrated branch contains 33 files under `tests/` (32 Python test modules p
 - Source rights registry
 - Creator watchlist and CLI
 - Subtitle quality
+- Synthetic end-to-end chat-to-candidate-to-scored-review-to-batch-dry-run workflow
 
 A test file being present is not proof it passed. Run the exact suite on the latest integrated commit and record the result. The GitHub Actions failures previously observed often ended before the job exposed any steps/logs; this means remote CI execution remains unverified, not that all tests passed.
 
