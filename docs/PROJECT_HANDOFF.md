@@ -308,3 +308,19 @@ Earlier runs did fail before exposing runner steps. This workstream obtained a f
 - Windows-native execution: NOT VERIFIED. GTA 6 authorized real-media MP4/playback: NOT VERIFIED. Production ready: NOT CLAIMED. No local test execution was available in this connector session.
 - First verified GTA 6 clip remains externally blocked on an expressly authorized creator recording/export or approved media handoff. YouTube chat/live metadata does not supply video bytes. Next priority: obtain that authorized media, run the existing Windows/local wizard, capture FFmpeg + FFprobe + playback evidence, then persist a `needs_review` item and enforce explicit owner approval. Keep creator read permission and destination publishing permission independent.
 - Files changed in this continuation: this canonical handoff and the existing chat/workstream registry only; no source or test code changed.
+
+
+## ARO-CHAT-0012 continuation — 2026-11-20
+
+- Title: `ARO-CHAT-0012 | Creator Permission and Owner Approval Foundation Integration`; continuation of existing `ARO-ZERO-ONE`, reusing the existing branch and PR #66.
+- Starting PR head before source integration: `a54ad9af97b4e107154a900cb09af8588a35ef02`. Current source-integration commit: `30eb31c3a8d8bf98f4108c8acc4ad00c72e75311`.
+- Added `backend/app/live_sources.py` and `backend/app/approval.py`, adapting PR #65's provider-neutral permission/approval foundation onto the selected Option A branch without merging or retargeting PR #65.
+- Hardened creator/source binding: the permission's source ID must match the requested creator before any adapter call; provider response creator/source identity is rechecked. Added explicit boolean decision validation and reviewer validation for immutable approval decisions.
+- Added `tests/test_live_sources_and_approval.py` with 10 synthetic unit cases covering active/missing/mismatched/expired/revoked creator grants, provider identity mismatch, pending/rejected approval, independent publish scope, immutable final decision and invalid reviewer/decision input.
+- Added `docs/AUTHORIZED_LIVE_SOURCE_PIPELINE.md` documenting implemented foundations and explicit non-production boundaries. These modules are contracts and in-memory immutable decision objects, not OAuth, encrypted token storage, durable approval storage, media-byte ingestion, or upload adapters.
+- Existing renderer and `tests/test_real_ffmpeg_smoke.py` remain unchanged. The smoke test creates and decodes a synthetic MP4 using FFmpeg/FFprobe; it is not GTA 6 real-media verification.
+- Latest observed Actions run after source integration: [44633226556](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44633226556), exact head `30eb31c3a8d8bf98f4108c8acc4ad00c72e75311`, status pending at audit. A previous run was cancelled during package installation before compile/tests; no test result is claimed for that run.
+- Main remains `5f3332770b27d8a5211b3e74feade222563a9263`; Option A remains `integration/release-candidate` at `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`. Option B preserved; live comparison remains 1 ahead / 4 behind with merge base `625425987b8381c5a7d16313f5fbb96abcfcff21`.
+- PR #66 remains open and unmerged, targeting `integration/release-candidate`. No merge, retarget, deployment, upload or public publishing.
+- Verification: IMPLEMENTED = yes for permission/approval foundation; TESTED = pending CI; CI_VERIFIED = pending exact-head result; WINDOWS_VERIFIED = no; REAL_MEDIA_VERIFIED = no; PRODUCTION_READY = no.
+- First real GTA 6 clip remains blocked on an expressly authorized creator recording/export or supported media handoff. Next: confirm exact-head CI, then use the existing Windows/manual renderer with authorized media and record a durable `needs_review` review decision before any upload workflow.
