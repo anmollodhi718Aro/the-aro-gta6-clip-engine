@@ -4,7 +4,7 @@
 **Current workstream:** ARO-ZERO-ONE  
 **Primary workstream chat:** ARO-CHAT-0005 | Clipping-First Integration and First MP4  
 **Continuation audit:** ARO-CHAT-0006 | First Verified Clip Hardening  
-**Last updated:** 2026-11-20 (live audit refresh) (live GitHub refresh)
+**Last updated:** 2026-11-20 (ARO-CHAT-0008 live GitHub reconciliation)
 
 ## Product objective
 
@@ -208,3 +208,21 @@ Earlier runs did fail before exposing runner steps. This workstream obtained a f
 - PR #18, #35, #50, #60, #64 and #65 remain open; #35/#50/#60/#21 are draft tracks and overlap selected renderer or launcher work. No PR was merged, closed or retargeted.
 - The single external blocker for the first real GTA 6 clip remains an expressly authorized creator recording/export or provider-approved media handoff. Synthetic CI fixtures do not satisfy real-media acceptance.
 - No deployment, upload, public publication, merge, retarget, or destructive action was performed.
+
+
+## ARO-CHAT-0008 live repository reconciliation (2026-11-20 04:23 IST)
+
+- Chat title: `ARO-CHAT-0008 | Live Repository Reconciliation and First-Clip Gate`.
+- Workstream: continuation of the existing `ARO-ZERO-ONE`; existing branch and PR #66 retained. No duplicate branch or PR created.
+- Live repository metadata: default branch `main`; observed main SHA remains `5f3332770b27d8a5211b3e74feade222563a9263`; repository public; connected account has admin/push permissions.
+- Active branch: `workstream/aro-zero-one-clipping-first-2026-11-20`; latest PR #66 head observed: `a779d1385af0723da89fb16f5a840c1de12bdf7f`; starting SHA remains `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`.
+- PR #66 remains open, non-draft, targets `integration/release-candidate`; GitHub currently reports `mergeable=false`. No merge, retarget, force-push, deployment, upload or publication performed.
+- Baseline reaffirmed: Option A `integration/release-candidate` remains the selected clipping-first base. Compared with Option B `feature/integrated-first-clip-launcher`, the common merge base is `625425987b8381c5a7d16313f5fbb96abcfcff21`; Option A is 4 commits ahead and 1 behind Option B. Option A is 324 commits ahead of unchanged `main`; this is not permission to merge PR #18.
+- Current-head delta: compare from renderer-tested commit `6c5d0fd2228da963fc61c39403645e347a4cd3af` to current head `a779d1385af0723da89fb16f5a840c1de12bdf7f` reports 15 commits, touching only `docs/CHAT_WORKSTREAM_REGISTRY.md` and `docs/PROJECT_HANDOFF.md`; no source or test files changed in that interval.
+- CI evidence: run [44632671652](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44632671652) completed successfully. Job `tests`: checkout, Python setup, compile source, and unit tests all succeeded. The documented log result for the tested renderer integration is Python 3.11.18, `Ran 258 tests`, `OK (skipped=1)` (257 passed, 1 skipped). The run's merge ref included renderer implementation head `6c5d0fd2228da963fc61c39403645e347a4cd3af` and base `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`. The later 15 commits are docs-only; current docs tip was not separately rerun. Combined status API for current docs tip returned no individual statuses, so do not describe the current tip as independently CI-green.
+- Existing implementation reviewed: `backend/app/render_validation.py` validates non-empty output, readable video stream, finite duration and dimensions; vertical output requires 1080x1920. `backend/app/clipping.py` calls this validation before atomic no-overwrite publication. `backend/app/batch_render.py` forwards the selected ffprobe executable. Tests use mocked FFprobe responses; they are not real-media verification.
+- PR #35 remains a separate legacy renderer track; PR #60 overlaps the post-render validation now carried by #66; PR #65 remains a separate creator-permission/approval foundation stacked on #35. Do not merge overlapping work independently. PR #63 is merged into its target branch, not main; PR #64 remains an audit PR on Option B.
+- Files modified in this continuation: `docs/PROJECT_HANDOFF.md`, `docs/CHAT_WORKSTREAM_REGISTRY.md` only. No application source changed in this continuation.
+- Verification statuses: IMPLEMENTED = yes for local manual/batch renderer and post-render validation; TESTED = yes, 258 discovered, 257 passed, 1 skipped on the tested PR integration revision; CI_VERIFIED = yes for that tested integration revision, not a separate exact run on the latest docs-only tip; WINDOWS_VERIFIED = no; REAL_MEDIA_VERIFIED = no; PRODUCTION_READY = no.
+- First real GTA 6 clip blocker remains an expressly authorized creator recording/export/media handoff. YouTube live metadata/chat is not the video media bytes. Do not scrape, rip streams, bypass access controls, or fabricate a render result.
+- Next priority: run the Windows first-clip quick start with a legally usable authorized sample (or obtain the creator-authorized GTA 6 media handoff), capture actual FFmpeg and FFprobe execution and playback inspection, then create a persistent `needs_review` record and require explicit owner approval. Public upload remains outside scope without separate explicit confirmation.
