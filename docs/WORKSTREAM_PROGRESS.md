@@ -396,7 +396,7 @@ Chat numbering starts here because no prior Chat Execution Registry entry was pr
 - **Task:** Revalidate current repository state, inspect PR/branch ownership and CI evidence, initialize the chat registry without creating duplicate work.
 - **Branch:** workstream/2026-11-19-release-readiness-audit
 - **PR:** #56 — https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/56
-- **Commit:** recorded by the commit that adds this registry entry; SHA to be filled from GitHub's write response.
+- **Commit:** 1b2300d8b688a2b0dd56640185cfe0c87f51c789 (initial registry/attribution commit).
 - **Files:** docs/WORKSTREAM_PROGRESS.md
 - **Tests:** NOT RUN (documentation-only change).
 - **CI:** NOT VERIFIED; latest exact-head CI evidence must be refreshed after this commit.
