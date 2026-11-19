@@ -3,7 +3,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
+import tempfile
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -48,11 +50,32 @@ def load_metrics(path: Path) -> list[SevenDayMetrics]:
     return rows
 
 
+def _atomic_write_text(path: Path, content: str) -> None:
+    """Publish a complete report or preserve the previous destination on failure."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, temporary_name = tempfile.mkstemp(
+        prefix=f".{path.name}.", suffix=".tmp", dir=str(path.parent)
+    )
+    temporary_path = Path(temporary_name)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8", newline="") as stream:
+            stream.write(content)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary_path, path)
+    except BaseException:
+        try:
+            temporary_path.unlink()
+        except FileNotFoundError:
+            pass
+        raise
+
+
 def run(input_path: Path, output_path: Path) -> int:
     try:
         report = ranking_report(load_metrics(input_path))
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        output_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        serialized = json.dumps(report, indent=2, allow_nan=False) + "\n"
+        _atomic_write_text(output_path, serialized)
         print(f"Wrote {report['ranked_count']} evidence-backed creator ranking(s) to {output_path}")
         return 0
     except (OSError, json.JSONDecodeError, TypeError, ValueError) as exc:
