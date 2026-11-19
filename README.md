@@ -6,7 +6,7 @@ A local-first, zero-mandatory-dependency creator workflow for analysing authoriz
 
 ## Start clipping today
 
-See [`docs/FIRST_CLIP_TODAY.md`](docs/FIRST_CLIP_TODAY.md) for the shortest Windows setup. If you already have a local recording, the manual workflow needs no chat export or API credentials.
+**Fastest Windows route:** double-click `START_MANUAL_CLIPPING.bat`. It validates a local recording with FFprobe, lets you select landscape or vertical 9:16 Shorts/Reels output, and prepare up to 50 manually timed clips (maximum 180 seconds each). It runs a dry-run first and requires separate `RENDER` and `I CONFIRM RIGHTS` confirmations before rendering. A read-only local review dashboard opens after rendering. No chat export, API key, or OAuth is needed. See [Start Clipping Today](docs/START_CLIPPING_TODAY_FAST.md). For the complete chat-assisted workflow, see [the full guide](docs/FIRST_CLIP_TODAY.md).
 
 ## Requirements
 
