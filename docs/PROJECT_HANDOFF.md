@@ -261,3 +261,18 @@ Earlier runs did fail before exposing runner steps. This workstream obtained a f
 - Files modified in this continuation: `docs/PROJECT_HANDOFF.md` and `docs/CHAT_WORKSTREAM_REGISTRY.md` only. Source code and tests were not changed in this audit continuation.
 - Verification statuses: IMPLEMENTED = yes for existing local manual/batch renderer and post-render FFprobe gate; TESTED = yes on the prior tested renderer revision (257 passed, 1 skipped); CI_VERIFIED = yes only on that prior tested revision; current PR head CI = NOT VERIFIED (no exact-head run; inspected run cancelled before compile); WINDOWS_VERIFIED = no; REAL_MEDIA_VERIFIED = no; PRODUCTION_READY = no.
 - Next priority: obtain a creator-authorized recording/media handoff and run the existing Windows manual clipping flow against it; capture FFmpeg execution, FFprobe metadata, and playback inspection. If no GTA 6 recording is available yet, use a lawful sample only for a separate renderer smoke test, never label it the first GTA 6 clip. Then persist a `needs_review` record and require explicit owner approval before upload preparation.
+
+## ARO-CHAT-0009 live execution reconciliation (2026-11-20)
+
+- Chat title: ARO-CHAT-0009 | Live GitHub Execution and First-Clip Gate Reconciliation
+- Workstream: continuation of existing ARO-ZERO-ONE; existing branch and PR #66 reused.
+- Live default branch SHA: `5f3332770b27d8a5211b3e74feade222563a9263` (unchanged).
+- Live PR #66 head at audit: `ec2d76c2ca143a8b714b49e016c25be3bfa2fa06`; base `integration/release-candidate` at `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`; PR remains open, not merged, reported mergeable.
+- Existing baseline remains Option A, `integration/release-candidate`. Live compare against Option B shows shared merge base `625425987b8381c5a7d16313f5fbb96abcfcff21`, Option A 4 commits ahead and Option B 1 commit ahead. Option A remains the selected clipping-first base; Option B is preserved.
+- Renderer implementation includes local FFmpeg clipping, source media preflight, temporary output, post-render FFprobe validation (MP4 container, video stream, finite duration, expected duration, optional 1080x1920), and no-overwrite publication. The selected ffprobe binary is forwarded through batch rendering.
+- Latest exact-head workflow run `44632957093` for `ec2d76c2ca143a8b714b49e016c25be3bfa2fa06` was cancelled before checkout/test steps. Exact-head CI is therefore NOT VERIFIED.
+- Prior successful run `44632671652` has successful setup, checkout, compile and unit-test steps; it ran 258 tests (257 passed, 1 skipped) on renderer-tested revision `6c5d0fd2228da963fc61c39403645e347a4cd3af`. This evidence applies to that tested revision, not the current head.
+- Windows runtime: NOT VERIFIED. Real-media MP4 and playback: NOT VERIFIED. Production ready: NOT CLAIMED.
+- PR #35 remains separate and overlaps the older local renderer path; PR #60's FFprobe capability is already present in this workstream. PR #65's creator permission and owner approval foundation remains separate and is not yet integrated into this branch.
+- The single external blocker for the first real GTA 6 clip remains an expressly authorized creator recording/export or approved media handoff. No such media input is present in this audit. No scraping, access-control bypass, public upload, deployment, or merge was performed.
+- Next action: obtain authorized media, run the existing Windows/local manual clip workflow, capture actual FFmpeg + FFprobe output and playback inspection, then add persistent review state and selectively integrate the PR #65 permission/approval foundation.
