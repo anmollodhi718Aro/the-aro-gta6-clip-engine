@@ -38,3 +38,44 @@ jobs:
         run: python -m compileall -q backend tests THE_ARO_STUDIO.py
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
+
+  windows-tests:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install FFmpeg and FFprobe
+        shell: pwsh
+        run: |
+          # Retry transient Chocolatey community-feed failures (for example HTTP 503).
+          $maxAttempts = 4
+          $installed = $false
+          for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
+            choco install ffmpeg --yes --no-progress --execution-timeout=600
+            $installExitCode = $LASTEXITCODE
+            if ($installExitCode -eq 0) {
+              $installed = $true
+              break
+            }
+            if ($attempt -lt $maxAttempts) {
+              $delaySeconds = 10 * $attempt
+              Write-Warning "FFmpeg install attempt $attempt/$maxAttempts failed (exit $installExitCode). Retrying in $delaySeconds seconds."
+              Start-Sleep -Seconds $delaySeconds
+            }
+          }
+          if (-not $installed) { throw "FFmpeg installation failed after $maxAttempts attempts." }
+          if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) { throw "FFmpeg is not available on PATH after installation." }
+          if (-not (Get-Command ffprobe -ErrorAction SilentlyContinue)) { throw "FFprobe is not available on PATH after installation." }
+          ffmpeg -version
+          if ($LASTEXITCODE -ne 0) { throw "FFmpeg is unavailable." }
+          ffprobe -version
+          if ($LASTEXITCODE -ne 0) { throw "FFprobe is unavailable." }
+      - name: Compile source and tests
+        run: python -m compileall -q backend tests THE_ARO_STUDIO.py
+      - name: Run complete unittest suite
+        run: python -m unittest discover -s tests -v
