@@ -61,7 +61,7 @@ Last reviewed: 2026-11-19
 
 ## Test inventory
 
-The integrated branch contains 28 test/documentation files under `tests/`, including coverage for:
+The integrated branch contains 32 files under `tests/` (31 Python test modules plus `tests/README.md`), including coverage for:
 - Core event models and detection
 - Consent registry, chat event storage and quota scheduler
 - YouTube adapter, workers, stream ingestion and multi-source lifecycle
@@ -97,13 +97,13 @@ A test file being present is not proof it passed. Run the exact suite on the lat
 - Chat spikes are candidate signals, not guaranteed highlights or viral clips.
 - Quality scores are heuristic sorting aids, not predictions of reach or monetization.
 - Rights preflight validates stored metadata, not the authenticity or legal sufficiency of permission evidence.
-- No automated upload or publishing is implemented; human review is required.
+- No automatic upload scheduling or unattended publishing is implemented; the optional YouTube uploader is a one-shot CLI requiring manual owner approval.
 
 ## Owner-side actions before first real clip
 
 1. Use footage the owner created or is expressly authorized to edit and publish.
 2. Ensure the exact source permission and platform scope is recorded.
 3. Supply the authorized local media file.
-4. Supply a measured UTC media-origin timestamp for that exact recording.
+4. Supply a measured UTC media-origin timestamp or at least three calibrated clock anchors for that exact recording.
 5. Run the pipeline, inspect the candidate pack, approve specific rows and review rendered files.
-6. If publishing is later implemented, configure an OAuth app and test privately before any public upload.
+6. Configure a Google Cloud Desktop OAuth client, then test the manual uploader with a private/unlisted owner-created video before any public upload.
