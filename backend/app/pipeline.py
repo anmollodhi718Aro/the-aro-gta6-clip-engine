@@ -93,12 +93,12 @@ def run_pipeline(
             "publishing_enabled": False,
             "human_review_required": True,
         }
+        summary["review_csv"] = "quality_scored_candidates.csv"
+        summary["review_markdown"] = "clip_pack/clip_candidates.md"
         summary_path = destination / "pipeline_summary.json"
         with summary_path.open("x", encoding="utf-8") as handle:
             json.dump(summary, handle, indent=2)
             handle.write("\\n")
-        summary["review_csv"] = str(scored_path)
-        summary["review_markdown"] = str(markdown_path)
         return summary
     except Exception:
         # This directory was created exclusively by this invocation. Remove
