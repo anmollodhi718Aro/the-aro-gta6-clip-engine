@@ -98,3 +98,19 @@
 - Run `44632671652` completed successfully: Python 3.11.18, compileall passed, 258 tests run, 257 passed and 1 skipped. This is CI evidence for the tested renderer implementation, not Windows or real-media evidence.
 - Batch rendering forwards the selected `ffprobe_binary` to source probing and post-render `render_clip`; `tests/test_batch_render.py` includes a custom-FFprobe forwarding regression test.
 - The remaining real-clip blocker is an expressly authorized GTA 6 recording/export/media handoff. No such media is present in the repository audit context.
+
+
+## ARO-CHAT-0008 live repository reconciliation (2026-11-20)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0008 | ARO-CHAT-0008 | Live Repository Reconciliation and First-Clip Gate | ARO-ZERO-ONE (continuation) | Reconcile current GitHub branch/PR state, validate renderer CI evidence, refresh the single canonical handoff and identify the actual first-media acceptance blocker | `workstream/aro-zero-one-clipping-first-2026-11-20` / [PR #66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66) | IMPLEMENTED (documentation reconciliation); TESTED/CI_VERIFIED on renderer integration revision `6c5d0fd2228da963fc61c39403645e347a4cd3af` via run `44632671652` (258 tests, 257 passed, 1 skipped); current docs-only tip not separately rerun; WINDOWS_NOT_VERIFIED; REAL_MEDIA_NOT_VERIFIED | Starting SHA `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`; latest PR head `a779d1385af0723da89fb16f5a840c1de12bdf7f`; only handoff and registry docs changed after tested renderer commit |
+
+### ARO-CHAT-0008 evidence notes
+- Live repository still reports `main` at `5f3332770b27d8a5211b3e74feade222563a9263`; no main changes made.
+- Existing ARO-ZERO-ONE branch and PR #66 were reused. No new branch, PR, merge or retarget was created.
+- Option A remains the chosen clipping-first baseline; Option B remains preserved. PR #66 currently reports `mergeable=false`, so it must not be merged blindly.
+- The current PR #66 head is `a779d1385af0723da89fb16f5a840c1de12bdf7f`. Compare against renderer-tested commit `6c5d0fd2228da963fc61c39403645e347a4cd3af` shows 15 commits affecting only the two canonical documentation files.
+- Run [44632671652](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44632671652) has a completed successful `tests` job; setup, checkout, compile and unit-test steps succeeded. Test result recorded in the PR handoff: 258 tests, 257 passed, 1 skipped. This validates the renderer code revision, not the later documentation-only tip as an independently rerun commit.
+- Windows-native FFmpeg execution and authorized real-media MP4/playback inspection remain NOT VERIFIED. Mocked FFprobe tests are not real media.
+- The remaining first-clip blocker is the authorized creator recording/export/media handoff. No stream ripping, scraping, deployment, upload or public publication is authorized by this workstream.
