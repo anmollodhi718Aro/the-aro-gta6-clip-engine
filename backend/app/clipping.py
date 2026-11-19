@@ -8,6 +8,8 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+from .render_validation import verify_rendered_media
+
 
 MAX_CLIP_SECONDS = 180.0
 
@@ -24,6 +26,7 @@ def render_clip(
     *,
     rights_confirmed: bool,
     ffmpeg_binary: str = "ffmpeg",
+    ffprobe_binary: str = "ffprobe",
     vertical: bool = False,
 ) -> Path:
     """Render a bounded MP4 from a local file without overwriting prior output.
@@ -111,6 +114,16 @@ def render_clip(
 
         if not temporary_output.is_file() or temporary_output.stat().st_size == 0:
             raise ClipRenderError("FFmpeg completed without creating a valid output file")
+
+        try:
+            verify_rendered_media(
+                temporary_output,
+                expected_duration_seconds=duration,
+                vertical=vertical,
+                ffprobe_binary=ffprobe_binary,
+            )
+        except (OSError, RuntimeError, ValueError) as exc:
+            raise ClipRenderError(f"rendered output failed media validation: {exc}") from exc
 
         try:
             os.link(temporary_output, destination)
