@@ -6,7 +6,7 @@ A local-first, zero-mandatory-dependency creator workflow for analysing authoriz
 
 ## Start clipping today
 
-**Fastest Windows route:** install Python 3.11+ and FFmpeg (including ffprobe), then double-click `START_CLIPPING_TODAY.bat`. It guides you through selecting up to 50 moments from a local recording, optionally renders full-frame 1080×1920 (9:16) Shorts output, runs a dry-run, requires two explicit confirmations before rendering, and opens a local review dashboard. See [Manual Clipping](docs/MANUAL_CLIPPING.md).
+**Fastest Windows route:** install Python 3.11+ and FFmpeg (including ffprobe), then double-click `START_CLIPPING_TODAY.bat`. It guides you through selecting up to 50 moments from a local recording, optionally renders full-frame 1080×1920 (9:16) Shorts output, runs a dry-run, requires two explicit confirmations before rendering, and opens a local review dashboard. See [Manual Clipping](docs/MANUAL_CLIPPING.md). Before the first real session, run the project checks with `powershell -ExecutionPolicy Bypass -File scripts/check_project.ps1`; GitHub Actions is currently blocked before runner assignment, so its red check is not a substitute for a local test result.
 
 For the full chat-assisted workflow and measured timestamp synchronization, see [First Clip Today](docs/FIRST_CLIP_TODAY.md).
 
