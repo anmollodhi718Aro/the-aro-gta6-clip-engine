@@ -37,7 +37,7 @@ class QuickClipCliTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / "gameplay.mp4"
             source.touch()
-            with patch("backend.app.quick_clip.render_clip") as render:
+            with patch("backend.app.quick_clip.render_clip", side_effect=ValueError("clip bounds must satisfy 0 <= start < end")) as render:
                 result = quick_clip.main([
                     str(source), "--start", "30", "--end", "10",
                     "--output", str(Path(directory) / "clip.mp4"),
