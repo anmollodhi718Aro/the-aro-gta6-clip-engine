@@ -2,6 +2,16 @@
 
 This is the shortest safe path from a fresh clone to a reviewed vertical clip. Use only media you created or are explicitly authorized to edit and publish.
 
+## Fastest Windows path: guided first-clip wizard
+
+After installing Python 3.11+ and FFmpeg (including ffprobe), run this from PowerShell at the repository root:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/first_clip.ps1
+```
+
+The wizard asks for a local video path and start/end offsets in seconds, creates a uniquely named manual session, runs a no-render dry run, and stops for explicit confirmation before rendering. It does not download video, upload, or publish. It opens a local review page after a successful render. You must own or have explicit permission to edit and distribute the exact recording and separately check embedded third-party rights.
+
 ## 0. One-time setup
 
 Install Python 3.11 or newer and FFmpeg (including ffprobe). Open PowerShell in the cloned repository folder.
