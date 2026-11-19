@@ -49,9 +49,19 @@ def build_manual_rows(payload: dict[str, Any]) -> list[dict[str, Any]]:
                 or not isinstance(end, (int, float))
                 or not math.isfinite(start) or not math.isfinite(end)):
             raise ValueError(f"clip {number} start_seconds and end_seconds must be finite numbers")
-        duration = end - start
         if start < 0 or end <= start:
             raise ValueError(f"clip {number} must satisfy 0 <= start_seconds < end_seconds")
+
+        # The renderer and CSV contract use millisecond precision. Validate
+        # after quantization too, otherwise a tiny positive range can round to
+        # identical start/end values and fail later in the render pipeline.
+        rounded_start = round(float(start), 3)
+        rounded_end = round(float(end), 3)
+        if rounded_end <= rounded_start:
+            raise ValueError(
+                f"clip {number} must span at least 0.001 seconds at millisecond precision"
+            )
+        duration = rounded_end - rounded_start
         if duration > MAX_CLIP_SECONDS:
             raise ValueError(f"clip {number} exceeds the {MAX_CLIP_SECONDS:g}-second maximum")
         note = clip.get("note", "manually selected; review before rendering")
@@ -64,9 +74,9 @@ def build_manual_rows(payload: dict[str, Any]) -> list[dict[str, Any]]:
             "peak_window_start": "",
             "clip_start_utc": "",
             "clip_end_utc": "",
-            "start_seconds": round(float(start), 3),
-            "end_seconds": round(float(end), 3),
-            "duration_seconds": round(float(duration), 3),
+            "start_seconds": rounded_start,
+            "end_seconds": rounded_end,
+            "duration_seconds": duration,
             "renderable": "true",
             "sync_method": "manual_local_media_time",
             "sync_max_residual_seconds": "",
