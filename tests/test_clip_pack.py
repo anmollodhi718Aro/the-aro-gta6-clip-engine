@@ -68,6 +68,30 @@ class ClipPackTests(unittest.TestCase):
             self.assertEqual(saved[0]["start_seconds"], "30.0")
             self.assertIn("Review-ready", markdown_path.read_text(encoding="utf-8"))
 
+    def test_existing_clip_pack_outputs_are_never_overwritten(self) -> None:
+        rows = map_candidates_to_media([self.candidate()], self.origin)
+        with tempfile.TemporaryDirectory() as folder:
+            csv_path = Path(folder) / "clip_candidates.csv"
+            markdown_path = Path(folder) / "clip_candidates.md"
+            csv_path.write_text("owner-reviewed-csv", encoding="utf-8")
+            markdown_path.write_text("owner-reviewed-markdown", encoding="utf-8")
+            with self.assertRaises(FileExistsError):
+                write_clip_pack(rows, folder)
+            self.assertEqual(csv_path.read_text(encoding="utf-8"), "owner-reviewed-csv")
+            self.assertEqual(markdown_path.read_text(encoding="utf-8"), "owner-reviewed-markdown")
+
+
+    def test_partial_publish_collision_rolls_back_only_new_output(self) -> None:
+        rows = map_candidates_to_media([self.candidate()], self.origin)
+        with tempfile.TemporaryDirectory() as folder:
+            markdown_path = Path(folder) / "clip_candidates.md"
+            markdown_path.write_text("another run owns this file", encoding="utf-8")
+            csv_path = Path(folder) / "clip_candidates.csv"
+            with self.assertRaises(FileExistsError):
+                write_clip_pack(rows, folder)
+            self.assertFalse(csv_path.exists())
+            self.assertEqual(markdown_path.read_text(encoding="utf-8"), "another run owns this file")
+
 
 if __name__ == "__main__":
     unittest.main()
