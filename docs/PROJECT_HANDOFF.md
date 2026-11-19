@@ -92,8 +92,8 @@ The latest sampled run for PR #64 head `e61a5310e75086586dd876708ec51e1618b19a4b
 - Workstream: ARO-ZERO-ONE
 - Branch: `workstream/aro-zero-one-clipping-first-2026-11-20`
 - Starting SHA: `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`
-- Current branch SHA: updated by this PR's commits
-- PR: pending creation
+- Current branch SHA at PR creation: `bd741402576e6b389d8486339a33cf347b953fc6`
+- PR: [#66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66)
 - Changes: canonical handoff plus preservation of the existing chat/workstream registry, startup prompt and consolidation audit.
 - Tests: documentation-only; no code tests run.
 - CI: pending on exact PR head; no passing result claimed.
