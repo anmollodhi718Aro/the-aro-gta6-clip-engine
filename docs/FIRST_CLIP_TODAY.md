@@ -4,7 +4,7 @@ This is the shortest safe path from a fresh clone to a reviewed vertical clip. U
 
 ## Fastest Windows path: guided first-clip wizard
 
-After installing Python 3.11+ and FFmpeg (including ffprobe), run this from PowerShell at the repository root:
+After installing Python 3.11+ and FFmpeg (including ffprobe), double-click `START_CLIPPING_TODAY.bat` in the repository folder. You can also run this from PowerShell at the repository root:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/first_clip.ps1
