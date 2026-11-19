@@ -33,6 +33,7 @@ Last reviewed: 2026-11-19
 - [x] CSV and Markdown candidate packs with safe output handling
 - [x] Explainable candidate review score with component reasons
 - [x] Local FFmpeg rendering with duration/timeouts, explicit rights confirmation and no-overwrite publication
+- [x] Local `ffprobe` inspection and pre-render rejection when selected clip bounds exceed actual media duration
 - [x] Human-approved batch rendering and dry-run default
 - [x] Collision-safe per-run directories and atomic JSON reports
 - [x] Failed-only retry with candidate identity and time-bound verification
@@ -63,7 +64,7 @@ Last reviewed: 2026-11-19
 
 ## Test inventory
 
-The integrated branch contains 32 files under `tests/` (31 Python test modules plus `tests/README.md`), including coverage for:
+The integrated branch contains 33 files under `tests/` (32 Python test modules plus `tests/README.md`), including coverage for:
 - Core event models and detection
 - Consent registry, chat event storage and quota scheduler
 - YouTube adapter, workers, stream ingestion and multi-source lifecycle
