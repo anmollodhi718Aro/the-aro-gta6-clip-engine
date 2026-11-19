@@ -398,3 +398,13 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - Current status: Windows workflow IMPLEMENTED, Windows execution NOT VERIFIED; exact latest-head CI NOT VERIFIED; real-media GTA 6 clip BLOCKED on creator-authorized media. No local tests were executed in this connector session.
 - PR #57's Windows branch remains separate and divergent; no merge, cherry-pick, or retarget. PR #66 remains the one clipping-first PR. No changes to `main`, no deployment, upload, or public publishing.
 - Timing: start timestamp is recorded in the structured ledger. End time, elapsed time and active work time remain unknown until this session ends and can be measured.
+
+
+### ARO-CHAT-0014 session closeout (2026-11-20 04:55 IST)
+
+- Session analytics record closed with end timestamp `2026-11-20T04:55:08+05:30`. Start time is only minute-resolution; elapsed and active work durations remain `null`.
+- Added and closed the first structured session record in `analytics/ai_chat_sessions.json`; ranking score remains `null` because exact-head test evidence and comparable historical records are insufficient. See `docs/AI_CHAT_ANALYTICS.md` for evidence rules.
+- Latest analytics record commit: `a30f0588c03b1e44be05304d0f96f6c01ccba71b`. The previous canonical registry commit was `28c98e11fc19ad1a7bc343c112160eb9cbc06a25`.
+- Final verification vocabulary: Windows workflow IMPLEMENTED; Windows execution NOT VERIFIED; latest exact-head CI NOT VERIFIED; prior baseline 270-test CI VERIFIED only on `a1dbff89f07e1b1466288695bc910902cf92a904`; real authorized GTA 6 media NOT VERIFIED / BLOCKED.
+- No local tests were executed. The two PR-triggered runs cancelled before compile/tests; the push-triggered Windows run could not be independently observed through the available PR-only workflow lookup. Do not treat cancellation as a test failure or success.
+- No merge, retarget, deployment, upload, or public publishing. Main unchanged. Next priority remains obtaining owner-authorized media and running the existing local Windows wizard, followed by FFmpeg/FFprobe/playback evidence and owner review.
