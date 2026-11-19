@@ -246,3 +246,12 @@ All above must be recorded exactly as: `CI JOB FAILED — TEST EXECUTION NOT VER
 5. Owner-side Windows gate remains mandatory: preflight, authorized local MP4, dry-run, actual vertical render, ffprobe metadata check, and open/play final MP4.
 
 **Verification summary:** source reviewed; local tests **NOT RUN**; CI test execution **NOT VERIFIED**; Windows **NOT VERIFIED**; real-media render/playback **NOT VERIFIED**; no PR merged.
+
+
+### Audit-branch CI result after this registry update
+
+- New audit commit: `d4ad484babe40b729db70ac639b6bf9f779a67a6`.
+- Exact-head workflow run: [44583323282](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44583323282), conclusion `failure`.
+- Job `tests` (job ID `135769488457`) reports `steps: []`; log download returns `BlobNotFound`.
+- Required status: `CI JOB FAILED — TEST EXECUTION NOT VERIFIED — LOGS/STEPS UNAVAILABLE`.
+- This is a runner/job-start evidence gap, not evidence that Python tests ran and failed. No test pass is claimed.
