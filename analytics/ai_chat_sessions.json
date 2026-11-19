@@ -39,7 +39,7 @@
       "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
       "starting_sha": "57a145700dd06d458834844ad51b64564da56bae",
       "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
-      "current_sha": "28c98e11fc19ad1a7bc343c112160eb9cbc06a25",
+      "current_sha": "a9c537fc4ac5a7c437dc2c2f535ac258d24b619e",
       "pull_requests": [
         66
       ],
@@ -56,7 +56,10 @@
         "73e53232af6fcf9e17fb9c2bc038d1cee5bec9b9",
         "58627b5c96a8141beba9dfa092916375ca942382",
         "a5f4f457c97e9d3c50894033f813bbb2ac3006c5",
-        "28c98e11fc19ad1a7bc343c112160eb9cbc06a25"
+        "28c98e11fc19ad1a7bc343c112160eb9cbc06a25",
+        "a30f0588c03b1e44be05304d0f96f6c01ccba71b",
+        "32e73ac24e4a5a7ab9a69430b0216f8d6973c6e6",
+        "a9c537fc4ac5a7c437dc2c2f535ac258d24b619e"
       ],
       "files_inspected": [
         "README.md",
@@ -146,7 +149,9 @@
         "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
         "windows_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44637236056",
         "ubuntu_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44637235991",
-        "prior_270_test_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44633588158"
+        "prior_270_test_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44633588158",
+        "final_registry_commit": "a9c537fc4ac5a7c437dc2c2f535ac258d24b619e",
+        "final_handoff_commit": "32e73ac24e4a5a7ab9a69430b0216f8d6973c6e6"
       }
     }
   ]
