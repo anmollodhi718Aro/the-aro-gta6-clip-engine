@@ -125,5 +125,24 @@ class ClipRenderTests(unittest.TestCase):
                     render_clip(source, Path(folder) / "clip.mp4", 0, 2, rights_confirmed=True)
 
 
+    def test_vertical_output_uses_center_crop_filter(self):
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            output = Path(folder) / "vertical.mp4"
+            source.write_bytes(b"synthetic")
+
+            def fake_ffmpeg(command, **kwargs):
+                Path(command[-1]).write_bytes(b"vertical mp4")
+
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg) as run:
+                render_clip(source, output, 0, 5, rights_confirmed=True, vertical=True)
+            command = run.call_args.args[0]
+            filter_index = command.index("-vf")
+            self.assertEqual(
+                command[filter_index + 1],
+                "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920",
+            )
+
+
 if __name__ == "__main__":
     unittest.main()
