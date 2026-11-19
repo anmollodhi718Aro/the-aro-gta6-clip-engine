@@ -23,14 +23,14 @@ Write-Host ""
 $pythonExe = $null
 $pythonPrefix = @()
 
-# Prefer the Windows Python launcher when it has a Python 3.11 runtime.
-# Fall back to the active "python" command if that runtime is unavailable.
+# Prefer the Windows Python launcher and select any supported Python 3.x runtime.
+# Fall back to the active "python" command when the launcher is unavailable.
 $launcher = Get-Command py -ErrorAction SilentlyContinue
 if ($launcher) {
-    & $launcher.Source -3.11 -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)" *> $null
+    & $launcher.Source -3 -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)" *> $null
     if ($LASTEXITCODE -eq 0) {
         $pythonExe = $launcher.Source
-        $pythonPrefix = @("-3.11")
+        $pythonPrefix = @("-3")
     }
 }
 
