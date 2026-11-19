@@ -241,6 +241,18 @@ class SecurityGuardTests(unittest.TestCase):
         self.assertEqual(report["ranked_count"], 1)
         self.assertFalse(report["publishing_enabled"])
 
+    def test_build_creator_report_rejects_non_finite_average_viewers(self):
+        start = datetime(2026, 11, 12, tzinfo=timezone.utc)
+        with self.assertRaisesRegex(ValueError, "finite non-negative"):
+            studio.build_creator_report({"metrics": [{
+                "creator_id": "techno-gamerz",
+                "window_start": start.isoformat(),
+                "window_end": (start + timedelta(days=7)).isoformat(),
+                "views": 500, "live_streams": 2,
+                "average_concurrent_viewers": float("nan"),
+                "source_url": "https://example.com/evidence",
+            }]})
+
     def test_build_creator_report_rejects_bad_evidence(self):
         start = datetime(2026, 11, 12, tzinfo=timezone.utc)
         with self.assertRaisesRegex(ValueError, "HTTPS evidence URL"):
