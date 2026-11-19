@@ -1,6 +1,6 @@
 # Project Status
 
-Last reviewed: 2026-11-18
+Last reviewed: 2026-11-19
 
 ## Implemented in the repository
 
@@ -52,5 +52,5 @@ Last reviewed: 2026-11-18
 - Chat spike detection finds activity changes, not guaranteed entertaining or viral moments.
 - Chat timestamps can be mapped to video offsets only when an operator supplies a measured offset; automatic synchronization and calibration are not implemented.
 - The window selector ranks existing chat candidates only. It does not inspect gameplay frames/audio or identify scene boundaries.
-- GitHub Actions is CI, not a persistent 24/7 livestream worker.
+- Latest observed GitHub Actions jobs terminate before reporting any steps; job logs are unavailable from GitHub, so the test suite result is currently unverified.\n- GitHub Actions is CI, not a persistent 24/7 livestream worker.
 - A green test run only validates the tests that actually ran.
