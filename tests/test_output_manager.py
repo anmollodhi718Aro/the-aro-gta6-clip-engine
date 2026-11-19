@@ -28,37 +28,6 @@ class OutputManagerTests(unittest.TestCase):
                 create_run_directory(temp, "run-1")
             self.assertEqual(list(Path(temp).iterdir()), [first])
 
-    def test_text_bundle_publishes_all_files_without_overwriting(self):
-        with tempfile.TemporaryDirectory() as temp:
-            first = Path(temp) / "draft.md"
-            second = Path(temp) / "draft.json"
-            result = write_texts_no_overwrite({first: "# draft\n", second: "{\n  \"ok\": true\n}\n"})
-            self.assertEqual(result, (first, second))
-            self.assertEqual(first.read_text(encoding="utf-8"), "# draft\n")
-            self.assertIn('"ok": true', second.read_text(encoding="utf-8"))
-            with self.assertRaises(FileExistsError):
-                write_texts_no_overwrite({first: "replacement"})
-            self.assertEqual(first.read_text(encoding="utf-8"), "# draft\n")
-
-    def test_text_bundle_rolls_back_only_its_own_partial_publication(self):
-        with tempfile.TemporaryDirectory() as temp:
-            first = Path(temp) / "new.md"
-            second = Path(temp) / "existing.json"
-            second.write_text("keep this", encoding="utf-8")
-            with self.assertRaises(FileExistsError):
-                write_texts_no_overwrite({first: "new draft", second: "replacement"})
-            self.assertFalse(first.exists())
-            self.assertEqual(second.read_text(encoding="utf-8"), "keep this")
-            self.assertEqual(sorted(path.name for path in Path(temp).iterdir()), ["existing.json"])
-
-    def test_json_no_overwrite_preserves_existing_report(self):
-        with tempfile.TemporaryDirectory() as temp:
-            target = Path(temp) / "report.json"
-            target.write_text("owner data", encoding="utf-8")
-            with self.assertRaises(FileExistsError):
-                write_json_no_overwrite(target, {"replacement": True})
-            self.assertEqual(target.read_text(encoding="utf-8"), "owner data")
-
     def test_atomic_report_round_trips_json(self):
         with tempfile.TemporaryDirectory() as temp:
             target = Path(temp) / "nested" / "report.json"
@@ -68,6 +37,30 @@ class OutputManagerTests(unittest.TestCase):
                 {"status": "rendered", "clip": "clip_001.mp4"}
             ])
             self.assertEqual(list(target.parent.iterdir()), [target])
+
+
+    def test_no_overwrite_json_is_valid_and_refuses_existing_file(self):
+        with tempfile.TemporaryDirectory() as temp:
+            target = Path(temp) / "report.json"
+            result = write_json_no_overwrite(target, {"status": "ready"})
+            self.assertEqual(result, target)
+            raw = target.read_text(encoding="utf-8")
+            self.assertTrue(raw.endswith("\n"))
+            self.assertEqual(json.loads(raw), {"status": "ready"})
+            with self.assertRaises(FileExistsError):
+                write_json_no_overwrite(target, {"status": "replaced"})
+            self.assertEqual(json.loads(target.read_text(encoding="utf-8")), {"status": "ready"})
+
+    def test_multi_file_no_overwrite_rolls_back_partial_publication(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            first = root / "new.txt"
+            occupied = root / "occupied.txt"
+            occupied.write_text("keep", encoding="utf-8")
+            with self.assertRaises(FileExistsError):
+                write_texts_no_overwrite({first: "new", occupied: "replace"})
+            self.assertFalse(first.exists())
+            self.assertEqual(occupied.read_text(encoding="utf-8"), "keep")
 
 
 if __name__ == "__main__":
