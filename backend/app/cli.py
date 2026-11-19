@@ -28,7 +28,7 @@ def _write_json_atomically(output_path: Path, payload: dict[str, Any]) -> None:
         ) as stream:
             temporary_path = Path(stream.name)
             json.dump(payload, stream, indent=2)
-            stream.write("\\n")
+            stream.write("\n")
             stream.flush()
             os.fsync(stream.fileno())
 
