@@ -76,7 +76,7 @@ Creator-authorized GTA 6 source discovery and event analysis, candidate generati
 
 ## CI diagnosis
 
-Earlier runs did fail before exposing runner steps. This workstream obtained a fully provisioned runner and actionable logs. The first full run exposed seven failures/errors; fixes were applied to the creator-watchlist test helper, research validation messages, YouTube upload rights-check ordering/messages, and Studio checklist wording. Final exact-head run `44631339620` completed successfully: compile step passed; `Ran 249 tests`; `OK (skipped=1)`. The skipped test remains skipped, not counted as executed.
+Earlier runs did fail before exposing runner steps. This workstream obtained a fully provisioned runner and actionable logs. The first full run exposed seven failures/errors; fixes were applied to the creator-watchlist test helper, research validation messages, YouTube upload rights-check ordering/messages, and Studio checklist wording. A later PR #66 run `44632625889` checked out merge ref `1813d291c21a870d557f51fdf40d0acb6a78649d` (branch head `02527cfdc978e085a61373146bdaa07249eec746`), passed source compilation, and completed `Ran 258 tests`; `OK (skipped=1)`. The logs specifically show the custom-FFprobe propagation test passing. The skipped test remains skipped, not counted as executed.
 
 ## Next priorities
 
