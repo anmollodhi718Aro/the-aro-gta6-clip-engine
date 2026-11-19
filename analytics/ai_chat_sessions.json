@@ -410,12 +410,12 @@
       }
     },
     {
-      "chat_id": "ARO-CHAT-0015",
-      "title": "ARO-CHAT-0015 | Analytics Schema Integrity and CI Reconciliation",
+      "chat_id": "ARO-CHAT-0016",
+      "title": "ARO-CHAT-0016 | Analytics Schema Integrity and CI Reconciliation",
       "project": "THE ARO GTA 6 CLIP ENGINE",
       "workstream_id": "ARO-ZERO-ONE",
       "task_ids": [
-        "ARO-GTA-P0-15"
+        "ARO-GTA-P0-16"
       ],
       "provider": "OpenAI",
       "model": "GPT-6",
@@ -434,7 +434,7 @@
       "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
       "starting_sha": "a9c537fc4ac5a7c437dc2c2f535ac258d24b619e",
       "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
-      "current_sha": "65ff56f980ed87081421162cc36d0fa495981502",
+      "current_sha": "628c11e1fa9638406947bc34ae5354f8edd944d9",
       "pull_requests": [
         66
       ],
@@ -536,7 +536,8 @@
         "starting_commit": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/commit/a9c537fc4ac5a7c437dc2c2f535ac258d24b619e",
         "latest_commit": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/commit/65ff56f980ed87081421162cc36d0fa495981502",
         "prior_cancelled_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44637541338"
-      }
+      },
+      "collision_resolution": "Initially reserved ARO-CHAT-0015, but a live registry/ledger read found two concurrent records using that ID for CI/Windows first-clip work. Re-attributed this separate analytics-schema task to ARO-CHAT-0016 before continuing."
     }
   ]
 }
