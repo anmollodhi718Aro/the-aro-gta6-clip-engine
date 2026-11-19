@@ -25,7 +25,7 @@ def verify_rendered_media(
     vertical: bool = False,
     ffprobe_binary: str = "ffprobe",
 ) -> RenderedMediaInfo:
-    """Verify a non-empty MP4 has a readable video stream and expected layout/duration."""
+    """Verify an MP4 container has a readable video stream and expected layout/duration."""
     output = Path(path).expanduser().resolve()
     if not output.is_file() or output.stat().st_size <= 0:
         raise ValueError("rendered output is missing or empty")
@@ -40,7 +40,7 @@ def verify_rendered_media(
     command = [
         ffprobe_binary,
         "-v", "error",
-        "-show_entries", "format=duration:stream=codec_type,width,height",
+        "-show_entries", "format=format_name,duration:stream=codec_type,width,height",
         "-of", "json",
         str(output),
     ]
@@ -58,6 +58,14 @@ def verify_rendered_media(
 
     try:
         payload = json.loads(result.stdout)
+        media_format = payload["format"]["format_name"]
+        formats = {
+            name.strip().lower()
+            for name in media_format.split(",")
+            if isinstance(name, str) and name.strip()
+        }
+        if "mp4" not in formats:
+            raise ValueError("rendered output is not an MP4 container")
         duration = float(payload["format"]["duration"])
         streams = payload["streams"]
         video = next(
@@ -70,7 +78,11 @@ def verify_rendered_media(
             isinstance(stream, dict) and stream.get("codec_type") == "audio"
             for stream in streams
         )
-    except (json.JSONDecodeError, KeyError, TypeError, ValueError, StopIteration) as exc:
+    except ValueError as exc:
+        if str(exc) == "rendered output is not an MP4 container":
+            raise
+        raise ValueError("ffprobe returned incomplete rendered-media metadata") from exc
+    except (json.JSONDecodeError, KeyError, TypeError, StopIteration) as exc:
         raise ValueError("ffprobe returned incomplete rendered-media metadata") from exc
 
     if not math.isfinite(duration) or duration <= 0:
