@@ -2,13 +2,13 @@
 
 The suite is designed to run without a GTA recording, YouTube credentials, or network access. Prefer synthetic chat events, temporary SQLite databases, generated JSON fixtures, and mocked subprocess/API boundaries.
 
-`test_end_to_end_pipeline.py` covers synthetic permission-gated chat analysis, measured three-anchor clock mapping, candidate-pack export, explainable scoring, and a non-rendering batch dry-run. It uses a placeholder local file and mocks the renderer; it does not need real GTA footage, FFmpeg, network access, or credentials.
+`test_end_to_end_pipeline.py` covers synthetic permission-gated chat analysis, measured three-anchor clock mapping, candidate-pack export, explainable scoring, and a non-rendering batch dry-run. `test_manual_clip.py` covers manually selected local time ranges and no-overwrite CSV creation. `test_media_probe.py` mocks ffprobe output, including the audio-only rejection path. These tests need no real GTA footage, FFmpeg, network access, or credentials.
 
 ## Requirements
 
 - Python 3.11 or newer
 - No mandatory third-party Python dependencies for the standard-library test suite
-- FFmpeg is optional; tests that require an installed FFmpeg binary must be explicitly skipped when it is unavailable
+- FFmpeg and ffprobe are optional for the synthetic test suite; actual local rendering requires both on PATH
 
 ## Run on Windows (PowerShell)
 
@@ -20,7 +20,7 @@ python -m compileall -q backend tests THE_ARO_STUDIO.py
 python -m unittest discover -s tests -v
 ```
 
-Or run the combined local check, including the optional FFmpeg availability check:
+Or run the combined local check, including optional FFmpeg and ffprobe availability checks:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/check_project.ps1
