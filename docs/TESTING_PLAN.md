@@ -16,6 +16,8 @@
 - event batch to candidate list
 - candidate list to human review state
 - authorized asset check to render-job request
+- manually selected local time ranges to batch-render CSV
+- one-command analysis, measured clock mapping, candidate scoring and dry-run review pack
 
 ### End-to-end tests
 Use synthetic events and a short, owned or explicitly authorized sample video. Confirm that the workflow creates a candidate clip plan and does not publish anything.
