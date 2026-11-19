@@ -176,3 +176,73 @@ The following latest PR-head workflow runs were queried. Each job is completed w
 - PR #48 is **CLOSED, MERGED** into `integration/release-candidate`; its head SHA `625425987b8381c5a7d16313f5fbb96abcfcff21` matches the dated integration branch head currently inspected.
 - PR #49, #51, #52 and #53 are **CLOSED, UNMERGED**. PR #52 was stacked on the #50 smoke-verification branch; #53 is the base branch for stacked PR #54. Their changes may be present elsewhere, but their closed state alone is not evidence of integration.
 - This supersedes the earlier "Relevant active work checked" wording above that listed #44 and #53 as active. Current active Windows work is represented by #50 and #54, with #57 providing a separate Windows CI workflow.
+
+
+## Live revalidation follow-up — 2026-11-19 (second pass)
+
+**Workstream ID:** `ARO-GTA-P0-01`  
+**Status:** **IN PROGRESS** — refreshed PR metadata, changed-file ownership, source-level integration findings, and exact-head Actions evidence.  
+**Audit PR:** [#56](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/56)  
+**Audit branch:** `workstream/2026-11-19-release-readiness-audit`  
+**Previous audit head:** `02f1cfe9b24f07d6c77768b94f711c867919a541`
+
+### Fresh PR and branch checks
+
+- PR #18 remains OPEN, non-draft, unmerged; base `main`, head `integration/release-candidate` at `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`.
+- Compare rechecked with the advanced branch as base and dated branch as head: the dated branch is 4 commits behind; `integration/release-candidate` is the more advanced candidate. Owner designation is still required.
+- PR #50 remains OPEN/DRAFT at `e370e74beb501f54e87784ebdb0fcbf0c478d478`, base `integration/release-candidate`; GitHub now reports `mergeable=false`. Do not integrate until its merge conflict/divergence is reconciled against the owner-selected canonical RC.
+- PR #54 remains OPEN/DRAFT at `7136be0fa618bbddbc74dcad0cde599714c685c8`, but is stacked on `fix/manual-wizard-python-runtime-detection`, not an RC branch. Its metadata reports mergeable, which does not make it independently RC-ready.
+- PR #56 remains OPEN/DRAFT at `02f1cfe9b24f07d6c77768b94f711c867919a541`; its latest associated Actions run is `44582573588` and failed before exposing job steps/logs.
+- PRs #55, #57, #58, #59 and #60 remain OPEN/DRAFT at the previously recorded heads. Their changed-file lists were re-fetched. #55 owns subtitle code/tests; #57 owns Windows CI workflow and manual-clip path tests; #58 owns POSIX preflight; #59 owns CLI dry-run test; #60 owns post-render validation code/tests.
+
+### Current changed-file ownership (re-fetched)
+
+- #50: `.github/workflows/ci.yml`, `.gitignore`, `README.md`, `START_CLIPPING_TODAY.bat`, `backend/app/batch_render.py`, Windows docs/scripts and `tests/test_batch_render.py`.
+- #54: `START_CLIPPING_TODAY.bat`, `scripts/check_project.ps1`. This confirms direct file overlap with #50.
+- #60: `backend/app/clipping.py`, `backend/app/render_validation.py`, `docs/WORKSTREAM_PROGRESS.md`, and render-validation tests. #60's ffprobe propagation needs a coordinated change in #50-owned `backend/app/batch_render.py`.
+- #55 branch name remains inconsistent with its actual subtitle paired-output scope.
+
+### Source-level integration findings rechecked
+
+- On `integration/release-candidate`, `scripts/check_project.ps1` still treats missing FFmpeg/ffprobe as warnings and then prints that available local checks passed. That baseline does not satisfy the P0-02 requirement that render readiness fail clearly when required media executables are missing. #50/#54 are the active overlapping fixes; no duplicate edit was made.
+- On the #60 branch, `render_clip` invokes `verify_rendered_media` without forwarding a configured ffprobe executable. The #60 branch's `batch_render.py` still passes `ffprobe_binary` only to input probing; its call to `render_clip` does not pass the configured path. This confirms the custom-ffprobe gap remains at the inspected head.
+- #60 implementation uses `max(0.5, expected_duration_seconds * 0.01)`; its progress document still states `max(1 second, 10%)`. Documentation and code contract remain inconsistent. These are source-review findings, not test failures.
+- #60's verification helper checks for a video stream, positive finite duration, valid dimensions, and exact 1080x1920 vertical dimensions before publication. This is **IMPLEMENTED IN SOURCE**, not TESTED or REAL MEDIA VERIFIED.
+
+### Latest Actions evidence checked in this pass
+
+- PR #50 head run `44541968254`: jobs `Python unit tests (Ubuntu)` and `Windows PowerShell and FFmpeg smoke test`; both failed, with `steps=null` and `logs_url=null`.
+- PR #54 head run `44542319502`: job `tests`; failed with `steps=null` and `logs_url=null`.
+- PR #56 head run `44582573588`: job `tests`; failed with `steps=null` and `logs_url=null`.
+- PR #57 Windows run `44548314651`: job `windows-tests`; failed with `steps=null` and `logs_url=null`.
+- PR #59 run `44548478067` and PR #60 run `44548471688`: each `tests` job failed with `steps=null` and `logs_url=null`.
+
+All above must be recorded exactly as: `CI JOB FAILED — TEST EXECUTION NOT VERIFIED — LOGS/STEPS UNAVAILABLE`. No Python/PowerShell test execution is verified by these jobs.
+
+### Updated P0 ownership and status
+
+| Workstream | Status | Current owner/evidence |
+|---|---|---|
+| `ARO-GTA-P0-01` | **IN PROGRESS** | PR #56; current audit refresh recorded here. Canonical RC decision and PR integration reconciliation remain open. |
+| `ARO-GTA-P0-02` | **IN PROGRESS** | PRs #50/#54; overlapping Windows preflight/launcher files. No Windows execution verified. |
+| `ARO-GTA-P0-03` | **IN PROGRESS** | PRs #50/#59; CLI test is dry-run/placeholder-media only. |
+| `ARO-GTA-P0-04` | **IN PROGRESS** | PR #50 synthetic render path plus #60 output validator. No authorized real MP4 or Windows playback evidence. |
+| `ARO-GTA-P0-05` | **IN PROGRESS** | PR #60 output-validation implementation; custom ffprobe propagation and tolerance docs still need correction. |
+| `ARO-GTA-P0-06` | **IN PROGRESS** | PR #57 Windows CI and PR #59 CLI regression coverage; Actions execution not verified. |
+
+### Actions performed / not performed
+
+- Re-fetched current PR metadata for #18 and #50–#60, branch inventory, changed-file lists, PR comments, and exact-head Actions runs/jobs.
+- Re-read the release-candidate preflight, batch-render and clipping source, and #60's render-validation implementation and workstream notes.
+- Updated this existing audit registry on the existing #56 branch only. No product code, shared integration branch, default branch, PR base, or merge state was changed.
+- No local tests, PowerShell execution, FFmpeg/FFprobe execution, Windows verification, or real-media render was run in this connector session.
+
+### Exact next handoff
+
+1. Owner must designate the canonical RC before any PR retargeting/integration.
+2. Continue the existing #50/#54 workstream reconciliation; do not create another Windows-preflight branch. Resolve their overlap in `START_CLIPPING_TODAY.bat` and `scripts/check_project.ps1`.
+3. Coordinate with #50 owner to thread `ffprobe_binary` through `run_batch -> render_clip -> verify_rendered_media` for #60, and align the duration-tolerance docs/tests with the intended code contract.
+4. Repair/restore Actions runner allocation so exact-head steps and logs are available.
+5. Owner-side Windows gate remains mandatory: preflight, authorized local MP4, dry-run, actual vertical render, ffprobe metadata check, and open/play final MP4.
+
+**Verification summary:** source reviewed; local tests **NOT RUN**; CI test execution **NOT VERIFIED**; Windows **NOT VERIFIED**; real-media render/playback **NOT VERIFIED**; no PR merged.
