@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import math
 from datetime import datetime, timedelta
 from typing import Iterable
 from urllib.parse import urlparse
@@ -58,10 +59,20 @@ class SevenDayMetrics:
                 raise ValueError(f"{name} must be timezone-aware")
         if self.window_end - self.window_start != WINDOW:
             raise ValueError("metrics must cover exactly seven days")
-        if self.views < 0 or self.live_streams < 0:
-            raise ValueError("views and live_streams cannot be negative")
-        if self.peak_concurrent_viewers < 0 or self.average_concurrent_viewers < 0:
-            raise ValueError("viewer counts cannot be negative")
+        for name, value in (
+            ("views", self.views),
+            ("live_streams", self.live_streams),
+            ("peak_concurrent_viewers", self.peak_concurrent_viewers),
+        ):
+            if type(value) is not int:
+                raise ValueError(f"{name} must be an integer")
+            if value < 0:
+                raise ValueError(f"{name} cannot be negative")
+        average = self.average_concurrent_viewers
+        if isinstance(average, bool) or not isinstance(average, (int, float)):
+            raise ValueError("average_concurrent_viewers must be numeric")
+        if not math.isfinite(average) or average < 0:
+            raise ValueError("average_concurrent_viewers must be finite and nonnegative")
         if self.captured_at is not None and (
             self.captured_at.tzinfo is None or self.captured_at.utcoffset() is None
         ):
