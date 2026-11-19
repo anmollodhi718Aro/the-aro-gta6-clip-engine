@@ -4,7 +4,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from backend.app.output_manager import (\n    create_run_directory, make_run_id, write_json_atomic,\n    write_json_no_overwrite, write_texts_no_overwrite,\n)
+from backend.app.output_manager import (
+    create_run_directory, make_run_id, write_json_atomic,
+    write_json_no_overwrite, write_texts_no_overwrite,
+)
 
 
 class OutputManagerTests(unittest.TestCase):
@@ -29,13 +32,13 @@ class OutputManagerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             first = Path(temp) / "draft.md"
             second = Path(temp) / "draft.json"
-            result = write_texts_no_overwrite({first: "# draft\\n", second: "{\\n  \"ok\": true\\n}\\n"})
+            result = write_texts_no_overwrite({first: "# draft\n", second: "{\n  \"ok\": true\n}\n"})
             self.assertEqual(result, (first, second))
-            self.assertEqual(first.read_text(encoding="utf-8"), "# draft\\n")
+            self.assertEqual(first.read_text(encoding="utf-8"), "# draft\n")
             self.assertIn('"ok": true', second.read_text(encoding="utf-8"))
             with self.assertRaises(FileExistsError):
                 write_texts_no_overwrite({first: "replacement"})
-            self.assertEqual(first.read_text(encoding="utf-8"), "# draft\\n")
+            self.assertEqual(first.read_text(encoding="utf-8"), "# draft\n")
 
     def test_text_bundle_rolls_back_only_its_own_partial_publication(self):
         with tempfile.TemporaryDirectory() as temp:
