@@ -16,11 +16,16 @@ Write-Host "`n[2/3] Run unit tests..." -ForegroundColor Yellow
 python -m unittest discover -s tests -v
 if ($LASTEXITCODE -ne 0) { throw "Unit tests failed. Review the failing test output above." }
 
-Write-Host "`n[3/3] Check optional FFmpeg..." -ForegroundColor Yellow
+Write-Host "`n[3/3] Check optional FFmpeg tools..." -ForegroundColor Yellow
 if (Get-Command ffmpeg -ErrorAction SilentlyContinue) {
     ffmpeg -version | Select-Object -First 1
 } else {
-    Write-Warning "FFmpeg not found. Python tests completed, but local MP4 rendering needs FFmpeg."
+    Write-Warning "FFmpeg not found. Local MP4 rendering is unavailable."
+}
+if (Get-Command ffprobe -ErrorAction SilentlyContinue) {
+    ffprobe -version | Select-Object -First 1
+} else {
+    Write-Warning "ffprobe not found. Actual-media duration validation will stop before rendering."
 }
 
 Write-Host "`nAll available local checks passed." -ForegroundColor Green
