@@ -185,6 +185,6 @@ GitHub Actions runs the same compile and unittest discovery workflow on pull req
 - Keep API keys, OAuth client secrets and tokens out of Git.
 - No scraping, stream ripping, fake engagement, quota evasion, or platform-control bypass.
 - No automatic publication. Human approval is required for every final upload.
-- No paid dependencies are required by the core local workflow.
+- No paid dependencies are required by the core local workflow; the optional official uploader uses free/open-source Python client libraries and Google's API quota.
 
 See `docs/PROJECT_STATUS.md`, `docs/TESTING_PLAN.md`, and the feature-specific docs for implementation details.
