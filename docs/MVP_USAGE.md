@@ -22,7 +22,7 @@ Output candidates are marked `needs_review`. Publishing remains disabled.
 
 ## Render an authorized local media file
 
-The clipper accepts local filesystem paths only. It never fetches a URL. It requires an explicit rights confirmation and refuses to overwrite an existing output.
+The clipper accepts local filesystem paths only. It never fetches a URL. It requires an explicit rights confirmation and refuses to overwrite an existing output. FFmpeg renders to a unique temporary file in the destination folder; the completed file is published with an atomic no-overwrite operation. If another render wins the same output path, its file is preserved and the losing render reports a collision.
 
 ```python
 from backend.app.clipping import render_clip
