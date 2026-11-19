@@ -1,12 +1,14 @@
 """Tests for measured media-clock mapping and clip-pack exports."""
 
 import csv
+import json
 import tempfile
 import unittest
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
 
-from backend.app.clip_pack import map_candidates_to_media, write_clip_pack
+from backend.app.clip_pack import load_clock_sync, map_candidates_to_media, write_clip_pack
+from backend.app.clock_sync import ClockAnchor, fit_clock_sync
 
 
 class ClipPackTests(unittest.TestCase):
@@ -58,6 +60,48 @@ class ClipPackTests(unittest.TestCase):
     def test_exact_renderer_limit_is_allowed_for_review(self) -> None:
         rows = map_candidates_to_media([self.candidate(0, 180)], self.origin)
         self.assertTrue(rows[0]["renderable"])
+
+
+    def test_maps_using_measured_multi_anchor_clock_fit(self) -> None:
+        anchors = [
+            ClockAnchor("authorized-demo", self.origin + timedelta(seconds=offset), offset + 5)
+            for offset in (0, 60, 120)
+        ]
+        sync = fit_clock_sync(anchors)
+        rows = map_candidates_to_media([self.candidate()], clock_sync=sync, source_id="authorized-demo")
+        self.assertEqual(rows[0]["start_seconds"], 40.0)
+        self.assertEqual(rows[0]["end_seconds"], 65.0)
+        self.assertEqual(rows[0]["sync_method"], "measured_multi_anchor_fit")
+        self.assertEqual(rows[0]["sync_max_residual_seconds"], 0.0)
+
+    def test_clock_fit_rejects_source_mismatch(self) -> None:
+        anchors = [
+            ClockAnchor("different-source", self.origin + timedelta(seconds=offset), offset)
+            for offset in (0, 60, 120)
+        ]
+        sync = fit_clock_sync(anchors)
+        with self.assertRaisesRegex(ValueError, "does not match"):
+            map_candidates_to_media([self.candidate()], clock_sync=sync, source_id="authorized-demo")
+
+    def test_clock_fit_refuses_candidate_outside_calibrated_interval(self) -> None:
+        anchors = [
+            ClockAnchor("authorized-demo", self.origin + timedelta(seconds=offset), offset)
+            for offset in (0, 60, 120)
+        ]
+        sync = fit_clock_sync(anchors)
+        with self.assertRaisesRegex(ValueError, "outside the calibrated interval"):
+            map_candidates_to_media([self.candidate(130, 150)], clock_sync=sync, source_id="authorized-demo")
+
+    def test_loads_operator_measured_clock_anchor_json(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "anchors.json"
+            path.write_text(json.dumps({"anchors": [
+                {"source_id": "authorized-demo", "chat_time": (self.origin + timedelta(seconds=offset)).isoformat(), "media_seconds": offset + 5}
+                for offset in (0, 60, 120)
+            ]}), encoding="utf-8")
+            sync = load_clock_sync(path)
+            self.assertEqual(sync.source_id, "authorized-demo")
+            self.assertAlmostEqual(sync.rate, 1.0)
 
     def test_writes_csv_and_markdown_review_files(self) -> None:
         rows = map_candidates_to_media([self.candidate()], self.origin)
