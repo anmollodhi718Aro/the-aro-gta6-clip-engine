@@ -1,0 +1,10 @@
+{
+  "source_id": "my-authorized-local-recording",
+  "clips": [
+    {
+      "start_seconds": 35.0,
+      "end_seconds": 75.0,
+      "note": "Check this moment before rendering"
+    }
+  ]
+}
