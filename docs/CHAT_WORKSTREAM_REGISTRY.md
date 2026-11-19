@@ -253,7 +253,7 @@
 - Final analytics reconciliation commit: `93135b572ef6e3dc4c40792c11f0de8c24785bcc`; final handoff reference commit: `28d16085657e455ffb450d25457f583aa3607246`. The analytics ledger includes the final handoff/registry evidence; timing and score remain null where not measurable.
 
 
-## ARO-CHAT-0015 reservation (2026-11-20 04:58 IST)
+## ARO-CHAT-0016 reservation (2026-11-20 04:58 IST)
 
 | Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
 |---|---|---|---|---|---|---|
@@ -269,3 +269,9 @@
 - Follow-up Python CI run [44638350854](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44638350854) ended `cancelled`; GitHub returned no job records, so no compile, test, or Windows pass is claimed for the final branch update.
 - Tests executed directly in this chat: 0. Final-head CI: NOT VERIFIED. Windows: NOT VERIFIED. Authorized GTA 6 media render/playback: NOT VERIFIED; still blocked on a creator-authorized recording/export or approved media handoff.
 - No source renderer changes, no merge, retarget, main-branch update, deployment, upload, or public publishing.
+
+
+### ARO-CHAT-0015 / ARO-CHAT-0016 identity collision resolution
+- A subsequent live registry/ledger read found two concurrent ARO-CHAT-0015 records already covering exact-head CI and Windows/first-clip verification. This chat's initially reserved ARO-CHAT-0015 identity therefore collided.
+- Re-attributed this chat's distinct analytics-schema task to ARO-CHAT-0016 / ARO-GTA-P0-16. The Windows CI/first-clip work remains under the existing ARO-CHAT-0015 records; no duplicate Windows workflow or renderer implementation was added by this chat.
+- Analytics schema changes already committed to PR #66 are retained as a separate scope. No further overlapping implementation is being started.
