@@ -213,3 +213,11 @@
 - No local tests were run; clone failed because this environment could not resolve github.com. Windows-native and creator-authorized GTA 6 media/playback remain NOT VERIFIED.
 - Main remains unchanged. No merge, deployment, upload, or public publication.
 - Single external blocker for first GTA 6 clip: creator-authorized recording/export or approved media handoff.
+
+
+### ARO-CHAT-0013 verification update
+- Initial exact-head run [44633469178](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44633469178) failed one test because the test assertion searched for a command argument as a substring of the full argv list. The implementation command itself was correct.
+- Fixed `tests/test_render_validation.py` in commit `a1dbff89f07e1b1466288695bc910902cf92a904` to assert the `-show_entries` argv position and exact value.
+- Rerun [44633588158](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44633588158) passed compile and all tests: `Ran 270 tests in 3.509s`, `OK`; synthetic real-FFmpeg/FFprobe vertical MP4 render and full decode test passed.
+- CI_VERIFIED applies to implementation/test SHA `a1dbff89f07e1b1466288695bc910902cf92a904`. The following handoff/registry commit is docs-only. Windows-native and creator-authorized GTA 6 real-media verification remain NOT VERIFIED.
+- No merge, deployment, upload, or public publishing.
