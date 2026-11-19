@@ -17,13 +17,15 @@ notepad my_clips.json
 3. Generate the review CSV:
 
 ```powershell
-python -m backend.app.manual_clip my_clips.json --output manual_clips.csv
+py -3 -m backend.app.manual_clip my_clips.json --output manual_clips.csv
 ```
+
+If `py` is unavailable, use `python` instead. The launcher requires Python 3.11 or newer.
 
 4. Preview safely (replace the media path and approve only the row you reviewed):
 
 ```powershell
-python -m backend.app.batch_render manual_clips.csv --media "D:\Videos\your-recording.mp4" --approve 1 --output-dir rendered_clips
+py -3 -m backend.app.batch_render manual_clips.csv --media "D:\Videos\your-recording.mp4" --approve 1 --output-dir rendered_clips
 ```
 
 Dry-run is the default. Inspect the report and verify the exact time range and media file.
@@ -31,7 +33,7 @@ Dry-run is the default. Inspect the report and verify the exact time range and m
 5. Render only after confirming rights for this exact recording and intended distribution:
 
 ```powershell
-python -m backend.app.batch_render manual_clips.csv --media "D:\Videos\your-recording.mp4" --approve 1 --output-dir rendered_clips --execute --confirm-rights
+py -3 -m backend.app.batch_render manual_clips.csv --media "D:\Videos\your-recording.mp4" --approve 1 --output-dir rendered_clips --execute --confirm-rights
 ```
 
 The renderer requires FFmpeg/ffprobe, checks the actual video stream and duration, writes to a unique run folder, and refuses to overwrite. Review the resulting MP4 before any separate upload decision.
@@ -49,7 +51,7 @@ This is the shortest safe path from a fresh clone to a reviewed vertical clip. U
 Install Python 3.11 or newer and FFmpeg (including ffprobe). Open PowerShell in the cloned repository folder.
 
 ```powershell
-py --version
+py -3 --version
 ffmpeg -version
 ffprobe -version
 ```
@@ -59,8 +61,8 @@ If py is unavailable but python works, replace py with python below.
 ## 1. Validate the project
 
 ```powershell
-py -m compileall -q backend tests THE_ARO_STUDIO.py
-py -m unittest discover -s tests -v
+py -3 -m compileall -q backend tests THE_ARO_STUDIO.py
+py -3 -m unittest discover -s tests -v
 ```
 
 Do not proceed if either command reports an error. Save the final test summary and commit SHA.
@@ -71,7 +73,7 @@ Do not proceed if either command reports an error. Save the final test summary a
 powershell -ExecutionPolicy Bypass -File scripts/start_studio.ps1
 ```
 
-The launcher selects Python 3.11+ and binds the dashboard to 127.0.0.1. Keep the PowerShell window open. You can also start it directly with `py THE_ARO_STUDIO.py`.
+The launcher selects Python 3.11+ and binds the dashboard to 127.0.0.1. Keep the PowerShell window open. You can also start it directly with `py -3 -m THE_ARO_STUDIO`.
 
 Open http://127.0.0.1:8765. Keep the terminal open while using the dashboard. The dashboard is local-only.
 
@@ -80,7 +82,7 @@ Open http://127.0.0.1:8765. Keep the terminal open while using the dashboard. Th
 The analyzer accepts authorized chat-event data. The repository sample is synthetic test data only, not a real GTA stream or permission for real footage.
 
 ```powershell
-py -m backend.app.cli path\to\your_authorized_chat_events.json --output clip_plan.json
+py -3 -m backend.app.cli path\to\your_authorized_chat_events.json --output clip_plan.json
 ```
 
 The input must contain a valid permission grant for chat analysis and timestamped events. Results are candidate moments, not guaranteed highlights.
@@ -90,13 +92,13 @@ The input must contain a valid permission grant for chat analysis and timestampe
 Measure the UTC timestamp corresponding to the start of the exact local recording. Never guess it.
 
 ```powershell
-py -m backend.app.clip_pack clip_plan.json --media-origin-utc "2026-11-19T12:00:00+00:00" --output-dir clip_pack
+py -3 -m backend.app.clip_pack clip_plan.json --media-origin-utc "2026-11-19T12:00:00+00:00" --output-dir clip_pack
 ```
 
 Replace the example timestamp with the measured value for your recording. For clock drift, use at least three manually verified anchors from that same recording:
 
 ```powershell
-py -m backend.app.clip_pack clip_plan.json --clock-anchors-json path\to\your_measured_anchors.json --output-dir clip_pack
+py -3 -m backend.app.clip_pack clip_plan.json --clock-anchors-json path\to\your_measured_anchors.json --output-dir clip_pack
 ```
 
 Inspect clip_pack\clip_candidates.md. A mapped timestamp is not proof that a moment is useful.
@@ -104,8 +106,8 @@ Inspect clip_pack\clip_candidates.md. A mapped timestamp is not proof that a mom
 ## 5. Score and dry-run
 
 ```powershell
-py -m backend.app.candidate_quality clip_pack\clip_candidates.csv --output clip_pack\quality_scored_candidates.csv
-py -m backend.app.batch_render clip_pack\clip_candidates.csv --media "D:\Videos\your_authorized_recording.mp4" --approve 1,2 --output-dir rendered_clips
+py -3 -m backend.app.candidate_quality clip_pack\clip_candidates.csv --output clip_pack\quality_scored_candidates.csv
+py -3 -m backend.app.batch_render clip_pack\clip_candidates.csv --media "D:\Videos\your_authorized_recording.mp4" --approve 1,2 --output-dir rendered_clips
 ```
 
 Change the media path and approved row numbers. Dry-run is the default. Inspect the report before rendering.
@@ -115,7 +117,7 @@ Change the media path and approved row numbers. Dry-run is the default. Inspect 
 Only after confirming you have rights to edit and publish this exact media:
 
 ```powershell
-py -m backend.app.batch_render clip_pack\clip_candidates.csv --media "D:\Videos\your_authorized_recording.mp4" --approve 1,2 --output-dir rendered_clips --execute --confirm-rights
+py -3 -m backend.app.batch_render clip_pack\clip_candidates.csv --media "D:\Videos\your_authorized_recording.mp4" --approve 1,2 --output-dir rendered_clips --execute --confirm-rights
 ```
 
 The renderer probes actual media duration and blocks invalid bounds. Outputs go into a unique run folder under rendered_clips.
@@ -125,7 +127,7 @@ The renderer probes actual media duration and blocks invalid bounds. Outputs go 
 Find the newest run folder under rendered_clips, then:
 
 ```powershell
-py -m backend.app.review_dashboard rendered_clips\RUN_ID\batch_render_report.json --output rendered_clips\review.html
+py -3 -m backend.app.review_dashboard rendered_clips\RUN_ID\batch_render_report.json --output rendered_clips\review.html
 ```
 
 Replace RUN_ID with the actual folder name. Open review.html and inspect exported clips before any upload.
