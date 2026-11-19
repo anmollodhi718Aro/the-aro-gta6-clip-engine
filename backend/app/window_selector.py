@@ -6,6 +6,7 @@ It does not inspect video, infer entertainment value, or authorize rendering.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import math
 from typing import Iterable
 
 from .clipping import MAX_CLIP_SECONDS
@@ -22,10 +23,10 @@ class SelectionPolicy:
     def __post_init__(self) -> None:
         if self.max_clips < 1:
             raise ValueError("max_clips must be at least one")
-        if self.min_gap_seconds < 0:
-            raise ValueError("min_gap_seconds cannot be negative")
-        if self.max_total_duration_seconds <= 0:
-            raise ValueError("max_total_duration_seconds must be positive")
+        if not math.isfinite(self.min_gap_seconds) or self.min_gap_seconds < 0:
+            raise ValueError("min_gap_seconds must be finite and non-negative")
+        if not math.isfinite(self.max_total_duration_seconds) or self.max_total_duration_seconds <= 0:
+            raise ValueError("max_total_duration_seconds must be finite and positive")
 
 
 def select_review_windows(
@@ -48,7 +49,10 @@ def select_review_windows(
     for candidate, window in zip(candidate_list, window_list):
         if candidate.source_id != window.source_id:
             raise ValueError("candidate and mapped window source IDs do not match")
-        if window.start_seconds < 0 or window.end_seconds <= window.start_seconds:
+        if not 0 <= candidate.score <= 100 or candidate.peak_message_count < 0:
+            raise ValueError("candidate score or peak message count is outside valid bounds")
+        if (not math.isfinite(window.start_seconds) or not math.isfinite(window.end_seconds)
+                or window.start_seconds < 0 or window.end_seconds <= window.start_seconds):
             raise ValueError("mapped window has invalid bounds")
         duration = window.end_seconds - window.start_seconds
         if duration > MAX_CLIP_SECONDS:
