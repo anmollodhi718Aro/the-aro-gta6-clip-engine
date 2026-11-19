@@ -39,6 +39,46 @@ def _load_candidates(csv_path: Path) -> list[dict[str, str]]:
         return list(reader)
 
 
+def load_failed_rows(report_path: str | Path, csv_path: str | Path) -> set[int]:
+    """Select only failed rows whose identity and bounds still match the source CSV."""
+    report_file = Path(report_path).expanduser()
+    with report_file.open("r", encoding="utf-8") as handle:
+        previous = json.load(handle)
+    if not isinstance(previous, list):
+        raise ValueError("retry report must contain a JSON list of candidate results")
+
+    candidates = _load_candidates(Path(csv_path).expanduser())
+    failed: set[int] = set()
+    for item in previous:
+        if not isinstance(item, dict) or item.get("status") != "failed":
+            continue
+        row_number = item.get("candidate_row")
+        if isinstance(row_number, bool) or not isinstance(row_number, int) or row_number < 1 or row_number > len(candidates):
+            raise ValueError("retry report contains an invalid failed candidate row")
+        if row_number in failed:
+            raise ValueError("retry report contains duplicate failed candidate rows")
+        source = candidates[row_number - 1]
+        if str(item.get("source_id", "")) != source.get("source_id", ""):
+            raise ValueError(f"candidate row {row_number} no longer matches the retry report")
+        try:
+            old_start = float(item["start_seconds"])
+            old_end = float(item["end_seconds"])
+            new_start = float(source["start_seconds"])
+            new_end = float(source["end_seconds"])
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError(f"retry report lacks valid measured bounds for candidate row {row_number}") from exc
+        if (not all(math.isfinite(value) for value in (old_start, old_end, new_start, new_end))
+                or old_start != new_start or old_end != new_end):
+            raise ValueError(f"candidate row {row_number} bounds changed since the previous run")
+        if str(source.get("renderable", "")).strip().lower() not in {"true", "1", "yes"}:
+            raise ValueError(f"candidate row {row_number} is no longer marked renderable")
+        failed.add(row_number)
+
+    if not failed:
+        raise ValueError("retry report contains no safely retryable failed render rows")
+    return failed
+
+
 def _validated_bounds(row: dict[str, str], row_number: int) -> tuple[float, float]:
     try:
         start = float(row["start_seconds"])
@@ -100,6 +140,8 @@ def run_batch(
             continue
         try:
             start, end = _validated_bounds(row, number)
+            item["start_seconds"] = start
+            item["end_seconds"] = end
             output_path = run_dir / f"clip_{number:03d}.mp4"
             item["output_path"] = str(output_path)
             if not execute:
@@ -127,7 +169,9 @@ def main() -> int:
     parser.add_argument("--media", required=True, type=Path, help="local media file; remote URLs are not supported")
     parser.add_argument("--output-dir", type=Path, default=Path("rendered_clips"), help="root folder for separate render runs")
     parser.add_argument("--run-id", help="optional safe, unique run folder name; generated when omitted")
-    parser.add_argument("--approve", required=True, help="comma-separated 1-based row numbers approved by a human")
+    selection = parser.add_mutually_exclusive_group(required=True)
+    selection.add_argument("--approve", help="comma-separated 1-based row numbers approved by a human")
+    selection.add_argument("--retry-report", type=Path, help="previous batch JSON report; retries only failed rows whose source identity and bounds still match")
     parser.add_argument("--execute", action="store_true", help="perform local rendering; default is dry-run")
     parser.add_argument("--confirm-rights", action="store_true", help="confirm authorization for this exact local media file")
     parser.add_argument("--report", type=Path, help="optional report path; defaults inside this run folder")
@@ -136,7 +180,7 @@ def main() -> int:
     try:
         if args.execute and not args.confirm_rights:
             raise PermissionError("--execute requires --confirm-rights")
-        approvals = parse_approvals(args.approve)
+        approvals = (parse_approvals(args.approve) if args.approve is not None\n                     else load_failed_rows(args.retry_report, args.candidate_csv))
         run_id = make_run_id(args.run_id)
         run_dir = create_run_directory(args.output_dir, run_id)
         results = run_batch(
