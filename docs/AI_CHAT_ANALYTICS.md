@@ -53,3 +53,12 @@ The initial ledger contains the ARO-CHAT-0014 continuation record only. Historic
 2. Add a read-only analytics dashboard generated from the ledger.
 3. Add task/provider/PR/CI evidence ingestion with explicit source provenance.
 4. Add scoring and category leaderboards only after sufficient comparable records exist.
+
+
+## Ledger schema and validation
+
+- JSON Schema contract: `analytics/ai_chat_sessions.schema.json` (Draft 2020-12).
+- Dependency-free runtime validator: `backend/app/analytics_validation.py`.
+- The validator checks unique Chat IDs, required attribution/evidence fields, timezone-aware timestamps, timestamp ordering, finite non-negative timing values, valid PR/issue/commit identifiers, score bounds, and scoring weights summing to 1.0.
+- Unknown elapsed time, active time, and scores must be explicitly represented as `null`; missing required fields and boolean/numeric impostors are rejected.
+- Regression coverage: `tests/test_analytics_validation.py`; included in normal unittest discovery.
