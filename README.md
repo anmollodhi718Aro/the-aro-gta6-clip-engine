@@ -6,7 +6,7 @@ A local-first, zero-mandatory-dependency creator workflow for analysing authoriz
 
 ## Start clipping today
 
-**Windows fastest start:** double-click `START_MANUAL_CLIPPING.bat`. The guided wizard selects a local authorized recording, validates 15–35 second timestamps (up to 50 moments), runs a dry-run, and waits for explicit `RENDER` confirmation before creating MP4 clips. No chat export or API credentials are needed. See [`docs/FIRST_CLIP_TODAY.md`](docs/FIRST_CLIP_TODAY.md) for details.
+**Windows fastest start:** double-click `START_MANUAL_CLIPPING.bat`. The guided wizard selects a local authorized recording, validates 15–35 second timestamps (up to 50 moments), creates 1080×1920 (9:16) clips without cropping away the full gameplay frame, runs a dry-run, and waits for explicit `RENDER` confirmation before creating MP4 clips. No chat export or API credentials are needed. See [`docs/FIRST_CLIP_TODAY.md`](docs/FIRST_CLIP_TODAY.md) for details.
 
 ## Requirements
 
