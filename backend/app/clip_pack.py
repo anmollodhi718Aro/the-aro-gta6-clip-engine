@@ -11,7 +11,7 @@ import json
 import os
 import sys
 import tempfile
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -68,8 +68,8 @@ def map_candidates_with_sync(
             "score": int(candidate.get("score", 0)),
             "peak_message_count": int(candidate.get("peak_message_count", 0)),
             "peak_window_start": str(candidate.get("peak_window_start", "")),
-            "clip_start_utc": start.astimezone().isoformat(),
-            "clip_end_utc": end.astimezone().isoformat(),
+            "clip_start_utc": start.astimezone(timezone.utc).isoformat(),
+            "clip_end_utc": end.astimezone(timezone.utc).isoformat(),
             "start_seconds": round(start_seconds, 3),
             "end_seconds": round(end_seconds, 3),
             "duration_seconds": round(duration, 3),
