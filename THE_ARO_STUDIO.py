@@ -26,7 +26,7 @@ from typing import Any
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.content_studio import build_content_pack, render_markdown as pack_markdown
 from backend.app.content_preflight import preflight_content_pack
-from backend.app.output_manager import write_json_atomic, write_json_no_overwrite, write_texts_no_overwrite
+from backend.app.output_manager import write_json_no_overwrite, write_texts_no_overwrite
 from backend.app.clock_sync import ClockAnchor, fit_clock_sync
 from backend.app.creator_watchlist import SevenDayMetrics, ranking_report
 from backend.app.creator_watchlist_dashboard import render_dashboard as render_creator_dashboard
@@ -408,7 +408,7 @@ def serve(args: argparse.Namespace) -> int:
                     out_dir = data_dir / "preflight_reports"
                     out_dir.mkdir(parents=True, exist_ok=True)
                     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-                    report_path = out_dir / f"preflight_{stamp}_{secrets.token_hex(3)}.json"
+                    report_path = out_dir / f"preflight_{stamp}_{secrets.token_hex(8)}.json"
                     write_json_no_overwrite(report_path, report)
                     notice = (
                         f"Preflight {report['status']}: {len(report['assets'])} asset(s) checked. "
