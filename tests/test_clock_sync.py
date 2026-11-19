@@ -59,7 +59,7 @@ class ClockSyncTests(unittest.TestCase):
 
     def test_rejects_bad_anchor_residual(self):
         with self.assertRaisesRegex(ValueError, "residual"):
-            fit_clock_sync(self.anchors((5, 65, 145)), max_residual_seconds=0.5)
+            fit_clock_sync(self.anchors((5, 65, 145)), max_residual_seconds=0.5, max_drift_ppm=1_000_000)
 
     def test_rejects_excessive_clock_drift(self):
         with self.assertRaisesRegex(ValueError, "drift"):
