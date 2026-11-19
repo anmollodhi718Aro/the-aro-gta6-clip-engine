@@ -14,7 +14,7 @@ Last reviewed: 2026-11-19
 - [x] YouTube one-shot CLI integration with SQLite consent registry (JSON permission file remains supported)
 - [x] One-shot YouTube chat analysis CLI with pagination metadata
 - [x] Review-only clip decision list; publishing is disabled
-- [x] Local-only FFmpeg renderer with rights confirmation, bounded duration, no-overwrite behavior, and process timeout
+- [x] Local-only FFmpeg renderer with rights confirmation, bounded duration, no-overwrite behavior, and process timeout\n- [x] One-command manual quick-clip CLI for a local gameplay recording
 - [x] Unit tests for detector, permission gates, CLI, YouTube adapter, clipper guards, and persistent consent registry
 - [x] GitHub Actions compile and unit-test workflow
 
