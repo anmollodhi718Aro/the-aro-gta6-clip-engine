@@ -37,6 +37,28 @@ class SubtitleStudioTests(unittest.TestCase):
                 {"start": "00:61:00,000", "end": "00:61:01,000", "text": "Bad"}
             ]})
 
+    def test_rejects_non_object_transcript_roots(self):
+        for payload in (None, [], "not an object", 7):
+            with self.subTest(payload=payload):
+                with self.assertRaisesRegex(ValueError, "JSON object"):
+                    build_subtitles(payload)
+
+    def test_cli_reports_non_object_json_without_traceback_or_outputs(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            transcript = root / "transcript.json"
+            output = root / "captions.srt"
+            report = root / "quality.json"
+            transcript.write_text("[]", encoding="utf-8")
+            stderr = io.StringIO()
+            with patch("sys.argv", ["subtitle_studio", str(transcript), "--output", str(output), "--report", str(report)]):
+                with contextlib.redirect_stderr(stderr):
+                    self.assertEqual(main(), 2)
+            self.assertIn("JSON object", stderr.getvalue())
+            self.assertNotIn("Traceback", stderr.getvalue())
+            self.assertFalse(output.exists())
+            self.assertFalse(report.exists())
+
     def test_rejects_empty_text_and_non_positive_duration(self):
         with self.assertRaisesRegex(ValueError, "empty"):
             SubtitleSegment.from_dict({"start": "00:00:00,000", "end": "00:00:01,000", "text": " "})
