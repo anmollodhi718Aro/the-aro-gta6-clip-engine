@@ -421,3 +421,80 @@ Chat numbering starts here because no prior Chat Execution Registry entry was pr
 3. Keep P0 ownership serialized; do not start another implementation for files already owned by open PRs.
 4. Restore GitHub Actions runner/job allocation so current-head checks expose actual steps and logs.
 5. Owner-side acceptance still requires a real authorized local MP4 rendered to vertical 1080x1920, FFprobe validation, and Windows playback.
+
+
+---
+
+## CHAT-003 live engineering update — 2026-11-20
+
+**Chat ID:** `CHAT-003` / `ARO-CHAT-0003`  
+**Exact Chat Title:** `#003 | ARO-CHAT-0003 | ARO-GTA-P0-01 | CI Runner Root-Cause & First Real MP4`  
+**Workstream ID:** `ARO-GTA-P0-01`  
+**Branch:** `workstream/2026-11-19-release-readiness-audit`  
+**PR:** [#56](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/56)  
+**Working RC policy:** Option B, `integration/aro-release-candidate-2026-11-19` at `625425987b8381c5a7d16313f5fbb96abcfcff21`, remains the temporary working RC by owner approval. This does not designate the permanent RC.
+
+### Live repository state revalidated
+
+- Repository: `anmollodhi718Aro/the-aro-gta6-clip-engine`, private.
+- GitHub App installation `183115702` currently exposes exactly this one selected repository.
+- The repository connector reports `admin`, `maintain`, `pull`, `push`, and `triage` permissions.
+- Current branch inventory: 70 branches.
+- Current open pull requests: 35 (33 draft, 2 non-draft).
+- Option B remains at `625425987b8381c5a7d16313f5fbb96abcfcff21`.
+- Option A, `integration/release-candidate`, remains at `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`.
+- Compare confirms Option A is 4 commits ahead and 0 behind Option B. The four commits include documentation/acceptance updates and a Windows Python 3.11 launcher-selection fix. This is evidence to evaluate later, not authorization to replace the temporary RC.
+- PR #18 remains open, non-draft, and unmerged, targeting `main` from Option A.
+- Neither Option A nor Option B has a combined commit status entry from the status endpoint at this snapshot.
+
+### CI runner diagnostics
+
+The workflow source on Option B is `.github/workflows/ci.yml`: it requests `ubuntu-latest`, uses checkout and setup-python, then runs compileall and unittest discovery. The separate PR #57 Windows workflow requests `windows-latest` and also contains checkout, Python 3.11 setup, compile, and unittest steps.
+
+Raw GitHub Actions job metadata was inspected, not inferred from PR comments:
+
+| PR / workflow | Run ID | Job ID | Runner label | Runner ID | Steps | Result |
+|---|---:|---:|---|---:|---|---|
+| #60 / Python CI | 44590570039 | 135795136695 | ubuntu-latest | 0 | 0 | failure |
+| #56 / Python CI | 44586982037 | 135782475023 | ubuntu-latest | 0 | 0 | failure |
+| #57 / Windows Python CI | 44548314651 | 135644831529 | windows-latest | 0 | 0 | failure |
+| #57 / Python CI | 44548314634 | 135644830210 | ubuntu-latest | 0 | 0 | failure |
+
+- The #60 job began at 2026-11-19 18:42:03 UTC and completed at 18:42:04 UTC.
+- The #56 job began at 2026-11-19 18:21:48 UTC and completed at 18:21:51 UTC.
+- Runner names and runner-group names are empty; logs are unavailable (`BlobNotFound`).
+- Both Ubuntu and Windows jobs exhibit the same pre-step failure signature. No checkout, setup, compile, unit test, or PowerShell step is shown as executed.
+- Classification: **CI JOB FAILED — TEST EXECUTION NOT VERIFIED — RUNNER_ID 0 / ZERO STEPS / LOGS UNAVAILABLE**.
+- This is strong evidence that the recorded failures occur before workflow steps start. It is not proof that the code or tests pass, and it does not by itself identify whether the cause is GitHub runner provisioning, repository/account policy, or another startup-side condition.
+- Public GitHub Status showed no incident reported for 2026-11-19 at the time of review. This is contextual evidence only; a green global status page cannot rule out a repository-specific or account-specific failure.
+- Repository Actions administration settings could not be read through the available connector endpoint. They remain **NOT INSPECTED**.
+
+### Workstream and integration hazards
+
+- Existing P0 tasks remain claimed by existing PRs. No new implementation branch or duplicate PR was created.
+- PR #50 and #54 still overlap Windows launcher/preflight files and require ordered reconciliation.
+- PR #60 remains the owner of post-render FFprobe validation. Its work must be coordinated with PR #50 for batch-render executable pass-through.
+- PR #55 owns subtitle paired-output safety; its branch name does not describe that scope.
+- PR #58 targets Option A while most relevant P0 PRs target Option B.
+- `docs/WORKSTREAM_PROGRESS.md` is absent from the two integration branches checked and is independently added by multiple workstream PRs. Merge/integration must consolidate this file once, not merge several competing add-file versions.
+
+### Execution attribution — CHAT-003
+
+- **Scope executed:** live repository/install scope verification, branch and PR inventory, Option A/B comparison, exact Actions job metadata inspection across Ubuntu and Windows, and this audit registry update.
+- **Files changed:** `docs/WORKSTREAM_PROGRESS.md` only, on the existing P0-01 audit branch.
+- **Tests:** NOT RUN in this connector session.
+- **CI:** Existing failures inspected; no redundant rerun started while runner allocation is unresolved.
+- **Windows owner-side execution:** NOT VERIFIED in this session.
+- **Real authorized-media render:** NOT RUN; no local owner-provided MP4 was available to this connector session.
+- **Merge, retarget, deployment, upload, and publication:** NOT PERFORMED.
+
+### CHAT-003 next actions
+
+1. Continue investigating Actions startup without changing workflow YAML blindly. Obtain the exact notification/check-run failure message and inspect account/repository Actions policy from GitHub UI or an authorized endpoint.
+2. Once runner allocation is restored, run compile and unit tests on the exact selected RC SHA; record the exact run, job, step output, and test totals.
+3. Keep Option B as the temporary RC until the owner explicitly selects a permanent RC after dependency and verification reconciliation.
+4. Reconcile P0 PR ownership and the shared progress registry before any integration.
+5. On the owner’s Windows laptop, run the documented preflight, select one locally stored MP4 that the owner created or is authorized to edit, dry-run the selected clip, render one vertical output, validate with FFprobe, and open the result in Windows.
+6. Keep the release state blocked until CI execution, Windows verification, and real-media verification are evidenced separately.
+
+**CHAT-003 status:** IN PROGRESS. CI runner startup BLOCKED; product test execution NOT VERIFIED; Windows and real-media verification NOT VERIFIED.
