@@ -51,7 +51,7 @@ This is the shortest safe path from a fresh clone to a reviewed vertical clip. U
 Install Python 3.11 or newer and FFmpeg (including ffprobe). Open PowerShell in the cloned repository folder.
 
 ```powershell
-py --version
+py -3 --version
 ffmpeg -version
 ffprobe -version
 ```
@@ -73,7 +73,7 @@ Do not proceed if either command reports an error. Save the final test summary a
 powershell -ExecutionPolicy Bypass -File scripts/start_studio.ps1
 ```
 
-The launcher selects Python 3.11+ and binds the dashboard to 127.0.0.1. Keep the PowerShell window open. You can also start it directly with `py THE_ARO_STUDIO.py`.
+The launcher selects Python 3.11+ and binds the dashboard to 127.0.0.1. Keep the PowerShell window open. You can also start it directly with `py -3 -m THE_ARO_STUDIO`.
 
 Open http://127.0.0.1:8765. Keep the terminal open while using the dashboard. The dashboard is local-only.
 
