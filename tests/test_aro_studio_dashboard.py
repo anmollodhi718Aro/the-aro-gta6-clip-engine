@@ -218,6 +218,8 @@ class SecurityGuardTests(unittest.TestCase):
         self.assertEqual(report["source_id"], "demo")
         self.assertEqual(report["anchor_count"], 3)
         self.assertFalse(report["extrapolation_allowed"])
+        self.assertEqual(len(report["anchors"]), 3)
+        self.assertIn("max_drift_ppm", report)
 
     def test_build_clock_report_rejects_too_few_anchors(self):
         origin = datetime(2026, 11, 19, 12, 0, tzinfo=timezone.utc)
