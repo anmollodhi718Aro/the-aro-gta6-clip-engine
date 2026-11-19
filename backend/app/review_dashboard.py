@@ -55,7 +55,7 @@ def render_dashboard(rows: list[dict[str, Any]], title: str = "Clip Review Dashb
             f'<td>{message}</td><td class="path">{output}</td></tr>'
         )
     safe_title = html.escape(title)
-    table = "".join(body_rows) or '<tr><td colspan="7">No candidates in this report.</td></tr>'
+    table = "".join(body_rows) or '<tr><td colspan="8">No candidates in this report.</td></tr>'
     return f"""<!doctype html>
 <html lang="en">
 <head>
