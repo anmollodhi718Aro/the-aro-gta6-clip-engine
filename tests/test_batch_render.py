@@ -58,7 +58,7 @@ class BatchRenderTests(unittest.TestCase):
         with patch("backend.app.batch_render.render_clip") as render:
             result = run_batch(
                 self.csv_path, self.media, self.root / "out", {1, 2, 3},
-                execute=True, rights_confirmed=True,
+                execute=True, rights_confirmed=True, media_duration_seconds=100.0,
             )
         self.assertEqual(render.call_count, 2)
         self.assertEqual([item["status"] for item in result], ["rendered", "blocked", "rendered"])
@@ -67,9 +67,9 @@ class BatchRenderTests(unittest.TestCase):
     def test_each_execution_uses_a_new_run_folder(self) -> None:
         with patch("backend.app.batch_render.render_clip"):
             first = run_batch(self.csv_path, self.media, self.root / "out", {1},
-                              execute=True, rights_confirmed=True, run_id="run-one")
+                              execute=True, rights_confirmed=True, media_duration_seconds=100.0, run_id="run-one")
             second = run_batch(self.csv_path, self.media, self.root / "out", {1},
-                               execute=True, rights_confirmed=True, run_id="run-two")
+                               execute=True, rights_confirmed=True, media_duration_seconds=100.0, run_id="run-two")
         self.assertIn("run-one", first[0]["output_path"])
         self.assertIn("run-two", second[0]["output_path"])
         self.assertNotEqual(first[0]["output_path"], second[0]["output_path"])
@@ -77,10 +77,10 @@ class BatchRenderTests(unittest.TestCase):
     def test_existing_run_folder_is_never_reused(self) -> None:
         with patch("backend.app.batch_render.render_clip"):
             run_batch(self.csv_path, self.media, self.root / "out", {1},
-                      execute=True, rights_confirmed=True, run_id="same-run")
+                      execute=True, rights_confirmed=True, media_duration_seconds=100.0, run_id="same-run")
             with self.assertRaisesRegex(FileExistsError, "already exists"):
                 run_batch(self.csv_path, self.media, self.root / "out", {1},
-                          execute=True, rights_confirmed=True, run_id="same-run")
+                          execute=True, rights_confirmed=True, media_duration_seconds=100.0, run_id="same-run")
 
     def test_rejects_unsafe_run_id(self) -> None:
         with self.assertRaises(ValueError):
@@ -135,9 +135,28 @@ class BatchRenderTests(unittest.TestCase):
         selected = load_failed_rows(report, self.csv_path)
         with patch("backend.app.batch_render.render_clip") as render:
             result = run_batch(self.csv_path, self.media, self.root / "retry-out", selected,
-                               execute=True, rights_confirmed=True, run_id="retry-one")
+                               execute=True, rights_confirmed=True, media_duration_seconds=100.0, run_id="retry-one")
         self.assertEqual(render.call_count, 1)
         self.assertEqual([row["status"] for row in result], ["rendered", "not_approved", "not_approved"])
+
+
+    def test_execution_blocks_clip_past_actual_media_duration(self) -> None:
+        with patch("backend.app.batch_render.render_clip") as render:
+            result = run_batch(
+                self.csv_path, self.media, self.root / "out", {3},
+                execute=True, rights_confirmed=True, media_duration_seconds=65.0,
+            )
+        render.assert_not_called()
+        self.assertEqual(result[2]["status"], "failed")
+        self.assertIn("beyond actual media duration", result[2]["message"])
+
+    def test_execution_rejects_invalid_media_duration(self) -> None:
+        for duration in (0, -1, float("nan"), float("inf"), True):
+            with self.subTest(duration=duration), self.assertRaisesRegex(ValueError, "finite positive"):
+                run_batch(
+                    self.csv_path, self.media, self.root / "out", {1},
+                    execute=True, rights_confirmed=True, media_duration_seconds=duration,
+                )
 
     def test_rejects_approval_outside_csv(self) -> None:
         with self.assertRaisesRegex(ValueError, "outside"):
