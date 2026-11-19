@@ -72,7 +72,7 @@ $payload = @{
     source_id = [System.IO.Path]::GetFileName($mediaPath)
     clips = @(@{ start_seconds = $start; end_seconds = $end; note = $note })
 } | ConvertTo-Json -Depth 5
-[System.IO.File]::WriteAllText($jsonPath, $payload + [Environment]::NewLine, (New-Object System.Text.UTF8Encoding($false)))
+[System.IO.File]::WriteAllText($jsonPath, $payload + [Environment]::NewLine, ([System.Text.UTF8Encoding]::new($false)))
 
 Write-Host ""
 Write-Host "[1/3] Preparing clip plan..." -ForegroundColor Yellow
