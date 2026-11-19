@@ -130,3 +130,19 @@ Earlier runs did fail before exposing runner steps. This workstream obtained a f
 - Current PR state snapshot: #18 open/non-draft; #35 open/draft; #50 open/draft/non-mergeable; #60 open/draft; #64 open/non-draft; #65 open/non-draft; #21 open/draft/non-mergeable; #66 open/non-draft. No merges, closures, or retargets performed.
 - Verification remains distinct: CI_VERIFIED on the exact PR #66 head; WINDOWS_VERIFIED = no; REAL_MEDIA_VERIFIED = no; PRODUCTION_READY = no. CI uses mocked/synthetic tests and does not establish real MP4 playback.
 - First real GTA 6 clip blocker remains an authorized recording/export/media handoff. The engine's local renderer can accept local media, but no authorized GTA 6 media file was available in this session.
+
+
+## ARO-CHAT-0007 live verification refresh (2026-11-20)
+
+- Chat title: `ARO-CHAT-0007 | ARO-ZERO-ONE Exact-Head CI and First-Clip Readiness Audit`.
+- This is a continuation of the existing `ARO-ZERO-ONE` branch and PR #66; no competing branch or PR was created.
+- Current branch: `workstream/aro-zero-one-clipping-first-2026-11-20`; audited head: `6c5d0fd2228da963fc61c39403645e347a4cd3af`.
+- PR #66 CI run: [44632671652](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44632671652), workflow `Python CI`, job `tests`, completed successfully.
+- The workflow checked out PR merge ref `c04fee2179f725212c50f4ce9dcb17b9092d14db`, which merges the audited head into base SHA `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`. Therefore CI verifies the PR integration result containing the audited head, not a standalone checkout of the branch SHA.
+- Python: 3.11.18. `python -m compileall -q backend tests THE_ARO_STUDIO.py`: passed. `python -m unittest discover -s tests -v`: `Ran 258 tests in 0.670s; OK (skipped=1)` (257 passed, 1 skipped).
+- The run logs include the new FFprobe validation tests and custom-FFprobe batch propagation test. A ResourceWarning for an unclosed CSV handle appeared in a test helper; the suite still passed. Track this as minor test-hygiene cleanup, not a product failure.
+- The prior handoff statement that current PR #66 CI was pending is superseded by this run. Windows-native execution remains NOT VERIFIED.
+- Real-media verification remains NOT VERIFIED: no expressly authorized GTA 6 recording/media handoff is available in this project context. CI fixtures/mock FFprobe metadata are not real-media evidence.
+- Existing renderer status: FFmpeg render flow is implemented with rights confirmation, timestamp/duration limits, temporary output, FFprobe metadata checks (video stream, finite duration, dimensions, vertical 1080x1920), and atomic no-overwrite publication. A real MP4/playback acceptance is still outstanding.
+- PR #66 remains open and unmerged. No deployment, upload, public publishing, merge, retarget or destructive action was performed.
+- Next P0 action: obtain an authorized creator recording/export/media handoff; then run the documented manual workflow with actual FFmpeg and FFprobe, inspect playback, and record the clip as `needs_review` before any owner decision.
