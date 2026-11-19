@@ -67,8 +67,25 @@ class CreatorWatchlistTests(unittest.TestCase):
             metric("mythpat", 10, window_end=END - timedelta(hours=1)).validate()
 
     def test_rejects_negative_metrics(self):
-        with self.assertRaisesRegex(ValueError, "cannot be negative"):
+        with self.assertRaisesRegex(ValueError, "non-negative integer"):
             metric("mythpat", -1).validate()
+
+    def test_rejects_boolean_and_fractional_count_metrics(self):
+        for field, value in (
+            ("views", True),
+            ("views", 1.5),
+            ("live_streams", False),
+            ("peak_concurrent_viewers", 2.5),
+        ):
+            with self.subTest(field=field, value=value):
+                with self.assertRaisesRegex(ValueError, "non-negative integer"):
+                    metric("mythpat", 10, **{field: value}).validate()
+
+    def test_rejects_non_finite_or_boolean_average_viewers(self):
+        for value in (True, float("nan"), float("inf"), -float("inf"), -0.1):
+            with self.subTest(value=value):
+                with self.assertRaisesRegex(ValueError, "finite non-negative"):
+                    metric("mythpat", 10, average=value).validate()
 
     def test_requires_https_evidence_url(self):
         with self.assertRaisesRegex(ValueError, "HTTPS"):
