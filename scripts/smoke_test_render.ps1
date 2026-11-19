@@ -95,9 +95,12 @@ try {
         $durationText = [string]$metadata.format.duration
         if (-not [double]::TryParse($durationText, [System.Globalization.NumberStyles]::Float,
             [System.Globalization.CultureInfo]::InvariantCulture, [ref]$duration) -or
-            [double]::IsNaN($duration) -or [double]::IsInfinity($duration) -or
-            $duration -le 0 -or $duration -gt 7) {
-            throw "$mode duration is not finite and positive or is outside the expected six-second range."
+            [double]::IsNaN($duration) -or [double]::IsInfinity($duration) -or $duration -le 0) {
+            throw "$mode duration is not finite and positive."
+        }
+        $expectedDuration = [double]$rendered[0].end_seconds - [double]$rendered[0].start_seconds
+        if ([math]::Abs($duration - $expectedDuration) -gt 0.5) {
+            throw "$mode output duration ($duration s) differs from the selected clip range ($expectedDuration s)."
         }
 
         if ($mode -eq "vertical" -and ($video[0].width -ne 1080 -or $video[0].height -ne 1920)) {
