@@ -74,7 +74,8 @@ def validate_analytics_ledger(payload: Any) -> None:
         }
         missing = required_fields - set(session)
         if missing:
-            raise ValueError(f"{prefix} is missing required fields: {", ".join(sorted(missing))}")
+            separator = ", "
+            raise ValueError(f"{prefix} is missing required fields: {separator.join(sorted(missing))}")
         chat_id = session.get("chat_id")
         if not isinstance(chat_id, str) or not CHAT_ID.fullmatch(chat_id):
             raise ValueError(f"{prefix}.chat_id must match ARO-CHAT-NNNN")
