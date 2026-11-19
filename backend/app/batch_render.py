@@ -61,6 +61,7 @@ def run_batch(
     execute: bool = False,
     rights_confirmed: bool = False,
     run_id: str | None = None,
+    run_directory: str | Path | None = None,
 ) -> list[dict[str, Any]]:
     """Plan or execute approved rows inside a collision-safe per-run folder."""
     source_csv = Path(csv_path).expanduser()
@@ -78,7 +79,7 @@ def run_batch(
     if any(number > len(candidates) for number in approved_rows):
         raise ValueError("an approved row number is outside the candidate CSV")
 
-    run_dir = create_run_directory(output_root, safe_run_id) if execute else output_root / safe_run_id
+    run_dir = (Path(run_directory).expanduser() if run_directory is not None else\n               create_run_directory(output_root, safe_run_id) if execute else output_root / safe_run_id)
     report: list[dict[str, Any]] = []
     for number, row in enumerate(candidates, start=1):
         item: dict[str, Any] = {
@@ -136,16 +137,16 @@ def main() -> int:
             raise PermissionError("--execute requires --confirm-rights")
         approvals = parse_approvals(args.approve)
         run_id = make_run_id(args.run_id)
-        results = run_batch(
-            args.candidate_csv,
+        run_dir = create_run_directory(args.output_dir, run_id)\n        results = run_batch(\n            args.candidate_csv,
             args.media,
             args.output_dir,
             approvals,
             execute=args.execute,
             rights_confirmed=args.confirm_rights,
             run_id=run_id,
+            run_directory=run_dir,
         )
-        report_path = args.report or (args.output_dir.expanduser() / run_id / "batch_render_report.json")
+        report_path = args.report or (run_dir / "batch_render_report.json")
         write_json_atomic(report_path, results)
         counts: dict[str, int] = {}
         for result in results:
