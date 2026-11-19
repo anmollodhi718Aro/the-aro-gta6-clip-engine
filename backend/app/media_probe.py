@@ -40,15 +40,13 @@ def probe_media(path: str | Path, *, ffprobe_binary: str = "ffprobe") -> MediaIn
         duration = float(media_format["duration"])
         format_name = str(media_format.get("format_name", "unknown"))
         streams = payload.get("streams", [])
-        if not isinstance(streams, list) or not any(
-            isinstance(stream, dict) and stream.get("codec_type") == "video"
-            for stream in streams
-        ):
-            raise ValueError("local media file does not contain a video stream")
     except (json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
-        if isinstance(exc, ValueError) and "does not contain a video stream" in str(exc):
-            raise
         raise ValueError("ffprobe returned incomplete or invalid media metadata") from exc
+    if not isinstance(streams, list) or not any(
+        isinstance(stream, dict) and stream.get("codec_type") == "video"
+        for stream in streams
+    ):
+        raise ValueError("local media file does not contain a video stream")
     if not math.isfinite(duration) or duration <= 0:
         raise ValueError("media duration must be finite and positive")
     return MediaInfo(source, duration, format_name)
