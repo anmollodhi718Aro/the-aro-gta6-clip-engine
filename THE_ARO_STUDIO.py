@@ -26,6 +26,9 @@ from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.content_studio import build_content_pack, render_markdown as pack_markdown
 from backend.app.content_preflight import preflight_content_pack
 from backend.app.output_manager import write_json_atomic
+from backend.app.clock_sync import ClockAnchor, fit_clock_sync
+from backend.app.creator_watchlist import SevenDayMetrics, ranking_report
+from backend.app.creator_watchlist_dashboard import render_dashboard as render_creator_dashboard
 
 APP_NAME = "THE ARO Studio"
 STATUSES = {"planned", "rendered", "blocked", "not_approved", "failed"}
@@ -106,6 +109,73 @@ def load_reports(root: Path) -> tuple[list[dict[str, Any]], list[str]]:
         except (OSError, json.JSONDecodeError) as exc:
             errors.append(f"{path}: {exc}")
     return rows, errors
+
+
+def build_clock_report(data: dict[str, Any]) -> dict[str, Any]:
+    """Build a transparent clock calibration report from manually measured anchors."""
+    if not isinstance(data, dict) or not isinstance(data.get("anchors"), list):
+        raise ValueError("clock sync payload must contain an anchors array")
+    anchors = []
+    for index, item in enumerate(data["anchors"], start=1):
+        if not isinstance(item, dict):
+            raise ValueError(f"clock anchor {index} must be an object")
+        anchors.append(ClockAnchor(
+            source_id=item.get("source_id"),
+            chat_time=datetime.fromisoformat(str(item.get("chat_time", "")).replace("Z", "+00:00")),
+            media_seconds=item.get("media_seconds"),
+        ))
+    sync = fit_clock_sync(
+        anchors,
+        max_residual_seconds=data.get("max_residual_seconds", 1.0),
+        max_drift_ppm=data.get("max_drift_ppm", 1000.0),
+    )
+    return {
+        "status": "calibrated",
+        "source_id": sync.source_id,
+        "anchor_count": len(anchors),
+        "origin_chat_time": sync.origin_chat_time.isoformat(),
+        "end_chat_time": sync.end_chat_time.isoformat(),
+        "media_at_origin_seconds": sync.media_at_origin,
+        "rate": sync.rate,
+        "max_residual_seconds": sync.max_residual_seconds,
+        "drift_ppm": sync.drift_ppm,
+        "extrapolation_allowed": False,
+        "human_marker_verification_required": True,
+    }
+
+
+def build_creator_report(data: dict[str, Any]) -> dict[str, Any]:
+    """Rank only supplied, evidence-backed seven-day metrics."""
+    if not isinstance(data, dict) or not isinstance(data.get("metrics"), list):
+        raise ValueError("creator watchlist payload must contain a metrics array")
+    metrics = []
+    for index, item in enumerate(data["metrics"], start=1):
+        if not isinstance(item, dict):
+            raise ValueError(f"metrics[{index - 1}] must be an object")
+        for key in ("views", "live_streams"):
+            if type(item.get(key)) is not int or item[key] < 0:
+                raise ValueError(f"metrics[{index - 1}].{key} must be a non-negative integer")
+        peak = item.get("peak_concurrent_viewers", 0)
+        if type(peak) is not int or peak < 0:
+            raise ValueError(f"metrics[{index - 1}].peak_concurrent_viewers must be a non-negative integer")
+        average = item.get("average_concurrent_viewers", 0.0)
+        if isinstance(average, bool) or not isinstance(average, (int, float)):
+            raise ValueError(f"metrics[{index - 1}].average_concurrent_viewers must be numeric")
+        metrics.append(SevenDayMetrics(
+            creator_id=str(item.get("creator_id", "")),
+            window_start=datetime.fromisoformat(str(item.get("window_start", "")).replace("Z", "+00:00")),
+            window_end=datetime.fromisoformat(str(item.get("window_end", "")).replace("Z", "+00:00")),
+            views=item["views"],
+            live_streams=item["live_streams"],
+            peak_concurrent_viewers=peak,
+            average_concurrent_viewers=float(average),
+            source_url=str(item.get("source_url", "")),
+            captured_at=(
+                datetime.fromisoformat(str(item["captured_at"]).replace("Z", "+00:00"))
+                if item.get("captured_at") else None
+            ),
+        ))
+    return ranking_report(metrics)
 
 
 class RightsStore:
@@ -196,7 +266,15 @@ textarea{{min-height:210px;font:12px/1.5 ui-monospace,monospace}}button{{margin-
 <form method="post" action="/preflight">{csrf_field}
 <label>Target platform</label><input name="platform" value="youtube" required>
 <label>Structured content pack JSON</label><textarea name="payload" required>{html.escape(json.dumps({"working_title":"GTA 6: Sample topic","topic":"sample topic","original_angle":"Original analysis","research_notes":[{"claim":"Claim to verify","source_url":"https://example.com/source","aro_commentary":"Our original explanation."}],"visual_assets":[{"asset_id":"aro-original-chart","kind":"original"}]},ensure_ascii=False,indent=2))}</textarea>
-<button type="submit">Run rights preflight</button></form></div></section>
+<button type="submit">Run rights preflight</button></form></div>
+<div class="panel"><h2>Measured clock calibration</h2><p class="hint">Provide at least three manually matched chat/video markers from the same source. This tool rejects poor fits and never extrapolates beyond the anchors.</p>
+<form method="post" action="/clock-sync">{csrf_field}
+<label>Clock anchors JSON</label><textarea name="payload" required>{html.escape(json.dumps({"anchors":[{"source_id":"synthetic-authorized-stream","chat_time":"2026-11-19T12:00:00+00:00","media_seconds":5},{"source_id":"synthetic-authorized-stream","chat_time":"2026-11-19T12:01:00+00:00","media_seconds":65},{"source_id":"synthetic-authorized-stream","chat_time":"2026-11-19T12:02:00+00:00","media_seconds":125}],"max_residual_seconds":1.0,"max_drift_ppm":1000.0},ensure_ascii=False,indent=2))}</textarea>
+<button type="submit">Calibrate clock</button></form></div>
+<div class="panel"><h2>Creator watchlist</h2><p class="hint">Enter observed seven-day metrics with HTTPS evidence URLs. No scraping or invented metrics.</p>
+<form method="post" action="/creator-watchlist">{csrf_field}
+<label>Creator metrics JSON</label><textarea name="payload" required>{html.escape(json.dumps({"metrics":[{"creator_id":"techno-gamerz","window_start":"2026-11-12T00:00:00+00:00","window_end":"2026-11-19T00:00:00+00:00","views":0,"live_streams":0,"peak_concurrent_viewers":0,"average_concurrent_viewers":0,"source_url":"https://example.com/evidence"}]},ensure_ascii=False,indent=2))}</textarea>
+<button type="submit">Generate offline creator report</button></form></div></section>
 <section class="panel" style="margin-top:14px"><h2>Clip review reports</h2><p class="hint">Read-only view of local JSON batch reports. A rendered clip is not approved for publishing.</p>
 <div class="tablewrap"><table><thead><tr><th>Row</th><th>Source</th><th>Start</th><th>End</th><th>Status</th><th>Details</th><th>Output</th></tr></thead><tbody>{table}</tbody></table></div></section>
 {f'<section class="panel" style="margin-top:14px"><h2>Report warnings</h2><ul>{error_html}</ul></section>' if error_html else ""}
@@ -321,6 +399,29 @@ def serve(args: argparse.Namespace) -> int:
                         f"Preflight {report['status']}: {len(report['assets'])} asset(s) checked. "
                         f"Report saved as {report_path.name}. Human review remains required."
                     )
+                elif self.path == "/clock-sync":
+                    raw = fields.get("payload", [""])[0]
+                    data = json.loads(raw)
+                    report = build_clock_report(data)
+                    out_dir = data_dir / "clock_calibrations"
+                    out_dir.mkdir(parents=True, exist_ok=True)
+                    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+                    report_path = out_dir / f"clock_sync_{stamp}_{secrets.token_hex(3)}.json"
+                    write_json_atomic(report_path, report)
+                    notice = f"Clock calibrated for {report['source_id']} using {report['anchor_count']} markers. Report: {report_path.name}. No extrapolation allowed."
+                elif self.path == "/creator-watchlist":
+                    raw = fields.get("payload", [""])[0]
+                    data = json.loads(raw)
+                    report = build_creator_report(data)
+                    out_dir = data_dir / "creator_watchlists"
+                    out_dir.mkdir(parents=True, exist_ok=True)
+                    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+                    suffix = secrets.token_hex(3)
+                    json_path = out_dir / f"creator_ranking_{stamp}_{suffix}.json"
+                    html_path = out_dir / f"creator_watchlist_{stamp}_{suffix}.html"
+                    write_json_atomic(json_path, report)
+                    html_path.write_text(render_creator_dashboard(report), encoding="utf-8")
+                    notice = f"Creator report generated: {json_path.name} and {html_path.name}. Ranking is provisional and does not grant reuse rights."
                 elif self.path == "/rights":
                     def val(key: str) -> str:
                         return fields.get(key, [""])[0].strip()
