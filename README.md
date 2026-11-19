@@ -6,7 +6,7 @@ A local-first, zero-mandatory-dependency creator workflow for analysing authoriz
 
 ## Start clipping today
 
-See [`docs/START_CLIPPING_TODAY.md`](docs/START_CLIPPING_TODAY.md) for the shortest cross-platform setup. If you already have a local recording and want to select moments manually, start with [`docs/MANUAL_CLIPPING.md`](docs/MANUAL_CLIPPING.md).
+See [`docs/FIRST_CLIP_TODAY.md`](docs/START_CLIPPING_TODAY.md) for the shortest cross-platform setup. If you already have a local recording and want to select moments manually, start with [`docs/MANUAL_CLIPPING.md`](docs/MANUAL_CLIPPING.md).
 
 ## Requirements
 
