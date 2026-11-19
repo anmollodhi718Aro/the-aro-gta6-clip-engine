@@ -255,3 +255,66 @@ All above must be recorded exactly as: `CI JOB FAILED — TEST EXECUTION NOT VER
 - Job `tests` (job ID `135769488457`) reports `steps: []`; log download returns `BlobNotFound`.
 - Required status: `CI JOB FAILED — TEST EXECUTION NOT VERIFIED — LOGS/STEPS UNAVAILABLE`.
 - This is a runner/job-start evidence gap, not evidence that Python tests ran and failed. No test pass is claimed.
+
+
+## Live startup revalidation — 2026-11-19 18:05 UTC
+
+**Assigned workstream:** `ARO-GTA-P0-01` — Current release candidate and PR integration audit  
+**Current status:** **BLOCKED** on project-owner designation of the canonical release-candidate branch.  
+**Existing PR:** [#56](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/56) (open, draft, unmerged)  
+**Branch:** `workstream/2026-11-19-release-readiness-audit`  
+**Current head:** `a436ddd37c2fc92ece12909ad7b20000f89d78a7`  
+**Base:** `integration/aro-release-candidate-2026-11-19` @ `625425987b8381c5a7d16313f5fbb96abcfcff21`
+
+### Fresh exact-head checks
+
+- PR #18: OPEN, non-draft, unmerged; `main` ← `integration/release-candidate`; base `5f3332770b27d8a5211b3e74feade222563a9263`, head `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`.
+- PR #50: OPEN/DRAFT, unmerged; `integration/release-candidate` ← `fix/clip-today-smoke-verification`; base snapshot `7c784e0941c01358c4311d088314d5ff000d245c`, head `e370e74beb501f54e87784ebdb0fcbf0c478d478`; mergeable=false.
+- PR #54: OPEN/DRAFT, unmerged; stacked base `fix/manual-wizard-python-runtime-detection` ← `work/first-clip-preflight-hardening`; base `38fb266753f653e68556f24e74fe97307aad2016`, head `7136be0fa618bbddbc74dcad0cde599714c685c8`.
+- PR #55: OPEN/DRAFT, unmerged; dated integration ← `workstream/01-10-windows-python-launcher-checks`; head `c8b049b9c10f7e9ab7252c4210c7f247b412101f`. Subtitle scope vs branch naming mismatch remains.
+- PR #56: OPEN/DRAFT, unmerged; head advanced to `a436ddd37c2fc92ece12909ad7b20000f89d78a7`; changed files remain documentation-only (`docs/WORKSTREAM_PROGRESS.md`).
+- PR #57: OPEN/DRAFT, unmerged; dated integration ← `workstream/windows-native-ci-clip-workflow`; head `6972b950f29f36920e970e69d33df963a40ce534`.
+- PR #58: OPEN/DRAFT, unmerged; `integration/release-candidate` ← `workstream/posix-render-preflight`; head `67a520af6df964dd9ae295154875469c06345171`. It remains based on the more advanced integration branch, not the dated integration branch.
+- PR #59: OPEN/DRAFT, unmerged; dated integration ← `workstream/01-10-manual-clip-cli-e2e`; head `7c34f3cb23dac3464b451223a0f3d297a1f00743`.
+- PR #60: OPEN/DRAFT, unmerged; dated integration ← `workstream/post-render-media-verification`; head `d9c7c13bca66b7d8079e72c20f933bcdf8c5466e`.
+- PRs #61 and #62: CLOSED, unmerged; both are duplicate post-render verification work and must not be revived.
+- PR #18 remains the only open non-draft integration PR targeting `main`; it is not merged.
+
+### Exact-head CI recheck
+
+| PR | Run | Job | Conclusion | Steps/logs |
+|---|---:|---|---|---|
+| #56 | 44583420741 | tests (135769836451) | failure | zero steps; log retrieval returned BlobNotFound |
+| #57 | 44548314651 | windows-tests (135644831529) | failure | zero steps; log retrieval returned BlobNotFound |
+| #57 | 44548314634 | tests (135644830210) | failure | zero steps; log retrieval returned BlobNotFound |
+| #58 | 44548297586 | tests (135644771331) | failure | zero steps; log retrieval returned BlobNotFound |
+| #59 | 44548478067 | tests (135645419122) | failure | zero steps; log retrieval returned BlobNotFound |
+| #60 | 44548471688 | tests (135645394540) | failure | zero steps; log retrieval returned BlobNotFound |
+
+Required interpretation for all rows:
+`CI JOB FAILED — TEST EXECUTION NOT VERIFIED — LOGS/STEPS UNAVAILABLE`.
+
+No test failure inside Python/PowerShell is evidenced, and no passing CI result is evidenced. Windows CI PR #57 has not verified Windows execution.
+
+### Workstream ownership and queue
+
+All P0 items remain claimed by existing open PRs/workstreams; no duplicate coding branch was created:
+
+| ID | Status | Existing owner / evidence |
+|---|---|---|
+| ARO-GTA-P0-01 | **BLOCKED** | This audit, PR #56. Evidence and conflicts documented; canonical RC designation is an owner decision. |
+| ARO-GTA-P0-02 | **IN PROGRESS** | PRs #50/#54 (Windows), #58 (POSIX); overlapping/stacked branches and runner evidence unresolved. |
+| ARO-GTA-P0-03 | **IN PROGRESS** | PRs #50/#59; CLI dry-run test is not a real render. |
+| ARO-GTA-P0-04 | **IN PROGRESS** | PR #50 synthetic render + PR #60 output validation; no owner MP4 or Windows playback evidence. |
+| ARO-GTA-P0-05 | **IN PROGRESS** | PR #60; tolerance documentation mismatch and custom-ffprobe pass-through integration finding remain. |
+| ARO-GTA-P0-06 | **IN PROGRESS** | PR #57 Windows CI and PR #59 CLI regression; no test execution verified. |
+
+### Handoff / required owner action
+
+1. **Owner must designate the canonical RC:** either `integration/release-candidate` (currently PR #18 head, 4 commits ahead) or `integration/aro-release-candidate-2026-11-19`. Do not infer authorization from branch ancestry.
+2. Once designated, the workstream owners must reconcile #50/#54 overlap and stacking, #58's alternate base, #55's branch identity, and the shared registry add/add conflict.
+3. Retry/repair Actions runner provisioning so jobs expose executed steps and logs.
+4. Do not begin P1 while P0 tasks remain actively owned. Do not create another P0 branch for work already covered by an open PR.
+5. Owner-side final acceptance still requires one authorized local MP4 rendered on Windows to 1080x1920, probed, and opened successfully.
+
+**This chat's actions:** live GitHub inspection only; no source changes, no new branch, no duplicate PR, no merge, no local test execution, no Windows run, and no real-media render.
