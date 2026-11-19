@@ -23,6 +23,10 @@ class ReviewDashboardTests(unittest.TestCase):
         self.assertIn("Rendered", page)
         self.assertIn("failed", page)
         self.assertIn("12.5", page)
+        self.assertIn("Export selected review rows", page)
+        self.assertIn("aro_review_selection.json", page)
+        self.assertIn("publish_approved:false", page)
+        self.assertIn("review_selected:true", page)
 
     def test_escapes_untrusted_report_content(self):
         page = render_dashboard([{
