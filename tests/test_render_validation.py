@@ -51,6 +51,18 @@ class RenderedMediaValidationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "differs from expected"):
                 verify_rendered_media(self.output, expected_duration_seconds=10)
 
+    def test_rejects_large_relative_duration_error_for_short_clips(self):
+        with patch("backend.app.render_validation.subprocess.run") as run:
+            run.return_value.stdout = self._probe_payload(duration="0.01")
+            with self.assertRaisesRegex(ValueError, "differs from expected"):
+                verify_rendered_media(self.output, expected_duration_seconds=0.1)
+
+    def test_duration_tolerance_is_capped_for_long_clips(self):
+        with patch("backend.app.render_validation.subprocess.run") as run:
+            run.return_value.stdout = self._probe_payload(duration="60.6")
+            with self.assertRaisesRegex(ValueError, "differs from expected"):
+                verify_rendered_media(self.output, expected_duration_seconds=60.0)
+
     def test_rejects_unreadable_or_incomplete_probe_metadata(self):
         for raw in ("not json", '{"format":{"duration":"10"},"streams":[]}',
                     '{"format":{"duration":"nan"},"streams":[{"codec_type":"video","width":1,"height":1}]}'):
