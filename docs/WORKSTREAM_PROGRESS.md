@@ -168,3 +168,11 @@ The following latest PR-head workflow runs were queried. Each job is completed w
 5. Owner-side Windows gate remains: run preflight, select one authorized local MP4, dry-run, render one short 9:16 clip, probe metadata, and open/play the resulting MP4.
 
 **Verification summary:** source/docs reviewed through GitHub; local tests **NOT RUN**; CI execution **NOT VERIFIED**; Windows **NOT VERIFIED**; real-media render/playback **NOT VERIFIED**; no PR merged.
+
+
+### Historical Windows/manual-clipping PR disposition (live checked)
+
+- PRs #42, #43, #44, #45, #46 and #47 are **CLOSED, UNMERGED**. Do not treat their head commits as integrated solely because they are closed; compare their changes against the selected RC before any reuse.
+- PR #48 is **CLOSED, MERGED** into `integration/release-candidate`; its head SHA `625425987b8381c5a7d16313f5fbb96abcfcff21` matches the dated integration branch head currently inspected.
+- PR #49, #51, #52 and #53 are **CLOSED, UNMERGED**. PR #52 was stacked on the #50 smoke-verification branch; #53 is the base branch for stacked PR #54. Their changes may be present elsewhere, but their closed state alone is not evidence of integration.
+- This supersedes the earlier "Relevant active work checked" wording above that listed #44 and #53 as active. Current active Windows work is represented by #50 and #54, with #57 providing a separate Windows CI workflow.
