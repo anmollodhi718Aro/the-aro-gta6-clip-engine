@@ -172,3 +172,16 @@ Earlier runs did fail before exposing runner steps. This workstream obtained a f
 - Windows execution: NOT VERIFIED. Real-media MP4: NOT VERIFIED. Production readiness: NOT CLAIMED.
 - Single critical first-GTA-6-clip blocker: obtain an expressly authorized creator recording/export/media handoff. YouTube live chat/metadata is not a video file. No scraping, stream ripping, upload, deployment, or public publishing was performed.
 - Tests executed in this chat: none locally; this session used GitHub source and Actions evidence only.
+
+
+## ARO-CHAT-0006 live repository re-audit (2026-11-20, 04:22 IST)
+
+- Default branch: `main`; its last audited SHA remains `5f3332770b27d8a5211b3e74feade222563a9263`. No changes were made to `main`.
+- Option A/Option B compare was repeated live: with Option A as base and Option B as head, GitHub reports Option B 1 commit ahead and 4 behind, with shared merge base `625425987b8381c5a7d16313f5fbb96abcfcff21`. Option A therefore remains the safer clipping-first baseline.
+- PR #66 remains open and unmerged, targets `integration/release-candidate`, and has 14 changed files. Its latest metadata head is `a8cc3e49dab46ce554c2d18d567ff82c53c5a60d`.
+- The latest functional renderer code inspected includes FFmpeg temporary rendering, FFprobe verification of duration/video stream/dimensions, and atomic no-overwrite publication. Batch rendering passes the selected ffprobe binary through to the renderer. Vertical output validation requires 1080x1920.
+- Existing Windows quick-start files are present: `START_CLIPPING_TODAY.bat`, `scripts/manual_clip_wizard.ps1`, `docs/FIRST_CLIP_TODAY.md`, and `docs/MANUAL_CLIPPING.md`. They require an authorized local recording and explicit rights confirmation before rendering.
+- PR #65's `live_sources.py` and `approval.py` are not present on the selected ARO-ZERO-ONE branch. The permission/approval foundation remains separate in PR #65 and must not be described as integrated into PR #66.
+- PR #66 run `44632625889` succeeded: compile and unit-test steps completed; 258 tests ran, 1 skipped. This run is tied to merge ref `1813d291c21a870d557f51fdf40d0acb6a78649d`, built from functional branch head `02527cfdc978e085a61373146bdaa07249eec746`; the later documentation head `a8cc3e49dab46ce554c2d18d567ff82c53c5a60d` has no workflow run returned by the commit-run lookup.
+- Windows runtime execution and real-media MP4 verification remain NOT VERIFIED. No creator-authorized GTA 6 recording/media handoff is available in the project context. No OAuth, live video ingestion, persistent review UI, deployment, or public upload is claimed.
+- Next task: run the Windows launcher against an authorized local sample, then capture a real FFmpeg + FFprobe MP4 and playback evidence. In parallel, implement official YouTube OAuth/media handoff only after confirming the supported creator-provided media path.
