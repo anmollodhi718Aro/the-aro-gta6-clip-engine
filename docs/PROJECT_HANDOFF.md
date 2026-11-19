@@ -92,7 +92,7 @@ Earlier runs did fail before exposing runner steps. This workstream obtained a f
 - Workstream: ARO-ZERO-ONE
 - Branch: `workstream/aro-zero-one-clipping-first-2026-11-20`
 - Starting SHA: `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`
-- Current branch SHA: `bcd023810ccea625ffebbcbb81d6e8598310b83f`
+- Latest implementation/tested SHA: `bcd023810ccea625ffebbcbb81d6e8598310b83f`; subsequent handoff/registry commits are documentation-only and are tracked by PR #66.
 - PR: [#66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66)
 - Changes: canonical handoff plus preservation of the existing chat/workstream registry, startup prompt and consolidation audit.
 - Tests: 249 unit tests executed; all passed; 1 skipped.
