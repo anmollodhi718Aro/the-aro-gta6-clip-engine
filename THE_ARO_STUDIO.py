@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import html
 import json
+import math
 import secrets
 import socket
 import sqlite3
@@ -25,7 +26,7 @@ from typing import Any
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.content_studio import build_content_pack, render_markdown as pack_markdown
 from backend.app.content_preflight import preflight_content_pack
-from backend.app.output_manager import write_json_atomic
+from backend.app.output_manager import write_json_atomic, write_json_no_overwrite, write_texts_no_overwrite
 from backend.app.clock_sync import ClockAnchor, fit_clock_sync
 from backend.app.creator_watchlist import SevenDayMetrics, ranking_report
 from backend.app.creator_watchlist_dashboard import render_dashboard as render_creator_dashboard
@@ -390,10 +391,13 @@ def serve(args: argparse.Namespace) -> int:
                     out_dir.mkdir(parents=True, exist_ok=True)
                     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
                     stem = "".join(c if c.isalnum() or c in "-_" else "_" for c in pack["working_title"]).strip("_")[:48] or "aro_draft"
-                    md_path = out_dir / f"{stem}_{stamp}.md"
-                    json_path = out_dir / f"{stem}_{stamp}.json"
-                    md_path.write_text(pack_markdown(pack), encoding="utf-8")
-                    json_path.write_text(json.dumps(pack, ensure_ascii=False, indent=2), encoding="utf-8")
+                    suffix = secrets.token_hex(8)
+                    md_path = out_dir / f"{stem}_{stamp}_{suffix}.md"
+                    json_path = out_dir / f"{stem}_{stamp}_{suffix}.json"
+                    write_texts_no_overwrite({
+                        md_path: pack_markdown(pack),
+                        json_path: json.dumps(pack, ensure_ascii=False, indent=2) + "\n",
+                    })
                     notice = f"Draft created locally: {md_path.name} and {json_path.name}. Upload approval remains false."
                 elif self.path == "/preflight":
                     raw = fields.get("payload", [""])[0]
@@ -405,7 +409,7 @@ def serve(args: argparse.Namespace) -> int:
                     out_dir.mkdir(parents=True, exist_ok=True)
                     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
                     report_path = out_dir / f"preflight_{stamp}_{secrets.token_hex(3)}.json"
-                    write_json_atomic(report_path, report)
+                    write_json_no_overwrite(report_path, report)
                     notice = (
                         f"Preflight {report['status']}: {len(report['assets'])} asset(s) checked. "
                         f"Report saved as {report_path.name}. Human review remains required."
@@ -430,8 +434,10 @@ def serve(args: argparse.Namespace) -> int:
                     suffix = secrets.token_hex(3)
                     json_path = out_dir / f"creator_ranking_{stamp}_{suffix}.json"
                     html_path = out_dir / f"creator_watchlist_{stamp}_{suffix}.html"
-                    write_json_atomic(json_path, report)
-                    html_path.write_text(render_creator_dashboard(report), encoding="utf-8")
+                    write_texts_no_overwrite({
+                        json_path: json.dumps(report, ensure_ascii=False, indent=2) + "\n",
+                        html_path: render_creator_dashboard(report),
+                    })
                     notice = f"Creator report generated: {json_path.name} and {html_path.name}. Ranking is provisional and does not grant reuse rights."
                 elif self.path == "/rights":
                     def val(key: str) -> str:
