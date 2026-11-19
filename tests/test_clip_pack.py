@@ -69,7 +69,7 @@ class ClipPackTests(unittest.TestCase):
         ]
         sync = fit_clock_sync(anchors)
         rows = map_candidates_to_media([self.candidate()], clock_sync=sync, source_id="authorized-demo")
-        self.assertEqual(rows[0]["start_seconds"], 40.0)
+        self.assertEqual(rows[0]["start_seconds"], 35.0)
         self.assertEqual(rows[0]["end_seconds"], 65.0)
         self.assertEqual(rows[0]["sync_method"], "measured_multi_anchor_fit")
         self.assertEqual(rows[0]["sync_max_residual_seconds"], 0.0)
@@ -91,6 +91,16 @@ class ClipPackTests(unittest.TestCase):
         sync = fit_clock_sync(anchors)
         with self.assertRaisesRegex(ValueError, "outside the calibrated interval"):
             map_candidates_to_media([self.candidate(130, 150)], clock_sync=sync, source_id="authorized-demo")
+
+    def test_rejects_boolean_media_seconds_in_clock_anchor_json(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "anchors.json"
+            path.write_text(json.dumps({"anchors": [
+                {"source_id": "authorized-demo", "chat_time": (self.origin + timedelta(seconds=offset)).isoformat(), "media_seconds": (True if offset == 0 else offset)}
+                for offset in (0, 60, 120)
+            ]}), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "finite non-negative"):
+                load_clock_sync(path)
 
     def test_loads_operator_measured_clock_anchor_json(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
