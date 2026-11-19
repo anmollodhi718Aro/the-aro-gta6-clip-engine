@@ -1,8 +1,14 @@
 """Tests for transcript-to-SRT formatting and subtitle quality checks."""
+import contextlib
+import io
+import json
+import tempfile
 import unittest
+from pathlib import Path
+from unittest.mock import patch
 
 from backend.app.subtitle_studio import (
-    SubtitleSegment, build_subtitles, render_srt, validate_segments,
+    SubtitleSegment, build_subtitles, main, render_srt, validate_segments,
 )
 
 
@@ -31,6 +37,28 @@ class SubtitleStudioTests(unittest.TestCase):
                 {"start": "00:61:00,000", "end": "00:61:01,000", "text": "Bad"}
             ]})
 
+    def test_rejects_non_object_transcript_roots(self):
+        for payload in (None, [], "not an object", 7):
+            with self.subTest(payload=payload):
+                with self.assertRaisesRegex(ValueError, "JSON object"):
+                    build_subtitles(payload)
+
+    def test_cli_reports_non_object_json_without_traceback_or_outputs(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            transcript = root / "transcript.json"
+            output = root / "captions.srt"
+            report = root / "quality.json"
+            transcript.write_text("[]", encoding="utf-8")
+            stderr = io.StringIO()
+            with patch("sys.argv", ["subtitle_studio", str(transcript), "--output", str(output), "--report", str(report)]):
+                with contextlib.redirect_stderr(stderr):
+                    self.assertEqual(main(), 2)
+            self.assertIn("JSON object", stderr.getvalue())
+            self.assertNotIn("Traceback", stderr.getvalue())
+            self.assertFalse(output.exists())
+            self.assertFalse(report.exists())
+
     def test_rejects_empty_text_and_non_positive_duration(self):
         with self.assertRaisesRegex(ValueError, "empty"):
             SubtitleSegment.from_dict({"start": "00:00:00,000", "end": "00:00:01,000", "text": " "})
@@ -48,6 +76,54 @@ class SubtitleStudioTests(unittest.TestCase):
         result = build_subtitles({"segments": []})
         self.assertEqual(result["srt"], "")
         self.assertTrue(result["quality_passed"])
+
+    def test_cli_publishes_srt_and_report_without_overwriting(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            transcript = root / "transcript.json"
+            output = root / "captions.srt"
+            report = root / "quality.json"
+            transcript.write_text(json.dumps({"segments": [
+                {"start": "00:00:01,000", "end": "00:00:03,000", "text": "Hello"}
+            ]}), encoding="utf-8")
+            with patch("sys.argv", ["subtitle_studio", str(transcript), "--output", str(output), "--report", str(report)]):
+                with contextlib.redirect_stdout(io.StringIO()):
+                    self.assertEqual(main(), 0)
+            self.assertIn("Hello", output.read_text(encoding="utf-8"))
+            self.assertTrue(json.loads(report.read_text(encoding="utf-8"))["quality_passed"])
+            with patch("sys.argv", ["subtitle_studio", str(transcript), "--output", str(output), "--report", str(report)]):
+                with contextlib.redirect_stderr(io.StringIO()):
+                    self.assertEqual(main(), 2)
+            self.assertEqual(len(list(root.glob("*.srt"))), 1)
+            self.assertEqual(len(list(root.glob("*.json"))), 2)
+
+    def test_cli_rolls_back_new_srt_if_report_already_exists(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            transcript = root / "transcript.json"
+            output = root / "captions.srt"
+            report = root / "quality.json"
+            transcript.write_text(json.dumps({"segments": [
+                {"start": "00:00:01,000", "end": "00:00:03,000", "text": "Hello"}
+            ]}), encoding="utf-8")
+            report.write_text("owner data", encoding="utf-8")
+            with patch("sys.argv", ["subtitle_studio", str(transcript), "--output", str(output), "--report", str(report)]):
+                with contextlib.redirect_stderr(io.StringIO()):
+                    self.assertEqual(main(), 2)
+            self.assertFalse(output.exists())
+            self.assertEqual(report.read_text(encoding="utf-8"), "owner data")
+            self.assertEqual(sorted(path.name for path in root.iterdir()), ["quality.json", "transcript.json"])
+
+    def test_cli_rejects_same_path_for_srt_and_report(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            transcript = root / "transcript.json"
+            shared = root / "same.txt"
+            transcript.write_text('{"segments": []}', encoding="utf-8")
+            with patch("sys.argv", ["subtitle_studio", str(transcript), "--output", str(shared), "--report", str(shared)]):
+                with contextlib.redirect_stderr(io.StringIO()):
+                    self.assertEqual(main(), 2)
+            self.assertFalse(shared.exists())
 
 
 if __name__ == "__main__":

@@ -13,6 +13,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from .output_manager import write_texts_no_overwrite
+
 
 _TIMESTAMP = re.compile(r"^(\d{2}):(\d{2}):(\d{2}),(\d{3})$")
 _TAGS = re.compile(r"<[^>]*>")
@@ -102,6 +104,8 @@ def render_srt(segments: list[SubtitleSegment]) -> str:
 
 
 def build_subtitles(payload: dict[str, Any]) -> dict[str, Any]:
+    if not isinstance(payload, dict):
+        raise ValueError("input must be a JSON object containing a segments array")
     raw = payload.get("segments")
     if not isinstance(raw, list):
         raise ValueError("input must contain a segments array")
@@ -129,13 +133,18 @@ def main() -> int:
     parser.add_argument("--report", type=Path, default=Path("subtitle_quality.json"))
     args = parser.parse_args()
     try:
+        if args.output.expanduser().resolve() == args.report.expanduser().resolve():
+            raise ValueError("subtitle output and quality report must use different file paths")
         payload = json.loads(args.transcript.read_text(encoding="utf-8"))
         result = build_subtitles(payload)
-        args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.report.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(result["srt"], encoding="utf-8")
         report = {key: value for key, value in result.items() if key != "srt"}
-        args.report.write_text(json.dumps(report, indent=2), encoding="utf-8")
+        # Publish the SRT and its quality report as one no-overwrite operation.
+        # If either destination exists or publication fails, newly-created
+        # sibling outputs are rolled back rather than leaving a mismatched pair.
+        write_texts_no_overwrite({
+            args.output: result["srt"],
+            args.report: json.dumps(report, indent=2, ensure_ascii=False) + "\n",
+        })
         print(json.dumps(report, indent=2))
         return 0 if result["quality_passed"] else 1
     except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
