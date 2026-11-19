@@ -1,5 +1,6 @@
 $ErrorActionPreference = "Stop"
-Set-Location -LiteralPath $PSScriptRoot
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
+Set-Location -LiteralPath $repoRoot
 
 Write-Host ""
 Write-Host "THE ARO GTA 6 Clip Engine - First Run" -ForegroundColor Cyan
@@ -50,7 +51,7 @@ Write-Host "Starting local Studio..." -ForegroundColor Green
 $arguments = @()
 $arguments += $pythonPrefix
 $arguments += "THE_ARO_STUDIO.py"
-Start-Process -FilePath $pythonCommand -ArgumentList $arguments -WorkingDirectory $PSScriptRoot
+Start-Process -FilePath $pythonCommand -ArgumentList $arguments -WorkingDirectory $repoRoot
 Start-Sleep -Seconds 2
 
 try {
@@ -64,4 +65,4 @@ try {
 } catch {
     Write-Warning "Studio process was launched. If the browser did not open, visit http://127.0.0.1:$port manually."
 }
-Write-Host "Keep the Studio terminal window open. Press Ctrl+C there to stop it." -ForegroundColor Gray
+Write-Host "Studio is running as a separate process. Close its console window or stop its Python process when finished." -ForegroundColor Gray
