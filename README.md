@@ -6,7 +6,7 @@ A local-first, zero-mandatory-dependency creator workflow for analysing authoriz
 
 ## Start clipping today
 
-See [`docs/FIRST_CLIP_TODAY.md`](docs/FIRST_CLIP_TODAY.md) for the shortest Windows/macOS/Linux setup and local clip workflow.
+See [`docs/FIRST_CLIP_TODAY.md`](docs/FIRST_CLIP_TODAY.md) for the shortest Windows setup. If you already have a local recording, the manual workflow needs no chat export or API credentials.
 
 ## Requirements
 
