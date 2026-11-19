@@ -23,6 +23,7 @@ def render_clip(
     end_seconds: float,
     *,
     rights_confirmed: bool,
+    vertical: bool = False,
     ffmpeg_binary: str = "ffmpeg",
 ) -> Path:
     """Render a bounded MP4 from a local file without overwriting prior output.
@@ -81,8 +82,12 @@ def render_clip(
         "-crf", "23",
         "-c:a", "aac",
         "-movflags", "+faststart",
-        str(temporary_output),
     ]
+    if vertical:
+        command.extend([
+            "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920",
+        ])
+    command.append(str(temporary_output))
 
     try:
         try:
