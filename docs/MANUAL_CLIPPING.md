@@ -8,9 +8,10 @@ This is the quickest path when you already have a local recording but do not yet
 2. Double-click `START_CLIPPING_TODAY.bat` in the repository folder.
 3. Paste the full path to your own or explicitly authorized local video.
 4. Enter the clip start and end offsets in seconds, measured from the beginning of that exact file. Each clip is limited to 180 seconds.
-5. Inspect the dry-run output. Type `RENDER` only after confirming the selected range and your rights to edit and publish that exact recording.
+5. You can queue up to 50 moments from the same video in one session.
+6. Inspect the dry-run output. Type `RENDER` to proceed, then type `I CONFIRM RIGHTS` to authorize local rendering of that exact recording.
 
-The wizard creates a unique session folder under `manual_clip_sessions/` containing the input JSON, CSV, and render report/output. It renders locally only after the explicit confirmation. It does not download, upload, or publish video.
+The wizard validates the actual video stream and duration with ffprobe, creates a unique session folder under `manual_clip_sessions/`, and keeps the input JSON, CSV, render reports, MP4s and local review dashboard together. Rendering stays on your computer. Nothing is downloaded, uploaded, or published automatically. Review every MP4 before sharing.
 
 ## Manual cross-platform path
 
@@ -55,3 +56,4 @@ The command checks the actual video stream and duration with ffprobe. Each run u
 - This path does not require chat data, API keys, OAuth, or internet access.
 - For clips selected by chat spikes, use the separate measured-clock pipeline instead.
 - Only process footage you own or are explicitly authorized to edit and distribute.
+- Game footage, music, overlays and guest content may have separate rights requirements.
