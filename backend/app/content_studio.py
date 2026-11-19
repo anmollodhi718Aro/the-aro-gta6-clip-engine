@@ -142,7 +142,8 @@ def render_markdown(pack: dict[str, Any]) -> str:
                   "- [ ] Review the finished edit and audio manually.",
                   "- [ ] Confirm platform rules and audience suitability.",
                   "- [ ] Human owner approves upload.",
-                  "- [ ] Human owner explicitly approves any upload before publishing. This tool never uploads automatically.",
+                  "- [ ] Human owner explicitly approves any upload.",
+                  "- [ ] This tool never uploads automatically.",
                   "", "> Draft only. This is a production draft, not a copyright clearance or monetization guarantee.", ""])
     return "\n".join(lines)
 
