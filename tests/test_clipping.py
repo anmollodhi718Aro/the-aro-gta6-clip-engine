@@ -129,7 +129,7 @@ class ClipRenderTests(unittest.TestCase):
             self.assertIn("yuv420p", command)
 
 
-    @unittest.skipUnless(shutil.which("ffmpeg"), "FFmpeg is not installed on this runner")
+    @unittest.skipUnless(shutil.which("ffmpeg") and shutil.which("ffprobe"), "FFmpeg and ffprobe are required for media integration tests")
     def test_renders_a_generated_synthetic_video(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / "synthetic.mp4"
