@@ -52,11 +52,16 @@ if ([string]::IsNullOrWhiteSpace($mediaInput)) { throw "No video path supplied."
 $mediaPath = (Resolve-Path -LiteralPath $mediaInput).Path
 if (-not (Test-Path -LiteralPath $mediaPath -PathType Leaf)) { throw "The selected media path is not a file." }
 
+$videoStream = & ffprobe -v error -select_streams v:0 -show_entries stream=codec_type -of csv=p=0 $mediaPath
+if ($LASTEXITCODE -ne 0 -or [string]$videoStream -ne "video") {
+    throw "The selected file does not contain a readable video stream."
+}
+
 $durationText = & ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $mediaPath
-if ($LASTEXITCODE -ne 0) { throw "ffprobe could not read the selected video." }
+if ($LASTEXITCODE -ne 0) { throw "ffprobe could not read the selected video duration." }
 $mediaDuration = 0.0
-if (-not [double]::TryParse([string]$durationText, [System.Globalization.NumberStyles]::Float, [System.Globalization.CultureInfo]::InvariantCulture, [ref]$mediaDuration)) {
-    throw "Could not read a valid video duration."
+if (-not [double]::TryParse([string]$durationText, [System.Globalization.NumberStyles]::Float, [System.Globalization.CultureInfo]::InvariantCulture, [ref]$mediaDuration) -or [double]::IsNaN($mediaDuration) -or [double]::IsInfinity($mediaDuration) -or $mediaDuration -le 0) {
+    throw "Could not read a finite, positive video duration."
 }
 Write-Host ("Video duration: {0:N2} seconds" -f $mediaDuration) -ForegroundColor Gray
 
@@ -69,9 +74,9 @@ if ($end -gt $mediaDuration) { throw "Clip end is beyond the actual video durati
 $note = Read-Host "Short note for this moment (optional)"
 if ([string]::IsNullOrWhiteSpace($note)) { $note = "Manually selected moment; review before publishing." }
 
-$stamp = Get-Date -Format "yyyyMMdd_HHmmss"
+$stamp = (Get-Date -Format "yyyyMMdd_HHmmss") + "_" + ([guid]::NewGuid().ToString("N").Substring(0, 8))
 $sessionDir = Join-Path $repoRoot ("manual_clip_sessions\" + $stamp)
-New-Item -ItemType Directory -Path $sessionDir -Force | Out-Null
+New-Item -ItemType Directory -Path $sessionDir -ErrorAction Stop | Out-Null
 $jsonPath = Join-Path $sessionDir "manual_clips.json"
 $csvPath = Join-Path $sessionDir "manual_clips.csv"
 $reportRoot = Join-Path $sessionDir "rendered"
