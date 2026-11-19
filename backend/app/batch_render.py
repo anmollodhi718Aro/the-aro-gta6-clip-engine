@@ -48,10 +48,17 @@ def render_manifest(manifest_path: Path, output_dir: Path, *, rights_confirmed: 
     if not isinstance(candidates, list) or not candidates:
         raise ValueError("manifest must contain a non-empty candidates list")
     output_dir.mkdir(parents=True, exist_ok=True)
+    report_path = output_dir / "review_manifest.json"
+    if report_path.exists() or report_path.is_symlink():
+        raise FileExistsError(f"review manifest already exists: {report_path}")
     results = []
     for index, raw in enumerate(candidates, start=1):
-        candidate = _candidate(raw)
-        bounds = candidate_media_bounds(candidate, sync, media_start, media.duration_seconds)
+        try:
+            candidate = _candidate(raw)
+            bounds = candidate_media_bounds(candidate, sync, media_start, media.duration_seconds)
+        except (KeyError, TypeError, ValueError) as exc:
+            results.append({"candidate_index": index, "status": "failed", "error": str(exc)})
+            continue
         stem = f"{index:03d}-{_safe_name(candidate.source_id)}-{candidate.peak_window_start.strftime('%Y%m%dT%H%M%S')}"
         target = output_dir / f"{stem}.mp4"
         if target.exists() or target.is_symlink():
@@ -79,9 +86,6 @@ def render_manifest(manifest_path: Path, output_dir: Path, *, rights_confirmed: 
         "results": results,
         "publishing_enabled": False,
     }
-    report_path = output_dir / "review_manifest.json"
-    if report_path.exists() or report_path.is_symlink():
-        raise FileExistsError(f"review manifest already exists: {report_path}")
     fd, temp_name = tempfile.mkstemp(prefix=".review-", suffix=".json", dir=output_dir)
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as handle:
