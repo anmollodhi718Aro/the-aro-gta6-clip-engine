@@ -146,3 +146,18 @@
 - Run #44632969198 is associated with the starting HEAD but supplied no completed compile/test evidence. Earlier successful CI remains limited to the earlier tested renderer revision.
 - No application source/tests changed in this continuation. No merge, retarget, deployment, upload, or publication occurred.
 - The outstanding acceptance blocker remains the creator-authorized GTA 6 recording/export/media handoff, followed by Windows execution, playback inspection, and persistent owner review/approval evidence.
+
+
+## ARO-CHAT-0011 continuation record (2026-11-20)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0011 | ARO-CHAT-0011 | Clipping-First Live Audit and FFmpeg Smoke CI | ARO-ZERO-ONE (continuation) | Re-audit live PR #66, inspect latest renderer delta and real FFmpeg/FFprobe synthetic smoke test, reconcile exact-head CI, refresh canonical handoff | `workstream/aro-zero-one-clipping-first-2026-11-20` / [PR #66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66) | IMPLEMENTED (audit/handoff/registry); prior renderer revision TESTED and CI_VERIFIED (257 passed, 1 skipped); current code delta CI NOT VERIFIED pending rerun; WINDOWS_NOT_VERIFIED; GTA6_REAL_MEDIA_NOT_VERIFIED | Starting HEAD `d75a72806483932e0eab5a8d481b3512000a7ef8`; cancelled run [44633009255](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44633009255); rerun requested for job `135944301389`; prior successful run [44632671652](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44632671652) applies only to renderer SHA `6c5d0fd2228da963fc61c39403645e347a4cd3af` |
+
+### ARO-CHAT-0011 evidence notes
+- Existing `ARO-ZERO-ONE`, branch, and PR #66 were reused; no competing branch or PR was created.
+- The latest branch delta contains changes to the CI workflow, rendered-media validator, validator tests, and a new actual FFmpeg/FFprobe synthetic-fixture smoke test. It is not accurate to describe the full delta as docs-only.
+- Run #44633009255 was cancelled during dependency installation; compile and unit tests were skipped. A job rerun was requested. Until it completes successfully, the latest code delta is NOT CI_VERIFIED.
+- The smoke test is designed to create, render, FFprobe-check, and decode a synthetic MP4. Even a successful result does not verify GTA 6 footage or creator authorization.
+- Windows execution and authorized GTA 6 media/playback remain NOT VERIFIED. The first GTA 6 clip still depends on an authorized recording/export/media handoff.
+- PR #65's source-permission and owner-approval foundation remains separate. No OAuth, media ingestion, persistent review UI, deployment, upload, or public publication is claimed.
