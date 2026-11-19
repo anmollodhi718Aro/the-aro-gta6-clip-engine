@@ -69,3 +69,11 @@
 - PR #35 is a separate legacy renderer line; PR #60 overlaps post-render FFprobe validation; PR #65 remains stacked on #35 and is not production OAuth/media ingestion. No overlapping PR was merged or retargeted.
 - Run `44632788616` on head `167e5d7b03b24de2b571fb69aab32617a7a21cac` was in progress at audit time. Run `44632625889` passed compile and 258 tests (1 skipped) on predecessor branch head `02527cfdc978e085a61373146bdaa07249eec746`; do not transfer that pass to the newer head.
 - Windows and real authorized-media verification remain NOT VERIFIED. The first real GTA 6 clip remains blocked on an authorized creator recording/export/media handoff.
+
+
+## Live continuation audit — 2026-11-20
+- Existing workstream `ARO-ZERO-ONE` and PR #66 reused; no duplicate branch or PR created.
+- Option A remains selected: live compare reports Option B 1 commit ahead and 4 behind Option A, with common merge base `625425987b8381c5a7d16313f5fbb96abcfcff21`.
+- PR #66 latest audited head: `a8cc3e49dab46ce554c2d18d567ff82c53c5a60d`; open, unmerged, 14 changed files. Renderer code at functional head `02527cfdc978e085a61373146bdaa07249eec746` passed compile and 258 unit tests (1 skipped) in run `44632625889` on merge ref `1813d291c21a870d557f51fdf40d0acb6a78649d`. The later docs-only head has no associated run returned, so latest-head CI is NOT VERIFIED.
+- `backend/app/live_sources.py` and `backend/app/approval.py` from PR #65 are absent from the selected branch; creator permission and owner approval are not yet integrated into PR #66.
+- Windows and real-media verification remain NOT VERIFIED. The single first-real-clip blocker is an authorized creator recording/export/media handoff.
