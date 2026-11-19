@@ -60,7 +60,7 @@ class ClipRenderTests(unittest.TestCase):
                 temporary_output.write_bytes(b"synthetic mp4")
                 return None
 
-            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg) as run:
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg) as run, patch("backend.app.clipping.verify_rendered_media"):
                 result = render_clip(source, output, 1, 4, rights_confirmed=True)
             self.assertEqual(result, output.resolve())
             self.assertEqual(output.read_bytes(), b"synthetic mp4")
@@ -81,7 +81,7 @@ class ClipRenderTests(unittest.TestCase):
                 Path(command[-1]).write_bytes(b"first render")
                 output.write_bytes(b"second render owns destination")
 
-            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg):
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg), patch("backend.app.clipping.verify_rendered_media"):
                 with self.assertRaisesRegex(FileExistsError, "created by another render"):
                     render_clip(source, output, 0, 2, rights_confirmed=True)
             self.assertEqual(output.read_bytes(), b"second render owns destination")
@@ -97,7 +97,7 @@ class ClipRenderTests(unittest.TestCase):
                 output.write_bytes(b"another render output")
                 raise subprocess.CalledProcessError(1, command, stderr="synthetic failure")
 
-            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg):
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg), patch("backend.app.clipping.verify_rendered_media"):
                 with self.assertRaisesRegex(ClipRenderError, "synthetic failure"):
                     render_clip(source, output, 0, 2, rights_confirmed=True)
             self.assertEqual(output.read_bytes(), b"another render output")
@@ -112,8 +112,11 @@ class ClipRenderTests(unittest.TestCase):
             def fake_ffmpeg(command, **kwargs):
                 Path(command[-1]).write_bytes(b"vertical mp4")
 
-            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg) as run:
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg) as run, patch("backend.app.clipping.verify_rendered_media") as verify:
                 result = render_clip(source, output, 1, 20, rights_confirmed=True, vertical=True)
+            verify.assert_called_once()
+            self.assertEqual(verify.call_args.kwargs["expected_duration_seconds"], 19)
+            self.assertTrue(verify.call_args.kwargs["vertical"])
 
             self.assertEqual(result, output.resolve())
             command = run.call_args.args[0]
