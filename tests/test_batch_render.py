@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from backend.app.batch_render import load_failed_rows, parse_approvals, run_batch
+from backend.app.batch_render import batch_exit_code, load_failed_rows, parse_approvals, run_batch
 
 
 class BatchRenderTests(unittest.TestCase):
@@ -30,6 +30,15 @@ class BatchRenderTests(unittest.TestCase):
 
     def tearDown(self) -> None:
         self.temp.cleanup()
+
+    def test_batch_exit_code_fails_when_an_approved_row_is_blocked(self) -> None:
+        self.assertEqual(batch_exit_code([{"status": "blocked"}]), 1)
+
+    def test_batch_exit_code_fails_when_a_row_failed(self) -> None:
+        self.assertEqual(batch_exit_code([{"status": "failed"}]), 1)
+
+    def test_batch_exit_code_allows_dry_run_and_unapproved_rows(self) -> None:
+        self.assertEqual(batch_exit_code([{"status": "planned"}, {"status": "not_approved"}]), 0)
 
     def test_parse_approvals(self) -> None:
         self.assertEqual(parse_approvals("1, 3"), {1, 3})
