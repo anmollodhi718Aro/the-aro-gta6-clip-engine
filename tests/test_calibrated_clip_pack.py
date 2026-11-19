@@ -14,8 +14,8 @@ class CalibratedClipPackTests(unittest.TestCase):
         self.origin = datetime(2026, 11, 19, 12, 0, tzinfo=timezone.utc)
         self.anchors = [
             ClockAnchor("stream-a", self.origin, 8.0),
-            ClockAnchor("stream-a", self.origin + timedelta(seconds=60), 68.0),
             ClockAnchor("stream-a", self.origin + timedelta(seconds=120), 128.0),
+            ClockAnchor("stream-a", self.origin + timedelta(seconds=240), 248.0),
         ]
 
     def candidate(self, start=30, end=60, source="stream-a"):
@@ -43,7 +43,7 @@ class CalibratedClipPackTests(unittest.TestCase):
 
     def test_rejects_candidate_after_calibration_window(self):
         with self.assertRaisesRegex(ValueError, "outside the calibrated interval"):
-            map_candidates_with_sync([self.candidate(start=110, end=121)], self.anchors)
+            map_candidates_with_sync([self.candidate(start=230, end=241)], self.anchors)
 
     def test_rejects_invalid_candidate_bounds(self):
         with self.assertRaisesRegex(ValueError, "clip_end <= clip_start"):
