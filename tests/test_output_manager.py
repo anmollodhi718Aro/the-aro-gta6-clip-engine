@@ -4,7 +4,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from backend.app.output_manager import create_run_directory, make_run_id, write_json_atomic
+from backend.app.output_manager import (
+    create_run_directory, make_run_id, write_json_atomic,
+    write_json_no_overwrite, write_texts_no_overwrite,
+)
 
 
 class OutputManagerTests(unittest.TestCase):
@@ -34,6 +37,30 @@ class OutputManagerTests(unittest.TestCase):
                 {"status": "rendered", "clip": "clip_001.mp4"}
             ])
             self.assertEqual(list(target.parent.iterdir()), [target])
+
+
+    def test_no_overwrite_json_is_valid_and_refuses_existing_file(self):
+        with tempfile.TemporaryDirectory() as temp:
+            target = Path(temp) / "report.json"
+            result = write_json_no_overwrite(target, {"status": "ready"})
+            self.assertEqual(result, target)
+            raw = target.read_text(encoding="utf-8")
+            self.assertTrue(raw.endswith("\n"))
+            self.assertEqual(json.loads(raw), {"status": "ready"})
+            with self.assertRaises(FileExistsError):
+                write_json_no_overwrite(target, {"status": "replaced"})
+            self.assertEqual(json.loads(target.read_text(encoding="utf-8")), {"status": "ready"})
+
+    def test_multi_file_no_overwrite_rolls_back_partial_publication(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            first = root / "new.txt"
+            occupied = root / "occupied.txt"
+            occupied.write_text("keep", encoding="utf-8")
+            with self.assertRaises(FileExistsError):
+                write_texts_no_overwrite({first: "new", occupied: "replace"})
+            self.assertFalse(first.exists())
+            self.assertEqual(occupied.read_text(encoding="utf-8"), "keep")
 
 
 if __name__ == "__main__":
