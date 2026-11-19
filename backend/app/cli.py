@@ -4,12 +4,39 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
 from .detection import DetectorConfig, detect_chat_spikes
 from .models import ChatEvent, PermissionRecord
+
+
+def _write_json_atomically(output_path: Path, payload: dict[str, Any]) -> None:
+    """Replace a clip plan only after a complete JSON document is on disk."""
+    temporary_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=output_path.parent,
+            prefix=f".{output_path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as stream:
+            temporary_path = Path(stream.name)
+            json.dump(payload, stream, indent=2)
+            stream.write("\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+
+        os.replace(temporary_path, output_path)
+        temporary_path = None
+    finally:
+        if temporary_path is not None:
+            temporary_path.unlink(missing_ok=True)
 
 
 def analyze_file(input_path: Path, output_path: Path, config: DetectorConfig) -> int:
@@ -24,10 +51,10 @@ def analyze_file(input_path: Path, output_path: Path, config: DetectorConfig) ->
             "candidates": [candidate.to_dict() for candidate in candidates],
             "publishing_enabled": False,
         }
-        output_path.write_text(json.dumps(output, indent=2), encoding="utf-8")
+        _write_json_atomically(output_path, output)
         print(f"Wrote {len(candidates)} candidate(s) to {output_path}")
         return 0
-    except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError, PermissionError) as exc:
+    except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
         print(f"Analysis stopped: {exc}", file=sys.stderr)
         return 2
 
