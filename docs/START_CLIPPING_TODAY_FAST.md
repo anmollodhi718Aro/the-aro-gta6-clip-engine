@@ -5,10 +5,11 @@
 1. Install Python 3.11+ and FFmpeg (including ffprobe), and make sure all three commands are available in a new terminal.
 2. Download/clone this repository and open its folder.
 3. Double-click `START_MANUAL_CLIPPING.bat`.
-4. Enter the full path to a local recording you own or are authorized to edit and publish.
-5. Enter the start and end offsets in seconds. The wizard checks the actual video duration and limits each clip to 180 seconds.
-6. Inspect the dry-run summary. Type `RENDER` only when you approve the exact recording and clip range.
-7. Open the resulting MP4 in the session's `rendered` folder and review it manually.
+4. Choose landscape or vertical 9:16 Shorts/Reels output, then add up to 50 manually selected moments (each no longer than 180 seconds).
+5. Enter the full path to a local recording you own or are authorized to edit and publish.
+6. Enter each start/end range in seconds. The wizard checks the actual video duration and limits each clip to 180 seconds.
+7. Inspect the dry-run summary. Type `RENDER`, then separately type `I CONFIRM RIGHTS`, only when you approve the exact recording and every selected range.
+8. Open the resulting MP4 files and the generated read-only review dashboard in the session folder.
 
 The wizard does not download videos, access private streams, upload, or publish. A local recording must be supplied by you. Game footage, music, overlays, and third-party content may have separate rights. Do not use another creator's recording without explicit permission covering editing and distribution.
 
