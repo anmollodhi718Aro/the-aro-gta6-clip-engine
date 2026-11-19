@@ -217,3 +217,13 @@ GitHub Actions runs the same compile and unittest discovery workflow on pull req
 - No paid dependencies are required by the core local workflow; the optional official uploader uses free/open-source Python client libraries and Google's API quota.
 
 See `docs/PROJECT_STATUS.md`, `docs/TESTING_PLAN.md`, and the feature-specific docs for implementation details.
+
+## One-command offline review pipeline
+
+Build a complete local review pack from a permission-gated chat-event JSON file and at least three measured clock anchors:
+
+```bash
+python -m backend.app.pipeline events.json --clock-anchors-json clock_anchors.json --output-dir aro_pipeline_run
+```
+
+The command writes a clip plan, measured clip-candidate CSV/Markdown, explainable quality scores, and a pipeline summary. The output directory must be new; existing files are never overwritten. This command does not download, render, upload, or publish video. Human review and separate authorization checks remain required before any local rendering.
