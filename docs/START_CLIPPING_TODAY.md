@@ -42,11 +42,19 @@ This compiles the code and runs the full unittest suite. Do not continue as if t
 
 ## 4. Start the local Studio
 
+On Windows PowerShell, use the launcher:
+
 ```powershell
+powershell -ExecutionPolicy Bypass -File scripts/start_studio.ps1
+```
+
+On macOS/Linux, or as a direct Windows alternative:
+
+```bash
 python THE_ARO_STUDIO.py
 ```
 
-Open http://127.0.0.1:8765 in your browser. The Studio is local to this computer; it is not a hosted public dashboard.
+Open http://127.0.0.1:8765 in your browser. The Studio is local to this computer; it is not a hosted public dashboard. Keep the terminal open while using it.
 
 ## 5. Analyze authorized chat events
 
@@ -94,6 +102,19 @@ python -m backend.app.batch_render .\clip_pack\clip_candidates.csv --media "D:\\
 ```
 
 The renderer probes the real media duration and blocks invalid/out-of-range candidates. Each execution uses a separate run folder. Open the generated report and watch every output clip before considering publication.
+
+## No authorized chat export yet? Use manual clip selection
+
+If you already have a local recording but no authorized chat-event export, choose clip ranges by watching your own recording and prepare a compatible review CSV:
+
+```powershell
+Copy-Item examples/manual_clips.example.json my_clips.json
+notepad my_clips.json
+python -m backend.app.manual_clip my_clips.json --output manual_clips.csv
+python -m backend.app.batch_render manual_clips.csv --media "D:\\Videos\\my_authorized_recording.mp4" --approve 1 --output-dir rendered_clips
+```
+
+This is a dry-run. Review the report, then use `--execute --confirm-rights` only after confirming the exact file is authorized. See [Manual Clipping](MANUAL_CLIPPING.md).
 
 ## 9. Current boundaries
 
