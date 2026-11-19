@@ -59,7 +59,7 @@ class ChatEventStore:
         inserted = duplicates = 0
         with self._connect() as db:
             for event in events:
-                timestamp = event.timestamp.isoformat()
+                timestamp = event.timestamp.astimezone(timezone.utc).isoformat()
                 cursor = db.execute("""
                     INSERT OR IGNORE INTO chat_events
                         (source_id, event_id, timestamp, text, ingested_at)
@@ -73,7 +73,11 @@ class ChatEventStore:
                     SELECT timestamp, text FROM chat_events
                     WHERE source_id = ? AND event_id = ?
                 """, (event.source_id, event.event_id)).fetchone()
-                if existing is None or existing["timestamp"] != timestamp or existing["text"] != event.text:
+                existing_timestamp = (
+                    datetime.fromisoformat(existing["timestamp"]).astimezone(timezone.utc).isoformat()
+                    if existing is not None else None
+                )
+                if existing is None or existing_timestamp != timestamp or existing["text"] != event.text:
                     raise ValueError(f"conflicting duplicate event_id: {event.event_id}")
                 duplicates += 1
         return IngestionResult(inserted, duplicates)
@@ -90,5 +94,7 @@ class ChatEventStore:
                 SELECT event_id, source_id, timestamp, text FROM chat_events
                 WHERE source_id = ? ORDER BY timestamp, event_id
             """, (source_id,)).fetchall()
-        return [ChatEvent(event_id=row["event_id"], source_id=row["source_id"],
-                          timestamp=row["timestamp"], text=row["text"]) for row in rows]
+        events = [ChatEvent(event_id=row["event_id"], source_id=row["source_id"],
+                            timestamp=row["timestamp"], text=row["text"]) for row in rows]
+        # Sort parsed instants so legacy rows with different offsets are chronological too.
+        return sorted(events, key=lambda event: (event.timestamp.astimezone(timezone.utc), event.event_id))
