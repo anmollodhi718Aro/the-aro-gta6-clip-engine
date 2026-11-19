@@ -57,6 +57,8 @@ This is a dry-run. To execute the retry, add `--execute --confirm-rights` after 
 - Invalid, negative, non-finite, or over-limit time bounds are rejected.
 - Before an actual render, `ffprobe` reads the local file duration and verifies that a video stream exists; audio-only, malformed, or empty inputs are rejected.
 - Candidates ending beyond the real media duration are blocked rather than silently producing truncated clips.
+- After FFmpeg finishes, the temporary MP4 is probed again before publication. The engine verifies a readable video stream, finite duration close to the selected range, and valid frame dimensions. A vertical render must be exactly 1080x1920.
+- A failed post-render check leaves no published output and removes only the temporary file created by that render.
 - `ffprobe` is invoked with an argument array, a 30-second timeout, and no shell; remote URLs are never accepted.
 - Every execution creates a new run folder and refuses to reuse an existing folder. Use a new `--run-id` for another attempt.
 - JSON reports are written through a sibling temporary file and atomically replaced.
