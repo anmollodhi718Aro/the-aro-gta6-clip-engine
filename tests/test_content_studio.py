@@ -50,7 +50,7 @@ class ContentStudioTests(unittest.TestCase):
 
     def test_requires_sourced_research_and_original_commentary(self):
         data = self.payload()
-        data["research_notes"] = [{"claim": "Unsourced claim", "aro_commentary": "My view", "source_url": "https://example.com"}]
+        data["research_notes"] = [{"claim": "Unsourced claim", "aro_commentary": "My view", "source_url": ""}]
         with self.assertRaises(ValueError):
             build_content_pack(data)
         data = self.payload()
