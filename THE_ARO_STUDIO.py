@@ -451,7 +451,7 @@ def serve(args: argparse.Namespace) -> int:
                 else:
                     self.send_html("Not found", 404)
                     return
-            except (ValueError, TypeError, KeyError, json.JSONDecodeError, sqlite3.Error) as exc:
+            except (OSError, ValueError, TypeError, KeyError, json.JSONDecodeError, sqlite3.Error) as exc:
                 notice = f"Action stopped: {exc}"
             rows, errors = load_reports(reports_dir)
             store = RightsStore(db_path)
