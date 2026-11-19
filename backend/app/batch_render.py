@@ -180,7 +180,8 @@ def main() -> int:
     try:
         if args.execute and not args.confirm_rights:
             raise PermissionError("--execute requires --confirm-rights")
-        approvals = (parse_approvals(args.approve) if args.approve is not None\n                     else load_failed_rows(args.retry_report, args.candidate_csv))
+        approvals = (parse_approvals(args.approve) if args.approve is not None
+                     else load_failed_rows(args.retry_report, args.candidate_csv))
         run_id = make_run_id(args.run_id)
         run_dir = create_run_directory(args.output_dir, run_id)
         results = run_batch(
