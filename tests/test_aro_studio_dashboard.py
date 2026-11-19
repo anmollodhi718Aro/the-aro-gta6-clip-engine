@@ -16,6 +16,7 @@ class ContentPackTests(unittest.TestCase):
             "working_title": "GTA 6: Test topic",
             "topic": "test topic",
             "original_angle": "A clearly original analysis angle",
+            "visual_assets": [{"asset_id": "aro-original-chart", "kind": "original"}],
             "research_notes": [
                 {
                     "claim": "A sourced factual claim that still needs fact-checking.",
@@ -30,6 +31,7 @@ class ContentPackTests(unittest.TestCase):
         pack = studio.build_content_pack(self.valid_payload())
         self.assertEqual(pack["working_title"], "GTA 6: Test topic")
         self.assertEqual(len(pack["research_beats"]), 1)
+        self.assertEqual(pack["visual_assets"][0]["kind"], "original")
         self.assertEqual(pack["metadata"]["source_links"], ["https://example.com/source"])
         self.assertFalse(pack["review"]["approved_for_upload"])
         self.assertTrue(pack["review"]["human_fact_check_required"])
