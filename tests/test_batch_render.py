@@ -78,6 +78,8 @@ class BatchRenderTests(unittest.TestCase):
             )
         self.assertEqual(render.call_count, 2)
         self.assertEqual([item["status"] for item in result], ["rendered", "blocked", "rendered"])
+        self.assertEqual(result[0]["output_duration_seconds"], 15.0)
+        self.assertEqual(result[2]["output_duration_seconds"], 10.0)
         self.assertTrue(all(call.kwargs["rights_confirmed"] for call in render.call_args_list))
 
     def test_output_duration_mismatch_marks_render_as_failed(self) -> None:
@@ -220,7 +222,10 @@ class BatchRenderTests(unittest.TestCase):
             {"candidate_row": 3, "source_id": "demo-c", "start_seconds": 60.0, "end_seconds": 70.0, "status": "rendered"},
         ])
         selected = load_failed_rows(report, self.csv_path)
-        with patch("backend.app.batch_render.render_clip") as render:
+        with patch("backend.app.batch_render.render_clip") as render, patch(
+            "backend.app.batch_render.probe_media",
+            return_value=SimpleNamespace(duration_seconds=15.0),
+        ):
             result = run_batch(self.csv_path, self.media, self.root / "retry-out", selected,
                                execute=True, rights_confirmed=True, media_duration_seconds=100.0, run_id="retry-one")
         self.assertEqual(render.call_count, 1)
