@@ -6,7 +6,7 @@ A local-first, zero-mandatory-dependency creator workflow for analysing authoriz
 
 ## Start clipping today
 
-See [`docs/START_CLIPPING_TODAY.md`](docs/START_CLIPPING_TODAY.md) for the shortest Windows/macOS/Linux setup and local clip workflow.
+See [`docs/FIRST_CLIP_TODAY.md`](docs/FIRST_CLIP_TODAY.md) for the shortest Windows/macOS/Linux setup and local clip workflow.
 
 ## Requirements
 
