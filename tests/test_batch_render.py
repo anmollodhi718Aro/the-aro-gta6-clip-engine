@@ -63,6 +63,28 @@ class BatchRenderTests(unittest.TestCase):
         self.assertEqual([item["status"] for item in result], ["rendered", "blocked", "rendered"])
         self.assertTrue(all(call.kwargs["rights_confirmed"] for call in render.call_args_list))
 
+    def test_each_execution_uses_a_new_run_folder(self) -> None:
+        with patch("backend.app.batch_render.render_clip"):
+            first = run_batch(self.csv_path, self.media, self.root / "out", {1},
+                              execute=True, rights_confirmed=True, run_id="run-one")
+            second = run_batch(self.csv_path, self.media, self.root / "out", {1},
+                               execute=True, rights_confirmed=True, run_id="run-two")
+        self.assertIn("run-one", first[0]["output_path"])
+        self.assertIn("run-two", second[0]["output_path"])
+        self.assertNotEqual(first[0]["output_path"], second[0]["output_path"])
+
+    def test_existing_run_folder_is_never_reused(self) -> None:
+        with patch("backend.app.batch_render.render_clip"):
+            run_batch(self.csv_path, self.media, self.root / "out", {1},
+                      execute=True, rights_confirmed=True, run_id="same-run")
+            with self.assertRaisesRegex(FileExistsError, "already exists"):
+                run_batch(self.csv_path, self.media, self.root / "out", {1},
+                          execute=True, rights_confirmed=True, run_id="same-run")
+
+    def test_rejects_unsafe_run_id(self) -> None:
+        with self.assertRaises(ValueError):
+            run_batch(self.csv_path, self.media, self.root / "out", {1}, run_id="../escape")
+
     def test_rejects_approval_outside_csv(self) -> None:
         with self.assertRaisesRegex(ValueError, "outside"):
             run_batch(self.csv_path, self.media, self.root / "out", {4})
