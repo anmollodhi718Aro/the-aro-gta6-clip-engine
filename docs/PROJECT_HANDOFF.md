@@ -413,13 +413,13 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - Final structured analytics reconciliation commit: `93135b572ef6e3dc4c40792c11f0de8c24785bcc`; the ledger now includes the final handoff/registry commit evidence and reconciled branch snapshot `a9c537fc4ac5a7c437dc2c2f535ac258d24b619e`. No source code or tests changed in this final ledger-only update.
 
 
-## ARO-CHAT-0015 reservation — 2026-11-20 04:58 IST
+## ARO-CHAT-0016 reservation — 2026-11-20 04:58 IST
 
-- Chat: `ARO-CHAT-0015 | Analytics Schema Integrity and CI Reconciliation`; provider/model: OpenAI / GPT-6.
-- Workstream: existing `ARO-ZERO-ONE`; task `ARO-GTA-P0-15`; no duplicate workstream, branch, or PR.
+- Chat: `ARO-CHAT-0016 | Analytics Schema Integrity and CI Reconciliation`; provider/model: OpenAI / GPT-6.
+- Workstream: existing `ARO-ZERO-ONE`; task `ARO-GTA-P0-16`; no duplicate workstream, branch, or PR.
 - Starting observed branch SHA: `a9c537fc4ac5a7c437dc2c2f535ac258d24b619e`; working branch: `workstream/aro-zero-one-clipping-first-2026-11-20`; existing PR #66; base `integration/release-candidate`; main remains `5f3332770b27d8a5211b3e74feade222563a9263`.
 - Scope: verify the latest CI evidence and implement schema-backed structural validation for the canonical AI chat analytics ledger. No historical AI sessions will be invented or scored without evidence.
-- Status: RESERVED. No tests executed by this chat yet. First GTA 6 real-media clip remains blocked on an expressly authorized creator recording/export or approved media handoff.
+- Status: IMPLEMENTED; syntax and focused behavior smoke checks passed locally; repository unittest and CI remain NOT VERIFIED. First GTA 6 real-media clip remains blocked on an expressly authorized creator recording/export or approved media handoff.
 
 
 ## ARO-CHAT-0015 | Windows CI Recovery and First-Clip Readiness Audit (2026-11-20)
@@ -434,3 +434,12 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - Windows runtime verification: NOT VERIFIED. Authorized real GTA 6 MP4 and playback: NOT VERIFIED. The external first-clip blocker remains an expressly authorized creator recording/export or approved media handoff.
 - Next highest-priority task: obtain the authorized media asset; rerun PR CI on the updated branch and inspect the Windows runner's dependency-install result. If Chocolatey 503 persists, replace the installer source with a reproducible, checksum-verified FFmpeg distribution rather than weakening the verification gate.
 - No production OAuth, live video-byte ingestion, persistent review store/UI, upload, deployment, or public publishing was completed or claimed. Elapsed and active work time are UNKNOWN; no duration was inferred.
+
+
+## ARO-CHAT-0016 collision resolution and execution update — 2026-11-20
+
+- A later live read found two concurrent ARO-CHAT-0015 records for exact-head CI and Windows/first-clip work. This chat's initial ARO-CHAT-0015 reservation was therefore a collision and has been re-attributed to `ARO-CHAT-0016` / `ARO-GTA-P0-16` before further implementation.
+- Retained the separate analytics-schema deliverables on the existing PR #66 branch: `analytics/ai_chat_sessions.schema.json`, `backend/app/analytics_validation.py`, `tests/test_analytics_validation.py`, and the updated `docs/AI_CHAT_ANALYTICS.md`.
+- Focused local checks: Python source syntax compilation PASS; validator behavior smoke checks PASS for valid/null metrics, boolean rejection, duplicate Chat ID rejection, and timezone enforcement. The repository test module and full unittest suite were NOT RUN because the repository could not be cloned in this environment (DNS resolution for github.com failed).
+- Latest observed PR #66 head before this correction: `628c11e1fa9638406947bc34ae5354f8edd944d9`; exact-head CI for the analytics additions is NOT VERIFIED. Windows and owner-device execution remain NOT VERIFIED. Authorized GTA 6 real-media rendering remains BLOCKED on a creator-authorized media handoff.
+- No new branch or PR, no merge/retarget, no main changes, no deployment, upload, or public publishing.
