@@ -29,6 +29,12 @@ try {
         }
     }
 
+    # Fail early with a useful message instead of an opaque encoder error.
+    $encoderList = (& ffmpeg -hide_banner -encoders 2>&1 | Out-String)
+    if ($LASTEXITCODE -ne 0 -or $encoderList -notmatch "(?m)\blibx264\b") {
+        throw "FFmpeg is available, but the libx264 H.264 encoder is missing. Install an FFmpeg build that includes libx264, then rerun this check."
+    }
+
     $stamp = (Get-Date -Format "yyyyMMdd_HHmmss") + "_" + [guid]::NewGuid().ToString("N").Substring(0, 8)
     $session = Join-Path $repoRoot ("smoke_test_output\" + $stamp)
     New-Item -ItemType Directory -Path $session -Force | Out-Null
