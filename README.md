@@ -188,7 +188,9 @@ This does not transcribe audio or synchronize captions automatically. Human revi
 
 ## Manual clip session (no chat export required)
 
-When you already have a local recording but no synchronized chat data, select time ranges in your editor and create a batch-render CSV:
+**Windows fastest path:** double-click `START_CLIPPING_TODAY.bat`. The wizard checks Python 3.11+, FFmpeg and ffprobe, validates your local recording, and lets you enter up to 50 clip ranges (maximum 180 seconds each). It creates a dry-run report first and renders only after you type `RENDER` to approve every listed clip.
+
+For the manual cross-platform path, select time ranges in your own authorized local recording and create a batch-render CSV:
 
 ```bash
 python -m backend.app.manual_clip examples/manual_clips.example.json --output manual_clips.csv
@@ -198,7 +200,7 @@ python -m backend.app.batch_render manual_clips.csv \
   --output-dir rendered_clips
 ```
 
-This first command creates review rows only. The batch renderer is dry-run by default. Only after reviewing the selected range and confirming rights should you rerun with `--execute --confirm-rights`. See [Manual Clipping](docs/MANUAL_CLIPPING.md).
+The batch renderer is dry-run by default. Only after reviewing the exact ranges and confirming rights should you rerun with `--execute --confirm-rights`. See [Manual Clipping](docs/MANUAL_CLIPPING.md).
 
 ## Test suite
 
