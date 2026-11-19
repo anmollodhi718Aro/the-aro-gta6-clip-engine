@@ -73,3 +73,30 @@ This is an evidence-based triage snapshot, not approval to merge or close any PR
 - File overlap alone is not proof of duplicate work.
 - A failed check with no job steps/logs is not evidence that tests themselves failed.
 - No real-media verification is claimed.
+
+
+## Live follow-up verification (2026-11-20)
+
+### PR #35 successor review
+
+- Current PR #35 head: `1af47f48e6cdb0b406da6fcfc66283c5ed62c3a5`; base: `main` at `5f3332770b27d8a5211b3e74feade222563a9263`.
+- GitHub reports PR #35 open and mergeable, with 8 changed files.
+- Direct compare of PR #32 head `37b3ccf0bdd33e26667c48742303571f266b559b` to PR #35 head reports 5 commits ahead, 0 behind. The relative diff contains README, `backend/app/video_clipper.py`, Windows quick-start documentation, permission example and video-clipper tests.
+- PR #35 contains the earlier MVP files and adds safer FFprobe error handling, finite-duration checks, temporary same-directory output and atomic no-overwrite publication, plus additional regression tests.
+- The PR #35 tests use mocked subprocess calls and a non-playable fixture. They validate control flow, not real FFmpeg rendering against actual footage.
+- Exact-head Actions run `44486545099` failed. Its `tests` job exposed no steps. This does not establish a Python test failure.
+- Conclusion: #32 is confirmed as a superseded implementation candidate relative to #35, but remains open pending owner approval to close it. No close action was taken.
+
+### PRs #60, #50 and #21 live state
+
+- PR #60 remains open and GitHub reports mergeable; it targets `integration/aro-release-candidate-2026-11-19`.
+- PR #50 remains open and GitHub reports not mergeable; it targets `integration/release-candidate`. Its patch includes Ubuntu and Windows CI jobs, synthetic landscape/vertical smoke testing, launcher/preflight changes, and post-render metadata validation.
+- PR #21 remains open and GitHub reports not mergeable; it targets `integration/release-candidate`. Its patch adds local FFprobe duration probing and rejects candidate ranges extending beyond the actual source duration.
+- These are complementary layers, but branch-base divergence and current non-mergeability on #50/#21 prevent a safe independent merge recommendation. A single chosen integration base and explicit conflict resolution are required.
+
+### Latest audit CI run
+
+- PR #64 exact head: `4bfb487481fe7e4c2c68ecfc5d33ed5db150f7dd`.
+- Latest run: `44613268742`, completed with failure.
+- Job `135875133760` named `tests` returned an empty step list. The job-log endpoint returned 404 `BlobNotFound`.
+- Therefore compile and unittest commands are still unverified on this exact head. The observed failure remains pre-step/log-unavailable evidence, not a diagnosed code-test failure.
