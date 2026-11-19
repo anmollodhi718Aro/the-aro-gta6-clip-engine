@@ -25,7 +25,15 @@ Prepare a sourced commentary and editing package from your own research notes:
 python -m backend.app.content_studio research.json --output output/gta6_short.md --json-output output/gta6_short.json
 ```
 
-Each factual beat must include a source URL and original THE ARO commentary. The generated package contains a voiceover draft, research checklist, visual plan, description, and pre-upload review gate. The tool does not fetch or download third-party footage, verify claims, upload, or publish. See [Original Commentary Content Studio](docs/CONTENT_STUDIO.md).
+Each factual beat must include a source URL and original THE ARO commentary. The generated package contains a voiceover draft, research checklist, visual plan, declared visual assets, description, and pre-upload review gate. The tool does not fetch or download third-party footage, verify claims, upload, or publish. See [Original Commentary Content Studio](docs/CONTENT_STUDIO.md).
+
+Run the rights-aware visual preflight against declared assets before editing/publishing:
+
+```bash
+python -m backend.app.content_preflight output/gta6_short.json --rights-db state/rights.sqlite3 --platform youtube --output output/preflight_report.json
+```
+
+Third-party assets require recorded permission for both `edit` and `publish` on the target platform. A passing report only means recorded metadata matched; human verification and final review are still required. See [Rights-Aware Content Preflight](docs/RIGHTS_AWARE_PREFLIGHT.md).
 
 ## Source rights registry
 
