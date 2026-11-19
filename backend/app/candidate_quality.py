@@ -56,8 +56,25 @@ def score_candidate(row: dict[str, Any]) -> dict[str, Any]:
     try:
         start = _number(row, "start_seconds")
         end = _number(row, "end_seconds")
-        renderable = row.get("renderable") in (True, "True", "true", "1", 1)
-        synchronized = renderable and start >= 0 and end > start and duration <= MAX_REVIEW_SECONDS
+        raw_renderable = row.get("renderable")
+        renderable = (
+            raw_renderable is True
+            or (type(raw_renderable) is int and raw_renderable == 1)
+            or (
+                isinstance(raw_renderable, str)
+                and raw_renderable.strip().casefold() in {"true", "1", "yes"}
+            )
+        )
+        bounds_match_duration = math.isclose(
+            end - start, duration, rel_tol=0.0, abs_tol=0.002
+        )
+        synchronized = (
+            renderable
+            and start >= 0
+            and end > start
+            and bounds_match_duration
+            and duration <= MAX_REVIEW_SECONDS
+        )
     except ValueError:
         synchronized = False
 
