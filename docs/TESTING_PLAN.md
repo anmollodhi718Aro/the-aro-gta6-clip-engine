@@ -44,3 +44,8 @@ Do not include real user tokens, private chat archives, or copyrighted footage w
 - known limitations are documented
 
 A green CI run only proves the checks that actually ran. It does not prove live-source reliability or production readiness.
+
+
+## End-to-end synthetic smoke test
+
+`tests/test_end_to_end_pipeline.py` exercises the local path from synthetic permission-gated chat events through spike detection, measured multi-anchor mapping, clip-pack export, explainable quality scoring, and batch-render dry-run. It uses a placeholder local file and mocks the renderer, so it does not require real GTA footage, FFmpeg, credentials, network access, or upload permissions.
