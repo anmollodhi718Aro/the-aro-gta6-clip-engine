@@ -124,8 +124,7 @@ class ClipRenderTests(unittest.TestCase):
                 with self.assertRaises(ClipRenderError):
                     render_clip(source, Path(folder) / "clip.mp4", 0, 2, rights_confirmed=True)
 
-
-    def test_vertical_output_uses_center_crop_filter(self):
+    def test_vertical_output_preserves_full_frame_over_blurred_background(self):
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / "source.mov"
             output = Path(folder) / "vertical.mp4"
@@ -137,11 +136,13 @@ class ClipRenderTests(unittest.TestCase):
             with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg) as run:
                 render_clip(source, output, 0, 5, rights_confirmed=True, vertical=True)
             command = run.call_args.args[0]
-            filter_index = command.index("-vf")
-            self.assertEqual(
-                command[filter_index + 1],
-                "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920",
-            )
+            graph = command[command.index("-filter_complex") + 1]
+            self.assertIn("scale=1080:1920", graph)
+            self.assertIn("boxblur=20:10", graph)
+            self.assertIn("overlay=(W-w)/2:(H-h)/2", graph)
+            self.assertIn("[v]", command)
+            self.assertIn("yuv420p", command)
+            self.assertTrue(output.is_file())
 
 
 if __name__ == "__main__":
