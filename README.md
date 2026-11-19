@@ -176,12 +176,25 @@ This does not transcribe audio or synchronize captions automatically. Human revi
 
 ## Test suite
 
+Run all local checks:
+
+**Windows PowerShell**
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/check_project.ps1
+```
+
+**Linux / macOS / Git Bash**
+```bash
+bash scripts/check_project.sh
+```
+
+Equivalent direct commands:
 ```bash
 python -m compileall -q backend tests THE_ARO_STUDIO.py
 python -m unittest discover -s tests -v
 ```
 
-GitHub Actions runs the same compile and unittest discovery workflow on pull requests. A CI job that fails before steps execute is not evidence of code-test failure, but it is also not a passing test result.
+GitHub Actions runs the same compile and unittest discovery workflow on pull requests. A CI job that fails before steps execute is not evidence of code-test failure, but it is also not a passing test result. See [Local Validation](docs/LOCAL_CHECKS.md).
 
 ## Explicit limitations / not yet production-ready
 
