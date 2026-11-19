@@ -14,6 +14,16 @@ A local-first, zero-mandatory-dependency creator workflow for analysing authoriz
 
 ## Start the unified local dashboard
 
+**Windows PowerShell (recommended):**
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/start_studio.ps1
+```
+
+The launcher checks for Python 3.11+, then starts the dashboard on loopback at `http://127.0.0.1:8765`. It does not install packages, change PowerShell execution policy, expose the dashboard to your network, or start uploads.
+
+**Any platform:**
+
 ```bash
 python THE_ARO_STUDIO.py
 ```
