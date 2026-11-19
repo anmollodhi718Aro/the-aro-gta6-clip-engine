@@ -4,7 +4,7 @@ on:
   push:
     branches: [main, "feature/**"]
   pull_request:
-    branches: [main, "autonomous/mvp-hardening"]
+    branches: [main, "autonomous/mvp-hardening", "feature/**"]
 
 permissions:
   contents: read
