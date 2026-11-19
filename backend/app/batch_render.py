@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from .clipping import MAX_CLIP_SECONDS, render_clip
+from .output_manager import create_run_directory, make_run_id, write_json_atomic
 
 
 REQUIRED_COLUMNS = {"start_seconds", "end_seconds", "renderable"}
@@ -59,11 +60,13 @@ def run_batch(
     *,
     execute: bool = False,
     rights_confirmed: bool = False,
+    run_id: str | None = None,
 ) -> list[dict[str, Any]]:
-    """Plan or execute only explicitly approved, renderable CSV rows."""
+    """Plan or execute approved rows inside a collision-safe per-run folder."""
     source_csv = Path(csv_path).expanduser()
     media = Path(media_path).expanduser()
-    destination = Path(output_dir).expanduser()
+    output_root = Path(output_dir).expanduser()
+    safe_run_id = make_run_id(run_id)
     if not source_csv.is_file():
         raise FileNotFoundError(f"candidate CSV does not exist: {source_csv}")
     if not media.is_file():
@@ -75,12 +78,11 @@ def run_batch(
     if any(number > len(candidates) for number in approved_rows):
         raise ValueError("an approved row number is outside the candidate CSV")
 
+    run_dir = create_run_directory(output_root, safe_run_id) if execute else output_root / safe_run_id
     report: list[dict[str, Any]] = []
-    if execute:
-        destination.mkdir(parents=True, exist_ok=True)
-
     for number, row in enumerate(candidates, start=1):
         item: dict[str, Any] = {
+            "run_id": safe_run_id,
             "candidate_row": number,
             "source_id": row.get("source_id", ""),
             "output_path": "",
@@ -96,7 +98,7 @@ def run_batch(
             continue
         try:
             start, end = _validated_bounds(row, number)
-            output_path = destination / f"clip_{number:03d}.mp4"
+            output_path = run_dir / f"clip_{number:03d}.mp4"
             item["output_path"] = str(output_path)
             if not execute:
                 item.update(status="planned", message=f"would render {end - start:.3f} seconds after approval")
@@ -121,17 +123,19 @@ def main() -> int:
     )
     parser.add_argument("candidate_csv", type=Path)
     parser.add_argument("--media", required=True, type=Path, help="local media file; remote URLs are not supported")
-    parser.add_argument("--output-dir", type=Path, default=Path("rendered_clips"))
+    parser.add_argument("--output-dir", type=Path, default=Path("rendered_clips"), help="root folder for separate render runs")
+    parser.add_argument("--run-id", help="optional safe, unique run folder name; generated when omitted")
     parser.add_argument("--approve", required=True, help="comma-separated 1-based row numbers approved by a human")
     parser.add_argument("--execute", action="store_true", help="perform local rendering; default is dry-run")
     parser.add_argument("--confirm-rights", action="store_true", help="confirm authorization for this exact local media file")
-    parser.add_argument("--report", type=Path, default=Path("batch_render_report.json"))
+    parser.add_argument("--report", type=Path, help="optional report path; defaults inside this run folder")
     args = parser.parse_args()
 
     try:
         if args.execute and not args.confirm_rights:
             raise PermissionError("--execute requires --confirm-rights")
         approvals = parse_approvals(args.approve)
+        run_id = make_run_id(args.run_id)
         results = run_batch(
             args.candidate_csv,
             args.media,
@@ -139,13 +143,14 @@ def main() -> int:
             approvals,
             execute=args.execute,
             rights_confirmed=args.confirm_rights,
+            run_id=run_id,
         )
-        args.report.parent.mkdir(parents=True, exist_ok=True)
-        args.report.write_text(json.dumps(results, indent=2), encoding="utf-8")
+        report_path = args.report or (args.output_dir.expanduser() / run_id / "batch_render_report.json")
+        write_json_atomic(report_path, results)
         counts: dict[str, int] = {}
         for result in results:
             counts[result["status"]] = counts.get(result["status"], 0) + 1
-        print(f"Batch report: {args.report} | " + ", ".join(f"{key}={value}" for key, value in sorted(counts.items())))
+        print(f"Run: {run_id} | Report: {report_path} | " + ", ".join(f"{key}={value}" for key, value in sorted(counts.items())))
         return 1 if any(item["status"] == "failed" for item in results) else 0
     except (OSError, ValueError, PermissionError) as exc:
         print(f"Batch render stopped: {exc}", file=sys.stderr)
