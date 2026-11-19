@@ -68,8 +68,24 @@ class ClipRenderTests(unittest.TestCase):
             self.assertIsInstance(args[0], list)
             self.assertTrue(kwargs["check"])
             self.assertEqual(args[0][args[0].index("-t") + 1], "3.000")
+            self.assertNotIn("-vf", args[0])
             self.assertNotIn("shell", kwargs)
             self.assertFalse(list(Path(folder).glob(".clip-*.mp4")))
+
+    def test_vertical_output_uses_center_crop_filter(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            output = Path(folder) / "vertical.mp4"
+            source.write_bytes(b"synthetic")
+
+            def fake_ffmpeg(command, **kwargs):
+                Path(command[-1]).write_bytes(b"vertical mp4")
+
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg) as run:
+                render_clip(source, output, 0, 5, rights_confirmed=True, vertical=True)
+            command = run.call_args.args[0]
+            filter_index = command.index("-vf")
+            self.assertEqual(command[filter_index + 1], "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920")
 
     def test_concurrent_output_collision_preserves_existing_file(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
