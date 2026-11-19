@@ -14,7 +14,8 @@ Last reviewed: 2026-11-19
 - [x] YouTube one-shot CLI integration with SQLite consent registry (JSON permission file remains supported)
 - [x] One-shot YouTube chat analysis CLI with pagination metadata
 - [x] Review-only clip decision list; publishing is disabled
-- [x] Local-only FFmpeg renderer with rights confirmation, bounded duration, no-overwrite behavior, and process timeout\n- [x] One-command manual quick-clip CLI for a local gameplay recording
+- [x] Local-only FFmpeg renderer with rights confirmation, bounded duration, no-overwrite behavior, and process timeout
+- [x] One-command manual quick-clip CLI for a local gameplay recording
 - [x] Unit tests for detector, permission gates, CLI, YouTube adapter, clipper guards, and persistent consent registry
 - [x] GitHub Actions compile and unit-test workflow
 
@@ -52,5 +53,6 @@ Last reviewed: 2026-11-19
 - Chat spike detection finds activity changes, not guaranteed entertaining or viral moments.
 - Chat timestamps can be mapped to video offsets only when an operator supplies a measured offset; automatic synchronization and calibration are not implemented.
 - The window selector ranks existing chat candidates only. It does not inspect gameplay frames/audio or identify scene boundaries.
-- Latest observed GitHub Actions jobs terminate before reporting any steps; job logs are unavailable from GitHub, so the test suite result is currently unverified.\n- GitHub Actions is CI, not a persistent 24/7 livestream worker.
+- Latest observed GitHub Actions jobs terminate before reporting any steps; job logs are unavailable from GitHub, so the test suite result is currently unverified.
+- GitHub Actions is CI, not a persistent 24/7 livestream worker.
 - A green test run only validates the tests that actually ran.
