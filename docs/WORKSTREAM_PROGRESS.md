@@ -8,7 +8,7 @@ Last updated: 2026-11-19
 - Branch: `workstream/01-10-manual-clip-cli-e2e`
 - Base ref: `integration/aro-release-candidate-2026-11-19`
 - Base SHA: `625425987b8381c5a7d16313f5fbb96abcfcff21` (confirmed by branch comparison).
-- Latest workstream commit: `713e30642598827d4c37fe34e46d83b340fcba8a`
+- Latest workstream commit before this log refresh: `a23ff493bc610b993438649941aeea8eabd488c5`
 - Scope: add isolated regression coverage for the operator's JSON → CSV → batch-render dry-run path, including Unicode and whitespace in local Windows-style paths.
 
 ## Reconnaissance
