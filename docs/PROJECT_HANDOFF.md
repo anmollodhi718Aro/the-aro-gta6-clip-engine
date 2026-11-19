@@ -4,7 +4,7 @@
 **Current workstream:** ARO-ZERO-ONE  
 **Primary workstream chat:** ARO-CHAT-0005 | Clipping-First Integration and First MP4  
 **Continuation audit:** ARO-CHAT-0006 | First Verified Clip Hardening  
-**Last updated:** 2026-11-20 (ARO-CHAT-0008 live GitHub reconciliation)
+**Last updated:** 2026-11-20 (ARO-CHAT-0013 live GitHub reconciliation)
 
 ## Product objective
 
@@ -344,3 +344,18 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - Current PR #66 remains open, unmerged and based on `integration/release-candidate`. No merge/retarget/deployment/upload/publication.
 - Actions synchronize runs were repeatedly cancelled while sequential branch commits were landing. Latest exact branch tip has no completed run yet; the in-progress run observed at source commit was not on the final documentation tip. CI_VERIFIED and TESTED remain pending for the integrated head.
 - Next exact action: allow the final PR synchronize workflow on `31bf96ed4b9d6b68ee3b5adb61b3ae82a92962da` to finish; inspect job steps/logs, especially the ten new permission/approval tests and synthetic FFmpeg/FFprobe smoke test. Do not count cancelled runs as test failures or passes.
+
+
+## ARO-CHAT-0013 live audit continuation (2026-11-20 04:26 IST)
+
+- Chat title: `ARO-CHAT-0013 | Clipping-First Integration and CI Evidence Reconciliation`; continuation of existing `ARO-ZERO-ONE`. Existing branch and PR #66 reused; no duplicate workstream, branch, PR, or registry created.
+- Live main SHA: `5f3332770b27d8a5211b3e74feade222563a9263`; main unchanged.
+- Selected baseline remains Option A `integration/release-candidate` at `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`. Option B remains preserved; live compare shows Option B 1 commit ahead / 4 behind Option A, common merge base `625425987b8381c5a7d16313f5fbb96abcfcff21`.
+- Starting branch HEAD observed for this audit: `e0266a9e6c4b00c09db76f18f17996227ff79fb5`. PR #66 remains open, non-draft, unmerged, based on `integration/release-candidate`; GitHub reported mergeable=true. Changed files at the audit snapshot: 20. No merge, retarget, deployment, upload, or public publication.
+- Reconciled the active PR #66 branch: it now contains `backend/app/live_sources.py`, `backend/app/approval.py`, `tests/test_live_sources_and_approval.py`, and `docs/AUTHORIZED_LIVE_SOURCE_PIPELINE.md` in addition to the FFmpeg renderer, post-render FFprobe validation, and synthetic FFmpeg/FFprobe smoke test. This is selective integration of the PR #65 permission/approval foundation; PR #65 itself remains separate and unmerged.
+- Inspected permission/approval code and tests. Creator discovery requires a matching active `read_live_stream` grant before provider lookup and validates creator/source identity. Clip decisions are immutable (`needs_review`, `approved`, `rejected`); upload gate requires approved status and a separate active `publish` grant. Tests are synthetic; this is not production OAuth or persistent approval storage.
+- Explicitly not implemented/verified: production YouTube OAuth, encrypted token vault, actual YouTube provider adapter, receipt of authorized video bytes, durable review database/UI, production publisher, and production deployment. A provider media reference alone does not prove media-byte ingestion.
+- Exact-head Actions run observed for this branch: [44633390977](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44633390977), SHA `e0266a9e6c4b00c09db76f18f17996227ff79fb5`, status `in_progress`, conclusion `none`. The run returned no completed job-step evidence at the audit snapshot. Exact-head TESTED/CI_VERIFIED is therefore NOT CLAIMED. Earlier successful run [44632671652](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44632671652) applies only to renderer revision `6c5d0fd2228da963fc61c39403645e347a4cd3af` (258 tests, 257 passed, 1 skipped), not the later smoke-test and permission/approval integration.
+- Local test execution was not possible in this connector session: repository clone could not resolve `github.com`. No local test pass is claimed. Windows-native execution: NOT VERIFIED. Synthetic real-FFmpeg smoke test: PRESENT, CI result pending/unverified. Creator-authorized GTA 6 MP4 and playback: NOT VERIFIED. PRODUCTION_READY: NO.
+- First real GTA 6 clip remains blocked on an expressly authorized creator recording/export or platform-approved media handoff. YouTube live metadata/chat is not video bytes. Next P0: obtain authorized media, run the Windows/local clip workflow, capture FFmpeg + FFprobe + playback evidence, then persist a `needs_review` record and require explicit owner approval before upload preparation.
+- No source/test code was changed in this audit; this record updates only the existing canonical handoff and registry.

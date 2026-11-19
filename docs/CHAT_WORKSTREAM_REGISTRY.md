@@ -197,3 +197,19 @@
 - Synthetic FFmpeg/FFprobe smoke coverage is present in the existing branch, but does not verify GTA 6 footage. Windows-native and authorized GTA 6 real-media playback remain NOT VERIFIED.
 - PR #65 remains separate; no merge or retarget. Production OAuth, token vault, media handoff adapter, persistent review store/UI and publisher remain unimplemented.
 - No deployment, upload, public publishing, or changes to main.
+
+
+## ARO-CHAT-0013 continuation record (2026-11-20)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0013 | ARO-CHAT-0013 \| Clipping-First Integration and CI Evidence Reconciliation | ARO-ZERO-ONE (continuation) | Live repository audit, Option A/B verification, inspection of integrated creator permission/approval foundation, exact-head Actions reconciliation, canonical handoff update | `workstream/aro-zero-one-clipping-first-2026-11-20` / [PR #66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66) | IMPLEMENTED (audit/docs); permission/approval source integrated; exact-head TESTED/CI_VERIFIED NOT CLAIMED; WINDOWS_NOT_VERIFIED; GTA6_REAL_MEDIA_NOT_VERIFIED | Starting branch HEAD `e0266a9e6c4b00c09db76f18f17996227ff79fb5`; main SHA `5f3332770b27d8a5211b3e74feade222563a9263`; Actions run 44633390977 pending/inconclusive; canonical handoff refreshed |
+
+### ARO-CHAT-0013 evidence notes
+- Existing `ARO-ZERO-ONE`, branch, PR #66, and registry reused. No competing branch, PR, or registry created.
+- PR #66 now contains the provider-neutral creator-source permission contract and immutable owner approval gate formerly tracked separately in PR #65. PR #65 remains open/unmerged; production OAuth, actual media-byte ingestion, persistent review storage/UI, and publishing adapter are not implemented.
+- The synthetic FFmpeg/FFprobe smoke test is present but not verified on the latest branch head. Prior passing CI evidence is limited to renderer revision `6c5d0fd2228da963fc61c39403645e347a4cd3af` (258 tests, 257 passed, 1 skipped).
+- Exact-head run 44633390977 did not provide completed job-step evidence at this audit snapshot. Do not label the latest head CI-green.
+- No local tests were run; clone failed because this environment could not resolve github.com. Windows-native and creator-authorized GTA 6 media/playback remain NOT VERIFIED.
+- Main remains unchanged. No merge, deployment, upload, or public publication.
+- Single external blocker for first GTA 6 clip: creator-authorized recording/export or approved media handoff.
