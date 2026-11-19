@@ -2,15 +2,17 @@ name: Python CI
 
 on:
   push:
-    branches:
-      - main
-      - "feature/**"
-      - "autonomous/**"
-      - "integration/**"
-      - "qa/**"
+    branches: ["main"]
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
+
+# Pull-request updates supersede earlier runs for the same PR.
+# Feature/integration branches are tested through their PR event, avoiding
+# a duplicate push-triggered run for every commit.
+concurrency:
+  group: gta6-python-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
