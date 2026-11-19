@@ -68,7 +68,7 @@ class ContentPackTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             out_dir = Path(temp)
             pack = studio.build_content_pack(self.valid_payload())
-            existing = out_dir / "GTA_6_Test_topic_fixed-time_collision.json"
+            existing = out_dir / "GTA_6__Test_topic_fixed-time_collision.json"
             existing.write_text("owner data", encoding="utf-8")
             with patch.object(studio.secrets, "token_hex", return_value="collision"):
                 with self.assertRaises(FileExistsError):
