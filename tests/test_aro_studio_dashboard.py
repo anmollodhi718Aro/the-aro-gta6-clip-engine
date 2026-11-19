@@ -3,7 +3,7 @@ import json
 import sqlite3
 import tempfile
 import unittest
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import THE_ARO_STUDIO as studio
@@ -190,8 +190,8 @@ class SecurityGuardTests(unittest.TestCase):
 
     def test_dashboard_embeds_csrf_token_in_all_post_forms(self):
         rendered = studio.page([], [], 0, csrf_token="owner-session-token")
-        self.assertEqual(rendered.count('name="csrf_token"'), 3)
-        self.assertEqual(rendered.count('value="owner-session-token"'), 3)
+        self.assertEqual(rendered.count('name="csrf_token"'), 5)
+        self.assertEqual(rendered.count('value="owner-session-token"'), 5)
 
     def test_dashboard_exposes_rights_aware_preflight_form(self):
         rendered = studio.page([], [], 0, csrf_token="owner-session-token")
@@ -199,6 +199,57 @@ class SecurityGuardTests(unittest.TestCase):
         self.assertIn('name="platform"', rendered)
         self.assertIn('name="payload"', rendered)
         self.assertIn("Rights-aware visual preflight", rendered)
+
+    def test_dashboard_exposes_clock_and_creator_forms(self):
+        rendered = studio.page([], [], 0, csrf_token="owner-session-token")
+        self.assertIn('action="/clock-sync"', rendered)
+        self.assertIn('action="/creator-watchlist"', rendered)
+        self.assertIn("Measured clock calibration", rendered)
+        self.assertIn("Creator watchlist", rendered)
+
+    def test_build_clock_report_uses_three_measured_anchors(self):
+        origin = datetime(2026, 11, 19, 12, 0, tzinfo=timezone.utc)
+        report = studio.build_clock_report({"anchors": [
+            {"source_id": "demo", "chat_time": (origin + timedelta(seconds=offset)).isoformat(),
+             "media_seconds": offset + 5}
+            for offset in (0, 60, 120)
+        ]})
+        self.assertEqual(report["status"], "calibrated")
+        self.assertEqual(report["source_id"], "demo")
+        self.assertEqual(report["anchor_count"], 3)
+        self.assertFalse(report["extrapolation_allowed"])
+
+    def test_build_clock_report_rejects_too_few_anchors(self):
+        origin = datetime(2026, 11, 19, 12, 0, tzinfo=timezone.utc)
+        with self.assertRaisesRegex(ValueError, "at least three"):
+            studio.build_clock_report({"anchors": [
+                {"source_id": "demo", "chat_time": origin.isoformat(), "media_seconds": 0},
+                {"source_id": "demo", "chat_time": (origin + timedelta(seconds=60)).isoformat(), "media_seconds": 60},
+            ]})
+
+    def test_build_creator_report_requires_seven_day_evidence(self):
+        start = datetime(2026, 11, 12, tzinfo=timezone.utc)
+        report = studio.build_creator_report({"metrics": [{
+            "creator_id": "techno-gamerz",
+            "window_start": start.isoformat(),
+            "window_end": (start + timedelta(days=7)).isoformat(),
+            "views": 500, "live_streams": 2,
+            "peak_concurrent_viewers": 100,
+            "average_concurrent_viewers": 50.0,
+            "source_url": "https://example.com/evidence",
+        }]})
+        self.assertEqual(report["ranked_count"], 1)
+        self.assertFalse(report["publishing_enabled"])
+
+    def test_build_creator_report_rejects_bad_evidence(self):
+        start = datetime(2026, 11, 12, tzinfo=timezone.utc)
+        with self.assertRaisesRegex(ValueError, "HTTPS evidence URL"):
+            studio.build_creator_report({"metrics": [{
+                "creator_id": "techno-gamerz",
+                "window_start": start.isoformat(),
+                "window_end": (start + timedelta(days=7)).isoformat(),
+                "views": 500, "live_streams": 2, "source_url": "http://example.com/no"
+            }]})
 
     def test_request_guard_rejects_wrong_port_and_malformed_host(self):
         self.assertFalse(
