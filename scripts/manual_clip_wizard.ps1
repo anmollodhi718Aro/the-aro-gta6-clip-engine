@@ -23,14 +23,14 @@ Write-Host ""
 $pythonExe = $null
 $pythonPrefix = @()
 
-# Prefer the Windows Python launcher when it has a Python 3.11 runtime.
-# Fall back to the active "python" command if that runtime is unavailable.
+# Prefer the Windows Python launcher and let it select an installed Python 3.x.
+# The version check enforces 3.11+ without requiring exactly Python 3.11.
 $launcher = Get-Command py -ErrorAction SilentlyContinue
 if ($launcher) {
-    & $launcher.Source -3.11 -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)" *> $null
+    & $launcher.Source -3 -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)" *> $null
     if ($LASTEXITCODE -eq 0) {
         $pythonExe = $launcher.Source
-        $pythonPrefix = @("-3.11")
+        $pythonPrefix = @("-3")
     }
 }
 
@@ -52,6 +52,10 @@ if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) { throw "FFmpeg is 
 if (-not (Get-Command ffprobe -ErrorAction SilentlyContinue)) { throw "ffprobe is missing from PATH. Install FFmpeg including ffprobe and reopen this window." }
 
 $mediaInput = Read-Host "Full path to your authorized local video"
+if ([string]::IsNullOrWhiteSpace($mediaInput)) { throw "No video path supplied." }
+# Explorer drag-and-drop and copied file paths are often wrapped in quotes.
+# Accept either quoted or unquoted paths before checking the actual file.
+$mediaInput = $mediaInput.Trim().Trim([char[]](34, 39)).Trim()
 if ([string]::IsNullOrWhiteSpace($mediaInput)) { throw "No video path supplied." }
 if (-not (Test-Path -LiteralPath $mediaInput -PathType Leaf)) { throw "The selected local video file does not exist." }
 $mediaPath = (Resolve-Path -LiteralPath $mediaInput).Path
@@ -145,6 +149,48 @@ if (-not $latestRun) { throw "Render completed but its report folder could not b
 $renderReport = Join-Path $latestRun.FullName "batch_render_report.json"
 if (-not (Test-Path -LiteralPath $renderReport -PathType Leaf)) {
     throw "Render completed but its batch report is missing: $renderReport"
+}
+
+# A zero exit code can still include blocked rows. Verify every selected row
+# reached rendered status and that each reported MP4 exists before declaring success.
+$renderRows = @(Get-Content -LiteralPath $renderReport -Raw | ConvertFrom-Json)
+$renderedRows = @($renderRows | Where-Object { $_.status -eq "rendered" })
+if ($renderedRows.Count -ne $clips.Count) {
+    $statusSummary = ($renderRows | Group-Object status | ForEach-Object { "$($_.Name)=$($_.Count)" }) -join ", "
+    throw "Expected $($clips.Count) rendered clip(s), but verified $($renderedRows.Count). Statuses: $statusSummary. Inspect $renderReport"
+}
+foreach ($row in $renderedRows) {
+    if ([string]::IsNullOrWhiteSpace([string]$row.output_path) -or
+        -not (Test-Path -LiteralPath ([string]$row.output_path) -PathType Leaf)) {
+        throw "A clip is marked rendered but its MP4 file is missing: $($row.output_path)"
+    }
+
+    $clipFile = Get-Item -LiteralPath ([string]$row.output_path)
+    if ($clipFile.Length -le 0) { throw "Rendered MP4 is empty: $($row.output_path)" }
+
+    # Verify the actual output container and video stream, not just the renderer's status.
+    $probeJson = & ffprobe -v error -show_entries "format=duration:stream=codec_type,width,height" -of json $clipFile.FullName
+    if ($LASTEXITCODE -ne 0) { throw "ffprobe could not inspect rendered MP4: $($row.output_path)" }
+    try { $probe = ($probeJson | Out-String) | ConvertFrom-Json -ErrorAction Stop }
+    catch { throw "Rendered MP4 has invalid ffprobe metadata: $($row.output_path)" }
+    $video = @($probe.streams | Where-Object { $_.codec_type -eq "video" })
+    if ($video.Count -lt 1) { throw "Rendered MP4 has no video stream: $($row.output_path)" }
+
+    $actualDuration = 0.0
+    $durationText = [string]$probe.format.duration
+    if (-not [double]::TryParse($durationText, [System.Globalization.NumberStyles]::Float,
+        [System.Globalization.CultureInfo]::InvariantCulture, [ref]$actualDuration) -or
+        [double]::IsNaN($actualDuration) -or [double]::IsInfinity($actualDuration) -or $actualDuration -le 0) {
+        throw "Rendered MP4 has an invalid duration: $($row.output_path)"
+    }
+    $expectedDuration = [double]$row.end_seconds - [double]$row.start_seconds
+    if ([math]::Abs($actualDuration - $expectedDuration) -gt 0.5) {
+        throw "Rendered MP4 duration ($actualDuration s) differs from selected range ($expectedDuration s): $($row.output_path)"
+    }
+    if ($verticalArgs.Count -gt 0 -and ($video[0].width -ne 1080 -or $video[0].height -ne 1920)) {
+        throw "Rendered Shorts MP4 must be 1080x1920; got $($video[0].width)x$($video[0].height): $($row.output_path)"
+    }
+    Write-Host ("Verified MP4: {0}x{1}, {2:N2}s, {3:N0} bytes" -f $video[0].width, $video[0].height, $actualDuration, $clipFile.Length) -ForegroundColor Green
 }
 
 & $pythonExe @pythonPrefix -m backend.app.review_dashboard $renderReport --output $reviewHtml --title "THE ARO Clip Review"

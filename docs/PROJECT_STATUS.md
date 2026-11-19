@@ -4,6 +4,15 @@ Last reviewed: 2026-11-19
 
 ## Branch and release state
 
+## Latest Windows launch hardening (2026-11-19)
+
+- PR #28 (first-clip quick-start documentation) was squash-merged into `integration/release-candidate`.
+- PR #50 is the current draft review for Windows Python 3.11+ selection, project preflight, synthetic landscape + 1080x1920 vertical FFmpeg render verification, and post-render MP4/ffprobe checks.
+- PR #49 was superseded and closed without merging; PR #50 is the canonical Windows launch-hardening review.
+- The synthetic smoke test and Windows PowerShell scripts have been inspected in the repository, but have not been executed on the owner's Windows machine in this session.
+- No successful GitHub Actions run is available for the latest PR #50 head. Do not mark local render or CI acceptance gates complete until their outputs are recorded.
+
+
 - Current release-candidate head also includes the Windows one-click manual clipping workflow from PR #48: up to 50 selected moments, Python 3.11 selection, FFprobe media validation, optional full-frame 9:16 output, dry-run first, two explicit render/rights confirmations, and a local review dashboard.
 - PR #48 was stacked directly on this branch and its head was fast-forwarded into this branch; PR #18 is the canonical review target for the combined code.
 - Latest recorded Actions run for the integrated head failed before runner assignment (`runner_id=0`, no steps). This is an infrastructure/account-side blocker until GitHub allocates a runner; it is not evidence that tests passed or that application tests failed.

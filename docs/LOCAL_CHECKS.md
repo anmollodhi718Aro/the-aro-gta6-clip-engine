@@ -1,6 +1,6 @@
-# Local validation
+# Local and CI validation
 
-GitHub Actions has previously failed before any job steps were recorded, with no downloadable job log. Until that infrastructure issue is resolved, run the same checks locally from a clone of this repository.
+GitHub Actions validates the Python suite on Ubuntu and the Windows clipping entry points on a Windows runner.
 
 ## Windows PowerShell
 
@@ -8,7 +8,12 @@ From the repository root:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/check_project.ps1
+powershell -ExecutionPolicy Bypass -File scripts/smoke_test_render.ps1
 ```
+
+The project check requires Python 3.11+, compiles backend/tests/Studio, runs the complete unittest suite, and reports FFmpeg/ffprobe availability. The synthetic render smoke test requires FFmpeg with the `libx264` encoder and ffprobe. It creates generated test-pattern footage and verifies both source-aspect landscape output and 1080x1920 vertical output. It does not use creator footage.
+
+The Windows GitHub Actions job installs FFmpeg, runs the project checks, and runs the same synthetic landscape/vertical smoke test.
 
 ## Linux / macOS / Git Bash
 
@@ -16,12 +21,6 @@ powershell -ExecutionPolicy Bypass -File scripts/check_project.ps1
 bash scripts/check_project.sh
 ```
 
-Both scripts:
-1. Require Python 3.11 or newer.
-2. Compile backend, tests and the single-file dashboard.
-3. Run the complete unittest discovery suite.
-4. Report whether optional FFmpeg and ffprobe are available.
+This compiles backend, tests and the single-file dashboard, then runs the complete unittest discovery suite. FFmpeg is required only for actual local MP4 rendering.
 
-FFmpeg is required only for actual local MP4 rendering. The core Python test suite uses synthetic data and does not require creator footage.
-
-A successful local run should be recorded with the exact commit SHA and the final test summary. Do not mark CI as passed based only on a local run.
+A successful local or CI run must be tied to the exact commit SHA and its recorded final test summary. A job that fails before runner assignment or before its first step is not a passing test result and is not evidence of an application test failure. Do not mark validation as passed until the relevant job actually executes and completes successfully.
