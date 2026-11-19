@@ -61,6 +61,26 @@ class WindowSelectorTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "max_clips"):
             SelectionPolicy(max_clips=0)
 
+    def test_rejects_non_finite_policy_values(self):
+        for kwargs in (
+            {"min_gap_seconds": float("nan")},
+            {"min_gap_seconds": float("inf")},
+            {"max_total_duration_seconds": float("nan")},
+            {"max_total_duration_seconds": float("inf")},
+        ):
+            with self.subTest(kwargs=kwargs):
+                with self.assertRaises(ValueError):
+                    SelectionPolicy(**kwargs)
+
+    def test_rejects_non_finite_window_bounds(self):
+        pair = self.make_pair(float("nan"), 20, 90)
+        with self.assertRaisesRegex(ValueError, "invalid bounds"):
+            select_review_windows([pair[0]], [pair[1]])
+
+    def test_rejects_out_of_range_candidate_score(self):
+        pair = self.make_pair(0, 20, 120)
+        with self.assertRaisesRegex(ValueError, "outside valid bounds"):
+            select_review_windows([pair[0]], [pair[1]])
     def test_long_windows_are_not_selected(self):
         a = self.make_pair(0, 181, 99)
         result = select_review_windows([a[0]], [a[1]])
