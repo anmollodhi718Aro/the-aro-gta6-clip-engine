@@ -1,23 +1,12 @@
 # THE ARO GTA 6 Clip Engine
 
-A creator-first workflow for finding and preparing short highlights from **authorized** GTA 6 livestreams and recordings.
+A creator-first workflow for preparing original GTA 6 commentary and review-ready clips from media the channel owns or is explicitly authorized to process.
 
 > This repository is the separate GTA 6 project. It is not the ARO History Engine.
 
 ## Current status
 
-**Stage:** Local MVP core with a read-only public YouTube chat adapter.  
-**Implemented:** permission-gated chat-spike detection, synthetic JSON demo, one-page YouTube Live Chat API adapter, review-only clip plans, and local-only FFmpeg MP4 rendering.  
-**Not yet implemented:** continuous low-latency chat streaming, OAuth/private-channel access, chat/video clock synchronization, AI context analysis, dashboard, cloud workers, or publishing.
-
-## MVP workflow
-
-1. Analyze permitted chat/event data.
-2. Optionally fetch one bounded page of public live-chat events through the official YouTube Data API.
-3. Detect unusual chat activity and produce explainable candidate timestamps.
-4. Review candidate moments manually.
-5. Render a short MP4 from a local media file that the operator owns or is authorized to process.
-6. Keep distribution manual and owner-approved.
+**Stage:** Local MVP with permission-gated source analysis, candidate review, local rendering, and original commentary production-pack generation.
 
 ## Quick start
 
@@ -28,85 +17,52 @@ python -m backend.app.cli examples/sample_events.json --output clip_plan.json
 python -m unittest discover -s tests -v
 ```
 
-See [MVP usage](docs/MVP_USAGE.md), [YouTube adapter setup](docs/YOUTUBE_LIVE_CHAT.md), and [bounded polling worker](docs/YOUTUBE_POLLING_WORKER.md).
+## Original THE ARO content workflow
 
-## Repository map
+Prepare a sourced commentary and editing package from your own research notes:
 
-- `backend/app/models.py`: timezone-aware permission and event models.
-- `backend/app/detection.py`: deterministic, permission-gated chat-spike detector.
-- `backend/app/cli.py`: local JSON analysis command.
-- `backend/app/clipping.py`: local-only FFmpeg clip renderer.
-- `backend/app/youtube_live_chat.py`: read-only YouTube public live-chat API adapter.
-- `backend/app/youtube_cli.py`: one-page YouTube chat analysis command.
-- `backend/app/consent_registry.py`: SQLite-backed creator consent and revocation audit registry.
-- `backend/app/youtube_polling_worker.py`: bounded REST polling worker with consent re-checks and restart resume.
-- `backend/app/youtube_stream_list_worker.py`: bounded official streamList/gRPC worker with checkpoint resume, consent re-checks, and transient reconnect handling.
-- `backend/app/youtube_stream_list_grpc.py`: optional official gRPC transport adapter and protobuf-to-event conversion.
-- `backend/app/youtube_stream_ingestion.py`: durable stream response handler that commits converted events before checkpoint advancement.
-- `backend/app/polling_checkpoint_store.py`: SQLite page-token checkpoints for resumable polling.
-- `backend/app/chat_event_store.py`: durable SQLite event ingestion with duplicate detection and conflicting-ID rejection.
-- `backend/app/quota_scheduler.py`: SQLite multi-source due-time scheduler with atomic daily quota reservations.
-- `backend/app/scheduled_ingestion.py`: one-page orchestration joining quota reservation, consent recheck, event persistence, and cursor checkpointing.
-- `examples/`: synthetic test data only.
-- `tests/`: unit and CLI integration tests.
-- `docs/`: plans, architecture, rights, security, testing, and owner actions.
+```bash
+python -m backend.app.content_studio research.json --output output/gta6_short.md --json-output output/gta6_short.json
+```
+
+Each factual beat must include a source URL and original THE ARO commentary. The generated package contains a voiceover draft, research checklist, visual plan, description, and pre-upload review gate. The tool does not fetch or download third-party footage, verify claims, upload, or publish. See [Original Commentary Content Studio](docs/CONTENT_STUDIO.md).
+
+## Source rights registry
+
+Use the SQLite-backed registry to record the exact source, permission evidence reference, allowed uses, platforms, attribution, disclosure, and validity dates. Unknown, expired, revoked, or out-of-scope use is blocked. See [Source Rights Registry](docs/SOURCE_RIGHTS_REGISTRY.md).
+
+## Existing pipeline
+
+1. Analyze permitted chat/event data using official interfaces.
+2. Detect unusual chat activity and produce explainable candidate timestamps.
+3. Map timestamps only with a measured media-origin UTC timestamp.
+4. Review candidates and rights manually.
+5. Render locally from a media file the operator owns or is authorized to process.
+6. Review the output in the local dashboard.
+7. Keep upload/publishing manual and owner-approved.
+
+Useful commands:
+
+```bash
+python -m backend.app.clip_pack youtube_clip_plan.json --media-origin-utc "2026-11-19T12:00:00+00:00" --output-dir clip_pack
+python -m backend.app.candidate_quality clip_pack/clip_candidates.csv --output clip_pack/quality_scored_candidates.csv
+python -m backend.app.review_dashboard rendered_clips/RUN_ID/batch_render_report.json --output rendered_clips/review.html
+```
+
+Batch rendering is dry-run by default and requires explicit row approvals plus rights confirmation to execute. It never uploads or publishes.
 
 ## Safety and rights
 
-Only use footage and data that you own or have permission to process. The clipper requires an explicit rights-confirmation flag, but that is an engineering guardrail, not legal verification. Creator permission does not automatically clear music, game publisher rights, or third-party content. See [Copyright and Permissions](docs/COPYRIGHT_POLICY.md).
+Credit and disclaimers do not replace permission. Creator permission may not cover music, game publisher rights, guests, or other third-party material. A registry entry is an engineering record, not legal verification. Do not scrape, rip, or bypass platform controls. When rights are uncertain, do not process or publish. See [Copyright and Permissions](docs/COPYRIGHT_POLICY.md).
 
 ## Development principles
 
-- GitHub is the source of truth.
-- Build in small, reviewable commits.
+- GitHub is the source of truth; work in feature branches and Draft PRs.
 - Keep API keys and tokens out of Git.
 - Use synthetic data or authorized sample assets first.
-- Do not scrape, rip, or bypass platform controls.
-- Do not map chat timestamps to video offsets without a measured clock synchronization offset.
-- Respect API quota and server-provided polling intervals.
-- Automatic recovery must be bounded; code changes and production deployment require owner review.
-- Publishing requires explicit human approval.
+- Do not map chat timestamps to video offsets without measured synchronization.
+- Respect API quota and platform rules.
+- No automatic publishing. A human must approve each finished video.
+- No paid dependencies.
 
-## Status and handoff
-
-See [Project Status](docs/PROJECT_STATUS.md) for implemented and outstanding work, and [Owner Actions](docs/OWNER_ACTIONS.md) for tasks that require account-owner authorization or external setup.
-
-
-## Measured clip candidate pack
-
-After analyzing an authorized chat source, you can map candidate timestamps to an exact local recording **only when you have measured the UTC timestamp for media offset zero**:
-
-```bash
-python -m backend.app.clip_pack youtube_clip_plan.json \
-  --media-origin-utc "2026-11-19T12:00:00+00:00" \
-  --output-dir clip_pack
-```
-
-This creates a sortable CSV and a Markdown review sheet. It does not download, render, upload, or publish video. See [Measured Clip Candidate Pack](docs/CLIP_CANDIDATE_PACK.md).
-
-
-## Human-approved batch rendering
-
-The measured candidate CSV can be used to prepare a batch of local render jobs. The command is **dry-run by default** and requires explicit row approvals:
-
-```bash
-python -m backend.app.batch_render clip_pack/clip_candidates.csv \
-  --media "/path/to/authorized-local-recording.mp4" \
-  --approve 1,3 \
-  --output-dir rendered_clips
-```
-
-Each run gets a separate folder under `rendered_clips`; pass `--run-id review-01` to choose a safe, unique folder name. The JSON report is written atomically inside that run folder. Inspect the report, then add `--execute --confirm-rights` only when you have reviewed those exact candidates and are authorized to process the exact local media file. Non-renderable rows remain blocked. No downloading, uploading, or publishing is performed. Generate a local read-only HTML review page from a report with `python -m backend.app.review_dashboard rendered_clips/RUN_ID/batch_render_report.json --output rendered_clips/review.html`. See [Human-Approved Batch Rendering](docs/BATCH_RENDERING.md).
-
-
-
-## Explainable candidate review scoring
-
-Add a transparent, non-predictive review score to a measured candidate CSV:
-
-```bash
-python -m backend.app.candidate_quality clip_pack/clip_candidates.csv \
-  --output clip_pack/quality_scored_candidates.csv
-```
-
-The score breaks down chat activity, duration suitability, and measured recording alignment. It is a human-review sorting aid only; it does not predict virality, grant rights, approve clips, or render/publish anything. See [Human-Approved Batch Rendering](docs/BATCH_RENDERING.md).
+See [Project Status](docs/PROJECT_STATUS.md) and [Owner Actions](docs/OWNER_ACTIONS.md) for implementation status and external setup.
