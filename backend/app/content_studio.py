@@ -60,11 +60,15 @@ def build_content_pack(data: dict[str, Any]) -> dict[str, Any]:
     visuals.extend({"beat": f"research_{i}", "direction": beat["visual"]}
                    for i, beat in enumerate(beats, start=1))
     visuals.append({"beat": "outro", "direction": "THE ARO end card made from original channel graphics."})
+    visual_assets = data.get("visual_assets", [])
+    if not isinstance(visual_assets, list) or any(not isinstance(item, dict) for item in visual_assets):
+        raise ValueError("visual_assets must be a list of asset objects")
     return {
         "working_title": title, "topic": topic, "original_angle": angle,
         "audience": audience, "format": "YouTube Short / vertical 9:16",
         "voiceover_script": voiceover, "research_beats": beats,
         "visual_plan": visuals,
+        "visual_assets": visual_assets,
         "metadata": {
             "description": (
                 f"{title}\n\nTHE ARO की original commentary और analysis. "
@@ -100,6 +104,16 @@ def render_markdown(pack: dict[str, Any]) -> str:
                       f"- THE ARO commentary: {beat['aro_commentary']}", ""])
     lines.extend(["## Visual plan", ""])
     lines.extend(f"- **{item['beat']}**: {item['direction']}" for item in pack["visual_plan"])
+    lines.extend(["", "## Declared visual assets", ""])
+    if pack.get("visual_assets"):
+        for asset in pack["visual_assets"]:
+            lines.append(
+                f"- **{asset.get('asset_id', 'unnamed')}**: "
+                f"{asset.get('kind', 'unspecified')} "
+                f"(source: {asset.get('source_id', 'not supplied')})"
+            )
+    else:
+        lines.append("- No external visual assets declared; confirm all visuals are original or separately cleared.")
     lines.extend(["", "## Upload description", "", pack["metadata"]["description"], "",
                   "## Pre-upload gate", "",
                   "- [ ] Verify every factual statement against its source.",
