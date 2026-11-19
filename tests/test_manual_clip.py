@@ -21,6 +21,24 @@ class ManualClipTests(unittest.TestCase):
         self.assertEqual(rows[0]["renderable"], "true")
         self.assertEqual(rows[0]["sync_method"], "manual_local_media_time")
 
+    def test_builds_multiple_rows_in_input_order(self):
+        rows = build_manual_rows({
+            "source_id": "owned-local-recording",
+            "clips": [
+                {"start_seconds": 12, "end_seconds": 30, "note": "opening"},
+                {"start_seconds": 95.5, "end_seconds": 125.5, "note": "finale"},
+            ],
+        })
+        self.assertEqual([row["start_seconds"] for row in rows], [12.0, 95.5])
+        self.assertEqual([row["review_note"] for row in rows], ["opening", "finale"])
+        self.assertEqual([row["duration_seconds"] for row in rows], [18.0, 30.0])
+
+    def test_accepts_session_limit_and_rejects_more_than_50_clips(self):
+        clips = [{"start_seconds": i * 181, "end_seconds": i * 181 + 10} for i in range(50)]
+        self.assertEqual(len(build_manual_rows({"source_id": "recording", "clips": clips})), 50)
+        with self.assertRaisesRegex(ValueError, "at most 50"):
+            build_manual_rows({"source_id": "recording", "clips": clips + [{"start_seconds": 1, "end_seconds": 2}]})
+
     def test_rejects_invalid_or_overlong_ranges(self):
         invalid = [
             {"start_seconds": -1, "end_seconds": 10},
@@ -28,6 +46,7 @@ class ManualClipTests(unittest.TestCase):
             {"start_seconds": 0, "end_seconds": 181},
             {"start_seconds": float("nan"), "end_seconds": 10},
             {"start_seconds": True, "end_seconds": 10},
+            {"start_seconds": 0, "end_seconds": float("inf")},
         ]
         for clip in invalid:
             with self.subTest(clip=clip), self.assertRaises(ValueError):
