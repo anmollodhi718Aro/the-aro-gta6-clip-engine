@@ -49,7 +49,8 @@ def render_dashboard(rows: list[dict[str, Any]], title: str = "Clip Review Dashb
         end = html.escape(str(row.get("end_seconds", "")))
         candidate = html.escape(str(row.get("candidate_row", "")))
         body_rows.append(
-            f'<tr><td>{candidate}</td><td>{source_id}</td><td>{start}</td><td>{end}</td>'
+            f'<tr><td><input class="row-select" type="checkbox" aria-label="Select candidate {candidate}"></td>'
+            f'<td>{candidate}</td><td>{source_id}</td><td>{start}</td><td>{end}</td>'
             f'<td><span class="status {status}">{html.escape(status.replace("_", " "))}</span></td>'
             f'<td>{message}</td><td class="path">{output}</td></tr>'
         )
@@ -88,8 +89,9 @@ th{{color:var(--muted);font-weight:600;background:#151a24}}td.path{{max-width:22
 <input id="search" type="search" placeholder="Filter by candidate, source, or message" aria-label="Filter candidates">
 <select id="status" aria-label="Filter by status"><option value="">All statuses</option>
 <option>planned</option><option>rendered</option><option>failed</option><option>blocked</option><option>not_approved</option></select>
+<button id="export-review" type="button">Export selected review rows</button>
 </div><div class="table-wrap"><table><thead><tr>
-<th>Row</th><th>Source</th><th>Start (s)</th><th>End (s)</th><th>Status</th><th>Details</th><th>Output</th>
+<th>Select</th><th>Row</th><th>Source</th><th>Start (s)</th><th>End (s)</th><th>Status</th><th>Details</th><th>Output</th>
 </tr></thead><tbody id="rows">{table}</tbody></table></div></section>
 <div class="note">Review rendered clips manually. A rendered status is not an approval to publish.</div>
 </main>
@@ -99,6 +101,19 @@ function filterRows(){{const q=search.value.toLowerCase(),s=status.value;
 document.querySelectorAll('#rows tr').forEach(row=>{{const text=row.textContent.toLowerCase();
 row.hidden=!!((q&&!text.includes(q))||(s&&!row.querySelector('.status')?.classList.contains(s)));}});}}
 search.addEventListener('input',filterRows);status.addEventListener('change',filterRows);
+document.getElementById('export-review').addEventListener('click',()=>{{
+  const selected=[...document.querySelectorAll('#rows input.row-select:checked')].map(box=>{{
+    const cells=box.closest('tr').cells;
+    return {{candidate_row:cells[1].textContent.trim(),source_id:cells[2].textContent.trim(),
+      start_seconds:cells[3].textContent.trim(),end_seconds:cells[4].textContent.trim(),
+      render_status:cells[5].textContent.trim(),review_selected:true}};
+  }});
+  const payload={{schema_version:1,kind:'aro_clip_review_selection',publish_approved:false,
+    selected_count:selected.length,candidates:selected}};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{{type:'application/json'}});
+  const url=URL.createObjectURL(blob),link=document.createElement('a');
+  link.href=url;link.download='aro_review_selection.json';link.click();URL.revokeObjectURL(url);
+}});
 </script></body></html>
 """
 
