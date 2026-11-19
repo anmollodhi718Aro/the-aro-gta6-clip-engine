@@ -34,6 +34,55 @@ def create_run_directory(output_root: str | Path, run_id: str) -> Path:
     return run_dir
 
 
+
+def write_texts_no_overwrite(files: dict[str | Path, str]) -> tuple[Path, ...]:
+    """Publish a set of text files without replacing existing outputs.
+
+    Files are staged beside their destinations and linked into place. If any
+    destination already exists or publication fails, only files created by
+    this call are rolled back.
+    """
+    staged: list[tuple[Path, Path]] = []
+    published: list[tuple[Path, Path]] = []
+    try:
+        for raw_target, content in files.items():
+            target = Path(raw_target).expanduser()
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with tempfile.NamedTemporaryFile(
+                mode="w", encoding="utf-8", newline="", dir=target.parent,
+                prefix=f".{target.name}.", suffix=".tmp", delete=False,
+            ) as handle:
+                temporary = Path(handle.name)
+                handle.write(content)
+                handle.flush()
+                os.fsync(handle.fileno())
+            staged.append((temporary, target))
+
+        for temporary, target in staged:
+            os.link(temporary, target)
+            published.append((temporary, target))
+    except Exception:
+        for temporary, target in reversed(published):
+            try:
+                if target.exists() and os.path.samefile(temporary, target):
+                    target.unlink()
+            except OSError:
+                pass
+        raise
+    finally:
+        for temporary, _ in staged:
+            temporary.unlink(missing_ok=True)
+
+    return tuple(target for _, target in staged)
+
+
+def write_json_no_overwrite(path: str | Path, payload: Any) -> Path:
+    """Serialize JSON and publish it without replacing an existing file."""
+    target = Path(path).expanduser()
+    write_texts_no_overwrite({target: json.dumps(payload, indent=2, ensure_ascii=False) + "\\n"})
+    return target
+
+
 def write_json_atomic(path: str | Path, payload: Any) -> Path:
     """Write JSON to a sibling temporary file, then atomically replace target."""
     target = Path(path).expanduser()
