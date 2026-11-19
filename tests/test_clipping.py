@@ -71,6 +71,26 @@ class ClipRenderTests(unittest.TestCase):
             self.assertNotIn("shell", kwargs)
             self.assertFalse(list(Path(folder).glob(".clip-*.mp4")))
 
+    def test_custom_ffprobe_binary_is_used_for_post_render_validation(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            output = Path(folder) / "clip.mp4"
+            source.write_bytes(b"synthetic")
+            custom_ffprobe = "/opt/Media Tools/ffprobe"
+
+            def fake_ffmpeg(command, **kwargs):
+                Path(command[-1]).write_bytes(b"synthetic mp4")
+
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg), patch(
+                "backend.app.clipping.verify_rendered_media"
+            ) as verify:
+                render_clip(
+                    source, output, 0, 2, rights_confirmed=True,
+                    ffprobe_binary=custom_ffprobe,
+                )
+
+            self.assertEqual(verify.call_args.kwargs["ffprobe_binary"], custom_ffprobe)
+
     def test_concurrent_output_collision_preserves_existing_file(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / "source.mov"
