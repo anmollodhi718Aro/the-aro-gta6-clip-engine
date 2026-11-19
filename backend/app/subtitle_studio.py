@@ -104,6 +104,8 @@ def render_srt(segments: list[SubtitleSegment]) -> str:
 
 
 def build_subtitles(payload: dict[str, Any]) -> dict[str, Any]:
+    if not isinstance(payload, dict):
+        raise ValueError("input must be a JSON object containing a segments array")
     raw = payload.get("segments")
     if not isinstance(raw, list):
         raise ValueError("input must contain a segments array")
