@@ -223,6 +223,7 @@ __marimo__/
 .streamlit/secrets.toml
 
 # THE ARO local runtime state and generated media (never commit)
+manual_clip_sessions/
 aro_studio_data/
 rendered_clips/
 clip_pack/
