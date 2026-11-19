@@ -192,3 +192,19 @@ Earlier runs did fail before exposing runner steps. This workstream obtained a f
 - This handoff refresh is a documentation-only commit after that registry update; the returned commit SHA for this file update is the final branch tip for this session.
 - Last successful PR CI run `44632671652` checked out merge ref `c04fee2179f725212c50f4ce9dcb17b9092d14db`, incorporating renderer implementation head `6c5d0fd2228da963fc61c39403645e347a4cd3af` into base `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`. The later commits in this session changed handoff/registry documentation and PR description only; no renderer code changed after the tested implementation head. The documentation-only tip has not had a separate CI run.
 - Current verification classification: renderer implementation CI-verified on the PR merge ref; latest docs-only branch tip not separately rerun; Windows and real-media verification remain NOT VERIFIED.
+
+
+## ARO-CHAT-0008 live continuation audit (2026-11-20)
+
+- Chat title: `ARO-CHAT-0008 | First Verified Clip Readiness and CI Evidence Reconciliation`.
+- Workstream: continuation of the existing `ARO-ZERO-ONE`; no duplicate branch or PR created. ARO-CHAT-0007 was already registered, so this session uses the next available chat ID.
+- Live repository default branch: `main`; SHA remains `5f3332770b27d8a5211b3e74feade222563a9263`.
+- Selected baseline remains Option A, `integration/release-candidate`, at `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`. Option A and Option B share merge base `625425987b8381c5a7d16313f5fbb96abcfcff21`; Option B is 1 commit ahead and 4 behind Option A. No merge or retarget was performed.
+- Existing PR #66 remains open against Option A. Current branch head observed: `3e37578b46264b6d2c3a61d83e7d1c74ff943fe0`.
+- Compared with renderer-tested commit `6c5d0fd2228da963fc61c39403645e347a4cd3af`, the 18 subsequent commits modify only `docs/PROJECT_HANDOFF.md` and `docs/CHAT_WORKSTREAM_REGISTRY.md`; no source or test files changed in that delta.
+- CI evidence: run [44632671652](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44632671652), job `tests`, succeeded on the PR integration ref containing renderer-tested head `6c5d0fd2228da963fc61c39403645e347a4cd3af`. Python 3.11.18; compileall passed; `python -m unittest discover -s tests -v` ran 258 tests, 257 passed and 1 skipped. This verifies the renderer implementation, not the later documentation-only tip as a separately triggered workflow.
+- Existing FFprobe path forwarding in `backend/app/batch_render.py` was inspected and confirmed: `ffprobe_binary` is passed to both source probing and `render_clip`; the regression test asserts the custom executable is forwarded.
+- Current branch/PR implementation status: IMPLEMENTED; renderer code CI_VERIFIED on the tested PR integration ref; Windows-native execution NOT VERIFIED; authorized real-media MP4/playback NOT VERIFIED; PRODUCTION_READY NOT CLAIMED.
+- PR #18, #35, #50, #60, #64 and #65 remain open; #35/#50/#60/#21 are draft tracks and overlap selected renderer or launcher work. No PR was merged, closed or retargeted.
+- The single external blocker for the first real GTA 6 clip remains an expressly authorized creator recording/export or provider-approved media handoff. Synthetic CI fixtures do not satisfy real-media acceptance.
+- No deployment, upload, public publication, merge, retarget, or destructive action was performed.
