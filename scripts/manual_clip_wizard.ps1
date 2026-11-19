@@ -21,19 +21,32 @@ Write-Host ""
 
 $pythonExe = $null
 $pythonPrefix = @()
-$py = Get-Command py -ErrorAction SilentlyContinue
-if ($py) {
-    & $py.Source -3 -c "import sys; raise SystemExit(0 if sys.version_info >= (3,11) else 1)" *> $null
-    if ($LASTEXITCODE -eq 0) { $pythonExe = $py.Source; $pythonPrefix = @("-3") }
+
+# Prefer the Windows Python launcher when it has a Python 3.11 runtime.
+# Fall back to the active "python" command if that runtime is unavailable.
+$launcher = Get-Command py -ErrorAction SilentlyContinue
+if ($launcher) {
+    & $launcher.Source -3.11 -c "import sys; print(sys.executable)" *> $null
+    if ($LASTEXITCODE -eq 0) {
+        $pythonExe = $launcher.Source
+        $pythonPrefix = @("-3.11")
+    }
 }
+
 if (-not $pythonExe) {
     $python = Get-Command python -ErrorAction SilentlyContinue
     if ($python) {
-        & $python.Source -c "import sys; raise SystemExit(0 if sys.version_info >= (3,11) else 1)" *> $null
-        if ($LASTEXITCODE -eq 0) { $pythonExe = $python.Source }
+        & $python.Source -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)" *> $null
+        if ($LASTEXITCODE -eq 0) {
+            $pythonExe = $python.Source
+            $pythonPrefix = @()
+        }
     }
 }
-if (-not $pythonExe) { throw "Python 3.11+ not found. Install Python and enable the py launcher or Add to PATH." }
+
+if (-not $pythonExe) {
+    throw "Python 3.11+ not found. Install Python 3.11 or newer and enable the Python launcher or Add to PATH."
+}
 if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) { throw "FFmpeg is missing from PATH. Install FFmpeg and reopen this window." }
 if (-not (Get-Command ffprobe -ErrorAction SilentlyContinue)) { throw "ffprobe is missing from PATH. Install FFmpeg including ffprobe and reopen this window." }
 
