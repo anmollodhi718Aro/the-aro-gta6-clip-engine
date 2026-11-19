@@ -52,7 +52,7 @@ def run(input_path: Path, output_path: Path) -> int:
     try:
         report = ranking_report(load_metrics(input_path))
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        output_path.write_text(json.dumps(report, indent=2) + "\\n", encoding="utf-8")
+        output_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
         print(f"Wrote {report['ranked_count']} evidence-backed creator ranking(s) to {output_path}")
         return 0
     except (OSError, json.JSONDecodeError, TypeError, ValueError) as exc:
