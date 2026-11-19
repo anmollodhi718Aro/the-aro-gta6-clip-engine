@@ -380,3 +380,44 @@ Chat numbering starts here because no prior Chat Execution Registry entry was pr
 5. Execute the Windows preflight and first authorized local MP4 render on the owner's Windows machine.
 
 **Workstream status:** IN PROGRESS. No code/test/Windows/real-media completion is claimed.
+
+
+## Chat Execution Registry
+
+| Chat ID | Exact Chat Title | Workstream ID | Task | Branch | PR | Status |
+|---|---|---|---|---|---|---|
+| CHAT-001 | CHAT-001 | ARO-GTA-P0-01 | Live release-candidate audit, ownership reconciliation, and GitHub attribution baseline | workstream/2026-11-19-release-readiness-audit | [#56](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/56) | IN PROGRESS / BLOCKED on owner canonical-RC designation |
+
+### CHAT-001 execution attribution
+
+- **Chat ID:** CHAT-001
+- **Chat Title:** CHAT-001 | ARO-GTA-P0-01 | Live Release Candidate Audit & Attribution
+- **Workstream ID:** ARO-GTA-P0-01
+- **Task:** Revalidate current repository state, inspect PR/branch ownership and CI evidence, initialize the chat registry without creating duplicate work.
+- **Branch:** workstream/2026-11-19-release-readiness-audit
+- **PR:** #56 — https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/56
+- **Commit:** recorded by the commit that adds this registry entry; SHA to be filled from GitHub's write response.
+- **Files:** docs/WORKSTREAM_PROGRESS.md
+- **Tests:** NOT RUN (documentation-only change).
+- **CI:** NOT VERIFIED; latest exact-head CI evidence must be refreshed after this commit.
+- **Windows verification:** NOT VERIFIED.
+- **Real media verification:** NOT VERIFIED.
+- **Completion:** IN PROGRESS; canonical RC designation remains an owner decision.
+
+### CHAT-001 live findings (2026-11-19 23:49 IST)
+
+- Repository remains private; linked GitHub permission reports admin/maintain/push/pull.
+- main does not contain docs/WORKSTREAM_PROGRESS.md; the file exists on this audit branch. The dated integration branch also did not contain it at prior live inspection.
+- integration/release-candidate remains the more advanced candidate recorded in the audit evidence, but it is not owner-designated as canonical. No branch retarget or merge was performed.
+- PR #50/#54 still overlap Windows launcher/preflight files; #55 owns subtitle paired-output safety; #57 owns Windows CI; #58 targets the alternate advanced integration base; #59 covers CLI dry-run only; #60 owns post-render media verification.
+- PR #60 review findings remain: align duration-tolerance documentation with implementation and coordinate custom ffprobe executable propagation through run_batch -> render_clip -> verify_rendered_media with PR #50's batch-render ownership.
+- Existing P0 workstreams remain claimed. No duplicate implementation branch or PR was created.
+- Execution performed in CHAT-001: live GitHub repository/PR/branch/registry inspection and this attribution/registry update only. Product tests, Windows execution, FFmpeg rendering, and real-media verification were NOT RUN.
+
+### CHAT-001 handoff
+
+1. Owner: explicitly designate integration/release-candidate or integration/aro-release-candidate-2026-11-19 as canonical RC.
+2. After designation, reconcile stacked/overlapping PRs #50/#54, #58's alternate base, #55's branch identity, and duplicate docs/WORKSTREAM_PROGRESS.md add-file changes across #56/#57/#59/#60.
+3. Keep P0 ownership serialized; do not start another implementation for files already owned by open PRs.
+4. Restore GitHub Actions runner/job allocation so current-head checks expose actual steps and logs.
+5. Owner-side acceptance still requires a real authorized local MP4 rendered to vertical 1080x1920, FFprobe validation, and Windows playback.
