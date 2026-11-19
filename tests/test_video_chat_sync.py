@@ -61,6 +61,21 @@ class VideoChatSyncTests(unittest.TestCase):
                 datetime(2026, 1, 1), self.origin, self.offset
             )
 
+    def test_rejects_non_finite_offsets_and_uncertainty(self):
+        for value in (float("nan"), float("inf"), float("-inf")):
+            with self.subTest(value=value):
+                with self.assertRaisesRegex(ValueError, "finite"):
+                    ClockOffset(value, "operator", self.origin)
+                with self.assertRaisesRegex(ValueError, "finite"):
+                    ClockOffset(0, "operator", self.origin, uncertainty_seconds=value)
+
+    def test_rejects_non_finite_video_duration(self):
+        for duration in (float("nan"), float("inf")):
+            with self.subTest(duration=duration):
+                with self.assertRaisesRegex(ValueError, "finite positive"):
+                    candidate_to_video_window(
+                        self.candidate, self.origin, self.offset, video_duration_seconds=duration
+                    )
     def test_marks_uncertain_measurement_low_confidence(self):
         uncertain = ClockOffset(5, "operator", self.origin, uncertainty_seconds=3)
         result = candidate_to_video_window(
