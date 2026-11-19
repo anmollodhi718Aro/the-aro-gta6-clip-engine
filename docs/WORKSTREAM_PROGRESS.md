@@ -483,7 +483,7 @@ Raw GitHub Actions job metadata was inspected, not inferred from PR comments:
 - **Scope executed:** live repository/install scope verification, branch and PR inventory, Option A/B comparison, exact Actions job metadata inspection across Ubuntu and Windows, and this audit registry update.
 - **Files changed:** `docs/WORKSTREAM_PROGRESS.md` only, on the existing P0-01 audit branch.
 - **Tests:** NOT RUN in this connector session.
-- **CI:** Existing failures inspected; no redundant rerun started while runner allocation is unresolved.
+- **CI:** Existing failures inspected. A controlled retry of PR #57's Ubuntu and Windows failed jobs was subsequently attempted; both again failed before runner assignment, with runner ID `0`, blank runner name, and zero steps.
 - **Windows owner-side execution:** NOT VERIFIED in this session.
 - **Real authorized-media render:** NOT RUN; no local owner-provided MP4 was available to this connector session.
 - **Merge, retarget, deployment, upload, and publication:** NOT PERFORMED.
@@ -498,3 +498,14 @@ Raw GitHub Actions job metadata was inspected, not inferred from PR comments:
 6. Keep the release state blocked until CI execution, Windows verification, and real-media verification are evidenced separately.
 
 **CHAT-003 status:** IN PROGRESS. CI runner startup BLOCKED; product test execution NOT VERIFIED; Windows and real-media verification NOT VERIFIED.
+
+
+### CHAT-003 live CI retry evidence — 2026-11-20
+
+- Original PR #57 Ubuntu run: [44548314634](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44548314634), job `135644830210`; Windows run: [44548314651](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44548314651), job `135644831529`.
+- One retry of failed jobs was accepted by GitHub for each run.
+- Ubuntu retry job `135858044572`: completed with conclusion `failure`; runner ID `0`, runner name empty, zero steps.
+- Windows retry job `135858064834`: completed with conclusion `failure`; runner ID `0`, runner name empty, zero steps.
+- Log retrieval for the original jobs returned `BlobNotFound`. No Python or PowerShell test step ran in either retry.
+- Classification: **RUNNER NOT ASSIGNED / CI EXECUTION BLOCKED**. The observed records establish failure before runner assignment; they do not expose the underlying GitHub service/account policy cause.
+- No workflow YAML, application code, branch target, or merge state was changed. No further retries should be issued until the underlying Actions runner allocation issue is investigated.
