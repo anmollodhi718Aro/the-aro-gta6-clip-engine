@@ -1,8 +1,8 @@
 """Transparent seven-day GTA creator ranking; no scraping or media downloads."""
 from __future__ import annotations
 
-from dataclasses import dataclass
 import math
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Iterable
 from urllib.parse import urlparse
