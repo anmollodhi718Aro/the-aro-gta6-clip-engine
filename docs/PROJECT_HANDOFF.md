@@ -420,3 +420,17 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - Starting observed branch SHA: `a9c537fc4ac5a7c437dc2c2f535ac258d24b619e`; working branch: `workstream/aro-zero-one-clipping-first-2026-11-20`; existing PR #66; base `integration/release-candidate`; main remains `5f3332770b27d8a5211b3e74feade222563a9263`.
 - Scope: verify the latest CI evidence and implement schema-backed structural validation for the canonical AI chat analytics ledger. No historical AI sessions will be invented or scored without evidence.
 - Status: RESERVED. No tests executed by this chat yet. First GTA 6 real-media clip remains blocked on an expressly authorized creator recording/export or approved media handoff.
+
+
+## ARO-CHAT-0015 | Windows CI Recovery and First-Clip Readiness Audit (2026-11-20)
+
+- Chat ID: `ARO-CHAT-0015`; task ID: `ARO-GTA-P0-15`; workstream: continuation of `ARO-ZERO-ONE`.
+- Existing branch reused: `workstream/aro-zero-one-clipping-first-2026-11-20`; starting SHA `a9c537fc4ac5a7c437dc2c2f535ac258d24b619e`; resulting branch commit `fe4713febb4572f82f9a4386a5cf954e18f3bff9`. Existing PR #66 and issue #26 reviewed/reused. No new PR, merge, retarget, or main-branch change.
+- Live repository audit: `main` remains the default branch; the selected clipping-first base remains `integration/release-candidate`. The active clipping path remains `manual_clip.py` → `batch_render.py` → `clipping.py` → `render_validation.py`; Windows entry point remains `START_CLIPPING_TODAY.bat` → `scripts/manual_clip_wizard.ps1`.
+- Changed workflow configuration only: consolidated native Windows tests into the existing PR-triggered `.github/workflows/ci.yml`; added four bounded retries around Chocolatey FFmpeg installation with explicit PATH checks; removed the redundant branch-only `.github/workflows/windows-ci.yml`.
+- Windows run [44637236056](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44637236056): runner allocation, checkout, and Python 3.11 succeeded. Chocolatey community feed returned HTTP 503 resolving FFmpeg 9.0.2. Install failed; compile and test steps were skipped. Do not count this as a test failure or a pass.
+- Follow-up PR CI run [44638350854](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44638350854) concluded `cancelled`; GitHub returned no job records. Final-head compile, unit tests, and Windows tests therefore remain NOT VERIFIED.
+- Tests executed directly in this chat: none. Existing prior green synthetic FFmpeg/FFprobe CI evidence remains tied to its recorded earlier SHA and is not extended to this branch update.
+- Windows runtime verification: NOT VERIFIED. Authorized real GTA 6 MP4 and playback: NOT VERIFIED. The external first-clip blocker remains an expressly authorized creator recording/export or approved media handoff.
+- Next highest-priority task: obtain the authorized media asset; rerun PR CI on the updated branch and inspect the Windows runner's dependency-install result. If Chocolatey 503 persists, replace the installer source with a reproducible, checksum-verified FFmpeg distribution rather than weakening the verification gate.
+- No production OAuth, live video-byte ingestion, persistent review store/UI, upload, deployment, or public publishing was completed or claimed. Elapsed and active work time are UNKNOWN; no duration was inferred.
