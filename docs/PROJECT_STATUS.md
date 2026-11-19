@@ -39,7 +39,7 @@ Last reviewed: 2026-11-19
 - [x] One-command offline pipeline from permission-gated chat data through calibrated clip pack and quality-scored review CSV
 - [x] Human-approved batch rendering and dry-run default
 - [x] Collision-safe per-run directories and atomic JSON reports
-- [x] Failed-only retry with candidate identity and time-bound verification
+- [x] Failed-only retry with candidate identity, time-bound verification, and exact local media path/size/mtime matching
 - [x] Offline HTML render review dashboard
 
 ### Original content and rights workflow
