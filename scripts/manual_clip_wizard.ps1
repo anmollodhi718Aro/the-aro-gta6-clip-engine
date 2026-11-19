@@ -98,7 +98,7 @@ if ($LASTEXITCODE -ne 0) { throw "Clip-plan generation failed." }
 
 Write-Host ""
 Write-Host "[2/3] Running dry-run. No video is rendered..." -ForegroundColor Yellow
-& $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve $approvedRows --output-dir $reportRoot
+& $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve $approvedRows --output-dir $reportRoot --vertical
 if ($LASTEXITCODE -ne 0) { throw "Dry-run failed. No render was started." }
 
 Write-Host ""
@@ -111,7 +111,7 @@ if ($confirm -cne "RENDER") {
 
 Write-Host ""
 Write-Host ("[3/3] Rendering {0} approved clip(s) locally..." -f $clips.Count) -ForegroundColor Green
-& $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve $approvedRows --output-dir $reportRoot --execute --confirm-rights
+& $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve $approvedRows --output-dir $reportRoot --vertical --execute --confirm-rights
 if ($LASTEXITCODE -ne 0) { throw "Rendering failed. Inspect the session report: $sessionDir" }
 Write-Host ""
 Write-Host "Done. Watch each MP4 and review all rights before sharing." -ForegroundColor Green
