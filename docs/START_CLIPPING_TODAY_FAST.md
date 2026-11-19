@@ -1,13 +1,13 @@
 # Start Clipping Today (Windows)
 
-## Fastest path: one local recording, one manually selected moment
+## Fastest path: one local recording, manually selected moments
 
 1. Install Python 3.11+ and FFmpeg (including ffprobe), and make sure all three commands are available in a new terminal.
 2. Download/clone this repository and open its folder.
 3. Double-click `START_MANUAL_CLIPPING.bat`.
-4. Choose landscape or vertical 9:16 Shorts/Reels output, then add up to 50 manually selected moments (each no longer than 180 seconds).
-5. Enter the full path to a local recording you own or are authorized to edit and publish.
-6. Enter each start/end range in seconds. The wizard checks the actual video duration and limits each clip to 180 seconds.
+4. Choose landscape or vertical 9:16 Shorts/Reels output. Vertical mode preserves the full gameplay frame over a blurred background instead of cropping away the HUD or action.
+5. Add up to 50 manually selected moments from the same recording. Each clip can be up to 180 seconds.
+6. Enter the full path to a local recording you own or are authorized to edit and publish. The wizard checks the video stream and actual duration.
 7. Inspect the dry-run summary. Type `RENDER`, then separately type `I CONFIRM RIGHTS`, only when you approve the exact recording and every selected range.
 8. Open the resulting MP4 files and the generated read-only review dashboard in the session folder.
 
