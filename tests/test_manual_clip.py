@@ -18,8 +18,25 @@ class ManualClipTests(unittest.TestCase):
         self.assertEqual(len(rows), 1)
         self.assertEqual(rows[0]["start_seconds"], 12.5)
         self.assertEqual(rows[0]["end_seconds"], 42.5)
+        self.assertEqual(rows[0]["duration_seconds"], 30.0)
         self.assertEqual(rows[0]["renderable"], "true")
         self.assertEqual(rows[0]["sync_method"], "manual_local_media_time")
+
+    def test_rounds_bounds_and_duration_consistently_to_milliseconds(self):
+        rows = build_manual_rows({
+            "source_id": "recording",
+            "clips": [{"start_seconds": 1.23456, "end_seconds": 2.34567}],
+        })
+        self.assertEqual(rows[0]["start_seconds"], 1.235)
+        self.assertEqual(rows[0]["end_seconds"], 2.346)
+        self.assertEqual(rows[0]["duration_seconds"], 1.111)
+
+    def test_rejects_ranges_that_collapse_at_millisecond_precision(self):
+        with self.assertRaisesRegex(ValueError, "at least 0.001 seconds"):
+            build_manual_rows({
+                "source_id": "recording",
+                "clips": [{"start_seconds": 1.0001, "end_seconds": 1.0004}],
+            })
 
     def test_rejects_invalid_or_overlong_ranges(self):
         invalid = [
