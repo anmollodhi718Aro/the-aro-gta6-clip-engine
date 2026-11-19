@@ -1,98 +1,190 @@
 # THE ARO GTA 6 Clip Engine
 
-A creator-first workflow for preparing original GTA 6 commentary and review-ready clips from media the channel owns or is explicitly authorized to process.
+A local-first, zero-mandatory-dependency creator workflow for analysing authorized GTA 6 livestream chat, reviewing clip candidates, rendering from locally supplied authorized media, and producing original THE ARO commentary packs.
 
-> This repository is the separate GTA 6 project. It is not the ARO History Engine.
+> This is the separate GTA 6 project, not the ARO History Engine or THE ARO Deployment Network.
 
-## Current status
+## Requirements
 
-**Stage:** Local MVP with permission-gated source analysis, candidate review, local rendering, and original commentary production-pack generation.
+- Python 3.11+
+- FFmpeg on PATH only for local video rendering.
+- No mandatory third-party Python packages.
+- Optional YouTube stream/gRPC adapter dependencies: `pip install -e ".[youtube-stream]"`.
+- A YouTube Data API key is required only for supported public live-chat API operations. Keep credentials in local environment configuration; never commit them.
 
-## Quick start
-
-Python 3.11+ is required. FFmpeg is required only for local video rendering.
-
-```bash
-python -m backend.app.cli examples/sample_events.json --output clip_plan.json
-python -m unittest discover -s tests -v
-```
-
-## Original THE ARO content workflow
-
-Prepare a sourced commentary and editing package from your own research notes:
-
-```bash
-python -m backend.app.content_studio research.json --output output/gta6_short.md --json-output output/gta6_short.json
-```
-
-Each factual beat must include a source URL and original THE ARO commentary. The generated package contains a voiceover draft, research checklist, visual plan, description, and pre-upload review gate. The tool does not fetch or download third-party footage, verify claims, upload, or publish. See [Original Commentary Content Studio](docs/CONTENT_STUDIO.md).
-
-## Subtitle Studio
-
-Format an operator-supplied timed transcript as SRT and run timing, overlap, line-length, and reading-speed checks:
-
-```bash
-python -m backend.app.subtitle_studio transcript.json --output output/captions.srt --report output/caption_quality.json
-```
-
-This does not transcribe audio or access video. Human review against the authorized source remains required. See [Subtitle Studio](docs/SUBTITLE_STUDIO.md).
-
-## Source rights registry
-
-Use the SQLite-backed registry to record the exact source, permission evidence reference, allowed uses, platforms, attribution, disclosure, and validity dates. Unknown, expired, revoked, or out-of-scope use is blocked. See [Source Rights Registry](docs/SOURCE_RIGHTS_REGISTRY.md).
-
-The local dashboard and the rights-aware preflight are designed to use the same `source_rights` SQLite registry. By default, the dashboard stores it at `aro_studio_data/source_rights.sqlite3`. PR #10 includes the shared registry adapter; the `content_preflight` CLI itself is introduced separately by Draft PR #9 and is not present in this PR #10 branch alone.
-
-When the rights-aware preflight module from PR #9 is included in your checkout, point it at the dashboard database:
-
-```bash
-python -m backend.app.content_preflight output/gta6_short.json --rights-db aro_studio_data/source_rights.sqlite3 --platform youtube --output output/preflight_report.json
-```
-
-The dashboard is a local review surface, not an authorization service. Entered permission evidence still requires owner verification. Records from the earlier dashboard-only `rights` table are preserved and flagged for review; they are not silently treated as valid grants by the preflight.
-
-## Local THE ARO Studio dashboard
-
-Run the owner-local dashboard from the repository root:
+## Start the unified local dashboard
 
 ```bash
 python THE_ARO_STUDIO.py
 ```
 
-Open `http://127.0.0.1:8765`. It reads local render reports, creates original commentary drafts, and writes permission records to the shared registry. Keep it on localhost. It does not download media, upload, publish, or approve content automatically.
+Open `http://127.0.0.1:8765`. The dashboard is intentionally loopback-only and includes:
 
-## Existing pipeline
+- Local batch-render report overview.
+- Original commentary content-pack generator.
+- Shared SQLite source-rights metadata form.
+- Rights-aware visual preflight form.
+- CSRF and local-origin request protections.
 
-1. Analyze permitted chat/event data using official interfaces.
-2. Detect unusual chat activity and produce explainable candidate timestamps.
-3. Map timestamps only with a measured media-origin UTC timestamp.
-4. Review candidates and rights manually.
-5. Render locally from a media file the operator owns or is authorized to process.
-6. Review the output in the local dashboard.
-7. Keep upload/publishing manual and owner-approved.
+Data defaults:
+- `rendered_clips/`: local render reports and outputs.
+- `aro_studio_data/source_rights.sqlite3`: shared permission metadata.
+- `aro_studio_data/content_packs/`: generated content drafts.
+- `aro_studio_data/preflight_reports/`: preflight reports.
 
-Useful commands:
+## End-to-end local workflow
+
+### 1. Detect chat spikes
+
+Use authorized chat event data. The analyzer detects unusual chat activity, not guaranteed entertaining moments.
 
 ```bash
-python -m backend.app.clip_pack youtube_clip_plan.json --media-origin-utc "2026-11-19T12:00:00+00:00" --output-dir clip_pack
-python -m backend.app.candidate_quality clip_pack/clip_candidates.csv --output clip_pack/quality_scored_candidates.csv
-python -m backend.app.review_dashboard rendered_clips/RUN_ID/batch_render_report.json --output rendered_clips/review.html
+python -m backend.app.cli examples/sample_events.json --output clip_plan.json
 ```
 
-Batch rendering is dry-run by default and requires explicit row approvals plus rights confirmation to execute. It never uploads or publishes.
+### 2. Map chat candidates to the exact local recording
 
-## Safety and rights
+The media origin must be a measured timezone-aware UTC timestamp for offset zero of the exact recording.
 
-Credit and disclaimers do not replace permission. Creator permission may not cover music, game publisher rights, guests, or other third-party material. A registry entry is an engineering record, not legal verification. Do not scrape, rip, or bypass platform controls. When rights are uncertain, do not process or publish. See [Copyright and Permissions](docs/COPYRIGHT_POLICY.md).
+```bash
+python -m backend.app.clip_pack clip_plan.json \
+  --media-origin-utc "2026-11-19T12:00:00+00:00" \
+  --output-dir clip_pack
+```
 
-## Development principles
+The command produces CSV and Markdown review sheets. It never downloads or extracts livestream video.
 
-- GitHub is the source of truth; work in feature branches and Draft PRs.
-- Keep API keys and tokens out of Git.
-- Use synthetic data or authorized sample assets first.
-- Do not map chat timestamps to video offsets without measured synchronization.
-- Respect API quota and platform rules.
-- No automatic publishing. A human must approve each finished video.
-- No paid dependencies.
+### 3. Score candidate review suitability
 
-See [Project Status](docs/PROJECT_STATUS.md) and [Owner Actions](docs/OWNER_ACTIONS.md) for implementation status and external setup.
+```bash
+python -m backend.app.candidate_quality clip_pack/clip_candidates.csv \
+  --output clip_pack/quality_scored_candidates.csv
+```
+
+The 0-100 heuristic explains chat-activity, duration, and synchronization points. It does not predict views or virality and does not approve a clip.
+
+### 4. Preview a batch render
+
+```bash
+python -m backend.app.batch_render clip_pack/clip_candidates.csv \
+  --media "/path/to/authorized-local-recording.mp4" \
+  --approve 1,3 \
+  --output-dir rendered_clips
+```
+
+Dry-run is the default. Every execution uses a unique run directory and an atomic JSON report.
+
+### 5. Render only after explicit review
+
+```bash
+python -m backend.app.batch_render clip_pack/clip_candidates.csv \
+  --media "/path/to/authorized-local-recording.mp4" \
+  --approve 1,3 \
+  --output-dir rendered_clips \
+  --execute --confirm-rights
+```
+
+The operator must own or be authorized to process the exact local media. Only explicitly selected rows are considered. Non-renderable rows are blocked.
+
+To retry only failed rows, use the prior run's report:
+
+```bash
+python -m backend.app.batch_render clip_pack/clip_candidates.csv \
+  --media "/path/to/authorized-local-recording.mp4" \
+  --retry-report rendered_clips/RUN_ID/batch_render_report.json \
+  --output-dir rendered_clips
+```
+
+Retry defaults to dry-run and verifies source ID and time bounds against the current CSV.
+
+### 6. Review output locally
+
+```bash
+python -m backend.app.review_dashboard \
+  rendered_clips/RUN_ID/batch_render_report.json \
+  --output rendered_clips/review.html
+```
+
+Open the HTML file locally. It is read-only and has no remote assets or network requests.
+
+## Original THE ARO content studio
+
+Prepare a sourced, original commentary package from operator-supplied research:
+
+```bash
+python -m backend.app.content_studio research.json \
+  --output output/gta6_short.md \
+  --json-output output/gta6_short.json
+```
+
+Each factual beat requires a source URL and original THE ARO commentary. A generated package includes a voiceover draft, source checks, visual plan, metadata, and a closed human-review gate.
+
+## Source rights and visual preflight
+
+The SQLite registry records source ID, grantor, evidence reference, allowed uses, platforms, attribution/disclosure, validity, expiry and revocation.
+
+Run the fail-closed preflight:
+
+```bash
+python -m backend.app.content_preflight output/gta6_short.json \
+  --rights-db aro_studio_data/source_rights.sqlite3 \
+  --platform youtube \
+  --output output/preflight_report.json
+```
+
+For each declared third-party visual, the preflight requires both `edit` and `publish` scope on the target platform. A matching record is metadata only, not legal verification. All included music, game publisher, guest and other third-party rights need separate review. Credit and a disclaimer do not replace permission.
+
+## Seven-day creator activity watchlist
+
+Supply evidence-backed metrics; the tool does not scrape creators or download media.
+
+```bash
+python -m backend.app.creator_watchlist_cli \
+  examples/creator_metrics.example.json \
+  --output output/creator_ranking.json
+```
+
+Metrics must cover exactly seven timezone-aware days and include an HTTPS evidence URL. Missing creators remain unranked rather than receiving invented zero values. Results describe historical activity, not future virality or permission to reuse content.
+
+## Subtitle Studio
+
+Format an operator-supplied timed transcript and run caption-quality checks:
+
+```bash
+python -m backend.app.subtitle_studio transcript.json \
+  --output output/captions.srt \
+  --report output/caption_quality.json
+```
+
+This does not transcribe audio or synchronize captions automatically. Human review is required.
+
+## Test suite
+
+```bash
+python -m compileall -q backend tests THE_ARO_STUDIO.py
+python -m unittest discover -s tests -v
+```
+
+GitHub Actions runs the same compile and unittest discovery workflow on pull requests. A CI job that fails before steps execute is not evidence of code-test failure, but it is also not a passing test result.
+
+## Explicit limitations / not yet production-ready
+
+- No official YouTube video-file download or livestream ripping is implemented.
+- YouTube chat access does not provide the stream's video bytes. Video must be separately supplied as a local file with adequate rights.
+- No automatic chat-to-video synchronization: the media-origin offset must be measured.
+- No packaged Windows desktop installer; the current unified app is a local Python HTTP dashboard.
+- No Google OAuth login or YouTube upload adapter is included in this release candidate.
+- No automatic posting, background cloud worker, billing, or monetization guarantee.
+- The creator watchlist only ranks supplied, evidence-backed metrics.
+- A score or successful rights-metadata preflight is not an upload or monetization approval.
+
+## Development rules
+
+- GitHub remains the source of truth.
+- Work on feature/integration branches and review through PRs.
+- Keep API keys, OAuth client secrets and tokens out of Git.
+- No scraping, stream ripping, fake engagement, quota evasion, or platform-control bypass.
+- No automatic publication. Human approval is required for every final upload.
+- No paid dependencies are required by the core local workflow.
+
+See `docs/PROJECT_STATUS.md`, `docs/TESTING_PLAN.md`, and the feature-specific docs for implementation details.
