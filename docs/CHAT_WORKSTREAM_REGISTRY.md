@@ -250,3 +250,10 @@
 
 
 - Final analytics reconciliation commit: `93135b572ef6e3dc4c40792c11f0de8c24785bcc`; final handoff reference commit: `28d16085657e455ffb450d25457f583aa3607246`. The analytics ledger includes the final handoff/registry evidence; timing and score remain null where not measurable.
+
+
+## ARO-CHAT-0015 reservation (2026-11-20 04:58 IST)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0015 | ARO-CHAT-0015 \| Analytics Schema Integrity and CI Reconciliation | ARO-ZERO-ONE (continuation; task ARO-GTA-P0-15) | Continue first-clip P0 audit; reconcile latest CI evidence; implement schema-backed validation for the existing AI chat analytics ledger without inventing historical metrics | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 | RESERVED | Starting observed branch SHA `a9c537fc4ac5a7c437dc2c2f535ac258d24b619e`; main SHA `5f3332770b27d8a5211b3e74feade222563a9263`; no new branch or PR |
