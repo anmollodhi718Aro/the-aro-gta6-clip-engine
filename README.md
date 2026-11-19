@@ -24,6 +24,14 @@ python THE_ARO_STUDIO.py
 
 Open `http://127.0.0.1:8765`. The dashboard is intentionally loopback-only and includes:
 
+**Windows PowerShell one-command launcher:**
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/start_studio.ps1
+```
+
+Keep the PowerShell window open while using the dashboard. See [First Clip Today](docs/FIRST_CLIP_TODAY.md) for the Windows walkthrough.
+
 - Local batch-render report overview.
 - Original commentary content-pack generator.
 - Shared SQLite source-rights metadata form.
