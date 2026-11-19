@@ -69,7 +69,7 @@ def verify_rendered_media(
 
     if not math.isfinite(duration) or duration <= 0:
         raise ValueError("rendered output duration must be finite and positive")
-    tolerance = max(1.0, expected_duration_seconds * 0.10)
+    tolerance = max(0.5, expected_duration_seconds * 0.01)
     if abs(duration - expected_duration_seconds) > tolerance:
         raise ValueError(
             f"rendered output duration {duration:.3f}s differs from expected "
