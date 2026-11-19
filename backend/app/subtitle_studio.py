@@ -16,7 +16,7 @@ from typing import Any
 from .output_manager import write_texts_no_overwrite
 
 
-_TIMESTAMP = re.compile(r"^(\\d{2}):(\\d{2}):(\\d{2}),(\\d{3})$")
+_TIMESTAMP = re.compile(r"^(\d{2}):(\d{2}):(\d{2}),(\d{3})$")
 _TAGS = re.compile(r"<[^>]*>")
 
 
@@ -83,7 +83,7 @@ def validate_segments(
             issues.append({"index": index, "code": "line_too_long",
                            "message": f"one or more lines exceed {max_chars_per_line} characters"})
         duration_seconds = (segment.end_ms - segment.start_ms) / 1000
-        visible_chars = len(re.sub(r"\\s+", " ", _TAGS.sub("", segment.text)).strip())
+        visible_chars = len(re.sub(r"\s+", " ", _TAGS.sub("", segment.text)).strip())
         cps = visible_chars / duration_seconds
         if cps > max_cps:
             issues.append({"index": index, "code": "reading_speed",
@@ -97,10 +97,10 @@ def render_srt(segments: list[SubtitleSegment]) -> str:
     blocks = []
     for index, segment in enumerate(segments, start=1):
         blocks.append(
-            f"{index}\\n{_format_time(segment.start_ms)} --> "
-            f"{_format_time(segment.end_ms)}\\n{segment.text}"
+            f"{index}\n{_format_time(segment.start_ms)} --> "
+            f"{_format_time(segment.end_ms)}\n{segment.text}"
         )
-    return "\\n\\n".join(blocks) + ("\\n" if blocks else "")
+    return "\n\n".join(blocks) + ("\n" if blocks else "")
 
 
 def build_subtitles(payload: dict[str, Any]) -> dict[str, Any]:
@@ -141,7 +141,7 @@ def main() -> int:
         # sibling outputs are rolled back rather than leaving a mismatched pair.
         write_texts_no_overwrite({
             args.output: result["srt"],
-            args.report: json.dumps(report, indent=2, ensure_ascii=False) + "\\n",
+            args.report: json.dumps(report, indent=2, ensure_ascii=False) + "\n",
         })
         print(json.dumps(report, indent=2))
         return 0 if result["quality_passed"] else 1
