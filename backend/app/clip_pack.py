@@ -9,7 +9,7 @@ import argparse
 import csv
 import json
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -28,12 +28,12 @@ def map_candidates_to_media(
     candidates: list[dict[str, Any]], media_origin_utc: str | datetime
 ) -> list[dict[str, Any]]:
     """Map UTC candidate timestamps to local-media offsets using measured sync."""
-    origin = parse_datetime(media_origin_utc)
+    origin = parse_datetime(media_origin_utc).astimezone(timezone.utc)
     mapped: list[dict[str, Any]] = []
     for index, candidate in enumerate(candidates, start=1):
         try:
-            start = parse_datetime(candidate["clip_start"])
-            end = parse_datetime(candidate["clip_end"])
+            start = parse_datetime(candidate["clip_start"]).astimezone(timezone.utc)
+            end = parse_datetime(candidate["clip_end"]).astimezone(timezone.utc)
         except (KeyError, TypeError, ValueError) as exc:
             raise ValueError(f"candidate {index} has invalid clip timestamps: {exc}") from exc
         if end <= start:
