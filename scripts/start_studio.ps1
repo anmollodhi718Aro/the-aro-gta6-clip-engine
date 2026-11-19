@@ -10,7 +10,9 @@ $launcherArgs = @()
 
 if ($launcher) {
     $pythonExe = $launcher.Source
-    $launcherArgs = @("-3.11")
+    # Select the newest installed Python 3.x, then validate the minimum version.
+    # Do not pin to 3.11: Python 3.12+ is supported by this project too.
+    $launcherArgs = @("-3")
 } else {
     $launcher = Get-Command python -ErrorAction SilentlyContinue
     if (-not $launcher) {
@@ -23,7 +25,7 @@ Push-Location $repoRoot
 try {
     & $pythonExe @launcherArgs -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)"
     if ($LASTEXITCODE -ne 0) {
-        throw "Python 3.11 or newer is required. If using the Python launcher, install Python 3.11+ and retry."
+        throw "Python 3.11 or newer is required. Install a supported Python 3 version and retry."
     }
 
     Write-Host "Starting THE ARO Studio at http://127.0.0.1:$Port"
