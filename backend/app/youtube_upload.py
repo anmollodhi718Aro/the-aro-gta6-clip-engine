@@ -26,11 +26,31 @@ def load_rights_report(path: str | Path) -> dict[str, Any]:
         raise ValueError("rights report must be a JSON object")
     if payload.get("status") != "ready_for_human_review":
         raise PermissionError("rights preflight is not ready for human review")
+    if str(payload.get("platform", "")).strip().lower() != "youtube":
+        raise PermissionError("rights preflight must target the youtube platform")
     if payload.get("errors"):
         raise PermissionError("rights preflight contains blocking errors")
     assets = payload.get("assets")
-    if not isinstance(assets, list):
-        raise ValueError("rights report is missing its assets list")
+    if not isinstance(assets, list) or not assets:
+        raise PermissionError("rights preflight must contain at least one declared visual asset")
+    allowed_asset_statuses = {
+        "declared_original_requires_human_confirmation",
+        "scope_match_metadata_only",
+    }
+    for index, asset in enumerate(assets, start=1):
+        if not isinstance(asset, dict) or asset.get("status") not in allowed_asset_statuses:
+            raise PermissionError(f"rights preflight asset {index} is not cleared for human review")
+    review = payload.get("review")
+    required_reviews = (
+        "permission_evidence_human_verification_required",
+        "all_embedded_music_and_third_party_rights_review_required",
+        "original_asset_declarations_human_confirmation_required",
+        "human_edit_and_platform_policy_review_required",
+    )
+    if not isinstance(review, dict) or review.get("approved_for_upload") is not False:
+        raise PermissionError("rights report must remain an unapproved human-review record")
+    if not all(review.get(key) is True for key in required_reviews):
+        raise PermissionError("rights report is missing mandatory human-review gates")
     return payload
 
 
