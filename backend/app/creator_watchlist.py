@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import math
 from datetime import datetime, timedelta
 from typing import Iterable
 from urllib.parse import urlparse
@@ -51,21 +52,37 @@ class SevenDayMetrics:
     captured_at: datetime | None = None
 
     def validate(self) -> None:
-        if not self.creator_id.strip():
+        if not isinstance(self.creator_id, str) or not self.creator_id.strip():
             raise ValueError("creator_id is required")
         for name, value in (("window_start", self.window_start), ("window_end", self.window_end)):
+            if not isinstance(value, datetime):
+                raise ValueError(f"{name} must be a datetime")
             if value.tzinfo is None or value.utcoffset() is None:
                 raise ValueError(f"{name} must be timezone-aware")
         if self.window_end - self.window_start != WINDOW:
             raise ValueError("metrics must cover exactly seven days")
-        if self.views < 0 or self.live_streams < 0:
-            raise ValueError("views and live_streams cannot be negative")
-        if self.peak_concurrent_viewers < 0 or self.average_concurrent_viewers < 0:
-            raise ValueError("viewer counts cannot be negative")
-        if self.captured_at is not None and (
-            self.captured_at.tzinfo is None or self.captured_at.utcoffset() is None
+        for name, value in (
+            ("views", self.views),
+            ("live_streams", self.live_streams),
+            ("peak_concurrent_viewers", self.peak_concurrent_viewers),
         ):
-            raise ValueError("captured_at must be timezone-aware")
+            if type(value) is not int or value < 0:
+                raise ValueError(f"{name} must be a non-negative integer")
+        average = self.average_concurrent_viewers
+        if (
+            isinstance(average, bool)
+            or not isinstance(average, (int, float))
+            or not math.isfinite(average)
+            or average < 0
+        ):
+            raise ValueError("average_concurrent_viewers must be a finite non-negative number")
+        if self.captured_at is not None:
+            if not isinstance(self.captured_at, datetime):
+                raise ValueError("captured_at must be a datetime")
+            if self.captured_at.tzinfo is None or self.captured_at.utcoffset() is None:
+                raise ValueError("captured_at must be timezone-aware")
+        if not isinstance(self.source_url, str):
+            raise ValueError("source_url must be an HTTPS evidence URL")
         parsed = urlparse(self.source_url)
         if parsed.scheme != "https" or not parsed.netloc:
             raise ValueError("source_url must be an HTTPS evidence URL")
