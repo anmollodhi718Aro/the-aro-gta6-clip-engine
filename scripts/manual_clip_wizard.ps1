@@ -22,10 +22,13 @@ Write-Host ""
 
 $pythonExe = $null
 $pythonPrefix = @()
-$py = Get-Command py -ErrorAction SilentlyContinue
-if ($py) {
-    & $py.Source -3 -c "import sys; raise SystemExit(0 if sys.version_info >= (3,11) else 1)" *> $null
-    if ($LASTEXITCODE -eq 0) { $pythonExe = $py.Source; $pythonPrefix = @("-3") }
+$launcher = Get-Command py -ErrorAction SilentlyContinue
+if ($launcher) {
+    & $launcher.Source -3.11 -c "import sys; raise SystemExit(0 if sys.version_info >= (3,11) else 1)" *> $null
+    if ($LASTEXITCODE -eq 0) {
+        $pythonExe = $launcher.Source
+        $pythonPrefix = @("-3.11")
+    }
 }
 if (-not $pythonExe) {
     $python = Get-Command python -ErrorAction SilentlyContinue
@@ -34,7 +37,7 @@ if (-not $pythonExe) {
         if ($LASTEXITCODE -eq 0) { $pythonExe = $python.Source }
     }
 }
-if (-not $pythonExe) { throw "Python 3.11+ not found. Install Python and enable the py launcher or Add to PATH." }
+if (-not $pythonExe) { throw "Python 3.11+ not found. Install Python 3.11 or newer and reopen this window." }
 if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) { throw "FFmpeg is missing from PATH. Install FFmpeg and reopen this window." }
 if (-not (Get-Command ffprobe -ErrorAction SilentlyContinue)) { throw "ffprobe is missing from PATH. Install FFmpeg including ffprobe and reopen this window." }
 
@@ -84,6 +87,7 @@ New-Item -ItemType Directory -Path $sessionDir -ErrorAction Stop | Out-Null
 $jsonPath = Join-Path $sessionDir "manual_clips.json"
 $csvPath = Join-Path $sessionDir "manual_clips.csv"
 $reportRoot = Join-Path $sessionDir "rendered"
+$reviewHtml = Join-Path $sessionDir "review.html"
 $payload = @{
     source_id = [System.IO.Path]::GetFileName($mediaPath)
     clips = @($clips.ToArray())
@@ -103,9 +107,14 @@ if ($LASTEXITCODE -ne 0) { throw "Dry-run failed. No render was started." }
 
 Write-Host ""
 Write-Host "Review every listed time range and the exact source file." -ForegroundColor Cyan
-$confirm = Read-Host "Do you have rights to edit and publish this exact recording? Type RENDER to create the local MP4 clips"
+$confirm = Read-Host "Type RENDER to continue, or press Enter to stop"
 if ($confirm -cne "RENDER") {
     Write-Host "Stopped safely. Session files: $sessionDir" -ForegroundColor Yellow
+    exit 0
+}
+$rightsConfirm = Read-Host "Confirm you own or are authorized to edit and distribute this exact recording. Type I CONFIRM RIGHTS"
+if ($rightsConfirm -cne "I CONFIRM RIGHTS") {
+    Write-Host "Stopped safely. No video was rendered. Session files: $sessionDir" -ForegroundColor Yellow
     exit 0
 }
 
@@ -113,6 +122,20 @@ Write-Host ""
 Write-Host ("[3/3] Rendering {0} approved clip(s) locally..." -f $clips.Count) -ForegroundColor Green
 & $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve $approvedRows --output-dir $reportRoot --vertical --execute --confirm-rights
 if ($LASTEXITCODE -ne 0) { throw "Rendering failed. Inspect the session report: $sessionDir" }
+
+$latestRun = Get-ChildItem -LiteralPath $reportRoot -Directory |
+    Sort-Object LastWriteTime -Descending |
+    Select-Object -First 1
+if (-not $latestRun) { throw "Render completed but its report folder could not be located: $reportRoot" }
+$renderReport = Join-Path $latestRun.FullName "batch_render_report.json"
+if (-not (Test-Path -LiteralPath $renderReport -PathType Leaf)) {
+    throw "Render completed but its batch report is missing: $renderReport"
+}
+& $pythonExe @pythonPrefix -m backend.app.review_dashboard $renderReport --output $reviewHtml --title "THE ARO Clip Review"
+if ($LASTEXITCODE -ne 0) { throw "Clips rendered, but review dashboard generation failed. Report: $renderReport" }
+
 Write-Host ""
-Write-Host "Done. Watch each MP4 and review all rights before sharing." -ForegroundColor Green
+Write-Host "Done. Review each MP4 and the local dashboard before sharing." -ForegroundColor Green
 Write-Host "Session folder: $sessionDir"
+Write-Host "Review dashboard: $reviewHtml"
+Start-Process -FilePath $reviewHtml
