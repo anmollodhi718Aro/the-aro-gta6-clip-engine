@@ -77,7 +77,7 @@ Date: 2026-11-19
 
 | Chat ID | Chat Title | Workstream ID | Branch | PR | Status |
 |---|---|---|---|---|---|
-| CHAT-002 | CHAT-002 | ARO-GTA-P0-05 | FFprobe path propagation and output-validation regression | `workstream/post-render-media-verification` | #60 (existing) | IN PROGRESS |
+| CHAT-002 | `CHAT-002 | ARO-GTA-P0-05 | FFprobe Path Propagation & Output Validation` | ARO-GTA-P0-05 | `workstream/post-render-media-verification` | #60 | IN PROGRESS |
 
 ## Execution Attribution — CHAT-002
 
