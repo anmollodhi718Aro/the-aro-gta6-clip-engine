@@ -27,6 +27,7 @@ Last reviewed: 2026-11-19
 
 ### Clip candidate and local rendering
 - [x] Local JSON analysis CLI
+- [x] One-command offline pipeline from permission-gated chat events through measured clock mapping and quality-scored review pack
 - [x] UTC chat candidate timestamps
 - [x] Measured media-origin mapping to local file offsets
 - [x] Multi-anchor clock calibration with residual/drift validation and no extrapolation
