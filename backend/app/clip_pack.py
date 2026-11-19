@@ -30,8 +30,8 @@ FIELDS = [
 ]
 
 
-def load_clock_sync(path: str | Path, *, max_residual_seconds: float = 1.0,
-                    max_drift_ppm: float = 1000.0) -> ClockSync:
+def load_clock_sync(path: str | Path, *, max_residual_seconds: float | None = None,
+                    max_drift_ppm: float | None = None) -> ClockSync:
     """Load operator-measured anchors and fit a bounded, source-specific clock."""
     source = Path(path).expanduser()
     payload = json.loads(source.read_text(encoding="utf-8"))
@@ -49,10 +49,12 @@ def load_clock_sync(path: str | Path, *, max_residual_seconds: float = 1.0,
             ))
         except (KeyError, TypeError, ValueError) as exc:
             raise ValueError(f"invalid clock anchor {index}: {exc}") from exc
+    residual_limit = payload.get("max_residual_seconds", 1.0) if max_residual_seconds is None else max_residual_seconds
+    drift_limit = payload.get("max_drift_ppm", 1000.0) if max_drift_ppm is None else max_drift_ppm
     return fit_clock_sync(
         anchors,
-        max_residual_seconds=max_residual_seconds,
-        max_drift_ppm=max_drift_ppm,
+        max_residual_seconds=residual_limit,
+        max_drift_ppm=drift_limit,
     )
 
 
@@ -220,8 +222,8 @@ def main() -> int:
         "--clock-anchors-json", type=Path,
         help="JSON file with at least three measured {source_id, chat_time, media_seconds} anchors",
     )
-    parser.add_argument("--max-anchor-residual", type=float, default=1.0)
-    parser.add_argument("--max-clock-drift-ppm", type=float, default=1000.0)
+    parser.add_argument("--max-anchor-residual", type=float, default=None)
+    parser.add_argument("--max-clock-drift-ppm", type=float, default=None)
     parser.add_argument("--output-dir", type=Path, default=Path("clip_pack"))
     args = parser.parse_args()
     try:
