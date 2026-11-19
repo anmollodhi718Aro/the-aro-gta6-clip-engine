@@ -103,6 +103,29 @@ class ClipRenderTests(unittest.TestCase):
             self.assertEqual(output.read_bytes(), b"another render output")
             self.assertFalse(list(Path(folder).glob(".clip-*.mp4")))
 
+    def test_vertical_mode_uses_full_frame_9_by_16_layout(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            output = Path(folder) / "vertical.mp4"
+            source.write_bytes(b"synthetic")
+
+            def fake_ffmpeg(command, **kwargs):
+                Path(command[-1]).write_bytes(b"vertical mp4")
+
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg) as run:
+                result = render_clip(source, output, 1, 20, rights_confirmed=True, vertical=True)
+
+            self.assertEqual(result, output.resolve())
+            command = run.call_args.args[0]
+            self.assertEqual(command[command.index("-map") + 1], "[v]")
+            self.assertIn("-filter_complex", command)
+            graph = command[command.index("-filter_complex") + 1]
+            self.assertIn("scale=1080:1920", graph)
+            self.assertIn("boxblur=20:10", graph)
+            self.assertIn("overlay=", graph)
+            self.assertIn("yuv420p", command)
+
+
     @unittest.skipUnless(shutil.which("ffmpeg"), "FFmpeg is not installed on this runner")
     def test_renders_a_generated_synthetic_video(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
