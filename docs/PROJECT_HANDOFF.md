@@ -337,3 +337,10 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - Latest workflow evidence remains inconclusive for the current head: run [44633213798](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44633213798) was pending on a different observed head with no job assigned; no completed exact-head test evidence was found for `30eb31c3a8d8bf98f4108c8acc4ad00c72e75311`. CI_VERIFIED is NOT CLAIMED for this head. Earlier green run `44632671652` remains limited to renderer SHA `6c5d0fd2228da963fc61c39403645e347a4cd3af` (258 tests, 257 passed, 1 skipped).
 - Windows runtime and creator-authorized GTA 6 real-media MP4/playback remain NOT VERIFIED. No merge, deployment, upload, or public publishing occurred.
 - Corrected next engineering priority: inspect and test the newly integrated creator permission/approval modules on the current PR head, resolve the Actions runner allocation issue, then complete the first authorized real-media render and persist review decisions before upload preparation.
+
+
+### ARO-CHAT-0012 final ref reconciliation
+- Source integration commit: `30eb31c3a8d8bf98f4108c8acc4ad00c72e75311`; canonical registry commit: `31bf96ed4b9d6b68ee3b5adb61b3ae82a92962da`; branch tip at this reconciliation: `31bf96ed4b9d6b68ee3b5adb61b3ae82a92962da`.
+- Current PR #66 remains open, unmerged and based on `integration/release-candidate`. No merge/retarget/deployment/upload/publication.
+- Actions synchronize runs were repeatedly cancelled while sequential branch commits were landing. Latest exact branch tip has no completed run yet; the in-progress run observed at source commit was not on the final documentation tip. CI_VERIFIED and TESTED remain pending for the integrated head.
+- Next exact action: allow the final PR synchronize workflow on `31bf96ed4b9d6b68ee3b5adb61b3ae82a92962da` to finish; inspect job steps/logs, especially the ten new permission/approval tests and synthetic FFmpeg/FFprobe smoke test. Do not count cancelled runs as test failures or passes.
