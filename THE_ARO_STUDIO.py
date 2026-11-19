@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import html
 import json
+import secrets
 import sqlite3
 import sys
 from collections import Counter
@@ -23,6 +24,50 @@ from typing import Any
 
 APP_NAME = "THE ARO Studio"
 STATUSES = {"planned", "rendered", "blocked", "not_approved", "failed"}
+LOCAL_HOSTS = {"127.0.0.1", "localhost", "::1"}
+
+
+def is_trusted_local_request(
+    host_header: str,
+    origin_header: str,
+    fetch_site: str,
+    expected_port: int,
+) -> bool:
+    """Reject DNS-rebinding and cross-site browser requests to the local server."""
+    try:
+        host = urlsplit("//" + host_header)
+        if (
+            host.hostname not in LOCAL_HOSTS
+            or host.port != expected_port
+            or host.username is not None
+            or host.password is not None
+            or host.path
+            or host.query
+            or host.fragment
+        ):
+            return False
+
+        if origin_header:
+            origin = urlsplit(origin_header)
+            if (
+                origin.scheme != "http"
+                or origin.netloc.lower() != host.netloc.lower()
+                or origin.path not in {"", "/"}
+                or origin.query
+                or origin.fragment
+            ):
+                return False
+
+        if fetch_site and fetch_site.lower() not in {"same-origin", "none"}:
+            return False
+        return True
+    except ValueError:
+        return False
+
+
+def is_valid_csrf_token(candidate: str, expected: str) -> bool:
+    """Compare a form token without leaking timing information."""
+    return bool(candidate and expected) and secrets.compare_digest(candidate, expected)
 
 
 def load_reports(root: Path) -> tuple[list[dict[str, Any]], list[str]]:
@@ -172,7 +217,7 @@ class RightsStore:
         self.db.close()
 
 
-def page(rows: list[dict[str, Any]], errors: list[str], rights_count: int, notice: str = "") -> str:
+def page(rows: list[dict[str, Any]], errors: list[str], rights_count: int, notice: str = "", csrf_token: str = "") -> str:
     counts = Counter(str(r.get("status")) for r in rows)
     stats = "".join(
         f'<article class="stat"><span>{html.escape(s.replace("_", " ").title())}</span><b>{counts[s]}</b></article>'
@@ -187,6 +232,7 @@ def page(rows: list[dict[str, Any]], errors: list[str], rights_count: int, notic
     table = "".join(body) or '<tr><td colspan="7">No batch reports found. Rendered reports will appear here.</td></tr>'
     error_html = "".join(f"<li>{html.escape(e)}</li>" for e in errors)
     safe_notice = f'<p class="notice">{html.escape(notice)}</p>' if notice else ""
+    csrf_field = f'<input type="hidden" name="csrf_token" value="{html.escape(csrf_token, quote=True)}">'
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>{APP_NAME}</title>
 <style>
@@ -206,10 +252,10 @@ textarea{{min-height:210px;font:12px/1.5 ui-monospace,monospace}}button{{margin-
 <section class="grid">{stats}<article class="stat"><span>Rights records</span><b>{rights_count}</b></article></section>
 <section class="columns">
 <div class="panel"><h2>Original content pack</h2><p class="hint">Paste your own research notes as JSON. Each factual beat needs a source URL and original commentary.</p>
-<form method="post" action="/generate"><label>Research JSON</label><textarea name="payload" required>{html.escape(json.dumps({"working_title":"GTA 6: Sample topic","topic":"sample topic","original_angle":"An original analysis angle","research_notes":[{"claim":"Research-backed claim to verify","source_url":"https://example.com/source","aro_commentary":"Your own explanation in your words."}]},ensure_ascii=False,indent=2))}</textarea>
+<form method="post" action="/generate">{csrf_field}<label>Research JSON</label><textarea name="payload" required>{html.escape(json.dumps({"working_title":"GTA 6: Sample topic","topic":"sample topic","original_angle":"An original analysis angle","research_notes":[{"claim":"Research-backed claim to verify","source_url":"https://example.com/source","aro_commentary":"Your own explanation in your words."}]},ensure_ascii=False,indent=2))}</textarea>
 <button type="submit">Generate local draft</button></form></div>
 <div class="panel"><h2>Source permission record</h2><p class="hint">Metadata only. This does not authenticate permission or provide legal clearance.</p>
-<form method="post" action="/rights">
+<form method="post" action="/rights">{csrf_field}
 <label>Source ID</label><input name="source_id" required>
 <label>Source URL</label><input name="source_url" type="url" required>
 <label>Grantor / creator</label><input name="grantor" required>
@@ -232,10 +278,19 @@ def serve(args: argparse.Namespace) -> int:
     reports_dir = args.reports_dir.expanduser().resolve()
     data_dir.mkdir(parents=True, exist_ok=True)
     db_path = data_dir / "source_rights.sqlite3"
+    csrf_token = secrets.token_urlsafe(32)
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, fmt: str, *values: Any) -> None:
             print("[THE ARO Studio] " + (fmt % values))
+
+        def trusted_local_request(self) -> bool:
+            return is_trusted_local_request(
+                self.headers.get("Host", ""),
+                self.headers.get("Origin", ""),
+                self.headers.get("Sec-Fetch-Site", ""),
+                args.port,
+            )
 
         def send_html(self, content: str, status: int = 200) -> None:
             payload = content.encode("utf-8")
@@ -243,10 +298,20 @@ def serve(args: argparse.Namespace) -> int:
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header("Content-Length", str(len(payload)))
             self.send_header("Cache-Control", "no-store")
+            self.send_header("X-Content-Type-Options", "nosniff")
+            self.send_header("X-Frame-Options", "DENY")
+            self.send_header("Referrer-Policy", "no-referrer")
+            self.send_header(
+                "Content-Security-Policy",
+                "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
+            )
             self.end_headers()
             self.wfile.write(payload)
 
         def do_GET(self) -> None:
+            if not self.trusted_local_request():
+                self.send_html("Forbidden: local same-origin access only", 403)
+                return
             if urlparse(self.path).path != "/":
                 self.send_html("Not found", 404)
                 return
@@ -254,14 +319,41 @@ def serve(args: argparse.Namespace) -> int:
             store = RightsStore(db_path)
             count = store.count()
             store.close()
-            self.send_html(page(rows, errors, count))
+            self.send_html(page(rows, errors, count, csrf_token=csrf_token))
 
         def do_POST(self) -> None:
-            length = int(self.headers.get("Content-Length", "0"))
+            if not self.trusted_local_request():
+                self.send_html("Forbidden: local same-origin access only", 403)
+                return
+            content_type = self.headers.get("Content-Type", "").split(";", 1)[0].strip().lower()
+            if content_type != "application/x-www-form-urlencoded":
+                self.send_html("Expected form-encoded request", 415)
+                return
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+            except ValueError:
+                self.send_html("Invalid Content-Length", 400)
+                return
+            if length <= 0:
+                self.send_html("Empty request body", 400)
+                return
             if length > 1_000_000:
                 self.send_html("Request too large", 413)
                 return
-            fields = parse_qs(self.rfile.read(length).decode("utf-8"), keep_blank_values=True)
+            body = self.rfile.read(length)
+            if len(body) != length:
+                self.send_html("Incomplete request body", 400)
+                return
+            try:
+                decoded_body = body.decode("utf-8")
+            except UnicodeDecodeError:
+                self.send_html("Request body must be UTF-8", 400)
+                return
+            fields = parse_qs(decoded_body, keep_blank_values=True)
+            csrf_values = fields.get("csrf_token", [])
+            if len(csrf_values) != 1 or not is_valid_csrf_token(csrf_values[0], csrf_token):
+                self.send_html("Forbidden: invalid form token", 403)
+                return
             notice = ""
             try:
                 if self.path == "/generate":
@@ -303,7 +395,7 @@ def serve(args: argparse.Namespace) -> int:
             store = RightsStore(db_path)
             count = store.count()
             store.close()
-            self.send_html(page(rows, errors, count, notice))
+            self.send_html(page(rows, errors, count, notice, csrf_token))
 
     server = ThreadingHTTPServer((args.host, args.port), Handler)
     print(f"{APP_NAME} running at http://{args.host}:{server.server_port}")
