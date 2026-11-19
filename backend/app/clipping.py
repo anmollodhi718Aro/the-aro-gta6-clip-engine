@@ -66,6 +66,25 @@ def render_clip(
     # name with mkstemp and remove only that placeholder before invoking FFmpeg.
     temporary_output.unlink()
 
+    video_mapping: list[str]
+    if vertical:
+        # Keep the entire gameplay frame visible in a 9:16 canvas. A blurred,
+        # cover-scaled copy fills the background instead of cropping the action.
+        filter_graph = (
+            "[0:v]split=2[bg][fg];"
+            "[bg]scale=1080:1920:force_original_aspect_ratio=increase,"
+            "crop=1080:1920,boxblur=20:10[bg];"
+            "[fg]scale=1080:1920:force_original_aspect_ratio=decrease[fg];"
+            "[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1[v]"
+        )
+        video_mapping = [
+            "-filter_complex", filter_graph,
+            "-map", "[v]",
+            "-pix_fmt", "yuv420p",
+        ]
+    else:
+        video_mapping = ["-map", "0:v:0"]
+
     command = [
         ffmpeg_binary,
         "-nostdin",
@@ -75,19 +94,15 @@ def render_clip(
         "-ss", f"{start_seconds:.3f}",
         "-i", str(source),
         "-t", f"{duration:.3f}",
-        "-map", "0:v:0",
+        *video_mapping,
         "-map", "0:a?",
         "-c:v", "libx264",
         "-preset", "veryfast",
         "-crf", "23",
         "-c:a", "aac",
         "-movflags", "+faststart",
+        str(temporary_output),
     ]
-    if vertical:
-        command.extend([
-            "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920",
-        ])
-    command.append(str(temporary_output))
 
     try:
         try:
@@ -117,4 +132,3 @@ def render_clip(
         temporary_output.unlink(missing_ok=True)
 
     return destination
-
