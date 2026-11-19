@@ -157,3 +157,18 @@ Earlier runs did fail before exposing runner steps. This workstream obtained a f
 - Windows-native execution: NOT VERIFIED. Authorized real-media MP4 and playback inspection: NOT VERIFIED.
 - The single external first-clip blocker remains the absence of an expressly authorized creator recording/export or approved media handoff. YouTube live metadata/chat is not video media.
 - No new branch or competing PR was created. Existing ARO-ZERO-ONE and PR #66 are preserved.
+
+
+## ARO-CHAT-0007 continuation audit (2026-11-20)
+
+- Chat title: `ARO-CHAT-0007 | Exact-Head CI and First-Clip Acceptance Audit`.
+- Workstream: continuation of existing `ARO-ZERO-ONE`; no duplicate workstream, branch, or PR created.
+- Live repository default branch remains `main` at `5f3332770b27d8a5211b3e74feade222563a9263`.
+- Option A `integration/release-candidate` remains the selected baseline at `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`. Live compare against Option B `feature/integrated-first-clip-launcher` reports 4 commits ahead / 1 behind, merge base `625425987b8381c5a7d16313f5fbb96abcfcff21`; Option A remains the more complete clipping-first base. This does not approve merging PR #18.
+- Existing PR #66 remains open, non-draft, base `integration/release-candidate`; latest audited head before this documentation update: `167e5d7b03b24de2b571fb69aab32617a7a21cac`. PR #66 is mergeable at this audit, but no merge was performed.
+- Exact-head Actions run `44632788616` for SHA `167e5d7b03b24de2b571fb69aab32617a7a21cac` was IN_PROGRESS at audit time. Older rapidly superseded runs were cancelled. The earlier successful run `44632625889` executed compile and 258 tests (1 skipped) on merge ref `1813d291c21a870d557f51fdf40d0acb6a78649d`, built from predecessor branch SHA `02527cfdc978e085a61373146bdaa07249eec746`; it is not proof for the latest head.
+- Renderer integration is present: post-render FFprobe verification before atomic no-overwrite publication, FFprobe executable propagation through batch rendering, and regression tests in `tests/test_render_validation.py`, `tests/test_clipping.py`, and `tests/test_batch_render.py`.
+- PR #35 remains an open draft on `main` with a separate legacy `video_clipper.py` implementation; do not blindly merge it. PR #60 remains overlapping FFprobe work on a different base; do not merge independently. PR #65 remains the creator-permission / owner-approval foundation stacked on #35 and does not supply production OAuth or actual media bytes.
+- Windows execution: NOT VERIFIED. Real-media MP4: NOT VERIFIED. Production readiness: NOT CLAIMED.
+- Single critical first-GTA-6-clip blocker: obtain an expressly authorized creator recording/export/media handoff. YouTube live chat/metadata is not a video file. No scraping, stream ripping, upload, deployment, or public publishing was performed.
+- Tests executed in this chat: none locally; this session used GitHub source and Actions evidence only.
