@@ -185,3 +185,10 @@ Earlier runs did fail before exposing runner steps. This workstream obtained a f
 - PR #66 run `44632625889` succeeded: compile and unit-test steps completed; 258 tests ran, 1 skipped. This run is tied to merge ref `1813d291c21a870d557f51fdf40d0acb6a78649d`, built from functional branch head `02527cfdc978e085a61373146bdaa07249eec746`; the later documentation head `a8cc3e49dab46ce554c2d18d567ff82c53c5a60d` has no workflow run returned by the commit-run lookup.
 - Windows runtime execution and real-media MP4 verification remain NOT VERIFIED. No creator-authorized GTA 6 recording/media handoff is available in the project context. No OAuth, live video ingestion, persistent review UI, deployment, or public upload is claimed.
 - Next task: run the Windows launcher against an authorized local sample, then capture a real FFmpeg + FFprobe MP4 and playback evidence. In parallel, implement official YouTube OAuth/media handoff only after confirming the supported creator-provided media path.
+
+
+### Final branch-tip reconciliation (2026-11-20)
+- Registry reconciliation commit: `bea3e5fe124e28debf38696370441bdae20fd699`.
+- This handoff refresh is a documentation-only commit after that registry update; the returned commit SHA for this file update is the final branch tip for this session.
+- Last successful PR CI run `44632671652` checked out merge ref `c04fee2179f725212c50f4ce9dcb17b9092d14db`, incorporating renderer implementation head `6c5d0fd2228da963fc61c39403645e347a4cd3af` into base `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`. The later commits in this session changed handoff/registry documentation and PR description only; no renderer code changed after the tested implementation head. The documentation-only tip has not had a separate CI run.
+- Current verification classification: renderer implementation CI-verified on the PR merge ref; latest docs-only branch tip not separately rerun; Windows and real-media verification remain NOT VERIFIED.
