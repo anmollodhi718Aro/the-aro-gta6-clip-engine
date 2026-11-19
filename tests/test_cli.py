@@ -6,6 +6,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from backend.app.cli import analyze_file
 from backend.app.detection import DetectorConfig
@@ -58,6 +59,21 @@ class CliTests(unittest.TestCase):
                 status = analyze_file(input_path, output_path, DetectorConfig())
             self.assertEqual(status, 2)
             self.assertFalse(output_path.exists())
+
+    def test_failed_atomic_replace_preserves_existing_output(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            input_path = self.write_input(folder, ["analyze_chat"])
+            output_path = Path(folder) / "output.json"
+            original = '{"previous": "complete"}'
+            output_path.write_text(original, encoding="utf-8")
+
+            with patch("backend.app.cli.os.replace", side_effect=OSError("simulated replace failure")):
+                with contextlib.redirect_stderr(io.StringIO()):
+                    status = analyze_file(input_path, output_path, DetectorConfig())
+
+            self.assertEqual(status, 2)
+            self.assertEqual(output_path.read_text(encoding="utf-8"), original)
+            self.assertEqual(list(Path(folder).glob(".output.json.*.tmp")), [])
 
 
 if __name__ == "__main__":
