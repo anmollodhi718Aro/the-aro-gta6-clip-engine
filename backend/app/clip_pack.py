@@ -43,9 +43,9 @@ def load_clock_sync(path: str | Path, *, max_residual_seconds: float = 1.0,
             raise ValueError(f"anchors[{index - 1}] must be an object")
         try:
             anchors.append(ClockAnchor(
-                source_id=str(row["source_id"]),
+                source_id=row["source_id"],
                 chat_time=parse_datetime(row["chat_time"]),
-                media_seconds=float(row["media_seconds"]),
+                media_seconds=row["media_seconds"],
             ))
         except (KeyError, TypeError, ValueError) as exc:
             raise ValueError(f"invalid clock anchor {index}: {exc}") from exc
