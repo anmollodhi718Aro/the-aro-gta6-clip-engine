@@ -28,6 +28,26 @@ class ContentStudioTests(unittest.TestCase):
         self.assertIn("human_fact_check_required", pack["review"])
         self.assertEqual(pack["visual_assets"][0]["asset_id"], "aro-weather-chart")
 
+    def test_requires_explicit_visual_asset_declarations(self):
+        data = self.payload()
+        data["visual_assets"] = []
+        with self.assertRaisesRegex(ValueError, "visual_assets"):
+            build_content_pack(data)
+
+    def test_third_party_visual_requires_source_id_and_unique_asset_id(self):
+        data = self.payload()
+        data["visual_assets"] = [
+            {"asset_id": "external-clip", "kind": "creator_authorized"}
+        ]
+        with self.assertRaisesRegex(ValueError, "requires source_id"):
+            build_content_pack(data)
+        data["visual_assets"] = [
+            {"asset_id": "duplicate", "kind": "original"},
+            {"asset_id": "duplicate", "kind": "original"},
+        ]
+        with self.assertRaisesRegex(ValueError, "unique"):
+            build_content_pack(data)
+
     def test_requires_sourced_research_and_original_commentary(self):
         data = self.payload()
         data["research_notes"] = [{"claim": "Unsourced claim", "aro_commentary": "My view", "source_url": "https://example.com"}]
