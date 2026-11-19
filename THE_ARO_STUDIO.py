@@ -22,6 +22,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 from urllib.parse import urlsplit
 from typing import Any
+from backend.app.rights_registry import SourceRightsRegistry
 
 APP_NAME = "THE ARO Studio"
 STATUSES = {"planned", "rendered", "blocked", "not_approved", "failed"}
@@ -178,85 +179,38 @@ def pack_markdown(pack: dict[str, Any]) -> str:
 
 
 class RightsStore:
+    """Dashboard adapter for the shared, preflight-compatible rights registry."""
+
     def __init__(self, path: Path):
-        path.parent.mkdir(parents=True, exist_ok=True)
-        self.db = sqlite3.connect(path)
-        self.db.execute("""CREATE TABLE IF NOT EXISTS rights (
-            source_id TEXT PRIMARY KEY, source_url TEXT NOT NULL, grantor TEXT NOT NULL,
-            evidence_ref TEXT NOT NULL, allowed_uses TEXT NOT NULL, platforms TEXT NOT NULL,
-            attribution TEXT NOT NULL, disclosure TEXT NOT NULL, valid_from TEXT NOT NULL,
-            expires_at TEXT, revoked_at TEXT)""")
-        self.db.commit()
+        self.path = path.expanduser()
+        self.registry = SourceRightsRegistry(self.path)
 
     def add(self, record: dict[str, Any]) -> None:
-        required = ("source_id", "source_url", "grantor", "evidence_ref",
-                    "allowed_uses", "platforms", "valid_from")
-        missing = [
-            key for key in required
-            if record.get(key) is None
-            or (isinstance(record.get(key), str) and not record[key].strip())
-            or record.get(key) == []
-        ]
-        if missing:
-            raise ValueError("Missing required rights metadata fields: " + ", ".join(missing))
-        if not isinstance(record["allowed_uses"], (list, tuple, set)):
-            raise ValueError("allowed_uses must be a list")
-        if not isinstance(record["platforms"], (list, tuple, set)):
-            raise ValueError("platforms must be a list")
-
-        uses = sorted({str(value).strip().lower() for value in record["allowed_uses"] if str(value).strip()})
-        if not uses or not set(uses).issubset({"analyze", "edit", "publish"}):
-            raise ValueError("allowed_uses may contain analyze, edit, publish only")
-        platforms = sorted({str(value).strip().lower() for value in record["platforms"] if str(value).strip()})
-        if not platforms:
-            raise ValueError("At least one platform is required")
-
-        source_id = str(record["source_id"]).strip()
-        source_url = str(record["source_url"]).strip()
-        grantor = str(record["grantor"]).strip()
-        evidence_ref = str(record["evidence_ref"]).strip()
-        if not all((source_id, grantor, evidence_ref)):
-            raise ValueError("source_id, grantor, and evidence_ref must be non-empty")
-        parsed = urlsplit(source_url)
-        if parsed.scheme not in {"http", "https"} or not parsed.hostname:
-            raise ValueError("source_url must be http(s)")
-
-        def parse_time(key: str) -> datetime | None:
-            value = record.get(key)
-            if not value:
-                return None
-            parsed_time = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
-            if parsed_time.tzinfo is None or parsed_time.utcoffset() is None:
-                raise ValueError(f"{key} must include a timezone")
-            return parsed_time
-
-        valid_from = parse_time("valid_from")
-        if valid_from is None:
-            raise ValueError("valid_from is required")
-        expires_at = parse_time("expires_at")
-        if expires_at is not None and expires_at <= valid_from:
-            raise ValueError("expires_at must be later than valid_from")
-
-        self.db.execute("""INSERT INTO rights VALUES (?,?,?,?,?,?,?,?,?,?,NULL)
-            ON CONFLICT(source_id) DO UPDATE SET source_url=excluded.source_url,
-            grantor=excluded.grantor,evidence_ref=excluded.evidence_ref,
-            allowed_uses=excluded.allowed_uses,platforms=excluded.platforms,
-            attribution=excluded.attribution,disclosure=excluded.disclosure,
-            valid_from=excluded.valid_from,expires_at=excluded.expires_at,revoked_at=NULL""",
-            (source_id, source_url, grantor, evidence_ref,
-             json.dumps(uses), json.dumps(platforms), str(record.get("attribution", "")).strip(),
-             str(record.get("disclosure", "")).strip(), valid_from.isoformat(),
-             expires_at.isoformat() if expires_at else None))
-        self.db.commit()
+        self.registry.register(record, actor="THE ARO Studio local dashboard")
 
     def count(self) -> int:
-        return int(self.db.execute("SELECT COUNT(*) FROM rights").fetchone()[0])
+        db = sqlite3.connect(self.path)
+        try:
+            return int(db.execute("SELECT COUNT(*) FROM source_rights").fetchone()[0])
+        finally:
+            db.close()
+
+    def legacy_count(self) -> int:
+        """Count old dashboard-only rows without deleting or silently migrating them."""
+        db = sqlite3.connect(self.path)
+        try:
+            exists = db.execute("SELECT 1 FROM sqlite_master WHERE type=? AND name=?", ("table", "rights")).fetchone()
+            if not exists:
+                return 0
+            return int(db.execute("SELECT COUNT(*) FROM rights").fetchone()[0])
+        finally:
+            db.close()
 
     def close(self) -> None:
-        self.db.close()
+        # The shared registry uses short-lived connections for each operation.
+        return None
 
-
-def page(rows: list[dict[str, Any]], errors: list[str], rights_count: int, notice: str = "", csrf_token: str = "") -> str:
+def page(rows: list[dict[str, Any]], errors: list[str], rights_count: int, notice: str = "", csrf_token: str = "", legacy_rights_count: int = 0) -> str:
     counts = Counter(str(r.get("status")) for r in rows)
     stats = "".join(
         f'<article class="stat"><span>{html.escape(s.replace("_", " ").title())}</span><b>{counts[s]}</b></article>'
@@ -272,6 +226,9 @@ def page(rows: list[dict[str, Any]], errors: list[str], rights_count: int, notic
     error_html = "".join(f"<li>{html.escape(e)}</li>" for e in errors)
     safe_notice = f'<p class="notice">{html.escape(notice)}</p>' if notice else ""
     csrf_field = f'<input type="hidden" name="csrf_token" value="{html.escape(csrf_token, quote=True)}">'
+    legacy_notice = ''
+    if legacy_rights_count:
+        legacy_notice = '<p class="notice">' + str(legacy_rights_count) + ' old permission record(s) are preserved in the legacy table. They are not visible to rights preflight yet. Review and re-enter each current permission grant.</p>'
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>{APP_NAME}</title>
 <style>
@@ -287,7 +244,7 @@ textarea{{min-height:210px;font:12px/1.5 ui-monospace,monospace}}button{{margin-
 .notice{{background:#23344a;padding:10px;border-radius:8px}}.foot{{margin-top:18px;color:var(--muted);font-size:12px}}
 @media(max-width:760px){{.columns{{grid-template-columns:1fr}}body{{padding:12px}}}}
 </style></head><body><main>
-<h1>THE ARO Studio</h1><p class="muted">One local workspace for clip review, original content drafts, and source-rights records.</p>{safe_notice}
+<h1>THE ARO Studio</h1><p class="muted">One local workspace for clip review, original content drafts, and source-rights records.</p>{safe_notice}{legacy_notice}
 <section class="grid">{stats}<article class="stat"><span>Rights records</span><b>{rights_count}</b></article></section>
 <section class="columns">
 <div class="panel"><h2>Original content pack</h2><p class="hint">Paste your own research notes as JSON. Each factual beat needs a source URL and original commentary.</p>
@@ -357,8 +314,12 @@ def serve(args: argparse.Namespace) -> int:
             rows, errors = load_reports(reports_dir)
             store = RightsStore(db_path)
             count = store.count()
+            legacy_count = store.legacy_count()
             store.close()
-            self.send_html(page(rows, errors, count, csrf_token=csrf_token))
+            self.send_html(page(
+                rows, errors, count, csrf_token=csrf_token,
+                legacy_rights_count=legacy_count,
+            ))
 
         def do_POST(self) -> None:
             if not self.trusted_local_request():
@@ -433,8 +394,11 @@ def serve(args: argparse.Namespace) -> int:
             rows, errors = load_reports(reports_dir)
             store = RightsStore(db_path)
             count = store.count()
+            legacy_count = store.legacy_count()
             store.close()
-            self.send_html(page(rows, errors, count, notice, csrf_token))
+            self.send_html(page(
+                rows, errors, count, notice, csrf_token, legacy_count,
+            ))
 
     server = server_class_for_host(args.host)((args.host, args.port), Handler)
     print(f"{APP_NAME} running at http://{args.host}:{server.server_port}")
