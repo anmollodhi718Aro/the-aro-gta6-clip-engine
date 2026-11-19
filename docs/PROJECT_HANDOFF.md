@@ -2,8 +2,8 @@
 
 **Canonical handoff:** `docs/PROJECT_HANDOFF.md`  
 **Current workstream:** ARO-ZERO-ONE  
-**Chat ID:** ARO-CHAT-0005  
-**Chat title:** ARO-CHAT-0005 | Clipping-First Integration and First MP4  
+**Primary workstream chat:** ARO-CHAT-0005 | Clipping-First Integration and First MP4  
+**Continuation audit:** ARO-CHAT-0006 | First Verified Clip Hardening  
 **Last updated:** 2026-11-20
 
 ## Product objective
@@ -23,7 +23,8 @@ Creator-authorized GTA 6 source discovery and event analysis, candidate generati
 
 | Item | Current evidence |
 |---|---|
-| PR #18 | Open, non-draft, mergeable metadata; 324 commits, 110 changed files; branch `integration/release-candidate` |
+| PR #18 | Open, non-draft; 324 commits, 110 changed files; branch `integration/release-candidate`; do not merge without owner review |
+| PR #66 | Open; ARO-ZERO-ONE; 25 commits, 14 changed files; base `integration/release-candidate`; current head recorded below |
 | PR #35 | Open draft; local renderer atomic-output hardening; head `1af47f48e6cdb0b406da6fcfc66283c5ed62c3a5` |
 | PR #63 | Merged; chat/workstream registry and startup prompt |
 | PR #64 | Open; consolidation audit on Option B |
@@ -64,11 +65,11 @@ Creator-authorized GTA 6 source discovery and event analysis, candidate generati
 | Manual clip input | IMPLEMENTED in selected baseline | `manual_clip.py` and documented workflow inspected |
 | Batch FFmpeg renderer | IMPLEMENTED in selected baseline | `batch_render.py` and `clipping.py` inspected |
 | Source media duration preflight | IMPLEMENTED in selected baseline | `media_probe.py` imported by batch renderer |
-| Post-render FFprobe acceptance | IMPLEMENTED; CI PENDING | Integrated compatible validation logic into this workstream; exact-head CI still required; real-media verification remains separate |
+| Post-render FFprobe acceptance | IMPLEMENTED; exact-head CI PENDING | `render_validation.py` verifies video stream, duration and dimensions before atomic publication; tests added; exact current head still needs CI |
 | Creator permission foundation | IMPLEMENTED on PR #65 | Synthetic adapter contract; production provider auth absent |
 | Owner approval foundation | IMPLEMENTED on PR #65 | Immutable approval object and publish permission gate; no persistent UI/store |
-| Python tests | TESTED | Exact-head CI run `44631339620`: `Ran 249 tests`; `OK (skipped=1)` |
-| CI | CI_VERIFIED | PR #66 exact head `bcd023810ccea625ffebbcbb81d6e8598310b83f`; run `44631339620` passed compile and all executed unit tests |
+| Python tests | PREVIOUS BASELINE TESTED; NEW RENDER-VALIDATION TESTS PENDING | Earlier baseline run `44631510153` passed compile and unit-test steps on `7f936a255170eb6aeeeea14d6794fda705d6ce16`; this is not the current post-render-validation head |
+| CI | PENDING ON CURRENT HEAD | Latest confirmed green run `44631510153` is for predecessor SHA `7f936a255170eb6aeeeea14d6794fda705d6ce16`; current PR head has no associated workflow run yet |
 | Windows | NOT VERIFIED | No Windows runtime execution in this session |
 | Real media | NOT VERIFIED | No authorized GTA 6 recording supplied |
 | Production ready | NO | OAuth, durable ingest, post-render verification integration, review persistence, and real-media acceptance remain |
@@ -81,9 +82,10 @@ Earlier runs did fail before exposing runner steps. This workstream obtained a f
 
 1. Obtain an authorized creator recording/export or other provider-approved media handoff.
 2. Execute the existing manual clip path on a legal sample first; capture compile/unit test logs and real FFmpeg/FFprobe evidence separately.
-3. Review and integrate PR #35 atomic renderer hardening in dependency order.
-4. Reconcile PR #60 post-render FFprobe validation with Option A's batch renderer without merging overlapping PRs independently.
-5. Bring PR #65 source/approval foundation forward only after its renderer dependency is integrated; then implement official YouTube OAuth and a provider-compliant media handoff.
+3. Run exact-head CI for the post-render FFprobe validation currently included in PR #66; fix any regressions.
+4. Compare PR #35 atomic renderer hardening with the selected baseline and integrate only missing, non-duplicate behavior.
+5. Treat PR #60 as overlapping source work; do not merge it independently while equivalent post-render validation is already in PR #66. Reconcile/close only after owner review.
+6. Bring PR #65 source/approval foundation forward after renderer acceptance; then implement official YouTube OAuth and a provider-compliant media handoff.
 6. Add persistent review state/UI and re-check both creator and channel permissions at their respective gates.
 7. Keep upload private/staged by default and require explicit confirmation before public publishing.
 
@@ -93,8 +95,22 @@ Earlier runs did fail before exposing runner steps. This workstream obtained a f
 - Workstream: ARO-ZERO-ONE
 - Branch: `workstream/aro-zero-one-clipping-first-2026-11-20`
 - Starting SHA: `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`
-- Latest implementation SHA before documentation refresh: `02527cfdc978e085a61373146bdaa07249eec746`; includes post-render FFprobe validation integration and regression tests. Exact-head CI run is pending.
+- Latest audited branch SHA before this documentation refresh: `f2d6f34820896257aa4992e159fa7172257834b5`; includes post-render FFprobe validation integration and regression tests. Exact-head CI run is pending.
 - PR: [#66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66)
-- Changes: canonical handoff plus preservation of the existing chat/workstream registry, startup prompt and consolidation audit.
-- Tests: 249 unit tests executed; all passed; 1 skipped.
-- CI: PASS on exact branch SHA `bcd023810ccea625ffebbcbb81d6e8598310b83f`; run `44631339620`.
+- Changes: canonical handoff, registry/startup/audit carry-forward, and post-render FFprobe validation integration with regression tests.
+- Tests: prior baseline had 249 unit tests executed, all passed, 1 skipped. New post-render validation tests have not yet been confirmed by exact-head CI.
+- CI: previous green run `44631510153` passed on SHA `7f936a255170eb6aeeeea14d6794fda705d6ce16`; not the current head.
+
+
+## ARO-CHAT-0006 continuation audit (2026-11-20)
+
+- Chat title: `ARO-CHAT-0006 | First Verified Clip Hardening`.
+- Workstream: continuation of existing `ARO-ZERO-ONE`; no duplicate branch or PR created.
+- Branch: `workstream/aro-zero-one-clipping-first-2026-11-20`.
+- PR: [#66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66), targeting `integration/release-candidate` at starting SHA `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`.
+- Latest branch SHA at audit: `f2d6f34820896257aa4992e159fa7172257834b5`; 25 commits are listed on the PR and 14 files differ from its base.
+- Existing post-render implementation is present: `backend/app/render_validation.py`, integration in `backend/app/clipping.py`, selected FFprobe forwarding in `backend/app/batch_render.py`, and tests in `tests/test_render_validation.py`, `tests/test_clipping.py`, and `tests/test_batch_render.py`.
+- Previous green workflow run `44631510153` is tied to predecessor SHA `7f936a255170eb6aeeeea14d6794fda705d6ce16`; its compile and unit-test steps passed. No workflow run or check-runs were returned for current head `f2d6f34820896257aa4992e159fa7172257834b5`. Current-head CI: PENDING.
+- Windows execution: NOT VERIFIED. Real authorized GTA 6 media: NOT VERIFIED. Production readiness: NOT CLAIMED.
+- Single critical acceptance blocker: an expressly authorized creator recording/export/media handoff is still required. YouTube chat/live metadata is not video media; no scraping or stream ripping will be used.
+- PR #60 remains open on a separate base but overlaps the post-render validation now included in PR #66. Do not merge both implementations independently; reconcile after exact-head CI and owner review.
