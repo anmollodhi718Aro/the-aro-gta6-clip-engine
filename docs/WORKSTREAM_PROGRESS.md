@@ -318,3 +318,65 @@ All P0 items remain claimed by existing open PRs/workstreams; no duplicate codin
 5. Owner-side final acceptance still requires one authorized local MP4 rendered on Windows to 1080x1920, probed, and opened successfully.
 
 **This chat's actions:** live GitHub inspection only; no source changes, no new branch, no duplicate PR, no merge, no local test execution, no Windows run, and no real-media render.
+
+
+## Live revalidation update — 2026-11-19 23:49 IST
+
+**Chat ID:** `CHAT-001`  
+**Chat title:** `#01 | ARO-GTA-P0-01 | Live RC Audit & CI Evidence`  
+**Workstream ID:** `ARO-GTA-P0-01`  
+**Task:** Revalidate release-candidate topology, active PR ownership, and exact-head CI evidence; establish the V3 chat registry.  
+**Branch:** `workstream/2026-11-19-release-readiness-audit`  
+**PR:** [#56](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/56)  
+**Current PR head before this registry update:** `9ef254571875953333eedfe55ef8ce13bda45ac6`
+
+### Current repository findings
+
+- Repository permissions: admin, maintain, push, and pull are available to the connected GitHub identity.
+- Default branch: `main`.
+- PR #18 remains open and non-draft, targeting `main` from `integration/release-candidate` at `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`.
+- The dated integration branch `integration/aro-release-candidate-2026-11-19` also exists. The canonical RC choice remains an owner decision; no branch was retargeted or merged.
+- PR #56 remains open/draft and is the existing P0-01 audit branch. This chat continued that branch and did not create a duplicate.
+- PR #42 is closed and unmerged. Its vertical 9:16 implementation must not be re-created without evidence of a missing requirement.
+- Relevant open PRs confirmed: #18, #50, #54, #55, #56, #57, #58, #59, and #60. PR #61 and #62 are closed duplicate attempts for post-render media verification.
+- PR #50 and #54 overlap in Windows launcher/preflight files; #50 and #60 need coordination around renderer/FFprobe parameter plumbing.
+- PR #56, #57, #59, and #60 each add `docs/WORKSTREAM_PROGRESS.md` independently. Integrating those PRs separately will create add/add conflicts. Consolidate the registry once on the chosen RC and preserve each workstream entry.
+- PR #58 targets `integration/release-candidate`, while several other workstreams target the dated integration branch. Do not silently retarget it.
+
+### Exact-head CI evidence
+
+| PR | Head SHA checked | Run ID | Job | Conclusion | Steps/logs | Classification |
+|---|---|---:|---|---|---|---|
+| #56 | `9ef254571875953333eedfe55ef8ce13bda45ac6` | 44583770307 | tests | failure | `steps: null`, no logs URL | CI JOB FAILED — TEST EXECUTION NOT VERIFIED — LOGS/STEPS UNAVAILABLE |
+| #60 | `d9c7c13bca66b7d8079e72c20f933bcdf8c5466e` | 44548471688 | tests | failure | `steps: null`, no logs URL | CI JOB FAILED — TEST EXECUTION NOT VERIFIED — LOGS/STEPS UNAVAILABLE |
+| #18 | `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a` | 44542005014 | tests | failure | `steps: null`, no logs URL | CI JOB FAILED — TEST EXECUTION NOT VERIFIED — LOGS/STEPS UNAVAILABLE |
+
+These are runner/job execution failures with no available step evidence. They are not proof of a Python test failure and are not passing test evidence. Current required checks are not Green.
+
+### V3 Chat Execution Registry
+
+| Chat ID | Chat Title | Workstream ID | Branch | PR | Status |
+|---|---|---|---|---:|---|
+| CHAT-001 | #01 | ARO-GTA-P0-01 | Live RC Audit & CI Evidence | ARO-GTA-P0-01 | `workstream/2026-11-19-release-readiness-audit` | #56 | IN PROGRESS |
+
+Chat numbering starts here because no prior Chat Execution Registry entry was present in the inspected audit document. Earlier unnumbered work is not retroactively attributed to CHAT-001.
+
+### Execution attribution — CHAT-001
+
+- **Scope executed in this chat:** live GitHub revalidation, active PR/base/branch inspection, exact-head CI job inspection, and this registry update.
+- **Files changed:** `docs/WORKSTREAM_PROGRESS.md` only.
+- **Tests:** NOT RUN in this connector session.
+- **CI:** Existing runs above inspected; no new run triggered.
+- **Windows verification:** NOT VERIFIED.
+- **Real-media verification:** NOT VERIFIED; no owner-provided MP4 was available in this session.
+- **Merge/deployment/publication:** NOT PERFORMED.
+
+### Next actions / blockers
+
+1. Owner must designate the canonical release-candidate branch: `integration/release-candidate` or `integration/aro-release-candidate-2026-11-19`.
+2. Consolidate the duplicate `docs/WORKSTREAM_PROGRESS.md` additions before integrating #56/#57/#59/#60.
+3. Resolve PR #50/#54 overlap and #50/#60 FFprobe parameter coordination using current diffs.
+4. Obtain a functioning Actions runner and rerun the required checks on the exact selected RC SHA.
+5. Execute the Windows preflight and first authorized local MP4 render on the owner's Windows machine.
+
+**Workstream status:** IN PROGRESS. No code/test/Windows/real-media completion is claimed.
