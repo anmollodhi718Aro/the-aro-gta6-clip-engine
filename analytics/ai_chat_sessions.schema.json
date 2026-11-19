@@ -1,6 +1,5 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://the-aro.example/schemas/ai_chat_sessions.schema.json",
   "title": "THE ARO AI Chat Session Ledger",
   "description": "Evidence-backed AI session records. Unknown measurements must be null, never fabricated zeroes.",
   "type": "object",
