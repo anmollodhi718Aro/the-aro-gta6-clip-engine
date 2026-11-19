@@ -56,6 +56,14 @@ Date: 2026-11-19
 5. Confirm that a deliberately invalid/empty ffmpeg output is not published.
 6. Check GitHub Actions on the exact PR head. A runner-provisioning failure before job steps is infrastructure-blocked, not a test pass or a code-test failure.
 
+## Pull request and current head
+
+- Draft PR: https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/60
+- Current head SHA: `77254e1796c28f4102ef00314d9c73c72ebe091d`
+- Compare against base: 8 commits ahead, 0 behind; 5 files changed.
+- PR metadata reports mergeable; it remains Draft and unmerged.
+- No workflow runs or commit status checks were exposed for this exact head at the time of this update.
+
 ## Status
 
 - Implementation: **IMPLEMENTED**
