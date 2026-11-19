@@ -96,7 +96,7 @@ def render_clip(
             "[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1[v]"
         )
         command[command.index("-map"):command.index("-map")] = ["-filter_complex", filter_graph]
-        command.extend(["-pix_fmt", "yuv420p"])
+        command[-1:-1] = ["-pix_fmt", "yuv420p"]
 
     try:
         try:
