@@ -57,6 +57,22 @@ class ManualClipTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             build_manual_rows({"source_id": "recording", "clips": []})
 
+
+    def test_writes_unicode_and_spaced_windows_style_path(self):
+        rows = build_manual_rows({
+            "source_id": "owned-recording",
+            "clips": [{"start_seconds": 2, "end_seconds": 9}],
+        })
+        with tempfile.TemporaryDirectory() as folder:
+            target = Path(folder) / "素材 with spaces" / "clip review 🎮.csv"
+            write_manual_csv(rows, target)
+            with target.open(encoding="utf-8", newline="") as handle:
+                saved = list(csv.DictReader(handle))
+            self.assertEqual(saved[0]["source_id"], "owned-recording")
+            self.assertEqual(saved[0]["start_seconds"], "2.0")
+            self.assertEqual(target.parent.name, "素材 with spaces")
+            self.assertEqual(len(list(target.parent.iterdir())), 1)
+
     def test_writes_csv_and_refuses_to_overwrite(self):
         rows = build_manual_rows({
             "source_id": "recording",

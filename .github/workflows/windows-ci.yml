@@ -1,0 +1,33 @@
+name: Windows Python CI
+
+on:
+  push:
+    branches: ["workstream/windows-native-ci-clip-workflow"]
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gta6-windows-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows-tests:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Show runtime
+        run: python --version
+      - name: Compile source and tests
+        run: python -m compileall -q backend tests THE_ARO_STUDIO.py
+      - name: Run complete unittest suite
+        run: python -m unittest discover -s tests -v
