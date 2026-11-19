@@ -1,16 +1,23 @@
 name: Windows Python CI
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches:
+      - workstream/aro-zero-one-clipping-first-2026-11-20
+    paths:
+      - ".github/workflows/windows-ci.yml"
+      - "backend/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "THE_ARO_STUDIO.py"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: gta6-windows-ci-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: gta6-windows-ci-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   windows-tests:
