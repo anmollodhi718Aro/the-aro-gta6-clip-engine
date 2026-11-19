@@ -39,3 +39,11 @@ Ensure a rendered MP4 is not published merely because FFmpeg exited successfully
 3. Confirm FFmpeg and FFprobe are installed; run the generated synthetic-video test.
 4. On Windows, test an authorized short video from a path containing spaces and non-ASCII characters, then verify output duration and 1080x1920 dimensions with FFprobe.
 5. Review whether the batch renderer should pass its custom `--ffprobe` executable through to `render_clip`; this workstream intentionally avoided editing the batch-renderer file owned by parallel Windows/release work.
+
+
+## Parallel-workstream reconciliation
+- During execution, a second live workstream appeared as PR #60 (`workstream/post-render-media-verification`) against the same base and with the same core objective.
+- PR #60 is more complete: it adds a dedicated render-validation module and coverage for stream metadata, dimensions, vertical 1080x1920 output, malformed metadata, and Unicode/spaced paths.
+- This workstream's PR #61 was closed as a duplicate. PR #60 was identified as the canonical implementation; a note was posted there.
+- This branch is retained for audit/traceability. Do not merge PR #61 or continue duplicate implementation here.
+- Final status for this branch: BLOCKED / SUPERSEDED BY PR #60. The commits here are not release evidence.
