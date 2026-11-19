@@ -1,12 +1,13 @@
 """Tests for dry-run and explicitly approved local batch rendering."""
 
 import csv
+import json
 import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from backend.app.batch_render import parse_approvals, run_batch
+from backend.app.batch_render import load_failed_rows, parse_approvals, run_batch
 
 
 class BatchRenderTests(unittest.TestCase):
@@ -84,6 +85,59 @@ class BatchRenderTests(unittest.TestCase):
     def test_rejects_unsafe_run_id(self) -> None:
         with self.assertRaises(ValueError):
             run_batch(self.csv_path, self.media, self.root / "out", {1}, run_id="../escape")
+
+    def _write_retry_report(self, rows):
+        path = self.root / "previous-report.json"
+        path.write_text(json.dumps(rows), encoding="utf-8")
+        return path
+
+    def test_retry_selects_only_failed_rows_with_matching_source_data(self) -> None:
+        report = self._write_retry_report([
+            {"candidate_row": 1, "source_id": "demo-a", "start_seconds": 10.0, "end_seconds": 25.0, "status": "failed"},
+            {"candidate_row": 2, "source_id": "demo-b", "start_seconds": 30.0, "end_seconds": 50.0, "status": "blocked"},
+            {"candidate_row": 3, "source_id": "demo-c", "start_seconds": 60.0, "end_seconds": 70.0, "status": "rendered"},
+        ])
+        self.assertEqual(load_failed_rows(report, self.csv_path), {1})
+
+    def test_retry_rejects_changed_candidate_bounds(self) -> None:
+        report = self._write_retry_report([
+            {"candidate_row": 1, "source_id": "demo-a", "start_seconds": 9.0, "end_seconds": 25.0, "status": "failed"},
+        ])
+        with self.assertRaisesRegex(ValueError, "bounds changed"):
+            load_failed_rows(report, self.csv_path)
+
+    def test_retry_rejects_changed_source_identity(self) -> None:
+        report = self._write_retry_report([
+            {"candidate_row": 1, "source_id": "different-source", "start_seconds": 10.0, "end_seconds": 25.0, "status": "failed"},
+        ])
+        with self.assertRaisesRegex(ValueError, "no longer matches"):
+            load_failed_rows(report, self.csv_path)
+
+    def test_retry_rejects_reports_without_failed_rows(self) -> None:
+        report = self._write_retry_report([
+            {"candidate_row": 1, "source_id": "demo-a", "start_seconds": 10.0, "end_seconds": 25.0, "status": "rendered"},
+        ])
+        with self.assertRaisesRegex(ValueError, "no safely retryable"):
+            load_failed_rows(report, self.csv_path)
+
+    def test_retry_rejects_legacy_failure_without_recorded_bounds(self) -> None:
+        report = self._write_retry_report([
+            {"candidate_row": 1, "source_id": "demo-a", "status": "failed"},
+        ])
+        with self.assertRaisesRegex(ValueError, "lacks valid measured bounds"):
+            load_failed_rows(report, self.csv_path)
+
+    def test_retry_runs_only_failed_rows_from_previous_report(self) -> None:
+        report = self._write_retry_report([
+            {"candidate_row": 1, "source_id": "demo-a", "start_seconds": 10.0, "end_seconds": 25.0, "status": "failed"},
+            {"candidate_row": 3, "source_id": "demo-c", "start_seconds": 60.0, "end_seconds": 70.0, "status": "rendered"},
+        ])
+        selected = load_failed_rows(report, self.csv_path)
+        with patch("backend.app.batch_render.render_clip") as render:
+            result = run_batch(self.csv_path, self.media, self.root / "retry-out", selected,
+                               execute=True, rights_confirmed=True, run_id="retry-one")
+        self.assertEqual(render.call_count, 1)
+        self.assertEqual([row["status"] for row in result], ["rendered", "not_approved", "not_approved"])
 
     def test_rejects_approval_outside_csv(self) -> None:
         with self.assertRaisesRegex(ValueError, "outside"):
