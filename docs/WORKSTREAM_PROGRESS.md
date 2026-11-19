@@ -109,4 +109,10 @@ Date: 2026-11-19
 - Job `135794276607` returned `steps: null`; step listing was empty; log retrieval returned `BlobNotFound`.
 - Required classification: **CI JOB FAILED — TEST EXECUTION NOT VERIFIED — LOGS/STEPS UNAVAILABLE**.
 - This is not evidence of a Python test failure and is not a pass.
-- The bounded-tolerance code/tests are newer than that run; their exact HEAD requires a new CI result.
+- A new run was requested automatically for the bounded-tolerance code/tests; its exact-head result is recorded below.
+
+- Latest exact HEAD: `c17a4ae6fdcda7517c7ba3cb0e9f0a7c2cbdb665`.
+- Latest run: `44590490956`; job: `135794856850`; workflow conclusion: `failure`.
+- Job steps: `null`; step listing: empty; job logs: `BlobNotFound`.
+- Required classification for latest HEAD: **CI JOB FAILED — TEST EXECUTION NOT VERIFIED — LOGS/STEPS UNAVAILABLE**.
+- Combined commit status API returned no individual status entries. No required check is treated as Green.
