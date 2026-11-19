@@ -55,6 +55,8 @@ This is a dry-run. To execute the retry, add `--execute --confirm-rights` after 
 - Every candidate must be explicitly selected by its 1-based CSV row number, or selected from a prior report's failed rows with `--retry-report`.
 - Candidates marked non-renderable are blocked even if selected.
 - Invalid, negative, non-finite, or over-limit time bounds are rejected.
+- Before an actual render, `ffprobe` reads the local file duration; candidates ending beyond the real media duration are blocked rather than silently producing truncated clips.
+- `ffprobe` is invoked with an argument array, a 30-second timeout, and no shell; remote URLs are never accepted.
 - Every execution creates a new run folder and refuses to reuse an existing folder. Use a new `--run-id` for another attempt.
 - JSON reports are written through a sibling temporary file and atomically replaced.
 - FFmpeg's existing no-overwrite behavior is preserved.
