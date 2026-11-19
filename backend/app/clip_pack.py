@@ -7,8 +7,11 @@ from __future__ import annotations
 
 import argparse
 import csv
+import io
 import json
+import os
 import sys
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -70,16 +73,51 @@ def map_candidates_to_media(
     return mapped
 
 
+def _write_texts_no_overwrite(files: dict[Path, str]) -> None:
+    """Stage all text outputs, then publish without replacing existing files."""
+    staged: list[tuple[Path, Path]] = []
+    published: list[tuple[Path, Path]] = []
+    try:
+        for target, content in files.items():
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with tempfile.NamedTemporaryFile(
+                mode="w", encoding="utf-8", newline="", dir=target.parent,
+                prefix=f".{target.name}.", suffix=".tmp", delete=False,
+            ) as handle:
+                temporary = Path(handle.name)
+                handle.write(content)
+                handle.flush()
+                os.fsync(handle.fileno())
+            staged.append((temporary, target))
+
+        for temporary, target in staged:
+            os.link(temporary, target)
+            published.append((temporary, target))
+    except Exception:
+        # Roll back only files this invocation created. If another process
+        # replaced a path after publication, samefile prevents deleting it.
+        for temporary, target in reversed(published):
+            try:
+                if target.exists() and os.path.samefile(temporary, target):
+                    target.unlink()
+            except OSError:
+                pass
+        raise
+    finally:
+        for temporary, _ in staged:
+            temporary.unlink(missing_ok=True)
+
+
 def write_clip_pack(rows: list[dict[str, Any]], output_dir: str | Path) -> tuple[Path, Path]:
     destination = Path(output_dir).expanduser()
     destination.mkdir(parents=True, exist_ok=True)
     csv_path = destination / "clip_candidates.csv"
     markdown_path = destination / "clip_candidates.md"
 
-    with csv_path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=FIELDS)
-        writer.writeheader()
-        writer.writerows(rows)
+    csv_buffer = io.StringIO(newline="")
+    writer = csv.DictWriter(csv_buffer, fieldnames=FIELDS)
+    writer.writeheader()
+    writer.writerows(rows)
 
     lines = [
         "# GTA 6 Clip Candidate Review",
@@ -105,7 +143,10 @@ def write_clip_pack(rows: list[dict[str, Any]], output_dir: str | Path) -> tuple
         "- Confirm creator permission and all applicable game, music, and third-party rights.",
         "",
     ])
-    markdown_path.write_text("\n".join(lines), encoding="utf-8")
+    _write_texts_no_overwrite({
+        csv_path: csv_buffer.getvalue(),
+        markdown_path: "\n".join(lines),
+    })
     return csv_path, markdown_path
 
 
