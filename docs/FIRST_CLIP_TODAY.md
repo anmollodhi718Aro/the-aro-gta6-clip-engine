@@ -17,8 +17,10 @@ notepad my_clips.json
 3. Generate the review CSV:
 
 ```powershell
-python -m backend.app.manual_clip my_clips.json --output manual_clips.csv
+py -3 -m backend.app.manual_clip my_clips.json --output manual_clips.csv
 ```
+
+If `py` is unavailable, use `python` instead. The launcher requires Python 3.11 or newer.
 
 4. Preview safely (replace the media path and approve only the row you reviewed):
 
