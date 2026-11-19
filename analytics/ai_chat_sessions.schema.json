@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-aro.example/schemas/ai_chat_sessions.schema.json",
+  "title": "THE ARO AI Chat Session Ledger",
+  "description": "Evidence-backed AI session records. Unknown measurements must be null, never fabricated zeroes.",
+  "type": "object",
+  "required": ["schema_version", "scoring_model", "sessions"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "scoring_model": {
+      "type": "object",
+      "required": ["status", "weights", "scoring_policy"],
+      "properties": {
+        "status": { "type": "string", "minLength": 1 },
+        "weights": {
+          "type": "object",
+          "required": ["task_importance", "verified_completion", "technical_correctness", "test_and_ci_evidence", "time_efficiency", "documentation_and_handoff"],
+          "properties": {
+            "task_importance": { "type": "number", "minimum": 0, "maximum": 1 },
+            "verified_completion": { "type": "number", "minimum": 0, "maximum": 1 },
+            "technical_correctness": { "type": "number", "minimum": 0, "maximum": 1 },
+            "test_and_ci_evidence": { "type": "number", "minimum": 0, "maximum": 1 },
+            "time_efficiency": { "type": "number", "minimum": 0, "maximum": 1 },
+            "documentation_and_handoff": { "type": "number", "minimum": 0, "maximum": 1 }
+          },
+          "additionalProperties": false
+        },
+        "scoring_policy": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "sessions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["chat_id", "title", "project", "workstream_id", "task_ids", "provider", "model", "started_at", "ended_at", "elapsed_seconds", "active_work_seconds", "commits", "pull_requests", "issues", "tests", "ci_status", "windows_status", "real_media_status", "score", "evidence"],
+        "properties": {
+          "chat_id": { "type": "string", "pattern": "^ARO-CHAT-[0-9]{4}$" },
+          "title": { "type": "string", "minLength": 1 },
+          "project": { "type": "string", "minLength": 1 },
+          "workstream_id": { "type": "string", "minLength": 1 },
+          "task_ids": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+          "provider": { "type": "string", "minLength": 1 },
+          "model": { "type": "string", "minLength": 1 },
+          "started_at": { "type": "string", "format": "date-time" },
+          "ended_at": { "type": ["string", "null"], "format": "date-time" },
+          "elapsed_seconds": { "type": ["number", "null"], "minimum": 0 },
+          "active_work_seconds": { "type": ["number", "null"], "minimum": 0 },
+          "commits": { "type": "array", "items": { "type": "string", "minLength": 7 } },
+          "pull_requests": { "type": "array", "items": { "type": "integer", "minimum": 1 } },
+          "issues": { "type": "array", "items": { "type": "integer", "minimum": 1 } },
+          "tests": { "type": "object" },
+          "ci_status": { "type": "string", "minLength": 1 },
+          "windows_status": { "type": "string", "minLength": 1 },
+          "real_media_status": { "type": "string", "minLength": 1 },
+          "score": { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
+          "evidence": { "type": "object" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}
