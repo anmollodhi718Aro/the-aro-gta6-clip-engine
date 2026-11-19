@@ -55,6 +55,7 @@ Last reviewed: 2026-11-19
 - [x] Seven-day evidence-backed creator activity ranking CLI
 - [x] Atomic creator-ranking report output
 - [x] Subtitle Studio for supplied timed transcripts and quality checks
+- [x] Optional official YouTube OAuth upload CLI with dry-run default, local token storage, exact rights-report gate, owner approval, and explicit audience declaration
 
 ## Test inventory
 
@@ -74,9 +75,9 @@ A test file being present is not proof it passed. Run the exact suite on the lat
 
 ## Not implemented / external setup still required
 
-- [ ] Google OAuth desktop authorization for the owner's YouTube channel
-- [ ] YouTube Data API upload adapter with explicit per-video approval
-- [ ] Real uploader integration test on a private/unlisted test video
+- [ ] Owner creates a Google Cloud Desktop OAuth client and enables YouTube Data API v3
+- [ ] Test OAuth consent and first upload against a private/unlisted owner-created video
+- [ ] Verify channel-side upload settings and audience declaration in a real account
 - [ ] Packaged Windows desktop executable/installer
 - [ ] Automatic speech-to-text; Subtitle Studio requires supplied timed transcripts
 - [ ] Automatic visual highlight recognition from video frames/audio
