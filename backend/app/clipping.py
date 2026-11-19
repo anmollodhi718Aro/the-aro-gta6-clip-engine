@@ -8,6 +8,8 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+from .media_probe import probe_media
+
 
 MAX_CLIP_SECONDS = 180.0
 
@@ -24,13 +26,15 @@ def render_clip(
     *,
     rights_confirmed: bool,
     ffmpeg_binary: str = "ffmpeg",
+    ffprobe_binary: str = "ffprobe",
     vertical: bool = False,
 ) -> Path:
-    """Render a bounded MP4 from a local file without overwriting prior output.
+    """Render and verify a bounded MP4 from a local file without overwriting.
 
     Vertical mode creates a 1080x1920 canvas with a blurred, cover-scaled
-    background and the complete source frame fitted in front. This preserves
-    gameplay HUD/action instead of cropping the source frame.
+    background and the complete source frame fitted in front. Before the
+    temporary file is published, ffprobe verifies its video stream, duration,
+    and (for vertical renders) exact output dimensions.
     """
     if not rights_confirmed:
         raise PermissionError("media processing requires explicit rights confirmation")
@@ -111,6 +115,27 @@ def render_clip(
 
         if not temporary_output.is_file() or temporary_output.stat().st_size == 0:
             raise ClipRenderError("FFmpeg completed without creating a valid output file")
+
+        try:
+            rendered = probe_media(temporary_output, ffprobe_binary=ffprobe_binary)
+        except (OSError, RuntimeError, ValueError) as exc:
+            raise ClipRenderError(f"rendered MP4 failed ffprobe validation: {exc}") from exc
+
+        tolerance_seconds = max(0.5, duration * 0.05)
+        if abs(rendered.duration_seconds - duration) > tolerance_seconds:
+            raise ClipRenderError(
+                "rendered MP4 duration does not match the selected clip "
+                f"({rendered.duration_seconds:.3f}s actual, {duration:.3f}s expected)"
+            )
+        if rendered.video_width is None or rendered.video_height is None:
+            raise ClipRenderError("ffprobe could not verify the rendered video dimensions")
+        if rendered.video_width <= 0 or rendered.video_height <= 0:
+            raise ClipRenderError("rendered MP4 has invalid video dimensions")
+        if vertical and (rendered.video_width, rendered.video_height) != (1080, 1920):
+            raise ClipRenderError(
+                "vertical render must be exactly 1080x1920; "
+                f"ffprobe reported {rendered.video_width}x{rendered.video_height}"
+            )
 
         try:
             os.link(temporary_output, destination)
