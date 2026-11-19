@@ -1,7 +1,7 @@
 """Tests for durable, idempotent chat event storage."""
 import tempfile
 import unittest
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from backend.app.chat_event_store import ChatEventStore
@@ -39,6 +39,36 @@ class ChatEventStoreTests(unittest.TestCase):
         other = ChatEvent("event-1", "video-2", self.event.timestamp, "other source")
         self.assertEqual(self.store.persist([self.event, other]).inserted, 2)
 
+    def test_timezone_equivalent_duplicate_is_idempotent(self):
+        self.store.persist([self.event])
+        equivalent_instant = ChatEvent(
+            "event-1", "video-1",
+            datetime(2026, 11, 18, 17, 30, tzinfo=timezone(timedelta(hours=5, minutes=30))),
+            "hello",
+        )
+        result = self.store.persist([equivalent_instant])
+        self.assertEqual((result.inserted, result.duplicates), (0, 1))
+        stored = self.store.list_events(
+            "video-1"
+        )[0]
+        self.assertEqual(stored.timestamp.utcoffset(), timedelta(0))
+
+    def test_events_list_instant_order_across_timezones(self):
+        later = ChatEvent(
+            "event-later", "video-1",
+            datetime(2026, 11, 18, 18, 0, tzinfo=timezone(timedelta(hours=5, minutes=30))),
+            "later",
+        )
+        earlier = ChatEvent(
+            "event-earlier", "video-1",
+            datetime(2026, 11, 18, 12, 0, tzinfo=timezone.utc),
+            "earlier",
+        )
+        self.store.persist([later, earlier])
+        listed = self.store.list_events(
+            "video-1"
+        )
+        self.assertEqual([event.event_id for event in listed], ["event-earlier", "event-later"])
     def test_batch_callback_helper(self):
         class Batch:
             events = (self.event,)
