@@ -36,6 +36,21 @@ class ContentStudioTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             build_content_pack(data)
 
+    def test_preserves_declared_visual_assets_for_rights_preflight(self):
+        data = self.payload()
+        data["visual_assets"] = [{
+            "asset_id": "aro-chart-1", "kind": "original"
+        }]
+        pack = build_content_pack(data)
+        self.assertEqual(pack["visual_assets"], data["visual_assets"])
+        self.assertIn("Declared visual assets", render_markdown(pack))
+
+    def test_rejects_invalid_visual_assets_shape(self):
+        data = self.payload()
+        data["visual_assets"] = "not-a-list"
+        with self.assertRaises(ValueError):
+            build_content_pack(data)
+
     def test_rejects_invalid_source_url(self):
         data = self.payload()
         data["research_notes"][0]["source_url"] = "not-a-url"
