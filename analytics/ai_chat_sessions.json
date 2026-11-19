@@ -420,10 +420,10 @@
       "provider": "OpenAI",
       "model": "GPT-6",
       "started_at": "2026-11-20T04:58:00+05:30",
-      "ended_at": null,
+      "ended_at": "2026-11-20T05:03:44+05:30",
       "elapsed_seconds": null,
       "active_work_seconds": null,
-      "timing_note": "Start time is minute-resolution; elapsed and active work duration are not measured.",
+      "timing_note": "Start time is minute-resolution; end timestamp was captured at closeout. Elapsed and active work durations remain null rather than estimated.",
       "task_category": [
         "repository_audit",
         "analytics_registry",
@@ -434,7 +434,7 @@
       "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
       "starting_sha": "a9c537fc4ac5a7c437dc2c2f535ac258d24b619e",
       "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
-      "current_sha": "628c11e1fa9638406947bc34ae5354f8edd944d9",
+      "current_sha": "8c1fce9d7f764f5165fd9bbb5c64707b1d432187",
       "pull_requests": [
         66
       ],
