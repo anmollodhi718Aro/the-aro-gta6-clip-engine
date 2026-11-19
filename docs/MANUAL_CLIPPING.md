@@ -10,7 +10,7 @@ This is the quickest path when you already have a local recording but do not yet
 4. Enter the clip start and end offsets in seconds, measured from the beginning of that exact file. Each clip is limited to 180 seconds.
 5. Inspect the dry-run output. Type `RENDER` only after confirming the selected range and your rights to edit and publish that exact recording.
 
-The wizard creates a unique session folder under `manual_clip_sessions/` containing the input JSON, CSV, and render report/output. It renders locally only after the explicit confirmation. It does not download, upload, or publish video.
+The wizard creates a unique session folder under `manual_clip_sessions/` containing the input JSON, CSV, and render report/output. It checks the actual video stream and duration, and renders locally only after explicit confirmation. The command window stays open so the final result or error remains visible. It does not download, upload, or publish video.
 
 ## Manual cross-platform path
 
@@ -27,9 +27,9 @@ python -m backend.app.manual_clip my_clips.json --output manual_clips.csv
 ### 3. Dry-run the selected rows
 
 ```bash
-python -m backend.app.batch_render manual_clips.csv \
-  --media "/absolute/path/to/your-authorized-recording.mp4" \
-  --approve 1 \
+python -m backend.app.batch_render manual_clips.csv \\
+  --media "/absolute/path/to/your-authorized-recording.mp4" \\
+  --approve 1 \\
   --output-dir rendered_clips
 ```
 
@@ -40,10 +40,10 @@ Dry-run does not render. Inspect the report and confirm the selected time range 
 Install FFmpeg and ffprobe, then run only after confirming you own or have permission to process the exact file:
 
 ```bash
-python -m backend.app.batch_render manual_clips.csv \
-  --media "/absolute/path/to/your-authorized-recording.mp4" \
-  --approve 1 \
-  --output-dir rendered_clips \
+python -m backend.app.batch_render manual_clips.csv \\
+  --media "/absolute/path/to/your-authorized-recording.mp4" \\
+  --approve 1 \\
+  --output-dir rendered_clips \\
   --execute --confirm-rights
 ```
 
