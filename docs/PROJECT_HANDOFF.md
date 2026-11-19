@@ -408,3 +408,6 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - Final verification vocabulary: Windows workflow IMPLEMENTED; Windows execution NOT VERIFIED; latest exact-head CI NOT VERIFIED; prior baseline 270-test CI VERIFIED only on `a1dbff89f07e1b1466288695bc910902cf92a904`; real authorized GTA 6 media NOT VERIFIED / BLOCKED.
 - No local tests were executed. The two PR-triggered runs cancelled before compile/tests; the push-triggered Windows run could not be independently observed through the available PR-only workflow lookup. Do not treat cancellation as a test failure or success.
 - No merge, retarget, deployment, upload, or public publishing. Main unchanged. Next priority remains obtaining owner-authorized media and running the existing local Windows wizard, followed by FFmpeg/FFprobe/playback evidence and owner review.
+
+
+- Final structured analytics reconciliation commit: `93135b572ef6e3dc4c40792c11f0de8c24785bcc`; the ledger now includes the final handoff/registry commit evidence and reconciled branch snapshot `a9c537fc4ac5a7c437dc2c2f535ac258d24b619e`. No source code or tests changed in this final ledger-only update.
