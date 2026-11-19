@@ -25,10 +25,12 @@ It is a consolidated review target, not a production release declaration.
 - [ ] Register a synthetic permission record in a temporary database.
 - [ ] Run rights preflight for permitted and blocked assets.
 - [ ] Run candidate analysis against synthetic authorized chat data.
-- [ ] Map the resulting candidate plan using a measured synthetic media offset.
+- [ ] Map the candidate plan using a measured single media-origin timestamp and separately using three synthetic clock anchors.
+- [ ] Confirm clock-fit drift/residual rejection and calibrated-interval no-extrapolation.
 - [ ] Dry-run batch rendering.
 - [ ] Run a synthetic local FFmpeg render if FFmpeg is installed.
 - [ ] Verify dashboard report discovery and failed-only retry behavior.
+- [ ] Generate the offline creator watchlist dashboard from synthetic ranking JSON.
 
 ### Gate 4 — External platform readiness
 - [ ] Decide whether to implement Google OAuth + YouTube upload after a reviewed release candidate.
