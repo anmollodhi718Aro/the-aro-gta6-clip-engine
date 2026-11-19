@@ -42,3 +42,5 @@
 
 - ARO-CHAT-0006 is a continuation of the already-registered ARO-ZERO-ONE workstream on the existing PR #66 branch; it does not create a competing workstream or duplicate PR.
 - The latest confirmed green CI run belongs to predecessor SHA `7f936a255170eb6aeeeea14d6794fda705d6ce16`; the post-render-validation branch head `f2d6f34820896257aa4992e159fa7172257834b5` requires its own exact-head CI result.
+
+- Live audit refresh (2026-11-20): ARO-ZERO-ONE already owns PR #66; no duplicate workstream was allocated. PR #66 remains open against `integration/release-candidate`. Exact-head CI is green; Windows and authorized real-media verification remain outstanding. No merges or retargets were performed.
