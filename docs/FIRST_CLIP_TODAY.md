@@ -4,6 +4,18 @@
 
 Use only gameplay footage you recorded or are explicitly authorized to edit and distribute.
 
+## One-click Windows launcher
+
+1. Install Python 3.11+ and FFmpeg (including ffprobe), and make sure they are available on PATH.
+2. Double-click `START_MANUAL_CLIPPING.bat` in the repository folder.
+3. Enter the full path to your authorized local video.
+4. Choose vertical 9:16 output for Shorts/Reels, or answer `n` to keep the source aspect ratio.
+5. Enter the start/end offsets for each moment. You can queue up to 50 clips from the same recording; each clip must be 180 seconds or shorter.
+6. Inspect the dry-run report. Type `RENDER`, then `I CONFIRM RIGHTS`, only after checking the exact recording and every selected range.
+7. Review the generated MP4 files and local HTML review dashboard before sharing.
+
+The launcher keeps its command window open after success or failure. The wizard creates a unique session folder under `manual_clip_sessions/`, validates the actual video stream and duration with ffprobe, and renders only after the two explicit confirmations. It never downloads, scrapes, uploads, or publishes video.
+
 ## Fast path: manual local clipping
 
 1. Open your authorized recording in a video player/editor and note start/end offsets in seconds from the beginning of that exact file. Each range must be 180 seconds or shorter.
@@ -23,7 +35,7 @@ python -m backend.app.manual_clip my_clips.json --output manual_clips.csv
 4. Preview safely (replace the media path and approve only the row you reviewed):
 
 ```powershell
-python -m backend.app.batch_render manual_clips.csv --media "D:\Videos\your-recording.mp4" --approve 1 --output-dir rendered_clips
+python -m backend.app.batch_render manual_clips.csv --media "D:\\Videos\\your-recording.mp4" --approve 1 --output-dir rendered_clips
 ```
 
 Dry-run is the default. Inspect the report and verify the exact time range and media file.
@@ -31,7 +43,7 @@ Dry-run is the default. Inspect the report and verify the exact time range and m
 5. Render only after confirming rights for this exact recording and intended distribution:
 
 ```powershell
-python -m backend.app.batch_render manual_clips.csv --media "D:\Videos\your-recording.mp4" --approve 1 --output-dir rendered_clips --execute --confirm-rights
+python -m backend.app.batch_render manual_clips.csv --media "D:\\Videos\\your-recording.mp4" --approve 1 --output-dir rendered_clips --execute --confirm-rights
 ```
 
 The renderer requires FFmpeg/ffprobe, checks the actual video stream and duration, writes to a unique run folder, and refuses to overwrite. Review the resulting MP4 before any separate upload decision.
@@ -107,7 +119,7 @@ Inspect clip_pack\clip_candidates.md. A mapped timestamp is not proof that a mom
 
 ```powershell
 py -m backend.app.candidate_quality clip_pack\clip_candidates.csv --output clip_pack\quality_scored_candidates.csv
-py -m backend.app.batch_render clip_pack\clip_candidates.csv --media "D:\Videos\your_authorized_recording.mp4" --approve 1,2 --output-dir rendered_clips
+py -m backend.app.batch_render clip_pack\clip_candidates.csv --media "D:\\Videos\\your_authorized_recording.mp4" --approve 1,2 --output-dir rendered_clips
 ```
 
 Change the media path and approved row numbers. Dry-run is the default. Inspect the report before rendering.
@@ -117,7 +129,7 @@ Change the media path and approved row numbers. Dry-run is the default. Inspect 
 Only after confirming you have rights to edit and publish this exact media:
 
 ```powershell
-py -m backend.app.batch_render clip_pack\clip_candidates.csv --media "D:\Videos\your_authorized_recording.mp4" --approve 1,2 --output-dir rendered_clips --execute --confirm-rights
+py -m backend.app.batch_render clip_pack\clip_candidates.csv --media "D:\\Videos\\your_authorized_recording.mp4" --approve 1,2 --output-dir rendered_clips --execute --confirm-rights
 ```
 
 The renderer probes actual media duration and blocks invalid bounds. Outputs go into a unique run folder under rendered_clips.
