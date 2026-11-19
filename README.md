@@ -35,7 +35,9 @@ See [MVP usage](docs/MVP_USAGE.md), [calibrated clip-pack workflow](docs/CALIBRA
 - `backend/app/models.py`: timezone-aware permission and event models.
 - `backend/app/detection.py`: deterministic, permission-gated chat-spike detector.
 - `backend/app/cli.py`: local JSON analysis command.
-- `backend/app/clipping.py`: local-only FFmpeg clip renderer.\n- `backend/app/clock_sync.py`: measured chat-to-recording clock calibration with residual/drift checks and no extrapolation.
+- `backend/app/clipping.py`: local-only FFmpeg clip renderer.
+- `backend/app/clock_sync.py`: measured chat-to-recording clock calibration with residual/drift checks and no extrapolation.
+- `backend/app/clip_pack.py`: calibrated chat-to-media offsets and collision-safe CSV/Markdown review exports.
 - `backend/app/youtube_live_chat.py`: read-only YouTube public live-chat API adapter.
 - `backend/app/youtube_cli.py`: one-page YouTube chat analysis command.
 - `backend/app/consent_registry.py`: SQLite-backed creator consent and revocation audit registry.
