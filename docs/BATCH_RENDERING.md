@@ -61,3 +61,14 @@ This is a dry-run. To execute the retry, add `--execute --confirm-rights` after 
 - A JSON report records planned, rendered, blocked, skipped, or failed rows. Failed-row retries do not select successful, blocked, or unapproved rows.
 - Rendering never implies approval to distribute. Human review and all applicable rights checks remain necessary.
 - No upload, publishing, stream downloading, or scraping is implemented.
+
+## 5. Generate the local review dashboard
+
+After a batch run, create a self-contained HTML page from its JSON report:
+
+```bash
+python -m backend.app.review_dashboard rendered_clips/REPLACE_WITH_RUN_ID/batch_render_report.json \
+  --output rendered_clips/clip_review_dashboard.html
+```
+
+Open the generated HTML file locally in a browser. It provides status totals, candidate rows, and simple text/status filters. The page is read-only, has no external assets or network calls, and escapes report text before displaying it. It does not play or upload media. A rendered clip still requires manual review and separate approval before any distribution.
