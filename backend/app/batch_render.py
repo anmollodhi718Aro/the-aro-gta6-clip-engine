@@ -79,7 +79,8 @@ def run_batch(
     if any(number > len(candidates) for number in approved_rows):
         raise ValueError("an approved row number is outside the candidate CSV")
 
-    run_dir = (Path(run_directory).expanduser() if run_directory is not None else\n               create_run_directory(output_root, safe_run_id) if execute else output_root / safe_run_id)
+    run_dir = (Path(run_directory).expanduser() if run_directory is not None else
+               create_run_directory(output_root, safe_run_id) if execute else output_root / safe_run_id)
     report: list[dict[str, Any]] = []
     for number, row in enumerate(candidates, start=1):
         item: dict[str, Any] = {
@@ -137,7 +138,9 @@ def main() -> int:
             raise PermissionError("--execute requires --confirm-rights")
         approvals = parse_approvals(args.approve)
         run_id = make_run_id(args.run_id)
-        run_dir = create_run_directory(args.output_dir, run_id)\n        results = run_batch(\n            args.candidate_csv,
+        run_dir = create_run_directory(args.output_dir, run_id)
+        results = run_batch(
+            args.candidate_csv,
             args.media,
             args.output_dir,
             approvals,
