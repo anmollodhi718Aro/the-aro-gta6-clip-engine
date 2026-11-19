@@ -164,6 +164,33 @@ foreach ($row in $renderedRows) {
         -not (Test-Path -LiteralPath ([string]$row.output_path) -PathType Leaf)) {
         throw "A clip is marked rendered but its MP4 file is missing: $($row.output_path)"
     }
+
+    $clipFile = Get-Item -LiteralPath ([string]$row.output_path)
+    if ($clipFile.Length -le 0) { throw "Rendered MP4 is empty: $($row.output_path)" }
+
+    # Verify the actual output container and video stream, not just the renderer's status.
+    $probeJson = & ffprobe -v error -show_entries "format=duration:stream=codec_type,width,height" -of json $clipFile.FullName
+    if ($LASTEXITCODE -ne 0) { throw "ffprobe could not inspect rendered MP4: $($row.output_path)" }
+    try { $probe = ($probeJson | Out-String) | ConvertFrom-Json -ErrorAction Stop }
+    catch { throw "Rendered MP4 has invalid ffprobe metadata: $($row.output_path)" }
+    $video = @($probe.streams | Where-Object { $_.codec_type -eq "video" })
+    if ($video.Count -lt 1) { throw "Rendered MP4 has no video stream: $($row.output_path)" }
+
+    $actualDuration = 0.0
+    $durationText = [string]$probe.format.duration
+    if (-not [double]::TryParse($durationText, [System.Globalization.NumberStyles]::Float,
+        [System.Globalization.CultureInfo]::InvariantCulture, [ref]$actualDuration) -or
+        [double]::IsNaN($actualDuration) -or [double]::IsInfinity($actualDuration) -or $actualDuration -le 0) {
+        throw "Rendered MP4 has an invalid duration: $($row.output_path)"
+    }
+    $expectedDuration = [double]$row.end_seconds - [double]$row.start_seconds
+    if ([math]::Abs($actualDuration - $expectedDuration) -gt 0.5) {
+        throw "Rendered MP4 duration ($actualDuration s) differs from selected range ($expectedDuration s): $($row.output_path)"
+    }
+    if ($verticalArgs.Count -gt 0 -and ($video[0].width -ne 1080 -or $video[0].height -ne 1920)) {
+        throw "Rendered Shorts MP4 must be 1080x1920; got $($video[0].width)x$($video[0].height): $($row.output_path)"
+    }
+    Write-Host ("Verified MP4: {0}x{1}, {2:N2}s, {3:N0} bytes" -f $video[0].width, $video[0].height, $actualDuration, $clipFile.Length) -ForegroundColor Green
 }
 
 & $pythonExe @pythonPrefix -m backend.app.review_dashboard $renderReport --output $reviewHtml --title "THE ARO Clip Review"
