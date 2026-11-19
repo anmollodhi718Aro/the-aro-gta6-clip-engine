@@ -44,7 +44,7 @@ python -m backend.app.cli examples/sample_events.json --output clip_plan.json
 
 ### 2. Map chat candidates to the exact local recording
 
-The media origin must be a measured timezone-aware UTC timestamp for offset zero of the exact recording.
+The media origin must be measured for the exact recording. A single measured offset is supported:
 
 ```bash
 python -m backend.app.clip_pack clip_plan.json \
@@ -52,7 +52,15 @@ python -m backend.app.clip_pack clip_plan.json \
   --output-dir clip_pack
 ```
 
-The command produces CSV and Markdown review sheets. It never downloads or extracts livestream video.
+For drift-aware calibration, supply at least three independently measured anchors from the same authorized source:
+
+```bash
+python -m backend.app.clip_pack clip_plan.json \
+  --clock-anchors-json examples/clock_anchors.example.json \
+  --output-dir clip_pack
+```
+
+The multi-anchor fit rejects excessive residual/drift and refuses timestamps outside the calibrated interval. The example anchor file is synthetic; replace it with real measurements from the exact recording. The command produces CSV and Markdown review sheets. It never downloads or extracts livestream video.
 
 ### 3. Score candidate review suitability
 
@@ -146,6 +154,14 @@ python -m backend.app.creator_watchlist_cli \
 
 Metrics must cover exactly seven timezone-aware days and include an HTTPS evidence URL. Missing creators remain unranked rather than receiving invented zero values. Results describe historical activity, not future virality or permission to reuse content.
 
+Build the offline HTML view:
+
+```bash
+python -m backend.app.creator_watchlist_dashboard output/creator_ranking.json --output output/creator_watchlist.html
+```
+
+Open the generated file locally. It escapes untrusted report fields, only links HTTPS evidence URLs, and contains no remote assets or tracking.
+
 ## Subtitle Studio
 
 Format an operator-supplied timed transcript and run caption-quality checks:
@@ -171,7 +187,7 @@ GitHub Actions runs the same compile and unittest discovery workflow on pull req
 
 - No official YouTube video-file download or livestream ripping is implemented.
 - YouTube chat access does not provide the stream's video bytes. Video must be separately supplied as a local file with adequate rights.
-- No automatic chat-to-video synchronization: the media-origin offset must be measured.
+- No fully automatic chat-to-video synchronization: mapping requires a manually measured single origin or at least three calibration anchors; the clock fit refuses extrapolation.
 - No packaged Windows desktop installer; the current unified app is a local Python HTTP dashboard.
 - The optional OAuth uploader is implemented, but owner-side Google Cloud setup and a private/unlisted end-to-end upload test remain outstanding.
 - No automatic posting, background cloud worker, billing, or monetization guarantee.
