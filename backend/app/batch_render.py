@@ -15,6 +15,7 @@ from typing import Any
 
 from .clipping import MAX_CLIP_SECONDS, render_clip
 from .output_manager import create_run_directory, make_run_id, write_json_atomic
+from .media_probe import probe_media
 
 
 REQUIRED_COLUMNS = {"start_seconds", "end_seconds", "renderable"}
@@ -102,6 +103,8 @@ def run_batch(
     rights_confirmed: bool = False,
     run_id: str | None = None,
     run_directory: str | Path | None = None,
+    media_duration_seconds: float | None = None,
+    ffprobe_binary: str = "ffprobe",
 ) -> list[dict[str, Any]]:
     """Plan or execute approved rows inside a collision-safe per-run folder."""
     source_csv = Path(csv_path).expanduser()
@@ -116,6 +119,10 @@ def run_batch(
         raise PermissionError("execution requires explicit local-media rights confirmation")
 
     candidates = _load_candidates(source_csv)
+    if execute and media_duration_seconds is None:
+        media_duration_seconds = probe_media(media, ffprobe_binary=ffprobe_binary).duration_seconds
+    if execute and (isinstance(media_duration_seconds, bool) or not isinstance(media_duration_seconds, (int, float)) or not math.isfinite(media_duration_seconds) or media_duration_seconds <= 0):
+        raise ValueError("actual media duration must be a finite positive number")
     if any(number > len(candidates) for number in approved_rows):
         raise ValueError("an approved row number is outside the candidate CSV")
 
@@ -140,6 +147,10 @@ def run_batch(
             continue
         try:
             start, end = _validated_bounds(row, number)
+            if execute and end > float(media_duration_seconds):
+                raise ValueError(f"candidate row {number} ends at {end:.3f}s, beyond actual media duration {float(media_duration_seconds):.3f}s")
+            if execute:
+                item["media_duration_seconds"] = float(media_duration_seconds)
             item["start_seconds"] = start
             item["end_seconds"] = end
             output_path = run_dir / f"clip_{number:03d}.mp4"
@@ -175,6 +186,7 @@ def main() -> int:
     parser.add_argument("--execute", action="store_true", help="perform local rendering; default is dry-run")
     parser.add_argument("--confirm-rights", action="store_true", help="confirm authorization for this exact local media file")
     parser.add_argument("--report", type=Path, help="optional report path; defaults inside this run folder")
+    parser.add_argument("--ffprobe", default="ffprobe", help="ffprobe executable used to inspect the local media duration")
     args = parser.parse_args()
 
     try:
@@ -193,6 +205,7 @@ def main() -> int:
             rights_confirmed=args.confirm_rights,
             run_id=run_id,
             run_directory=run_dir,
+            ffprobe_binary=args.ffprobe,
         )
         report_path = args.report or (run_dir / "batch_render_report.json")
         write_json_atomic(report_path, results)
@@ -201,7 +214,7 @@ def main() -> int:
             counts[result["status"]] = counts.get(result["status"], 0) + 1
         print(f"Run: {run_id} | Report: {report_path} | " + ", ".join(f"{key}={value}" for key, value in sorted(counts.items())))
         return 1 if any(item["status"] == "failed" for item in results) else 0
-    except (OSError, ValueError, PermissionError) as exc:
+    except (OSError, ValueError, PermissionError, RuntimeError) as exc:
         print(f"Batch render stopped: {exc}", file=sys.stderr)
         return 2
 
