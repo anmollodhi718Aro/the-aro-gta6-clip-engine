@@ -47,6 +47,31 @@ def build_content_pack(data: dict[str, Any]) -> dict[str, Any]:
                       or "Create an original text card, diagram, or use authorized footage.",
         })
 
+    raw_assets = data.get("visual_assets")
+    if not isinstance(raw_assets, list) or not raw_assets:
+        raise ValueError("visual_assets must contain at least one explicit visual declaration")
+    visual_assets = []
+    seen_asset_ids: set[str] = set()
+    for index, asset in enumerate(raw_assets, start=1):
+        if not isinstance(asset, dict):
+            raise ValueError(f"visual_assets[{index - 1}] must be an object")
+        asset_id = str(asset.get("asset_id", "")).strip()
+        kind = str(asset.get("kind", "")).strip().lower()
+        if not asset_id or asset_id in seen_asset_ids:
+            raise ValueError(f"visual_assets[{index - 1}] needs a unique non-empty asset_id")
+        if kind not in {"original", "licensed", "creator_authorized"}:
+            raise ValueError(f"visual_assets[{index - 1}] kind must be original, licensed, or creator_authorized")
+        source_id = str(asset.get("source_id", "")).strip()
+        if kind != "original" and not source_id:
+            raise ValueError(f"visual_assets[{index - 1}] requires source_id for {kind} material")
+        seen_asset_ids.add(asset_id)
+        visual_assets.append({
+            "asset_id": asset_id,
+            "kind": kind,
+            "source_id": source_id or None,
+            "description": str(asset.get("description", "")).strip(),
+        })
+
     hook = str(data.get("hook", "")).strip() or f"GTA 6 में {topic} पर एक बात है जिसे समझना ज़रूरी है।"
     audience = str(data.get("audience", "GTA fans")).strip()
     cta = str(data.get("call_to_action", "ऐसी ही original GTA 6 explainers के लिए THE ARO को subscribe करें।")).strip()
@@ -64,6 +89,7 @@ def build_content_pack(data: dict[str, Any]) -> dict[str, Any]:
         "working_title": title, "topic": topic, "original_angle": angle,
         "audience": audience, "format": "YouTube Short / vertical 9:16",
         "voiceover_script": voiceover, "research_beats": beats,
+        "visual_assets": visual_assets,
         "visual_plan": visuals,
         "metadata": {
             "description": (
@@ -98,7 +124,14 @@ def render_markdown(pack: dict[str, Any]) -> str:
         lines.extend([f"### Beat {i}", f"- Claim to verify: {beat['claim']}",
                       f"- Source: {beat['source_url']}",
                       f"- THE ARO commentary: {beat['aro_commentary']}", ""])
-    lines.extend(["## Visual plan", ""])
+    lines.extend(["## Declared visual assets and rights", ""])
+    lines.extend(
+        f"- **{asset['asset_id']}**: {asset['kind']}"
+        + (f" (source_id: {asset['source_id']})" if asset.get("source_id") else "")
+        + (f" — {asset['description']}" if asset.get("description") else "")
+        for asset in pack["visual_assets"]
+    )
+    lines.extend(["", "## Visual plan", ""])
     lines.extend(f"- **{item['beat']}**: {item['direction']}" for item in pack["visual_plan"])
     lines.extend(["", "## Upload description", "", pack["metadata"]["description"], "",
                   "## Pre-upload gate", "",
