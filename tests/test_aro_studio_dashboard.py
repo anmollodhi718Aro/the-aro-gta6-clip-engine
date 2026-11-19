@@ -139,6 +139,52 @@ class LocalDataTests(unittest.TestCase):
         self.assertIn("&lt;script&gt;alert(1)&lt;/script&gt;", rendered)
 
 
+
+class SecurityGuardTests(unittest.TestCase):
+    def test_local_request_guard_requires_loopback_and_same_origin(self):
+        self.assertTrue(studio.is_trusted_local_request(
+            "127.0.0.1:8765", "http://127.0.0.1:8765", "same-origin", 8765
+        ))
+        self.assertTrue(studio.is_trusted_local_request(
+            "localhost:8765", "", "none", 8765
+        ))
+        self.assertFalse(studio.is_trusted_local_request(
+            "attacker.example:8765", "", "", 8765
+        ))
+        self.assertFalse(studio.is_trusted_local_request(
+            "127.0.0.1:8765", "http://attacker.example", "cross-site", 8765
+        ))
+        self.assertFalse(studio.is_trusted_local_request(
+            "127.0.0.1:8765", "", "cross-site", 8765
+        ))
+
+    def test_csrf_token_comparison(self):
+        self.assertTrue(studio.is_valid_csrf_token("owner-token", "owner-token"))
+        self.assertFalse(studio.is_valid_csrf_token("wrong-token", "owner-token"))
+        self.assertFalse(studio.is_valid_csrf_token("", "owner-token"))
+
+    def test_server_uses_ipv6_socket_for_ipv6_loopback(self):
+        self.assertEqual(
+            studio.server_class_for_host("::1").address_family,
+            studio.socket.AF_INET6,
+        )
+        self.assertEqual(
+            studio.server_class_for_host("127.0.0.1").address_family,
+            studio.socket.AF_INET,
+        )
+
+    def test_rights_store_rejects_expiry_before_valid_from(self):
+        with tempfile.TemporaryDirectory() as temp:
+            store = studio.RightsStore(Path(temp) / "rights.sqlite3")
+            try:
+                record = LocalDataTests().valid_rights_record()
+                record["expires_at"] = "2026-11-18T00:00:00+00:00"
+                with self.assertRaisesRegex(ValueError, "later than valid_from"):
+                    store.add(record)
+            finally:
+                store.close()
+
+
 if __name__ == "__main__":
     unittest.main()
 
