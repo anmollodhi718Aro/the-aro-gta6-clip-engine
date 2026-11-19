@@ -18,3 +18,7 @@ The command writes:
 - `clip_candidates.md`: compact human review sheet.
 
 Candidates that start before the recording, end before it, or exceed the local renderer's 180-second limit are marked not renderable. No video is downloaded, rendered, uploaded, or published by this command. The CSV is not an approval to publish. Review source consent, context, and game/music/third-party rights before editing or distribution.
+
+## Output safety
+
+The exporter stages both the CSV and Markdown review files, then publishes them without replacing existing files. If either output already exists, choose a new `--output-dir`; existing review decisions are preserved. If a concurrent export claims one of the two filenames during publication, any file created by the losing export is rolled back.
