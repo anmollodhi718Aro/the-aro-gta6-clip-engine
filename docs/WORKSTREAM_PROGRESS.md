@@ -386,7 +386,7 @@ Chat numbering starts here because no prior Chat Execution Registry entry was pr
 
 | Chat ID | Exact Chat Title | Workstream ID | Task | Branch | PR | Status |
 |---|---|---|---|---|---|---|
-| CHAT-001 | CHAT-001 | ARO-GTA-P0-01 | Live release-candidate audit, ownership reconciliation, and GitHub attribution baseline | workstream/2026-11-19-release-readiness-audit | [#56](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/56) | IN PROGRESS / BLOCKED on owner canonical-RC designation |
+| CHAT-001 | CHAT-001 \| ARO-GTA-P0-01 \| Live Release Candidate Audit & Attribution | ARO-GTA-P0-01 | Live release-candidate audit, ownership reconciliation, and GitHub attribution baseline | workstream/2026-11-19-release-readiness-audit | [#56](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/56) | IN PROGRESS / BLOCKED on owner canonical-RC designation |
 
 ### CHAT-001 execution attribution
 
