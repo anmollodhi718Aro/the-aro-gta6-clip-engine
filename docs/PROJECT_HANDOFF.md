@@ -324,3 +324,16 @@ Earlier runs did fail before exposing runner steps. This workstream obtained a f
 - PR #66 remains open and unmerged, targeting `integration/release-candidate`. No merge, retarget, deployment, upload or public publishing.
 - Verification: IMPLEMENTED = yes for permission/approval foundation; TESTED = pending CI; CI_VERIFIED = pending exact-head result; WINDOWS_VERIFIED = no; REAL_MEDIA_VERIFIED = no; PRODUCTION_READY = no.
 - First real GTA 6 clip remains blocked on an expressly authorized creator recording/export or supported media handoff. Next: confirm exact-head CI, then use the existing Windows/manual renderer with authorized media and record a durable `needs_review` review decision before any upload workflow.
+
+
+## ARO-CHAT-0011 live-state correction (2026-11-20)
+
+A subsequent live branch read found four commits added after the ARO-CHAT-0011 handoff/registry commits. The earlier note that PR #65 foundation files were absent was accurate at that earlier observation but is now superseded:
+
+- Current observed branch/PR #66 head: `30eb31c3a8d8bf98f4108c8acc4ad00c72e75311`; PR #66 remains open and unmerged; latest metadata reports `mergeable=false`. Main remains `5f3332770b27d8a5211b3e74feade222563a9263`.
+- The branch now contains `backend/app/live_sources.py`, `backend/app/approval.py`, `tests/test_live_sources_and_approval.py`, and `docs/AUTHORIZED_LIVE_SOURCE_PIPELINE.md` (observed in the four-commit delta after `40d7f8d3c86d3d5931b10f9f3ac4ec903526d71a`). This is selective code integration of the PR #65 foundation into PR #66; PR #65 itself remains a separate open PR and was not merged.
+- The integrated foundation checks an active matching `read_live_stream` grant before adapter discovery, validates returned creator/source identity, and models immutable `needs_review` / `approved` / `rejected` decisions. Upload gating requires both approved status and an active `publish` scope. The tests are synthetic adapter/permission tests.
+- This does NOT implement production OAuth, encrypted token vault, actual YouTube provider integration, media-byte ingestion, durable approval persistence/UI, or upload adapter. A provider-approved media reference is not proof that media bytes have been received.
+- Latest workflow evidence remains inconclusive for the current head: run [44633213798](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44633213798) was pending on a different observed head with no job assigned; no completed exact-head test evidence was found for `30eb31c3a8d8bf98f4108c8acc4ad00c72e75311`. CI_VERIFIED is NOT CLAIMED for this head. Earlier green run `44632671652` remains limited to renderer SHA `6c5d0fd2228da963fc61c39403645e347a4cd3af` (258 tests, 257 passed, 1 skipped).
+- Windows runtime and creator-authorized GTA 6 real-media MP4/playback remain NOT VERIFIED. No merge, deployment, upload, or public publishing occurred.
+- Corrected next engineering priority: inspect and test the newly integrated creator permission/approval modules on the current PR head, resolve the Actions runner allocation issue, then complete the first authorized real-media render and persist review decisions before upload preparation.
