@@ -188,10 +188,17 @@ class SecurityGuardTests(unittest.TestCase):
                 store.close()
 
 
-    def test_dashboard_embeds_csrf_token_in_both_post_forms(self):
+    def test_dashboard_embeds_csrf_token_in_all_post_forms(self):
         rendered = studio.page([], [], 0, csrf_token="owner-session-token")
-        self.assertEqual(rendered.count('name="csrf_token"'), 2)
-        self.assertEqual(rendered.count('value="owner-session-token"'), 2)
+        self.assertEqual(rendered.count('name="csrf_token"'), 3)
+        self.assertEqual(rendered.count('value="owner-session-token"'), 3)
+
+    def test_dashboard_exposes_rights_aware_preflight_form(self):
+        rendered = studio.page([], [], 0, csrf_token="owner-session-token")
+        self.assertIn('action="/preflight"', rendered)
+        self.assertIn('name="platform"', rendered)
+        self.assertIn('name="payload"', rendered)
+        self.assertIn("Rights-aware visual preflight", rendered)
 
     def test_request_guard_rejects_wrong_port_and_malformed_host(self):
         self.assertFalse(
