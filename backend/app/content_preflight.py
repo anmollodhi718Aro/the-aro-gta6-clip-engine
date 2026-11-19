@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from backend.app.rights_registry import SourceRightsRegistry
+from backend.app.output_manager import write_json_atomic
 
 
 def preflight_content_pack(
@@ -125,8 +126,7 @@ def main() -> int:
         registry = SourceRightsRegistry(args.rights_db.expanduser())
         report = preflight_content_pack(pack, registry, args.platform)
         output = args.output.expanduser()
-        output.parent.mkdir(parents=True, exist_ok=True)
-        output.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+        write_json_atomic(output, report)
         print(json.dumps({
             "status": report["status"],
             "output": str(output),
