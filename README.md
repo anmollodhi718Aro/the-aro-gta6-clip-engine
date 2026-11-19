@@ -37,6 +37,22 @@ python -m backend.app.subtitle_studio transcript.json --output output/captions.s
 
 This does not transcribe audio or access video. Human review against the authorized source remains required. See [Subtitle Studio](docs/SUBTITLE_STUDIO.md).
 
+
+## Review window selection
+
+Select a bounded, non-overlapping shortlist from already detected and time-mapped candidates:
+
+```python
+from backend.app.window_selector import SelectionPolicy, select_review_windows
+
+selected = select_review_windows(
+    candidates, mapped_windows,
+    SelectionPolicy(max_clips=5, min_gap_seconds=5, max_total_duration_seconds=300),
+)
+```
+
+Selection is deterministic and review-only. It does not analyze gameplay frames/audio, approve rendering, or publish. See [Review Window Selector](docs/WINDOW_SELECTOR.md).
+
 ## Source rights registry
 
 Use the SQLite-backed registry to record the exact source, permission evidence reference, allowed uses, platforms, attribution, disclosure, and validity dates. Unknown, expired, revoked, or out-of-scope use is blocked. See [Source Rights Registry](docs/SOURCE_RIGHTS_REGISTRY.md).
