@@ -19,7 +19,7 @@ Last updated: 2026-11-19
 
 **Scope:** Verify every FFmpeg-produced temporary MP4 with ffprobe before the no-overwrite publication step. Reject malformed, duration-mismatched, dimensionless, or incorrectly sized vertical outputs without publishing them.
 
-Status: IN PROGRESS (implementation committed; automated execution not yet available).
+Status: IMPLEMENTED (code and regression tests committed); TESTED: NOT YET VERIFIED.
 
 ## Changes implemented
 
@@ -52,6 +52,7 @@ Status: IN PROGRESS (implementation committed; automated execution not yet avail
   - `be199718e2c7990a04387997dd103816376e2442` — render regression tests.
   - `1c6977e7e9e66d60f585eb3c8a62d0c8222fe4bc` — probe tests.
   - `80cb49f4c11f102d217fe616b106a0fd7c541cce` — rendering documentation.
+  - `3881eb350bb56eb9ac0c2390fbd597bdafce6ef7` — reject non-positive probed dimensions.
 - Python compile/unit tests: NOT RUN in this connector-only session.
 - GitHub Actions: latest observed repository runs failed before runner assignment (runner_id 0 / zero job steps); this is infrastructure failure evidence, not a code test result.
 - Real Windows execution: NOT VERIFIED.
