@@ -41,7 +41,7 @@ Last reviewed: 2026-11-19
 ### Original content and rights workflow
 - [x] Original commentary content pack builder
 - [x] Required research claims, source URLs and original commentary
-- [x] Visual asset declarations in content packs
+- [x] Mandatory non-empty visual asset declarations with unique IDs and type/source-scope checks in content packs
 - [x] SQLite source-rights registry with allowed uses/platforms, evidence reference, expiry and revocation
 - [x] Rights-aware visual preflight for edit + publish scope on the exact platform
 - [x] Required attribution/disclosure reporting
@@ -53,6 +53,8 @@ Last reviewed: 2026-11-19
 - [x] Dashboard writes to the shared source-rights registry
 - [x] Dashboard content generator uses the shared content studio implementation
 - [x] Dashboard visual preflight uses the shared rights registry
+- [x] Dashboard measured-clock calibration with reusable anchor reports
+- [x] Dashboard creator activity snapshot generation and offline HTML export
 - [x] Seven-day evidence-backed creator activity ranking CLI
 - [x] Atomic creator-ranking report output
 - [x] Offline creator watchlist dashboard with escaped fields and HTTPS-only evidence links
