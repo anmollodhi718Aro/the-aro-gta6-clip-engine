@@ -2,10 +2,13 @@
 setlocal
 cd /d "%~dp0"
 title THE ARO GTA 6 Clip Engine - Start Clipping Today
-powershell -NoProfile -ExecutionPolicy Bypass -File "scripts\manual_clip_wizard.ps1"
-if errorlevel 1 (
-  echo.
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\manual_clip_wizard.ps1"
+set "EXIT_CODE=%ERRORLEVEL%"
+echo.
+if not "%EXIT_CODE%"=="0" (
   echo Clipping stopped with an error. Read the message above.
-  pause
+) else (
+  echo Wizard finished. Review the session folder, MP4 files, and local review dashboard.
 )
-endlocal
+pause
+exit /b %EXIT_CODE%
