@@ -28,6 +28,12 @@ class AnalyticsValidationTests(unittest.TestCase):
         session["score"] = None
         self.assertIsNone(validate_analytics_ledger(ledger))
 
+    def test_rejects_missing_nullable_measurement_fields(self):
+        ledger = copy.deepcopy(self.valid_ledger)
+        del ledger["sessions"][0]["elapsed_seconds"]
+        with self.assertRaisesRegex(ValueError, "missing required fields.*elapsed_seconds"):
+            validate_analytics_ledger(ledger)
+
     def test_rejects_duplicate_chat_ids(self):
         ledger = copy.deepcopy(self.valid_ledger)
         ledger["sessions"].append(copy.deepcopy(ledger["sessions"][0]))
