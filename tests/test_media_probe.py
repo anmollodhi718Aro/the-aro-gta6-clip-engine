@@ -13,7 +13,7 @@ class MediaProbeTests(unittest.TestCase):
             media = Path(folder) / "sample.mp4"
             media.write_bytes(b"synthetic")
             with patch("backend.app.media_probe.subprocess.run") as run:
-                run.return_value.stdout = '{"format":{"duration":"123.5","format_name":"mov,mp4"}}'
+                run.return_value.stdout = '{"format":{"duration":"123.5","format_name":"mov,mp4"},"streams":[{"codec_type":"video"}]}'
                 info = probe_media(media)
             self.assertEqual(info.duration_seconds, 123.5)
             self.assertEqual(info.format_name, "mov,mp4")
@@ -32,7 +32,8 @@ class MediaProbeTests(unittest.TestCase):
             for raw in ('{"format":{"duration":"nan"}}',
                         '{"format":{"duration":"0"}}',
                         '{"format":{"duration":"-1"}}',
-                        '{"format":{}}'):
+                        '{"format":{}}',
+                        '{"format":{"duration":"123"},"streams":[{"codec_type":"audio"}]}'):
                 with self.subTest(raw=raw), patch("backend.app.media_probe.subprocess.run") as run:
                     run.return_value.stdout = raw
                     with self.assertRaises(ValueError):
