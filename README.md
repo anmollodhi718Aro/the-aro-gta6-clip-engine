@@ -21,6 +21,8 @@ A creator-first workflow for finding and preparing short highlights from **autho
 
 Requirements: Python 3.11+, FFmpeg, and FFprobe.
 
+**Windows users:** follow the [Start Clipping Today guide](docs/START_CLIPPING_TODAY.md) and copy [the render permission example](examples/permission.render.example.json).
+
 Create a permission file for footage you own or are authorized to use:
 
 ```json
