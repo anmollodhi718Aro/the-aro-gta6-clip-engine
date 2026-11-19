@@ -31,7 +31,9 @@ Each factual beat must include a source URL and original THE ARO commentary. The
 
 Use the SQLite-backed registry to record the exact source, permission evidence reference, allowed uses, platforms, attribution, disclosure, and validity dates. Unknown, expired, revoked, or out-of-scope use is blocked. See [Source Rights Registry](docs/SOURCE_RIGHTS_REGISTRY.md).
 
-The local dashboard and the rights-aware preflight use the same `source_rights` SQLite registry. By default, the dashboard stores it at `aro_studio_data/source_rights.sqlite3`. Use that exact file when checking a dashboard-created permission record:
+The local dashboard and the rights-aware preflight are designed to use the same `source_rights` SQLite registry. By default, the dashboard stores it at `aro_studio_data/source_rights.sqlite3`. PR #10 includes the shared registry adapter; the `content_preflight` CLI itself is introduced separately by Draft PR #9 and is not present in this PR #10 branch alone.
+
+When the rights-aware preflight module from PR #9 is included in your checkout, point it at the dashboard database:
 
 ```bash
 python -m backend.app.content_preflight output/gta6_short.json --rights-db aro_studio_data/source_rights.sqlite3 --platform youtube --output output/preflight_report.json
