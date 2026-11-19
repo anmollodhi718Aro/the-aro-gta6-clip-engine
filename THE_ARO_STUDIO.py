@@ -137,9 +137,10 @@ def build_clock_report(data: dict[str, Any]) -> dict[str, Any]:
         "end_chat_time": sync.end_chat_time.isoformat(),
         "media_at_origin_seconds": sync.media_at_origin,
         "rate": sync.rate,
-        "max_residual_seconds": sync.max_residual_seconds,
+        "measured_max_residual_seconds": sync.max_residual_seconds,
+        "max_residual_seconds": data.get("max_residual_seconds", 1.0),
         "max_drift_ppm": data.get("max_drift_ppm", 1000.0),
-        "drift_ppm": sync.drift_ppm,
+        "measured_drift_ppm": sync.drift_ppm,
         "anchors": [
             {
                 "source_id": anchor.source_id,
