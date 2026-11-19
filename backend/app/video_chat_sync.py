@@ -6,6 +6,7 @@ This module never guesses or learns the offset from chat activity.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import math
 from datetime import datetime
 from typing import Iterable
 
@@ -23,6 +24,10 @@ class ClockOffset:
     def __post_init__(self) -> None:
         if not self.measured_by.strip():
             raise ValueError("measured_by is required")
+        if not math.isfinite(self.offset_seconds):
+            raise ValueError("offset_seconds must be finite")
+        if not math.isfinite(self.uncertainty_seconds):
+            raise ValueError("uncertainty_seconds must be finite")
         if self.uncertainty_seconds < 0:
             raise ValueError("uncertainty_seconds cannot be negative")
         if abs(self.offset_seconds) > 86400:
@@ -73,8 +78,8 @@ def candidate_to_video_window(
     video_duration_seconds: float,
 ) -> VideoWindow:
     """Map a candidate's clip bounds; reject windows outside the supplied video."""
-    if video_duration_seconds <= 0:
-        raise ValueError("video_duration_seconds must be positive")
+    if not math.isfinite(video_duration_seconds) or video_duration_seconds <= 0:
+        raise ValueError("video_duration_seconds must be a finite positive number")
     start = map_chat_timestamp_to_video_seconds(candidate.clip_start, video_epoch, offset)
     end = map_chat_timestamp_to_video_seconds(candidate.clip_end, video_epoch, offset)
     if end <= start:
