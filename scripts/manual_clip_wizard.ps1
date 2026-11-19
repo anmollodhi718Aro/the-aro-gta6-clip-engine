@@ -17,6 +17,7 @@ Write-Host ""
 Write-Host "THE ARO GTA 6 Clip Engine | Local clip session" -ForegroundColor Cyan
 Write-Host "Use only a recording you own or are authorized to edit and publish."
 Write-Host "You can queue up to 50 moments from the same video in one session."
+Write-Host "Nothing is downloaded, uploaded, or published automatically."
 Write-Host ""
 
 $pythonExe = $null
@@ -26,7 +27,7 @@ $pythonPrefix = @()
 # Fall back to the active "python" command if that runtime is unavailable.
 $launcher = Get-Command py -ErrorAction SilentlyContinue
 if ($launcher) {
-    & $launcher.Source -3.11 -c "import sys; print(sys.executable)" *> $null
+    & $launcher.Source -3.11 -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)" *> $null
     if ($LASTEXITCODE -eq 0) {
         $pythonExe = $launcher.Source
         $pythonPrefix = @("-3.11")
@@ -52,8 +53,8 @@ if (-not (Get-Command ffprobe -ErrorAction SilentlyContinue)) { throw "ffprobe i
 
 $mediaInput = Read-Host "Full path to your authorized local video"
 if ([string]::IsNullOrWhiteSpace($mediaInput)) { throw "No video path supplied." }
+if (-not (Test-Path -LiteralPath $mediaInput -PathType Leaf)) { throw "The selected local video file does not exist." }
 $mediaPath = (Resolve-Path -LiteralPath $mediaInput).Path
-if (-not (Test-Path -LiteralPath $mediaPath -PathType Leaf)) { throw "The selected path is not a file." }
 
 $videoStream = (& ffprobe -v error -select_streams v:0 -show_entries stream=codec_type -of csv=p=0 $mediaPath | Out-String).Trim()
 if ($LASTEXITCODE -ne 0 -or $videoStream -ne "video") { throw "The selected file has no readable video stream." }
@@ -93,6 +94,7 @@ New-Item -ItemType Directory -Path $sessionDir -ErrorAction Stop | Out-Null
 $jsonPath = Join-Path $sessionDir "manual_clips.json"
 $csvPath = Join-Path $sessionDir "manual_clips.csv"
 $reportRoot = Join-Path $sessionDir "rendered"
+$reviewHtml = Join-Path $sessionDir "review.html"
 $payload = @{
     source_id = [System.IO.Path]::GetFileName($mediaPath)
     clips = @($clips.ToArray())
@@ -112,9 +114,16 @@ if ($LASTEXITCODE -ne 0) { throw "Dry-run failed. No render was started." }
 
 Write-Host ""
 Write-Host "Review every listed time range and the exact source file." -ForegroundColor Cyan
-$confirm = Read-Host "Do you have rights to edit and publish this exact recording? Type RENDER to create the local MP4 clips"
-if ($confirm -cne "RENDER") {
-    Write-Host "Stopped safely. Session files: $sessionDir" -ForegroundColor Yellow
+$renderChoice = Read-Host "After reviewing the dry-run, type RENDER to continue (anything else stops)"
+if ($renderChoice -cne "RENDER") {
+    Write-Host "Stopped safely. No video was rendered. Session files: $sessionDir" -ForegroundColor Yellow
+    exit 0
+}
+
+Write-Host "Only continue if you have rights to edit and distribute this exact recording and have checked embedded third-party content." -ForegroundColor Yellow
+$rightsChoice = Read-Host "Type I CONFIRM RIGHTS to authorize this local render"
+if ($rightsChoice -cne "I CONFIRM RIGHTS") {
+    Write-Host "Stopped safely. No video was rendered." -ForegroundColor Yellow
     exit 0
 }
 
@@ -122,6 +131,21 @@ Write-Host ""
 Write-Host ("[3/3] Rendering {0} approved clip(s) locally..." -f $clips.Count) -ForegroundColor Green
 & $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve $approvedRows --output-dir $reportRoot --execute --confirm-rights
 if ($LASTEXITCODE -ne 0) { throw "Rendering failed. Inspect the session report: $sessionDir" }
+
+$latestRun = Get-ChildItem -LiteralPath $reportRoot -Directory |
+    Sort-Object LastWriteTime -Descending |
+    Select-Object -First 1
+if (-not $latestRun) { throw "Render completed but its report folder could not be located: $reportRoot" }
+$renderReport = Join-Path $latestRun.FullName "batch_render_report.json"
+if (-not (Test-Path -LiteralPath $renderReport -PathType Leaf)) {
+    throw "Render completed but its batch report is missing: $renderReport"
+}
+
+& $pythonExe @pythonPrefix -m backend.app.review_dashboard $renderReport --output $reviewHtml --title "THE ARO Clip Review"
+if ($LASTEXITCODE -ne 0) { throw "Clips rendered, but review dashboard generation failed. Report: $renderReport" }
+
 Write-Host ""
-Write-Host "Done. Watch each MP4 and review all rights before sharing." -ForegroundColor Green
+Write-Host "Done. Review each MP4 in the session folder before sharing." -ForegroundColor Green
 Write-Host "Session folder: $sessionDir"
+Write-Host "Review dashboard: $reviewHtml"
+Start-Process -FilePath $reviewHtml
