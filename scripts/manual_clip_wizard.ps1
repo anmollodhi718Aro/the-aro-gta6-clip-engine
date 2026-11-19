@@ -26,15 +26,33 @@ Write-Host "THE ARO GTA 6 Clip Engine - Manual Clip Wizard" -ForegroundColor Cya
 Write-Host "Use only a local recording you own or are authorized to edit and publish."
 Write-Host ""
 
-$python = Get-Command py -ErrorAction SilentlyContinue
-if ($python) {
-    $pythonExe = $python.Source
-    $pythonPrefix = @("-3")
-} else {
+$pythonExe = $null
+$pythonPrefix = @()
+
+# Prefer the Windows Python launcher when it has a 3.11 runtime. If it does
+# not, fall back to the active "python" on PATH instead of stopping early.
+$launcher = Get-Command py -ErrorAction SilentlyContinue
+if ($launcher) {
+    & $launcher.Source -3.11 -c "import sys; print(sys.executable)" *> $null
+    if ($LASTEXITCODE -eq 0) {
+        $pythonExe = $launcher.Source
+        $pythonPrefix = @("-3.11")
+    }
+}
+
+if (-not $pythonExe) {
     $python = Get-Command python -ErrorAction SilentlyContinue
-    if (-not $python) { throw "Python 3.11+ not found. Install Python and enable Add to PATH." }
-    $pythonExe = $python.Source
-    $pythonPrefix = @()
+    if ($python) {
+        & $python.Source -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)" *> $null
+        if ($LASTEXITCODE -eq 0) {
+            $pythonExe = $python.Source
+            $pythonPrefix = @()
+        }
+    }
+}
+
+if (-not $pythonExe) {
+    throw "Python 3.11+ not found. Install Python 3.11 or newer and enable the Python launcher or Add to PATH."
 }
 
 & $pythonExe @pythonPrefix -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)"
