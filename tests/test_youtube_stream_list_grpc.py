@@ -1,5 +1,6 @@
 """Tests for the optional YouTube streamList gRPC adapter."""
 import unittest
+from datetime import datetime, timezone
 from contextlib import contextmanager
 from types import SimpleNamespace
 from unittest.mock import Mock
@@ -52,6 +53,22 @@ class GrpcAdapterTests(unittest.TestCase):
         factory = make_stream_factory(api_key="key", grpc_module=FakeGrpc(),
             messages_module=FakeMessages, services_module=FakeServices)
         with self.assertRaises(ValueError): list(factory(" ", None))
+    def test_converts_protobuf_timestamp_objects(self):
+        class FakeTimestamp:
+            def ToDatetime(self, tzinfo=None):
+                return datetime(2026, 11, 18, 10, 0, tzinfo=tzinfo)
+
+        snippet = SimpleNamespace(published_at=FakeTimestamp(), display_message="hello")
+        response = SimpleNamespace(items=[SimpleNamespace(id="event-2", snippet=snippet)])
+        events = response_to_chat_events(response, "video-1")
+        self.assertEqual(events[0].timestamp, datetime(2026, 11, 18, 10, 0, tzinfo=timezone.utc))
+
+    def test_rejects_naive_datetime_timestamp(self):
+        snippet = SimpleNamespace(published_at=datetime(2026, 11, 18, 10, 0), display_message="hello")
+        response = SimpleNamespace(items=[SimpleNamespace(id="event-3", snippet=snippet)])
+        with self.assertRaisesRegex(ValueError, "timezone-aware"):
+            response_to_chat_events(response, "video-1")
+
     def test_converts_chat_events(self):
         snippet = SimpleNamespace(published_at="2026-11-18T10:00:00Z", display_message="hello")
         response = SimpleNamespace(items=[SimpleNamespace(id="event-1", snippet=snippet)])
