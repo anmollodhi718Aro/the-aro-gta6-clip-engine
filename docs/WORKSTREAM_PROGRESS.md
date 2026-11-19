@@ -19,7 +19,7 @@ Last updated: 2026-11-19
 
 **Scope:** Verify every FFmpeg-produced temporary MP4 with ffprobe before the no-overwrite publication step. Reject malformed, duration-mismatched, dimensionless, or incorrectly sized vertical outputs without publishing them.
 
-Status: IMPLEMENTED (code and regression tests committed); TESTED: NOT YET VERIFIED.
+Status: IMPLEMENTED on the preserved feature branch; SUPERSEDED by the independently active PR #60 to avoid duplicate work. TESTED: NOT VERIFIED.
 
 ## Changes implemented
 
@@ -69,6 +69,7 @@ Status: IMPLEMENTED (code and regression tests committed); TESTED: NOT YET VERIF
 
 - Feature branch: `fix/post-render-media-verification`.
 - Latest implementation head before this progress update: `6a6232fc3da5559a7ebf916aa938b03317b0eca2`.
-- Focused draft PR: [#62](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/62), targeting `integration/aro-release-candidate-2026-11-19`.
+- Duplicate PR #62 was closed after discovering the independently active PR #60, which implements the same post-render verification scope on the same base. PR #60 was not modified.
+- PR #62's branch and commits remain preserved for reference; no branch deletion was performed.
 - Base: `integration/aro-release-candidate-2026-11-19` at `625425987b8381c5a7d16313f5fbb96abcfcff21`.
-- PR #62 is open, draft, and GitHub currently reports it mergeable. No existing PR was changed or merged. No main/shared branch was modified.
+- No existing PR was merged. No main/shared branch was modified.
