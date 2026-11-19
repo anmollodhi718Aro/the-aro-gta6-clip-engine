@@ -57,6 +57,8 @@ def probe_media(path: str | Path, *, ffprobe_binary: str = "ffprobe") -> MediaIn
         height = int(video_stream["height"]) if video_stream.get("height") is not None else None
     except (TypeError, ValueError, OverflowError) as exc:
         raise ValueError("ffprobe returned invalid video dimensions") from exc
+    if ((width is not None and width <= 0) or (height is not None and height <= 0)):
+        raise ValueError("ffprobe returned non-positive video dimensions")
     if not math.isfinite(duration) or duration <= 0:
         raise ValueError("media duration must be finite and positive")
     return MediaInfo(source, duration, format_name, width, height)
