@@ -31,7 +31,7 @@ class VideoClipperTests(unittest.TestCase):
     @patch("backend.app.video_clipper.subprocess.run")
     def test_renders_authorized_clip_to_atomic_destination(self, run) -> None:
         run.side_effect = [
-            subprocess.CompletedProcess([], 0, stdout="120.0\\n", stderr=""),
+            subprocess.CompletedProcess([], 0, stdout="120.0\n", stderr=""),
             subprocess.CompletedProcess([], 0, stdout="", stderr=""),
         ]
         output = self.root / "clip.mp4"
