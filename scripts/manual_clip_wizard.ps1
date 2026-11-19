@@ -53,6 +53,12 @@ if ($LASTEXITCODE -ne 0 -or -not [double]::TryParse($durationText, [System.Globa
 }
 Write-Host ("Actual video duration: {0:N2} seconds" -f $mediaDuration) -ForegroundColor Gray
 
+$formatChoice = Read-Host "Create vertical 9:16 Short/Reel output? (Y/n)"
+$renderOptions = @()
+if ([string]::IsNullOrWhiteSpace($formatChoice) -or $formatChoice -match "^(y|yes)$") {
+    $renderOptions = @("--vertical")
+}
+
 $clips = [System.Collections.Generic.List[object]]::new()
 while ($true) {
     if ($clips.Count -ge 50) { Write-Host "Maximum of 50 clips reached." -ForegroundColor Yellow; break }
@@ -64,13 +70,7 @@ while ($true) {
     if ($start -lt 0 -or $end -le $start) { throw "Clip $number range must satisfy 0 <= start < end." }
     if (($end - $start) -gt 180) { throw "Clip $number is longer than 180 seconds." }
     if ($end -gt $mediaDuration) { throw "Clip $number ends beyond the actual video duration." }
-    $formatChoice = Read-Host "Create vertical 9:16 Short/Reel output? (Y/n)"
-$renderOptions = @()
-if ([string]::IsNullOrWhiteSpace($formatChoice) -or $formatChoice -match "^(y|yes)$") {
-    $renderOptions = @("--vertical")
-}
-
-$note = Read-Host "Moment note (optional)"
+    $note = Read-Host "Moment note (optional)"
     if ([string]::IsNullOrWhiteSpace($note)) { $note = "Manually selected moment; review before sharing." }
     $clips.Add(@{ start_seconds = $start; end_seconds = $end; note = $note })
     if ($clips.Count -ge 50) { break }
@@ -100,7 +100,7 @@ if ($LASTEXITCODE -ne 0) { throw "Clip-plan generation failed." }
 
 Write-Host ""
 Write-Host "[2/3] Running dry-run. No video is rendered..." -ForegroundColor Yellow
-& $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve $approvedRows --output-dir $reportRoot
+& $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve $approvedRows --output-dir $reportRoot @renderOptions
 if ($LASTEXITCODE -ne 0) { throw "Dry-run failed. No render was started." }
 
 Write-Host ""
