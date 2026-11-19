@@ -64,7 +64,13 @@ while ($true) {
     if ($start -lt 0 -or $end -le $start) { throw "Clip $number range must satisfy 0 <= start < end." }
     if (($end - $start) -gt 180) { throw "Clip $number is longer than 180 seconds." }
     if ($end -gt $mediaDuration) { throw "Clip $number ends beyond the actual video duration." }
-    $note = Read-Host "Moment note (optional)"
+    $formatChoice = Read-Host "Create vertical 9:16 Short/Reel output? (Y/n)"
+$renderOptions = @()
+if ([string]::IsNullOrWhiteSpace($formatChoice) -or $formatChoice -match "^(y|yes)$") {
+    $renderOptions = @("--vertical")
+}
+
+$note = Read-Host "Moment note (optional)"
     if ([string]::IsNullOrWhiteSpace($note)) { $note = "Manually selected moment; review before sharing." }
     $clips.Add(@{ start_seconds = $start; end_seconds = $end; note = $note })
     if ($clips.Count -ge 50) { break }
@@ -107,7 +113,7 @@ if ($confirm -cne "RENDER") {
 
 Write-Host ""
 Write-Host ("[3/3] Rendering {0} approved clip(s) locally..." -f $clips.Count) -ForegroundColor Green
-& $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve $approvedRows --output-dir $reportRoot --execute --confirm-rights
+& $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve $approvedRows --output-dir $reportRoot @renderOptions --execute --confirm-rights
 if ($LASTEXITCODE -ne 0) { throw "Rendering failed. Inspect the session report: $sessionDir" }
 Write-Host ""
 Write-Host "Done. Watch each MP4 and review all rights before sharing." -ForegroundColor Green
