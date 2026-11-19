@@ -8,7 +8,7 @@ Use only gameplay footage you recorded or are explicitly authorized to edit and 
 
 ## Fast path: manual local clipping
 
-1. Open your authorized recording in a video player/editor and note start/end offsets in seconds from the beginning of that exact file. Each range must be 180 seconds or shorter.
+1. Open your authorized recording in a video player/editor and note start/end offsets in seconds from the beginning of that exact file. For this short-form workflow, choose moments of 15–35 seconds each.
 2. Copy and edit the sample input:
 
 ```powershell
