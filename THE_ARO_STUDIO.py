@@ -138,7 +138,16 @@ def build_clock_report(data: dict[str, Any]) -> dict[str, Any]:
         "media_at_origin_seconds": sync.media_at_origin,
         "rate": sync.rate,
         "max_residual_seconds": sync.max_residual_seconds,
+        "max_drift_ppm": data.get("max_drift_ppm", 1000.0),
         "drift_ppm": sync.drift_ppm,
+        "anchors": [
+            {
+                "source_id": anchor.source_id,
+                "chat_time": anchor.chat_time.isoformat(),
+                "media_seconds": anchor.media_seconds,
+            }
+            for anchor in anchors
+        ],
         "extrapolation_allowed": False,
         "human_marker_verification_required": True,
     }
