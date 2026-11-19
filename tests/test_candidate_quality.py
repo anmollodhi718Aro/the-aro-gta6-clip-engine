@@ -43,6 +43,17 @@ class CandidateQualityTests(unittest.TestCase):
         result = score_candidate(self.candidate(start_seconds=-1))
         self.assertEqual(result["sync_points"], 0)
 
+
+    def test_yes_renderable_value_is_accepted_from_review_csv(self):
+        result = score_candidate(self.candidate(renderable=" yes "))
+        self.assertEqual(result["sync_points"], 30)
+
+
+    def test_mismatched_duration_does_not_claim_recording_alignment(self):
+        result = score_candidate(self.candidate(duration_seconds=44))
+        self.assertEqual(result["sync_points"], 0)
+        self.assertIn("not verified", result["quality_reasons"][2])
+
     def test_rejects_negative_activity(self):
         with self.assertRaisesRegex(ValueError, "negative"):
             score_candidate(self.candidate(peak_message_count=-1))
