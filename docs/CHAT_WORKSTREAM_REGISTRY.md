@@ -60,3 +60,12 @@
 - One test emitted a ResourceWarning for an unclosed CSV file handle; it did not fail the suite and is a low-priority test-hygiene follow-up.
 
 - Live audit continuation: exact renderer implementation SHA `02527cfdc978e085a61373146bdaa07249eec746` passed Actions run [44632625889](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44632625889), with compile success and 258 tests (1 skipped). Ten later commits are documentation-only; latest branch tip `3dda074fbdfdfbc6a6e587395181186b6efaff92`. Windows and real-media verification remain outstanding.
+
+| ARO-CHAT-0007 | ARO-CHAT-0007 | ARO-ZERO-ONE (continuation) | Re-audit current PR #66 head, verify exact-head CI, preserve the first authorized-media acceptance gate, and refresh canonical handoff | `workstream/aro-zero-one-clipping-first-2026-11-20` / [PR #66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66) | IMPLEMENTED (audit/handoff update); exact-head CI pending at audit; Windows and real-media not verified | Live main SHA `5f3332770b27d8a5211b3e74feade222563a9263`; PR #66 head `167e5d7b03b24de2b571fb69aab32617a7a21cac`; Actions run `44632788616` in progress; earlier 258-test run is predecessor evidence only |
+
+## ARO-CHAT-0007 continuation notes
+- Live compare confirms Option A is 4 commits ahead and 1 behind Option B, with merge base `625425987b8381c5a7d16313f5fbb96abcfcff21`; retain Option A for the clipping-first workstream without merging PR #18.
+- Existing PR #66 already carries the FFprobe-before-atomic-publication implementation and tests. This continuation deliberately reuses its branch and PR rather than creating duplicates.
+- PR #35 is a separate legacy renderer line; PR #60 overlaps post-render FFprobe validation; PR #65 remains stacked on #35 and is not production OAuth/media ingestion. No overlapping PR was merged or retargeted.
+- Run `44632788616` on head `167e5d7b03b24de2b571fb69aab32617a7a21cac` was in progress at audit time. Run `44632625889` passed compile and 258 tests (1 skipped) on predecessor branch head `02527cfdc978e085a61373146bdaa07249eec746`; do not transfer that pass to the newer head.
+- Windows and real authorized-media verification remain NOT VERIFIED. The first real GTA 6 clip remains blocked on an authorized creator recording/export/media handoff.
