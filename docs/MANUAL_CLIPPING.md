@@ -6,13 +6,16 @@ This is the quickest path when you already have a local recording but do not yet
 
 1. Install Python 3.11+ and FFmpeg (including ffprobe), then reopen Command Prompt.
 2. Double-click `START_CLIPPING_TODAY.bat` in the repository folder.
-3. Paste the full path to your own or explicitly authorized local video.
-4. Enter the clip start and end offsets in seconds, measured from the beginning of that exact file. Each clip is limited to 180 seconds.
-5. You can queue up to 50 moments from the same video in one session.
-6. Choose vertical 1080×1920 (9:16) output for Shorts/Reels, or keep the source aspect ratio. Vertical mode preserves the full gameplay frame over a blurred background rather than cropping the action.
-7. Inspect the dry-run output. Type `RENDER` to proceed, then type `I CONFIRM RIGHTS` to authorize local rendering of that exact recording.
+3. Let the launcher finish its preflight: Python source compilation, the full unittest suite, and generated synthetic-footage renders in both landscape and 1080×1920 vertical formats. The real-media wizard opens only if all checks pass. These tests use generated patterns, not GTA footage.
+4. Paste the full path to your own or explicitly authorized local video.
+5. Enter the clip start and end offsets in seconds, measured from the beginning of that exact file. Each clip is limited to 180 seconds.
+6. You can queue up to 50 moments from the same video in one session.
+7. Choose vertical 1080×1920 (9:16) output for Shorts/Reels, or keep the source aspect ratio. Vertical mode preserves the full gameplay frame over a blurred background rather than cropping the action.
+8. Inspect the dry-run output. Type `RENDER` to proceed, then type `I CONFIRM RIGHTS` to authorize local rendering of that exact recording.
 
 The wizard validates the actual video stream and duration with ffprobe, creates a unique session folder under `manual_clip_sessions/`, and keeps the input JSON, CSV, render reports, MP4s and local review dashboard together. Vertical output is optional and uses a 1080×1920 canvas with a blurred fill background. Rendering stays on your computer. Nothing is downloaded, uploaded, or published automatically. Review every MP4 before sharing.
+
+If the synthetic render check fails, the wizard will not open. Install/repair FFmpeg with the `libx264` encoder and `ffprobe` available on PATH, reopen the terminal, and rerun the launcher. The smoke test creates only synthetic test artifacts under `smoke_test_output/`.
 
 ## Manual cross-platform path
 
