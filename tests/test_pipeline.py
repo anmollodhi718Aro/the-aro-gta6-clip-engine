@@ -62,6 +62,9 @@ class PipelineTests(unittest.TestCase):
                 rows = list(csv.DictReader(handle))
             self.assertEqual(len(rows), 1)
             self.assertEqual(rows[0]["start_seconds"], "20.0")
+            saved_summary = json.loads((output / "pipeline_summary.json").read_text(encoding="utf-8"))
+            self.assertEqual(saved_summary["review_csv"], "quality_scored_candidates.csv")
+            self.assertFalse(saved_summary["publishing_enabled"])
 
     def test_never_overwrites_existing_output_directory(self):
         with tempfile.TemporaryDirectory() as folder:
