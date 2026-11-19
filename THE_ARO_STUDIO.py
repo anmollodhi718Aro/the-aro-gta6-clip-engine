@@ -12,6 +12,7 @@ import argparse
 import html
 import json
 import secrets
+import socket
 import sqlite3
 import sys
 from collections import Counter
@@ -68,6 +69,15 @@ def is_trusted_local_request(
 def is_valid_csrf_token(candidate: str, expected: str) -> bool:
     """Compare a form token without leaking timing information."""
     return bool(candidate and expected) and secrets.compare_digest(candidate, expected)
+
+
+def server_class_for_host(host: str):
+    """Select an address family matching the explicitly allowed loopback host."""
+    if ":" in host:
+        class IPv6ThreadingHTTPServer(ThreadingHTTPServer):
+            address_family = socket.AF_INET6
+        return IPv6ThreadingHTTPServer
+    return ThreadingHTTPServer
 
 
 def load_reports(root: Path) -> tuple[list[dict[str, Any]], list[str]]:
@@ -179,35 +189,64 @@ class RightsStore:
         self.db.commit()
 
     def add(self, record: dict[str, Any]) -> None:
-        required = ("source_id", "source_url", "grantor", "evidence_ref", "allowed_uses", "platforms", "valid_from")
-        if any(not record.get(key) for key in required):
-            raise ValueError("Missing required rights metadata fields.")
-        parsed = urlsplit(str(record["source_url"]))
-        if parsed.scheme not in {"http", "https"} or not parsed.netloc:
-            raise ValueError("source_url must be http(s)")
-        uses = sorted(set(record["allowed_uses"]))
+        required = ("source_id", "source_url", "grantor", "evidence_ref",
+                    "allowed_uses", "platforms", "valid_from")
+        missing = [
+            key for key in required
+            if record.get(key) is None
+            or (isinstance(record.get(key), str) and not record[key].strip())
+            or record.get(key) == []
+        ]
+        if missing:
+            raise ValueError("Missing required rights metadata fields: " + ", ".join(missing))
+        if not isinstance(record["allowed_uses"], (list, tuple, set)):
+            raise ValueError("allowed_uses must be a list")
+        if not isinstance(record["platforms"], (list, tuple, set)):
+            raise ValueError("platforms must be a list")
+
+        uses = sorted({str(value).strip().lower() for value in record["allowed_uses"] if str(value).strip()})
         if not uses or not set(uses).issubset({"analyze", "edit", "publish"}):
             raise ValueError("allowed_uses may contain analyze, edit, publish only")
-        platforms = sorted(set(str(x).strip().lower() for x in record["platforms"] if str(x).strip()))
+        platforms = sorted({str(value).strip().lower() for value in record["platforms"] if str(value).strip()})
         if not platforms:
             raise ValueError("At least one platform is required")
-        for key in ("valid_from", "expires_at"):
+
+        source_id = str(record["source_id"]).strip()
+        source_url = str(record["source_url"]).strip()
+        grantor = str(record["grantor"]).strip()
+        evidence_ref = str(record["evidence_ref"]).strip()
+        if not all((source_id, grantor, evidence_ref)):
+            raise ValueError("source_id, grantor, and evidence_ref must be non-empty")
+        parsed = urlsplit(source_url)
+        if parsed.scheme not in {"http", "https"} or not parsed.hostname:
+            raise ValueError("source_url must be http(s)")
+
+        def parse_time(key: str) -> datetime | None:
             value = record.get(key)
-            if value:
-                parsed_time = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
-                if parsed_time.tzinfo is None:
-                    raise ValueError(f"{key} must include a timezone")
+            if not value:
+                return None
+            parsed_time = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+            if parsed_time.tzinfo is None or parsed_time.utcoffset() is None:
+                raise ValueError(f"{key} must include a timezone")
+            return parsed_time
+
+        valid_from = parse_time("valid_from")
+        if valid_from is None:
+            raise ValueError("valid_from is required")
+        expires_at = parse_time("expires_at")
+        if expires_at is not None and expires_at <= valid_from:
+            raise ValueError("expires_at must be later than valid_from")
+
         self.db.execute("""INSERT INTO rights VALUES (?,?,?,?,?,?,?,?,?,?,NULL)
             ON CONFLICT(source_id) DO UPDATE SET source_url=excluded.source_url,
             grantor=excluded.grantor,evidence_ref=excluded.evidence_ref,
             allowed_uses=excluded.allowed_uses,platforms=excluded.platforms,
             attribution=excluded.attribution,disclosure=excluded.disclosure,
             valid_from=excluded.valid_from,expires_at=excluded.expires_at,revoked_at=NULL""",
-            (str(record["source_id"]).strip(), str(record["source_url"]).strip(),
-             str(record["grantor"]).strip(), str(record["evidence_ref"]).strip(),
-             json.dumps(uses), json.dumps(platforms), str(record.get("attribution", "")),
-             str(record.get("disclosure", "")), str(record["valid_from"]),
-             str(record.get("expires_at") or "") or None))
+            (source_id, source_url, grantor, evidence_ref,
+             json.dumps(uses), json.dumps(platforms), str(record.get("attribution", "")).strip(),
+             str(record.get("disclosure", "")).strip(), valid_from.isoformat(),
+             expires_at.isoformat() if expires_at else None))
         self.db.commit()
 
     def count(self) -> int:
@@ -397,7 +436,7 @@ def serve(args: argparse.Namespace) -> int:
             store.close()
             self.send_html(page(rows, errors, count, notice, csrf_token))
 
-    server = ThreadingHTTPServer((args.host, args.port), Handler)
+    server = server_class_for_host(args.host)((args.host, args.port), Handler)
     print(f"{APP_NAME} running at http://{args.host}:{server.server_port}")
     print(f"Reports: {reports_dir}")
     print(f"Local data: {data_dir}")
