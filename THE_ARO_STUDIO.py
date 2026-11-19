@@ -159,8 +159,9 @@ def build_creator_report(data: dict[str, Any]) -> dict[str, Any]:
         if type(peak) is not int or peak < 0:
             raise ValueError(f"metrics[{index - 1}].peak_concurrent_viewers must be a non-negative integer")
         average = item.get("average_concurrent_viewers", 0.0)
-        if isinstance(average, bool) or not isinstance(average, (int, float)):
-            raise ValueError(f"metrics[{index - 1}].average_concurrent_viewers must be numeric")
+        if (isinstance(average, bool) or not isinstance(average, (int, float))
+                or not math.isfinite(average) or average < 0):
+            raise ValueError(f"metrics[{index - 1}].average_concurrent_viewers must be a finite non-negative number")
         metrics.append(SevenDayMetrics(
             creator_id=str(item.get("creator_id", "")),
             window_start=datetime.fromisoformat(str(item.get("window_start", "")).replace("Z", "+00:00")),
