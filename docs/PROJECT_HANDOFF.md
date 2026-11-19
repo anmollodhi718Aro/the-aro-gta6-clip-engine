@@ -68,18 +68,18 @@ Creator-authorized GTA 6 source discovery and event analysis, candidate generati
 | Manual clip input | IMPLEMENTED in selected baseline | `manual_clip.py` and documented workflow inspected |
 | Batch FFmpeg renderer | IMPLEMENTED in selected baseline | `batch_render.py` and `clipping.py` inspected |
 | Source media duration preflight | IMPLEMENTED in selected baseline | `media_probe.py` imported by batch renderer |
-| Post-render FFprobe acceptance | IMPLEMENTED; exact-head CI PENDING | `render_validation.py` verifies video stream, duration and dimensions before atomic publication; tests added; exact current head still needs CI |
+| Post-render FFprobe acceptance | IMPLEMENTED; CI_VERIFIED | `render_validation.py` verifies video stream, duration and dimensions before atomic publication; exact renderer branch head `6c5d0fd2228da963fc61c39403645e347a4cd3af` passed run `44632671652` |
 | Creator permission foundation | IMPLEMENTED on PR #65 | Synthetic adapter contract; production provider auth absent |
 | Owner approval foundation | IMPLEMENTED on PR #65 | Immutable approval object and publish permission gate; no persistent UI/store |
-| Python tests | PREVIOUS BASELINE TESTED; NEW RENDER-VALIDATION TESTS PENDING | Earlier baseline run `44631510153` passed compile and unit-test steps on `7f936a255170eb6aeeeea14d6794fda705d6ce16`; this is not the current post-render-validation head |
-| CI | PENDING ON CURRENT HEAD | Latest confirmed green run `44631510153` is for predecessor SHA `7f936a255170eb6aeeeea14d6794fda705d6ce16`; current PR head has no associated workflow run yet |
+| Python tests | TESTED | Run `44632671652` executed 258 tests; all passed; 1 skipped. Includes post-render FFprobe validation and propagation tests |
+| CI | CI_VERIFIED | Run `44632671652` passed compile and unit-test steps on exact renderer branch head `6c5d0fd2228da963fc61c39403645e347a4cd3af`; later commits in PR #66 are documentation/PR metadata only |
 | Windows | NOT VERIFIED | No Windows runtime execution in this session |
 | Real media | NOT VERIFIED | No authorized GTA 6 recording supplied |
 | Production ready | NO | Production OAuth/media handoff, persistent review state, Windows verification, authorized real-media acceptance, and production hosting remain |
 
 ## CI diagnosis
 
-Earlier runs did fail before exposing runner steps. This workstream obtained a fully provisioned runner and actionable logs. The first full run exposed seven failures/errors; fixes were applied to the creator-watchlist test helper, research validation messages, YouTube upload rights-check ordering/messages, and Studio checklist wording. A later PR #66 run `44632625889` checked out merge ref `1813d291c21a870d557f51fdf40d0acb6a78649d` (branch head `02527cfdc978e085a61373146bdaa07249eec746`), passed source compilation, and completed `Ran 258 tests`; `OK (skipped=1)`. The logs specifically show the custom-FFprobe propagation test passing. The skipped test remains skipped, not counted as executed.
+Earlier runs did fail before exposing runner steps. This workstream obtained a fully provisioned runner and actionable logs. The first full run exposed seven failures/errors; fixes were applied to the creator-watchlist test helper, research validation messages, YouTube upload rights-check ordering/messages, and Studio checklist wording. PR #66 run `44632671652` checked out exact branch head `6c5d0fd2228da963fc61c39403645e347a4cd3af`, passed source compilation, and completed `Ran 258 tests`; `OK (skipped=1)`. The logs specifically show the custom-FFprobe propagation test passing. A separate run `44632625889` also passed on the PR merge ref built from branch head `02527cfdc978e085a61373146bdaa07249eec746`. The skipped test remains skipped, not counted as executed.
 
 ## Next priorities
 
@@ -98,7 +98,7 @@ Earlier runs did fail before exposing runner steps. This workstream obtained a f
 - Workstream: ARO-ZERO-ONE
 - Branch: `workstream/aro-zero-one-clipping-first-2026-11-20`
 - Starting SHA: `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`
-- Latest audited branch SHA before this documentation refresh: `f2d6f34820896257aa4992e159fa7172257834b5`; includes post-render FFprobe validation integration and regression tests. Exact-head CI run is pending.
+- Latest audited branch SHA at the start of this refresh: `2f1d236458e0652b0096a356a865d3dcb182745d`; includes post-render FFprobe validation and subsequent documentation-only commits. Renderer implementation/tested SHA: `6c5d0fd2228da963fc61c39403645e347a4cd3af`.
 - PR: [#66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66)
 - Changes: canonical handoff, registry/startup/audit carry-forward, and post-render FFprobe validation integration with regression tests.
 - Tests: prior baseline had 249 unit tests executed, all passed, 1 skipped. New post-render validation tests have not yet been confirmed by exact-head CI.
@@ -111,9 +111,9 @@ Earlier runs did fail before exposing runner steps. This workstream obtained a f
 - Workstream: continuation of existing `ARO-ZERO-ONE`; no duplicate branch or PR created.
 - Branch: `workstream/aro-zero-one-clipping-first-2026-11-20`.
 - PR: [#66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66), targeting `integration/release-candidate` at starting SHA `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`.
-- Latest branch SHA at audit: `f2d6f34820896257aa4992e159fa7172257834b5`; 25 commits are listed on the PR and 14 files differ from its base.
+- Latest branch SHA at audit: `2f1d236458e0652b0096a356a865d3dcb182745d`; renderer-tested commit: `6c5d0fd2228da963fc61c39403645e347a4cd3af`.
 - Existing post-render implementation is present: `backend/app/render_validation.py`, integration in `backend/app/clipping.py`, selected FFprobe forwarding in `backend/app/batch_render.py`, and tests in `tests/test_render_validation.py`, `tests/test_clipping.py`, and `tests/test_batch_render.py`.
-- Previous green workflow run `44631510153` is tied to predecessor SHA `7f936a255170eb6aeeeea14d6794fda705d6ce16`; its compile and unit-test steps passed. No workflow run or check-runs were returned for current head `f2d6f34820896257aa4992e159fa7172257834b5`. Current-head CI: PENDING.
+- Exact renderer-head workflow run `44632671652` passed compile and unit-test steps on `6c5d0fd2228da963fc61c39403645e347a4cd3af`; 258 tests passed, 1 skipped. Subsequent PR commits were documentation-only.
 - Windows execution: NOT VERIFIED. Real authorized GTA 6 media: NOT VERIFIED. Production readiness: NOT CLAIMED.
 - Single critical acceptance blocker: an expressly authorized creator recording/export/media handoff is still required. YouTube chat/live metadata is not video media; no scraping or stream ripping will be used.
 - PR #60 remains open on a separate base but overlaps the post-render validation now included in PR #66. Do not merge both implementations independently; reconcile after exact-head CI and owner review.
