@@ -32,7 +32,9 @@ class RenderedMediaValidationTests(unittest.TestCase):
         self.assertEqual((info.width, info.height), (1920, 1080))
         self.assertTrue(info.has_audio)
         self.assertEqual(run.call_args.args[0][-1], str(self.output.resolve()))
-        self.assertIn("format=format_name,duration", run.call_args.args[0])
+        command = run.call_args.args[0]
+        self.assertEqual(command[3], "-show_entries")
+        self.assertEqual(command[4], "format=format_name,duration:stream=codec_type,width,height")
 
     def test_rejects_non_mp4_container_even_when_filename_ends_in_mp4(self):
         with patch("backend.app.render_validation.subprocess.run") as run:
