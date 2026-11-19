@@ -1,6 +1,6 @@
 # First Clip Today — Windows Quick Start
 
-**Fastest route: double-click `START_MANUAL_CLIPPING.bat` in the repository folder.** The Windows wizard asks for your local recording and clip timestamps, validates the file and time range, accepts up to 50 moments of 15–35 seconds each, runs a dry-run, and renders only after you type `RENDER`. No YouTube API key, OAuth, chat export, or cloud service is needed.
+**Fastest route: double-click `START_MANUAL_CLIPPING.bat` in the repository folder.** The Windows wizard asks for your local recording and clip timestamps, validates the file and time range, accepts up to 50 moments of 15–35 seconds each, creates vertical 1080×1920 (9:16) MP4s with the full gameplay frame preserved over a blurred background, runs a dry-run, and renders only after you type `RENDER`. No YouTube API key, OAuth, chat export, or cloud service is needed.
 
 If you prefer the command-line route, follow the manual steps below. The wizard and CLI both use local files only.
 
@@ -36,7 +36,7 @@ Dry-run is the default. Inspect the report and verify the exact time range and m
 python -m backend.app.batch_render manual_clips.csv --media "D:\Videos\your-recording.mp4" --approve 1 --output-dir rendered_clips --execute --confirm-rights
 ```
 
-The renderer requires FFmpeg/ffprobe, checks the actual video stream and duration, writes to a unique run folder, and refuses to overwrite. Review the resulting MP4 before any separate upload decision.
+The renderer requires FFmpeg/ffprobe, checks the actual video stream and duration, writes to a unique run folder, preserves the complete source frame in a 9:16 layout using a blurred fill background, and refuses to overwrite. Review the resulting MP4 before any separate upload decision.
 
 For more detail, see [Manual Clipping](MANUAL_CLIPPING.md).
 
