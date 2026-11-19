@@ -57,6 +57,31 @@ class CreatorWatchlistDashboardTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "non-negative"):
                 load_ranking_report(path)
 
+    def test_rejects_boolean_or_fractional_counts(self):
+        for invalid in (True, 1.5, float("nan"), float("inf")):
+            with self.subTest(invalid=invalid):
+                with tempfile.TemporaryDirectory() as folder:
+                    path = Path(folder) / "report.json"
+                    path.write_text(json.dumps({"rankings": [{
+                        "rank": 1, "creator": "Creator",
+                        "views_7d": invalid, "live_streams_7d": 0
+                    }]}), encoding="utf-8")
+                    with self.assertRaisesRegex(ValueError, "non-negative integer"):
+                        load_ranking_report(path)
+
+    def test_rejects_invalid_rank_and_period(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "report.json"
+            path.write_text(json.dumps({"period_days": 7, "rankings": [{
+                "rank": True, "creator": "Creator", "views_7d": 1,
+                "live_streams_7d": 0
+            }]}), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "positive integer"):
+                load_ranking_report(path)
+            path.write_text(json.dumps({"period_days": 7.5, "rankings": []}), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "period_days"):
+                load_ranking_report(path)
+
     def test_cli_writes_dashboard(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
