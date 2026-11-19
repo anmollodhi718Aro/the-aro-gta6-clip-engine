@@ -53,6 +53,10 @@ if (-not (Get-Command ffprobe -ErrorAction SilentlyContinue)) { throw "ffprobe i
 
 $mediaInput = Read-Host "Full path to your authorized local video"
 if ([string]::IsNullOrWhiteSpace($mediaInput)) { throw "No video path supplied." }
+# Explorer drag-and-drop and copied file paths are often wrapped in quotes.
+# Accept either quoted or unquoted paths before checking the actual file.
+$mediaInput = $mediaInput.Trim().Trim([char[]](34, 39)).Trim()
+if ([string]::IsNullOrWhiteSpace($mediaInput)) { throw "No video path supplied." }
 if (-not (Test-Path -LiteralPath $mediaInput -PathType Leaf)) { throw "The selected local video file does not exist." }
 $mediaPath = (Resolve-Path -LiteralPath $mediaInput).Path
 
