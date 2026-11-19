@@ -34,12 +34,6 @@ jobs:
           sudo apt-get install --no-install-recommends -y ffmpeg
           ffmpeg -version
           ffprobe -version
-      - name: Install FFmpeg and FFprobe
-        run: |
-          sudo apt-get update
-          sudo apt-get install --yes ffmpeg
-          ffmpeg -version
-          ffprobe -version
       - name: Compile source
         run: python -m compileall -q backend tests THE_ARO_STUDIO.py
       - name: Run unit tests
