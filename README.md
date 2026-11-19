@@ -92,7 +92,7 @@ python -m backend.app.batch_render clip_pack/clip_candidates.csv \
   --execute --confirm-rights
 ```
 
-The operator must own or be authorized to process the exact local media. Only explicitly selected rows are considered. Non-renderable rows are blocked. Before actual rendering, `ffprobe` checks the local file duration; candidates extending beyond the real file are rejected.
+The operator must own or be authorized to process the exact local media. Only explicitly selected rows are considered. Non-renderable rows are blocked. Before actual rendering, `ffprobe` verifies a video stream and checks the real file duration; audio-only files and candidates extending beyond the file are rejected.
 
 To retry only failed rows, use the prior run's report:
 
