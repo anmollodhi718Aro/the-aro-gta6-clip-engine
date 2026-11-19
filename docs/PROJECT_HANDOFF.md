@@ -4,7 +4,7 @@
 **Current workstream:** ARO-ZERO-ONE  
 **Primary workstream chat:** ARO-CHAT-0005 | Clipping-First Integration and First MP4  
 **Continuation audit:** ARO-CHAT-0006 | First Verified Clip Hardening  
-**Last updated:** 2026-11-20
+**Last updated:** 2026-11-20 (live GitHub refresh)
 
 ## Product objective
 
@@ -15,7 +15,8 @@ Creator-authorized GTA 6 source discovery and event analysis, candidate generati
 - Selected product baseline: Option A, `integration/release-candidate`.
 - Starting SHA: `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`.
 - Rationale: the live compare against Option B's audit base (`3e05b2961ab01753c48cdcd21fe6c6f52ffdee49`) shows Option A 4 commits ahead and 1 behind, with a shared merge base. Option A contains the full integrated clipping, creator/chat, local Studio and Windows workflow. Option B's unique registry/startup/audit docs are being carried into this workstream.
-- New isolated branch: `workstream/aro-zero-one-clipping-first-2026-11-20`.
+- Isolated workstream branch: `workstream/aro-zero-one-clipping-first-2026-11-20`.
+- Latest observed PR #66 head: `7f936a255170eb6aeeeea14d6794fda705d6ce16`.
 - Default branch `main` remains `5f3332770b27d8a5211b3e74feade222563a9263`; no change to main.
 - This is a selected working baseline, not approval to merge PR #18.
 
@@ -25,11 +26,11 @@ Creator-authorized GTA 6 source discovery and event analysis, candidate generati
 |---|---|
 | PR #18 | Open, non-draft; 324 commits, 110 changed files; branch `integration/release-candidate`; do not merge without owner review |
 | PR #66 | Open; ARO-ZERO-ONE; 25 commits, 14 changed files; base `integration/release-candidate`; current head recorded below |
-| PR #35 | Open draft; local renderer atomic-output hardening; head `1af47f48e6cdb0b406da6fcfc66283c5ed62c3a5` |
+| PR #35 | Open draft; separate `video_clipper.py` renderer track. Its branch is substantially behind/diverged from Option A and overlaps the existing `clipping.py` path; do not merge as-is. |
 | PR #63 | Merged; chat/workstream registry and startup prompt |
 | PR #64 | Open; consolidation audit on Option B |
-| PR #65 | Open; creator live-source contract and immutable owner approval gate; stacked on PR #35 |
-| PR #60 | Open draft; post-render FFprobe validation work; separate integration base |
+| PR #65 | Open; creator live-source contract and immutable owner approval gate, stacked on PR #35. Its foundation files are not present on the ARO-ZERO-ONE branch; adapt selectively after review. |
+| PR #60 | Open draft; its post-render FFprobe validation capability has been integrated into this workstream's `render_validation.py`, `clipping.py`, and tests. Do not merge overlapping changes independently. |
 | PR #50 | Open draft; Windows launcher/synthetic smoke and batch-render overlap; currently not mergeable |
 | PR #21 | Open draft; local media-duration preflight; currently not mergeable |
 
@@ -72,7 +73,7 @@ Creator-authorized GTA 6 source discovery and event analysis, candidate generati
 | CI | PENDING ON CURRENT HEAD | Latest confirmed green run `44631510153` is for predecessor SHA `7f936a255170eb6aeeeea14d6794fda705d6ce16`; current PR head has no associated workflow run yet |
 | Windows | NOT VERIFIED | No Windows runtime execution in this session |
 | Real media | NOT VERIFIED | No authorized GTA 6 recording supplied |
-| Production ready | NO | OAuth, durable ingest, post-render verification integration, review persistence, and real-media acceptance remain |
+| Production ready | NO | Production OAuth/media handoff, persistent review state, Windows verification, authorized real-media acceptance, and production hosting remain |
 
 ## CI diagnosis
 
