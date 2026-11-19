@@ -54,3 +54,17 @@ After inspecting the dry-run report, repeat the final command with `--execute --
 - This path does not require chat data, API keys, OAuth, or internet access.
 - For clips selected by chat spikes, use the separate measured-clock pipeline instead.
 - Only process footage you own or are explicitly authorized to edit and distribute.
+
+
+## One-click Windows manual clip wizard
+
+If you are on Windows, install Python 3.11+ and FFmpeg (including ffprobe), then double-click `START_MANUAL_CLIPPING.bat` from the repository folder. The wizard asks for the path to your local recording and the start/end offsets in seconds.
+
+The wizard:
+- checks Python, FFmpeg, ffprobe, and the selected file;
+- rejects invalid ranges, clips longer than 180 seconds, and end times beyond the actual video duration;
+- creates a session folder under `manual_clip_sessions/`;
+- prepares the CSV and runs a dry-run first;
+- renders only after you type `RENDER` to confirm permission for that exact recording.
+
+The MP4 stays on your computer. The wizard does not download footage, upload clips, or publish anything. Watch the rendered file and check the applicable game, music, creator, and platform rights before sharing it.
