@@ -27,6 +27,16 @@ python -m backend.app.content_studio research.json --output output/gta6_short.md
 
 Each factual beat must include a source URL and original THE ARO commentary. The generated package contains a voiceover draft, research checklist, visual plan, description, and pre-upload review gate. The tool does not fetch or download third-party footage, verify claims, upload, or publish. See [Original Commentary Content Studio](docs/CONTENT_STUDIO.md).
 
+## Subtitle Studio
+
+Format an operator-supplied timed transcript as SRT and run timing, overlap, line-length, and reading-speed checks:
+
+```bash
+python -m backend.app.subtitle_studio transcript.json --output output/captions.srt --report output/caption_quality.json
+```
+
+This does not transcribe audio or access video. Human review against the authorized source remains required. See [Subtitle Studio](docs/SUBTITLE_STUDIO.md).
+
 ## Source rights registry
 
 Use the SQLite-backed registry to record the exact source, permission evidence reference, allowed uses, platforms, attribution, disclosure, and validity dates. Unknown, expired, revoked, or out-of-scope use is blocked. See [Source Rights Registry](docs/SOURCE_RIGHTS_REGISTRY.md).
