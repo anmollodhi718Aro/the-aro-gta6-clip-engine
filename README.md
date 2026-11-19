@@ -70,3 +70,16 @@ Only use footage and data that you own or have permission to process. The clippe
 ## Status and handoff
 
 See [Project Status](docs/PROJECT_STATUS.md) for implemented and outstanding work, and [Owner Actions](docs/OWNER_ACTIONS.md) for tasks that require account-owner authorization or external setup.
+
+
+## Measured clip candidate pack
+
+After analyzing an authorized chat source, you can map candidate timestamps to an exact local recording **only when you have measured the UTC timestamp for media offset zero**:
+
+```bash
+python -m backend.app.clip_pack youtube_clip_plan.json \
+  --media-origin-utc "2026-11-19T12:00:00+00:00" \
+  --output-dir clip_pack
+```
+
+This creates a sortable CSV and a Markdown review sheet. It does not download, render, upload, or publish video. See [Measured Clip Candidate Pack](docs/CLIP_CANDIDATE_PACK.md).
