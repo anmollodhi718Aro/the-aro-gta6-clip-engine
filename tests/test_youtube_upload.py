@@ -19,7 +19,14 @@ class YouTubeUploadTests(unittest.TestCase):
             "platform": "youtube",
             "assets": [{"asset_id": "aro-graphic", "status": "declared_original_requires_human_confirmation"}],
             "errors": [],
-            "review": {"approved_for_upload": False, "monetization_guaranteed": False},
+            "review": {
+                "approved_for_upload": False,
+                "monetization_guaranteed": False,
+                "permission_evidence_human_verification_required": True,
+                "all_embedded_music_and_third_party_rights_review_required": True,
+                "original_asset_declarations_human_confirmation_required": True,
+                "human_edit_and_platform_policy_review_required": True,
+            },
         }), encoding="utf-8")
 
     def tearDown(self):
@@ -63,6 +70,25 @@ class YouTubeUploadTests(unittest.TestCase):
             load_rights_report(blocked)
         with self.assertRaises(FileNotFoundError):
             load_rights_report(self.root / "missing.json")
+
+    def test_rights_report_must_target_youtube_and_have_assets(self):
+        report = json.loads(self.report.read_text(encoding="utf-8"))
+        report["platform"] = "tiktok"
+        self.report.write_text(json.dumps(report), encoding="utf-8")
+        with self.assertRaisesRegex(PermissionError, "target the youtube"):
+            load_rights_report(self.report)
+        report["platform"] = "youtube"
+        report["assets"] = []
+        self.report.write_text(json.dumps(report), encoding="utf-8")
+        with self.assertRaisesRegex(PermissionError, "at least one declared"):
+            load_rights_report(self.report)
+
+    def test_rights_report_requires_all_human_review_gates(self):
+        report = json.loads(self.report.read_text(encoding="utf-8"))
+        report["review"]["all_embedded_music_and_third_party_rights_review_required"] = False
+        self.report.write_text(json.dumps(report), encoding="utf-8")
+        with self.assertRaisesRegex(PermissionError, "mandatory human-review gates"):
+            load_rights_report(self.report)
 
     def test_rejects_remote_or_missing_video_paths(self):
         with self.assertRaises(FileNotFoundError):
