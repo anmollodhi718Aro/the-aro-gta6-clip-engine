@@ -24,14 +24,13 @@ def render_clip(
     *,
     rights_confirmed: bool,
     ffmpeg_binary: str = "ffmpeg",
+    vertical: bool = False,
 ) -> Path:
     """Render a bounded MP4 from a local file without overwriting prior output.
 
-    The caller must confirm that the input media is owned or authorized for
-    processing. This flag is an application guardrail, not legal verification.
-    FFmpeg writes to a unique temporary file on the destination filesystem.
-    The verified file is published with an atomic hard link, which fails if
-    another render creates the destination first.
+    Vertical mode creates a 1080x1920 canvas with a blurred, cover-scaled
+    background and the complete source frame fitted in front. This preserves
+    gameplay HUD/action instead of cropping the source frame.
     """
     if not rights_confirmed:
         raise PermissionError("media processing requires explicit rights confirmation")
@@ -61,8 +60,6 @@ def render_clip(
     )
     os.close(descriptor)
     temporary_output = Path(temporary_name)
-    # FFmpeg refuses to write to an existing path with -n, so reserve a unique
-    # name with mkstemp and remove only that placeholder before invoking FFmpeg.
     temporary_output.unlink()
 
     command = [
@@ -74,15 +71,32 @@ def render_clip(
         "-ss", f"{start_seconds:.3f}",
         "-i", str(source),
         "-t", f"{duration:.3f}",
-        "-map", "0:v:0",
+    ]
+
+    if vertical:
+        filter_graph = (
+            "[0:v]split=2[bg][fg];"
+            "[bg]scale=1080:1920:force_original_aspect_ratio=increase,"
+            "crop=1080:1920,boxblur=20:10[bg];"
+            "[fg]scale=1080:1920:force_original_aspect_ratio=decrease[fg];"
+            "[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1[v]"
+        )
+        command.extend(["-filter_complex", filter_graph])
+
+    command.extend([
+        "-map", "[v]" if vertical else "0:v:0",
         "-map", "0:a?",
         "-c:v", "libx264",
         "-preset", "veryfast",
         "-crf", "23",
+    ])
+    if vertical:
+        command.extend(["-pix_fmt", "yuv420p"])
+    command.extend([
         "-c:a", "aac",
         "-movflags", "+faststart",
         str(temporary_output),
-    ]
+    ])
 
     try:
         try:
@@ -112,4 +126,3 @@ def render_clip(
         temporary_output.unlink(missing_ok=True)
 
     return destination
-
