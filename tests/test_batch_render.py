@@ -75,6 +75,18 @@ class BatchRenderTests(unittest.TestCase):
         self.assertEqual(result[0]["output_format"], "1080x1920 (9:16)")
         self.assertTrue(render.call_args.kwargs["vertical"])
 
+
+    def test_custom_ffprobe_binary_is_forwarded_to_renderer(self) -> None:
+        custom_ffprobe = "/opt/Media Tools/ffprobe"
+        with patch("backend.app.batch_render.render_clip") as render:
+            result = run_batch(
+                self.csv_path, self.media, self.root / "ffprobe-out", {1},
+                execute=True, rights_confirmed=True, media_duration_seconds=100.0,
+                ffprobe_binary=custom_ffprobe,
+            )
+        self.assertEqual(result[0]["status"], "rendered")
+        self.assertEqual(render.call_args.kwargs["ffprobe_binary"], custom_ffprobe)
+
     def test_each_execution_uses_a_new_run_folder(self) -> None:
         with patch("backend.app.batch_render.render_clip"):
             first = run_batch(self.csv_path, self.media, self.root / "out", {1},
