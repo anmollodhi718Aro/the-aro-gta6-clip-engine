@@ -185,3 +185,15 @@
 - This is selective integration of PR #65's foundation into PR #66; PR #65 remains open and unmerged. The foundation supplies permission-gated adapter contracts and immutable approval/publish-scope checks, not production OAuth, video-byte ingestion, durable review storage/UI, or an uploader.
 - Observed branch/PR #66 head at correction: `30eb31c3a8d8bf98f4108c8acc4ad00c72e75311`; PR open/unmerged and reported non-mergeable. Main remains unchanged.
 - No completed exact-head CI evidence was available. Run `44633213798` was pending on a different observed head with no job assigned; earlier green run `44632671652` applies only to renderer revision `6c5d0fd2228da963fc61c39403645e347a4cd3af` (258 tests, 257 passed, 1 skipped). Windows and authorized GTA 6 real-media verification remain NOT VERIFIED.
+
+
+| ARO-CHAT-0012 | ARO-CHAT-0012 \| Creator Permission and Owner Approval Foundation Integration | ARO-ZERO-ONE (continuation) | Integrate and harden creator-source permission and immutable owner approval foundation; add synthetic regression tests and reconcile exact-head CI | `workstream/aro-zero-one-clipping-first-2026-11-20` / [PR #66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66) | IMPLEMENTED (source/docs); 10 new unit cases added; TESTED pending; CI_VERIFIED pending exact-head run; WINDOWS_NOT_VERIFIED; GTA6_REAL_MEDIA_NOT_VERIFIED | Starting head `a54ad9af97b4e107154a900cb09af8588a35ef02`; source integration commit `30eb31c3a8d8bf98f4108c8acc4ad00c72e75311`; main unchanged at `5f3332770b27d8a5211b3e74feade222563a9263` |
+
+### ARO-CHAT-0012 evidence notes
+- Reused the existing ARO-ZERO-ONE branch and PR #66; no duplicate branch, PR or workstream.
+- Added provider-neutral live-source permission checks and immutable per-clip approval gate adapted from PR #65. Creator/source ID is checked before provider access and provider identity is checked after lookup.
+- Added ten synthetic tests. These are not evidence of a real creator OAuth session, durable approval record, media ingest, or upload.
+- Exact-head Actions run for the latest commit must complete and have its compile/unit-test logs inspected before TESTED or CI_VERIFIED is claimed.
+- Synthetic FFmpeg/FFprobe smoke coverage is present in the existing branch, but does not verify GTA 6 footage. Windows-native and authorized GTA 6 real-media playback remain NOT VERIFIED.
+- PR #65 remains separate; no merge or retarget. Production OAuth, token vault, media handoff adapter, persistent review store/UI and publisher remain unimplemented.
+- No deployment, upload, public publishing, or changes to main.
