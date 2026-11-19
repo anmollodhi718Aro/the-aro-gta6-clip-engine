@@ -151,6 +151,21 @@ if (-not (Test-Path -LiteralPath $renderReport -PathType Leaf)) {
     throw "Render completed but its batch report is missing: $renderReport"
 }
 
+# A zero exit code can still include blocked rows. Verify every selected row
+# reached rendered status and that each reported MP4 exists before declaring success.
+$renderRows = @(Get-Content -LiteralPath $renderReport -Raw | ConvertFrom-Json)
+$renderedRows = @($renderRows | Where-Object { $_.status -eq "rendered" })
+if ($renderedRows.Count -ne $clips.Count) {
+    $statusSummary = ($renderRows | Group-Object status | ForEach-Object { "$($_.Name)=$($_.Count)" }) -join ", "
+    throw "Expected $($clips.Count) rendered clip(s), but verified $($renderedRows.Count). Statuses: $statusSummary. Inspect $renderReport"
+}
+foreach ($row in $renderedRows) {
+    if ([string]::IsNullOrWhiteSpace([string]$row.output_path) -or
+        -not (Test-Path -LiteralPath ([string]$row.output_path) -PathType Leaf)) {
+        throw "A clip is marked rendered but its MP4 file is missing: $($row.output_path)"
+    }
+}
+
 & $pythonExe @pythonPrefix -m backend.app.review_dashboard $renderReport --output $reviewHtml --title "THE ARO Clip Review"
 if ($LASTEXITCODE -ne 0) { throw "Clips rendered, but review dashboard generation failed. Report: $renderReport" }
 
