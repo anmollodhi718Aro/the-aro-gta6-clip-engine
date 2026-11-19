@@ -421,8 +421,8 @@ def serve(args: argparse.Namespace) -> int:
                     out_dir = data_dir / "clock_calibrations"
                     out_dir.mkdir(parents=True, exist_ok=True)
                     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-                    report_path = out_dir / f"clock_sync_{stamp}_{secrets.token_hex(3)}.json"
-                    write_json_atomic(report_path, report)
+                    report_path = out_dir / f"clock_sync_{stamp}_{secrets.token_hex(8)}.json"
+                    write_json_no_overwrite(report_path, report)
                     notice = f"Clock calibrated for {report['source_id']} using {report['anchor_count']} markers. Report: {report_path.name}. No extrapolation allowed."
                 elif self.path == "/creator-watchlist":
                     raw = fields.get("payload", [""])[0]
