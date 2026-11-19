@@ -145,7 +145,7 @@ def write_clip_pack(rows: list[dict[str, Any]], output_dir: str | Path) -> tuple
     ])
     _write_texts_no_overwrite({
         csv_path: csv_buffer.getvalue(),
-        markdown_path: "\\n".join(lines),
+        markdown_path: "\n".join(lines),
     })
     return csv_path, markdown_path
 
