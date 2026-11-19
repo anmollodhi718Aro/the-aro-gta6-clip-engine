@@ -198,7 +198,18 @@ def run_batch(
                     rights_confirmed=rights_confirmed,
                     vertical=vertical,
                 )
-                item.update(status="rendered", message="local clip rendered; manual review still required")
+                # A successful FFmpeg process is not sufficient evidence that
+                # the resulting MP4 is readable or has the requested duration.
+                output_info = probe_media(output_path, ffprobe_binary=ffprobe_binary)
+                actual_duration = output_info.duration_seconds
+                expected_duration = end - start
+                if abs(actual_duration - expected_duration) > 0.5:
+                    raise RuntimeError(
+                        f"rendered output duration ({actual_duration:.3f}s) "
+                        f"does not match selected range ({expected_duration:.3f}s)"
+                    )
+                item["output_duration_seconds"] = actual_duration
+                item.update(status="rendered", message="local clip rendered and ffprobe-verified; manual review still required")
         except (OSError, ValueError, PermissionError, RuntimeError) as exc:
             item.update(status="failed", message=str(exc))
         report.append(item)
