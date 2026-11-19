@@ -158,6 +158,35 @@ def build_content_pack(data: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def write_content_pack(pack: dict[str, Any], out_dir: Path, stamp: str | None = None) -> tuple[Path, Path]:
+    """Create a Markdown/JSON draft pair without overwriting prior work."""
+    out_dir.mkdir(parents=True, exist_ok=True)
+    stamp = stamp or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    stem = "".join(c if c.isalnum() or c in "-_" else "_" for c in pack["working_title"]).strip("_")[:48] or "aro_draft"
+    suffix = secrets.token_hex(8)
+    md_path = out_dir / f"{stem}_{stamp}_{suffix}.md"
+    json_path = out_dir / f"{stem}_{stamp}_{suffix}.json"
+    created: list[Path] = []
+    try:
+        # Exclusive creation is the final no-overwrite guard, even if names collide.
+        with md_path.open("x", encoding="utf-8", newline="") as handle:
+            created.append(md_path)
+            handle.write(pack_markdown(pack))
+            handle.flush()
+        with json_path.open("x", encoding="utf-8", newline="") as handle:
+            created.append(json_path)
+            handle.write(json.dumps(pack, ensure_ascii=False, indent=2))
+            handle.flush()
+    except OSError:
+        for path in created:
+            try:
+                path.unlink()
+            except FileNotFoundError:
+                pass
+        raise
+    return md_path, json_path
+
+
 def pack_markdown(pack: dict[str, Any]) -> str:
     lines = [f"# {pack['working_title']}", "", f"**Topic:** {pack['topic']}",
              f"**Original angle:** {pack['original_angle']}", f"**Audience:** {pack['audience']}",
@@ -364,12 +393,7 @@ def serve(args: argparse.Namespace) -> int:
                     pack = build_content_pack(data)
                     out_dir = data_dir / "content_packs"
                     out_dir.mkdir(parents=True, exist_ok=True)
-                    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-                    stem = "".join(c if c.isalnum() or c in "-_" else "_" for c in pack["working_title"]).strip("_")[:48] or "aro_draft"
-                    md_path = out_dir / f"{stem}_{stamp}.md"
-                    json_path = out_dir / f"{stem}_{stamp}.json"
-                    md_path.write_text(pack_markdown(pack), encoding="utf-8")
-                    json_path.write_text(json.dumps(pack, ensure_ascii=False, indent=2), encoding="utf-8")
+                    md_path, json_path = write_content_pack(pack, out_dir)
                     notice = f"Draft created locally: {md_path.name} and {json_path.name}. Upload approval remains false."
                 elif self.path == "/rights":
                     def val(key: str) -> str:
