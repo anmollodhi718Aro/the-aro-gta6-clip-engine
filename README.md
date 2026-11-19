@@ -31,6 +31,24 @@ Each factual beat must include a source URL and original THE ARO commentary. The
 
 Use the SQLite-backed registry to record the exact source, permission evidence reference, allowed uses, platforms, attribution, disclosure, and validity dates. Unknown, expired, revoked, or out-of-scope use is blocked. See [Source Rights Registry](docs/SOURCE_RIGHTS_REGISTRY.md).
 
+The local dashboard and the rights-aware preflight use the same `source_rights` SQLite registry. By default, the dashboard stores it at `aro_studio_data/source_rights.sqlite3`. Use that exact file when checking a dashboard-created permission record:
+
+```bash
+python -m backend.app.content_preflight output/gta6_short.json --rights-db aro_studio_data/source_rights.sqlite3 --platform youtube --output output/preflight_report.json
+```
+
+The dashboard is a local review surface, not an authorization service. Entered permission evidence still requires owner verification. Records from the earlier dashboard-only `rights` table are preserved and flagged for review; they are not silently treated as valid grants by the preflight.
+
+## Local THE ARO Studio dashboard
+
+Run the owner-local dashboard from the repository root:
+
+```bash
+python THE_ARO_STUDIO.py
+```
+
+Open `http://127.0.0.1:8765`. It reads local render reports, creates original commentary drafts, and writes permission records to the shared registry. Keep it on localhost. It does not download media, upload, publish, or approve content automatically.
+
 ## Existing pipeline
 
 1. Analyze permitted chat/event data using official interfaces.
