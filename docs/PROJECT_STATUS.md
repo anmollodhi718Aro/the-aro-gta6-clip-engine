@@ -32,13 +32,15 @@ Last reviewed: 2026-11-18
 - [ ] Video/chat clock synchronization
 - [ ] Automatic selection of a valid video cut window from synchronized timestamps
 - [ ] AI-assisted context and highlight scoring
-- [ ] Caption generation and quality checks
+- [x] Deterministic SRT formatting and caption quality checks from operator-supplied timed transcripts
 - [ ] Web dashboard, authentication, database, and cloud queue
 - [ ] Cloud worker and storage
 - [ ] Human approval dashboard
 - [ ] Platform upload adapters and OAuth approval
 - [ ] Android application
 - [ ] Billing, subscriptions, privacy policy, terms, and public launch readiness
+
+- Subtitle Studio formats supplied timed text; it does not transcribe audio, synchronize captions automatically, or verify caption accuracy. Human review remains required.
 
 ## Known limits
 
