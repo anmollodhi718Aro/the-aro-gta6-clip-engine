@@ -2,18 +2,31 @@ $ErrorActionPreference = "Stop"
 
 Write-Host "THE ARO GTA 6 Clip Engine - local checks" -ForegroundColor Cyan
 
-python --version
-if ($LASTEXITCODE -ne 0) { throw "Python was not found on PATH." }
+# Match the first-clip Windows launcher: prefer the Python launcher so a
+# Python 3 installation does not also need a separate "python" PATH entry.
+$PythonCommand = $null
+$PythonArgs = @()
+if (Get-Command py -ErrorAction SilentlyContinue) {
+    $PythonCommand = "py"
+    $PythonArgs = @("-3")
+} elseif (Get-Command python -ErrorAction SilentlyContinue) {
+    $PythonCommand = "python"
+} else {
+    throw "Python 3.11+ was not found. Install Python or add py/python to PATH."
+}
 
-python -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)"
+& $PythonCommand @PythonArgs --version
+if ($LASTEXITCODE -ne 0) { throw "Could not start the selected Python runtime." }
+
+& $PythonCommand @PythonArgs -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)"
 if ($LASTEXITCODE -ne 0) { throw "Python 3.11 or newer is required." }
 
 Write-Host "`n[1/3] Compile Python source..." -ForegroundColor Yellow
-python -m compileall -q backend tests THE_ARO_STUDIO.py
+& $PythonCommand @PythonArgs -m compileall -q backend tests THE_ARO_STUDIO.py
 if ($LASTEXITCODE -ne 0) { throw "Compile check failed." }
 
 Write-Host "`n[2/3] Run unit tests..." -ForegroundColor Yellow
-python -m unittest discover -s tests -v
+& $PythonCommand @PythonArgs -m unittest discover -s tests -v
 if ($LASTEXITCODE -ne 0) { throw "Unit tests failed. Review the failing test output above." }
 
 Write-Host "`n[3/3] Check optional FFmpeg tools..." -ForegroundColor Yellow
