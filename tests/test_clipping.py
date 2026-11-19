@@ -116,6 +116,26 @@ class ClipRenderTests(unittest.TestCase):
             self.assertTrue(result.is_file())
             self.assertGreater(result.stat().st_size, 0)
 
+    def test_vertical_mode_uses_full_frame_9_by_16_layout(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            output = Path(folder) / "vertical.mp4"
+            source.write_bytes(b"synthetic")
+
+            def fake_ffmpeg(command, **kwargs):
+                Path(command[-1]).write_bytes(b"vertical mp4")
+
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg) as run:
+                render_clip(source, output, 1, 20, rights_confirmed=True, vertical=True)
+            command = run.call_args.args[0]
+            graph = command[command.index("-filter_complex") + 1]
+            self.assertIn("scale=1080:1920", graph)
+            self.assertIn("boxblur=20:10", graph)
+            self.assertIn("overlay=(W-w)/2:(H-h)/2", graph)
+            self.assertIn("[v]", command)
+            self.assertIn("yuv420p", command)
+            self.assertTrue(output.is_file())
+
     def test_reports_missing_ffmpeg(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / "source.mov"
