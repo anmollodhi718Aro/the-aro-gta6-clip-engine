@@ -1,10 +1,13 @@
 """Regression tests for the single-file local THE ARO Studio dashboard."""
 import json
+import sqlite3
 import tempfile
 import unittest
+from datetime import datetime
 from pathlib import Path
 
 import THE_ARO_STUDIO as studio
+from backend.app.rights_registry import SourceRightsRegistry
 
 
 class ContentPackTests(unittest.TestCase):
@@ -199,6 +202,52 @@ class SecurityGuardTests(unittest.TestCase):
         )
 
 
+
+class DashboardRightsStoreTests(unittest.TestCase):
+    def valid_record(self):
+        return {
+            "source_id": "dashboard-source-1",
+            "source_url": "https://example.com/creator-clip",
+            "grantor": "Creator",
+            "evidence_ref": "owner-reviewed-evidence-1",
+            "allowed_uses": ["edit", "publish"],
+            "platforms": ["youtube"],
+            "valid_from": "2026-11-19T00:00:00+00:00",
+            "expires_at": "2026-11-21T00:00:00+00:00",
+            "attribution": "Credit the creator",
+            "disclosure": "Creator-authorized footage",
+        }
+
+    def test_dashboard_rights_are_visible_to_preflight_registry(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "source_rights.sqlite3"
+            store = studio.RightsStore(path)
+            store.add(self.valid_record())
+            self.assertEqual(store.count(), 1)
+            self.assertEqual(store.legacy_count(), 0)
+            store.close()
+            registry = SourceRightsRegistry(path)
+            grant = registry.authorize(
+                "dashboard-source-1", "edit", "youtube",
+                at=datetime.fromisoformat("2026-11-19T12:00:00+00:00"),
+            )
+            self.assertEqual(grant["source_url"], "https://example.com/creator-clip")
+            self.assertEqual(grant["evidence_ref"], "owner-reviewed-evidence-1")
+
+    def test_legacy_permission_rows_are_preserved_and_flagged(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "source_rights.sqlite3"
+            db = sqlite3.connect(path)
+            db.execute("CREATE TABLE rights (source_id TEXT PRIMARY KEY)")
+            db.execute("INSERT INTO rights(source_id) VALUES (?)", ("legacy-1",))
+            db.commit()
+            db.close()
+            store = studio.RightsStore(path)
+            self.assertEqual(store.count(), 0)
+            self.assertEqual(store.legacy_count(), 1)
+            rendered = studio.page([], [], 0, legacy_rights_count=1)
+            self.assertIn("are preserved in the legacy table", rendered)
+            store.close()
 
 if __name__ == "__main__":
     unittest.main()
