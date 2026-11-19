@@ -114,3 +114,18 @@
 - Run [44632671652](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44632671652) has a completed successful `tests` job; setup, checkout, compile and unit-test steps succeeded. Test result recorded in the PR handoff: 258 tests, 257 passed, 1 skipped. This validates the renderer code revision, not the later documentation-only tip as an independently rerun commit.
 - Windows-native FFmpeg execution and authorized real-media MP4/playback inspection remain NOT VERIFIED. Mocked FFprobe tests are not real media.
 - The remaining first-clip blocker is the authorized creator recording/export/media handoff. No stream ripping, scraping, deployment, upload or public publication is authorized by this workstream.
+
+
+## ARO-CHAT-0009 continuation record (2026-11-20)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0009 | ARO-CHAT-0009 | ARO-ZERO-ONE (continuation) | Live repository/branch audit, Option A/B re-comparison, current PR #66 source-delta and CI-log reconciliation, and canonical handoff refresh | `workstream/aro-zero-one-clipping-first-2026-11-20` / [PR #66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66) | IMPLEMENTED (audit/docs); test log evidence: 258 run, 257 passed, 1 skipped; latest Actions run conclusion CANCELLED despite successful compile/test steps; Windows and real-media NOT VERIFIED | Main SHA `5f3332770b27d8a5211b3e74feade222563a9263`; PR #66 head at audit `9ae688eb8208f21ab6d5367be977e7d4a90cf73d`; run `44632920279`; merge ref `9dacef5281a14fcdcbd9f250c1d6234c883771de`; handoff refreshed in this workstream |
+
+### ARO-CHAT-0009 evidence notes
+- Existing ARO-ZERO-ONE and PR #66 were reused; no duplicate branch, workstream, or PR was created.
+- Option A remains the selected clipping-first baseline. Live comparison: Option B is 1 commit ahead and 4 behind Option A; merge base `625425987b8381c5a7d16313f5fbb96abcfcff21`.
+- PR #66 head `9ae688eb8208f21ab6d5367be977e7d4a90cf73d` is 25 commits ahead of renderer-tested SHA `6c5d0fd2228da963fc61c39403645e347a4cd3af`; all 25 commits in that delta modify only the two canonical docs, not source or tests.
+- Actions run `44632920279` has overall conclusion `cancelled`; its retrieved job log nevertheless records successful compile and unittest commands, with `Ran 258 tests`, `OK (skipped=1)`. Report both facts; do not relabel the workflow as green.
+- The successful prior renderer CI run is still valid evidence for the renderer implementation. Windows-native FFmpeg execution and a real authorized MP4/playback remain NOT VERIFIED.
+- PR #65's creator permission/approval foundation is still not integrated into PR #66. The first real GTA 6 clip remains blocked on the creator-authorized recording/export/media handoff.
