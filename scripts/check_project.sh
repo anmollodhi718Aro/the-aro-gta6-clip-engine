@@ -18,11 +18,16 @@ echo "[2/3] Run unit tests..."
 python3 -m unittest discover -s tests -v
 
 echo
-echo "[3/3] Check optional FFmpeg..."
+echo "[3/3] Check optional FFmpeg tools..."
 if command -v ffmpeg >/dev/null 2>&1; then
   ffmpeg -version | head -n 1
 else
-  echo "FFmpeg not found. Python tests completed, but local MP4 rendering needs FFmpeg."
+  echo "FFmpeg not found. Local MP4 rendering is unavailable."
+fi
+if command -v ffprobe >/dev/null 2>&1; then
+  ffprobe -version | head -n 1
+else
+  echo "ffprobe not found. Actual-media duration validation will stop before rendering."
 fi
 
 echo
