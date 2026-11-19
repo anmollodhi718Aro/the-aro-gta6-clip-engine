@@ -77,7 +77,7 @@ try {
             note = "Manually selected by the owner; inspect before distribution."
         })
     } | ConvertTo-Json -Depth 5
-    Set-Content -LiteralPath $sessionJson -Value $payload -Encoding utf8
+    [System.IO.File]::WriteAllText($sessionJson, $payload, [System.Text.UTF8Encoding]::new($false))
 
     Write-Host ""
     Write-Host "[1/3] Preparing the candidate CSV..." -ForegroundColor Yellow
