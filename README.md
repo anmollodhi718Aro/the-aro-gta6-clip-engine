@@ -6,9 +6,9 @@ A creator-first workflow for finding and preparing short highlights from **autho
 
 ## Current status
 
-**Stage:** Local MVP core with a read-only public YouTube chat adapter.  
-**Implemented:** permission-gated chat-spike detection, synthetic JSON demo, one-page YouTube Live Chat API adapter, review-only clip plans, and local-only FFmpeg MP4 rendering.  
-**Not yet implemented:** continuous low-latency chat streaming, OAuth/private-channel access, chat/video clock synchronization, AI context analysis, dashboard, cloud workers, or publishing.
+**Stage:** Local MVP core with measured chat-to-recording synchronization and a review-only clip-pack export.  
+**Implemented:** permission-gated chat-spike detection, YouTube Live Chat API adapters, review-only clip plans, measured clock calibration, calibrated clip-pack CSV/Markdown exports, and local-only FFmpeg MP4 rendering.  
+**Not yet implemented:** production-grade continuous live monitoring, OAuth/private-channel access, AI context analysis, complete dashboard, cloud workers, and owner-approved publishing.
 
 ## MVP workflow
 
@@ -28,7 +28,7 @@ python -m backend.app.cli examples/sample_events.json --output clip_plan.json
 python -m unittest discover -s tests -v
 ```
 
-See [MVP usage](docs/MVP_USAGE.md), [YouTube adapter setup](docs/YOUTUBE_LIVE_CHAT.md), and [bounded polling worker](docs/YOUTUBE_POLLING_WORKER.md).
+See [MVP usage](docs/MVP_USAGE.md), [calibrated clip-pack workflow](docs/CALIBRATED_CLIP_PACK.md), [clock synchronization](docs/CLOCK_SYNC.md), [YouTube adapter setup](docs/YOUTUBE_LIVE_CHAT.md), and [bounded polling worker](docs/YOUTUBE_POLLING_WORKER.md).
 
 ## Repository map
 
