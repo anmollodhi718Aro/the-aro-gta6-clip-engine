@@ -50,6 +50,9 @@ Last reviewed: 2026-11-19
 
 ### Unified Studio and creator research
 - [x] Local THE ARO Studio dashboard
+- [x] Dashboard-generated content, preflight, clock-calibration and creator-watchlist files use collision-safe no-overwrite publication
+- [x] Dashboard content/creator multi-file outputs roll back only files created by a failed publication attempt
+- [x] Creator watchlist dashboard numeric validation imports and uses finite-number checks
 - [x] Localhost-only request guard, CSRF validation and browser security headers
 - [x] Dashboard writes to the shared source-rights registry
 - [x] Dashboard content generator uses the shared content studio implementation
