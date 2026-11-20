@@ -78,3 +78,23 @@ This catalog records engineering observations, not endorsements. Stars/forks are
 - Remotion README: https://github.com/remotion-dev/remotion/blob/main/README.md
 - Remotion LICENSE: https://github.com/remotion-dev/remotion/blob/main/LICENSE.md
 - Remotion licensing/pricing: https://www.remotion.dev/docs/license/pricing
+
+
+## ARO-CHAT-0022 research revalidation snapshot — 2026-11-20
+
+Live GitHub REST metadata and raw README/LICENSE/source files were rechecked for the four priority references. Counts below are point-in-time GitHub values, not quality scores.
+
+| Reference | Stars | Forks | Open issues | Last push (UTC) | License metadata | Source files inspected in this recheck | Decision |
+|---|---:|---:|---:|---|---|---|---|
+| [OpenShorts](https://github.com/mutonby/openshorts) | 9,421 | 1,976 | 80 | 2026-11-20 00:17:50 | MIT repo metadata; README/license/source inspected | `README.md`, `LICENSE`, `clip_selection.py`, `reframe_v2.py` | STUDY ONLY; preserve the cloud/ directory's separate commercial-license exception recorded above |
+| [AI YouTube Shorts Generator](https://github.com/Anil-matcha/AI-Youtube-Shorts-Generator) | 6,341 | 1,156 | 33 | 2026-11-12 13:36:13 | MIT | `README.md`, `shorts_generator/highlights.py`, `LICENSE` | ADAPT IDEAS ONLY; its README advertises MuAPI and its source has an API/local split; do not adopt URL-downloader acquisition into THE ARO |
+| [Auto-Editor](https://github.com/WyattBlue/auto-editor) | 6,016 | 750 | 0 | 2026-11-20 05:26:33 | Unlicense | `README.md`, `LICENSE` | STUDY ONLY; audio/motion cut signals are optional candidate metadata, not semantic highlight truth |
+| [Remotion](https://github.com/remotion-dev/remotion) | 74,438 | 6,311 | 207 | 2026-11-19 16:36:01 | GitHub API reports NOASSERTION; inspect the repository's own special `LICENSE.md` | `README.md`, `LICENSE.md` | STUDY ONLY; free-license eligibility is conditional and some company use requires a Company License; do not adopt until licensing/architecture is reviewed |
+
+### Engineering conclusions from source inspection
+- OpenShorts' `reframe_v2.py` explicitly separates a low-resolution analysis pass from FFmpeg-native scene rendering and concatenation. This is a useful future architecture reference, but the current THE ARO local FFmpeg renderer should remain the P0 path until the first authorized MP4 is accepted.
+- OpenShorts' README describes a Python/FastAPI + React/Vite + Docker stack and publishing integrations. Its `cloud/` license exception remains a material boundary; do not treat every directory as MIT merely because the core license is MIT.
+- AI YouTube Shorts Generator's `highlights.py` exposes a pluggable LLM function and separates transcript chunking, highlight scoring and overlap suppression. These are useful design ideas for later authorized-local-media analysis. Its default hosted API and URL-based acquisition path are not approved THE ARO source adapters.
+- Auto-Editor is a Nim CLI centered on audio loudness and motion-based editing. It is not a drop-in Python dependency. Silence/motion should be optional signals because they can remove meaningful game audio or reactions.
+- Remotion's repository-level GitHub license metadata is `NOASSERTION`; the project's own `LICENSE.md` defines a special Free License for individuals and qualifying small organizations and a Company License for others. Recheck legal eligibility before commercial adoption. No dependency was added.
+- No external source code was copied and no dependency was introduced during this research recheck.
