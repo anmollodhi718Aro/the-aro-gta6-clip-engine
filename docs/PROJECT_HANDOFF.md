@@ -538,3 +538,20 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 2. Reconcile the actual current PR #66 head SHA and trigger/recover CI on that exact head; inspect logs to distinguish runner/dependency cancellation from test failures.
 3. Obtain a creator-authorized GTA 6 recording/export or approved media handoff, then run the existing local workflow and capture FFmpeg/FFprobe/playback evidence.
 4. Keep PR #66 unmerged and all publishing/deployment actions disabled pending owner approval.
+
+
+## CI reconciliation addendum — ARO-CHAT-0024 (2026-11-20 13:07 IST)
+
+- Existing PR #66 remains open and unmerged; latest observed head before this documentation update was `125234af6fea09db64b434f4e520233658bf4aa9`. The associated Actions run [44696473060](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44696473060) concluded CANCELLED on both jobs.
+- Ubuntu: runner allocation, checkout, Python setup and FFmpeg/FFprobe installation succeeded; cancellation occurred during source compilation; unit tests were skipped.
+- Windows: runner allocation, checkout and Python 3.11 setup succeeded; cancellation occurred during FFmpeg/FFprobe installation; compile and unit tests were skipped.
+- Therefore this run is neither a code-test failure nor a successful verification. PR #66 latest-head CI remains NOT VERIFIED.
+- Separate security helper PR #67 run [44655744416](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44655744416) completed successfully on tested code/test SHA `c2d3dc1873a97d624dae78282d38448a0d54e3f6`; both Ubuntu and Windows compile and full 283-test steps passed. This evidence applies to PR #67's helper change, not PR #66.
+- ARO-CHAT-0024 added an evidence update to existing issue [#26](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/26); comment ID `7033511958`. The issue remains open because exact-head compile/tests are still unverified.
+- No source, test, renderer, workflow, or uploader code changed. No local tests were run. No merge, retarget, deployment, upload, or publication.
+- First authorized GTA 6 MP4 remains BLOCKED until an expressly authorized creator recording/export or supported media handoff is provided. Windows owner-device playback also remains NOT VERIFIED.
+
+### Next actions
+1. Recover a complete Actions run on the exact current PR #66 head and inspect compile/unit-test logs.
+2. Obtain an authorized GTA 6 recording/export and execute the existing local FFmpeg/FFprobe/playback acceptance workflow.
+3. Keep issue #68 unassigned until the owner assigns/approves its implementation owner; keep actual publishing disabled until authenticated OAuth channel identity and durable per-clip approval are integrated and tested.
