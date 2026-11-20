@@ -356,3 +356,5 @@ No merge, retarget, deployment, upload, public publishing, or issue #68 implemen
 - Updated the existing research catalog with current point-in-time GitHub metrics, inspected source paths, architecture observations, license constraints and integration decisions.
 - No code, tests, dependencies, external source adapters or publishing behavior changed.
 - Research supports but does not unblock the first authorized real-media clip.
+
+| Research delivery | PR #78 | OPEN / DRAFT / UNMERGED | ARO-CHAT-0034; seven documentation/analytics files; stacked on PR #76 |
