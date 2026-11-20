@@ -882,6 +882,148 @@
         "prior_research_catalog": "docs/RESEARCH_REFERENCE_CATALOG.md",
         "workflow_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44655239459"
       }
+    },
+    {
+      "chat_id": "ARO-CHAT-0021",
+      "title": "ARO-CHAT-0021 | Owner Identity Enforcement for Upload Approval Gate",
+      "project": "THE ARO GTA 6 CLIP ENGINE",
+      "workstream_id": "ARO-ZERO-ONE",
+      "task_ids": [
+        "ARO-GTA-P0-21"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T07:06:00+05:30",
+      "ended_at": null,
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "timing_note": "Start timestamp recorded to minute resolution; end, elapsed and active work duration are not measured. current_sha is the last code/test SHA verified by CI; latest_observed_head records subsequent docs/analytics-only commits.",
+      "task_category": [
+        "security_audit",
+        "authorization",
+        "testing",
+        "documentation"
+      ],
+      "priority": "P0",
+      "starting_branch": "workstream/aro-chat-0021-owner-identity-guard-2026-11-20",
+      "starting_sha": "008f1fc9b0088788b2037b32e89c14dd6c504a1c",
+      "current_branch": "workstream/aro-chat-0021-owner-identity-guard-2026-11-20",
+      "current_sha": "c2d3dc1873a97d624dae78282d38448a0d54e3f6",
+      "pull_requests": [
+        67
+      ],
+      "issues": [
+        68
+      ],
+      "commits": [
+        "24de4e4fb36012898e3deb266c8856a4b755fbd1",
+        "c04dd3a8f9982fb4edd2fae1dd9b42dc45d34750",
+        "85d6bba185fb6df65fd9b8ba31acab549d859098",
+        "ab17c05aadf70059c9e6483885d69d3bb54065eb",
+        "2c9112f7a9f4d6ad94a2910febfc754ff4837ba5",
+        "e510b32d8cf5eabc70a921e051d1e8ba7e401346",
+        "858b8daf2af86d74d6b8fe7c4b393ba7f5f92319",
+        "a629efa75136c4f844ab97e6a2198d75166aeb7f",
+        "c2d3dc1873a97d624dae78282d38448a0d54e3f6",
+        "131af24ab238acd44e774538ac44d86665a2caa4",
+        "0eace03f4c12d71b9165b902c746d5e0e150c684",
+        "5236b4b58de336089d5329f40e8a9cd1c24fe1ec",
+        "6638b74e32c9f39c9e9fb282ee86d32f061dfb01",
+        "2d7d9ceb2b5f92374d224978a62b2e2d999b2496",
+        "a0e0f06c358592ba7ce41f9644627831f19252cb",
+        "4343ad8c70745da152bd77aac0292e7133c486cf"
+      ],
+      "files_inspected": [
+        "backend/app/approval.py",
+        "tests/test_live_sources_and_approval.py",
+        "docs/AUTHORIZED_LIVE_SOURCE_PIPELINE.md",
+        "PR #65",
+        "PR #66",
+        "backend/app/youtube_upload.py",
+        "tests/test_youtube_upload.py",
+        "issue #68"
+      ],
+      "files_created": [],
+      "files_modified": [
+        "backend/app/approval.py",
+        "tests/test_live_sources_and_approval.py",
+        "docs/AUTHORIZED_LIVE_SOURCE_PIPELINE.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/PROJECT_HANDOFF.md",
+        "analytics/ai_chat_sessions.json"
+      ],
+      "tests": {
+        "added": 2,
+        "executed_by_this_chat": 0,
+        "passed": 283,
+        "failed": 0,
+        "skipped": 0,
+        "ci_runs": [
+          {
+            "run_id": 44655744416,
+            "commit_sha": "c2d3dc1873a97d624dae78282d38448a0d54e3f6",
+            "platform": "ubuntu-latest",
+            "status": "completed",
+            "conclusion": "success",
+            "test_count": 283,
+            "passed": 283,
+            "failed": 0,
+            "skipped": 0
+          },
+          {
+            "run_id": 44655744416,
+            "commit_sha": "c2d3dc1873a97d624dae78282d38448a0d54e3f6",
+            "platform": "windows-latest",
+            "status": "completed",
+            "conclusion": "success",
+            "test_count": 283,
+            "passed": 283,
+            "failed": 0,
+            "skipped": 0,
+            "rerun_of_cancelled_job": true
+          }
+        ]
+      },
+      "ci_status": "CI_PASSED_UBUNTU_AND_WINDOWS_283_TESTS_ON_CODE_TEST_SHA_C2D3; LATER_COMMITS_DOCS_ONLY",
+      "windows_status": "CI_PASSED_283_TESTS_ON_CODE_TEST_SHA_C2D3",
+      "real_media_status": "NOT_APPLICABLE_TO_AUTHORIZATION_UNIT_TESTS; FIRST_CLIP_STILL_BLOCKED_ON_AUTHORIZED_MEDIA",
+      "bugs_discovered": 1,
+      "bugs_fixed": 1,
+      "regressions_introduced": null,
+      "regressions_resolved": 1,
+      "duplicate_work": {
+        "overlapping_work_reviewed": [
+          "Existing PR #65/#66 owner approval foundation"
+        ],
+        "duplicate_pr_created": false,
+        "duplicate_renderer_implementation_created": false
+      },
+      "blockers": [
+        "The helper compares owner identity but does not authenticate the principal; production integration must supply a verified server-side identity.",
+        "The optional YouTube uploader does not call this helper and still relies on CLI attestation flags; issue #68 tracks the required integration.",
+        "No real creator OAuth identity binding or durable approval store exists."
+      ],
+      "impact": {
+        "importance": "P0",
+        "criticality_to_first_clip": "MEDIUM_SECURITY_GATE",
+        "committed_deliverables": 3,
+        "verified_deliverables": 2,
+        "independent_completion": true,
+        "required_repair_by_another_ai": null
+      },
+      "acceptance_status": "IMPLEMENTED_AND_CI_TESTED; AUTHENTICATED_UPLOADER_INTEGRATION_NOT_IMPLEMENTED",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "branch": "workstream/aro-chat-0021-owner-identity-guard-2026-11-20",
+        "base_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+        "pr66": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
+        "pr67": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/67",
+        "ci_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44655744416",
+        "followup_issue": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/68",
+        "latest_observed_head": "4343ad8c70745da152bd77aac0292e7133c486cf",
+        "tested_code_test_sha": "c2d3dc1873a97d624dae78282d38448a0d54e3f6"
+      }
     }
   ]
 }

@@ -499,3 +499,22 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - This chat performed a read-only engineering audit. It did not modify application source, tests, workflows, the research catalog, or publishing behavior. No tests were run directly by this chat.
 - Windows runtime success and authorized GTA 6 real-media render/playback remain NOT VERIFIED. The first real GTA 6 clip remains blocked on a creator-authorized recording/export or supported media handoff.
 - No merge, retarget, deployment, upload, or public publishing.
+
+
+## ARO-CHAT-0021 reservation — 2026-11-20
+- Chat: `ARO-CHAT-0021 | Owner Identity Enforcement for Upload Approval Gate`; provider/model: OpenAI / GPT-6.
+- Workstream: `ARO-ZERO-ONE` security hardening; task `ARO-GTA-P0-21`.
+- Branch: `workstream/aro-chat-0021-owner-identity-guard-2026-11-20`; base snapshot: PR #66 head `008f1fc9b0088788b2037b32e89c14dd6c504a1c`; intended stacked PR base: `workstream/aro-zero-one-clipping-first-2026-11-20`.
+- Scope: require the upload gate to compare the recorded reviewer with a trusted authenticated channel-owner identity; add negative tests and document that authentication must be supplied by a future trusted identity provider. No upload, OAuth, or production deployment.
+- Status: IMPLEMENTED; owner identity equality guard, two regression tests and documentation committed; draft PR #67 open; CI pending.
+
+
+## ARO-CHAT-0021 closeout — 2026-11-20
+- Implemented an owner-identity equality requirement in `require_upload_approval`; blank/missing identity is rejected and a reviewer identity that differs from the trusted server-side owner identity is denied.
+- Added two regression tests covering non-owner rejection and missing/blank owner identity. Existing approval, rejection, and publish-scope tests were updated to pass the explicit owner identity.
+- CI run [44655744416](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44655744416): Ubuntu and Windows both completed compilation and all 283 unit tests successfully. Windows runner dependency installation, compile, and test steps passed after a cancelled first attempt was re-run.
+- CI was executed against code/test SHA `c2d3dc1873a97d624dae78282d38448a0d54e3f6`. Later commits through `131af24ab238acd44e774538ac44d86665a2caa4` changed only analytics/registry/handoff/approval documentation; compare evidence confirms no code or test files changed after the tested SHA.
+- Draft PR #67 remains open and unmerged. No merge, retarget, deployment, upload, or public publishing occurred.
+- Security boundary: this helper compares identities but does not authenticate the principal. The optional YouTube uploader still relies on `--owner-approved` and `--confirm-rights` and is not wired to this helper. Public uploads must remain disabled until the OAuth-authenticated destination identity is bound to a durable per-clip approval record and checked immediately before upload.
+- Follow-up issue [#68](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/68), proposed task `ARO-GTA-P1-01`, is OPEN / NOT IMPLEMENTED / owner assignment pending.
+- Session timing remains unmeasured beyond the minute-resolution start timestamp; no duration or numeric performance score is inferred.
