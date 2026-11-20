@@ -53,3 +53,12 @@ Before adding a provider:
 - **Adopt:** OpenAI GPT-6 as the currently used ChatGPT session model; GitHub integration for repository inspection and authorized branch documentation work.
 - **Study only / pending connection:** Anthropic Claude, Google Gemini, NVIDIA AI services.
 - **No provider API integration is claimed** by this registry update.
+
+
+## ARO-CHAT-0028 capability verification — 2026-11-20 13:14 IST
+
+- Provider/model reported by this ChatGPT session: OpenAI / GPT-6. Exact model build/version is not exposed.
+- GitHub integration: VERIFIED AVAILABLE. This session successfully read repository metadata, files, branches, PRs, issues, commit workflow runs and job logs, and has permission-scoped documentation update capability on the existing workstream branch.
+- GitHub API metadata reports admin/push capability for the linked credential; this is not an owner permission grant and does not authorize merge, deployment, publishing, secret access or permission escalation.
+- Local shell/runtime and direct test execution: NOT AVAILABLE through the GitHub connector session; this chat executed zero local tests.
+- OpenAI API key, API quota, billing cost, Anthropic, Gemini, NVIDIA and other provider API connections: NOT VERIFIED. No API credentials were inspected or stored.
