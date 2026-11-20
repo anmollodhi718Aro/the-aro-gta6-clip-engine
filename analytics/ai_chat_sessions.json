@@ -155,12 +155,12 @@
       }
     },
     {
-      "chat_id": "ARO-CHAT-0015",
-      "title": "ARO-CHAT-0015 | Exact-Head CI and Windows Verification Audit",
+      "chat_id": "ARO-CHAT-0017",
+      "title": "ARO-CHAT-0017 | Exact-Head CI and Windows Verification Audit (identity reconciled)",
       "project": "THE ARO GTA 6 CLIP ENGINE",
       "workstream_id": "ARO-ZERO-ONE",
       "task_ids": [
-        "ARO-GTA-P0-15"
+        "ARO-GTA-P0-17"
       ],
       "provider": "OpenAI",
       "model": "GPT-6",
@@ -278,7 +278,8 @@
         "windows_setup_failure_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44637348441",
         "windows_tested_sha": "58627b5c96a8141beba9dfa092916375ca942382",
         "current_pr_head": "fd7fa41dc75e19235d75b96ffb1791d7e101b9d6"
-      }
+      },
+      "collision_resolution": "Retroactively re-attributed from duplicate ARO-CHAT-0015 after live registry audit. ARO-CHAT-0015 remains assigned to Windows CI Recovery and First-Clip Readiness Audit; this record was absent from the canonical registry. Shared commit fd7fa41dc75e19235d75b96ffb1791d7e101b9d6 is retained as historical overlap and must not be double-counted as independent implementation."
     },
     {
       "chat_id": "ARO-CHAT-0015",
@@ -538,6 +539,114 @@
         "prior_cancelled_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44637541338"
       },
       "collision_resolution": "Initially reserved ARO-CHAT-0015, but a live registry/ledger read found two concurrent records using that ID for CI/Windows first-clip work. Re-attributed this separate analytics-schema task to ARO-CHAT-0016 before continuing."
+    },
+    {
+      "chat_id": "ARO-CHAT-0018",
+      "title": "ARO-CHAT-0018 | Analytics Identity Collision Repair and Exact-Head CI Recovery",
+      "project": "THE ARO GTA 6 CLIP ENGINE",
+      "workstream_id": "ARO-ZERO-ONE",
+      "task_ids": [
+        "ARO-GTA-P0-18"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T07:07:00+05:30",
+      "ended_at": null,
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "timing_note": "Session start recorded to minute resolution. End and active work time are not yet measured; leave null until closeout.",
+      "task_category": [
+        "repository_audit",
+        "analytics_registry",
+        "ci_cd",
+        "qa",
+        "documentation"
+      ],
+      "priority": "P0",
+      "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "starting_sha": "23daf0fa0ec14886733ba59cd52df642b4a1c28c",
+      "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "current_sha": "23daf0fa0ec14886733ba59cd52df642b4a1c28c",
+      "pull_requests": [
+        66
+      ],
+      "issues": [
+        26
+      ],
+      "commits": [],
+      "files_inspected": [
+        "README.md",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "analytics/ai_chat_sessions.json",
+        "backend/app/analytics_validation.py",
+        "tests/test_analytics_validation.py",
+        ".github/workflows/ci.yml"
+      ],
+      "files_created": [],
+      "files_modified": [
+        "analytics/ai_chat_sessions.json"
+      ],
+      "tests": {
+        "added": 0,
+        "executed_by_this_chat": 0,
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "ci_runs": [
+          {
+            "run_id": 44638736182,
+            "head_sha": "23daf0fa0ec14886733ba59cd52df642b4a1c28c",
+            "status": "completed",
+            "conclusion": "failure",
+            "ubuntu": {
+              "tests_run": 281,
+              "errors": 2,
+              "failed": 0
+            },
+            "windows": {
+              "tests_run": 281,
+              "errors": 2,
+              "failed": 0
+            },
+            "root_cause": "Both platforms reject duplicate chat_id ARO-CHAT-0015; compilation and FFmpeg/FFprobe installation succeeded."
+          }
+        ]
+      },
+      "ci_status": "FAILURE_CONFIRMED_DUPLICATE_CHAT_ID_REPAIR_IN_PROGRESS",
+      "windows_status": "WINDOWS_RUNNER_AND_TOOLCHAIN_VERIFIED_TEST_SUITE_FAILED_ON_LEDGER_IDENTITY",
+      "real_media_status": "BLOCKED_AUTHORIZED_MEDIA_REQUIRED",
+      "bugs_discovered": 1,
+      "bugs_fixed": 0,
+      "regressions_introduced": null,
+      "regressions_resolved": null,
+      "duplicate_work": {
+        "overlapping_work_reviewed": [
+          "ARO-CHAT-0015 duplicate identity in analytics ledger"
+        ],
+        "duplicate_pr_created": false,
+        "existing_pr_reused": 66
+      },
+      "blockers": [
+        "The analytics ledger contains a duplicate chat identity; this repair is in progress.",
+        "No creator-authorized GTA 6 recording/export or approved media handoff has been supplied."
+      ],
+      "impact": {
+        "importance": "P0",
+        "criticality_to_first_clip": "LOW_DIRECT_IMPACT_MEDIUM_GOVERNANCE",
+        "committed_deliverables": 0,
+        "verified_deliverables": 0,
+        "independent_completion": true,
+        "required_repair_by_another_ai": null
+      },
+      "acceptance_status": "IN_PROGRESS_LEDGER_IDENTITY_REPAIR_AND_CI_RETRY",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
+        "failed_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44638736182",
+        "starting_sha": "23daf0fa0ec14886733ba59cd52df642b4a1c28c"
+      }
     }
   ]
 }
