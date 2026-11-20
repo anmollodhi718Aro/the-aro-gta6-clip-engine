@@ -552,3 +552,42 @@
 ### Reservation sequencing correction
 
 The registry and live branch/PR inventory were checked before opening PR #71, and ARO-CHAT-0030 / ARO-GTA-P0-30 were unique. However, the first implementation commits preceded this registry reservation update. This is a process-order deviation and is disclosed rather than represented as pre-registration.
+
+
+## ARO-CHAT-0031 reservation and live audit — 2026-11-20 14:18 IST
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0031 |
+| Exact title | ARO-CHAT-0031 | Live Clip Engine Audit and First-MP4 Readiness |
+| Provider / model | OpenAI / GPT-6 |
+| Project / workstream | THE ARO GTA 6 Clip Engine / ARO-GTA-P0-31 |
+| Role | QA / Auditor; bounded documentation contributor |
+| Scope | Reconcile live main, clipping-first PRs, branch inventory, canonical documentation, exact-head CI, audio acceptance, research reuse and first-real-media blockers. Record a non-duplicative handoff. No application/test/workflow implementation. |
+| Branch / PR | `workstream/aro-chat-0031-live-audit-first-clip-2026-11-20` / new draft PR stacked on PR #71 |
+| Starting SHA | `4787c069d498b51177968546198eea3e1e8ac84a` (PR #71 head) |
+| Status | AUDIT IMPLEMENTED; canonical documentation updated; direct local tests 0; no application code changed |
+| Attribution evidence | Registry, branch, PR and issue searches found no existing ARO-CHAT-0031 reservation. ARO-CHAT-0030 is the latest prior recorded chat. |
+
+### ARO-CHAT-0031 verified audit findings
+
+- Repository metadata: public `anmollodhi718Aro/the-aro-gta6-clip-engine`; default branch `main`; GitHub connector reports read/push/admin API capabilities. Those capabilities are not owner authority.
+- Live `main` SHA: `5f3332770b27d8a5211b3e74feade222563a9263`. Its tree contains the original foundation, synthetic event detector and early docs; the canonical clipping-first handoff, chat registry, permission ledger, analytics dashboard and research catalog are not present at those paths on `main`.
+- Existing clipping-first PR #66 remains the integration baseline, open and unmerged, targeting `integration/release-candidate`. PR #71 remains a separate open draft stacked on #66; this session created a documentation-only branch stacked on PR #71 rather than modifying another chat's branch.
+- PR #71 current head is `4787c069d498b51177968546198eea3e1e8ac84a`. Exact-head check runs from Actions run `44700987089`: Ubuntu job `136169082777` and Windows hosted job `136169082306` both completed with conclusion `success`. This verifies the current PR #71 head's CI checks; it does not establish owner-device Windows execution or real GTA 6 media compatibility.
+- PR #71's audio acceptance change is implemented: FFprobe can require an audio stream, direct API/CLI behavior remains backward-compatible by default, and the Windows first-clip wizard defaults to requiring audio with an explicit silent-footage opt-out.
+- Existing research catalog already records OpenShorts, AI YouTube Shorts Generator, Auto-Editor and Remotion, including source/license caveats and decisions. Reused; no duplicate research or dependencies added.
+- Canonical docs were not found on `main`, but are present on the existing clipping-first branch. Do not create a second registry/dashboard or assume the documentation is already integrated into `main`.
+- First authorized GTA 6 MP4 remains BLOCKED pending a creator-authorized recording/export or supported media handoff. Synthetic FFmpeg/FFprobe tests are not real-media acceptance.
+- PR #67 remains helper-level owner-identity logic; issue #68 remains the separately gated uploader integration. Do not implement it without its explicit owner assignment/approval.
+- No separate Automation Deployment Beta repository was verified in the connected account inventory. Keep Beta paused and do not invent a repository.
+- Direct local tests executed by ARO-CHAT-0031: 0; this session used GitHub-hosted evidence and did not execute a local shell/test runtime.
+- No merge, retarget, deployment, upload, public publishing, credentials, destructive action, permission escalation or owner-only approval was performed.
+
+### ARO-CHAT-0031 handoff
+
+1. Owner reviews PR #66 integration baseline and PR #71 audio acceptance. Both remain unmerged; no merge is implied by green CI.
+2. Supply an expressly authorized GTA 6 recording/export or supported media handoff. Then run the existing Windows wizard, inspect dry-run bounds, confirm rights for that exact file, render locally, verify MP4/audio/video/duration/1080x1920 with FFprobe, and inspect playback.
+3. Preserve the generated clip for owner review. Do not publish; source authorization and destination-channel publishing authorization remain separate.
+4. Keep issue #68 blocked until the owner explicitly assigns/approves its implementation owner.
+5. Keep canonical docs on the clipping-first branch until the owner approves integration; do not copy them into main as a separate competing documentation set.
