@@ -641,3 +641,13 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 3. Run the Windows wizard with audio required, inspect the dry-run, render only after explicit rights confirmation, then validate video/audio streams, 1080x1920 dimensions, duration, and playback.
 4. Preserve the output for owner review; do not upload or publish without separate per-clip and destination-channel authorization.
 5. Keep issue #68 owner-identity uploader work separate until the owner explicitly assigns it.
+
+
+## ARO-CHAT-0031 test-hygiene handoff — 2026-11-20
+
+- Prior PR #71 exact head `4787c069d498b51177968546198eea3e1e8ac84a` passed GitHub Actions run [44700987089](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44700987089): Ubuntu and Windows each completed FFmpeg/FFprobe installation, compilation and 284 unit tests.
+- Both job logs showed a non-failing `ResourceWarning` from `tests/test_batch_render.py` because a CSV reader file handle was opened inline and not explicitly closed.
+- ARO-CHAT-0031 changed that test to use a context manager. The change is isolated in draft PR [#73](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/73), stacked on PR #71's branch.
+- This session executed no local tests. PR #73 has no CI run: the existing workflow's pull-request branch filter targets `main`, not the stacked base branch. Parent PR #71's 284-test result must not be attributed to PR #73.
+- PR #73 remains draft and unmerged. No production or publishing action was performed.
+- The P0 first authorized GTA 6 MP4 remains blocked on a creator-authorized recording/export or approved media handoff. Issue #68 remains open/unassigned; uploader integration is not authorized.
