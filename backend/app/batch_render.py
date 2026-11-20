@@ -149,9 +149,22 @@ def run_batch(
         raise PermissionError("execution requires explicit local-media rights confirmation")
 
     candidates = _load_candidates(source_csv)
-    if execute and media_duration_seconds is None:
-        media_duration_seconds = probe_media(media, ffprobe_binary=ffprobe_binary).duration_seconds
-    if execute and (isinstance(media_duration_seconds, bool) or not isinstance(media_duration_seconds, (int, float)) or not math.isfinite(media_duration_seconds) or media_duration_seconds <= 0):
+    # Required audio is checked against the source during dry-run as well as
+    # execution, so silent recordings fail before FFmpeg starts.
+    if (execute and media_duration_seconds is None) or require_audio:
+        media_info = probe_media(
+            media,
+            ffprobe_binary=ffprobe_binary,
+            require_audio=require_audio,
+        )
+        if media_duration_seconds is None:
+            media_duration_seconds = media_info.duration_seconds
+    if (execute or require_audio) and (
+        isinstance(media_duration_seconds, bool)
+        or not isinstance(media_duration_seconds, (int, float))
+        or not math.isfinite(media_duration_seconds)
+        or media_duration_seconds <= 0
+    ):
         raise ValueError("actual media duration must be a finite positive number")
     if any(number > len(candidates) for number in approved_rows):
         raise ValueError("an approved row number is outside the candidate CSV")
@@ -178,9 +191,9 @@ def run_batch(
             continue
         try:
             start, end = _validated_bounds(row, number)
-            if execute and end > float(media_duration_seconds):
+            if media_duration_seconds is not None and end > float(media_duration_seconds):
                 raise ValueError(f"candidate row {number} ends at {end:.3f}s, beyond actual media duration {float(media_duration_seconds):.3f}s")
-            if execute:
+            if media_duration_seconds is not None:
                 item["media_duration_seconds"] = float(media_duration_seconds)
             item["start_seconds"] = start
             item["end_seconds"] = end
@@ -220,7 +233,7 @@ def main() -> int:
     selection.add_argument("--approve", help="comma-separated 1-based row numbers approved by a human")
     selection.add_argument("--retry-report", type=Path, help="previous batch JSON report; retries only failed rows whose source, media file identity and bounds still match")
     parser.add_argument("--vertical", action="store_true", help="render 1080x1920 (9:16), preserving the full frame over a blurred background")
-    parser.add_argument("--require-audio", action="store_true", help="reject rendered MP4s without an audio stream")
+    parser.add_argument("--require-audio", action="store_true", help="reject source media and rendered MP4s without an audio stream")
     parser.add_argument("--execute", action="store_true", help="perform local rendering; default is dry-run")
     parser.add_argument("--confirm-rights", action="store_true", help="confirm authorization for this exact local media file")
     parser.add_argument("--report", type=Path, help="optional report path; defaults inside this run folder")
