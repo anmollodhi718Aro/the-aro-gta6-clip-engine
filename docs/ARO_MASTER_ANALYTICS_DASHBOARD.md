@@ -293,3 +293,11 @@ No merge, retarget, deployment, upload, public publishing, or issue #68 implemen
 | Parent baseline | 284 tests passed on Ubuntu and 284 on Windows | VERIFIED FOR PARENT ONLY | Run 44700987089 on parent SHA `4787c069d498b51177968546198eea3e1e8ac84a`; not evidence for PR #73 |
 | Workforce score | N/A | INSUFFICIENT EVIDENCE | Active time and exact-head test evidence incomplete |
 | First authorized GTA 6 MP4 | Not produced | BLOCKED | Authorized recording/export still required |
+
+
+## ARO-CHAT-0032 correction — 2026-11-20
+
+- ARO-CHAT-0031 is already assigned to concurrent PR #72. The duplicate PR #73 was closed unmerged and invalidated.
+- Test-hygiene work continues under unique serial ARO-CHAT-0032 / task ARO-GTA-P2-32.
+- CSV-reader context-manager fix is implemented; direct tests and exact-head CI are not verified. Parent PR #71 CI is not evidence for this branch.
+- No score assigned; task scope is P2 maintenance and evidence is incomplete.
