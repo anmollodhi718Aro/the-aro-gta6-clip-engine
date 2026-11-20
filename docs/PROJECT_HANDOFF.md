@@ -681,3 +681,39 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 
 
 - ARO-CHAT-0033 documentation/QA handoff is recorded in [draft PR #76](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/76), stacked on PR #75. PR #76 is documentation-only and remains unmerged.
+
+## ARO-CHAT-0034 live audit handoff — 2026-11-20
+
+### Repository and integration state
+- Live repository: `anmollodhi718Aro/the-aro-gta6-clip-engine`; default branch: `main`.
+- GitHub metadata reports admin/maintain/push/pull capabilities for the connected credential. This does not authorize merge, deployment, publishing, credential access or permission escalation.
+- The canonical `docs/PROJECT_HANDOFF.md`, `docs/CHAT_WORKSTREAM_REGISTRY.md`, `docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md` and `docs/ARO_MASTER_ANALYTICS_DASHBOARD.md` were not found on `main` (404). They are present in the newer ARO-CHAT-0033 workstream history. Default-branch documentation is therefore behind the active workstream documentation.
+- The `main` README still describes video cutting, dashboard and publishing as not implemented. It is not an accurate standalone summary of the newer clipping-first branch.
+- PR #66 is the clipping-first implementation baseline and targets `integration/release-candidate`. PR #71 adds audio-stream acceptance on the PR #66 line. PR #75 is stacked on PR #71. PR #76 is documentation-only and stacked on PR #75. Review/integrate in dependency order; do not merge #76 independently.
+- PR #72 and #74 both claim ARO-CHAT-0031 / ARO-GTA-P0-31; owner reconciliation is required. PR #73 is invalidated and closed unmerged.
+- The clipping-first branch compared with `main` is 522 commits ahead and 0 behind. This large difference and the non-main PR base make owner-controlled integration planning essential.
+
+### Current CI evidence
+- PR #75 exact code head `7d1bbd2405639b008f0c3d667caa5b8ca93c272f`: Actions run #44706399362 passed. Ubuntu job #136186999278 and hosted Windows job #136186998767 each executed 284 tests successfully.
+- PR #76 documentation head `ff1c1f8075517443270732188772d02faa1bbace`: Actions run #44707142883 was cancelled. Ubuntu cancellation occurred during FFmpeg/FFprobe setup; Windows checkout was cancelled; compile/test steps were skipped. CI for PR #76 is NOT VERIFIED.
+- PR #71 implementation head `bb71afc5b4c7b9d37440d5e7e85643dd28995b7c`: Actions run #44700696502 succeeded; test count not recovered in this audit.
+- No local tests were executed by ARO-CHAT-0034. The GitHub connector session did not provide a local repository runtime.
+
+### Renderer inspection
+The inspected clipping-first renderer uses local FFmpeg, optional vertical 1080x1920 rendering, FFprobe post-render validation, optional required-audio enforcement, a temporary output file and no-overwrite publication. This is implementation evidence only. It is not proof of successful processing of a real GTA 6 recording.
+
+### First authorized MP4 acceptance
+- Authorized GTA 6 source recording/export: NOT SUPPLIED.
+- Synthetic fixture/hosted CI: useful for software regression coverage, not real-media compatibility.
+- First actual authorized MP4: BLOCKED / NOT VERIFIED.
+- Owner-device Windows playback: NOT VERIFIED.
+- Public upload: NOT AUTHORIZED by this workstream; separate source rights, destination authorization and per-clip approval remain mandatory.
+
+### Next actions
+1. Owner reviews PRs #66, #71, #75 and #76 and decides the safe integration sequence.
+2. Resolve the duplicate ARO-CHAT-0031 attribution in #72/#74.
+3. Reconcile canonical documentation and README on `main` through an approved PR sequence.
+4. Obtain an authorized recording/export and execute the local first-clip workflow with explicit rights confirmation.
+5. Verify MP4 playback and FFprobe metadata: video/audio streams, 1080x1920 dimensions, expected duration and correct timestamps.
+6. Keep issue #68 OPEN / UNASSIGNED until the owner separately assigns and approves authenticated uploader work.
+7. Keep Automation Deployment Beta paused; no separate Beta repository was verified in the connected repository inventory.
