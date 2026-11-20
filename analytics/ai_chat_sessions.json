@@ -1847,7 +1847,11 @@
         "duplicate_pr_created": false,
         "duplicate_renderer_implementation_created": false,
         "existing_pr_reused": 66,
-        "serial_collision": "A provisional ARO-CHAT-0028 branch was created from a stale registry snapshot, then invalidated after live refresh showed ARO-CHAT-0028 already registered. Corrected attribution is ARO-CHAT-0029; provisional branch marked DO NOT MERGE."
+        "serial_collision": "A provisional ARO-CHAT-0028 branch was created from a stale registry snapshot, then invalidated after live refresh showed ARO-CHAT-0028 already registered. Corrected attribution is ARO-CHAT-0029; provisional branch marked DO NOT MERGE.",
+        "duplicate_implementation": false,
+        "serial_collision_corrected": true,
+        "invalidated_branch": "workstream/aro-chat-0028-research-ci-reconciliation-2026-11-20",
+        "authoritative_branch": "workstream/aro-chat-0029-research-ci-reconciliation-2026-11-20"
       },
       "blockers": [
         "No creator-authorized GTA 6 recording/export or supported media handoff.",
@@ -1883,7 +1887,20 @@
       "known_findings": [
         "Revalidated pre-existing review-dashboard overwrite defect on PR #66 base; fix exists in PR #69 under ARO-CHAT-0027, not duplicated.",
         "Issue #68 remains OPEN / UNASSIGNED; uploader does not call owner-identity approval helper."
-      ]
+      ],
+      "mistakes": 1,
+      "mistake_severity": "LOW",
+      "mistake_details": [
+        {
+          "severity": "LOW",
+          "root_cause": "A stale snapshot of the chat registry was read while another chat was concurrently registering ARO-CHAT-0028.",
+          "impact": "A provisional branch and documentation record were created with an already-used serial before the live registry refresh.",
+          "correction": "The provisional branch was explicitly marked INVALIDATED / DO NOT MERGE; no PR was opened from it. The live registry was reread, ARO-CHAT-0029 was checked for availability, and all authoritative work was re-attributed to ARO-CHAT-0029 on a separate corrected branch and PR #70.",
+          "repeated": false,
+          "owner_intervention_required": false
+        }
+      ],
+      "rework_required": true
     }
   ]
 }
