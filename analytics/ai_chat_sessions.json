@@ -155,12 +155,12 @@
       }
     },
     {
-      "chat_id": "ARO-CHAT-0017",
-      "title": "ARO-CHAT-0017 | Exact-Head CI and Windows Verification Audit (identity reconciled)",
+      "chat_id": "ARO-CHAT-0018",
+      "title": "ARO-CHAT-0018 | Exact-Head CI and Windows Verification Audit (identity reconciled)",
       "project": "THE ARO GTA 6 CLIP ENGINE",
       "workstream_id": "ARO-ZERO-ONE",
       "task_ids": [
-        "ARO-GTA-P0-17"
+        "ARO-GTA-P0-18"
       ],
       "provider": "OpenAI",
       "model": "GPT-6",
@@ -279,7 +279,7 @@
         "windows_tested_sha": "58627b5c96a8141beba9dfa092916375ca942382",
         "current_pr_head": "fd7fa41dc75e19235d75b96ffb1791d7e101b9d6"
       },
-      "collision_resolution": "Retroactively re-attributed from duplicate ARO-CHAT-0015 after live registry audit. ARO-CHAT-0015 remains assigned to Windows CI Recovery and First-Clip Readiness Audit; this record was absent from the canonical registry. Shared commit fd7fa41dc75e19235d75b96ffb1791d7e101b9d6 is retained as historical overlap and must not be double-counted as independent implementation."
+      "collision_resolution": "Retroactively re-attributed from duplicate ARO-CHAT-0015 after live registry audit. ARO-CHAT-0015 remains assigned to Windows CI Recovery and First-Clip Readiness Audit. ARO-CHAT-0017 was already reserved in the canonical registry for Research Reference Audit, so this record uses ARO-CHAT-0018. Shared commit fd7fa41dc75e19235d75b96ffb1791d7e101b9d6 is retained as historical overlap and must not be double-counted."
     },
     {
       "chat_id": "ARO-CHAT-0015",
@@ -541,12 +541,12 @@
       "collision_resolution": "Initially reserved ARO-CHAT-0015, but a live registry/ledger read found two concurrent records using that ID for CI/Windows first-clip work. Re-attributed this separate analytics-schema task to ARO-CHAT-0016 before continuing."
     },
     {
-      "chat_id": "ARO-CHAT-0018",
-      "title": "ARO-CHAT-0018 | Analytics Identity Collision Repair and Exact-Head CI Recovery",
+      "chat_id": "ARO-CHAT-0019",
+      "title": "ARO-CHAT-0019 | Analytics Identity Collision Repair and Exact-Head CI Recovery",
       "project": "THE ARO GTA 6 CLIP ENGINE",
       "workstream_id": "ARO-ZERO-ONE",
       "task_ids": [
-        "ARO-GTA-P0-18"
+        "ARO-GTA-P0-19"
       ],
       "provider": "OpenAI",
       "model": "GPT-6",
@@ -646,7 +646,8 @@
         "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
         "failed_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44638736182",
         "starting_sha": "23daf0fa0ec14886733ba59cd52df642b4a1c28c"
-      }
+      },
+      "collision_resolution": "Allocated after checking the canonical registry: ARO-CHAT-0017 was already reserved for Research Reference Audit; ARO-CHAT-0018 is used to preserve the previously unregistered duplicate CI audit record."
     }
   ]
 }
