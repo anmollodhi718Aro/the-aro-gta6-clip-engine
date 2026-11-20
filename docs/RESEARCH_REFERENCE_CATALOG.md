@@ -98,3 +98,57 @@ Live GitHub REST metadata and raw README/LICENSE/source files were rechecked for
 - Auto-Editor is a Nim CLI centered on audio loudness and motion-based editing. It is not a drop-in Python dependency. Silence/motion should be optional signals because they can remove meaningful game audio or reactions.
 - Remotion's repository-level GitHub license metadata is `NOASSERTION`; the project's own `LICENSE.md` defines a special Free License for individuals and qualifying small organizations and a Company License for others. Recheck legal eligibility before commercial adoption. No dependency was added.
 - No external source code was copied and no dependency was introduced during this research recheck.
+
+
+## ARO-CHAT-0034 live research revalidation — 2026-11-20
+
+This is a point-in-time refresh of the existing four-reference research record. GitHub REST repository metadata, README, license files and selected implementation files were inspected through the GitHub connector. Counts are snapshots, not quality measures. No external source code was copied and no dependency was added.
+
+| Reference | Stars | Forks | Open issues | Last push (UTC) | GitHub license metadata | Decision |
+|---|---:|---:|---:|---|---|---|
+| [OpenShorts](https://github.com/mutonby/openshorts) | 9,488 | 1,998 | 81 | 2026-11-20 16:36:37 | MIT (core; cloud/ exception) | STUDY ONLY |
+| [AI YouTube Shorts Generator](https://github.com/Anil-matcha/AI-Youtube-Shorts-Generator) | 6,353 | 1,160 | 33 | 2026-11-12 13:36:13 | MIT | ADAPT IDEAS ONLY |
+| [Auto-Editor](https://github.com/WyattBlue/auto-editor) | 6,022 | 754 | 0 | 2026-11-20 15:32:41 | Unlicense | STUDY ONLY |
+| [Remotion](https://github.com/remotion-dev/remotion) | 74,542 | 6,333 | 192 | 2026-11-20 16:46:29 | NOASSERTION at repository level; special license file | STUDY ONLY / DEFER |
+
+### OpenShorts
+
+- **Files inspected:** README.md, LICENSE, docker-compose.yml, clip_selection.py, reframe_v2.py, quality_probe.py, and render-service source inventory (bundle.ts, composition-metadata.test.ts, render-worker.ts, server.ts).
+- **Architecture verified:** Docker Compose separates backend, dashboard and renderer services. reframe_v2.py performs a low-resolution (up to 640px) analysis pass, then uses FFmpeg-native scene rendering and concatenation; it maps source audio into rendered scenes. Clip selection helpers are standard-library-only and isolate some ranking logic.
+- **Useful ARO ideas:** keep analysis and rendering separate; model scene-level layout decisions as explicit data; centralize renderer orchestration; keep candidate selection helpers deterministic and testable; probe output quality before review.
+- **Risks:** the system is much larger than the local-first MVP and includes GPU, hosted, cloud, downloader and publishing surfaces. The README/license distinguish the core MIT application from the separately commercially licensed cloud/ directory. URL-based source handling and autopublishing must not be adopted as default ARO behavior.
+- **Decision:** STUDY ONLY. Revisit a small, provider-neutral analysis/render boundary after first authorized MP4. Do not import the full application or cloud directory.
+
+### AI YouTube Shorts Generator
+
+- **Files inspected:** README.md, LICENSE, shorts_generator/highlights.py, shorts_generator/pipeline.py, shorts_generator/clipper.py, and requirements.txt.
+- **Architecture verified:** separate transcription, highlight generation and crop stages; API and local execution paths; injectable LLM function; transcript chunking; structured score, hook and reason fields; local crop path uses OpenCV while API mode delegates crop to MuAPI.
+- **Useful ARO ideas:** provider-neutral highlight scorer interface; structured candidate explanations; transcript chunking; overlap/deduplication; explicit candidate result model.
+- **Risks:** default API mode requires a third-party service; local mode includes YouTube URL acquisition/downloading. Neither API claims nor viral scores establish performance on GTA gameplay. THE ARO authorization model requires a user-owned or creator-authorized local media handoff.
+- **Decision:** ADAPT IDEAS ONLY. Consider scoring/deduplication concepts for authorized local recordings; do not adopt downloader or hosted acquisition path.
+
+### Auto-Editor
+
+- **Files inspected:** README.md, LICENSE, src/edit.nim, src/analyze/audio.nim, and src/analyze/motion.nim.
+- **Architecture verified:** Nim-based CLI; analysis/edit expression pipeline; audio loudness and frame-motion signals; SIMD implementations in analysis modules; configurable active/inactive timeline actions and margins; export to editing timelines.
+- **Useful ARO ideas:** optional audio/motion feature signals, configurable thresholds, deterministic signal extraction and explainable labels.
+- **Risks:** native Nim/libav implementation is not a drop-in Python dependency. Silence or motionlessness is not semantic importance and can remove meaningful gameplay audio, dialogue or reaction moments.
+- **Decision:** STUDY ONLY. If later justified, build a small independent signal adapter that emits metadata only; never auto-delete or trim original source content based solely on silence.
+
+### Remotion
+
+- **Files inspected:** README.md, LICENSE.md, packages/renderer/package.json, packages/player/package.json, and packages/captions/package.json.
+- **Architecture verified:** React/TypeScript programmatic video framework with separate renderer and Player packages; renderer targets Node.js or Bun and depends on execa, WebSocket support and platform-specific native compositor packages. Player embeds previews in React. The captions package declares MIT independently.
+- **License finding:** repository metadata is NOASSERTION; renderer and Player package metadata refer to LICENSE.md, which sets a special Free License for individuals and qualifying small organizations and requires a Company License for others. The captions package is separately MIT. Eligibility must be checked against the actual intended legal entity and use case.
+- **Useful ARO ideas:** reusable caption/motion templates and an embeddable preview player for a later Studio layer.
+- **Risks:** adding Remotion renderer introduces Node/Bun and native compositor dependencies beside the existing FFmpeg pipeline, plus a conditional license. Package-level licenses differ.
+- **Decision:** STUDY ONLY / DEFER. Do not add the renderer to P0. Revisit only for a later Studio template feature after architecture and license review; evaluate captions independently if needed.
+
+### Integration conclusion
+
+1. Keep the current FFmpeg renderer as the P0 rendering path; no external project justifies replacing it before first authorized MP4 acceptance.
+2. Preserve independent authorization boundaries for source acquisition and destination publishing.
+3. The only low-risk concepts worth carrying forward are explainable candidate scoring, deduplication, optional audio/motion signals, explicit analysis/render separation and a future preview-player pattern.
+4. No dependencies, external source code or publishing integrations were adopted in this research task.
+5. No ARO media benchmark or compatibility test was run; repository metrics are not performance evidence.
+6. Highest-value next engineering work remains an authorized local sample render, FFprobe verification (video + audio, dimensions, duration) and playback review. The real GTA 6 milestone remains blocked until an authorized recording/export is supplied.
