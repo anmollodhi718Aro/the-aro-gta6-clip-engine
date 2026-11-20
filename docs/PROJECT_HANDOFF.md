@@ -681,3 +681,12 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 
 
 - ARO-CHAT-0033 documentation/QA handoff is recorded in [draft PR #76](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/76), stacked on PR #75. PR #76 is documentation-only and remains unmerged.
+
+
+## ARO-CHAT-0034 research refresh handoff — 2026-11-20
+
+- Refreshed the existing docs/RESEARCH_REFERENCE_CATALOG.md; no duplicate catalog was created.
+- Rechecked live GitHub metadata and selected README/LICENSE/source files for OpenShorts, AI YouTube Shorts Generator, Auto-Editor and Remotion. See the catalog's ARO-CHAT-0034 section for counts, inspected paths, architecture, risks and decisions.
+- No code, dependency, renderer, source-acquisition, uploader or publishing changes. No external code copied.
+- Recommendation unchanged: retain FFmpeg as the P0 renderer; adapt only small scoring/deduplication and optional signal ideas after the first authorized MP4. Defer Remotion renderer due conditional license and second-runtime cost.
+- The project remains blocked on authorized real GTA 6 media; research does not change clip readiness.
