@@ -1859,6 +1859,109 @@
         "implementation_head": "bb71afc5b4c7b9d37440d5e7e85643dd28995b7c"
       },
       "permission_notes": "The owner's explicit master execution instruction authorized this bounded contributor task: implement audio-stream validation, tests, manual workflow/documentation, canonical records and draft PR. No merge, retarget, deployment, publishing, credentials, destructive actions, permission changes, issue #68 implementation or owner-only approval. Initial code commits preceded registry reservation update; disclosed."
+    },
+    {
+      "chat_id": "ARO-CHAT-0031",
+      "title": "ARO-CHAT-0031 | Test ResourceWarning Cleanup",
+      "project": "THE ARO GTA 6 Clip Engine",
+      "workstream_id": "ARO-GTA-P2-31",
+      "task_ids": [
+        "ARO-GTA-P2-31"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T14:17:00+05:30",
+      "ended_at": null,
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "task_category": [
+        "test_hygiene",
+        "qa",
+        "documentation",
+        "ci_cd"
+      ],
+      "priority": "P2",
+      "starting_branch": "workstream/aro-chat-0030-audio-stream-acceptance-2026-11-20",
+      "starting_sha": "4787c069d498b51177968546198eea3e1e8ac84a",
+      "current_branch": "workstream/aro-chat-0031-test-resourcewarning-2026-11-20",
+      "current_sha": "38bd4bcb53f48710fd69e654a2e4e611513e321c",
+      "pull_requests": [
+        73
+      ],
+      "issues": [],
+      "commits": [
+        "b01176a97b7456ecc650c41400b60bb57cb2f325",
+        "9868f6a74b13f203597e2df747849838134b8d41",
+        "38bd4bcb53f48710fd69e654a2e4e611513e321c"
+      ],
+      "files_inspected": [
+        "tests/test_batch_render.py",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/ARO_MASTER_ANALYTICS_DASHBOARD.md",
+        "docs/AI_CHAT_ANALYTICS.md"
+      ],
+      "files_created": [],
+      "files_modified": [
+        "tests/test_batch_render.py",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/ARO_MASTER_ANALYTICS_DASHBOARD.md",
+        "docs/AI_CHAT_ANALYTICS.md",
+        "analytics/ai_chat_sessions.json"
+      ],
+      "tests": {
+        "added": 0,
+        "executed_by_this_chat": 0,
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "ci_runs": []
+      },
+      "ci_status": "NOT RUN: PR #73 targets PR #71's workstream branch; current workflow pull_request filter targets main. Parent run 44700987089 passed 284 tests per platform on SHA 4787c069d498b51177968546198eea3e1e8ac84a only; it does not verify this change.",
+      "windows_status": "Owner-device Windows NOT VERIFIED; parent hosted Windows CI baseline only.",
+      "real_media_status": "BLOCKED_AUTHORIZED_MEDIA_REQUIRED",
+      "bugs_discovered": 1,
+      "bugs_fixed": 1,
+      "new_security_findings": 0,
+      "known_findings": [
+        "Both parent CI logs reported a non-failing ResourceWarning from an inline-open CSV reader in tests/test_batch_render.py; the test now uses a context manager. Fix awaits exact-head test verification."
+      ],
+      "regressions_introduced": null,
+      "regressions_resolved": null,
+      "duplicate_work": {
+        "overlapping_work_reviewed": [
+          "PR #71 audio-stream acceptance; separate P0 workstream"
+        ],
+        "duplicate_pr_created": false,
+        "duplicate_renderer_implementation_created": false,
+        "existing_pr_reused": null
+      },
+      "blockers": [
+        "No local test runtime used.",
+        "PR #73 stacked base does not match the current workflow's pull_request branch filter, so exact-head CI did not run.",
+        "Authorized GTA 6 recording/export still unavailable."
+      ],
+      "impact": {
+        "importance": "P2",
+        "criticality_to_first_clip": "LOW",
+        "committed_deliverables": 1,
+        "verified_deliverables": 0,
+        "independent_completion": true,
+        "required_repair_by_another_ai": "Run the full unittest suite on PR #73's exact head using a permitted runner or after approved integration; confirm the ResourceWarning no longer appears."
+      },
+      "acceptance_status": "IMPLEMENTED; TESTS_AND_CI_NOT_VERIFIED; PR73_DRAFT",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/73",
+        "parent_baseline_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44700987089",
+        "branch": "workstream/aro-chat-0031-test-resourcewarning-2026-11-20",
+        "current_sha": "38bd4bcb53f48710fd69e654a2e4e611513e321c"
+      },
+      "permission_notes": "Bounded test-hygiene change and documentation. No merge, retarget, deployment, publishing, credential access, destructive action, permission escalation, or owner-only approval."
     }
   ]
 }
