@@ -339,3 +339,19 @@
 - Exact-head workflow run `44655239459` was in progress on the observed PR head. Both Ubuntu and Windows jobs had completed checkout/Python setup and were still installing FFmpeg/FFprobe; compile and tests had not started. No test or CI pass is claimed.
 - No source, test, workflow, renderer, research catalog, or publishing files were changed by this audit. No merge, retarget, deployment, upload, or public publishing.
 - First real GTA 6 clip remains blocked on an expressly authorized creator recording/export or approved media handoff.
+
+
+## ARO-CHAT-0022 reservation and live audit (2026-11-20 13:03 IST)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0022 | ARO-CHAT-0022 \| GTA6 Clip Engine Live Audit and Research Reconciliation | ARO-ZERO-ONE (audit continuation; task ARO-GTA-P0-22) | Reconcile live repository/main/PR state, verify canonical governance docs and uploader approval gap, refresh research-reference status without duplicating completed research, and record a safe next handoff. No source-code, renderer, CI workflow, or publishing changes. | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 | IN_PROGRESS; read-only engineering audit plus governance record | Starting PR #66 head `7c7979d04ecba5c9d6856ac2c0f6401045fbc70c`; main `5f3332770b27d8a5211b3e74feade222563a9263`; PR #67 already reserves Chat 0021; existing branch and PR reused. |
+
+### ARO-CHAT-0022 audit findings
+- Repository metadata confirms the public repository and default branch `main`; connected GitHub API reports push/admin capability, which is not owner authority.
+- Live main remains `5f3332770b27d8a5211b3e74feade222563a9263`; active clipping branch is `workstream/aro-zero-one-clipping-first-2026-11-20` and PR #66 is open, unmerged, targeting `integration/release-candidate`.
+- PR #67 is open and reserves ARO-CHAT-0021. Its approval helper now compares `reviewed_by` with a trusted server-supplied `owner_identity`, but it does not authenticate that identity or integrate the helper into `backend/app/youtube_upload.py`.
+- Open issue #68 tracks the missing authenticated channel-owner approval integration; it is unassigned and NOT IMPLEMENTED. Public upload must remain disabled until this gap is closed and separately approved.
+- The existing four-repository research catalog is present and already attributed to ARO-CHAT-0017. It was re-read; no duplicate catalog or implementation was created.
+- The first real GTA 6 clip remains BLOCKED on an expressly authorized recording/export or approved media handoff. Synthetic FFmpeg/FFprobe fixtures do not satisfy this acceptance criterion.
+- No application code, tests, workflows, or production settings were changed by this audit. No merge, retarget, deployment, upload, or public publishing.
