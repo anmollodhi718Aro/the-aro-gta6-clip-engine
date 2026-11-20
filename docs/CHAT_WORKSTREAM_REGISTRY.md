@@ -579,3 +579,11 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 - Local tests executed: 0. Exact-head CI: NOT RUN. The existing CI pull-request filter targets `main`, while this stacked PR targets the PR #71 workstream branch. Parent PR #71's run 44700987089 passed 284 tests on each hosted platform, but does not verify this change.
 - PR #73 is open, draft, unmerged; GitHub reports mergeable. No merge, retarget, deployment, upload, or publishing.
 - Status: IMPLEMENTED; TESTED/CI_VERIFIED NOT CLAIMED. Next action: obtain an appropriate test run after owner review or integrate through the approved parent-branch sequence.
+
+
+## ARO-CHAT-0031 / ARO-CHAT-0032 serial-collision correction — 2026-11-20
+
+- A concurrent, earlier PR [#72](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/72) had already reserved ARO-CHAT-0031 / ARO-GTA-P0-31 for the live audit and first-clip handoff.
+- A second draft PR #73 was opened during a concurrent inventory race with the same serial. It was promptly marked INVALIDATED and closed unmerged; do not merge or revive it.
+- The isolated test-hygiene work is re-registered as **ARO-CHAT-0032 / ARO-GTA-P2-32**, branch `workstream/aro-chat-0032-test-resourcewarning-2026-11-20`, and will use a separate draft PR.
+- The serial collision is disclosed; no historical record is silently overwritten. The closed PR #73 contains no merged code.
