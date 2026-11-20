@@ -136,3 +136,10 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 - No merge, retarget, deployment, upload, publishing, credential access, destructive action, or permission escalation.
 - No uploader/issue #68 implementation or application renderer changes.
 - PR #73 was closed unmerged as an invalid duplicate; new work is tracked separately under ARO-CHAT-0032.
+
+
+### Serial-collision correction for the bounded permission ledger
+
+- The provisional ARO-CHAT-0031 grant recorded earlier in this branch is INVALIDATED because concurrent PRs #72 and #74 already claim that serial.
+- PR #73 was closed unmerged. Do not attribute its work or permission grant to the canonical ARO-CHAT-0031 identity.
+- The test-hygiene contribution is now solely attributed to ARO-CHAT-0032 / ARO-GTA-P2-32, with the same bounded contributor restrictions above.
