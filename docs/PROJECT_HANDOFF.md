@@ -582,3 +582,20 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - PR #66 exact-head CI: NOT VERIFIED. Owner-device Windows runtime: NOT VERIFIED. Authorized real GTA 6 MP4: BLOCKED.
 - PR #67 helper CI run `44655744416` remains separately verified: both platform jobs completed compile and 283 tests on the tested helper SHA. It does not integrate authenticated identity into the actual uploader.
 - ARO-CHAT-0024 changed documentation/analytics and issue #26 only; no application code or tests changed. No merge, retarget, deployment, upload, or public publication.
+
+
+## ARO-CHAT-0027 | Review Dashboard Collision-Safe Export QA — 2026-11-20
+
+- Identity: OpenAI / GPT-6; role QA / Auditor; task `ARO-GTA-P0-27`; dedicated branch `workstream/aro-chat-0027-review-dashboard-pr-qa-2026-11-20`.
+- Reservation was made only after reading the registry through ARO-CHAT-0026. Reservation commit: `8ed566e08949a42d387853a764da40ba243a389c`. The QA branch starts from PR #69 head `f84364345bf578754b870274cd6be6884db1b88e`.
+- PR #69 `[ARO-CHAT-0026][ARO-GTA-P0-26] Prevent review dashboard report overwrite` is OPEN, DRAFT, UNMERGED, and reported `mergeable=false` at audit time. It is stacked on the existing clipping-first workstream, not main.
+- Static review confirmed the CLI delegates output publication to the existing `write_texts_no_overwrite` helper rather than calling `Path.write_text`; new regression tests cover preserving an existing report and creating a new nested output. The shared helper stages sibling temporary files, links destinations without replacement, and rolls back files created by the same call if publication fails. Existing helper tests cover collision and rollback behavior.
+- No defect was confirmed from the inspected diff. No local or remote test execution was performed by this QA session. The exact-head workflow lookup returned no PR-triggered runs for `f84364345bf578754b870274cd6be6884db1b88e`; PR #69 CI is therefore NOT VERIFIED. Tests present in a PR are not evidence of execution.
+- No application/test/workflow code was changed by this session. No PR review approval, merge, retarget, deployment, upload, or public publishing was performed.
+- Remaining P0 acceptance blocker: no creator-authorized GTA 6 recording/export or approved media handoff is available for the first real-media MP4. Issue #68 remains open/unassigned; uploader integration requires explicit owner assignment/approval.
+
+### Next actions
+1. Let PR #69 receive a completed CI run on its exact head, then inspect compile and unittest steps/logs before treating it as tested.
+2. Keep PR #69 draft and unmerged until its author/owner completes the intended review and CI gates.
+3. Obtain creator-authorized media and execute the Windows/local clipping workflow with FFmpeg, FFprobe, and playback evidence.
+4. Do not implement issue #68 until the project owner assigns/approves its implementation owner; keep public upload disabled.
