@@ -335,3 +335,34 @@ No merge, retarget, deployment, upload, public publishing, or issue #68 implemen
 
 
 | Documentation QA | PR #76 | OPEN / DRAFT / UNMERGED | ARO-CHAT-0033; six docs/analytics files; stacked on PR #75; no application/test/workflow changes |
+
+## ARO-CHAT-0034 live audit snapshot — 2026-11-20
+
+| Metric | Observation | Status | Evidence / limitation |
+|---|---|---|---|
+| Repository | `anmollodhi718Aro/the-aro-gta6-clip-engine` | VERIFIED | Live GitHub repository metadata |
+| Default branch | `main` | VERIFIED | Repository metadata |
+| Canonical governance docs on main | Requested canonical paths returned 404 | VERIFIED | Read paths on default branch |
+| Current docs branch | ARO-CHAT-0033 workstream branch | VERIFIED | Registry, handoff, dashboard and permission ledger fetched from branch |
+| Active PR #66 | Clipping-first baseline; base `integration/release-candidate` | OPEN / UNMERGED | PR search result; do not equate with main integration |
+| PR #71 | Audio-stream acceptance | OPEN / DRAFT / UNMERGED | Existing PR record |
+| PR #75 | CSV reader test-hygiene fix | OPEN / DRAFT / UNMERGED | Exact-head Actions run #44706399362 passed |
+| PR #76 | Documentation QA | OPEN / DRAFT / UNMERGED | Stacked on #75; run #44707142883 cancelled |
+| PR #75 Ubuntu CI | 284 tests passed | CI PASSED | Job #136186999278; exact head `7d1bbd2405639b008f0c3d667caa5b8ca93c272f` |
+| PR #75 hosted Windows CI | 284 tests passed | CI PASSED | Job #136186998767; not owner-device verification |
+| PR #76 CI | Cancelled during setup/checkout; tests skipped | NOT VERIFIED | Run #44707142883; not a test assertion failure |
+| PR #71 CI | Successful workflow | CI PASSED | Run #44700696502; test count not recovered |
+| Clipping renderer | FFmpeg, vertical output, FFprobe, audio gate, no-overwrite source observed | IMPLEMENTED | Source inspection; not a real-media execution |
+| Real authorized GTA 6 MP4 | Not produced | BLOCKED | Authorized recording/export required |
+| Owner-device playback | Not evidenced | UNVERIFIED | Hosted Windows CI is not owner-device playback |
+| Issue #68 uploader integration | OPEN / UNASSIGNED | NOT AUTHORIZED | Separate owner assignment/approval required |
+| ARO Automation Deployment Beta | No separate repository verified | NOT CONNECTED / PAUSED | Connected repository inventory/handoff |
+| Chat score | N/A | UNAVAILABLE | No measured duration or complete normalized telemetry |
+
+### Integration and governance risks
+- `main` README and canonical docs are behind the active workstream. Do not claim the current renderer/dashboard implementation is integrated into `main`.
+- PR #66's clipping-first branch is 522 commits ahead of `main` and targets `integration/release-candidate`. Owner-controlled consolidation is required.
+- PR #71 → PR #75 → PR #76 is a stacked review chain. Preserve ancestry and review order.
+- PR #72 and #74 duplicate ARO-CHAT-0031 attribution; owner reconciliation is pending.
+- PR #73 is invalidated/closed unmerged; do not revive it.
+- No merge, retarget, deployment, upload, public publishing or destructive operation was performed by ARO-CHAT-0034.
