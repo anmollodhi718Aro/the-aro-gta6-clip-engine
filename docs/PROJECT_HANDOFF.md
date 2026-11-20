@@ -658,3 +658,31 @@ No merge, retarget, deployment, upload, public publishing, credential access, or
 - Opened draft documentation PR [#70](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/70), based on the ARO-ZERO-ONE workstream branch.
 - PR #70 includes only documentation/analytics changes. GitHub reported `mergeable=false` at creation; do not merge or force integration. Resolve/review the base/head relationship first.
 - No CI run was associated with the documentation branch head at last lookup.
+
+## ARO-CHAT-0029 source-level pipeline verification addendum
+
+### Renderer and media validation
+
+Source inspection of `backend/app/clipping.py`, `backend/app/render_validation.py`, `backend/app/batch_render.py`, `backend/app/manual_clip.py`, `tests/test_real_ffmpeg_smoke.py` and the CI workflow confirms:
+
+- The local renderer rejects missing inputs, input/output path equality, occupied outputs, invalid/non-finite timestamps and clips above its configured duration limit.
+- FFmpeg runs with no-overwrite mode against a temporary output; vertical mode composes a 1080x1920 canvas and maps the optional source audio stream.
+- FFprobe validates an MP4 container, readable video stream, finite duration within tolerance and positive dimensions; vertical output must be exactly 1080x1920. Audio presence is reported, not universally required by the validator.
+- The synthetic FFmpeg smoke test creates a 4-second generated test pattern plus sine audio, renders a 2-second vertical clip, verifies 1080x1920 and audio presence, then fully decodes the output. This proves the synthetic path only, not GTA 6 media compatibility.
+
+### Review dashboard overwrite finding
+
+- The ARO-ZERO-ONE base branch's `backend/app/review_dashboard.py` still calls `Path.write_text`, which can overwrite an existing report.
+- PR #69's branch changes this to the existing `write_texts_no_overwrite` helper and adds tests for preserving an occupied output and creating a new nested output. This fix is not integrated into PR #66's base branch.
+- PR #69 current head at inspection: `0afc7623abc65121280fed669a6a1b6c1aff4b33`; PR is open/draft and GitHub reported `mergeable=false`.
+- Initial run [44697566076](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44697566076) on pre-repair SHA `62af35291975b9d1f01cd9ed13f8bd0c6c2d98a4`: Ubuntu compile passed but unit tests failed on one platform-dependent error-message assertion; Windows compile and 283 tests passed.
+- Repair commit `62c9cbe865d3f84346c0e848a4797ed53ab3cf2e` made the collision error deterministic. No workflow run/check was returned for the current PR #69 head; exact-head CI remains NOT VERIFIED.
+- Keep PR #69 under its existing ARO-CHAT-0027 ownership. Do not duplicate its implementation.
+
+### Upload approval boundary
+
+- PR #66's `approval.py` helper checks approved status, source match and active publish scope, but does not bind the reviewer to a trusted authenticated owner identity.
+- PR #67 adds an `owner_identity` argument and equality check, with the requirement that this value originate from trusted server-side authentication.
+- The existing `youtube_upload.py` still uses `--owner-approved` and `--confirm-rights`; it does not call the hardened helper or derive/verify the OAuth-authenticated channel owner.
+- Issue #68 explicitly tracks this missing integration and remains OPEN / UNASSIGNED pending owner assignment/approval.
+- No publishing or OAuth integration was performed by ARO-CHAT-0029.
