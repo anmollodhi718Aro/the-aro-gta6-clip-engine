@@ -414,3 +414,20 @@
 - Run `44696473060` on PR #66 head `125234af6fea09db64b434f4e520233658bf4aa9`: Ubuntu cancelled during compile after successful runner/setup/FFmpeg installation; Windows cancelled during FFmpeg installation after successful runner/setup. Both test steps skipped; exact-head CI NOT VERIFIED.
 - Separate PR #67 run `44655744416` passed compile and 283 tests on Ubuntu and Windows for tested SHA `c2d3dc1873a97d624dae78282d38448a0d54e3f6`; this does not validate PR #66.
 - No source/test/workflow changes or local tests; no merge/deploy/upload/publication. Real-media acceptance remains blocked on authorized GTA 6 footage.
+
+## ARO-CHAT-0024 reservation and closeout (2026-11-20)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0024 | ARO-CHAT-0024 \| Cross-Chat Serial Collision and Exact-Head CI Audit | ARO-ZERO-ONE (audit continuation; task ARO-GTA-P0-24) | Reconcile duplicate ARO-CHAT-0023 reservations without guessing historical ownership; inspect current PR #66 head/CI, renderer verification and upload-approval boundaries; produce factual handoff. Read-only QA; no application source/test/workflow changes. | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 | IMPLEMENTED (read-only audit and evidence reconciliation); exact-head CI NOT VERIFIED; real-media BLOCKED | Starting observed PR #66 head `56a1c573093937ebd7b49b1c5e383990d8fff83f`; latest observed head `b718dc3c9ecacd040ee0c33a61491306d3293817`; main `5f3332770b27d8a5211b3e74feade222563a9263`; PR #67 and issue #68 inspected; existing branch/PR reused. |
+
+### ARO-CHAT-0024 audit findings
+- The registry contained two distinct ARO-CHAT-0023 reservation rows with overlapping task/workstream attribution. The structured analytics ledger contained one ARO-CHAT-0023 record. Historical ownership of the duplicate reservation is unresolved; neither record was silently reassigned. This session uses the next unused serial, ARO-CHAT-0024.
+- PR #66 remains OPEN / UNMERGED, non-draft, targeting `integration/release-candidate`. Latest observed head: `b718dc3c9ecacd040ee0c33a61491306d3293817`. Default branch `main` remains `5f3332770b27d8a5211b3e74feade222563a9263`.
+- Exact-head workflow run `44696524352` for `b718dc3c9ecacd040ee0c33a61491306d3293817` was CANCELLED and exposed no job records. The commit status endpoint returned zero checks. Exact-head CI is NOT VERIFIED.
+- Earlier run `44696171430` on SHA `56a1c573093937ebd7b49b1c5e383990d8fff83f` completed Windows compile and unit-test steps successfully; its Ubuntu job was cancelled during FFmpeg/FFprobe installation before compile/tests. This evidence belongs only to that earlier SHA. Subsequent commits through `b718dc3c9ecacd040ee0c33a61491306d3293817` changed documentation/analytics/registry files only; no source/test files were changed in the inspected compare ranges.
+- Renderer review: FFmpeg maps source audio optionally (`0:a?`); FFprobe validates MP4 container, a readable video stream, finite positive duration, positive dimensions and exact 1080x1920 in vertical mode. It reports audio presence but does not require an audio stream. This is an explicit product acceptance choice, not recorded as a confirmed defect.
+- PR #67 already implements owner-identity equality in the approval helper; it does not authenticate the principal or wire the helper into `youtube_upload.py`. Issue #68 remains OPEN / UNASSIGNED and explicitly requires project-owner assignment/approval before implementation. No uploader implementation was started.
+- Research references are already catalogued under ARO-CHAT-0017 and revalidated by ARO-CHAT-0022; no duplicate research was created.
+- First authorized GTA 6 MP4 remains BLOCKED pending a creator-authorized recording/export or approved media handoff. Synthetic fixtures do not satisfy real-media acceptance.
+- This chat performed read-only QA and documentation/analytics closeout. Direct local tests: 0. No application source, tests, CI workflow, or publishing behavior changed. No merge, retarget, deployment, upload, or public publishing.
