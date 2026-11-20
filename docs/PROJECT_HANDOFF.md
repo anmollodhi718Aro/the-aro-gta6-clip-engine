@@ -641,3 +641,46 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 3. Run the Windows wizard with audio required, inspect the dry-run, render only after explicit rights confirmation, then validate video/audio streams, 1080x1920 dimensions, duration, and playback.
 4. Preserve the output for owner review; do not upload or publish without separate per-clip and destination-channel authorization.
 5. Keep issue #68 owner-identity uploader work separate until the owner explicitly assigns it.
+
+
+## ARO-CHAT-0031 live audit handoff — 2026-11-20 14:18 IST
+
+### Repository and integration state
+
+- Repository: `anmollodhi718Aro/the-aro-gta6-clip-engine`; default branch `main`; live main SHA `5f3332770b27d8a5211b3e74feade222563a9263`.
+- Canonical clipping-first engineering docs are maintained on the open ARO-ZERO-ONE workstream, not on `main`. The `main` tree still reflects the earlier synthetic chat-event MVP. Do not treat the main README's early-stage description as a current summary of the open clipping-first branch.
+- PR #66 is the clipping-first integration baseline and remains open/unmerged, targeting `integration/release-candidate`.
+- PR #71 is the audio-stream acceptance change, open/draft/unmerged, stacked on PR #66.
+- ARO-CHAT-0031 uses its own documentation-only branch stacked on PR #71; no existing contributor branch was modified.
+
+### Latest verified evidence
+
+- PR #71 exact head: `4787c069d498b51177968546198eea3e1e8ac84a`.
+- Actions run [44700987089](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44700987089): Ubuntu check `136169082777` and Windows hosted check `136169082306` both completed successfully on that exact head.
+- The audio-stream gate is implemented in FFprobe validation, renderer and batch flow. The Windows first-clip wizard defaults to audio required while allowing an explicit opt-out for intentionally silent media.
+- This is hosted CI evidence only. A direct local test run, owner-device Windows run and authorized GTA 6 real-media MP4/playback have not been performed by ARO-CHAT-0031.
+
+### Current milestone blockers
+
+1. **First real clip:** BLOCKED until an expressly creator-authorized GTA 6 recording/export or supported media handoff is supplied.
+2. **Owner-device verification:** NOT VERIFIED; hosted Windows CI is not a substitute for running the wizard on the owner's laptop.
+3. **Uploader identity integration:** issue #68 remains a separate owner-gated task. PR #67's helper does not by itself authenticate the OAuth principal or enforce owner identity in the uploader.
+4. **Main integration:** PR #66 and stacked PR #71 remain unmerged. No main/production readiness claim is made.
+5. **Automation Deployment Beta:** no separate repository was verified; Beta remains paused.
+
+### Research and architecture decisions retained
+
+- Reuse `docs/RESEARCH_REFERENCE_CATALOG.md`; the four requested references have already been inspected and their license/architecture caveats recorded.
+- Keep FFmpeg/FFprobe as the P0 rendering path. Do not introduce Remotion or another renderer before the first authorized clip milestone.
+- Keep acquisition, local rendering, review, source permission and destination publishing authorization separate.
+- Do not add dependencies or duplicate research without a concrete acceptance requirement.
+
+### ARO-CHAT-0031 session evidence
+
+- Chat: `ARO-CHAT-0031 | Live Clip Engine Audit and First-MP4 Readiness`; OpenAI / GPT-6.
+- Task: `ARO-GTA-P0-31`; role QA / Auditor and bounded documentation contributor.
+- Branch: `workstream/aro-chat-0031-live-audit-first-clip-2026-11-20`; based on PR #71 head `4787c069d498b51177968546198eea3e1e8ac84a`.
+- Documentation updated: chat registry, project handoff, permission ledger and master analytics dashboard.
+- Application/test/workflow code changes: none. Direct local tests: 0. Existing exact-head CI evidence belongs to PR #71 head, not to local execution by this chat.
+- No merge, retarget, deployment, upload, public publishing, credential access, destructive action, permission change or owner-only approval.
+- Chat score: UNAVAILABLE / not calculated; there is insufficient comparable time and category telemetry.
