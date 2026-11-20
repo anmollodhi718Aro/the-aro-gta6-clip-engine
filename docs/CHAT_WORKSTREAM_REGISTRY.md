@@ -363,3 +363,10 @@
 - PR #67 run `44655744416` has successful Ubuntu and Windows jobs, including compile and unit-test steps, on its tested code/test SHA as recorded in the PR body. Do not apply that pass to a later PR head without exact-SHA evidence.
 - Research catalog was revalidated with live GitHub metadata and direct README/LICENSE/source inspection; no dependency or external code was added.
 - Session status: IMPLEMENTED (governance/research audit records); CI_NOT_VERIFIED for current docs head; WINDOWS owner-device and REAL_MEDIA remain NOT_VERIFIED/BLOCKED.
+
+
+## ARO-CHAT-0023 reservation (2026-11-20 13:06 IST)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0023 | ARO-CHAT-0023 | Exact-Head CI Follow-up and Upload-Gate QA | ARO-ZERO-ONE (audit continuation; task ARO-GTA-P0-23) | Verify exact-head PR #66 CI execution, inspect uploader/approval boundary and issue #68, and provide evidence-based QA handoff. Read-only source audit; no application code, tests, CI workflow, publishing or production changes. | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 | Starting PR #66 head `56a1c573093937ebd7b49b1c5e383990d8fff83f`; main `5f3332770b27d8a5211b3e74feade222563a9263`; PR #67 / issue #68 inspected; no duplicate branch or PR. |
