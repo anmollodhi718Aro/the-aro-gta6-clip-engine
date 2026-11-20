@@ -1947,7 +1947,8 @@
         "No local test runtime used.",
         "PR #73 stacked base does not match the current workflow's pull_request branch filter, so exact-head CI did not run.",
         "Authorized GTA 6 recording/export still unavailable.",
-        "Initial reservation collided with concurrent PR #72 using ARO-CHAT-0031; PR #73 was invalidated and closed unmerged; this session is re-registered as ARO-CHAT-0032."
+        "Initial reservation collided with concurrent PR #72 using ARO-CHAT-0031; PR #73 was invalidated and closed unmerged; this session is re-registered as ARO-CHAT-0032.",
+        "PR #72 and PR #74 both claim ARO-CHAT-0031 / ARO-GTA-P0-31; owner reconciliation required."
       ],
       "impact": {
         "importance": "P2",
@@ -1966,7 +1967,12 @@
         "branch": "workstream/aro-chat-0031-test-resourcewarning-2026-11-20",
         "current_sha": "38bd4bcb53f48710fd69e654a2e4e611513e321c",
         "invalidated_duplicate_pr": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/73",
-        "current_pr_pending": "PR #74 to be created"
+        "current_pr_pending": "PR #74 to be created",
+        "current_pr": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/75",
+        "concurrent_chat_0031_prs": [
+          "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/72",
+          "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/74"
+        ]
       },
       "permission_notes": "Bounded test-hygiene change and documentation. No merge, retarget, deployment, publishing, credential access, destructive action, permission escalation, or owner-only approval."
     }
