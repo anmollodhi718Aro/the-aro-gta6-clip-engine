@@ -355,3 +355,11 @@
 - The existing four-repository research catalog is present and already attributed to ARO-CHAT-0017. It was re-read; no duplicate catalog or implementation was created.
 - The first real GTA 6 clip remains BLOCKED on an expressly authorized recording/export or approved media handoff. Synthetic FFmpeg/FFprobe fixtures do not satisfy this acceptance criterion.
 - No application code, tests, workflows, or production settings were changed by this audit. No merge, retarget, deployment, upload, or public publishing.
+
+
+### ARO-CHAT-0022 closeout evidence update (2026-11-20)
+- Documentation commits on the existing PR #66 branch: registry `c070a52c727b57a4ac80d0c1688df009c15e6ae0`; handoff `1b2440bfbfff19c49a31ed02dd9c56fae64c1692`; permission ledger `a58d68dd8a61104cc6ae405ae072773554a28e36`; dashboard `262b4dc337cc39511227578fd5718406f171be90` and CI reconciliation `30157706424c601819d7fd3017d010a36fb58921`; analytics `2e2ff9775367bf1856f894b62a7aafec3b5aa8f8`; research catalog `1f826cde5e8958885a024e27a307f57e278e077b`.
+- Latest observed PR #66 head before this registry closeout: `30157706424c601819d7fd3017d010a36fb58921`; the PR remains open/unmerged. Actions run `44696075728` was cancelled during checkout before compile/tests; latest-head CI is NOT VERIFIED. Cancellation was infrastructure/checkout-stage, not a code-test failure.
+- PR #67 run `44655744416` has successful Ubuntu and Windows jobs, including compile and unit-test steps, on its tested code/test SHA as recorded in the PR body. Do not apply that pass to a later PR head without exact-SHA evidence.
+- Research catalog was revalidated with live GitHub metadata and direct README/LICENSE/source inspection; no dependency or external code was added.
+- Session status: IMPLEMENTED (governance/research audit records); CI_NOT_VERIFIED for current docs head; WINDOWS owner-device and REAL_MEDIA remain NOT_VERIFIED/BLOCKED.
