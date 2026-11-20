@@ -91,3 +91,10 @@ The initial ledger contains the ARO-CHAT-0014 continuation record only. Historic
 - Local tests executed: 0; PR #73 exact-head CI: NOT RUN due the workflow's `pull_request` base-branch filter targeting `main`, while PR #73 is intentionally stacked on PR #71.
 - Parent PR #71 run 44700987089 passed 284 tests on each hosted platform; this is baseline evidence only, not verification of PR #73.
 - No score assigned; timing and test evidence are incomplete. No merge or owner-only action.
+
+
+## ARO-CHAT-0032 serial correction — 2026-11-20
+
+- A concurrent reservation already existed as ARO-CHAT-0031 / PR #72. The duplicate draft PR #73 was closed unmerged and invalidated.
+- This test-hygiene task is now attributed to ARO-CHAT-0032 / ARO-GTA-P2-32. No duplicate code was merged.
+- The context-manager fix is present on the new branch; local tests and exact-head CI remain NOT VERIFIED.
