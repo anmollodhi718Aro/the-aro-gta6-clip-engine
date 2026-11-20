@@ -69,3 +69,8 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 
 - 2026-11-20: ARO-CHAT-0023 / OpenAI GPT-6 received a bounded QA/auditor scope from the owner's EXECUTE NOW instruction: inspect repository and exact-head CI evidence, review uploader/approval integration boundaries, and record a factual handoff. No application source, test, workflow, publishing, deployment, credential, destructive, merge, or permission-management authority was granted.
 - 2026-11-20: ARO-CHAT-0023 observed GitHub API admin/push capability for the connected credential. This is technical capability only and does not expand this session's project authority.
+
+
+- 2026-11-20: ARO-CHAT-0023 / OpenAI GPT-6 received a bounded contributor scope from the owner's explicit EXECUTE NOW instruction: inspect repository state, reuse the existing ARO-ZERO-ONE branch/PR, reserve its serial, and update factual audit/handoff records. No source-code implementation, merge, retarget, deployment, publishing, credential, destructive, or permission-management authority was granted.
+- 2026-11-20: ARO-CHAT-0023 verified GitHub connector push/admin capability as an API property only. This does not confer owner authority.
+- 2026-11-20: Issue #68 remains OPEN / UNASSIGNED; no owner grant assigning its implementation to this session was found. Implementation is NOT AUTHORIZED pending explicit owner assignment/approval.
