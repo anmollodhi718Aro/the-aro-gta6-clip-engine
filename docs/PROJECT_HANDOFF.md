@@ -708,7 +708,7 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - Required audio is now checked during dry-run and before execution when `--require-audio` is selected. A silent source fails before FFmpeg starts.
 - Added three regression tests covering audio-present intake, silent-source rejection and batch preflight.
 - Code implementation SHA before documentation reconciliation: `36ec5a4ccbb43dbdef1c8033606dbabb69017cfd`.
-- Local test execution by this session: 0. PR #79 exact-head CI: PENDING at handoff creation.
+- Local test execution by this session: 0. GitHub Actions run [44807719540](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44807719540) passed on exact head `4a19e8a3638680e394670352659ae606a397dd02`: Ubuntu job `136536059476` compiled and passed 287 tests; Windows job `136536060178` compiled and passed 287 tests. Hosted Windows is not owner-device verification.
 
 ### Live integration findings
 - `main` remains at `5f3332770b27d8a5211b3e74feade222563a9263`; canonical handoff/registry/permission/analytics files are not present on `main`.
