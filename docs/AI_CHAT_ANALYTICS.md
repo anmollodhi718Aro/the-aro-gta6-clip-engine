@@ -98,3 +98,9 @@ The initial ledger contains the ARO-CHAT-0014 continuation record only. Historic
 - A concurrent reservation already existed as ARO-CHAT-0031 / PR #72. The duplicate draft PR #73 was closed unmerged and invalidated.
 - This test-hygiene task is now attributed to ARO-CHAT-0032 / ARO-GTA-P2-32. No duplicate code was merged.
 - The context-manager fix is present on the new branch; local tests and exact-head CI remain NOT VERIFIED.
+
+
+### Concurrent serial collision correction
+
+- Final inventory found both PR #72 and PR #74 using ARO-CHAT-0031 / ARO-GTA-P0-31. Owner reconciliation is required.
+- This session's duplicate PR #73 was closed unmerged. Current workstream is ARO-CHAT-0032 / ARO-GTA-P2-32 in draft PR #75.
