@@ -339,3 +339,10 @@
 - Exact-head workflow run `44655239459` was in progress on the observed PR head. Both Ubuntu and Windows jobs had completed checkout/Python setup and were still installing FFmpeg/FFprobe; compile and tests had not started. No test or CI pass is claimed.
 - No source, test, workflow, renderer, research catalog, or publishing files were changed by this audit. No merge, retarget, deployment, upload, or public publishing.
 - First real GTA 6 clip remains blocked on an expressly authorized creator recording/export or approved media handoff.
+
+
+## ARO-CHAT-0021 reservation — 2026-11-20
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0021 | ARO-CHAT-0021 | Owner Identity Enforcement for Upload Approval Gate | ARO-ZERO-ONE (security hardening; task ARO-GTA-P0-21) | Require upload approval to match a trusted authenticated channel-owner identity; add mismatch/missing-identity regression tests; document authentication boundary. No OAuth implementation or publishing. | `workstream/aro-chat-0021-owner-identity-guard-2026-11-20` / stacked PR targeting existing PR #66 branch | RESERVED | Base PR #66 head `008f1fc9b0088788b2037b32e89c14dd6c504a1c`; existing PR #65/#66 approval implementation inspected; no matching open issue or branch found |
