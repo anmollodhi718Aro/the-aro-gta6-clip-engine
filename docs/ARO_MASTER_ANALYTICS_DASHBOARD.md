@@ -248,3 +248,19 @@ No workforce score is assigned: independent time-efficiency and broader quality 
 | Owner-only uploader integration | Issue #68 remains open/unassigned | PENDING OWNER APPROVAL | No uploader implementation performed |
 
 No leaderboard score is assigned: independent test and efficiency evidence is incomplete. No progress percentage is inferred.
+
+
+## ARO-CHAT-0027 verification update — 2026-11-20
+
+| Metric | Observation | Status | Evidence / limitation |
+|---|---|---|---|
+| Canonical identity | ARO-CHAT-0027 / ARO-GTA-P0-27 | VERIFIED | Corrected provisional serial collision; existing ARO-CHAT-0026 record preserved |
+| Dashboard no-overwrite fix | Reuses transactional output helper and provides stable collision error | IMPLEMENTED | Repair commit `62c9cbe865d3f84346c0e848a4797ed53ab3cf2e` |
+| Regression tests | Two CLI tests added | IMPLEMENTED | No local test run |
+| Initial Ubuntu CI | Compile passed; 283 tests executed, one new assertion failed | TESTED WITH FAILURE | Run [44697566076](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44697566076); failure was platform-dependent error text |
+| Initial Windows CI | Compile and all 283 tests passed | TESTED | Same run; applies to pre-repair SHA only |
+| Repaired exact-head CI | No run/check returned for `62c9cbe865d3f84346c0e848a4797ed53ab3cf2e` | NOT VERIFIED | Do not transfer pre-repair results |
+| PR #69 | Draft, open, unmerged | VERIFIED | [PR #69](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/69) |
+| First real GTA 6 MP4 | Authorized media not supplied | BLOCKED | Synthetic media is not real-media evidence |
+
+No chat score or ranking is assigned: final exact-head test and efficiency evidence are incomplete.
