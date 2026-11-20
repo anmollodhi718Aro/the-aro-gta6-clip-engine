@@ -520,3 +520,21 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 3. Render a 9:16 MP4; capture FFmpeg command/result, FFprobe metadata, full decode/playback evidence, and output hash.
 4. Record the result as `needs_review`; do not approve or publish on the owner's behalf.
 5. Resolve issue #68 by binding authenticated channel identity to durable per-clip approval and rechecking permission immediately before any upload; keep public publishing disabled until verified and explicitly owner-approved.
+
+
+## Live audit addendum — ARO-CHAT-0023 (2026-11-20 13:06 IST)
+
+- Chat identity: `ARO-CHAT-0023`, reserved after checking the canonical registry; previous highest reservation was ARO-CHAT-0022. Workstream: continuation of ARO-ZERO-ONE; task ARO-GTA-P0-23.
+- Reused the existing branch `workstream/aro-zero-one-clipping-first-2026-11-20` and PR #66. PR #66 remains open/unmerged and targets `integration/release-candidate`. No duplicate branch or PR was created.
+- Repository metadata confirms the public repository and default branch `main`. The canonical governance docs are present on the existing workstream branch, not at their expected paths on `main` during the initial fetch. Do not create parallel registries.
+- Code inspection confirms post-render FFprobe validation and local FFmpeg batch rendering are present on the workstream. The approval helper is not connected to authenticated channel identity in the uploader; issue #68 is OPEN / UNASSIGNED and explicitly awaits owner assignment. No uploader work was started without that assignment.
+- Workflow run 44696106299 on observed commit `1f826cde5e8958885a024e27a307f57e278e077b` was CANCELLED during FFmpeg/FFprobe installation on both Ubuntu and Windows jobs. Compile and test steps were skipped. Exact current PR-head CI remains NOT VERIFIED; cancellation is not a code failure.
+- Synthetic render/FFprobe evidence is separate from authorized GTA 6 footage. No creator-authorized recording/export was supplied; first real GTA 6 MP4/playback remains BLOCKED.
+- Research reference catalog already exists under ARO-CHAT-0017; no duplicate research was created.
+- Work performed in this chat: live repository/branch/PR/issue/document/code audit and documentation-only session reservation/handoff. Tests executed directly: 0. Source/test/workflow files changed: 0. No merge, retarget, deployment, upload, or publication.
+
+### Next actions
+1. Owner assigns/approves an implementation owner for issue #68, or explicitly authorizes ARO-CHAT-0024 to implement it; retain public-upload fail-closed behavior until tested.
+2. Reconcile the actual current PR #66 head SHA and trigger/recover CI on that exact head; inspect logs to distinguish runner/dependency cancellation from test failures.
+3. Obtain a creator-authorized GTA 6 recording/export or approved media handoff, then run the existing local workflow and capture FFmpeg/FFprobe/playback evidence.
+4. Keep PR #66 unmerged and all publishing/deployment actions disabled pending owner approval.
