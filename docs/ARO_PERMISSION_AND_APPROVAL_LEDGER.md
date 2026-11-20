@@ -161,3 +161,17 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 
 
 - ARO-CHAT-0033 created documentation-only draft PR [#76](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/76), stacked on PR #75. It does not authorize merge, deployment, publishing, or issue #68 implementation.
+
+## ARO-CHAT-0034 bounded audit and documentation scope — 2026-11-20
+
+| Identity | Chat ID | Role | Granted scope | Granting authority / evidence | Status |
+|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0034 | QA / AUDITOR; documentation contributor | Read repository metadata, branches, PRs, issues, canonical docs, source files and CI metadata; create one isolated documentation workstream branch; update canonical audit/handoff/analytics records; submit a draft documentation PR | Project owner's master execution instruction in this conversation; task ARO-GTA-P0-34 | ACTIVE FOR BOUNDED AUDIT AND DOCUMENTATION ONLY |
+
+### Restrictions retained
+- GitHub connector metadata reports admin/maintain/push/pull capability. Technical credential permissions are not a substitute for owner approval.
+- No merge, retarget, deployment, public upload, publishing, credential access, destructive action, permission escalation or owner-only approval was exercised.
+- No application, renderer, uploader, test or workflow implementation changes were authorized or made by this audit.
+- Issue #68 remains OPEN / UNASSIGNED and is not included in this grant.
+- PRs #66, #71, #75 and #76 remain subject to owner review and integration sequencing.
+- The ARO-CHAT-0031 duplicate attribution in PRs #72 and #74 requires owner reconciliation; this chat does not adjudicate ownership.
