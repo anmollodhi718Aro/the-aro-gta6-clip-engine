@@ -132,6 +132,9 @@ def main() -> int:
         write_texts_no_overwrite({output: render_dashboard(rows, args.title)})
         print(f"Dashboard created: {output} ({len(rows)} candidates)")
         return 0
+    except FileExistsError:
+        print(f"Dashboard generation stopped: output already exists: {args.output.expanduser()}", file=sys.stderr)
+        return 2
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"Dashboard generation stopped: {exc}", file=sys.stderr)
         return 2
