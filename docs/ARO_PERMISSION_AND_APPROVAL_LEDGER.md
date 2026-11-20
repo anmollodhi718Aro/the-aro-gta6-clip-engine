@@ -175,3 +175,18 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 - No application, renderer, media acquisition, uploader or workflow implementation changes.
 - No external source code copied and no new dependency introduced.
 - GitHub connector push/admin capability does not grant owner-only project authority.
+
+
+## ARO-CHAT-0036 bounded implementation grant — 2026-11-21
+
+| Identity | Chat ID | Task ID | Role | Granted scope | Status |
+|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0036 | ARO-TASK-0036 | MEDIA ENGINEER + QA | Modify only the existing local media intake/audio-preflight path and its focused tests; update canonical registry, handoff, permission and analytics records; open a draft PR stacked on the current documented workstream. | ACTIVE FOR ASSIGNED P0 TASK ONLY |
+
+### Restrictions retained
+- No merge, retarget, deployment, upload, public publishing, credential access/change, destructive operation, collaborator permission change or permission escalation.
+- No implementation of issue #68 or changes to the uploader/owner-authentication boundary.
+- No source acquisition, scraping, stream ripping, or processing of media not supplied through an authorized handoff.
+- No GTA 6 real-media acceptance claim. Synthetic fixtures and CI are not creator-media evidence.
+- GitHub connector push/admin capability is technical capability only and does not confer owner-only authority.
+- PR #79 remains draft and unmerged; owner review is required before integration.
