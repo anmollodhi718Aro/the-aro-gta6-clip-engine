@@ -582,3 +582,18 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - PR #66 exact-head CI: NOT VERIFIED. Owner-device Windows runtime: NOT VERIFIED. Authorized real GTA 6 MP4: BLOCKED.
 - PR #67 helper CI run `44655744416` remains separately verified: both platform jobs completed compile and 283 tests on the tested helper SHA. It does not integrate authenticated identity into the actual uploader.
 - ARO-CHAT-0024 changed documentation/analytics and issue #26 only; no application code or tests changed. No merge, retarget, deployment, upload, or public publication.
+
+
+## ARO-CHAT-0026 exact-head CI reconciliation — 2026-11-20
+
+- Latest verified PR #66 branch head: `817c7947c6756b80ae91ba272d172c3efaa2fa07`.
+- Exact-head workflow run [44696785004](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44696785004) completed successfully.
+- Ubuntu job `136155337178`: FFmpeg/FFprobe installation passed, compile passed, and all 281 unit tests passed (`Ran 281 tests in 4.853s; OK`).
+- Windows job `136155337553`: FFmpeg/FFprobe installation passed, compile passed, and all 281 unit tests passed (`Ran 281 tests in 15.632s; OK`).
+- Both platforms ran the same 281 tests independently. This is 562 successful test executions, not 562 unique test cases.
+- A Python ResourceWarning appeared during the run but did not fail either suite; record as low-priority test hygiene.
+- Exact-head CI for this SHA is now CI_VERIFIED. Earlier cancelled runs remain historical and are superseded for this SHA.
+- This CI run does not verify execution on the owner's Windows device and does not verify GTA 6 footage.
+- First authorized GTA 6 MP4 remains BLOCKED pending a creator-authorized recording/export or supported media handoff.
+- Issue #26 received the exact run/job/test evidence in comment [7033585164](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/26#issuecomment-7033585164).
+- ARO-CHAT-0026 performed read-only QA plus registry/handoff/dashboard documentation. Direct local tests: 0. No application/test/workflow code changed; no merge, retarget, deployment, upload, or public publishing.
