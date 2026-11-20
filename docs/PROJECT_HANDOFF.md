@@ -450,3 +450,14 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - Analytics schema and validator are IMPLEMENTED. Local Python syntax compilation and focused behavior smoke checks passed. The committed unittest module (10 tests) and full repository suite were NOT RUN; no exact-head CI run is available for the analytics changes.
 - The chat-ID collision was resolved by re-attributing this separate analytics task from the initially reserved ARO-CHAT-0015 to ARO-CHAT-0016 / ARO-GTA-P0-16. Two separate ARO-CHAT-0015 records remain from the concurrent CI/Windows audit sessions; they were not edited or claimed by this chat.
 - Existing PR #66 remains open, unmerged, and reported mergeable. No merge, retarget, main-branch update, deployment, upload, or public publishing.
+
+
+## ARO-CHAT-0017 research audit (2026-11-20 07:07 IST)
+- Chat: `ARO-CHAT-0017 | Research Reference Audit and Clipping-First Integration`; provider/model: OpenAI / GPT-6.
+- Task: `ARO-GTA-P0-17`; existing ARO-ZERO-ONE workstream, branch and PR #66 reused. No new branch or PR.
+- Verified current repository metadata: public repository; default branch `main`; connected account has admin permission. PR #66 is open, non-draft, unmerged, targets `integration/release-candidate`, and GitHub reports mergeable. Its observed head is `23daf0fa0ec14886733ba59cd52df642b4a1c28c`; main is `5f3332770b27d8a5211b3e74feade222563a9263`.
+- Re-read the existing canonical handoff, chat registry, analytics ledger, PR #66, and the current clipping CI workflow. Existing code work is substantial; no competing renderer or workflow was created.
+- Researched OpenShorts, AI YouTube Shorts Generator, Auto-Editor and Remotion. README, license and selected source files were inspected; dated repository metadata, recent commits, releases/issues endpoint observations, architecture notes and integration decisions are recorded in `docs/RESEARCH_REFERENCE_CATALOG.md`.
+- Decisions: OpenShorts STUDY ONLY; AI YouTube Shorts Generator ADAPT IDEAS ONLY (not its URL downloader); Auto-Editor STUDY ONLY; Remotion STUDY ONLY / DEFER due conditional proprietary license and second-renderer complexity. No external code or dependencies adopted.
+- CI evidence reconciliation: Windows run `44637236056` allocated a runner but failed during Chocolatey FFmpeg installation (HTTP 503); compile and tests were skipped. Follow-up run `44638350854` was cancelled with no job records. Do not classify these as code-test failures or passes. Earlier green evidence remains scoped to its exact earlier SHA only.
+- No source-code changes, tests, CI rerun, merge, retarget, deployment, upload or publishing in this research task. Real authorized GTA 6 media remains unavailable; actual GTA 6 MP4/playback remains NOT VERIFIED.
