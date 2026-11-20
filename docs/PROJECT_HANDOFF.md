@@ -597,3 +597,17 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - First authorized GTA 6 MP4 remains BLOCKED pending a creator-authorized recording/export or supported media handoff.
 - Issue #26 received the exact run/job/test evidence in comment [7033585164](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/26#issuecomment-7033585164).
 - ARO-CHAT-0026 performed read-only QA plus registry/handoff/dashboard documentation. Direct local tests: 0. No application/test/workflow code changed; no merge, retarget, deployment, upload, or public publishing.
+
+
+## ARO-CHAT-0027 implementation handoff — 2026-11-20
+
+- Chat: `ARO-CHAT-0027 | Review Dashboard Collision-Safe Export`; provider/model: OpenAI / GPT-6; task: `ARO-GTA-P0-27`; role: CONTRIBUTOR (bounded dashboard safety fix).
+- Existing workstream #0025 and #0026 CI records were preserved. This session's serial is #0027 because the analytics ledger already contained a separate #0026 CI-verification record.
+- Branch: `workstream/aro-chat-0026-review-dashboard-no-overwrite-2026-11-20` (historical branch slug retained after serial correction); PR: [#69](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/69), stacked on PR #66. Starting baseline: `d1e75e57855187c680a376e1ca24eb3bcd64e838`; implementation head before base reconciliation: `f84364345bf578754b870274cd6be6884db1b88e`.
+- Defect: the local review-dashboard CLI used `Path.write_text` and could overwrite an existing HTML report without warning.
+- Fix: `review_dashboard.py` now calls the existing `write_texts_no_overwrite` helper. Added two CLI tests covering preservation of existing output and successful creation of a new nested output path.
+- Files changed: `backend/app/review_dashboard.py`, `tests/test_review_dashboard.py`, and canonical registry/permission/dashboard/analytics/handoff records.
+- Direct tests executed by this chat: 0. GitHub Actions for this PR's reconciled exact head: PENDING at handoff time. Do not claim TESTED until compile and unit-test steps complete.
+- Existing PR #66 renderer exact-head run [44697009137](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44697009137) passed Ubuntu compile/unit tests; Windows compile passed but unit tests were cancelled. Separate later ARO-CHAT-0026 record reports both-platform CI success on SHA `817c7947c6756b80ae91ba272d172c3efaa2fa07`; these are not evidence for this PR #69 change.
+- No merge, retarget, deployment, upload, public publishing, credential access, or destructive action. PR #69 remains draft and unmerged.
+- First authorized GTA 6 MP4 remains blocked on a creator-authorized recording/export or supported media handoff. Issue #68 remains open/unassigned and requires owner assignment before uploader integration.

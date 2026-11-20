@@ -501,3 +501,18 @@
 - This exact-head CI result supersedes the earlier cancelled PR #66 runs for this SHA. It does not prove Windows execution on the owner's device or validate GTA 6 footage.
 - No direct local tests were executed by this chat. No application, test, or workflow code changed.
 - First authorized GTA 6 MP4 remains BLOCKED pending a creator-authorized recording/export or supported media handoff. No merge, retarget, deployment, upload, or public publishing was performed.
+
+
+## ARO-CHAT-0027 reservation and implementation — 2026-11-20 13:14 IST
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0027 | ARO-CHAT-0027 | Review Dashboard Collision-Safe Export | ARO-ZERO-ONE continuation; task ARO-GTA-P0-27 | Prevent silent overwrite of an existing local review-dashboard HTML report by reusing the existing transactional no-overwrite helper; add CLI regression tests. File scope: `backend/app/review_dashboard.py`, `tests/test_review_dashboard.py`, canonical session records. | `workstream/aro-chat-0026-review-dashboard-no-overwrite-2026-11-20` / [PR #69](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/69), stacked on PR #66 | RESERVED / IMPLEMENTED; serial corrected from a provisional duplicate ARO-CHAT-0026 after live analytics reconciliation. ARO-CHAT-0026 belongs to the separate exact-head CI verification session. Base SHA `d1e75e57855187c680a376e1ca24eb3bcd64e838`; main remains `5f3332770b27d8a5211b3e74feade222563a9263`. |
+
+### ARO-CHAT-0027 implementation notes
+- Finding: `backend/app/review_dashboard.py` previously used `Path.write_text`, which silently replaced an existing dashboard report.
+- Fix: reuse `write_texts_no_overwrite` from `backend/app/output_manager.py`; occupied output paths now fail closed through the existing CLI error handler.
+- Tests added: existing output is preserved and CLI returns an error; a new nested output path is created successfully.
+- No new dependency, no media access, no publishing behavior change.
+- CI for this PR head: PENDING; no local test execution is claimed.
+- Historical branch name retains the provisional `aro-chat-0026` token because the connector does not expose a safe branch-rename operation. Canonical chat identity is ARO-CHAT-0027; no other session attribution is reassigned.
