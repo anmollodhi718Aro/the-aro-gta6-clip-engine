@@ -684,7 +684,7 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 | Branch / PR | `workstream/aro-chat-0036-source-audio-preflight-2026-11-21` / [PR #79](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/79) |
 | Starting SHA | `7d81b363e8b9c8d3953257d3e59d670679b21bd0` (PR #78 head) |
 | Code implementation SHA | `36ec5a4ccbb43dbdef1c8033606dbabb69017cfd` |
-| Status | IMPLEMENTED; exact-head CI PENDING; real-media verification BLOCKED |
+| Status | IMPLEMENTED; CI_VERIFIED on exact head `4a19e8a3638680e394670352659ae606a397dd02`; real-media verification BLOCKED |
 | Scope | Extend the existing FFprobe intake helper to detect source audio and enforce it during required-audio dry-run and execution; add regression tests. No replacement renderer or new dependencies. |
 
 ### Verified work
@@ -692,7 +692,7 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 - `backend/app/batch_render.py` invokes source audio preflight during dry-run when `--require-audio` is selected, before FFmpeg execution.
 - `tests/test_media_probe.py` and `tests/test_batch_render.py` cover audio-present, silent-source rejection and preflight-before-render behavior.
 - The Windows manual wizard already passes `--require-audio` into its dry-run by default; the existing flow now benefits from the earlier source check.
-- Local tests were not run in this connector session. PR #79 exact-head CI is the pending verification gate.
+- Local tests were not run in this connector session. GitHub Actions run [44807719540](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44807719540) passed on exact head `4a19e8a3638680e394670352659ae606a397dd02`: Ubuntu compiled and passed 287 tests; Windows compiled and passed 287 tests.
 
 ### Serial audit note
 - The canonical registry ended at ARO-CHAT-0034.
