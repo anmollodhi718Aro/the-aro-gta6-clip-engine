@@ -690,3 +690,5 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - No code, dependency, renderer, source-acquisition, uploader or publishing changes. No external code copied.
 - Recommendation unchanged: retain FFmpeg as the P0 renderer; adapt only small scoring/deduplication and optional signal ideas after the first authorized MP4. Defer Remotion renderer due conditional license and second-runtime cost.
 - The project remains blocked on authorized real GTA 6 media; research does not change clip readiness.
+
+- Documentation/research delivery: draft PR [#78](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/78), branch `workstream/aro-chat-0034-reference-research-2026-11-20`, stacked on PR #76; open and unmerged.
