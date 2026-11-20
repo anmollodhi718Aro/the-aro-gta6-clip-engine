@@ -667,3 +667,17 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - Final PR inventory also found [PR #74](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/74), which independently claims ARO-CHAT-0031 / ARO-GTA-P0-31, in addition to [PR #72](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/72).
 - Both #72 and #74 are concurrent P0 audit/documentation workstreams using the same serial. Their ownership/precedence is not adjudicated here; project owner should reconcile them.
 - This session uses ARO-CHAT-0032 / ARO-GTA-P2-32. Its duplicate PR #73 was closed unmerged. PR #75 is the current draft for the isolated P2 test-hygiene fix.
+
+
+## ARO-CHAT-0033 independent QA handoff — 2026-11-20
+
+- Independently verified PR #75 exact head `7d1bbd2405639b008f0c3d667caa5b8ca93c272f` against Actions run [44706399362](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44706399362).
+- Ubuntu job `136186999278` and Windows hosted job `136186998767` both completed FFmpeg/FFprobe installation, compilation and unit tests successfully. Each log reports 284 tests; both jobs concluded success.
+- The earlier parent-branch ResourceWarning is absent from both exact-head PR #75 logs. The test now uses a context manager for the CSV reader. This verifies the targeted test-hygiene fix at this SHA.
+- This chat executed 0 local tests; it inspected the GitHub Actions logs. A local clone attempt was blocked by DNS resolution for github.com.
+- PR #75 remains OPEN / DRAFT / UNMERGED. No application/test/workflow code was changed by this QA session.
+- First creator-authorized GTA 6 MP4 remains BLOCKED pending an authorized recording/export. Owner-device Windows execution/playback remain NOT VERIFIED.
+- No merge, retarget, deployment, upload, public publishing, credential access, issue #68 assignment, or owner-only action was performed.
+
+
+- ARO-CHAT-0033 documentation/QA handoff is recorded in [draft PR #76](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/76), stacked on PR #75. PR #76 is documentation-only and remains unmerged.
