@@ -152,3 +152,22 @@ See `docs/RESEARCH_REFERENCE_CATALOG.md` for dated repository metadata, license 
 ## Update procedure
 
 After every engineering session, update the structured analytics ledger and the relevant canonical docs. Record the exact commit SHA and CI run IDs. Refresh live GitHub facts before presenting a current dashboard. Do not overwrite historical evidence with current status or silently promote a prior CI pass to a newer commit.
+
+
+## Live audit addendum — ARO-CHAT-0022 (2026-11-20 13:03 IST)
+
+| Metric | Latest observation | Status | Evidence / limitation |
+|---|---|---|---|
+| Main branch | `5f3332770b27d8a5211b3e74feade222563a9263` | VERIFIED AT AUDIT | GitHub commit search and repository metadata |
+| Active clipping PR | #66, open, unmerged, base `integration/release-candidate`, head observed `7c7979d04ecba5c9d6856ac2c0f6401045fbc70c` | VERIFIED AT AUDIT | Live PR metadata; no merge or retarget |
+| Owner identity helper PR | #67, open, unmerged | VERIFIED AT AUDIT | PR body and head `000b8a63d52d1f4a48fabe65af867cf5a24868af` |
+| PR #67 CI | Run `44655744416`; reported Ubuntu + Windows compile and 283 tests passed on tested SHA `c2d3dc1873a97d624dae78282d38448a0d54e3f6` | HISTORICAL / EXACT-SHA ONLY | PR body states later delta is analytics/docs only; do not transfer to later head without confirming diff |
+| Authenticated uploader approval | Not integrated; issue #68 open and unassigned | NOT IMPLEMENTED | `youtube_upload.py` still accepts boolean CLI flags; helper identity comparison alone does not authenticate |
+| Research catalog | Four priority references already catalogued under ARO-CHAT-0017 | VERIFIED AS DOCUMENTED | Re-read existing `docs/RESEARCH_REFERENCE_CATALOG.md`; no duplicate research record |
+| First authorized GTA 6 MP4 | No authorized source media supplied | BLOCKED | Synthetic media tests cannot satisfy real-media acceptance |
+| Windows owner-device playback | No owner-machine evidence in this audit | NOT VERIFIED | Hosted Windows CI is not owner-device playback |
+| Automation Deployment Beta | No separate verified repository or deployment | NOT VERIFIED / PAUSED | P0 clipping milestone remains first |
+| Current session | ARO-CHAT-0022, documentation/audit continuation | IN_PROGRESS | Registry, handoff and permission ledger updated on existing PR #66 branch; no code tests run |
+
+### Current blocker and next priority
+The highest-impact external blocker remains the missing creator-authorized recording/export/media handoff. The highest-impact engineering security gap is issue #68: bind verified OAuth channel identity to durable per-clip approval and recheck active permission immediately before upload. Do not enable public upload until that integration is tested and separately approved by the owner.
