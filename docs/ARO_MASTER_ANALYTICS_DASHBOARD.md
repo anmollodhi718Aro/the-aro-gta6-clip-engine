@@ -254,3 +254,33 @@ No workforce score is assigned: independent time-efficiency and broader quality 
 | ARO-CHAT-0028 | Live audit and documentation reconciliation; no application/test code changes | IMPLEMENTED | Direct local tests: 0; no numerical workforce score assigned due incomplete time/quality telemetry |
 
 No merge, retarget, deployment, upload, public publishing, or issue #68 implementation was performed. The exact CI evidence above belongs to SHA `817c7947c6756b80ae91ba272d172c3efaa2fa07`, not to an unknown later branch tip.
+
+## 2026-11-20 live reconciliation (ARO-CHAT-0029)
+
+| Metric | Current value | Status | Evidence / note |
+|---|---|---|---|
+| Main branch SHA | `5f3332770b27d8a5211b3e74feade222563a9263` | VERIFIED | Live repository commit search |
+| PR #66 | Open, unmerged; base `integration/release-candidate` | VERIFIED | Live PR metadata |
+| PR #66 tested code SHA | `d1e75e57855187c680a376e1ca24eb3bcd64e838` | VERIFIED | Exact commit workflow run |
+| PR #66 CI | Run `44697250496`; Ubuntu and Windows compile + unit-test steps succeeded | CI PASSED | Job records retrieved; test count not recovered |
+| PR #66 post-test delta | Nine commits changed README/docs/analytics only; no application/test files | VERIFIED | Compare from tested SHA to current workstream head `10de6eee218f08e7edb99913d27cc9ff2307d261` |
+| PR #67 | Open, draft; owner-identity helper only | VERIFIED | Not integrated into uploader |
+| PR #69 | Open, draft; head `f84364345bf578754b870274cd6be6884db1b88e` | VERIFIED | Exact-head CI unavailable at audit |
+| Issue #68 | Open / unassigned | VERIFIED | Owner assignment/approval required |
+| ARO-CHAT-0027 | Registered review-dashboard QA workstream | VERIFIED | Canonical registry |
+| ARO-CHAT-0028 | Registered live repository/CI reconciliation workstream | VERIFIED | Canonical registry and analytics |
+| ARO-CHAT-0029 | Research/CI/governance documentation audit | VERIFIED | Current session branch and records |
+| Authorized GTA 6 media | Not supplied | BLOCKED | Requires creator-authorized recording/export or supported handoff |
+| First real-media MP4 | Not verified | UNAVAILABLE | Synthetic fixture is not GTA 6 footage |
+| Automation Deployment Beta | Planned; separate repository/deployment not verified | PLANNED / UNAVAILABLE | Keep below P0 clipping milestone |
+| Public publishing | Not authorized | NOT AUTHORIZED | Requires separate owner approval |
+
+### Current execution priorities
+
+1. **P0:** Obtain creator-authorized GTA 6 media and complete local Windows/FFmpeg/FFprobe/playback acceptance.
+2. **P0 QA:** Keep CI claims tied to exact tested application/test SHA; rerun if those files change.
+3. **P1 security:** Keep issue #68 unassigned until owner approval; integrate authenticated channel-owner identity with durable per-clip approval before uploader enablement.
+4. **P0 QA:** Reconcile PR #69 exact-head CI in its assigned workstream.
+5. **P2:** Keep Automation Deployment Beta planned until the first-clip milestone.
+
+No arbitrary progress percentage or AI leaderboard score is assigned. Chat duration, active time and score remain N/A because telemetry is unavailable.
