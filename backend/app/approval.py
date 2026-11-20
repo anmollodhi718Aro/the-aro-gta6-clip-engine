@@ -58,11 +58,23 @@ def require_upload_approval(
     approval: UploadApproval,
     permission: PermissionRecord,
     *,
+    owner_identity: str,
     at: datetime | None = None,
 ) -> None:
+    """Require approval by the authenticated channel owner and an active publish grant.
+
+    owner_identity must come from a trusted server-side authentication
+    context (for example, the verified platform account subject). It must not
+    come from a client-supplied form field or an unverified display name.
+    This function compares identities; it does not authenticate the caller.
+    """
+    if not isinstance(owner_identity, str) or not owner_identity.strip():
+        raise ValueError("trusted channel owner identity is required")
     now = at or datetime.now(timezone.utc)
     if approval.status != ApprovalStatus.APPROVED:
         raise PermissionError("owner approval is required before upload")
+    if approval.reviewed_by != owner_identity:
+        raise PermissionError("approval was not recorded by the authenticated channel owner")
     if permission.source_id != approval.source_id:
         raise PermissionError("upload permission does not match clip source")
     if not permission.allows("publish", now):
