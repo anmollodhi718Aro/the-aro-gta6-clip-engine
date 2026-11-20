@@ -564,10 +564,10 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 | Project / workstream | THE ARO GTA 6 Clip Engine / ARO-GTA-P0-31 |
 | Role | QA / AUDITOR; bounded documentation contributor |
 | Scope | Reconcile PR #71 exact-head CI after its documentation-only commits; inspect audio-gate source/tests, current PR/issue boundaries and canonical handoff; update evidence records. No application, test or workflow code changes. |
-| Branch / PR | `workstream/aro-chat-0031-ci-evidence-reconciliation-2026-11-20` / documentation-only PR targeting the existing PR #71 branch |
+| Branch / PR | `workstream/aro-chat-0031-ci-evidence-reconciliation-2026-11-20` / [PR #74](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/74), documentation-only and stacked on PR #71 |
 | Starting SHA | `4787c069d498b51177968546198eea3e1e8ac84a` |
 | Verified SHA | `4787c069d498b51177968546198eea3e1e8ac84a` |
-| Status | Audit and documentation IMPLEMENTED; exact-head CI_VERIFIED; direct local tests 0; owner-device Windows and real-media verification NOT VERIFIED |
+| Status | Audit and documentation IMPLEMENTED; exact-head CI_VERIFIED; PR #74 OPEN / DRAFT; PR #74 CI NOT RUN; direct local tests 0; owner-device Windows and real-media verification NOT VERIFIED |
 | Evidence | Actions run [44700987089](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44700987089); Ubuntu job `136169082777`; Windows job `136169082306`; 284 tests executed successfully on each hosted platform. |
 
 ### ARO-CHAT-0031 findings and limitations
@@ -579,3 +579,4 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 - Issue #68 remains OPEN / UNASSIGNED. Authenticated channel-owner approval integration remains NOT AUTHORIZED without a separate explicit owner assignment/approval.
 - No creator-authorized GTA 6 recording/export was supplied. REAL_MEDIA_VERIFIED remains BLOCKED; synthetic/CI fixtures do not establish the first real clip.
 - No source/test/workflow changes, upload, publishing, deployment, credential access, destructive action, permission change, or owner-only action was performed.
+- Documentation-only PR [#74](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/74) contains five canonical evidence files. No Actions run was returned for PR #74 at audit time; the analytics JSON was parsed successfully before commit.
