@@ -651,3 +651,12 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - This session executed no local tests. PR #73 has no CI run: the existing workflow's pull-request branch filter targets `main`, not the stacked base branch. Parent PR #71's 284-test result must not be attributed to PR #73.
 - PR #73 remains draft and unmerged. No production or publishing action was performed.
 - The P0 first authorized GTA 6 MP4 remains blocked on a creator-authorized recording/export or approved media handoff. Issue #68 remains open/unassigned; uploader integration is not authorized.
+
+
+## ARO-CHAT-0032 correction and test-hygiene handoff — 2026-11-20
+
+- A concurrent reservation collision was detected: existing PR #72 already owns ARO-CHAT-0031 / ARO-GTA-P0-31. A duplicate draft PR #73 was closed unmerged and marked INVALIDATED. Do not merge or revive PR #73.
+- The isolated test cleanup is re-registered as ARO-CHAT-0032 / ARO-GTA-P2-32 on `workstream/aro-chat-0032-test-resourcewarning-2026-11-20`.
+- The test change replaces inline `self.csv_path.open(...)` use with a context manager in `test_rejects_invalid_bounds_in_approved_row`, addressing the non-failing ResourceWarning observed in both parent CI logs.
+- No local tests were executed. The current workflow's pull_request filter targets `main`; this stacked PR targets PR #71's workstream branch, so exact-head CI is not expected to run under the current filter. Parent PR #71 run 44700987089 is baseline evidence only.
+- The first authorized GTA 6 MP4 remains blocked pending an authorized recording/export. Issue #68 remains owner-gated.
