@@ -32,3 +32,10 @@ This foundation does not implement OAuth screens, encrypted token storage, refre
 4. Persist review records and expose preview/approve/reject operations.
 5. Re-check creator permission and destination-channel permission immediately before upload.
 6. Default to private staging and require explicit owner confirmation for every public upload.
+
+
+## Authenticated owner identity requirement
+
+The upload approval contract now requires an explicit owner_identity when calling require_upload_approval. The supplied identity must be a stable subject from a trusted, server-side authenticated channel-owner session. It must match the identity recorded in UploadApproval.reviewed_by.
+
+Do not pass a display name, client-supplied form value, or unverified reviewer string as owner_identity. The helper performs an identity equality check; it does not authenticate users or create a secure session. A future OAuth/session integration must derive the owner subject from verified provider credentials and pass it from the server side. Until that integration exists, the approval foundation is not a production authentication system and no production uploader should rely on it alone.
