@@ -233,3 +233,24 @@ No numerical workforce score is assigned to ARO-CHAT-0024: task completion, time
 | ARO-CHAT-0026 | Read-only QA and documentation update | IMPLEMENTED | No application/test/workflow code changes; no direct local tests |
 
 No workforce score is assigned: independent time-efficiency and broader quality telemetry are insufficient. PR #66 remains open and unmerged. No deployment, upload, or public publishing was performed.
+
+
+## ARO-CHAT-0028 live audit snapshot — 2026-11-20 13:14 IST
+
+| Metric | Observation | Status | Evidence / limitation |
+|---|---|---|---|
+| PR #66 tested code SHA | `817c7947c6756b80ae91ba272d172c3efaa2fa07` | VERIFIED | Actions run `44696785004`; audited renderer/uploader/test file blobs match this SHA |
+| Ubuntu CI | 281 unit tests passed; compile and FFmpeg/FFprobe setup passed | CI PASSED | Job `136155337178`; prior chat ARO-CHAT-0026 executed the run |
+| Windows hosted CI | 281 unit tests passed; compile and FFmpeg/FFprobe setup passed | CI PASSED | Job `136155337553`; hosted runner only, not owner-device execution |
+| Distinct test count | 281; executed independently on two platforms | VERIFIED | 562 successful executions are not 562 distinct test cases |
+| Test hygiene | Unclosed-file ResourceWarning at `tests/test_batch_render.py:227` | VERIFIED / LOW | Non-failing warning on Ubuntu and Windows; not fixed in this audit |
+| Current PR #66 branch-tip SHA | Not exposed by available connector results | UNAVAILABLE | Do not claim the unknown latest branch tip is CI-verified |
+| PR #67 | Owner-identity equality helper remains separate | VERIFIED AT AUDIT | Does not authenticate the OAuth principal or wire into the uploader |
+| Issue #68 | OPEN / UNASSIGNED | PENDING OWNER APPROVAL | Owner must assign/approve implementation owner; public upload remains disabled |
+| PR #69 | Review-dashboard no-overwrite workstream | VERIFIED AT AUDIT | Separate workstream; ARO-CHAT-0027 already reserved its QA branch |
+| Research catalog | Four priority references and license notes already documented | VERIFIED AS DOCUMENTED | Reused ARO-CHAT-0017 / ARO-CHAT-0022 records; no duplicate research |
+| Automation Deployment Beta repository | No separate repository found in connected account inventory | UNAVAILABLE | Only the GTA 6 Clip Engine repository was returned; Beta remains planned/paused |
+| First authorized GTA 6 MP4 | No authorized recording/export supplied | BLOCKED | Synthetic fixtures and CI do not prove real-media compatibility |
+| ARO-CHAT-0028 | Live audit and documentation reconciliation; no application/test code changes | IMPLEMENTED | Direct local tests: 0; no numerical workforce score assigned due incomplete time/quality telemetry |
+
+No merge, retarget, deployment, upload, public publishing, or issue #68 implementation was performed. The exact CI evidence above belongs to SHA `817c7947c6756b80ae91ba272d172c3efaa2fa07`, not to an unknown later branch tip.
