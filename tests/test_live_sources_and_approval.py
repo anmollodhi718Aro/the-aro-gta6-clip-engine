@@ -82,14 +82,14 @@ class UploadApprovalTests(unittest.TestCase):
     def test_upload_requires_explicit_owner_approval_and_publish_scope(self):
         pending = UploadApproval("clip-1", "creator-123")
         with self.assertRaises(PermissionError):
-            require_upload_approval(pending, grant("creator-123", "publish"), at=NOW)
+            require_upload_approval(pending, grant("creator-123", "publish"), owner_identity="channel-owner-id", at=NOW)
         approved = pending.decide(True, "channel-owner-id", at=NOW)
         require_upload_approval(approved, grant("creator-123", "publish"), owner_identity="channel-owner-id", at=NOW)
         self.assertEqual(approved.status, ApprovalStatus.APPROVED)
         self.assertEqual(approved.reviewed_by, "channel-owner-id")
 
     def test_rejected_clip_cannot_be_uploaded(self):
-        rejected = UploadApproval("clip-1", "creator-123").decide(False, "channel-owner", at=NOW)
+        rejected = UploadApproval("clip-1", "creator-123").decide(False, "channel-owner-id", at=NOW)
         with self.assertRaises(PermissionError):
             require_upload_approval(rejected, grant("creator-123", "publish"), owner_identity="channel-owner-id", at=NOW)
 
