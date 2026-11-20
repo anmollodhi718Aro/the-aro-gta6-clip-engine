@@ -128,3 +128,5 @@ The initial ledger contains the ARO-CHAT-0014 continuation record only. Historic
 - Existing research catalog updated in place. No duplicate registry/catalog created, no code changes, no dependencies adopted and no external source code copied.
 - Tests executed: 0; CI: not run (documentation-only change). No real-media test.
 - Numerical score: null; elapsed/active time: null. First authorized GTA 6 MP4 remains blocked pending an authorized recording/export.
+
+- Documentation/research delivery: draft PR [#78](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/78); seven files changed, no application/test/workflow code.
