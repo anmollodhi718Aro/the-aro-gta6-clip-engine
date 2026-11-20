@@ -2,9 +2,12 @@
 import json
 import tempfile
 import unittest
+from contextlib import redirect_stderr
+from io import StringIO
+from unittest.mock import patch
 from pathlib import Path
 
-from backend.app.review_dashboard import load_report, render_dashboard
+from backend.app.review_dashboard import load_report, main, render_dashboard
 
 
 class ReviewDashboardTests(unittest.TestCase):
@@ -54,6 +57,32 @@ class ReviewDashboardTests(unittest.TestCase):
     def test_empty_report_shows_empty_state(self):
         self.assertIn("No candidates in this report.", render_dashboard([]))
 
+
+    def test_cli_refuses_to_overwrite_existing_dashboard(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            report = root / "report.json"
+            output = root / "dashboard.html"
+            report.write_text('[{"status":"rendered"}]', encoding="utf-8")
+            output.write_text("keep existing dashboard", encoding="utf-8")
+            stderr = StringIO()
+            with patch("sys.argv", ["review_dashboard", str(report), "--output", str(output)]):
+                with redirect_stderr(stderr):
+                    result = main()
+            self.assertEqual(result, 2)
+            self.assertEqual(output.read_text(encoding="utf-8"), "keep existing dashboard")
+            self.assertIn("already exists", stderr.getvalue())
+
+    def test_cli_creates_dashboard_when_output_is_new(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            report = root / "report.json"
+            output = root / "nested" / "dashboard.html"
+            report.write_text('[{"status":"rendered"}]', encoding="utf-8")
+            with patch("sys.argv", ["review_dashboard", str(report), "--output", str(output)]):
+                result = main()
+            self.assertEqual(result, 0)
+            self.assertIn("Clip Review Dashboard", output.read_text(encoding="utf-8"))
 
 if __name__ == "__main__":
     unittest.main()
