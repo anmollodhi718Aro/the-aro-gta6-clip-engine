@@ -483,3 +483,21 @@
 2. Reconcile PR #66's current exact head SHA and obtain a completed CI run; keep cancelled jobs distinct from code-test failures.
 3. Keep issue #68 unassigned until the owner explicitly assigns/approves its implementation owner. Do not wire the uploader or enable publishing before that gate.
 4. Keep PR #66 unmerged and all production deployment, public upload, and publishing actions under separate owner approval.
+
+
+## ARO-CHAT-0026 reservation and CI verification — 2026-11-20 13:11 IST
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0026 | ARO-CHAT-0026 | ARO-ZERO-ONE (continuation; task ARO-GTA-P0-26) | Verify latest exact-head PR #66 CI, recover Ubuntu/Windows logs and test counts, reconcile issue #26, and refresh evidence-based first-clip handoff. Read-only QA and documentation; no application/test/workflow implementation. | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 | CI_VERIFIED on SHA `817c7947c6756b80ae91ba272d172c3efaa2fa07`; real-media BLOCKED | Previous registry entries through ARO-CHAT-0025 inspected; GitHub search found no ARO-CHAT-0026 reservation in PRs, issues, or branches. Existing branch and PR reused; no duplicate PR created. |
+
+### ARO-CHAT-0026 verification findings
+- Exact PR #66 head tested: `817c7947c6756b80ae91ba272d172c3efaa2fa07`.
+- Workflow run [44696785004](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44696785004) completed successfully.
+- Ubuntu job `136155337178`: FFmpeg/FFprobe installation, source compilation, and unit tests passed; `Ran 281 tests`, `OK`.
+- Windows job `136155337553`: FFmpeg/FFprobe installation, source compilation, and unit tests passed; `Ran 281 tests`, `OK`.
+- Both platforms independently executed the same 281-test suite. This is 562 successful test executions, not 562 distinct test cases.
+- A Python ResourceWarning appeared during the test run; it did not fail either suite. Follow up as low-priority test hygiene.
+- This exact-head CI result supersedes the earlier cancelled PR #66 runs for this SHA. It does not prove Windows execution on the owner's device or validate GTA 6 footage.
+- No direct local tests were executed by this chat. No application, test, or workflow code changed.
+- First authorized GTA 6 MP4 remains BLOCKED pending a creator-authorized recording/export or supported media handoff. No merge, retarget, deployment, upload, or public publishing was performed.
