@@ -454,3 +454,10 @@
 | Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
 |---|---|---|---|---|---|---|
 | ARO-CHAT-0026 | ARO-CHAT-0026 | Review Dashboard Collision-Safe Export | ARO-ZERO-ONE continuation; task ARO-GTA-P0-26 | Fix the local review-dashboard CLI so it never silently overwrites an existing HTML report; reuse the existing transactional no-overwrite output helper and add CLI regression tests. File scope: `backend/app/review_dashboard.py`, `tests/test_review_dashboard.py`, this session's registry/handoff/analytics records only. No overlap with ARO-CHAT-0025 renderer/CI work or issue #68 uploader ownership. | `workstream/aro-chat-0026-review-dashboard-no-overwrite-2026-11-20` / separate PR after verification | RESERVED / ACTIVE; ARO-CHAT-0025 remains assigned to exact-head CI/renderer QA on PR #66. Base SHA `26fa1c704a4dce46921e04f3787013a16364551a`; main remains `5f3332770b27d8a5211b3e74feade222563a9263`. |
+
+
+## ARO-CHAT-0027 reservation — 2026-11-20 13:15 IST
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0027 | ARO-CHAT-0027 | Review Dashboard Collision-Safe Export QA | ARO-ZERO-ONE continuation; task ARO-GTA-P0-27 | Independently review PR #69's no-overwrite implementation and regression tests; reconcile exact-head CI and identify defects without duplicating ARO-CHAT-0026 implementation. Read-only QA; no source/test changes planned. | `workstream/aro-chat-0027-review-dashboard-pr-qa-2026-11-20` / audit of PR #69 | Previous registry entries through ARO-CHAT-0026 inspected; PR #69 head at reservation `f84364345bf578754b870274cd6be6884db1b88e`; branch based on that exact head. |
