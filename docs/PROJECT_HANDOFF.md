@@ -597,3 +597,39 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - First authorized GTA 6 MP4 remains BLOCKED pending a creator-authorized recording/export or supported media handoff.
 - Issue #26 received the exact run/job/test evidence in comment [7033585164](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/26#issuecomment-7033585164).
 - ARO-CHAT-0026 performed read-only QA plus registry/handoff/dashboard documentation. Direct local tests: 0. No application/test/workflow code changed; no merge, retarget, deployment, upload, or public publishing.
+
+## ARO-CHAT-0028 live handoff update — 2026-11-20 13:15 IST
+
+### Live GitHub state
+
+- Default branch `main`: `5f3332770b27d8a5211b3e74feade222563a9263`.
+- PR #66 remains open/unmerged and targets `integration/release-candidate`; current head at this audit: `d1e75e57855187c680a376e1ca24eb3bcd64e838`.
+- Exact-head workflow run [44697250496](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44697250496) completed successfully. Ubuntu and Windows job records both show FFmpeg/FFprobe installation, compile and unit-test steps completed with success. Test count not recovered.
+- PR #67 remains open/draft. Its owner-identity helper was tested on SHA `c2d3dc1873a97d624dae78282d38448a0d54e3f6` by run `44655744416` (283 tests on each platform), but the actual uploader still does not consume an authenticated owner identity and durable per-clip approval. Issue #68 remains open/unassigned.
+- PR #69 remains open/draft at `f84364345bf578754b870274cd6be6884db1b88e`; no commit-associated PR workflow run was returned for that head. Its no-overwrite dashboard fix belongs to ARO-CHAT-0026 and was not duplicated.
+- A branch named `workstream/aro-chat-0027-review-dashboard-pr-qa-2026-11-20` exists, but no matching registry/analytics entry was found. ARO-CHAT-0027 is marked reserved/unconfirmed pending its owner reconciliation.
+- This session's documentation branch is `workstream/aro-chat-0028-research-ci-reconciliation-2026-11-20`, based on the PR #66 workstream head. It does not change application or test code.
+
+### Main-vs-workstream documentation boundary
+
+The canonical handoff and registry files were not found at their documented paths on `main` during the initial fetch; they are present on the ARO-ZERO-ONE workstream branch. The main-branch README still describes the project foundation/MVP, not the more advanced clipping-first implementation. Do not describe the feature branch as already integrated into main.
+
+### Real-media acceptance
+
+- No creator-authorized GTA 6 recording/export or supported media handoff was supplied.
+- Real GTA 6 render, FFprobe inspection and playback remain NOT VERIFIED.
+- Hosted Windows CI is not equivalent to execution on the owner's local Windows machine.
+- Synthetic fixture tests do not satisfy the real-media acceptance gate.
+
+### External research
+
+The current research catalog contains the 2026-11-20 metadata/README/license revalidation for OpenShorts, AI YouTube Shorts Generator, Auto-Editor and Remotion. Decisions remain Study Only / Adapt Ideas Only; no source code or dependencies were adopted.
+
+### Owner decisions still required
+
+1. Supply or arrange a creator-authorized GTA 6 recording/export for the first real clip.
+2. Explicitly assign/approve an implementation owner for issue #68 if uploader security integration is to proceed.
+3. Review PR #66 and PR #69 independently before any merge.
+4. Explicitly approve any future production deployment or public upload.
+
+No merge, retarget, deployment, upload, public publishing, credential access, or destructive action was performed by ARO-CHAT-0028.
