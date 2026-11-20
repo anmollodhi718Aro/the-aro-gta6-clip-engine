@@ -216,3 +216,35 @@ No leaderboard score is assigned: task completion, quality, and efficiency telem
 | Automation Deployment Beta | Planned; no separate verified repository/deployment | HISTORICAL / NOT VERIFIED | Remains paused below P0 clipping milestone |
 
 No numerical workforce score is assigned to ARO-CHAT-0024: task completion, time and independent test telemetry are incomplete. No arbitrary progress percentage is reported.
+
+
+## ARO-CHAT-0026 exact-head CI snapshot — 2026-11-20 13:11 IST
+
+| Metric | Observation | Status | Evidence / limitation |
+|---|---|---|---|
+| PR #66 head | `817c7947c6756b80ae91ba272d172c3efaa2fa07` | VERIFIED | Live PR metadata and workflow run |
+| Ubuntu CI | Compile + 281 unit tests passed | CI PASSED | Job `136155337178`, run `44696785004` |
+| Windows CI | Compile + 281 unit tests passed | CI PASSED | Job `136155337553`, run `44696785004` |
+| Combined test executions | 562 across two platforms; 281 distinct test cases | VERIFIED | Both job logs report `Ran 281 tests` and `OK` |
+| ResourceWarning | Non-fatal Python ResourceWarning observed | INFORMATIONAL | Does not change successful job conclusions; low-priority test hygiene |
+| Owner-device Windows execution | Not performed | UNVERIFIED | Hosted Windows CI is not owner-device verification |
+| Authorized GTA 6 MP4 | No authorized recording/export supplied | BLOCKED | Synthetic media does not satisfy real-media acceptance |
+| Issue #26 | Exact-head CI evidence comment added | VERIFIED | Comment `7033585164` |
+| ARO-CHAT-0026 | Read-only QA and documentation update | IMPLEMENTED | No application/test/workflow code changes; no direct local tests |
+
+No workforce score is assigned: independent time-efficiency and broader quality telemetry are insufficient. PR #66 remains open and unmerged. No deployment, upload, or public publishing was performed.
+
+
+## Live audit addendum — ARO-CHAT-0027 (2026-11-20)
+
+| Metric | Observation | Status | Evidence / limitation |
+|---|---|---|---|
+| Chat identity | ARO-CHAT-0027; task ARO-GTA-P0-27 | VERIFIED | Canonical registry entry; duplicate #0026 corrected without changing the existing #0026 record |
+| Review dashboard output | Existing CLI silently overwrote a prior HTML report | VERIFIED FINDING | `backend/app/review_dashboard.py` inspection |
+| Collision-safe output fix | Reuses existing `write_texts_no_overwrite` helper | IMPLEMENTED | PR #69; no new dependency |
+| Regression tests | Two CLI tests added | IMPLEMENTED; NOT YET TESTED | CI pending; no local test runtime used |
+| PR | #69, draft, stacked on #66 | VERIFIED | GitHub PR metadata |
+| Real GTA 6 media | Authorized recording/export not supplied | BLOCKED | Synthetic fixtures are not real-media acceptance |
+| Owner-only uploader integration | Issue #68 remains open/unassigned | PENDING OWNER APPROVAL | No uploader implementation performed |
+
+No leaderboard score is assigned: independent test and efficiency evidence is incomplete. No progress percentage is inferred.

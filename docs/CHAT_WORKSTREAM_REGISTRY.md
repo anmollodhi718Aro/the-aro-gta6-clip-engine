@@ -449,8 +449,70 @@
 | ARO-CHAT-0025 | ARO-CHAT-0025 | Exact-Head CI Verification and Clipping-First Handoff | ARO-ZERO-ONE continuation; task ARO-GTA-P0-25 | Reconcile the current PR #66 exact-head CI run, inspect the local renderer/FFprobe/synthetic smoke path, record current owner/security blockers, and refresh the canonical handoff. No overlapping source implementation; existing branch and PR reused. | workstream/aro-zero-one-clipping-first-2026-11-20 / existing PR #66 | RESERVED / ACTIVE; previous registry entries through ARO-CHAT-0024 inspected; PR #66 head at reservation 817c7947c6756b80ae91ba272d172c3efaa2fa07; main 5f3332770b27d8a5211b3e74feade222563a9263. |
 
 
-## ARO-CHAT-0026 reservation — 2026-11-20 13:13 IST
+## ARO-CHAT-0025 reservation and live audit — 2026-11-20 13:10 IST
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0025 |
+| Chat title | ARO-CHAT-0025 | Exact-Head CI Reconciliation and Clipping-First Execution Audit |
+| Provider / model | OpenAI / GPT-6 |
+| Project / workstream | THE ARO GTA 6 Clip Engine / ARO-ZERO-ONE |
+| Task ID | ARO-GTA-P0-25 |
+| Role | QA / Auditor; bounded documentation contributor |
+| Branch / PR | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 |
+| Starting reference | `c99b4bfdd62015dde0c8d544744deba646808be8` (last known commit checkpoint; branch was subsequently 6 commits ahead, all in documentation/analytics) |
+| Status | IMPLEMENTED: live audit and documentation handoff; application/test changes NOT MADE |
+| Scope | Read-only live audit of the existing ARO-ZERO-ONE workstream, PR/branch overlap, renderer and uploader boundaries, exact-head CI evidence, and first-clip blockers; reuse canonical records and update the existing branch documentation only. No application/test/workflow implementation. |
+
+### ARO-CHAT-0025 audit evidence
+- Repository metadata verified: public repository `anmollodhi718Aro/the-aro-gta6-clip-engine`, default branch `main`; connector reports admin/maintain/push/pull capability. These API capabilities do not grant owner-only project authority.
+- Existing canonical docs and analytics ledger are present on the ARO-ZERO-ONE branch and were not found at the same paths on `main`. No duplicate registry, handoff, dashboard, permission ledger, provider registry, research catalog, or Beta document was created.
+- The registry's latest prior serial was ARO-CHAT-0024. Searches of PR titles/bodies and branch names returned no ARO-CHAT-0025 reservation. This session reserves ARO-CHAT-0025 / ARO-GTA-P0-25.
+- Live branch comparison: ARO-ZERO-ONE is 181 commits ahead of `integration/release-candidate` and 0 behind; it is 505 commits ahead of `main` and 0 behind. These are branch comparison counts, not a progress percentage or merge recommendation.
+- The last known checkpoint `c99b4bfdd62015dde0c8d544744deba646808be8` has six subsequent commits on the workstream branch; the compare lists only `analytics/ai_chat_sessions.json`, `docs/ARO_MASTER_ANALYTICS_DASHBOARD.md`, `docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md`, `docs/CHAT_WORKSTREAM_REGISTRY.md`, and `docs/PROJECT_HANDOFF.md`. No source/test changes are present in that six-commit delta.
+- GitHub Actions run `44696711758` on the known checkpoint was cancelled. Ubuntu completed checkout and Python setup, then FFmpeg/FFprobe installation was cancelled; compile and unit tests were skipped. Windows checkout was cancelled; setup, install, compile and tests were skipped. This is NOT a test assertion failure and NOT a CI pass.
+- A rerun request was rejected by GitHub with HTTP 403 stating the containing workflow run was already running; no successful retry is claimed.
+- PR #66 is open/unmerged and targets `integration/release-candidate`. PR #67 is the separate ARO-CHAT-0021 owner-identity helper PR. Issue #68 remains open/unassigned; its body explicitly requires owner assignment/approval before uploader integration is implemented.
+- Source inspection confirms `approval.py` checks approval state and publish scope but does not itself authenticate the owner. `youtube_upload.py` still gates through boolean CLI flags and does not invoke the helper. This is the known issue #68 boundary, not a newly implemented fix.
+- Research catalog work is already attributed to ARO-CHAT-0017 and revalidated in ARO-CHAT-0022; it was reused, not duplicated. Automation Deployment Beta remains planned with no verified separate repository or deployment target.
+- First authorized GTA 6 MP4 remains BLOCKED on an expressly authorized creator recording/export or supported media handoff. Synthetic fixtures do not satisfy real-media acceptance.
+- Direct tests executed by ARO-CHAT-0025: 0. No local shell/test runtime was available through this GitHub connector session. No application source, test, CI workflow, uploader, or publishing code was changed.
+
+### ARO-CHAT-0025 handoff
+1. Obtain a creator-authorized GTA 6 recording/export or supported media handoff, then run the existing Windows/local preflight, manual clip wizard, FFmpeg render, FFprobe validation, and playback check.
+2. Reconcile PR #66's current exact head SHA and obtain a completed CI run; keep cancelled jobs distinct from code-test failures.
+3. Keep issue #68 unassigned until the owner explicitly assigns/approves its implementation owner. Do not wire the uploader or enable publishing before that gate.
+4. Keep PR #66 unmerged and all production deployment, public upload, and publishing actions under separate owner approval.
+
+
+## ARO-CHAT-0026 reservation and CI verification — 2026-11-20 13:11 IST
 
 | Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
 |---|---|---|---|---|---|---|
-| ARO-CHAT-0026 | ARO-CHAT-0026 | Review Dashboard Collision-Safe Export | ARO-ZERO-ONE continuation; task ARO-GTA-P0-26 | Fix the local review-dashboard CLI so it never silently overwrites an existing HTML report; reuse the existing transactional no-overwrite output helper and add CLI regression tests. File scope: `backend/app/review_dashboard.py`, `tests/test_review_dashboard.py`, this session's registry/handoff/analytics records only. No overlap with ARO-CHAT-0025 renderer/CI work or issue #68 uploader ownership. | `workstream/aro-chat-0026-review-dashboard-no-overwrite-2026-11-20` / separate PR after verification | RESERVED / ACTIVE; ARO-CHAT-0025 remains assigned to exact-head CI/renderer QA on PR #66. Base SHA `26fa1c704a4dce46921e04f3787013a16364551a`; main remains `5f3332770b27d8a5211b3e74feade222563a9263`. |
+| ARO-CHAT-0026 | ARO-CHAT-0026 | ARO-ZERO-ONE (continuation; task ARO-GTA-P0-26) | Verify latest exact-head PR #66 CI, recover Ubuntu/Windows logs and test counts, reconcile issue #26, and refresh evidence-based first-clip handoff. Read-only QA and documentation; no application/test/workflow implementation. | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 | CI_VERIFIED on SHA `817c7947c6756b80ae91ba272d172c3efaa2fa07`; real-media BLOCKED | Previous registry entries through ARO-CHAT-0025 inspected; GitHub search found no ARO-CHAT-0026 reservation in PRs, issues, or branches. Existing branch and PR reused; no duplicate PR created. |
+
+### ARO-CHAT-0026 verification findings
+- Exact PR #66 head tested: `817c7947c6756b80ae91ba272d172c3efaa2fa07`.
+- Workflow run [44696785004](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44696785004) completed successfully.
+- Ubuntu job `136155337178`: FFmpeg/FFprobe installation, source compilation, and unit tests passed; `Ran 281 tests`, `OK`.
+- Windows job `136155337553`: FFmpeg/FFprobe installation, source compilation, and unit tests passed; `Ran 281 tests`, `OK`.
+- Both platforms independently executed the same 281-test suite. This is 562 successful test executions, not 562 distinct test cases.
+- A Python ResourceWarning appeared during the test run; it did not fail either suite. Follow up as low-priority test hygiene.
+- This exact-head CI result supersedes the earlier cancelled PR #66 runs for this SHA. It does not prove Windows execution on the owner's device or validate GTA 6 footage.
+- No direct local tests were executed by this chat. No application, test, or workflow code changed.
+- First authorized GTA 6 MP4 remains BLOCKED pending a creator-authorized recording/export or supported media handoff. No merge, retarget, deployment, upload, or public publishing was performed.
+
+
+## ARO-CHAT-0027 reservation and implementation — 2026-11-20 13:14 IST
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0027 | ARO-CHAT-0027 | Review Dashboard Collision-Safe Export | ARO-ZERO-ONE continuation; task ARO-GTA-P0-27 | Prevent silent overwrite of an existing local review-dashboard HTML report by reusing the existing transactional no-overwrite helper; add CLI regression tests. File scope: `backend/app/review_dashboard.py`, `tests/test_review_dashboard.py`, canonical session records. | `workstream/aro-chat-0026-review-dashboard-no-overwrite-2026-11-20` / [PR #69](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/69), stacked on PR #66 | RESERVED / IMPLEMENTED; serial corrected from a provisional duplicate ARO-CHAT-0026 after live analytics reconciliation. ARO-CHAT-0026 belongs to the separate exact-head CI verification session. Base SHA `d1e75e57855187c680a376e1ca24eb3bcd64e838`; main remains `5f3332770b27d8a5211b3e74feade222563a9263`. |
+
+### ARO-CHAT-0027 implementation notes
+- Finding: `backend/app/review_dashboard.py` previously used `Path.write_text`, which silently replaced an existing dashboard report.
+- Fix: reuse `write_texts_no_overwrite` from `backend/app/output_manager.py`; occupied output paths now fail closed through the existing CLI error handler.
+- Tests added: existing output is preserved and CLI returns an error; a new nested output path is created successfully.
+- No new dependency, no media access, no publishing behavior change.
+- CI for this PR head: PENDING; no local test execution is claimed.
+- Historical branch name retains the provisional `aro-chat-0026` token because the connector does not expose a safe branch-rename operation. Canonical chat identity is ARO-CHAT-0027; no other session attribution is reassigned.
