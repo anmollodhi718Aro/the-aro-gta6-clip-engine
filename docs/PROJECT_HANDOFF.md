@@ -597,3 +597,24 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - First authorized GTA 6 MP4 remains BLOCKED pending a creator-authorized recording/export or supported media handoff.
 - Issue #26 received the exact run/job/test evidence in comment [7033585164](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/26#issuecomment-7033585164).
 - ARO-CHAT-0026 performed read-only QA plus registry/handoff/dashboard documentation. Direct local tests: 0. No application/test/workflow code changed; no merge, retarget, deployment, upload, or public publishing.
+
+
+## ARO-CHAT-0028 live execution handoff — 2026-11-20 13:14 IST
+
+- Chat: `ARO-CHAT-0028 | Live Repository, CI and Portfolio Evidence Reconciliation | GPT-6`; task `ARO-GTA-P0-28`; role QA / Auditor plus bounded documentation contributor. Existing ARO-ZERO-ONE branch and PR #66 reused.
+- Serial allocation: registry inspection showed ARO-CHAT-0026 as the latest completed entry and a separate ARO-CHAT-0027 reservation on `workstream/aro-chat-0027-review-dashboard-pr-qa-2026-11-20`. This session therefore reserved ARO-CHAT-0028. No duplicate workstream was created.
+- Exact tested PR #66 code SHA `817c7947c6756b80ae91ba272d172c3efaa2fa07` has successful Actions run [44696785004](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44696785004). Ubuntu job `136155337178` and Windows job `136155337553` both completed FFmpeg/FFprobe installation, compilation and 281 unit tests successfully. The suite is 281 distinct tests, run once per platform (562 successful executions total).
+- Direct blob comparison confirms the current ARO-ZERO-ONE versions of `tests/test_batch_render.py`, `backend/app/review_dashboard.py`, `backend/app/clipping.py`, `backend/app/render_validation.py` and `backend/app/youtube_upload.py` are byte-identical to the files at the CI-tested SHA. This verifies those audited code files against the tested revision. The connector did not expose the current branch-tip commit SHA; do not promote this to a claim that an unknown later branch tip is fully CI-verified.
+- CI logs expose one existing LOW-priority `ResourceWarning`: `tests/test_batch_render.py:227` leaves the `candidates.csv` text file open. Both platform test suites still passed. This session did not modify the test or application code.
+- PR #67 remains a helper-level owner-identity check, not authenticated uploader integration. Issue #68 remains OPEN / UNASSIGNED; its required implementation owner must be explicitly assigned/approved by the project owner. The uploader continues to accept CLI boolean approvals and must not be treated as production-safe owner identity enforcement.
+- PR #69 is a separate no-overwrite review-dashboard change. ARO-CHAT-0027 already reserved its QA workstream; ARO-CHAT-0028 did not duplicate that work.
+- `docs/RESEARCH_REFERENCE_CATALOG.md` already contains the requested OpenShorts, AI YouTube Shorts Generator, Auto-Editor and Remotion review, including current license distinctions and integration decisions from ARO-CHAT-0022. No duplicate research or dependencies were added.
+- Connected GitHub repository inventory returned only `anmollodhi718Aro/the-aro-gta6-clip-engine`; no separate Automation Deployment Beta repository was verified. Beta remains planned/paused and must not be conflated with the clipping engine.
+- No local tests were executed by ARO-CHAT-0028. No source/test/workflow code changed. No merge, retarget, deployment, upload, public publishing, or issue #68 implementation was performed.
+
+### Next execution priorities
+1. Obtain an expressly creator-authorized GTA 6 recording/export or supported media handoff. Then run the existing local/Windows preflight, manual clip wizard, FFmpeg render, FFprobe validation and playback acceptance. Keep the result `needs_review` until the owner reviews it.
+2. Resolve issue #68 only after the project owner explicitly assigns/approves its implementation owner. Bind the verified OAuth channel identity to a durable per-clip approval record and re-check permission immediately before upload; keep publishing disabled until verified and separately approved.
+3. Continue tracking PR #66 CI only against exact SHAs. Do not infer CI for an unknown later branch tip from a successful earlier SHA.
+4. Track PR #69 through its already assigned ARO-CHAT-0027 QA workstream; do not duplicate its implementation or review.
+5. Keep the Automation Deployment Beta paused until its separate repository, owner scope and deployment target are verified.
