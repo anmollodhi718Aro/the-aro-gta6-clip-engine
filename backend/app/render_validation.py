@@ -24,8 +24,9 @@ def verify_rendered_media(
     expected_duration_seconds: float,
     vertical: bool = False,
     ffprobe_binary: str = "ffprobe",
+    require_audio: bool = False,
 ) -> RenderedMediaInfo:
-    """Verify an MP4 container has a readable video stream and expected layout/duration."""
+    """Verify MP4 video metadata and optionally require an audio stream."""
     output = Path(path).expanduser().resolve()
     if not output.is_file() or output.stat().st_size <= 0:
         raise ValueError("rendered output is missing or empty")
@@ -85,6 +86,8 @@ def verify_rendered_media(
     except (json.JSONDecodeError, KeyError, TypeError, StopIteration) as exc:
         raise ValueError("ffprobe returned incomplete rendered-media metadata") from exc
 
+    if require_audio and not has_audio:
+        raise ValueError("rendered output must contain an audio stream")
     if not math.isfinite(duration) or duration <= 0:
         raise ValueError("rendered output duration must be finite and positive")
     tolerance = min(0.5, max(0.05, expected_duration_seconds * 0.01))
