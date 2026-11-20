@@ -692,3 +692,49 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - The project remains blocked on authorized real GTA 6 media; research does not change clip readiness.
 
 - Documentation/research delivery: draft PR [#78](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/78), branch `workstream/aro-chat-0034-reference-research-2026-11-20`, stacked on PR #76; open and unmerged.
+
+
+## ARO-CHAT-0036 | P0 source-audio preflight and live audit — 2026-11-21
+
+### Session identity and repository baseline
+- Chat: ARO-CHAT-0036; task: ARO-TASK-0036; role: Media Engineer + QA.
+- Repository: `anmollodhi718Aro/the-aro-gta6-clip-engine`; default branch `main`; audited main SHA `5f3332770b27d8a5211b3e74feade222563a9263`.
+- Selected documented workstream: PR #78 head `7d81b363e8b9c8d3953257d3e59d670679b21bd0`.
+- Implementation branch: `workstream/aro-chat-0036-source-audio-preflight-2026-11-21`; PR #79 is OPEN / DRAFT / UNMERGED and stacked on PR #78.
+
+### P0 implementation
+- Existing FFmpeg renderer, manual clip wizard, dry-run, 9:16 output, no-overwrite publication and post-render FFprobe checks were reused.
+- Added source audio detection to `media_probe.py`.
+- Required audio is now checked during dry-run and before execution when `--require-audio` is selected. A silent source fails before FFmpeg starts.
+- Added three regression tests covering audio-present intake, silent-source rejection and batch preflight.
+- Code implementation SHA before documentation reconciliation: `36ec5a4ccbb43dbdef1c8033606dbabb69017cfd`.
+- Local test execution by this session: 0. PR #79 exact-head CI: PENDING at handoff creation.
+
+### Live integration findings
+- `main` remains at `5f3332770b27d8a5211b3e74feade222563a9263`; canonical handoff/registry/permission/analytics files are not present on `main`.
+- PR #18 is OPEN / unmerged and targets `main`; its inspected workflow run failed before runner assignment and exposed no test steps.
+- PR #66 is the clipping-first baseline on `integration/release-candidate`; PR #71 adds required output-audio validation; PR #75 adds the CSV-reader hygiene fix. PR #66, #71 and #75 exact heads each have successful Ubuntu and Windows hosted CI.
+- PR #76's Linux job was cancelled during FFmpeg installation while Windows passed. PR #78 has the same partial pattern: Windows passed, Linux cancelled during FFmpeg installation. Neither is a two-platform exact-head pass.
+- PR #77 and #78 are sibling documentation branches from PR #76. They overlap on six documentation/analytics files; PR #77 reports mergeable=false and PR #78 mergeable=true. Reconcile rather than merging both blindly.
+- PR #72 and #74 both claim ARO-CHAT-0031 / ARO-GTA-P0-31; owner reconciliation is required. PR #73 is closed unmerged as invalidated.
+- Issue #68 remains OPEN / UNASSIGNED. The uploader still relies on CLI boolean flags and does not bind a durable approval to the OAuth-authenticated channel owner. Keep publishing disabled.
+- The Automation Deployment Beta remains PLANNED; no separate repository or deployment target was verified.
+
+### Product capability boundary
+- Manual local clipping and FFmpeg/FFprobe rendering are implemented and hosted-CI-tested.
+- The chat pipeline detects chat-activity spikes and maps them to media offsets using measured clock anchors. This is not visual or audio highlight analysis.
+- `subtitle_studio.py` formats and validates an operator-supplied transcript; it does not transcribe audio.
+- The review dashboard is a local read-only HTML report view, not a persistent authenticated approval service.
+- Creator OAuth media-byte intake, production transcription, visual/audio analysis, durable authenticated owner approval and production publishing remain incomplete or unverified.
+
+### Source media and permission
+- Owner reports creator permission. The actual GTA 6 recording/export has not been received in the audited project state.
+- The repository permission ledger does not yet contain a creator-specific written permission reference with all permitted scopes. Do not infer public publishing or monetization rights from permission to receive/process a file.
+- Status: WAITING_FOR_AUTHORIZED_SOURCE_MEDIA. No real-media render, playback or owner review has occurred.
+
+### Next actions
+1. Obtain the authorized recording/export through the creator-approved transfer path and retain the permission reference/scope.
+2. Run the existing Windows/local wizard against that file; confirm source video/audio, duration, render bounds and available output space.
+3. Render one short candidate, verify output streams/duration/dimensions with FFprobe, play the MP4 and capture owner review.
+4. Verify PR #79 CI on its exact final head; keep it draft until owner review.
+5. Reconcile PR #77/#78 documentation overlap and the duplicate #72/#74 serial before integration.
