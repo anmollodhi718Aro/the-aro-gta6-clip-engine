@@ -39,3 +39,10 @@ This foundation does not implement OAuth screens, encrypted token storage, refre
 The upload approval contract now requires an explicit owner_identity when calling require_upload_approval. The supplied identity must be a stable subject from a trusted, server-side authenticated channel-owner session. It must match the identity recorded in UploadApproval.reviewed_by.
 
 Do not pass a display name, client-supplied form value, or unverified reviewer string as owner_identity. The helper performs an identity equality check; it does not authenticate users or create a secure session. A future OAuth/session integration must derive the owner subject from verified provider credentials and pass it from the server side. Until that integration exists, the approval foundation is not a production authentication system and no production uploader should rely on it alone.
+
+
+## Existing YouTube upload CLI integration status
+
+The repository also contains an optional local YouTube uploader in backend/app/youtube_upload.py. That command currently uses explicit --owner-approved and --confirm-rights flags. It does not yet call require_upload_approval or verify the reviewer against the OAuth-authenticated channel identity.
+
+Consequently, the owner_identity check added in this workstream hardens the approval helper contract only. It does not retrofit authenticated owner identity into the existing uploader. Keep public uploads disabled until a separate integration change obtains the authenticated channel subject from the OAuth session, binds it to a durable per-clip approval record, and re-checks the identity and permission immediately before the upload API call. A CLI flag alone is a manual attestation, not identity authentication.
