@@ -162,6 +162,23 @@ class ClipRenderTests(unittest.TestCase):
                 )
             self.assertEqual(verify.call_args.kwargs["ffprobe_binary"], custom_ffprobe)
 
+    def test_require_audio_is_forwarded_to_post_render_validation(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            output = Path(folder) / "clip.mp4"
+            source.write_bytes(b"synthetic")
+
+            def fake_ffmpeg(command, **kwargs):
+                Path(command[-1]).write_bytes(b"synthetic mp4")
+
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg), patch(
+                "backend.app.clipping.verify_rendered_media"
+            ) as verify:
+                render_clip(
+                    source, output, 0, 2, rights_confirmed=True, require_audio=True
+                )
+            self.assertTrue(verify.call_args.kwargs["require_audio"])
+
     def test_invalid_rendered_media_is_never_published(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / "source.mov"

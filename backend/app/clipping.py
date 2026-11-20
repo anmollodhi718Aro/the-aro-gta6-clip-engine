@@ -28,6 +28,7 @@ def render_clip(
     ffmpeg_binary: str = "ffmpeg",
     ffprobe_binary: str = "ffprobe",
     vertical: bool = False,
+    require_audio: bool = False,
 ) -> Path:
     """Render and validate a bounded MP4 without overwriting prior output.
 
@@ -120,6 +121,7 @@ def render_clip(
                 expected_duration_seconds=duration,
                 vertical=vertical,
                 ffprobe_binary=ffprobe_binary,
+                require_audio=require_audio,
             )
         except (OSError, RuntimeError, ValueError) as exc:
             raise ClipRenderError(f"rendered output failed media validation: {exc}") from exc

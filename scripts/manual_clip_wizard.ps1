@@ -92,6 +92,12 @@ if ([string]::IsNullOrWhiteSpace($verticalChoice) -or $verticalChoice -match "^(
     $verticalArgs = @("--vertical")
 }
 
+$audioArgs = @()
+$audioChoice = Read-Host "Require an audio stream in every rendered MP4? (Y/N, default Y)"
+if ([string]::IsNullOrWhiteSpace($audioChoice) -or $audioChoice -match "^(?i:y|yes)$") {
+    $audioArgs = @("--require-audio")
+}
+
 $sessionRoot = Join-Path $repoRoot "manual_clip_sessions"
 New-Item -ItemType Directory -Path $sessionRoot -Force | Out-Null
 $stamp = (Get-Date -Format "yyyyMMdd_HHmmss") + "_" + [guid]::NewGuid().ToString("N").Substring(0,8)
@@ -115,7 +121,7 @@ if ($LASTEXITCODE -ne 0) { throw "Clip-plan generation failed." }
 
 Write-Host ""
 Write-Host "[2/3] Running dry-run. No video is rendered..." -ForegroundColor Yellow
-& $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve $approvedRows --output-dir $reportRoot @verticalArgs
+& $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve $approvedRows --output-dir $reportRoot @verticalArgs @audioArgs
 if ($LASTEXITCODE -ne 0) { throw "Dry-run failed. No render was started." }
 
 Write-Host ""
@@ -135,7 +141,7 @@ if ($rightsChoice -cne "I CONFIRM RIGHTS") {
 
 Write-Host ""
 Write-Host ("[3/3] Rendering {0} approved clip(s) locally..." -f $clips.Count) -ForegroundColor Green
-& $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve $approvedRows --output-dir $reportRoot @verticalArgs --execute --confirm-rights
+& $pythonExe @pythonPrefix -m backend.app.batch_render $csvPath --media $mediaPath --approve $approvedRows --output-dir $reportRoot @verticalArgs --execute --confirm-rights @audioArgs
 if ($LASTEXITCODE -ne 0) { throw "Rendering failed. Inspect the session report: $sessionDir" }
 
 $latestRun = Get-ChildItem -LiteralPath $reportRoot -Directory |

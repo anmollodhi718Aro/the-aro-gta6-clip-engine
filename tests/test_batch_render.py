@@ -201,6 +201,16 @@ class BatchRenderTests(unittest.TestCase):
         self.assertEqual([row["status"] for row in result], ["rendered", "not_approved", "not_approved"])
 
 
+    def test_execution_forwards_require_audio_to_renderer(self) -> None:
+        with patch("backend.app.batch_render.render_clip") as render:
+            result = run_batch(
+                self.csv_path, self.media, self.root / "out", {1},
+                execute=True, rights_confirmed=True, media_duration_seconds=100.0,
+                require_audio=True, run_id="audio-required",
+            )
+        self.assertEqual(result[0]["status"], "rendered")
+        self.assertTrue(render.call_args.kwargs["require_audio"])
+
     def test_execution_blocks_clip_past_actual_media_duration(self) -> None:
         with patch("backend.app.batch_render.render_clip") as render:
             result = run_batch(

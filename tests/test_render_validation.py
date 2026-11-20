@@ -78,6 +78,20 @@ class RenderedMediaValidationTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     verify_rendered_media(self.output, expected_duration_seconds=10)
 
+    def test_require_audio_rejects_silent_mp4_but_default_allows_it(self):
+        silent_payload = self._payload().replace(',{"codec_type":"audio"}', '')
+        with patch("backend.app.render_validation.subprocess.run") as run:
+            run.return_value.stdout = silent_payload
+            info = verify_rendered_media(self.output, expected_duration_seconds=10)
+        self.assertFalse(info.has_audio)
+
+        with patch("backend.app.render_validation.subprocess.run") as run:
+            run.return_value.stdout = silent_payload
+            with self.assertRaisesRegex(ValueError, "must contain an audio stream"):
+                verify_rendered_media(
+                    self.output, expected_duration_seconds=10, require_audio=True
+                )
+
     def test_rejects_empty_output_without_running_ffprobe(self):
         self.output.write_bytes(b"")
         with patch("backend.app.render_validation.subprocess.run") as run:

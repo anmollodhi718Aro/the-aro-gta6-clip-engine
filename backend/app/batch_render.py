@@ -127,6 +127,7 @@ def run_batch(
     media_duration_seconds: float | None = None,
     ffprobe_binary: str = "ffprobe",
     vertical: bool = False,
+    require_audio: bool = False,
 ) -> list[dict[str, Any]]:
     """Plan or execute approved rows inside a collision-safe per-run folder."""
     source_csv = Path(csv_path).expanduser()
@@ -198,6 +199,7 @@ def run_batch(
                     rights_confirmed=rights_confirmed,
                     ffprobe_binary=ffprobe_binary,
                     vertical=vertical,
+                    require_audio=require_audio,
                 )
                 item.update(status="rendered", message="local clip rendered; manual review still required")
         except (OSError, ValueError, PermissionError, RuntimeError) as exc:
@@ -218,6 +220,7 @@ def main() -> int:
     selection.add_argument("--approve", help="comma-separated 1-based row numbers approved by a human")
     selection.add_argument("--retry-report", type=Path, help="previous batch JSON report; retries only failed rows whose source, media file identity and bounds still match")
     parser.add_argument("--vertical", action="store_true", help="render 1080x1920 (9:16), preserving the full frame over a blurred background")
+    parser.add_argument("--require-audio", action="store_true", help="reject rendered MP4s without an audio stream")
     parser.add_argument("--execute", action="store_true", help="perform local rendering; default is dry-run")
     parser.add_argument("--confirm-rights", action="store_true", help="confirm authorization for this exact local media file")
     parser.add_argument("--report", type=Path, help="optional report path; defaults inside this run folder")
@@ -242,6 +245,7 @@ def main() -> int:
             run_directory=run_dir,
             ffprobe_binary=args.ffprobe,
             vertical=args.vertical,
+            require_audio=args.require_audio,
         )
         report_path = args.report or (run_dir / "batch_render_report.json")
         write_json_atomic(report_path, results)
