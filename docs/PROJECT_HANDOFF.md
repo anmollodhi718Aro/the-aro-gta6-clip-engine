@@ -660,3 +660,10 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - The test change replaces inline `self.csv_path.open(...)` use with a context manager in `test_rejects_invalid_bounds_in_approved_row`, addressing the non-failing ResourceWarning observed in both parent CI logs.
 - No local tests were executed. The current workflow's pull_request filter targets `main`; this stacked PR targets PR #71's workstream branch, so exact-head CI is not expected to run under the current filter. Parent PR #71 run 44700987089 is baseline evidence only.
 - The first authorized GTA 6 MP4 remains blocked pending an authorized recording/export. Issue #68 remains owner-gated.
+
+
+### Concurrent ARO-CHAT-0031 inventory correction — 2026-11-20
+
+- Final PR inventory also found [PR #74](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/74), which independently claims ARO-CHAT-0031 / ARO-GTA-P0-31, in addition to [PR #72](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/72).
+- Both #72 and #74 are concurrent P0 audit/documentation workstreams using the same serial. Their ownership/precedence is not adjudicated here; project owner should reconcile them.
+- This session uses ARO-CHAT-0032 / ARO-GTA-P2-32. Its duplicate PR #73 was closed unmerged. PR #75 is the current draft for the isolated P2 test-hygiene fix.
