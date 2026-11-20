@@ -366,3 +366,5 @@ No merge, retarget, deployment, upload, public publishing, or issue #68 implemen
 - PR #72 and #74 duplicate ARO-CHAT-0031 attribution; owner reconciliation is pending.
 - PR #73 is invalidated/closed unmerged; do not revive it.
 - No merge, retarget, deployment, upload, public publishing or destructive operation was performed by ARO-CHAT-0034.
+
+| ARO-CHAT-0034 documentation PR | #77 OPEN / DRAFT / UNMERGED | VERIFIED | Seven docs/analytics files; branch comparison diverged (7 ahead / 1 behind), GitHub mergeable=false; no CI run returned for head |
