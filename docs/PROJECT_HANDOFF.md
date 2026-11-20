@@ -506,4 +506,4 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - Workstream: `ARO-ZERO-ONE` security hardening; task `ARO-GTA-P0-21`.
 - Branch: `workstream/aro-chat-0021-owner-identity-guard-2026-11-20`; base snapshot: PR #66 head `008f1fc9b0088788b2037b32e89c14dd6c504a1c`; intended stacked PR base: `workstream/aro-zero-one-clipping-first-2026-11-20`.
 - Scope: require the upload gate to compare the recorded reviewer with a trusted authenticated channel-owner identity; add negative tests and document that authentication must be supplied by a future trusted identity provider. No upload, OAuth, or production deployment.
-- Status: RESERVED; implementation and tests pending.
+- Status: IMPLEMENTED; owner identity equality guard, two regression tests and documentation committed; draft PR #67 open; CI pending.
