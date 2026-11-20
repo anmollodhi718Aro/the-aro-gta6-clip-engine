@@ -83,20 +83,47 @@ class UploadApprovalTests(unittest.TestCase):
         pending = UploadApproval("clip-1", "creator-123")
         with self.assertRaises(PermissionError):
             require_upload_approval(pending, grant("creator-123", "publish"), at=NOW)
-        approved = pending.decide(True, "channel-owner", at=NOW)
-        require_upload_approval(approved, grant("creator-123", "publish"), at=NOW)
+        approved = pending.decide(True, "channel-owner-id", at=NOW)
+        require_upload_approval(approved, grant("creator-123", "publish"), owner_identity="channel-owner-id", at=NOW)
         self.assertEqual(approved.status, ApprovalStatus.APPROVED)
-        self.assertEqual(approved.reviewed_by, "channel-owner")
+        self.assertEqual(approved.reviewed_by, "channel-owner-id")
 
     def test_rejected_clip_cannot_be_uploaded(self):
         rejected = UploadApproval("clip-1", "creator-123").decide(False, "channel-owner", at=NOW)
         with self.assertRaises(PermissionError):
-            require_upload_approval(rejected, grant("creator-123", "publish"), at=NOW)
+            require_upload_approval(rejected, grant("creator-123", "publish"), owner_identity="channel-owner-id", at=NOW)
 
     def test_read_permission_alone_does_not_authorize_publishing(self):
-        approved = UploadApproval("clip-1", "creator-123").decide(True, "channel-owner", at=NOW)
+        approved = UploadApproval("clip-1", "creator-123").decide(True, "channel-owner-id", at=NOW)
         with self.assertRaises(PermissionError):
-            require_upload_approval(approved, grant("creator-123", "read_live_stream"), at=NOW)
+            require_upload_approval(approved, grant("creator-123", "read_live_stream"), owner_identity="channel-owner-id", at=NOW)
+
+
+    def test_upload_rejects_approval_from_non_owner_identity(self):
+        approved_by_other = UploadApproval("clip-1", "creator-123").decide(
+            True, "different-account-id", at=NOW
+        )
+        with self.assertRaisesRegex(PermissionError, "authenticated channel owner"):
+            require_upload_approval(
+                approved_by_other,
+                grant("creator-123", "publish"),
+                owner_identity="channel-owner-id",
+                at=NOW,
+            )
+
+    def test_upload_requires_trusted_owner_identity(self):
+        approved = UploadApproval("clip-1", "creator-123").decide(
+            True, "channel-owner-id", at=NOW
+        )
+        for identity in ("", "   ", None):
+            with self.subTest(identity=identity):
+                with self.assertRaisesRegex(ValueError, "trusted channel owner identity"):
+                    require_upload_approval(
+                        approved,
+                        grant("creator-123", "publish"),
+                        owner_identity=identity,
+                        at=NOW,
+                    )
 
     def test_final_decision_cannot_be_changed(self):
         approved = UploadApproval("clip-1", "creator-123").decide(True, "owner", at=NOW)
