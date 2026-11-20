@@ -516,3 +516,12 @@
 - No new dependency, no media access, no publishing behavior change.
 - CI for this PR head: PENDING; no local test execution is claimed.
 - Historical branch name retains the provisional `aro-chat-0026` token because the connector does not expose a safe branch-rename operation. Canonical chat identity is ARO-CHAT-0027; no other session attribution is reassigned.
+
+
+### ARO-CHAT-0027 closeout and verification reconciliation
+- Canonical serial: ARO-CHAT-0027 / task ARO-GTA-P0-27. The provisional 0026 reservation was corrected after the live analytics ledger revealed that ARO-CHAT-0026 was already assigned to a separate CI-verification session. That existing record was preserved.
+- PR #69: [Prevent review dashboard report overwrite](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/69), draft and unmerged; stacked on PR #66. Historical branch slug retains `aro-chat-0026`; canonical identity is 0027.
+- Implementation: dashboard CLI now reuses `write_texts_no_overwrite`; explicit FileExistsError message; two CLI regression tests added.
+- First exact-head CI run [44697566076](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44697566076) on `62af35291975b9d1f01cd9ed13f8bd0c6c2d98a4`: Ubuntu compile passed, 283 tests executed with one assertion failure caused by platform-dependent FileExistsError wording; Windows compile and all 283 tests passed.
+- Repair commit: `62c9cbe865d3f84346c0e848a4797ed53ab3cf2e`; error handling now emits a stable "output already exists" message. GitHub returned no workflow run or commit checks for this repaired head during this session. Latest-head TESTED / CI PASSED is therefore NOT CLAIMED.
+- No direct local tests were run. No merge, retarget, deployment, upload, or public publishing.
