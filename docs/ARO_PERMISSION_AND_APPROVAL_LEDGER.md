@@ -124,3 +124,15 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 - No uploader or issue #68 implementation; no application renderer changes.
 - PR #71 remains draft/unmerged and is the explicit base dependency. Owner review remains required before integration.
 - GitHub push/admin capability does not grant owner-only authority.
+
+
+## ARO-CHAT-0032 bounded session grant — 2026-11-20
+
+| Identity | Chat ID | Role | Granted scope | Granting authority / evidence | Status |
+|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0032 | CONTRIBUTOR / QA | Isolated test-hygiene fix in `tests/test_batch_render.py`; canonical documentation/analytics correction after the ARO-CHAT-0031 concurrent reservation collision; draft PR only | Project owner's master execution instruction in this conversation; task ARO-GTA-P2-32 | ACTIVE FOR ASSIGNED WORKSTREAM ONLY |
+
+### Restrictions retained
+- No merge, retarget, deployment, upload, publishing, credential access, destructive action, or permission escalation.
+- No uploader/issue #68 implementation or application renderer changes.
+- PR #73 was closed unmerged as an invalid duplicate; new work is tracked separately under ARO-CHAT-0032.
