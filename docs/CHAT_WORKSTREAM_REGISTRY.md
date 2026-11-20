@@ -501,3 +501,22 @@
 - This exact-head CI result supersedes the earlier cancelled PR #66 runs for this SHA. It does not prove Windows execution on the owner's device or validate GTA 6 footage.
 - No direct local tests were executed by this chat. No application, test, or workflow code changed.
 - First authorized GTA 6 MP4 remains BLOCKED pending a creator-authorized recording/export or supported media handoff. No merge, retarget, deployment, upload, or public publishing was performed.
+
+
+## ARO-CHAT-0028 reservation and closeout — 2026-11-20 13:14 IST
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0028 | ARO-CHAT-0028 | Live Repository, CI and Portfolio Evidence Reconciliation | ARO-ZERO-ONE continuation; task ARO-GTA-P0-28 | Reconcile the latest verified PR #66 CI evidence against the current source blobs; inspect open PR/issue boundaries, research catalog, provider inventory and Beta repository identity; update canonical evidence records only. No application/test/workflow changes. | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 | Previous registry entries through ARO-CHAT-0026 inspected. ARO-CHAT-0027 already reserved on `workstream/aro-chat-0027-review-dashboard-pr-qa-2026-11-20`; this session therefore uses the next unreserved serial, ARO-CHAT-0028. No duplicate branch or PR created. |
+
+### ARO-CHAT-0028 execution evidence
+- Provider/model: OpenAI / GPT-6. Role: QA / Auditor and bounded documentation contributor. Start: 2026-11-20 13:14 IST; end/duration not measured.
+- Reused ARO-ZERO-ONE branch and PR #66. No source, test, CI workflow, or publishing code changed.
+- Exact tested PR #66 code SHA: `817c7947c6756b80ae91ba272d172c3efaa2fa07`. Workflow run [44696785004](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44696785004) completed successfully. Ubuntu job [136155337178](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44696785004) and Windows job [136155337553](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44696785004) both completed FFmpeg/FFprobe installation, compilation and all 281 unit tests. This is 281 unique tests executed on each platform, 562 successful executions total.
+- Blob SHA comparisons for `tests/test_batch_render.py`, `backend/app/review_dashboard.py`, `backend/app/clipping.py`, `backend/app/render_validation.py` and `backend/app/youtube_upload.py` match the exact tested SHA's file contents. The audited code paths therefore have no code delta from the CI-tested revision. Current branch-tip commit SHA was not exposed; do not claim the entire branch tip is CI-verified.
+- CI logs show a pre-existing `ResourceWarning` for an unclosed `candidates.csv` file in `tests/test_batch_render.py:227` on both platforms. It did not fail tests; record as LOW-priority test hygiene follow-up. No fix was made.
+- PR #67 remains the separate owner-identity helper change. Issue #68 remains OPEN / UNASSIGNED and explicitly requires owner assignment/approval before uploader integration. PR #69 is the separate review-dashboard no-overwrite implementation/QA workstream; ARO-CHAT-0027 has already reserved its QA branch, so this session did not duplicate that review.
+- The canonical research catalog already records the four requested references and the ARO-CHAT-0022 source/license revalidation. It was reused, not duplicated. GitHub repository inventory returned only the GTA 6 Clip Engine; no separate Automation Deployment Beta repository was found in the connected account.
+- Direct local tests executed by this chat: 0. GitHub Actions evidence above belongs to ARO-CHAT-0026 and the exact code SHA, not to local execution by ARO-CHAT-0028.
+- First creator-authorized GTA 6 MP4 remains BLOCKED pending a permitted recording/export or supported media handoff. Owner-device Windows playback remains NOT VERIFIED.
+- No merge, retarget, deployment, upload, public publishing, credential access, destructive action, permission escalation, issue #68 assignment, or application implementation was performed.
