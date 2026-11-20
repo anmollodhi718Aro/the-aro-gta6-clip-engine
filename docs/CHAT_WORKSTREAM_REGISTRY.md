@@ -569,3 +569,13 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 | Status | RESERVED / ACTIVE; implementation not yet started |
 | Attribution evidence | Registry and live PR/branch search checked; ARO-CHAT-0030 was the latest recorded session; no ARO-CHAT-0031 reservation found. |
 
+
+### ARO-CHAT-0031 implementation update — 2026-11-20
+
+- PR [#73](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/73) opened as DRAFT, stacked on PR #71's branch to keep the maintenance diff isolated.
+- Changed `tests/test_batch_render.py`: the CSV reader now uses a context manager, ensuring deterministic file-handle closure.
+- Changed paths: this registry, `docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md`, and `tests/test_batch_render.py`.
+- Commits: `b01176a97b7456ecc650c41400b60bb57cb2f325` (reservation), `9868f6a74b13f203597e2df747849838134b8d41` (permission scope), `38bd4bcb53f48710fd69e654a2e4e611513e321c` (test fix).
+- Local tests executed: 0. Exact-head CI: NOT RUN. The existing CI pull-request filter targets `main`, while this stacked PR targets the PR #71 workstream branch. Parent PR #71's run 44700987089 passed 284 tests on each hosted platform, but does not verify this change.
+- PR #73 is open, draft, unmerged; GitHub reports mergeable. No merge, retarget, deployment, upload, or publishing.
+- Status: IMPLEMENTED; TESTED/CI_VERIFIED NOT CLAIMED. Next action: obtain an appropriate test run after owner review or integrate through the approved parent-branch sequence.
