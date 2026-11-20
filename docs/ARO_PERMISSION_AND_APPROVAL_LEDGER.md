@@ -161,3 +161,17 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 
 
 - ARO-CHAT-0033 created documentation-only draft PR [#76](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/76), stacked on PR #75. It does not authorize merge, deployment, publishing, or issue #68 implementation.
+
+
+## ARO-CHAT-0034 bounded research session grant — 2026-11-20
+
+| Identity | Chat ID | Role | Granted scope | Granting authority / evidence | Status |
+|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0034 | READ-ONLY RESEARCHER; documentation contributor | Inspect public reference repositories and update the existing research catalog, workstream registry, handoff and analytics evidence. No dependency adoption or application-code changes. | Project owner's master execution instruction in this conversation; task ARO-GTA-P2-34 | ACTIVE FOR BOUNDED RESEARCH AND DOCUMENTATION ONLY |
+
+### Restrictions retained
+
+- No merge, retarget, deployment, public upload, publishing, credential access, destructive action, permission escalation or owner-only approval.
+- No application, renderer, media acquisition, uploader or workflow implementation changes.
+- No external source code copied and no new dependency introduced.
+- GitHub connector push/admin capability does not grant owner-only project authority.
