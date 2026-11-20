@@ -641,3 +641,24 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 3. Run the Windows wizard with audio required, inspect the dry-run, render only after explicit rights confirmation, then validate video/audio streams, 1080x1920 dimensions, duration, and playback.
 4. Preserve the output for owner review; do not upload or publish without separate per-clip and destination-channel authorization.
 5. Keep issue #68 owner-identity uploader work separate until the owner explicitly assigns it.
+
+
+## ARO-CHAT-0031 exact-head CI reconciliation — 2026-11-20
+
+- Audited current PR #71 branch head: `4787c069d498b51177968546198eea3e1e8ac84a`.
+- Exact-head GitHub Actions run [44700987089](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44700987089) completed successfully on that exact SHA.
+- Ubuntu job `136169082777` and Windows hosted job `136169082306` both completed FFmpeg/FFprobe installation, source compilation and unit-test steps successfully. Each job log reports 284 tests executed.
+- The earlier implementation-only run [44700696502](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44700696502) also passed on `bb71afc5b4c7b9d37440d5e7e85643dd28995b7c`; the later run removes the previous uncertainty about the docs-updated PR #71 head.
+- ARO-CHAT-0031 executed 0 local tests and made no application/test/workflow code changes. Hosted CI evidence is external evidence inspected by this audit.
+- PR #71 remains OPEN / DRAFT / UNMERGED. PR #66 remains the selected clipping-first integration baseline. No merge, retarget or deployment was performed.
+- The source audit confirms the audio gate is optional for backward compatibility in the renderer/API/CLI and defaults to requiring audio in the Windows first-clip wizard, with an explicit opt-out for intentionally silent footage.
+- The first creator-authorized GTA 6 MP4 remains BLOCKED pending a permitted recording/export or supported media handoff. Owner-device Windows execution and playback remain NOT VERIFIED.
+- Issue #68 remains OPEN / UNASSIGNED. Do not integrate the uploader's CLI boolean approval into a production authorization claim; verified OAuth channel identity and durable per-clip approval remain outstanding and require separate owner assignment/approval.
+
+### ARO-CHAT-0031 next handoff
+
+1. Owner reviews PR #71 and decides whether to approve its integration into PR #66; the separate documentation-only audit PR should be reviewed with it.
+2. Obtain a creator-authorized GTA 6 recording/export or supported media handoff.
+3. On the owner's Windows device, run the wizard with audio required, inspect the dry-run, render only after explicit rights confirmation, then inspect FFprobe video/audio streams, dimensions, duration and actual playback.
+4. Preserve the output for owner review; do not upload or publish without separate per-clip and destination-channel authorization.
+5. Keep issue #68 separate until the project owner explicitly assigns/approves its implementation owner.
