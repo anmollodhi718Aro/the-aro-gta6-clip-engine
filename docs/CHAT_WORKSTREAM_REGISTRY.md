@@ -604,3 +604,10 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 | Status | IMPLEMENTED; exact-head tests/CI NOT VERIFIED |
 | Attribution | The initial ARO-CHAT-0031 reservation collided with existing PR #72. PR #73 was closed unmerged and invalidated. This workstream is re-registered as ARO-CHAT-0032; sequencing deviation disclosed. |
 
+
+
+### Concurrent ARO-CHAT-0031 inventory correction — 2026-11-20
+
+- Final PR inventory also found [PR #74](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/74), which independently claims ARO-CHAT-0031 / ARO-GTA-P0-31, in addition to [PR #72](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/72).
+- Both #72 and #74 are concurrent P0 audit/documentation workstreams using the same serial. Their ownership/precedence is not adjudicated here; project owner should reconcile them.
+- This session uses ARO-CHAT-0032 / ARO-GTA-P2-32. Its duplicate PR #73 was closed unmerged. PR #75 is the current draft for the isolated P2 test-hygiene fix.
