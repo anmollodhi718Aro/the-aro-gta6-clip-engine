@@ -475,3 +475,14 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - Exact-head CI after the final ledger/registry correction is pending; a subsequent research continuation also updated canonical docs on the same branch. Reconcile the actual latest PR head and its run before claiming tests passed.
 - Windows runner/toolchain availability is demonstrated; Windows test-suite success is not yet verified. GTA 6 authorized real-media render/playback remains blocked on an expressly authorized recording/export/media handoff.
 - No production OAuth, media-byte ingestion, persistent review UI, or production publishing is claimed. Public publishing remains owner-gated.
+
+
+## ARO-CHAT-0019 live audit: analytics identity collision and exact-head CI (2026-11-20 07:07 IST)
+
+- Repository: `anmollodhi718Aro/the-aro-gta6-clip-engine`; authenticated GitHub login matches the repository owner; repository permission is `admin`. This confirms GitHub capability, not blanket approval for owner-restricted merge, deploy, destructive, or publishing actions.
+- `main` is unchanged at `5f3332770b27d8a5211b3e74feade222563a9263`. Existing clipping-first branch `workstream/aro-zero-one-clipping-first-2026-11-20` and PR #66 are reused; PR #66 is open, unmerged, targets `integration/release-candidate`, and currently reports mergeable.
+- Live PR #66 head at audit start: `23daf0fa0ec14886733ba59cd52df642b4a1c28c`. Exact-head Actions run `44638736182` executed both Ubuntu and Windows jobs. Both installed FFmpeg/FFprobe and compiled successfully, then failed the unit suite after 281 tests with the same two errors: `ValueError: duplicate chat_id: ARO-CHAT-0015`.
+- The canonical analytics JSON had two distinct `ARO-CHAT-0015` session records. The registry's primary assignment keeps `ARO-CHAT-0015` for the Windows CI recovery session. The separate exact-head CI audit is re-attributed to `ARO-CHAT-0018` / `ARO-GTA-P0-18`, preserving its recorded evidence. `ARO-CHAT-0016` remains the analytics-schema session and `ARO-CHAT-0017` remains reserved for the research reference audit.
+- The current task `ARO-CHAT-0019` / `ARO-GTA-P0-19` repairs the ledger and re-runs exact-head CI. The validator itself correctly detects duplicate IDs; do not weaken or remove that check to make CI green.
+- Synthetic FFmpeg/FFprobe tests are not GTA 6 real-media verification. No creator-authorized GTA 6 recording/export has been supplied. Windows owner-device playback remains NOT VERIFIED.
+- No changes to `main`; no merge, retarget, deployment, upload, or public publishing.
