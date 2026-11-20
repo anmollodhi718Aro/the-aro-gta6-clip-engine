@@ -111,3 +111,19 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 - GitHub API push/admin capability is technical capability only and does not confer owner authority.
 - PR #71 remains draft and unmerged; owner review is required before integration.
 - The registry reservation was recorded after the first implementation commits; this process deviation is disclosed in the registry and PR body.
+
+
+## ARO-CHAT-0031 bounded session grant — 2026-11-20
+
+| Identity | Chat ID | Role | Granted scope | Granting authority / evidence | Status |
+|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0031 | QA / AUDITOR; bounded documentation contributor | Inspect live repository, branches, PRs, issues, canonical docs and CI; reserve this chat identity; update its own registry, handoff, permission and dashboard records on a new isolated branch stacked on PR #71 | Project owner's explicit MASTER ENGINEERING / EXECUTE NOW instruction in this conversation; task ARO-GTA-P0-31 | ACTIVE FOR AUDIT AND DOCUMENTATION ONLY |
+
+### Restrictions retained
+
+- No application, test, workflow or uploader implementation authority was exercised.
+- No merge, retarget, close, deployment, production publishing, public upload, credential access/change, destructive action, collaborator permission change, permission escalation or owner-only approval.
+- Issue #68 uploader owner-identity integration remains outside this grant and NOT AUTHORIZED absent its separately required explicit owner assignment/approval.
+- GitHub API push/admin capability is technical capability only and does not confer project-owner authority.
+- PR #66 and PR #71 remain open/unmerged; this session's documentation-only PR is stacked on PR #71 and does not authorize integration.
+- No real-media rights grant or destination-channel publishing grant was received or inferred.
