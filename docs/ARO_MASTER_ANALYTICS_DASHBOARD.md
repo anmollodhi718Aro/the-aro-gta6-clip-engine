@@ -301,3 +301,10 @@ No merge, retarget, deployment, upload, public publishing, or issue #68 implemen
 - Test-hygiene work continues under unique serial ARO-CHAT-0032 / task ARO-GTA-P2-32.
 - CSV-reader context-manager fix is implemented; direct tests and exact-head CI are not verified. Parent PR #71 CI is not evidence for this branch.
 - No score assigned; task scope is P2 maintenance and evidence is incomplete.
+
+
+### Chat serial collision note — 2026-11-20
+
+- Both PR #72 and PR #74 currently claim ARO-CHAT-0031 / ARO-GTA-P0-31. Ownership/precedence requires owner reconciliation.
+- PR #73 was this session's invalid duplicate and is closed unmerged.
+- PR #75 is this session's unique ARO-CHAT-0032 / ARO-GTA-P2-32 draft; exact-head tests/CI remain unverified.
