@@ -233,3 +233,32 @@ No numerical workforce score is assigned to ARO-CHAT-0024: task completion, time
 | ARO-CHAT-0026 | Read-only QA and documentation update | IMPLEMENTED | No application/test/workflow code changes; no direct local tests |
 
 No workforce score is assigned: independent time-efficiency and broader quality telemetry are insufficient. PR #66 remains open and unmerged. No deployment, upload, or public publishing was performed.
+
+## 2026-11-20 13:15 IST live reconciliation (ARO-CHAT-0028)
+
+| Metric | Current value | Status | Evidence / note |
+|---|---|---|---|
+| Main branch SHA | `5f3332770b27d8a5211b3e74feade222563a9263` | VERIFIED | Live repository commit search |
+| PR #66 | Open, unmerged; head `d1e75e57855187c680a376e1ca24eb3bcd64e838`; base `integration/release-candidate` | VERIFIED | Live PR metadata |
+| PR #66 exact-head CI | Run `44697250496`; Ubuntu and Windows compile + unit-test steps succeeded | CI PASSED | Job records retrieved for the exact PR head; test count not recovered |
+| PR #67 | Open, draft; owner-identity helper only | VERIFIED | Live PR metadata and PR body; not integrated into uploader |
+| PR #67 prior tested revision | Run `44655744416`; 283 tests passed on both Ubuntu and Windows at `c2d3dc1873a97d624dae78282d38448a0d54e3f6` | HISTORICAL / VERIFIED FOR TESTED SHA | Does not prove uploader integration |
+| PR #69 | Open, draft; head `f84364345bf578754b870274cd6be6884db1b88e` | VERIFIED | Live PR metadata |
+| PR #69 exact-head CI | No commit-associated PR workflow run returned | UNAVAILABLE / NOT VERIFIED | Do not infer pass or test failure |
+| Issue #68 | Open / unassigned; uploader approval integration | VERIFIED | Requires owner task assignment/approval |
+| ARO-CHAT-0027 | Branch name exists; registry and analytics entry absent at audit | UNAVAILABLE / RESERVED-UNCONFIRMED | Do not infer owner or task |
+| ARO-CHAT-0028 | Research/CI/governance audit and docs branch | VERIFIED | Current session and branch evidence |
+| Authorized GTA 6 media | Not supplied | BLOCKED | Requires creator-authorized recording/export or supported handoff |
+| First real-media MP4 | Not verified | UNAVAILABLE | Synthetic fixture is not GTA 6 footage |
+| Automation Deployment Beta | Planned; no separate repository or deployment verified | UNAVAILABLE / PLANNED | Keep below P0 clipping milestone |
+| Public publishing | Not authorized | NOT AUTHORIZED | Requires separate owner approval |
+
+### Current execution priorities
+
+1. **P0:** Obtain creator-authorized GTA 6 media and complete local Windows/FFmpeg/FFprobe/playback acceptance.
+2. **P0 QA:** Keep PR #66 exact-head CI evidence tied to SHA `d1e75e57855187c680a376e1ca24eb3bcd64e838`; do not generalize it to later commits.
+3. **P1 security:** Keep issue #68 unassigned until owner approval; uploader must bind OAuth-authenticated channel identity to durable per-clip approval before upload is enabled.
+4. **P0 QA:** Reconcile PR #69's exact-head CI within its own workstream; avoid duplicate implementation.
+5. **P2:** Keep Automation Deployment Beta planned until P0 first-clip acceptance.
+
+No arbitrary completion percentage or AI leaderboard score is assigned. Chat duration, active time, and score remain N/A because telemetry is unavailable.
