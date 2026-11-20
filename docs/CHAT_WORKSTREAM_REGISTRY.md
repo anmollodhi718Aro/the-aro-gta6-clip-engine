@@ -520,3 +520,35 @@
 - Direct local tests executed by this chat: 0. GitHub Actions evidence above belongs to ARO-CHAT-0026 and the exact code SHA, not to local execution by ARO-CHAT-0028.
 - First creator-authorized GTA 6 MP4 remains BLOCKED pending a permitted recording/export or supported media handoff. Owner-device Windows playback remains NOT VERIFIED.
 - No merge, retarget, deployment, upload, public publishing, credential access, destructive action, permission escalation, issue #68 assignment, or application implementation was performed.
+
+
+## ARO-CHAT-0030 reservation and implementation record — 2026-11-20
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0030 |
+| Exact title | ARO-CHAT-0030 | Audio Stream Acceptance for First Clip |
+| Provider / model | OpenAI / GPT-6 |
+| Project / workstream | THE ARO GTA 6 Clip Engine / ARO-GTA-P0-30 |
+| Role | Contributor; QA-minded implementation |
+| Scope | Add an opt-in FFprobe audio-stream acceptance gate across validator, renderer and batch CLI; enable it by default in the Windows first-clip wizard with an explicit opt-out; add regression tests and update usage documentation |
+| Branch / PR | `workstream/aro-chat-0030-audio-stream-acceptance-2026-11-20` / [PR #71](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/71) |
+| Starting SHA | `10de6eee218f08e7edb99913d27cc9ff2307d261` (existing PR #66 workstream head) |
+| Implementation head | `bb71afc5b4c7b9d37440d5e7e85643dd28995b7c` |
+| Status | IMPLEMENTED; CI_VERIFIED on exact implementation head; owner-device Windows and real-media verification NOT VERIFIED |
+| Attribution evidence | Eight implementation commits listed in PR #71; exact-head Actions run [44700696502](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44700696502) |
+
+### ARO-CHAT-0030 verification and limitations
+
+- The original gap was that FFprobe recorded `has_audio` but did not enforce audio presence. The new `require_audio` option rejects a rendered MP4 without an audio stream when enabled.
+- Backward compatibility is preserved: `require_audio=False` remains the default for direct API/CLI callers; the Windows wizard asks the operator and defaults to requiring audio, with an explicit opt-out for intentionally silent footage.
+- Regression tests cover silent-media rejection, default silent-media acceptance, and propagation through renderer and batch rendering.
+- Exact-head CI run [44700696502](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44700696502) completed successfully. Ubuntu job `136168069991` and Windows hosted job `136168070509` both completed FFmpeg/FFprobe installation, compilation, and unit-test steps successfully. Test count was not recovered; do not invent it.
+- Direct local test execution: 0. Hosted Windows CI is not owner-device Windows verification.
+- PR #71 is OPEN / DRAFT / UNMERGED and is stacked on existing PR #66. No merge or retarget was performed.
+- No authorized GTA 6 recording/export was supplied. REAL_MEDIA_VERIFIED remains BLOCKED; synthetic/CI fixtures do not establish the first real clip.
+- No source acquisition, OAuth, upload, publishing, deployment, credential, or owner-only action was performed.
+
+### Reservation sequencing correction
+
+The registry and live branch/PR inventory were checked before opening PR #71, and ARO-CHAT-0030 / ARO-GTA-P0-30 were unique. However, the first implementation commits preceded this registry reservation update. This is a process-order deviation and is disclosed rather than represented as pre-registration.
