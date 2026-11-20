@@ -281,3 +281,10 @@
 - End timestamp: `2026-11-20T05:03:44+05:30`; elapsed and active work time remain null because start time was recorded only to minute precision.
 - Analytics schema/validator implemented; focused local syntax and behavior smoke checks passed; repository unit tests and exact-head CI remain NOT VERIFIED.
 - Re-attributed this chat to ARO-CHAT-0016 after detecting two concurrent ARO-CHAT-0015 records. The distinct analytics-schema work remains on PR #66; no duplicate PR or renderer/Windows workflow was created.
+
+
+## ARO-CHAT-0017 reservation (2026-11-20 07:07 IST)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0017 | ARO-CHAT-0017 | Research Reference Audit and Clipping-First Integration | ARO-ZERO-ONE (continuation; task ARO-GTA-P0-17) | Verify the four named research repositories from current README/source/license; record dated metadata, architecture findings, risks, and evidence-backed adopt/adapt/study/reject decisions. No renderer, workflow, or publishing changes in this task. | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 | RESERVED | Existing branch and PR #66 reused; starting observed PR head `23daf0fa0ec14886733ba59cd52df642b4a1c28c`; main remains `5f3332770b27d8a5211b3e74feade222563a9263`; no new branch or PR |
