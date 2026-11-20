@@ -216,3 +216,19 @@ No leaderboard score is assigned: task completion, quality, and efficiency telem
 | Automation Deployment Beta | Planned; no separate verified repository/deployment | HISTORICAL / NOT VERIFIED | Remains paused below P0 clipping milestone |
 
 No numerical workforce score is assigned to ARO-CHAT-0024: task completion, time and independent test telemetry are incomplete. No arbitrary progress percentage is reported.
+
+
+## Live QA addendum — ARO-CHAT-0027 (2026-11-20 13:15 IST)
+
+| Metric | Observation | Status | Evidence / limitation |
+|---|---|---|---|
+| New chat identity | ARO-CHAT-0027 | VERIFIED | Registry read through ARO-CHAT-0026 before reservation; reservation commit `8ed566e08949a42d387853a764da40ba243a389c` on dedicated QA branch |
+| PR #69 | Open, draft, unmerged; base `workstream/aro-zero-one-clipping-first-2026-11-20`; head `f84364345bf578754b870274cd6be6884db1b88e`; GitHub reports mergeable=false | VERIFIED AT AUDIT | Live PR metadata; no state change performed |
+| Collision-safe dashboard change | CLI delegates to existing no-overwrite helper; regression tests cover existing-path refusal and new nested output | IMPLEMENTED / STATICALLY REVIEWED | PR #69 diff and source/test files inspected |
+| PR #69 exact-head CI | No PR-triggered workflow runs returned for head `f84364345bf578754b870274cd6be6884db1b88e` | NOT VERIFIED | Commit workflow lookup returned an empty run list; no tests claimed executed |
+| Direct tests by ARO-CHAT-0027 | 0 | VERIFIED | Read-only connector audit; no local clone/test runner used |
+| First authorized GTA 6 MP4 | No authorized media handoff supplied | BLOCKED | Synthetic fixtures do not satisfy real-media acceptance |
+| Issue #68 uploader integration | Open / unassigned; owner assignment required | PENDING OWNER APPROVAL | No implementation started |
+| Automation Deployment Beta | Remains paused below P0 clip milestone | HISTORICAL / NOT VERIFIED | No separate repository/deployment verified in this session |
+
+Static QA found no confirmed defect in the PR #69 diff. No numerical workforce score is assigned: direct test, time, and broader performance telemetry are incomplete. No PR approval, merge, deployment, upload, or public publishing was performed.
