@@ -158,3 +158,6 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 - PR #75 remains OPEN / DRAFT / UNMERGED; owner review is required before integration.
 - Issue #68 remains outside this task and is not authorized without the owner's separate assignment/approval.
 - GitHub connector admin/push capability does not grant owner-only project authority.
+
+
+- ARO-CHAT-0033 created documentation-only draft PR [#76](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/76), stacked on PR #75. It does not authorize merge, deployment, publishing, or issue #68 implementation.
