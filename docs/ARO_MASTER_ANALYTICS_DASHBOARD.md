@@ -290,3 +290,24 @@ No arbitrary progress percentage or AI leaderboard score is assigned. Chat durat
 - Documentation PR #70: OPEN / DRAFT / UNMERGED; GitHub reported `mergeable=false` at creation.
 - PR #70 contains only the canonical documentation and analytics updates. No merge was attempted.
 - Documentation branch CI: UNAVAILABLE at the time of the last commit lookup.
+
+## ARO-CHAT-0029 source-level readiness reconciliation
+
+| Area | Verified source finding | Status |
+|---|---|---|
+| FFmpeg local renderer | Temporary output, timestamp checks, rights flag, vertical 1080x1920 composition, FFprobe validation and no-overwrite finalization | IMPLEMENTED |
+| FFprobe | Validates MP4, video dimensions and duration; records audio presence but does not universally require audio | IMPLEMENTED |
+| Synthetic end-to-end smoke | Generates test-pattern/sine fixture, renders, probes and fully decodes 1080x1920 MP4 | TESTED by CI on relevant tested code SHA; not real GTA 6 footage |
+| Review dashboard on PR #66 base | Still uses `Path.write_text` and can overwrite an existing report | KNOWN DEFECT / NOT FIXED IN BASE |
+| Review dashboard on PR #69 branch | Uses `write_texts_no_overwrite`; two CLI regression tests added | IMPLEMENTED; current exact-head CI NOT VERIFIED |
+| Owner approval helper on PR #66 base | Checks approved state, source match and publish scope, but does not bind reviewer to trusted owner identity | PARTIAL |
+| Owner identity helper on PR #67 | Compares reviewer to server-supplied trusted owner identity | IMPLEMENTED / SEPARATE PR |
+| Actual uploader | Uses boolean CLI flags; does not call helper or bind to authenticated channel owner | SECURITY INTEGRATION NOT IMPLEMENTED |
+| Issue #68 | Open / unassigned | PENDING OWNER ASSIGNMENT |
+
+### ARO-CHAT-0029 CI evidence
+
+- PR #66 run `44697250496` passed Ubuntu and Windows compile/unit-test steps on tested code SHA `d1e75e57855187c680a376e1ca24eb3bcd64e838`. The subsequent nine-commit delta to `10de6eee218f08e7edb99913d27cc9ff2307d261` changed README/docs/analytics only; no application/test files.
+- PR #70 run [44698126846](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44698126846) passed Ubuntu and Windows compile/unit-test steps on exact documentation-branch head `61706afe6d8ff77cc57a381dd9c3552466b3a35a`. Test count not recovered.
+- PR #69 current head `0afc7623abc65121280fed669a6a1b6c1aff4b33` has no returned commit-associated workflow run. Its earlier pre-repair Ubuntu assertion failure and Windows pass do not verify the repaired current head.
+- Real authorized GTA 6 media and owner-device playback remain BLOCKED / NOT VERIFIED.
