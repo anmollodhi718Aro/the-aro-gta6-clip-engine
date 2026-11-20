@@ -655,6 +655,8 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - The first creator-authorized GTA 6 MP4 remains BLOCKED pending a permitted recording/export or supported media handoff. Owner-device Windows execution and playback remain NOT VERIFIED.
 - Issue #68 remains OPEN / UNASSIGNED. Do not integrate the uploader's CLI boolean approval into a production authorization claim; verified OAuth channel identity and durable per-clip approval remain outstanding and require separate owner assignment/approval.
 
+Documentation-only evidence PR [#74](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/74) records this audit and is stacked on PR #71. It is OPEN / DRAFT / UNMERGED; no Actions run was returned for this docs-only branch at audit time. Its JSON ledger was parsed successfully before commit.
+
 ### ARO-CHAT-0031 next handoff
 
 1. Owner reviews PR #71 and decides whether to approve its integration into PR #66; the separate documentation-only audit PR should be reviewed with it.
