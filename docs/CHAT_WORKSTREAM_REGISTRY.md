@@ -570,3 +570,13 @@ A stale registry read during a parallel update caused this contributor to create
 - GitHub reported `mergeable=false` at PR creation. No merge was attempted; treat mergeability as a pending review/integration condition, not permission to merge.
 - PR #70 head at creation: `4c573863224cf32a70aa751ef150e196eeeac5f1`.
 - No CI run was associated with the documentation head at verification time.
+
+### ARO-CHAT-0029 source inspection and CI closeout
+
+- Renderer source inspection confirms temporary FFmpeg output, finite timestamp validation, 9:16 1080x1920 composition, FFprobe container/video/duration validation, and no-overwrite finalization before publishing the local file.
+- The synthetic FFmpeg smoke test generates its own test-pattern and sine-wave source, renders a vertical MP4, checks dimensions/audio and fully decodes the result. It is synthetic evidence, not GTA 6 media validation.
+- The ARO-ZERO-ONE base branch's review dashboard still uses `Path.write_text`; the no-overwrite implementation is present only in PR #69. PR #69 current head `0afc7623abc65121280fed669a6a1b6c1aff4b33` has no associated workflow run returned. Its pre-repair run 44697566076 had one Ubuntu assertion failure and a Windows pass on SHA `62af35291975b9d1f01cd9ed13f8bd0c6c2d98a4`; repaired current-head CI remains NOT VERIFIED.
+- PR #67's owner-identity helper compares the reviewer to a trusted server-side owner identity, but the existing uploader still relies on boolean flags and does not call the helper. Issue #68 remains OPEN / UNASSIGNED.
+- PR #70 run [44698126846](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44698126846) completed successfully on exact head `61706afe6d8ff77cc57a381dd9c3552466b3a35a`; Ubuntu and Windows compile and unit-test steps passed. Test count not recovered.
+- PR #70 remains open/draft/unmerged. GitHub reports mergeable=true at latest metadata read. No merge was performed.
+- No direct local tests; no application/test/workflow code changed by ARO-CHAT-0029. Real authorized media remains unavailable.
