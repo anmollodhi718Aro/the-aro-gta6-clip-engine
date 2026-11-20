@@ -447,3 +447,10 @@
 | Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
 |---|---|---|---|---|---|---|
 | ARO-CHAT-0025 | ARO-CHAT-0025 | Exact-Head CI Verification and Clipping-First Handoff | ARO-ZERO-ONE continuation; task ARO-GTA-P0-25 | Reconcile the current PR #66 exact-head CI run, inspect the local renderer/FFprobe/synthetic smoke path, record current owner/security blockers, and refresh the canonical handoff. No overlapping source implementation; existing branch and PR reused. | workstream/aro-zero-one-clipping-first-2026-11-20 / existing PR #66 | RESERVED / ACTIVE; previous registry entries through ARO-CHAT-0024 inspected; PR #66 head at reservation 817c7947c6756b80ae91ba272d172c3efaa2fa07; main 5f3332770b27d8a5211b3e74feade222563a9263. |
+
+
+## ARO-CHAT-0026 reservation — 2026-11-20 13:13 IST
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0026 | ARO-CHAT-0026 | Review Dashboard Collision-Safe Export | ARO-ZERO-ONE continuation; task ARO-GTA-P0-26 | Fix the local review-dashboard CLI so it never silently overwrites an existing HTML report; reuse the existing transactional no-overwrite output helper and add CLI regression tests. File scope: `backend/app/review_dashboard.py`, `tests/test_review_dashboard.py`, this session's registry/handoff/analytics records only. No overlap with ARO-CHAT-0025 renderer/CI work or issue #68 uploader ownership. | `workstream/aro-chat-0026-review-dashboard-no-overwrite-2026-11-20` / separate PR after verification | RESERVED / ACTIVE; ARO-CHAT-0025 remains assigned to exact-head CI/renderer QA on PR #66. Base SHA `26fa1c704a4dce46921e04f3787013a16364551a`; main remains `5f3332770b27d8a5211b3e74feade222563a9263`. |
