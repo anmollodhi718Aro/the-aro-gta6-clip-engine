@@ -404,7 +404,7 @@
 
 | Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
 |---|---|---|---|---|---|---|
-| ARO-CHAT-0024 | ARO-CHAT-0024 | Exact-Head CI Reconciliation and First-Clip Handoff | ARO-ZERO-ONE continuation; task ARO-GTA-P0-24 | Reconcile the post-ARO-CHAT-0023 exact-head Actions run, preserve precise runner/dependency/cancellation evidence, and update issue #26 without duplicating renderer, governance, or security implementation. | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 | RESERVED; read-only CI/issue evidence follow-up; no source/test changes planned. |
+| ARO-CHAT-0024 | ARO-CHAT-0024 | Exact-Head CI Reconciliation and First-Clip Handoff | ARO-ZERO-ONE continuation; task ARO-GTA-P0-24 | Reconcile the post-ARO-CHAT-0023 exact-head Actions run, preserve precise runner/dependency/cancellation evidence, and update issue #26 without duplicating renderer, governance, or security implementation. | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 | IMPLEMENTED (read-only CI/issue evidence follow-up); exact-head CI NOT VERIFIED; no source/test changes. |
 
 
 
@@ -431,3 +431,12 @@
 - Research references are already catalogued under ARO-CHAT-0017 and revalidated by ARO-CHAT-0022; no duplicate research was created.
 - First authorized GTA 6 MP4 remains BLOCKED pending a creator-authorized recording/export or approved media handoff. Synthetic fixtures do not satisfy real-media acceptance.
 - This chat performed read-only QA and documentation/analytics closeout. Direct local tests: 0. No application source, tests, CI workflow, or publishing behavior changed. No merge, retarget, deployment, upload, or public publishing.
+
+
+### ARO-CHAT-0024 closeout
+- Reconciled PR #66 run `44696473060`: Ubuntu cancelled during compile after FFmpeg/FFprobe installation succeeded; Windows cancelled during FFmpeg/FFprobe installation. Both test steps were skipped. Neither job is a code-test pass or assertion failure.
+- PR #67 run `44655744416` passed compile and all 283 unit tests on both Ubuntu and Windows for tested code/test SHA `c2d3dc1873a97d624dae78282d38448a0d54e3f6`. This is separate from PR #66.
+- Added issue #26 evidence comment `7033511958`; refreshed this registry and the canonical handoff. Analytics session record is stored in `analytics/ai_chat_sessions.json`.
+- Direct local tests: 0. No application source, tests, renderer, workflow, or uploader code changed. No merge, retarget, deployment, upload, or publication.
+- Current PR #66 branch head after the documentation/analytics commits is `c99b4bfdd62015dde0c8d544744deba646808be8`; GitHub returned no PR-triggered workflow run for this exact commit at closeout. Exact-head CI remains NOT VERIFIED.
+- First authorized GTA 6 MP4 remains BLOCKED pending authorized creator footage/export. Issue #68 remains OPEN / UNASSIGNED; implementation ownership requires owner assignment/approval.
