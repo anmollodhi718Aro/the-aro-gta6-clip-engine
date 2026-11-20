@@ -335,3 +335,24 @@ No merge, retarget, deployment, upload, public publishing, or issue #68 implemen
 
 
 | Documentation QA | PR #76 | OPEN / DRAFT / UNMERGED | ARO-CHAT-0033; six docs/analytics files; stacked on PR #75; no application/test/workflow changes |
+
+
+## ARO-CHAT-0034 research contribution snapshot — 2026-11-20
+
+| Metric | Observation | Status | Evidence / limitation |
+|---|---|---|---|
+| Chat / task | ARO-CHAT-0034 / ARO-GTA-P2-34 | VERIFIED | Registry and open PR/branch inventory checked; next sequential identity after 0033 |
+| Research references | Four priority repositories revalidated | VERIFIED | Live repository metadata, README, license and selected source files inspected |
+| Existing catalog | Updated in place | IMPLEMENTED | Existing docs/RESEARCH_REFERENCE_CATALOG.md reused; no duplicate created |
+| Integration decisions | FFmpeg retained; no dependency adoption; Remotion deferred | VERIFIED | Source architecture and license review recorded in catalog |
+| Code changes | 0 | VERIFIED | Documentation-only scope |
+| Tests / CI | 0 / not run | NOT RUN | Documentation-only refresh; no application/test/workflow changes |
+| First authorized GTA 6 MP4 | Not produced | BLOCKED | Authorized recording/export still required |
+| Workforce score | N/A | UNAVAILABLE | Session duration and normalized quality telemetry unavailable |
+
+### ARO-CHAT-0034 contribution summary
+
+- Revalidated OpenShorts, AI YouTube Shorts Generator, Auto-Editor and Remotion.
+- Updated the existing research catalog with current point-in-time GitHub metrics, inspected source paths, architecture observations, license constraints and integration decisions.
+- No code, tests, dependencies, external source adapters or publishing behavior changed.
+- Research supports but does not unblock the first authorized real-media clip.
