@@ -552,3 +552,20 @@
 ### Reservation sequencing correction
 
 The registry and live branch/PR inventory were checked before opening PR #71, and ARO-CHAT-0030 / ARO-GTA-P0-30 were unique. However, the first implementation commits preceded this registry reservation update. This is a process-order deviation and is disclosed rather than represented as pre-registration.
+
+
+## ARO-CHAT-0031 reservation — 2026-11-20 14:17 IST
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0031 |
+| Exact title | ARO-CHAT-0031 | Test ResourceWarning Cleanup |
+| Provider / model | OpenAI / GPT-6 |
+| Project / workstream | THE ARO GTA 6 Clip Engine / ARO-GTA-P2-31 |
+| Role | Contributor / QA-minded maintenance |
+| Scope | Close the unclosed CSV file handle reported by Ubuntu and Windows CI in tests/test_batch_render.py; add or adjust regression coverage only if useful; verify exact-head CI. No renderer, uploader, workflow, production, or publishing changes. |
+| Branch / PR | `workstream/aro-chat-0031-test-resourcewarning-2026-11-20` / PR not yet created |
+| Starting SHA | `4787c069d498b51177968546198eea3e1e8ac84a` (PR #71 exact-head CI-verified base) |
+| Status | RESERVED / ACTIVE; implementation not yet started |
+| Attribution evidence | Registry and live PR/branch search checked; ARO-CHAT-0030 was the latest recorded session; no ARO-CHAT-0031 reservation found. |
+
