@@ -653,3 +653,42 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 - Documentation-only QA branch committed as `87fab79327b7a7baed547c3834707cddbf9bb989`.
 - Draft PR [#76](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/76) opened against PR #75's workstream branch; it contains six canonical documentation/analytics files and no application/test/workflow code.
 - PR #76 is stacked on PR #75 and must not be merged independently of its base. No merge performed.
+
+## ARO-CHAT-0034 live engineering audit — 2026-11-20 22:37 IST
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0034 |
+| Exact title | ARO-CHAT-0034 | Live Repository Audit and First-Clip Readiness Reconciliation |
+| Provider / model | OpenAI / GPT-6 |
+| Project / workstream | THE ARO GTA 6 Clip Engine / ARO-GTA-P0-34 |
+| Role | QA / Auditor; documentation contributor |
+| Scope | Reconcile default-branch state, canonical docs, active PR/branch stack, CI evidence, renderer source, research catalog and first-real-clip blocker |
+| Branch / PR | `workstream/aro-chat-0034-live-audit-2026-11-20` / PR pending |
+| Starting SHA | `ff1c1f8075517443270732188772d02faa1bbace` (ARO-CHAT-0033 documentation branch tip) |
+| Status | Audit findings VERIFIED; documentation updates in progress; no application code changes |
+| Attribution evidence | Live repository metadata, branch/PR/issue search, exact commit inspection, file reads, workflow run/job metadata |
+
+### ARO-CHAT-0034 verified findings
+
+- Repository: `anmollodhi718Aro/the-aro-gta6-clip-engine`; default branch `main`; connected GitHub metadata reports admin/maintain/push/pull capability. These technical permissions do not grant owner-only approval.
+- The canonical handoff, workstream registry, permission ledger and master dashboard paths returned 404 on `main`. The current canonical documents are present on the ARO-CHAT-0033 workstream branch, not yet integrated into `main`.
+- The `main` README is stale relative to the newer clipping-first implementation branch: it describes video cutting, dashboard and publishing as not yet implemented. Do not use that README alone as the current implementation inventory.
+- Existing open workstreams include PR #66 (clipping-first baseline), PR #71 (audio-stream acceptance), PR #75 (CSV test-hygiene fix), and PR #76 (documentation QA). PR #71, #75 and #76 are stacked; PR #76 is based on PR #75's branch. Preserve the parent review/integration order.
+- PR #75 exact code head `7d1bbd2405639b008f0c3d667caa5b8ca93c272f` has successful Actions run #44706399362: Ubuntu job #136186999278 and hosted Windows job #136186998767 each ran 284 tests successfully. This is hosted CI evidence, not owner-device Windows or real-media evidence.
+- PR #76 documentation head `ff1c1f8075517443270732188772d02faa1bbace` has Actions run #44707142883 cancelled. Ubuntu cancellation occurred during FFmpeg/FFprobe setup; Windows checkout was cancelled. Compile and test steps were skipped. Do not classify this as a code-test assertion failure or a passing CI run.
+- PR #71 implementation head `bb71afc5b4c7b9d37440d5e7e85643dd28995b7c` has successful run #44700696502; test count was not recovered in this audit.
+- PR #72 and PR #74 both claim ARO-CHAT-0031 / ARO-GTA-P0-31. Owner reconciliation remains required. PR #73 is explicitly invalidated and closed unmerged. This chat uses the next unused serial ARO-CHAT-0034 / ARO-GTA-P0-34; no matching #0034 PR or branch existed at reservation.
+- The clipping-first branch comparison against `main` reported 522 commits ahead and 0 behind. PR #66 targets `integration/release-candidate`, not `main`; do not equate the workstream branch with default-branch integration.
+- Inspected renderer source includes local FFmpeg rendering, vertical 1080x1920 mode, temporary output, FFprobe post-render validation, optional audio requirement and no-overwrite publication. Source inspection does not prove real GTA 6 compatibility.
+- The existing research catalog already records source/license review of OpenShorts, AI YouTube Shorts Generator, Auto-Editor and Remotion. No dependencies or third-party code were added.
+- No authorized GTA 6 recording/export was supplied. First real authorized MP4 and owner-device playback remain BLOCKED / NOT VERIFIED.
+- Issue #68 remains OPEN / UNASSIGNED. Authenticated channel-owner approval integration is not authorized without separate owner assignment.
+
+### ARO-CHAT-0034 next handoff
+
+1. Owner reviews the existing PR stack and decides the integration sequence; do not merge stacked PRs out of order.
+2. Resolve the duplicate ARO-CHAT-0031 attribution in PRs #72 and #74.
+3. Reconcile the canonical docs and README into the default branch only through an owner-approved integration plan.
+4. Obtain authorized GTA 6 recording/export; run the local Windows first-clip wizard, render, FFprobe-check streams/dimensions/duration and inspect playback.
+5. Keep issue #68 owner-gated and public publishing disabled.
