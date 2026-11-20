@@ -279,3 +279,17 @@ No merge, retarget, deployment, upload, public publishing, or issue #68 implemen
 - Eight code/test/script/documentation commits; PR #71 contains the implementation.
 - No numerical leaderboard score assigned. No direct local tests; CI is the verification evidence.
 - Reservation sequencing deviation: the initial code commits preceded the registry update. This is disclosed in the canonical registry and PR body.
+
+
+## ARO-CHAT-0031 live execution snapshot — 2026-11-20
+
+| Metric | Observation | Status | Evidence / limitation |
+|---|---|---|---|
+| Chat / task | ARO-CHAT-0031 / ARO-GTA-P2-31 | VERIFIED | Canonical registry and PR #73 |
+| Scope | Close the CSV reader in one batch-render test | IMPLEMENTED | Context manager in `tests/test_batch_render.py` |
+| PR | [#73](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/73) | OPEN / DRAFT / UNMERGED | Stacked on PR #71 workstream branch |
+| Direct local tests | 0 | NOT RUN | No local Python test runtime used |
+| Exact-head CI | No run | NOT VERIFIED | Existing pull_request filter targets `main`; stacked base is not `main` |
+| Parent baseline | 284 tests passed on Ubuntu and 284 on Windows | VERIFIED FOR PARENT ONLY | Run 44700987089 on parent SHA `4787c069d498b51177968546198eea3e1e8ac84a`; not evidence for PR #73 |
+| Workforce score | N/A | INSUFFICIENT EVIDENCE | Active time and exact-head test evidence incomplete |
+| First authorized GTA 6 MP4 | Not produced | BLOCKED | Authorized recording/export still required |
