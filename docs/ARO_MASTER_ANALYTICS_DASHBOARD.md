@@ -171,3 +171,12 @@ After every engineering session, update the structured analytics ledger and the 
 
 ### Current blocker and next priority
 The highest-impact external blocker remains the missing creator-authorized recording/export/media handoff. The highest-impact engineering security gap is issue #68: bind verified OAuth channel identity to durable per-clip approval and recheck active permission immediately before upload. Do not enable public upload until that integration is tested and separately approved by the owner.
+
+
+### ARO-CHAT-0022 exact-head CI reconciliation (2026-11-20)
+
+- PR #66 latest observed head after this session's research-catalog update: `1f826cde5e8958885a024e27a307f57e278e077b`. PR remains open, non-draft, unmerged, targets `integration/release-candidate`, and GitHub reports mergeable.
+- Docs-only commit `2e2ff9775367bf1856f894b62a7aafec3b5aa8f8` triggered Actions run `44696075728`; the run was cancelled during checkout. Both Ubuntu and Windows compile/test steps were skipped. Earlier documentation commits also triggered superseded cancelled runs. These are not test failures and not passing tests.
+- The current latest PR #66 head `1f826cde5e8958885a024e27a307f57e278e077b` has no verified completed CI run in this audit. Mark latest-head CI NOT VERIFIED.
+- PR #67 Actions run `44655744416` is VERIFIED successful at the workflow/job level: Windows and Ubuntu jobs both completed checkout, FFmpeg/FFprobe installation, compilation, and test steps. The PR body reports 283 tests passed on tested code/test SHA `c2d3dc1873a97d624dae78282d38448a0d54e3f6`. Its current PR head is `000b8a63d52d1f4a48fabe65af867cf5a24868af`; the current head status endpoint returned pending/no checks, so do not transfer the earlier run's result to that head without verifying the diff and run association.
+- The owner-identity helper is not wired into `youtube_upload.py`; issue #68 remains open/unassigned. Actual upload remains unsafe to enable until the authenticated channel-owner + durable per-clip approval integration is completed and owner-approved.
