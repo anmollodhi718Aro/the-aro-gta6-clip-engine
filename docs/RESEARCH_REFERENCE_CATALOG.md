@@ -98,3 +98,29 @@ Live GitHub REST metadata and raw README/LICENSE/source files were rechecked for
 - Auto-Editor is a Nim CLI centered on audio loudness and motion-based editing. It is not a drop-in Python dependency. Silence/motion should be optional signals because they can remove meaningful game audio or reactions.
 - Remotion's repository-level GitHub license metadata is `NOASSERTION`; the project's own `LICENSE.md` defines a special Free License for individuals and qualifying small organizations and a Company License for others. Recheck legal eligibility before commercial adoption. No dependency was added.
 - No external source code was copied and no dependency was introduced during this research recheck.
+
+## 2026-11-20 live metadata and README/license revalidation (ARO-CHAT-0029)
+
+GitHub API metadata was retrieved during the 2026-11-20 13:15 IST audit. Counts are time-sensitive observations, not quality scores.
+
+| Repository | Stars | Forks | Default branch | Latest push observed (UTC) | GitHub license metadata |
+|---|---:|---:|---|---|---|
+| [OpenShorts](https://github.com/mutonby/openshorts) | 9,421 | 1,976 | `main` | 2026-11-20 00:17:50 | MIT |
+| [AI YouTube Shorts Generator](https://github.com/Anil-matcha/AI-Youtube-Shorts-Generator) | 6,342 | 1,156 | `main` | 2026-11-12 13:36:13 | MIT |
+| [Auto-Editor](https://github.com/WyattBlue/auto-editor) | 6,016 | 750 | `master` | 2026-11-20 05:26:33 | Unlicense |
+| [Remotion](https://github.com/remotion-dev/remotion) | 74,439 | 6,312 | `main` | 2026-11-19 16:36:01 | NOASSERTION (repository uses `LICENSE.md`) |
+
+### Files rechecked in this session
+
+- OpenShorts: repository metadata, `README.md`, `LICENSE`. README describes a Python/Docker self-hosted workflow, separate hosted cloud offering, face-tracked reframing and API/MCP surface. The core MIT license does not override the separate commercial license applying to `cloud/`; no cloud code is approved for reuse by this audit.
+- AI YouTube Shorts Generator: repository metadata, `README.md`, `LICENSE`. README describes API mode via MuAPI and local mode using `yt-dlp`, `faster-whisper`, FFmpeg and OpenCV. MIT applies to repository code, but the URL downloader is not an approved THE ARO acquisition adapter. Prefer only pluggable scoring, transcript chunking and overlap-deduplication ideas.
+- Auto-Editor: repository metadata, `README.md`, `LICENSE`. Nim CLI with audio-threshold and motion-based editing; Unlicense text dedicates code to the public domain. README separately notes proprietary assets for online/app offerings. Do not add Nim as a runtime dependency; use audio/motion only as optional candidate signals.
+- Remotion: repository metadata, `README.md`, `LICENSE.md`. React/TypeScript programmatic video framework with reusable components, Player and batch/server rendering. The current Free License allows individuals and for-profit organizations with up to three employees (plus listed non-profit/evaluation cases) to create videos commercially; other for-profit organizations require a Company License. The license restricts using Remotion code to create a derivative product for sale/rent/licensing/sublicensing. Check legal eligibility before adoption.
+
+### Updated engineering decisions
+
+- OpenShorts: STUDY ONLY. Revisit analysis/render separation and layout reasoning after the first authorized MP4.
+- AI YouTube Shorts Generator: ADAPT IDEAS ONLY. Do not import its URL acquisition path or rely on hosted API behavior.
+- Auto-Editor: STUDY ONLY. Audio/motion labels may be optional signals; silence is not semantic evidence of a low-value gameplay moment.
+- Remotion: STUDY ONLY / LICENSE REVIEW REQUIRED. No dependency or source code adopted.
+- No third-party source code copied and no dependency added during this revalidation.
