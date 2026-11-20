@@ -1884,15 +1884,33 @@
       "starting_branch": "workstream/aro-chat-0030-audio-stream-acceptance-2026-11-20",
       "starting_sha": "4787c069d498b51177968546198eea3e1e8ac84a",
       "current_branch": "workstream/aro-chat-0032-test-resourcewarning-2026-11-20",
-      "current_sha": "38bd4bcb53f48710fd69e654a2e4e611513e321c",
+      "current_sha": "2fc3e9993c83d1032d22cd46c1156463ccfacf3e",
       "pull_requests": [
-        73
+        75
       ],
       "issues": [],
       "commits": [
         "b01176a97b7456ecc650c41400b60bb57cb2f325",
         "9868f6a74b13f203597e2df747849838134b8d41",
-        "38bd4bcb53f48710fd69e654a2e4e611513e321c"
+        "38bd4bcb53f48710fd69e654a2e4e611513e321c",
+        "6952f08e418ecdb540dec7be666ebad002280905",
+        "725624e59cde49514888915729ecff1076f514c4",
+        "1391697190154beac7d155a8699ddb12df9e614c",
+        "1dd1919a792b6d33adab313a8638a4e371855e8f",
+        "1021c7d25546e821bb8a0d9fd468424dac8260ed",
+        "393387248e2e4c3930d1f79c3db613b0da3daf71",
+        "29666b19f5973aa5ac830c2f89b254b0bc088f7f",
+        "6b554bae1a82acec6d9d00a09b8d9faf98ad5ea2",
+        "60751315551a3fc2a347b6d10c5aace5279a5fa2",
+        "607755338030e075a4b44ea9a2ec27872ad48f8b",
+        "626ff2ba7132ba3688938a05a10b4fdd29c28afd",
+        "77ac20ec4b4d7c395dace19373d63c7a91938e9b",
+        "a116ea287c7da1e92c63dc44bc12ba1666be726d",
+        "5d9ef9d67daf541653293eda47b45abf0aa39f85",
+        "86159c525ff49e9ddd875f8d51d175d348908279",
+        "e7f0011c08bce5a9cc74fc5373231488f1af0735",
+        "b19d5fe2954b88a8d169ea33f59350a40695bcfe",
+        "2fc3e9993c83d1032d22cd46c1156463ccfacf3e"
       ],
       "files_inspected": [
         "tests/test_batch_render.py",
