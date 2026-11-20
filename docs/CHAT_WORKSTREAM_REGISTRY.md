@@ -587,3 +587,20 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 - A second draft PR #73 was opened during a concurrent inventory race with the same serial. It was promptly marked INVALIDATED and closed unmerged; do not merge or revive it.
 - The isolated test-hygiene work is re-registered as **ARO-CHAT-0032 / ARO-GTA-P2-32**, branch `workstream/aro-chat-0032-test-resourcewarning-2026-11-20`, and will use a separate draft PR.
 - The serial collision is disclosed; no historical record is silently overwritten. The closed PR #73 contains no merged code.
+
+
+## ARO-CHAT-0032 reservation — collision-corrected identity
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0032 |
+| Exact title | ARO-CHAT-0032 | Test ResourceWarning Cleanup |
+| Provider / model | OpenAI / GPT-6 |
+| Project / workstream | THE ARO GTA 6 Clip Engine / ARO-GTA-P2-32 |
+| Role | Contributor / QA-minded maintenance |
+| Scope | Close the CSV reader in the batch-render test and record the isolated test-hygiene change; no application renderer or publishing changes |
+| Branch / PR | `workstream/aro-chat-0032-test-resourcewarning-2026-11-20` / PR pending |
+| Starting SHA | `4787c069d498b51177968546198eea3e1e8ac84a` |
+| Status | IMPLEMENTED; exact-head tests/CI NOT VERIFIED |
+| Attribution | The initial ARO-CHAT-0031 reservation collided with existing PR #72. PR #73 was closed unmerged and invalidated. This workstream is re-registered as ARO-CHAT-0032; sequencing deviation disclosed. |
+
