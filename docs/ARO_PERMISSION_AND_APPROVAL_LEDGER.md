@@ -83,3 +83,16 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 - 2026-11-20 13:10 IST: ARO-CHAT-0025 / OpenAI GPT-6 received a bounded QA/auditor and documentation-contributor scope from the owner's explicit EXECUTE NOW instruction: inspect the existing ARO-ZERO-ONE repository state, reconcile CI/PR evidence, review renderer and uploader security boundaries, reserve its unique chat/task identity, and update canonical audit/handoff records on the existing workstream branch.
 - ARO-CHAT-0025 did not receive authority to modify application/test/CI/publishing code, implement issue #68, merge or retarget PRs, deploy, publish, access credentials, perform destructive actions, or change permission grants. Issue #68 remains OPEN / UNASSIGNED pending explicit owner assignment/approval.
 - GitHub connector admin/push capability was observed as technical API capability only; it does not expand this session's project authority.
+
+
+## ARO-CHAT-0028 session grant and restrictions — 2026-11-20 13:14 IST
+
+| Identity | Chat ID | Role | Granted scope | Granting authority / evidence | Status |
+|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0028 | QA / AUDITOR; bounded documentation contributor | Read live repository/PR/issue/CI state; inspect canonical research/provider/Beta records; update this session's registry, handoff, dashboard, provider inventory, Beta status and analytics evidence on the existing ARO-ZERO-ONE branch | Owner's explicit EXECUTE NOW instruction in the current conversation; task ARO-GTA-P0-28 | ACTIVE FOR AUDIT AND DOCUMENTATION ONLY |
+
+- This grant does not include application/test/workflow implementation, issue #68 assignment, merge, retarget, deployment, publishing, credential access, destructive operations, collaborator/permission changes, or owner approvals.
+- GitHub API admin/push capability is technical capability only and does not expand project authority.
+- ARO-CHAT-0027 is already reserved for the separate review-dashboard PR QA workstream; ARO-CHAT-0028 did not assume or override that assignment.
+- Issue #68 remains OPEN / UNASSIGNED. Its implementation is NOT AUTHORIZED for this session unless the project owner explicitly assigns/approves the implementation owner.
+- No owner-only action or permission escalation was performed by ARO-CHAT-0028.
