@@ -682,7 +682,10 @@
         26
       ],
       "commits": [
-        "1335d978e76ec8b724d1b58d9ee298f52c07aa5b"
+        "1335d978e76ec8b724d1b58d9ee298f52c07aa5b",
+        "5c5768e065bb4742e8d177937259e3d3b21383e1",
+        "c6f297bbdc7683b0706a6867e8f43ba27abf58e9",
+        "0099913cb7feb314062909859b7e7a65f1775dc6"
       ],
       "files_inspected": [
         "README.md",
@@ -710,9 +713,19 @@
         "passed": null,
         "failed": null,
         "skipped": null,
-        "ci_runs": []
+        "ci_runs": [
+          {
+            "run_id": 44655193927,
+            "platform": "ubuntu-latest",
+            "head_sha": "0099913cb7feb314062909859b7e7a65f1775dc6",
+            "status": "pending",
+            "conclusion": null,
+            "compile_step": "not_started_or_unavailable",
+            "test_step": "not_started_or_unavailable"
+          }
+        ]
       },
-      "ci_status": "NOT_RUN_RESEARCH_AND_DOCUMENTATION_ONLY",
+      "ci_status": "PENDING_ON_PREVIOUS_DOCS_HEAD; LATEST_LEDGER_COMMIT_CI_NOT_YET_OBSERVED",
       "windows_status": "NOT_VERIFIED",
       "real_media_status": "BLOCKED_AUTHORIZED_MEDIA_REQUIRED",
       "bugs_discovered": 0,
@@ -740,7 +753,7 @@
         "independent_completion": true,
         "required_repair_by_another_ai": null
       },
-      "acceptance_status": "RESEARCH_CATALOG_IMPLEMENTED_AND_SOURCE_REVIEWED; NO_EXTERNAL_CODE_ADOPTED; TESTS_NOT_RUN; REAL_MEDIA_BLOCKED",
+      "acceptance_status": "RESEARCH_CATALOG_IMPLEMENTED_AND_SOURCE_REVIEWED; DOCS_VERIFIED; NO_EXTERNAL_CODE_ADOPTED; CI_PENDING_ON_PREVIOUS_DOCS_HEAD; REAL_MEDIA_BLOCKED",
       "score": null,
       "evidence": {
         "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
@@ -748,7 +761,10 @@
         "research_catalog": "docs/RESEARCH_REFERENCE_CATALOG.md",
         "reservation_commit": "1335d978e76ec8b724d1b58d9ee298f52c07aa5b",
         "windows_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44637236056",
-        "cancelled_followup_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44638350854"
+        "cancelled_followup_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44638350854",
+        "research_catalog_commit": "5c5768e065bb4742e8d177937259e3d3b21383e1",
+        "handoff_commit": "c6f297bbdc7683b0706a6867e8f43ba27abf58e9",
+        "analytics_commit": "0099913cb7feb314062909859b7e7a65f1775dc6"
       }
     }
   ]
