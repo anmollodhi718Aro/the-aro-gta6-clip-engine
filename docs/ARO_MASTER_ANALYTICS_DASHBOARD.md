@@ -279,3 +279,34 @@ No merge, retarget, deployment, upload, public publishing, or issue #68 implemen
 - Eight code/test/script/documentation commits; PR #71 contains the implementation.
 - No numerical leaderboard score assigned. No direct local tests; CI is the verification evidence.
 - Reservation sequencing deviation: the initial code commits preceded the registry update. This is disclosed in the canonical registry and PR body.
+
+
+## ARO-CHAT-0031 live audit snapshot — 2026-11-20 14:18 IST
+
+| Metric | Observation | Status | Evidence / limitation |
+|---|---|---|---|
+| Repository default branch | `main`; SHA `5f3332770b27d8a5211b3e74feade222563a9263` | VERIFIED | GitHub branch metadata |
+| Canonical clipping-first docs on main | Not present at canonical paths; docs are on the open clipping-first branch | VERIFIED | Recursive main tree and branch-specific file reads |
+| PR #66 | Open, unmerged; clipping-first integration baseline | VERIFIED | Live PR search and metadata |
+| PR #71 | Open, draft, unmerged; audio acceptance stacked on #66 | VERIFIED | Live PR metadata |
+| PR #71 exact head | `4787c069d498b51177968546198eea3e1e8ac84a` | VERIFIED | Live PR head |
+| Ubuntu hosted CI | Check `136169082777`, success | CI PASSED | Actions run `44700987089`, exact PR #71 head |
+| Windows hosted CI | Check `136169082306`, success | CI PASSED | Actions run `44700987089`, exact PR #71 head; not owner-device verification |
+| Audio acceptance gate | Implemented and covered by regression tests | IMPLEMENTED | PR #71 diff and current branch source |
+| Direct local tests by ARO-CHAT-0031 | 0 | VERIFIED | No local shell/test runtime used |
+| Authorized GTA 6 recording | Not supplied | BLOCKED | Requires creator-authorized recording/export or supported handoff |
+| First actual authorized MP4 | Not produced | NOT VERIFIED | Synthetic fixtures and hosted CI do not establish real-media acceptance |
+| Owner-device Windows playback | Not performed | NOT VERIFIED | Must be run on the owner's device |
+| Issue #68 uploader identity integration | Open and separately owner-gated | PENDING OWNER APPROVAL | PR #67 helper does not authenticate or integrate the actual uploader |
+| Research catalog | Four requested references already documented | VERIFIED AS DOCUMENTED | Reused; no duplicate catalog or dependencies |
+| Automation Deployment Beta repository | Not verified | UNAVAILABLE | No separate repository found in connected repository inventory |
+| ARO-CHAT-0031 | Live audit and canonical documentation reconciliation | IMPLEMENTED | No app/test/workflow code changed; no local tests |
+| Workforce score | Not calculated | UNAVAILABLE | No comparable duration and complete category telemetry |
+
+### ARO-CHAT-0031 contribution summary
+
+- Registered unique serial ARO-CHAT-0031 after checking the canonical registry and live branch/PR/issue searches.
+- Reconciled the main-versus-clipping-first documentation location and the exact-head CI evidence for PR #71.
+- Updated canonical registry, handoff, permission ledger and analytics dashboard on an isolated documentation branch.
+- Reused the existing research catalog and preserved the issue #68 owner-approval boundary.
+- No code implementation, test execution, merge, deployment or publishing is claimed.
