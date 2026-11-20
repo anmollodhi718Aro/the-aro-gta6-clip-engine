@@ -1861,12 +1861,12 @@
       "permission_notes": "The owner's explicit master execution instruction authorized this bounded contributor task: implement audio-stream validation, tests, manual workflow/documentation, canonical records and draft PR. No merge, retarget, deployment, publishing, credentials, destructive actions, permission changes, issue #68 implementation or owner-only approval. Initial code commits preceded registry reservation update; disclosed."
     },
     {
-      "chat_id": "ARO-CHAT-0031",
-      "title": "ARO-CHAT-0031 | Test ResourceWarning Cleanup",
+      "chat_id": "ARO-CHAT-0032",
+      "title": "ARO-CHAT-0032 | Test ResourceWarning Cleanup",
       "project": "THE ARO GTA 6 Clip Engine",
-      "workstream_id": "ARO-GTA-P2-31",
+      "workstream_id": "ARO-GTA-P2-32",
       "task_ids": [
-        "ARO-GTA-P2-31"
+        "ARO-GTA-P2-32"
       ],
       "provider": "OpenAI",
       "model": "GPT-6",
@@ -1883,7 +1883,7 @@
       "priority": "P2",
       "starting_branch": "workstream/aro-chat-0030-audio-stream-acceptance-2026-11-20",
       "starting_sha": "4787c069d498b51177968546198eea3e1e8ac84a",
-      "current_branch": "workstream/aro-chat-0031-test-resourcewarning-2026-11-20",
+      "current_branch": "workstream/aro-chat-0032-test-resourcewarning-2026-11-20",
       "current_sha": "38bd4bcb53f48710fd69e654a2e4e611513e321c",
       "pull_requests": [
         73
@@ -1935,14 +1935,19 @@
         "overlapping_work_reviewed": [
           "PR #71 audio-stream acceptance; separate P0 workstream"
         ],
-        "duplicate_pr_created": false,
+        "duplicate_pr_created": true,
         "duplicate_renderer_implementation_created": false,
-        "existing_pr_reused": null
+        "existing_pr_reused": null,
+        "chat_serial_collision_detected": true,
+        "invalidated_duplicate_pr": 73,
+        "canonical_concurrent_chat_id": "ARO-CHAT-0031",
+        "duplicate_pr_closed_unmerged": true
       },
       "blockers": [
         "No local test runtime used.",
         "PR #73 stacked base does not match the current workflow's pull_request branch filter, so exact-head CI did not run.",
-        "Authorized GTA 6 recording/export still unavailable."
+        "Authorized GTA 6 recording/export still unavailable.",
+        "Initial reservation collided with concurrent PR #72 using ARO-CHAT-0031; PR #73 was invalidated and closed unmerged; this session is re-registered as ARO-CHAT-0032."
       ],
       "impact": {
         "importance": "P2",
@@ -1952,14 +1957,16 @@
         "independent_completion": true,
         "required_repair_by_another_ai": "Run the full unittest suite on PR #73's exact head using a permitted runner or after approved integration; confirm the ResourceWarning no longer appears."
       },
-      "acceptance_status": "IMPLEMENTED; TESTS_AND_CI_NOT_VERIFIED; PR73_DRAFT",
+      "acceptance_status": "IMPLEMENTED_ON_BRANCH; SERIAL_CORRECTED_TO_0032; TESTS_AND_CI_NOT_VERIFIED; PR73_INVALIDATED_CLOSED",
       "score": null,
       "evidence": {
         "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
         "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/73",
         "parent_baseline_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44700987089",
         "branch": "workstream/aro-chat-0031-test-resourcewarning-2026-11-20",
-        "current_sha": "38bd4bcb53f48710fd69e654a2e4e611513e321c"
+        "current_sha": "38bd4bcb53f48710fd69e654a2e4e611513e321c",
+        "invalidated_duplicate_pr": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/73",
+        "current_pr_pending": "PR #74 to be created"
       },
       "permission_notes": "Bounded test-hygiene change and documentation. No merge, retarget, deployment, publishing, credential access, destructive action, permission escalation, or owner-only approval."
     }
