@@ -501,3 +501,48 @@
 - This exact-head CI result supersedes the earlier cancelled PR #66 runs for this SHA. It does not prove Windows execution on the owner's device or validate GTA 6 footage.
 - No direct local tests were executed by this chat. No application, test, or workflow code changed.
 - First authorized GTA 6 MP4 remains BLOCKED pending a creator-authorized recording/export or supported media handoff. No merge, retarget, deployment, upload, or public publishing was performed.
+
+## ARO-CHAT-0027 identity reconciliation note — 2026-11-20 13:15 IST
+
+- A branch named `workstream/aro-chat-0027-review-dashboard-pr-qa-2026-11-20` exists in the live branch search.
+- No matching ARO-CHAT-0027 entry was present in this registry or `analytics/ai_chat_sessions.json` at the time of this audit; PR and issue searches also returned no matching chat record.
+- Treat ARO-CHAT-0027 as **RESERVED / UNCONFIRMED** based only on the branch-name evidence. Do not assign its identity, task scope, or ownership by inference. Its creator/owner should reconcile the registry entry.
+- ARO-CHAT-0028 is used by this session; no serial is reused.
+
+## ARO-CHAT-0028 reservation and closeout — 2026-11-20 13:15 IST
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0028 |
+| Chat title | ARO-CHAT-0028 | Clipping-First CI, Research and Governance Reconciliation | GPT-6 |
+| Provider / model | OpenAI / GPT-6 |
+| Project / workstream | THE ARO GTA 6 Clip Engine / ARO-ZERO-ONE continuation |
+| Task ID | ARO-GTA-P0-28 |
+| Role | QA / Auditor; bounded documentation contributor |
+| Branch / PR | `workstream/aro-chat-0028-research-ci-reconciliation-2026-11-20` / documentation PR stacked on existing PR #66 |
+| Starting SHA | `d1e75e57855187c680a376e1ca24eb3bcd64e838` (PR #66 head at reservation) |
+| Status | DOCUMENTATION UPDATED; application/test implementation NOT CHANGED |
+| Scope | Reconcile the live registry and chat serial collision; verify current PR #66 CI job execution; revalidate the four priority research references and licensing; refresh the canonical research catalog, dashboard, permission ledger and handoff. No duplicate renderer, dashboard implementation, issue, or master prompt. |
+
+### ARO-CHAT-0028 verified findings
+
+- Main branch remains `5f3332770b27d8a5211b3e74feade222563a9263`; the live PR #66 head at audit is `d1e75e57855187c680a376e1ca24eb3bcd64e838`.
+- PR #66 remains OPEN / UNMERGED and targets `integration/release-candidate`.
+- Workflow run [44697250496](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44697250496) completed successfully on the current PR #66 head. Ubuntu and Windows jobs both completed FFmpeg/FFprobe installation, compilation, and unit-test steps successfully. The test count for this run was not recovered; no count is inferred.
+- PR #67 remains open/draft. Its documented test run 44655744416 passed 283 tests on Ubuntu and Windows at code/test SHA `c2d3dc1873a97d624dae78282d38448a0d54e3f6`. The helper is not integrated into the existing uploader.
+- PR #69 remains open/draft at head `f84364345bf578754b870274cd6be6884db1b88e`. The commit-associated PR workflow lookup returned no run; exact-head CI remains NOT VERIFIED at this audit. This is another chat's workstream and was not modified.
+- Issue #68 remains OPEN / UNASSIGNED. The uploader's trusted OAuth owner identity and durable per-clip approval integration must not be implemented until the owner assigns/approves the task.
+- Canonical documentation files were not found at these paths on `main`; they are maintained on the ARO-ZERO-ONE workstream branch. The README on main still describes the foundation/MVP rather than the newer clipping-first workstream.
+- Revalidated GitHub metadata, READMEs and license files for OpenShorts, AI YouTube Shorts Generator, Auto-Editor and Remotion. No source code copied and no dependency introduced.
+- No authorized GTA 6 recording/export or supported media handoff was supplied. Real-media MP4 and owner-device playback remain NOT VERIFIED / BLOCKED.
+- Direct local tests executed by this chat: 0 (no local shell/runtime in the GitHub connector session). No application, test, workflow or publishing code changed.
+- No merge, retarget, deployment, upload, public publishing, credential access, destructive action, or permission escalation performed.
+
+### ARO-CHAT-0028 handoff
+
+1. Obtain an expressly creator-authorized GTA 6 recording/export or supported media handoff.
+2. Run the existing local/Windows preflight and manual clip wizard, render with FFmpeg, validate with FFprobe, and inspect actual playback.
+3. Reconcile the result against the current PR #66 branch and exact-head CI.
+4. Keep issue #68 unassigned until explicit owner task assignment/approval; do not enable uploader publishing before authenticated channel-owner binding and durable approval are implemented.
+5. Review PR #69's exact-head CI in its own workstream; do not duplicate its dashboard collision fix.
+6. Keep all merges, production deployments and public uploads under separate explicit owner approval.
