@@ -62,3 +62,14 @@ Before adding a provider:
 - GitHub API metadata reports admin/push capability for the linked credential; this is not an owner permission grant and does not authorize merge, deployment, publishing, secret access or permission escalation.
 - Local shell/runtime and direct test execution: NOT AVAILABLE through the GitHub connector session; this chat executed zero local tests.
 - OpenAI API key, API quota, billing cost, Anthropic, Gemini, NVIDIA and other provider API connections: NOT VERIFIED. No API credentials were inspected or stored.
+
+## ARO-CHAT-0034 session capability verification — 2026-11-20 22:37 IST
+
+- Provider/model reported for this session: OpenAI / GPT-6.
+- Exact model build/version: NOT EXPOSED.
+- GitHub integration: VERIFIED AVAILABLE for repository metadata, branch/PR/issue search, file reads, commit inspection, CI job metadata and bounded documentation writes.
+- Repository credential metadata: admin/maintain/push/pull capability reported. This does not authorize owner-only merge, deployment, publishing, credential access or permission changes.
+- Local shell/repository clone/test execution: NOT AVAILABLE through the GitHub connector session; this chat executed zero local tests.
+- OpenAI API key, API quota, billing cost and separate OpenAI API connection: NOT VERIFIED.
+- Anthropic, Gemini, NVIDIA and other provider API connections: NOT VERIFIED.
+- Last verified: 2026-11-20, 22:37 IST.
