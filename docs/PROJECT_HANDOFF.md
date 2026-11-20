@@ -499,3 +499,24 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - This chat performed a read-only engineering audit. It did not modify application source, tests, workflows, the research catalog, or publishing behavior. No tests were run directly by this chat.
 - Windows runtime success and authorized GTA 6 real-media render/playback remain NOT VERIFIED. The first real GTA 6 clip remains blocked on a creator-authorized recording/export or supported media handoff.
 - No merge, retarget, deployment, upload, or public publishing.
+
+
+## ARO-CHAT-0022 live audit handoff (2026-11-20 13:03 IST)
+
+- Chat: `ARO-CHAT-0022 | GTA6 Clip Engine Live Audit and Research Reconciliation | GPT-6`; task `ARO-GTA-P0-22`; continuation of ARO-ZERO-ONE.
+- Reused existing branch `workstream/aro-zero-one-clipping-first-2026-11-20` and PR #66. Starting observed PR #66 head: `7c7979d04ecba5c9d6856ac2c0f6401045fbc70c`. Main remains `5f3332770b27d8a5211b3e74feade222563a9263`.
+- PR #66 is open, unmerged, non-draft, targets `integration/release-candidate`; no merge or retarget was performed.
+- PR #67 (ARO-CHAT-0021) adds trusted-owner identity equality to the approval helper. It does not authenticate the caller and is not integrated into the actual YouTube uploader. Issue #68 is the explicit follow-up and remains open/unassigned.
+- The current `youtube_upload.py` accepts `--owner-approved` and `--confirm-rights` booleans for upload; it does not bind a durable approval to the OAuth-authenticated destination channel. This is a security integration gap, not a completed owner-only gate. Keep actual publishing disabled until issue #68 acceptance criteria are met and the owner separately authorizes publishing.
+- Existing research catalog `docs/RESEARCH_REFERENCE_CATALOG.md` already records OpenShorts, AI YouTube Shorts Generator, Auto-Editor, and Remotion with files inspected, license distinctions, and integration decisions. This chat rechecked its contents and current public repository metadata; no duplicate research catalog was created.
+- Live repo audit: repository is public; default branch is `main`; repository metadata reports push/admin capability for the connected GitHub credential, which is not an AI authority grant. No changes to main.
+- The canonical governance docs and analytics snapshot were refreshed by this session; no application source, test, or workflow files were changed. No local tests were executed. Any CI evidence from earlier sessions remains tied to its exact tested SHA and must not be transferred to this docs-only commit.
+- First authorized GTA 6 MP4 remains NOT VERIFIED / BLOCKED on an expressly authorized recording/export or approved media handoff. Synthetic fixtures are not real-media proof. Windows owner-device playback is also NOT VERIFIED.
+- No merge, retarget, deployment, upload, public publishing, credential access, or destructive action.
+
+### Next acceptance sequence
+1. Owner supplies an authorized recording/export or supported media handoff.
+2. Run the existing local media preflight and manual clipping wizard on that authorized file.
+3. Render a 9:16 MP4; capture FFmpeg command/result, FFprobe metadata, full decode/playback evidence, and output hash.
+4. Record the result as `needs_review`; do not approve or publish on the owner's behalf.
+5. Resolve issue #68 by binding authenticated channel identity to durable per-clip approval and rechecking permission immediately before any upload; keep public publishing disabled until verified and explicitly owner-approved.
