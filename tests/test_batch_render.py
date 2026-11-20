@@ -234,7 +234,8 @@ class BatchRenderTests(unittest.TestCase):
             run_batch(self.csv_path, self.media, self.root / "out", {4})
 
     def test_rejects_invalid_bounds_in_approved_row(self) -> None:
-        rows = list(csv.DictReader(self.csv_path.open(encoding="utf-8")))
+        with self.csv_path.open(encoding="utf-8") as handle:
+            rows = list(csv.DictReader(handle))
         rows[0]["start_seconds"] = "-1"
         with self.csv_path.open("w", newline="", encoding="utf-8") as handle:
             writer = csv.DictWriter(handle, fieldnames=rows[0].keys())
