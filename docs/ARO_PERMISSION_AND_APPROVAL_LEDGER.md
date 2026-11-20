@@ -96,3 +96,16 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 - ARO-CHAT-0027 is already reserved for the separate review-dashboard PR QA workstream; ARO-CHAT-0028 did not assume or override that assignment.
 - Issue #68 remains OPEN / UNASSIGNED. Its implementation is NOT AUTHORIZED for this session unless the project owner explicitly assigns/approves the implementation owner.
 - No owner-only action or permission escalation was performed by ARO-CHAT-0028.
+
+## ARO-CHAT-0029 bounded session scope — 2026-11-20
+
+| Identity | Chat ID | Role | Granted scope | Granting authority / evidence | Status |
+|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0029 | QA / AUDITOR; bounded documentation contributor | Read repository, branch, PR, issue and CI evidence; create an isolated documentation branch; update the canonical research catalog, chat registry, dashboard, permission ledger and project handoff for task ARO-GTA-P0-29 | Owner's explicit master execution instruction in the current conversation; branch `workstream/aro-chat-0029-research-ci-reconciliation-2026-11-20` | ACTIVE FOR ASSIGNED DOCUMENTATION ONLY |
+
+### Restrictions retained
+
+- No permission to merge, retarget/close PRs, deploy, publish, approve clips, access/change production credentials, modify collaborator permissions, delete resources, or alter production settings.
+- Repository API write capability is not owner authority.
+- No assignment or approval was inferred for issue #68.
+- The earlier provisional ARO-CHAT-0028 branch was invalidated after the live registry exposed the existing ARO-CHAT-0028 record; it is explicitly marked DO NOT MERGE in the registry.

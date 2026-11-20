@@ -520,3 +520,63 @@
 - Direct local tests executed by this chat: 0. GitHub Actions evidence above belongs to ARO-CHAT-0026 and the exact code SHA, not to local execution by ARO-CHAT-0028.
 - First creator-authorized GTA 6 MP4 remains BLOCKED pending a permitted recording/export or supported media handoff. Owner-device Windows playback remains NOT VERIFIED.
 - No merge, retarget, deployment, upload, public publishing, credential access, destructive action, permission escalation, issue #68 assignment, or application implementation was performed.
+
+## ARO-CHAT-0028 branch collision correction — 2026-11-20
+
+A stale registry read during a parallel update caused this contributor to create the provisional branch `workstream/aro-chat-0028-research-ci-reconciliation-2026-11-20` and append a provisional ARO-CHAT-0028 record. A live refresh then confirmed that ARO-CHAT-0028 was already registered to the repository/CI reconciliation session. The provisional branch is **INVALIDATED / DO NOT MERGE** and is not an authoritative chat record. Its existence is disclosed rather than hidden; no PR was opened from it. The same documentation work is re-attributed below to the next unreserved serial, ARO-CHAT-0029. Do not count the provisional branch's analytics record.
+
+## ARO-CHAT-0029 reservation and closeout — 2026-11-20
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0029 |
+| Chat title | ARO-CHAT-0029 | Clipping-First CI, Research and Governance Reconciliation | GPT-6 |
+| Provider / model | OpenAI / GPT-6 |
+| Project / workstream | THE ARO GTA 6 Clip Engine / ARO-ZERO-ONE continuation |
+| Task ID | ARO-GTA-P0-29 |
+| Role | QA / Auditor; bounded documentation contributor |
+| Branch / PR | `workstream/aro-chat-0029-research-ci-reconciliation-2026-11-20` / documentation PR stacked on existing PR #66 |
+| Starting SHA | `10de6eee218f08e7edb99913d27cc9ff2307d261` (live ARO-ZERO-ONE branch head when this corrected branch was created) |
+| Status | DOCUMENTATION UPDATED; application/test implementation NOT CHANGED |
+| Scope | Reconcile the serial collision; verify current PR #66 CI and current code/test delta; revalidate four priority research references and licensing; refresh canonical research, dashboard, permission and handoff records. No duplicate renderer, dashboard implementation, issue, or master prompt. |
+
+### ARO-CHAT-0029 verified findings
+
+- Main branch SHA remains `5f3332770b27d8a5211b3e74feade222563a9263`.
+- PR #66 is OPEN / UNMERGED and targets `integration/release-candidate`. At the preceding live audit its head was `d1e75e57855187c680a376e1ca24eb3bcd64e838`; the ARO-ZERO-ONE branch subsequently advanced to `10de6eee218f08e7edb99913d27cc9ff2307d261`.
+- Workflow run [44697250496](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44697250496) completed successfully on tested code SHA `d1e75e57855187c680a376e1ca24eb3bcd64e838`. Ubuntu and Windows jobs both completed FFmpeg/FFprobe installation, compilation and unit-test steps successfully. The test count for this run was not recovered.
+- The nine commits after that tested SHA on the ARO-ZERO-ONE branch changed README/documentation/analytics only; compare output showed no application or test files changed. This supports code/test continuity, not a claim that the newer documentation head itself was separately run through CI.
+- PR #67 remains open/draft. Its documented test run 44655744416 passed 283 tests on Ubuntu and Windows at code/test SHA `c2d3dc1873a97d624dae78282d38448a0d54e3f6`. The helper is not integrated into the uploader.
+- PR #69 remains open/draft at head `f84364345bf578754b870274cd6be6884db1b88e`; no commit-associated PR workflow run was returned. Exact-head CI remains NOT VERIFIED. This is ARO-CHAT-0026/#27 QA work and was not modified.
+- Issue #68 remains OPEN / UNASSIGNED. Do not implement uploader owner-identity integration until explicit owner task assignment/approval.
+- ARO-CHAT-0027 and ARO-CHAT-0028 are already registered in the canonical records. This session uses ARO-CHAT-0029; no duplicate serial remains in the authoritative registry.
+- No authorized GTA 6 recording/export or supported media handoff was supplied. Real-media MP4 and owner-device playback remain NOT VERIFIED / BLOCKED.
+- Direct local tests executed by this chat: 0. No application, test, workflow or publishing code changed.
+- No merge, retarget, deployment, upload, public publishing, credential access, destructive action or permission escalation performed.
+
+### ARO-CHAT-0029 handoff
+
+1. Obtain an expressly creator-authorized GTA 6 recording/export or supported media handoff.
+2. Run local/Windows preflight, the existing manual clip wizard, FFmpeg render, FFprobe validation and playback acceptance.
+3. Keep CI evidence tied to its exact tested code SHA; rerun CI if application/test files change.
+4. Keep issue #68 unassigned until explicit owner assignment/approval; do not enable uploader publishing before trusted OAuth identity and durable per-clip approval are integrated.
+5. Track PR #69 in its assigned QA workstream; do not duplicate its dashboard collision fix.
+6. Keep merges, production deployments and public uploads under separate owner approval.
+
+### ARO-CHAT-0029 delivery update
+
+- Documentation PR: [#70](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/70), open / draft / unmerged.
+- PR #70 targets the existing ARO-ZERO-ONE branch and contains six documentation/analytics files only.
+- GitHub reported `mergeable=false` at PR creation. No merge was attempted; treat mergeability as a pending review/integration condition, not permission to merge.
+- PR #70 head at creation: `4c573863224cf32a70aa751ef150e196eeeac5f1`.
+- No CI run was associated with the documentation head at verification time.
+
+### ARO-CHAT-0029 source inspection and CI closeout
+
+- Renderer source inspection confirms temporary FFmpeg output, finite timestamp validation, 9:16 1080x1920 composition, FFprobe container/video/duration validation, and no-overwrite finalization before publishing the local file.
+- The synthetic FFmpeg smoke test generates its own test-pattern and sine-wave source, renders a vertical MP4, checks dimensions/audio and fully decodes the result. It is synthetic evidence, not GTA 6 media validation.
+- The ARO-ZERO-ONE base branch's review dashboard still uses `Path.write_text`; the no-overwrite implementation is present only in PR #69. PR #69 current head `0afc7623abc65121280fed669a6a1b6c1aff4b33` has no associated workflow run returned. Its pre-repair run 44697566076 had one Ubuntu assertion failure and a Windows pass on SHA `62af35291975b9d1f01cd9ed13f8bd0c6c2d98a4`; repaired current-head CI remains NOT VERIFIED.
+- PR #67's owner-identity helper compares the reviewer to a trusted server-side owner identity, but the existing uploader still relies on boolean flags and does not call the helper. Issue #68 remains OPEN / UNASSIGNED.
+- PR #70 run [44698126846](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44698126846) completed successfully on exact head `61706afe6d8ff77cc57a381dd9c3552466b3a35a`; Ubuntu and Windows compile and unit-test steps passed. Test count not recovered.
+- PR #70 remains open/draft/unmerged. GitHub reports mergeable=true at latest metadata read. No merge was performed.
+- No direct local tests; no application/test/workflow code changed by ARO-CHAT-0029. Real authorized media remains unavailable.
