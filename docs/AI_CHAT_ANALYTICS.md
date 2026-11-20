@@ -81,3 +81,26 @@ The initial ledger contains the ARO-CHAT-0014 continuation record only. Historic
 - CI run `44700696502` passed on Ubuntu and Windows hosted runners, including compile and unit-test steps. Test count not recovered.
 - Elapsed time, active time and final score remain null. Real-media and owner-device verification remain unverified.
 - The implementation reservation was added after the initial code commits; this sequencing deviation is explicitly recorded.
+
+
+## ARO-CHAT-0031 analytics note — 2026-11-20
+
+- Chat: `ARO-CHAT-0031 | Test ResourceWarning Cleanup`; provider/model: OpenAI / GPT-6.
+- Task: ARO-GTA-P2-31; PR #73; branch `workstream/aro-chat-0031-test-resourcewarning-2026-11-20`.
+- One test-only resource hygiene fix: close the CSV reader with a context manager.
+- Local tests executed: 0; PR #73 exact-head CI: NOT RUN due the workflow's `pull_request` base-branch filter targeting `main`, while PR #73 is intentionally stacked on PR #71.
+- Parent PR #71 run 44700987089 passed 284 tests on each hosted platform; this is baseline evidence only, not verification of PR #73.
+- No score assigned; timing and test evidence are incomplete. No merge or owner-only action.
+
+
+## ARO-CHAT-0032 serial correction — 2026-11-20
+
+- A concurrent reservation already existed as ARO-CHAT-0031 / PR #72. The duplicate draft PR #73 was closed unmerged and invalidated.
+- This test-hygiene task is now attributed to ARO-CHAT-0032 / ARO-GTA-P2-32. No duplicate code was merged.
+- The context-manager fix is present on the new branch; local tests and exact-head CI remain NOT VERIFIED.
+
+
+### Concurrent serial collision correction
+
+- Final inventory found both PR #72 and PR #74 using ARO-CHAT-0031 / ARO-GTA-P0-31. Owner reconciliation is required.
+- This session's duplicate PR #73 was closed unmerged. Current workstream is ARO-CHAT-0032 / ARO-GTA-P2-32 in draft PR #75.

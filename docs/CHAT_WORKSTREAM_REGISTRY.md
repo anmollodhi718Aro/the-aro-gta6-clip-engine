@@ -552,3 +552,62 @@
 ### Reservation sequencing correction
 
 The registry and live branch/PR inventory were checked before opening PR #71, and ARO-CHAT-0030 / ARO-GTA-P0-30 were unique. However, the first implementation commits preceded this registry reservation update. This is a process-order deviation and is disclosed rather than represented as pre-registration.
+
+
+## ARO-CHAT-0031 reservation — 2026-11-20 14:17 IST
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0031 |
+| Exact title | ARO-CHAT-0031 | Test ResourceWarning Cleanup |
+| Provider / model | OpenAI / GPT-6 |
+| Project / workstream | THE ARO GTA 6 Clip Engine / ARO-GTA-P2-31 |
+| Role | Contributor / QA-minded maintenance |
+| Scope | Close the unclosed CSV file handle reported by Ubuntu and Windows CI in tests/test_batch_render.py; add or adjust regression coverage only if useful; verify exact-head CI. No renderer, uploader, workflow, production, or publishing changes. |
+| Branch / PR | `workstream/aro-chat-0031-test-resourcewarning-2026-11-20` / PR not yet created |
+| Starting SHA | `4787c069d498b51177968546198eea3e1e8ac84a` (PR #71 exact-head CI-verified base) |
+| Status | RESERVED / ACTIVE; implementation not yet started |
+| Attribution evidence | Registry and live PR/branch search checked; ARO-CHAT-0030 was the latest recorded session; no ARO-CHAT-0031 reservation found. |
+
+
+### ARO-CHAT-0031 implementation update — 2026-11-20
+
+- PR [#73](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/73) opened as DRAFT, stacked on PR #71's branch to keep the maintenance diff isolated.
+- Changed `tests/test_batch_render.py`: the CSV reader now uses a context manager, ensuring deterministic file-handle closure.
+- Changed paths: this registry, `docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md`, and `tests/test_batch_render.py`.
+- Commits: `b01176a97b7456ecc650c41400b60bb57cb2f325` (reservation), `9868f6a74b13f203597e2df747849838134b8d41` (permission scope), `38bd4bcb53f48710fd69e654a2e4e611513e321c` (test fix).
+- Local tests executed: 0. Exact-head CI: NOT RUN. The existing CI pull-request filter targets `main`, while this stacked PR targets the PR #71 workstream branch. Parent PR #71's run 44700987089 passed 284 tests on each hosted platform, but does not verify this change.
+- PR #73 is open, draft, unmerged; GitHub reports mergeable. No merge, retarget, deployment, upload, or publishing.
+- Status: IMPLEMENTED; TESTED/CI_VERIFIED NOT CLAIMED. Next action: obtain an appropriate test run after owner review or integrate through the approved parent-branch sequence.
+
+
+## ARO-CHAT-0031 / ARO-CHAT-0032 serial-collision correction — 2026-11-20
+
+- A concurrent, earlier PR [#72](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/72) had already reserved ARO-CHAT-0031 / ARO-GTA-P0-31 for the live audit and first-clip handoff.
+- A second draft PR #73 was opened during a concurrent inventory race with the same serial. It was promptly marked INVALIDATED and closed unmerged; do not merge or revive it.
+- The isolated test-hygiene work is re-registered as **ARO-CHAT-0032 / ARO-GTA-P2-32**, branch `workstream/aro-chat-0032-test-resourcewarning-2026-11-20`, and will use a separate draft PR.
+- The serial collision is disclosed; no historical record is silently overwritten. The closed PR #73 contains no merged code.
+
+
+## ARO-CHAT-0032 reservation — collision-corrected identity
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0032 |
+| Exact title | ARO-CHAT-0032 | Test ResourceWarning Cleanup |
+| Provider / model | OpenAI / GPT-6 |
+| Project / workstream | THE ARO GTA 6 Clip Engine / ARO-GTA-P2-32 |
+| Role | Contributor / QA-minded maintenance |
+| Scope | Close the CSV reader in the batch-render test and record the isolated test-hygiene change; no application renderer or publishing changes |
+| Branch / PR | `workstream/aro-chat-0032-test-resourcewarning-2026-11-20` / PR pending |
+| Starting SHA | `4787c069d498b51177968546198eea3e1e8ac84a` |
+| Status | IMPLEMENTED; exact-head tests/CI NOT VERIFIED |
+| Attribution | The initial ARO-CHAT-0031 reservation collided with existing PR #72. PR #73 was closed unmerged and invalidated. This workstream is re-registered as ARO-CHAT-0032; sequencing deviation disclosed. |
+
+
+
+### Concurrent ARO-CHAT-0031 inventory correction — 2026-11-20
+
+- Final PR inventory also found [PR #74](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/74), which independently claims ARO-CHAT-0031 / ARO-GTA-P0-31, in addition to [PR #72](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/72).
+- Both #72 and #74 are concurrent P0 audit/documentation workstreams using the same serial. Their ownership/precedence is not adjudicated here; project owner should reconcile them.
+- This session uses ARO-CHAT-0032 / ARO-GTA-P2-32. Its duplicate PR #73 was closed unmerged. PR #75 is the current draft for the isolated P2 test-hygiene fix.

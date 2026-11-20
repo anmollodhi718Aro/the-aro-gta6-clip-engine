@@ -111,3 +111,35 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 - GitHub API push/admin capability is technical capability only and does not confer owner authority.
 - PR #71 remains draft and unmerged; owner review is required before integration.
 - The registry reservation was recorded after the first implementation commits; this process deviation is disclosed in the registry and PR body.
+
+
+## ARO-CHAT-0031 bounded session grant — 2026-11-20
+
+| Identity | Chat ID | Role | Granted scope | Granting authority / evidence | Status |
+|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0031 | CONTRIBUTOR / QA | Fix the isolated unclosed CSV reader in the existing batch-render test, add narrowly scoped coverage if needed, update canonical session records, and open a draft PR stacked on PR #71 | Project owner's master execution instruction in this conversation; task limited to P2 test hygiene | ACTIVE FOR ASSIGNED WORKSTREAM ONLY |
+
+### Restrictions retained
+- No merge, retarget, close, deployment, public upload, publishing, credential access, destructive action, or permission escalation.
+- No uploader or issue #68 implementation; no application renderer changes.
+- PR #71 remains draft/unmerged and is the explicit base dependency. Owner review remains required before integration.
+- GitHub push/admin capability does not grant owner-only authority.
+
+
+## ARO-CHAT-0032 bounded session grant — 2026-11-20
+
+| Identity | Chat ID | Role | Granted scope | Granting authority / evidence | Status |
+|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0032 | CONTRIBUTOR / QA | Isolated test-hygiene fix in `tests/test_batch_render.py`; canonical documentation/analytics correction after the ARO-CHAT-0031 concurrent reservation collision; draft PR only | Project owner's master execution instruction in this conversation; task ARO-GTA-P2-32 | ACTIVE FOR ASSIGNED WORKSTREAM ONLY |
+
+### Restrictions retained
+- No merge, retarget, deployment, upload, publishing, credential access, destructive action, or permission escalation.
+- No uploader/issue #68 implementation or application renderer changes.
+- PR #73 was closed unmerged as an invalid duplicate; new work is tracked separately under ARO-CHAT-0032.
+
+
+### Serial-collision correction for the bounded permission ledger
+
+- The provisional ARO-CHAT-0031 grant recorded earlier in this branch is INVALIDATED because concurrent PRs #72 and #74 already claim that serial.
+- PR #73 was closed unmerged. Do not attribute its work or permission grant to the canonical ARO-CHAT-0031 identity.
+- The test-hygiene contribution is now solely attributed to ARO-CHAT-0032 / ARO-GTA-P2-32, with the same bounded contributor restrictions above.

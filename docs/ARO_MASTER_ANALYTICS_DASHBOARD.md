@@ -279,3 +279,32 @@ No merge, retarget, deployment, upload, public publishing, or issue #68 implemen
 - Eight code/test/script/documentation commits; PR #71 contains the implementation.
 - No numerical leaderboard score assigned. No direct local tests; CI is the verification evidence.
 - Reservation sequencing deviation: the initial code commits preceded the registry update. This is disclosed in the canonical registry and PR body.
+
+
+## ARO-CHAT-0031 live execution snapshot — 2026-11-20
+
+| Metric | Observation | Status | Evidence / limitation |
+|---|---|---|---|
+| Chat / task | ARO-CHAT-0031 / ARO-GTA-P2-31 | VERIFIED | Canonical registry and PR #73 |
+| Scope | Close the CSV reader in one batch-render test | IMPLEMENTED | Context manager in `tests/test_batch_render.py` |
+| PR | [#73](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/73) | OPEN / DRAFT / UNMERGED | Stacked on PR #71 workstream branch |
+| Direct local tests | 0 | NOT RUN | No local Python test runtime used |
+| Exact-head CI | No run | NOT VERIFIED | Existing pull_request filter targets `main`; stacked base is not `main` |
+| Parent baseline | 284 tests passed on Ubuntu and 284 on Windows | VERIFIED FOR PARENT ONLY | Run 44700987089 on parent SHA `4787c069d498b51177968546198eea3e1e8ac84a`; not evidence for PR #73 |
+| Workforce score | N/A | INSUFFICIENT EVIDENCE | Active time and exact-head test evidence incomplete |
+| First authorized GTA 6 MP4 | Not produced | BLOCKED | Authorized recording/export still required |
+
+
+## ARO-CHAT-0032 correction — 2026-11-20
+
+- ARO-CHAT-0031 is already assigned to concurrent PR #72. The duplicate PR #73 was closed unmerged and invalidated.
+- Test-hygiene work continues under unique serial ARO-CHAT-0032 / task ARO-GTA-P2-32.
+- CSV-reader context-manager fix is implemented; direct tests and exact-head CI are not verified. Parent PR #71 CI is not evidence for this branch.
+- No score assigned; task scope is P2 maintenance and evidence is incomplete.
+
+
+### Chat serial collision note — 2026-11-20
+
+- Both PR #72 and PR #74 currently claim ARO-CHAT-0031 / ARO-GTA-P0-31. Ownership/precedence requires owner reconciliation.
+- PR #73 was this session's invalid duplicate and is closed unmerged.
+- PR #75 is this session's unique ARO-CHAT-0032 / ARO-GTA-P2-32 draft; exact-head tests/CI remain unverified.
