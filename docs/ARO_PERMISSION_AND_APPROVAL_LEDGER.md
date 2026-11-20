@@ -65,3 +65,7 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 
 - 2026-11-20: ARO-CHAT-0022 / OpenAI GPT-6 received a bounded contributor scope from the owner's explicit EXECUTE NOW instruction: inspect the live repository, update its own chat reservation and factual handoff/governance records on the existing ARO-ZERO-ONE branch. No source-code implementation, merge, retarget, deployment, publishing, credential, destructive, or permission-management authority was granted.
 - 2026-11-20: ARO-CHAT-0022 observed that GitHub reports push/admin capability for the connected credential. This is API capability only and does not expand the session's project authority.
+
+
+- 2026-11-20: ARO-CHAT-0023 / OpenAI GPT-6 received a bounded QA/auditor scope from the owner's EXECUTE NOW instruction: inspect repository and exact-head CI evidence, review uploader/approval integration boundaries, and record a factual handoff. No application source, test, workflow, publishing, deployment, credential, destructive, merge, or permission-management authority was granted.
+- 2026-11-20: ARO-CHAT-0023 observed GitHub API admin/push capability for the connected credential. This is technical capability only and does not expand this session's project authority.
