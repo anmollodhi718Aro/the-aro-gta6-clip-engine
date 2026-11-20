@@ -96,3 +96,18 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 - ARO-CHAT-0027 is already reserved for the separate review-dashboard PR QA workstream; ARO-CHAT-0028 did not assume or override that assignment.
 - Issue #68 remains OPEN / UNASSIGNED. Its implementation is NOT AUTHORIZED for this session unless the project owner explicitly assigns/approves the implementation owner.
 - No owner-only action or permission escalation was performed by ARO-CHAT-0028.
+
+
+## ARO-CHAT-0030 bounded session grant — 2026-11-20
+
+| Identity | Chat ID | Role | Granted scope | Granting authority / evidence | Status |
+|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0030 | CONTRIBUTOR | Implement the isolated P0-30 audio-stream validation change; add regression tests; update the Windows manual clipping wizard and usage documentation; update this session's canonical records; open a draft PR stacked on existing PR #66 | Project owner's explicit MASTER EXECUTION / EXECUTE NOW instruction in this conversation; PR #71 and branch `workstream/aro-chat-0030-audio-stream-acceptance-2026-11-20` | ACTIVE FOR ASSIGNED WORKSTREAM ONLY |
+
+### Restrictions retained
+
+- No merge, retarget, close, deployment, production publishing, public upload, credential access/change, destructive action, collaborator permission change, or permission escalation.
+- Issue #68 uploader owner-identity integration remains outside this task and is NOT AUTHORIZED without its separately required explicit owner assignment/approval.
+- GitHub API push/admin capability is technical capability only and does not confer owner authority.
+- PR #71 remains draft and unmerged; owner review is required before integration.
+- The registry reservation was recorded after the first implementation commits; this process deviation is disclosed in the registry and PR body.
