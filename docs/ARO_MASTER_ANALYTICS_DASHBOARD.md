@@ -308,3 +308,27 @@ No merge, retarget, deployment, upload, public publishing, or issue #68 implemen
 - Both PR #72 and PR #74 currently claim ARO-CHAT-0031 / ARO-GTA-P0-31. Ownership/precedence requires owner reconciliation.
 - PR #73 was this session's invalid duplicate and is closed unmerged.
 - PR #75 is this session's unique ARO-CHAT-0032 / ARO-GTA-P2-32 draft; exact-head tests/CI remain unverified.
+
+
+## ARO-CHAT-0033 independent QA snapshot — 2026-11-20
+
+| Metric | Observation | Status | Evidence / limitation |
+|---|---|---|---|
+| Chat / task | ARO-CHAT-0033 / ARO-GTA-P2-33 | VERIFIED | Unique serial checked against registry, PRs, issues and branches |
+| Reviewed change | PR #75 CSV-reader context-manager test hygiene fix | VERIFIED | Exact source at `tests/test_batch_render.py:236-243` |
+| PR #75 exact head | `7d1bbd2405639b008f0c3d667caa5b8ca93c272f` | VERIFIED | Live PR metadata |
+| Ubuntu CI | 284 tests passed; compile and FFmpeg/FFprobe setup passed | CI PASSED | Job `136186999278`, run `44706399362` |
+| Windows hosted CI | 284 tests passed; compile and FFmpeg/FFprobe setup passed | CI PASSED | Job `136186998767`, run `44706399362`; not owner-device verification |
+| ResourceWarning regression | No unclosed-file / ResourceWarning lines in either PR #75 job log | VERIFIED | Parent PR #71 warning was absent on PR #75 exact head |
+| Direct local tests | 0 | NOT RUN | Local clone blocked by DNS resolution; hosted CI is the execution evidence |
+| PR #75 integration | OPEN / DRAFT / UNMERGED | VERIFIED | Owner/maintainer review still required |
+| First authorized GTA 6 MP4 | Not produced | BLOCKED | Authorized recording/export still required |
+| Workforce score | N/A | INSUFFICIENT EVIDENCE | No complete category telemetry or measured session duration |
+
+### ARO-CHAT-0033 contribution summary
+
+- Independently verified the exact PR #75 head and both platform job logs.
+- Confirmed 284 tests passed on Ubuntu and 284 on Windows hosted CI.
+- Confirmed the prior CSV ResourceWarning is absent from the new exact-head logs.
+- No application, test, workflow, renderer or publishing code was modified. Documentation/analytics only.
+- No numeric workforce score assigned; CI verification is evidence of the reviewed PR, not local execution by this chat.

@@ -611,3 +611,39 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 - Final PR inventory also found [PR #74](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/74), which independently claims ARO-CHAT-0031 / ARO-GTA-P0-31, in addition to [PR #72](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/72).
 - Both #72 and #74 are concurrent P0 audit/documentation workstreams using the same serial. Their ownership/precedence is not adjudicated here; project owner should reconcile them.
 - This session uses ARO-CHAT-0032 / ARO-GTA-P2-32. Its duplicate PR #73 was closed unmerged. PR #75 is the current draft for the isolated P2 test-hygiene fix.
+
+
+## ARO-CHAT-0033 reservation and independent QA closeout — 2026-11-20 14:26 IST
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0033 |
+| Exact title | ARO-CHAT-0033 | Independent QA of PR #75 Test-Hygiene Fix |
+| Provider / model | OpenAI / GPT-6 |
+| Project / workstream | THE ARO GTA 6 Clip Engine / ARO-GTA-P2-33 |
+| Role | QA / Auditor; documentation contributor |
+| Scope | Independently inspect PR #75 exact head, source diff, Ubuntu/Windows workflow steps and job logs; verify whether the prior CSV ResourceWarning remains; update evidence records. No application/test/workflow implementation. |
+| Branch / PR | `workstream/aro-chat-0033-pr75-independent-qa-2026-11-20` / documentation-only draft PR to be opened after this reservation |
+| Starting / reviewed code SHA | `7d1bbd2405639b008f0c3d667caa5b8ca93c272f` (PR #75 exact head) |
+| Status | QA VERIFIED; exact-head CI PASSED; no code changes; first real-media clip remains BLOCKED |
+| Attribution evidence | Registry, PR, issue and branch searches found no prior ARO-CHAT-0033 reservation. Latest prior serial was ARO-CHAT-0032. |
+
+### ARO-CHAT-0033 verification findings
+
+- PR #75 is OPEN / DRAFT / UNMERGED and targets the PR #71 audio-acceptance workstream branch. Its exact head is `7d1bbd2405639b008f0c3d667caa5b8ca93c272f`.
+- Exact-head Actions run [44706399362](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44706399362) completed successfully on that SHA.
+- Ubuntu job `136186999278` completed setup, FFmpeg/FFprobe installation, source compilation and the full unit-test step. Its log reports `Ran 284 tests` and `OK`.
+- Windows hosted job `136186998767` completed setup, FFmpeg/FFprobe installation, source compilation and the full unit-test step. Its log reports `Ran 284 tests`; the job conclusion is success.
+- Both platforms independently executed the same 284-test suite. This is 284 distinct test cases and 568 successful platform executions, not 568 unique tests.
+- The earlier PR #71 parent logs contained a non-failing ResourceWarning at the CSV-reader test. The PR #75 exact-head Ubuntu and Windows logs do not contain a ResourceWarning or unclosed-file warning. The updated test source at `tests/test_batch_render.py:236-243` now opens the CSV using a context manager. The targeted hygiene fix is therefore verified on this exact head.
+- This chat executed 0 local tests. GitHub Actions executed the tests; this chat independently inspected the exact-head job metadata and logs.
+- A local clone/test attempt was blocked because the execution environment could not resolve `github.com`; this is an environment limitation, not a repository test failure.
+- PR #75 remains OPEN / DRAFT / UNMERGED. No merge, retarget, deployment, upload, public publishing, or owner-only action was performed.
+- The first authorized GTA 6 MP4 remains BLOCKED pending an expressly authorized recording/export or supported media handoff. Synthetic fixtures and hosted CI do not establish real GTA 6 media compatibility.
+
+### Next handoff
+
+1. Review PR #75 and its exact-head CI evidence; owner/maintainer decides whether to integrate it into the approved parent sequence.
+2. Keep PR #66 and stacked feature PRs unmerged until owner review and integration order are approved.
+3. Obtain an authorized GTA 6 recording/export, run the Windows/local first-clip wizard, render, FFprobe-check video and audio streams/dimensions/duration, then inspect playback.
+4. Keep issue #68 OPEN / UNASSIGNED until the owner explicitly assigns/approves the authenticated uploader integration.

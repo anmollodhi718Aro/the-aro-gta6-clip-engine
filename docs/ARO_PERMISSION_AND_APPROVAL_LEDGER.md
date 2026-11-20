@@ -143,3 +143,18 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 - The provisional ARO-CHAT-0031 grant recorded earlier in this branch is INVALIDATED because concurrent PRs #72 and #74 already claim that serial.
 - PR #73 was closed unmerged. Do not attribute its work or permission grant to the canonical ARO-CHAT-0031 identity.
 - The test-hygiene contribution is now solely attributed to ARO-CHAT-0032 / ARO-GTA-P2-32, with the same bounded contributor restrictions above.
+
+
+## ARO-CHAT-0033 bounded QA session grant — 2026-11-20
+
+| Identity | Chat ID | Role | Granted scope | Granting authority / evidence | Status |
+|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0033 | QA / AUDITOR; documentation contributor | Independently inspect PR #75 exact-head source and Ubuntu/Windows CI logs; verify the CSV-reader warning fix; record evidence in canonical docs and a documentation-only branch/PR | Project owner's master execution instruction in this conversation; task ARO-GTA-P2-33 | ACTIVE FOR BOUNDED QA AND DOCUMENTATION ONLY |
+
+### Restrictions retained
+
+- No merge, retarget, deployment, public upload, publishing, credential access, destructive action, permission escalation, or owner-only approval.
+- No application, test, workflow, renderer or uploader implementation changes.
+- PR #75 remains OPEN / DRAFT / UNMERGED; owner review is required before integration.
+- Issue #68 remains outside this task and is not authorized without the owner's separate assignment/approval.
+- GitHub connector admin/push capability does not grant owner-only project authority.
