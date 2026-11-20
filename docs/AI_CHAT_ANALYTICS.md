@@ -62,3 +62,11 @@ The initial ledger contains the ARO-CHAT-0014 continuation record only. Historic
 - The validator checks unique Chat IDs, required attribution/evidence fields, timezone-aware timestamps, timestamp ordering, finite non-negative timing values, valid PR/issue/commit identifiers, score bounds, and scoring weights summing to 1.0.
 - Unknown elapsed time, active time, and scores must be explicitly represented as `null`; missing required fields and boolean/numeric impostors are rejected.
 - Regression coverage: `tests/test_analytics_validation.py`; included in normal unittest discovery.
+
+
+## Identity uniqueness and collision repair (2026-11-20)
+
+- `chat_id` is a unique key across `analytics/ai_chat_sessions.json`; duplicate IDs are invalid and must fail validation.
+- A historical duplicate `ARO-CHAT-0015` was found in the canonical ledger. The registry's primary assignment remains `ARO-CHAT-0015 | Windows CI Recovery and First-Clip Readiness Audit`; the separate `Exact-Head CI and Windows Verification Audit` record is re-attributed to `ARO-CHAT-0018` / `ARO-GTA-P0-18` with its original evidence preserved.
+- `ARO-CHAT-0016` remains the analytics-schema validator session; `ARO-CHAT-0017` remains reserved for research; `ARO-CHAT-0019` owns the current ledger-integrity repair.
+- This is a historical attribution correction, not evidence that the two prior sessions' overlapping commit references were independently authored. Preserve the recorded overlap and do not infer commit authorship from GitHub account identity.
