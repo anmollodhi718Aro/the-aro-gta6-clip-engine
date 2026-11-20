@@ -406,3 +406,11 @@
 |---|---|---|---|---|---|---|
 | ARO-CHAT-0024 | ARO-CHAT-0024 | Exact-Head CI Reconciliation and First-Clip Handoff | ARO-ZERO-ONE continuation; task ARO-GTA-P0-24 | Reconcile the post-ARO-CHAT-0023 exact-head Actions run, preserve precise runner/dependency/cancellation evidence, and update issue #26 without duplicating renderer, governance, or security implementation. | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 | RESERVED; read-only CI/issue evidence follow-up; no source/test changes planned. |
 
+
+
+### ARO-CHAT-0024 execution evidence
+- Reservation commit: `16dfbc86bbc0bf76917a6fe5e28a630f19bf2b46`.
+- Existing issue #26 updated with the latest run evidence (comment ID `7033511958`); no duplicate issue was created.
+- Run `44696473060` on PR #66 head `125234af6fea09db64b434f4e520233658bf4aa9`: Ubuntu cancelled during compile after successful runner/setup/FFmpeg installation; Windows cancelled during FFmpeg installation after successful runner/setup. Both test steps skipped; exact-head CI NOT VERIFIED.
+- Separate PR #67 run `44655744416` passed compile and 283 tests on Ubuntu and Windows for tested SHA `c2d3dc1873a97d624dae78282d38448a0d54e3f6`; this does not validate PR #66.
+- No source/test/workflow changes or local tests; no merge/deploy/upload/publication. Real-media acceptance remains blocked on authorized GTA 6 footage.
