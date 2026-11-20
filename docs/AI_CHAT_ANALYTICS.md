@@ -81,3 +81,13 @@ The initial ledger contains the ARO-CHAT-0014 continuation record only. Historic
 - CI run `44700696502` passed on Ubuntu and Windows hosted runners, including compile and unit-test steps. Test count not recovered.
 - Elapsed time, active time and final score remain null. Real-media and owner-device verification remain unverified.
 - The implementation reservation was added after the initial code commits; this sequencing deviation is explicitly recorded.
+
+
+## ARO-CHAT-0031 analytics note — 2026-11-20
+
+- Chat: `ARO-CHAT-0031 | Test ResourceWarning Cleanup`; provider/model: OpenAI / GPT-6.
+- Task: ARO-GTA-P2-31; PR #73; branch `workstream/aro-chat-0031-test-resourcewarning-2026-11-20`.
+- One test-only resource hygiene fix: close the CSV reader with a context manager.
+- Local tests executed: 0; PR #73 exact-head CI: NOT RUN due the workflow's `pull_request` base-branch filter targeting `main`, while PR #73 is intentionally stacked on PR #71.
+- Parent PR #71 run 44700987089 passed 284 tests on each hosted platform; this is baseline evidence only, not verification of PR #73.
+- No score assigned; timing and test evidence are incomplete. No merge or owner-only action.
