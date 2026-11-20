@@ -573,3 +573,12 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 2. Reconcile the latest PR #66 head and obtain completed CI evidence on that exact SHA; distinguish infrastructure cancellation from test failures.
 3. Obtain an authorized GTA 6 recording/export, run the existing local preflight and manual clipping workflow, validate the resulting MP4 with FFprobe, and inspect playback.
 4. Keep PR #66 unmerged and all production/publishing actions under explicit owner approval.
+
+
+## Latest branch-head reconciliation — ARO-CHAT-0024 closeout
+
+- ARO-CHAT-0024 updated issue #26 with the runner and cancellation evidence from run `44696473060`.
+- After the documentation and analytics commits, the observed workstream branch head is `c99b4bfdd62015dde0c8d544744deba646808be8`. GitHub returned no PR-triggered workflow run for that exact commit at closeout. Do not reuse a green run from PR #67 or an earlier PR #66 SHA as proof for this head.
+- PR #66 exact-head CI: NOT VERIFIED. Owner-device Windows runtime: NOT VERIFIED. Authorized real GTA 6 MP4: BLOCKED.
+- PR #67 helper CI run `44655744416` remains separately verified: both platform jobs completed compile and 283 tests on the tested helper SHA. It does not integrate authenticated identity into the actual uploader.
+- ARO-CHAT-0024 changed documentation/analytics and issue #26 only; no application code or tests changed. No merge, retarget, deployment, upload, or public publication.
