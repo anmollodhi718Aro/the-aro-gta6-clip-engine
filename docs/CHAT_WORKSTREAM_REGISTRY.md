@@ -552,3 +552,31 @@
 ### Reservation sequencing correction
 
 The registry and live branch/PR inventory were checked before opening PR #71, and ARO-CHAT-0030 / ARO-GTA-P0-30 were unique. However, the first implementation commits preceded this registry reservation update. This is a process-order deviation and is disclosed rather than represented as pre-registration.
+
+
+## ARO-CHAT-0031 reservation and audit record — 2026-11-20
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0031 |
+| Exact title | ARO-CHAT-0031 | Post-Implementation CI and Clipping Readiness Audit |
+| Provider / model | OpenAI / GPT-6 |
+| Project / workstream | THE ARO GTA 6 Clip Engine / ARO-GTA-P0-31 |
+| Role | QA / AUDITOR; bounded documentation contributor |
+| Scope | Reconcile PR #71 exact-head CI after its documentation-only commits; inspect audio-gate source/tests, current PR/issue boundaries and canonical handoff; update evidence records. No application, test or workflow code changes. |
+| Branch / PR | `workstream/aro-chat-0031-ci-evidence-reconciliation-2026-11-20` / [PR #74](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/74), documentation-only and stacked on PR #71 |
+| Starting SHA | `4787c069d498b51177968546198eea3e1e8ac84a` |
+| Verified SHA | `4787c069d498b51177968546198eea3e1e8ac84a` |
+| Status | Audit and documentation IMPLEMENTED; exact-head CI_VERIFIED; PR #74 OPEN / DRAFT; PR #74 CI NOT RUN; direct local tests 0; owner-device Windows and real-media verification NOT VERIFIED |
+| Evidence | Actions run [44700987089](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44700987089); Ubuntu job `136169082777`; Windows job `136169082306`; 284 tests executed successfully on each hosted platform. |
+
+### ARO-CHAT-0031 findings and limitations
+
+- The exact current PR #71 head `4787c069d498b51177968546198eea3e1e8ac84a` has a completed successful Actions run, not a pending run.
+- Both Ubuntu and Windows hosted jobs completed FFmpeg/FFprobe installation, source compilation, and unit-test steps successfully. Job logs report 284 tests on each platform.
+- This is verification of the existing PR #71 branch, not tests executed locally by ARO-CHAT-0031 and not owner-device Windows playback.
+- PR #71 remains OPEN / DRAFT / UNMERGED and stacked on PR #66. No merge, retarget, or close was performed.
+- Issue #68 remains OPEN / UNASSIGNED. Authenticated channel-owner approval integration remains NOT AUTHORIZED without a separate explicit owner assignment/approval.
+- No creator-authorized GTA 6 recording/export was supplied. REAL_MEDIA_VERIFIED remains BLOCKED; synthetic/CI fixtures do not establish the first real clip.
+- No source/test/workflow changes, upload, publishing, deployment, credential access, destructive action, permission change, or owner-only action was performed.
+- Documentation-only PR [#74](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/74) contains five canonical evidence files. No Actions run was returned for PR #74 at audit time; the analytics JSON was parsed successfully before commit.

@@ -279,3 +279,32 @@ No merge, retarget, deployment, upload, public publishing, or issue #68 implemen
 - Eight code/test/script/documentation commits; PR #71 contains the implementation.
 - No numerical leaderboard score assigned. No direct local tests; CI is the verification evidence.
 - Reservation sequencing deviation: the initial code commits preceded the registry update. This is disclosed in the canonical registry and PR body.
+
+
+## ARO-CHAT-0031 live execution snapshot — 2026-11-20
+
+| Metric | Observation | Status | Evidence / limitation |
+|---|---|---|---|
+| Chat ID / workstream | ARO-CHAT-0031 / ARO-GTA-P0-31 | VERIFIED | Canonical registry reservation on this documentation branch |
+| Audited PR | [#71](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/71), OPEN / DRAFT / UNMERGED | VERIFIED | Stacked on PR #66; no merge or retarget |
+| Audit documentation PR | [#74](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/74), OPEN / DRAFT / UNMERGED | IMPLEMENTED | Five documentation/analytics files; stacked on PR #71; no CI run returned at audit time |
+| Audited branch head | `4787c069d498b51177968546198eea3e1e8ac84a` | VERIFIED | Exact PR #71 head |
+| Latest exact-head CI | Run [44700987089](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44700987089) | CI PASSED | Exact head; Ubuntu and Windows jobs completed successfully |
+| Ubuntu hosted tests | 284 tests executed; compile and unit-test steps succeeded | CI PASSED | Job `136169082777`; hosted runner |
+| Windows hosted tests | 284 tests executed; compile and unit-test steps succeeded | CI PASSED | Job `136169082306`; hosted runner only, not owner-device execution |
+| Direct local tests by ARO-CHAT-0031 | 0 | VERIFIED | This session used GitHub evidence; no local repository runtime |
+| Application/test/workflow changes | None | VERIFIED | Documentation and audit evidence only |
+| Owner-device Windows execution | Not performed | NOT VERIFIED | Hosted Windows CI is not owner-device evidence |
+| Authorized GTA 6 media | Not supplied | BLOCKED | No creator-authorized recording/export or supported handoff |
+| First actual playable GTA 6 MP4 | Not produced | NOT VERIFIED | CI fixtures do not satisfy real-media acceptance |
+| Issue #68 uploader integration | OPEN / UNASSIGNED | PENDING OWNER APPROVAL | No implementation authority assigned; public upload remains disabled |
+| Public publishing | Not authorized | NOT AUTHORIZED | Separate per-clip and destination-channel approval required |
+| Workforce score | N/A | UNAVAILABLE | No measurable duration or normalized quality telemetry; no score inferred |
+
+### ARO-CHAT-0031 contribution summary
+
+- Reconciled the exact current PR #71 head to successful Ubuntu and Windows hosted CI.
+- Recovered the test count from job logs: 284 tests executed on each platform.
+- Inspected audio-gate source, renderer/batch propagation, regression tests and Windows wizard default.
+- Direct local tests: 0. No application, test or workflow code changed.
+- No numerical leaderboard score assigned; duration and normalized category telemetry are unavailable.
