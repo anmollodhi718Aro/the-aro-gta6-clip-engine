@@ -118,3 +118,13 @@ The initial ledger contains the ARO-CHAT-0014 continuation record only. Historic
 
 
 - Documentation/analytics delivery: draft PR [#76](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/76), branch `workstream/aro-chat-0033-pr75-independent-qa-2026-11-20`, commit `87fab79327b7a7baed547c3834707cddbf9bb989`; six files changed, no code/test/workflow changes.
+
+
+## ARO-CHAT-0034 research analytics note — 2026-11-20
+
+- Chat: ARO-CHAT-0034 | Reference Repository Engineering Audit and Integration Decision Refresh; provider/model: OpenAI / GPT-6.
+- Task: ARO-GTA-P2-34; research-only refresh of the existing four-reference catalog.
+- Revalidated live GitHub metadata, README, licenses and selected implementation files for OpenShorts, AI YouTube Shorts Generator, Auto-Editor and Remotion.
+- Existing research catalog updated in place. No duplicate registry/catalog created, no code changes, no dependencies adopted and no external source code copied.
+- Tests executed: 0; CI: not run (documentation-only change). No real-media test.
+- Numerical score: null; elapsed/active time: null. First authorized GTA 6 MP4 remains blocked pending an authorized recording/export.
