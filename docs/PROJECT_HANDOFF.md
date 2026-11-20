@@ -611,3 +611,15 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - Existing PR #66 renderer exact-head run [44697009137](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44697009137) passed Ubuntu compile/unit tests; Windows compile passed but unit tests were cancelled. Separate later ARO-CHAT-0026 record reports both-platform CI success on SHA `817c7947c6756b80ae91ba272d172c3efaa2fa07`; these are not evidence for this PR #69 change.
 - No merge, retarget, deployment, upload, public publishing, credential access, or destructive action. PR #69 remains draft and unmerged.
 - First authorized GTA 6 MP4 remains blocked on a creator-authorized recording/export or supported media handoff. Issue #68 remains open/unassigned and requires owner assignment before uploader integration.
+
+
+## ARO-CHAT-0027 verification closeout — 2026-11-20
+
+- Canonical chat/task: `ARO-CHAT-0027` / `ARO-GTA-P0-27`. A provisional 0026 reservation was corrected after the live ledger revealed that serial 0026 already belonged to another session; the original 0026 record remains intact.
+- PR #69 remains draft and unmerged: [Prevent review dashboard report overwrite](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/69). Branch slug retains the provisional 0026 token; canonical session identity is 0027.
+- Fixed the review-dashboard CLI's silent overwrite behavior by reusing `write_texts_no_overwrite`. Added tests for preserving an existing dashboard and creating a new nested output path. A follow-up commit provides a stable "output already exists" error message.
+- Run [44697566076](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44697566076) on pre-repair SHA `62af35291975b9d1f01cd9ed13f8bd0c6c2d98a4`: Ubuntu compilation passed; 283 tests ran with one failure in the new error-message assertion. Windows compilation and all 283 tests passed. The initial failure was caused by platform-specific FileExistsError text; the file-preservation behavior itself worked.
+- Repair SHA: `62c9cbe865d3f84346c0e848a4797ed53ab3cf2e`. No workflow run or status check was returned for this repaired SHA. Exact-head TESTED / CI PASSED is NOT VERIFIED. No local tests were executed.
+- Files changed: `backend/app/review_dashboard.py`, `tests/test_review_dashboard.py`, registry, handoff, permission ledger, analytics dashboard and structured analytics ledger.
+- No merge, retarget, deployment, upload, public publishing, credential access, destructive action, or owner-only approval.
+- The first authorized GTA 6 MP4 remains blocked pending an expressly authorized recording/export or supported media handoff. Issue #68 remains open/unassigned pending owner assignment.
