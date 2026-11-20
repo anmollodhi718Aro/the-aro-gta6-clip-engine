@@ -196,6 +196,7 @@ def run_batch(
                     start,
                     end,
                     rights_confirmed=rights_confirmed,
+                    ffprobe_binary=ffprobe_binary,
                     vertical=vertical,
                 )
                 item.update(status="rendered", message="local clip rendered; manual review still required")

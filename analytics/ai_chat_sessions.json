@@ -1,0 +1,1721 @@
+{
+  "schema_version": "1.0.0",
+  "scoring_model": {
+    "status": "INITIAL_WEIGHTS",
+    "weights": {
+      "task_importance": 0.25,
+      "verified_completion": 0.25,
+      "technical_correctness": 0.2,
+      "test_and_ci_evidence": 0.15,
+      "time_efficiency": 0.1,
+      "documentation_and_handoff": 0.05
+    },
+    "scoring_policy": "Score only after a chat closes and evidence is reconciled. Keep raw metrics visible. Use null for unknown or not-yet-measurable values; do not convert missing evidence into zero."
+  },
+  "sessions": [
+    {
+      "chat_id": "ARO-CHAT-0014",
+      "title": "ARO-CHAT-0014 | Clipping-First Execution, Repository Audit & AI Analytics",
+      "project": "THE ARO GTA 6 CLIP ENGINE",
+      "workstream_id": "ARO-ZERO-ONE",
+      "task_ids": [
+        "ARO-GTA-P0-14"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T04:51:00+05:30",
+      "ended_at": "2026-11-20T04:55:08+05:30",
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "timing_note": "End timestamp captured from the local time source. Start time is minute-resolution only; elapsed duration and active work time are therefore left null rather than estimated.",
+      "task_category": [
+        "repository_audit",
+        "ci_cd",
+        "windows_compatibility",
+        "documentation",
+        "analytics_registry"
+      ],
+      "priority": "P0",
+      "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "starting_sha": "57a145700dd06d458834844ad51b64564da56bae",
+      "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "current_sha": "a9c537fc4ac5a7c437dc2c2f535ac258d24b619e",
+      "pull_requests": [
+        66
+      ],
+      "issues": [
+        26
+      ],
+      "commits": [
+        "e215553063b2802e56c238dbc39f70188cccfc2e",
+        "b3c167242349caf745093955d28b9dd74ace220c",
+        "301511eb12229a0064119ef0f02250f42d3b8f13",
+        "e3797a38a19e36e7fdc5fdeacd860706ce005f05",
+        "3c5a240629b8ddfc3b74b983f7ba1bbe6574eeae",
+        "06feda57916267b08fba46cee7394562d1c49f16",
+        "73e53232af6fcf9e17fb9c2bc038d1cee5bec9b9",
+        "58627b5c96a8141beba9dfa092916375ca942382",
+        "a5f4f457c97e9d3c50894033f813bbb2ac3006c5",
+        "28c98e11fc19ad1a7bc343c112160eb9cbc06a25",
+        "a30f0588c03b1e44be05304d0f96f6c01ccba71b",
+        "32e73ac24e4a5a7ab9a69430b0216f8d6973c6e6",
+        "a9c537fc4ac5a7c437dc2c2f535ac258d24b619e"
+      ],
+      "files_inspected": [
+        "README.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/ARO_CHAT_STARTUP_PROMPT.md",
+        "docs/PROJECT_HANDOFF.md",
+        "backend/app/clipping.py",
+        "backend/app/batch_render.py",
+        "backend/app/render_validation.py",
+        "backend/app/live_sources.py",
+        "backend/app/approval.py",
+        "tests/test_real_ffmpeg_smoke.py",
+        "tests/test_manual_clip.py",
+        ".github/workflows/ci.yml",
+        "START_CLIPPING_TODAY.bat",
+        "scripts/manual_clip_wizard.ps1",
+        "docs/FIRST_CLIP_TODAY.md",
+        "docs/PR_CONSOLIDATION_AUDIT.md",
+        ".github/workflows/windows-ci.yml"
+      ],
+      "files_created": [
+        ".github/workflows/windows-ci.yml",
+        "analytics/ai_chat_sessions.json",
+        "docs/AI_CHAT_ANALYTICS.md"
+      ],
+      "files_modified": [
+        "tests/test_manual_clip.py",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/PROJECT_HANDOFF.md",
+        ".github/workflows/windows-ci.yml"
+      ],
+      "tests": {
+        "added": 1,
+        "executed_by_this_chat": 0,
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "ci_runs": [
+          {
+            "run_id": 44637236056,
+            "platform": "windows-latest",
+            "status": "CANCELLED_DURING_FFMPEG_INSTALL",
+            "conclusion": "cancelled",
+            "compile_step": "skipped",
+            "test_step": "skipped"
+          },
+          {
+            "run_id": 44637235991,
+            "platform": "ubuntu-latest",
+            "status": "CANCELLED_DURING_FFMPEG_INSTALL",
+            "conclusion": "cancelled",
+            "compile_step": "skipped",
+            "test_step": "skipped"
+          }
+        ]
+      },
+      "ci_status": "NOT_VERIFIED_ON_FINAL_HEAD",
+      "windows_status": "NOT_VERIFIED_PUSH_TRIGGERED_RUN_NOT_EXPOSED",
+      "real_media_status": "BLOCKED_AUTHORIZED_MEDIA_REQUIRED",
+      "bugs_discovered": null,
+      "bugs_fixed": 0,
+      "regressions_introduced": null,
+      "regressions_resolved": null,
+      "duplicate_work": {
+        "overlapping_work_reviewed": [
+          "PR #57 Windows-native workflow and path regression"
+        ],
+        "duplicate_pr_created": false,
+        "divergent_branch_merged": false
+      },
+      "blockers": [
+        "No creator-authorized GTA 6 recording/export or approved media handoff has been supplied.",
+        "The final push-triggered Windows workflow run is not exposed by the connector's PR-only workflow-run lookup; no successful Windows job evidence is available."
+      ],
+      "impact": {
+        "importance": "P0",
+        "criticality_to_first_clip": "HIGH",
+        "committed_deliverables": 4,
+        "verified_deliverables": 0,
+        "independent_completion": true,
+        "required_repair_by_another_ai": null
+      },
+      "acceptance_status": "IMPLEMENTED_CI_NOT_VERIFIED_REAL_MEDIA_BLOCKED",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
+        "windows_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44637236056",
+        "ubuntu_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44637235991",
+        "prior_270_test_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44633588158",
+        "final_registry_commit": "a9c537fc4ac5a7c437dc2c2f535ac258d24b619e",
+        "final_handoff_commit": "32e73ac24e4a5a7ab9a69430b0216f8d6973c6e6"
+      }
+    },
+    {
+      "chat_id": "ARO-CHAT-0018",
+      "title": "ARO-CHAT-0018 | Exact-Head CI and Windows Verification Audit (identity reconciled)",
+      "project": "THE ARO GTA 6 CLIP ENGINE",
+      "workstream_id": "ARO-ZERO-ONE",
+      "task_ids": [
+        "ARO-GTA-P0-18"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T04:58:00+05:30",
+      "ended_at": null,
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "timing_note": "Start time recorded to minute resolution; session closeout/end time not yet measured. Do not infer elapsed or active time.",
+      "task_category": [
+        "repository_audit",
+        "ci_cd",
+        "qa",
+        "documentation",
+        "analytics_registry"
+      ],
+      "priority": "P0",
+      "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "starting_sha": "db6ba235335ec9de215916da166416793faea68d",
+      "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "current_sha": "fd7fa41dc75e19235d75b96ffb1791d7e101b9d6",
+      "pull_requests": [
+        66
+      ],
+      "issues": [],
+      "commits": [
+        "fd7fa41dc75e19235d75b96ffb1791d7e101b9d6"
+      ],
+      "files_inspected": [
+        "README.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/ARO_CHAT_STARTUP_PROMPT.md",
+        "docs/PROJECT_HANDOFF.md",
+        "analytics/ai_chat_sessions.json",
+        ".github/workflows/ci.yml",
+        ".github/workflows/windows-ci.yml"
+      ],
+      "files_created": [],
+      "files_modified": [
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/PROJECT_HANDOFF.md",
+        "analytics/ai_chat_sessions.json"
+      ],
+      "tests": {
+        "added": 0,
+        "executed_by_this_chat": 0,
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "ci_runs": [
+          {
+            "run_id": 44637602569,
+            "platform": "ubuntu-latest",
+            "head_sha": "db6ba235335ec9de215916da166416793faea68d",
+            "status": "completed",
+            "conclusion": "success",
+            "compile_step": "success",
+            "test_step": "success",
+            "test_count": null
+          },
+          {
+            "run_id": 44637398780,
+            "platform": "windows-latest",
+            "head_sha": "58627b5c96a8141beba9dfa092916375ca942382",
+            "status": "completed",
+            "conclusion": "success",
+            "compile_step": "success",
+            "test_step": "success",
+            "test_count": null
+          },
+          {
+            "run_id": 44637348441,
+            "platform": "windows-latest",
+            "head_sha": "73e53232af6fcf9e17fb9c2bc038d1cee5bec9b9",
+            "status": "completed",
+            "conclusion": "failure",
+            "failure_stage": "FFmpeg install",
+            "compile_step": "skipped",
+            "test_step": "skipped"
+          }
+        ]
+      },
+      "ci_status": "CI_VERIFIED_EXACT_PR_HEAD_UBUNTU",
+      "windows_status": "WINDOWS_CI_VERIFIED_ON_SOURCE_TEST_SHA_MATCHED_TO_CURRENT_PR_HEAD_BY_DOCS_ONLY_COMPARE",
+      "real_media_status": "BLOCKED_AUTHORIZED_MEDIA_REQUIRED",
+      "bugs_discovered": null,
+      "bugs_fixed": 0,
+      "regressions_introduced": null,
+      "regressions_resolved": null,
+      "duplicate_work": {
+        "overlapping_work_reviewed": [
+          "Existing ARO-ZERO-ONE clipping-first workstream and PR #66"
+        ],
+        "duplicate_pr_created": false,
+        "duplicate_renderer_implementation_created": false
+      },
+      "blockers": [
+        "No creator-authorized GTA 6 recording/export or approved media handoff has been supplied.",
+        "Owner's local Windows machine and actual GTA 6 media playback remain unverified."
+      ],
+      "impact": {
+        "importance": "P0",
+        "criticality_to_first_clip": "HIGH",
+        "committed_deliverables": 0,
+        "verified_deliverables": 2,
+        "independent_completion": true,
+        "required_repair_by_another_ai": null
+      },
+      "acceptance_status": "AUDIT_IMPLEMENTED_UBUNTU_AND_WINDOWS_HOSTED_CI_VERIFIED_REAL_MEDIA_BLOCKED",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
+        "ubuntu_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44637602569",
+        "windows_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44637398780",
+        "windows_setup_failure_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44637348441",
+        "windows_tested_sha": "58627b5c96a8141beba9dfa092916375ca942382",
+        "current_pr_head": "fd7fa41dc75e19235d75b96ffb1791d7e101b9d6"
+      },
+      "collision_resolution": "Retroactively re-attributed from duplicate ARO-CHAT-0015 after live registry audit. ARO-CHAT-0015 remains assigned to Windows CI Recovery and First-Clip Readiness Audit. ARO-CHAT-0017 was already reserved in the canonical registry for Research Reference Audit, so this record uses ARO-CHAT-0018. Shared commit fd7fa41dc75e19235d75b96ffb1791d7e101b9d6 is retained as historical overlap and must not be double-counted."
+    },
+    {
+      "chat_id": "ARO-CHAT-0015",
+      "title": "ARO-CHAT-0015 | Windows CI Recovery and First-Clip Readiness Audit",
+      "project": "THE ARO GTA 6 CLIP ENGINE",
+      "workstream_id": "ARO-ZERO-ONE",
+      "task_ids": [
+        "ARO-GTA-P0-15"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T04:59:00+05:30",
+      "ended_at": null,
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "timing_note": "Start captured at minute resolution from session start. End time, elapsed duration, and active work time not measured; left null.",
+      "task_category": [
+        "windows_compatibility",
+        "ci_cd",
+        "repository_audit",
+        "documentation",
+        "first_clip_readiness"
+      ],
+      "priority": "P0",
+      "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "starting_sha": "a9c537fc4ac5a7c437dc2c2f535ac258d24b619e",
+      "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "current_sha": "fe4713febb4572f82f9a4386a5cf954e18f3bff9",
+      "pull_requests": [
+        66
+      ],
+      "issues": [
+        26
+      ],
+      "commits": [
+        "925d86e3dd98bca9d3e41befee0815f161ed3c0d",
+        "fd7fa41dc75e19235d75b96ffb1791d7e101b9d6",
+        "4aa8c8a61c4bd433539b4d1f0454275dce950ff3",
+        "2d877f59fa8adb6fb39bd6b49ebdba2620466bde",
+        "fe4713febb4572f82f9a4386a5cf954e18f3bff9"
+      ],
+      "files_inspected": [
+        "README.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/ARO_CHAT_STARTUP_PROMPT.md",
+        "docs/PROJECT_HANDOFF.md",
+        ".github/workflows/ci.yml",
+        ".github/workflows/windows-ci.yml",
+        "START_CLIPPING_TODAY.bat",
+        "scripts/manual_clip_wizard.ps1",
+        "docs/FIRST_CLIP_TODAY.md",
+        "backend/app/manual_clip.py",
+        "backend/app/batch_render.py",
+        "backend/app/clipping.py",
+        "backend/app/render_validation.py",
+        "tests/test_real_ffmpeg_smoke.py",
+        "analytics/ai_chat_sessions.json"
+      ],
+      "files_created": [],
+      "files_modified": [
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        ".github/workflows/ci.yml",
+        "analytics/ai_chat_sessions.json",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md"
+      ],
+      "tests": {
+        "added": 0,
+        "executed_by_this_chat": 0,
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "ci_runs": [
+          {
+            "run_id": 44637236056,
+            "platform": "windows-latest",
+            "status": "FAILED_AT_FFMPEG_INSTALL",
+            "conclusion": "failure",
+            "compile_step": "skipped",
+            "test_step": "skipped",
+            "detail": "Chocolatey community feed returned HTTP 503 resolving ffmpeg 9.0.2."
+          },
+          {
+            "run_id": 44638350854,
+            "platform": "PR CI",
+            "status": "CANCELLED_NO_JOB_RECORDS",
+            "conclusion": "cancelled",
+            "compile_step": "unknown",
+            "test_step": "unknown"
+          }
+        ]
+      },
+      "ci_status": "NOT_VERIFIED_ON_FINAL_HEAD",
+      "windows_status": "NOT_VERIFIED_DEPENDENCY_INSTALL_HTTP_503_ON_PRIOR_RUN",
+      "real_media_status": "BLOCKED_AUTHORIZED_MEDIA_REQUIRED",
+      "bugs_discovered": 1,
+      "bugs_fixed": 0,
+      "regressions_introduced": null,
+      "regressions_resolved": null,
+      "duplicate_work": {
+        "overlapping_work_reviewed": [
+          "Existing Windows workflow work in PR #57 and branch-only workflow introduced in prior ARO-CHAT-0014 session"
+        ],
+        "duplicate_pr_created": false,
+        "duplicate_workflow_removed": true
+      },
+      "blockers": [
+        "No creator-authorized GTA 6 recording/export or approved media handoff has been supplied.",
+        "Final PR CI run was cancelled without job records; Windows compile/tests have no passing evidence.",
+        "Chocolatey feed returned HTTP 503 during the observed Windows dependency install."
+      ],
+      "impact": {
+        "importance": "P0",
+        "criticality_to_first_clip": "HIGH",
+        "committed_deliverables": 3,
+        "verified_deliverables": 0,
+        "independent_completion": true,
+        "required_repair_by_another_ai": null
+      },
+      "acceptance_status": "IMPLEMENTED_CI_NOT_VERIFIED_WINDOWS_NOT_VERIFIED_REAL_MEDIA_BLOCKED",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
+        "windows_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44637236056",
+        "followup_ci_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44638350854",
+        "starting_sha": "a9c537fc4ac5a7c437dc2c2f535ac258d24b619e",
+        "current_sha": "fe4713febb4572f82f9a4386a5cf954e18f3bff9"
+      }
+    },
+    {
+      "chat_id": "ARO-CHAT-0016",
+      "title": "ARO-CHAT-0016 | Analytics Schema Integrity and CI Reconciliation",
+      "project": "THE ARO GTA 6 CLIP ENGINE",
+      "workstream_id": "ARO-ZERO-ONE",
+      "task_ids": [
+        "ARO-GTA-P0-16"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T04:58:00+05:30",
+      "ended_at": "2026-11-20T05:03:44+05:30",
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "timing_note": "Start time is minute-resolution; end timestamp was captured at closeout. Elapsed and active work durations remain null rather than estimated.",
+      "task_category": [
+        "repository_audit",
+        "analytics_registry",
+        "testing",
+        "documentation"
+      ],
+      "priority": "P0",
+      "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "starting_sha": "a9c537fc4ac5a7c437dc2c2f535ac258d24b619e",
+      "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "current_sha": "8c1fce9d7f764f5165fd9bbb5c64707b1d432187",
+      "pull_requests": [
+        66
+      ],
+      "issues": [
+        26
+      ],
+      "commits": [
+        "416e9c5f43197e6aca220dd5d2c34dcfccab4c8e",
+        "3c19fcfed00e7807f0acea44a81649985259d6a8",
+        "512338f2ac572373f8cc48e1ac3a71d8fc081e32",
+        "51b90bd77d1a5eaa95b48353a7613fa9e401f92a",
+        "1693c1d2cbd94dd6e65ab0043e592976043bcae5",
+        "5a52f8897500126ddab4ed00cd466f2e6ede627c",
+        "e7314959ecf5428157e049e43fea1a1ef10eab30",
+        "0fb92dbb586ade9ec166b618685c0d5b296881e4",
+        "65ff56f980ed87081421162cc36d0fa495981502"
+      ],
+      "files_inspected": [
+        "README.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/ARO_CHAT_STARTUP_PROMPT.md",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/AI_CHAT_ANALYTICS.md",
+        "analytics/ai_chat_sessions.json",
+        "analytics/ai_chat_sessions.schema.json",
+        "backend/app/analytics_validation.py",
+        "tests/test_analytics_validation.py",
+        ".github/workflows/ci.yml",
+        ".github/workflows/windows-ci.yml"
+      ],
+      "files_created": [
+        "analytics/ai_chat_sessions.schema.json",
+        "backend/app/analytics_validation.py",
+        "tests/test_analytics_validation.py"
+      ],
+      "files_modified": [
+        "docs/AI_CHAT_ANALYTICS.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/PROJECT_HANDOFF.md",
+        "analytics/ai_chat_sessions.schema.json",
+        "backend/app/analytics_validation.py",
+        "tests/test_analytics_validation.py"
+      ],
+      "tests": {
+        "added": 10,
+        "executed_by_this_chat": 0,
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "manual_checks": {
+          "python_syntax_compile": "PASS",
+          "validator_behavior_smoke": "PASS",
+          "notes": "Ad hoc local checks only; repository unittest module and full suite were not executed."
+        },
+        "ci_runs": [
+          {
+            "run_id": 44637541338,
+            "status": "CANCELLED",
+            "conclusion": "cancelled",
+            "last_completed_step": "Set up Python",
+            "cancelled_during": "Install FFmpeg and FFprobe",
+            "compile_step": "skipped",
+            "test_step": "skipped"
+          }
+        ]
+      },
+      "ci_status": "NOT_VERIFIED_ON_CURRENT_HEAD",
+      "windows_status": "NOT_VERIFIED",
+      "real_media_status": "BLOCKED_AUTHORIZED_MEDIA_REQUIRED",
+      "bugs_discovered": null,
+      "bugs_fixed": 0,
+      "regressions_introduced": null,
+      "regressions_resolved": null,
+      "duplicate_work": {
+        "overlapping_work_reviewed": [
+          "Existing ARO-CHAT-0014 analytics ledger and ARO-ZERO-ONE workstream"
+        ],
+        "duplicate_pr_created": false,
+        "existing_pr_reused": 66
+      },
+      "blockers": [
+        "No creator-authorized GTA 6 recording/export or approved media handoff has been supplied.",
+        "No completed CI run is associated with the current PR #66 head 65ff56f980ed87081421162cc36d0fa495981502.",
+        "Repository clone was unavailable because github.com DNS resolution failed in the execution environment."
+      ],
+      "impact": {
+        "importance": "P0",
+        "criticality_to_first_clip": "LOW_DIRECT_IMPACT; MEDIUM_PLATFORM_GOVERNANCE",
+        "committed_deliverables": 3,
+        "verified_deliverables": 1,
+        "independent_completion": true,
+        "required_repair_by_another_ai": null
+      },
+      "acceptance_status": "IMPLEMENTED_LOCAL_SMOKE_CHECKS_PASS_CI_NOT_VERIFIED_REAL_MEDIA_BLOCKED",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
+        "starting_commit": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/commit/a9c537fc4ac5a7c437dc2c2f535ac258d24b619e",
+        "latest_commit": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/commit/65ff56f980ed87081421162cc36d0fa495981502",
+        "prior_cancelled_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44637541338"
+      },
+      "collision_resolution": "Initially reserved ARO-CHAT-0015, but a live registry/ledger read found two concurrent records using that ID for CI/Windows first-clip work. Re-attributed this separate analytics-schema task to ARO-CHAT-0016 before continuing."
+    },
+    {
+      "chat_id": "ARO-CHAT-0019",
+      "title": "ARO-CHAT-0019 | Analytics Identity Collision Repair and Exact-Head CI Recovery",
+      "project": "THE ARO GTA 6 CLIP ENGINE",
+      "workstream_id": "ARO-ZERO-ONE",
+      "task_ids": [
+        "ARO-GTA-P0-19"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T07:07:00+05:30",
+      "ended_at": null,
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "timing_note": "Session start recorded to minute resolution. End and active work time are not yet measured; leave null until closeout.",
+      "task_category": [
+        "repository_audit",
+        "analytics_registry",
+        "ci_cd",
+        "qa",
+        "documentation"
+      ],
+      "priority": "P0",
+      "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "starting_sha": "23daf0fa0ec14886733ba59cd52df642b4a1c28c",
+      "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "current_sha": "f40c142be2434b563d7822236f8f16720af7f64a",
+      "pull_requests": [
+        66
+      ],
+      "issues": [
+        26
+      ],
+      "commits": [
+        "98b03d16ba014ab7aa6aa7835d2bd3ee792dc858",
+        "4273f49c09c8476a4d06f0b881e15e22d787079b",
+        "b1b3c8406563ce9eb53cb20d8245609a8d4426c7"
+      ],
+      "files_inspected": [
+        "README.md",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "analytics/ai_chat_sessions.json",
+        "backend/app/analytics_validation.py",
+        "tests/test_analytics_validation.py",
+        ".github/workflows/ci.yml"
+      ],
+      "files_created": [],
+      "files_modified": [
+        "analytics/ai_chat_sessions.json",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/PROJECT_HANDOFF.md"
+      ],
+      "tests": {
+        "added": 0,
+        "executed_by_this_chat": 0,
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "ci_runs": [
+          {
+            "run_id": 44638736182,
+            "head_sha": "23daf0fa0ec14886733ba59cd52df642b4a1c28c",
+            "status": "completed",
+            "conclusion": "failure",
+            "ubuntu": {
+              "tests_run": 281,
+              "errors": 2,
+              "failed": 0
+            },
+            "windows": {
+              "tests_run": 281,
+              "errors": 2,
+              "failed": 0
+            },
+            "root_cause": "Both platforms reject duplicate chat_id ARO-CHAT-0015; compilation and FFmpeg/FFprobe installation succeeded."
+          },
+          {
+            "run_id": null,
+            "head_sha": "f40c142be2434b563d7822236f8f16720af7f64a",
+            "status": "NOT_RETURNED_BY_GITHUB_CONNECTOR",
+            "conclusion": null,
+            "detail": "No PR-triggered workflow run or commit status was returned for the corrected head."
+          }
+        ]
+      },
+      "ci_status": "LEDGER_REPAIRED_CI_RERUN_NOT_VERIFIED",
+      "windows_status": "RUNNER_AND_TOOLCHAIN_VERIFIED_ON_PRE_FIX_HEAD; POST_FIX_WINDOWS_TEST_NOT_VERIFIED",
+      "real_media_status": "BLOCKED_AUTHORIZED_MEDIA_REQUIRED",
+      "bugs_discovered": 1,
+      "bugs_fixed": 1,
+      "regressions_introduced": null,
+      "regressions_resolved": null,
+      "duplicate_work": {
+        "overlapping_work_reviewed": [
+          "ARO-CHAT-0015 duplicate identity in analytics ledger"
+        ],
+        "duplicate_pr_created": false,
+        "existing_pr_reused": 66
+      },
+      "blockers": [
+        "A new CI run on the corrected PR head is not available through the connected GitHub workflow-run lookup; do not claim a post-fix test pass.",
+        "No creator-authorized GTA 6 recording/export or approved media handoff has been supplied."
+      ],
+      "impact": {
+        "importance": "P0",
+        "criticality_to_first_clip": "LOW_DIRECT_IMPACT_MEDIUM_GOVERNANCE",
+        "committed_deliverables": 0,
+        "verified_deliverables": 0,
+        "independent_completion": true,
+        "required_repair_by_another_ai": null
+      },
+      "acceptance_status": "IDENTITY_REPAIR_IMPLEMENTED_POST_FIX_CI_NOT_VERIFIED",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
+        "failed_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44638736182",
+        "starting_sha": "23daf0fa0ec14886733ba59cd52df642b4a1c28c"
+      },
+      "collision_resolution": "Allocated after checking the canonical registry: ARO-CHAT-0017 was already reserved for Research Reference Audit; ARO-CHAT-0018 is used to preserve the previously unregistered duplicate CI audit record."
+    },
+    {
+      "chat_id": "ARO-CHAT-0017",
+      "title": "ARO-CHAT-0017 | Research Reference Audit and Clipping-First Integration",
+      "project": "THE ARO GTA 6 CLIP ENGINE",
+      "workstream_id": "ARO-ZERO-ONE",
+      "task_ids": [
+        "ARO-GTA-P0-17"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T07:07:00+05:30",
+      "ended_at": null,
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "timing_note": "Start time captured from session local clock; end time and active work time are not yet measured.",
+      "task_category": [
+        "repository_audit",
+        "research",
+        "documentation",
+        "architecture"
+      ],
+      "priority": "P0",
+      "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "starting_sha": "23daf0fa0ec14886733ba59cd52df642b4a1c28c",
+      "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "current_sha": null,
+      "pull_requests": [
+        66
+      ],
+      "issues": [
+        26
+      ],
+      "commits": [
+        "1335d978e76ec8b724d1b58d9ee298f52c07aa5b",
+        "5c5768e065bb4742e8d177937259e3d3b21383e1",
+        "c6f297bbdc7683b0706a6867e8f43ba27abf58e9",
+        "0099913cb7feb314062909859b7e7a65f1775dc6"
+      ],
+      "files_inspected": [
+        "README.md",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "analytics/ai_chat_sessions.json",
+        ".github/workflows/ci.yml",
+        "docs/AI_CHAT_ANALYTICS.md",
+        "backend/app/analytics_validation.py",
+        "analytics/ai_chat_sessions.schema.json",
+        "tests/test_analytics_validation.py",
+        "external research repository READMEs, licenses and selected source files"
+      ],
+      "files_created": [
+        "docs/RESEARCH_REFERENCE_CATALOG.md"
+      ],
+      "files_modified": [
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/PROJECT_HANDOFF.md",
+        "analytics/ai_chat_sessions.json"
+      ],
+      "tests": {
+        "added": 0,
+        "executed_by_this_chat": 0,
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "ci_runs": [
+          {
+            "run_id": 44655193927,
+            "platform": "ubuntu-latest",
+            "head_sha": "0099913cb7feb314062909859b7e7a65f1775dc6",
+            "status": "pending",
+            "conclusion": null,
+            "compile_step": "not_started_or_unavailable",
+            "test_step": "not_started_or_unavailable"
+          }
+        ]
+      },
+      "ci_status": "PENDING_ON_PREVIOUS_DOCS_HEAD; LATEST_LEDGER_COMMIT_CI_NOT_YET_OBSERVED",
+      "windows_status": "NOT_VERIFIED",
+      "real_media_status": "BLOCKED_AUTHORIZED_MEDIA_REQUIRED",
+      "bugs_discovered": 0,
+      "bugs_fixed": 0,
+      "regressions_introduced": null,
+      "regressions_resolved": null,
+      "duplicate_work": {
+        "overlapping_work_reviewed": [
+          "ARO-ZERO-ONE existing branch and PR #66",
+          "four named external research repositories"
+        ],
+        "duplicate_pr_created": false,
+        "duplicate_renderer_implementation_created": false
+      },
+      "blockers": [
+        "No creator-authorized GTA 6 recording/export or approved media handoff has been supplied.",
+        "Windows FFmpeg dependency installation previously failed with Chocolatey HTTP 503; no compile/test steps ran in that Windows job.",
+        "Latest follow-up CI run was cancelled without job records."
+      ],
+      "impact": {
+        "importance": "P0",
+        "criticality_to_first_clip": "LOW_DIRECT_IMPACT; MEDIUM_ARCHITECTURE_AND_RESEARCH",
+        "committed_deliverables": 1,
+        "verified_deliverables": 1,
+        "independent_completion": true,
+        "required_repair_by_another_ai": null
+      },
+      "acceptance_status": "RESEARCH_CATALOG_IMPLEMENTED_AND_SOURCE_REVIEWED; DOCS_VERIFIED; NO_EXTERNAL_CODE_ADOPTED; CI_PENDING_ON_PREVIOUS_DOCS_HEAD; REAL_MEDIA_BLOCKED",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
+        "research_catalog": "docs/RESEARCH_REFERENCE_CATALOG.md",
+        "reservation_commit": "1335d978e76ec8b724d1b58d9ee298f52c07aa5b",
+        "windows_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44637236056",
+        "cancelled_followup_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44638350854",
+        "research_catalog_commit": "5c5768e065bb4742e8d177937259e3d3b21383e1",
+        "handoff_commit": "c6f297bbdc7683b0706a6867e8f43ba27abf58e9",
+        "analytics_commit": "0099913cb7feb314062909859b7e7a65f1775dc6"
+      }
+    },
+    {
+      "chat_id": "ARO-CHAT-0020",
+      "title": "ARO-CHAT-0020 | Duplicate Workstream Prevention and Live CI Audit",
+      "project": "THE ARO GTA 6 CLIP ENGINE",
+      "workstream_id": "ARO-ZERO-ONE",
+      "task_ids": [
+        "ARO-GTA-P0-20"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T07:08:00+05:30",
+      "ended_at": null,
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "timing_note": "Start time recorded to minute precision; end and active work duration not measured.",
+      "task_category": [
+        "repository_audit",
+        "duplicate_prevention",
+        "ci_reconciliation",
+        "documentation"
+      ],
+      "priority": "P0",
+      "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "starting_sha": "86b204604058ad7eb4391fef7b1b060b8245af94",
+      "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "current_sha": null,
+      "pull_requests": [
+        66
+      ],
+      "issues": [
+        26
+      ],
+      "commits": [
+        "93080c725861b6d4e2e8917a9fad8b7709569e17",
+        "998d002425701994a459fbf17a4e7a3e3b65a4ae"
+      ],
+      "files_inspected": [
+        "docs/PROJECT_HANDOFF.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/RESEARCH_REFERENCE_CATALOG.md",
+        "analytics/ai_chat_sessions.json",
+        "PR #66 metadata",
+        "GitHub Actions run 44655239459"
+      ],
+      "files_created": [],
+      "files_modified": [
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/PROJECT_HANDOFF.md",
+        "analytics/ai_chat_sessions.json"
+      ],
+      "tests": {
+        "added": 0,
+        "executed_by_this_chat": 0,
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "ci_runs": [
+          {
+            "run_id": 44655239459,
+            "head_sha": "86b204604058ad7eb4391fef7b1b060b8245af94",
+            "status": "in_progress_at_audit",
+            "conclusion": null,
+            "compile_step": "pending",
+            "test_step": "pending"
+          }
+        ]
+      },
+      "ci_status": "OBSERVED_IN_PROGRESS_AT_AUDIT; NO PASS CLAIMED",
+      "windows_status": "NOT_VERIFIED",
+      "real_media_status": "BLOCKED_AUTHORIZED_MEDIA_REQUIRED",
+      "bugs_discovered": 0,
+      "bugs_fixed": 0,
+      "regressions_introduced": null,
+      "regressions_resolved": null,
+      "duplicate_work": {
+        "overlapping_work_reviewed": [
+          "ARO-CHAT-0017 completed research catalog",
+          "ARO-ZERO-ONE existing branch and PR #66"
+        ],
+        "duplicate_pr_created": false,
+        "duplicate_renderer_implementation_created": false
+      },
+      "blockers": [
+        "No creator-authorized GTA 6 recording/export or approved media handoff has been supplied.",
+        "Exact-head CI was still installing FFmpeg/FFprobe; compile and tests had not started at audit time."
+      ],
+      "impact": {
+        "importance": "P0",
+        "criticality_to_first_clip": "LOW_DIRECT_IMPACT; MEDIUM_GOVERNANCE",
+        "committed_deliverables": 1,
+        "verified_deliverables": 1,
+        "independent_completion": true,
+        "required_repair_by_another_ai": null
+      },
+      "acceptance_status": "READ_ONLY_AUDIT_DOCUMENTED; DUPLICATE_RESEARCH_PREVENTED; EXACT_HEAD_CI_PENDING; REAL_MEDIA_BLOCKED",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
+        "prior_research_catalog": "docs/RESEARCH_REFERENCE_CATALOG.md",
+        "workflow_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44655239459"
+      }
+    },
+    {
+      "chat_id": "ARO-CHAT-0022",
+      "title": "ARO-CHAT-0022 | GTA6 Clip Engine Live Audit and Research Reconciliation",
+      "project": "THE ARO GTA 6 CLIP ENGINE",
+      "workstream_id": "ARO-ZERO-ONE",
+      "task_ids": [
+        "ARO-GTA-P0-22"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T13:03:00+05:30",
+      "ended_at": null,
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "timing_note": "Start time recorded to minute precision; end and active work duration not measured.",
+      "task_category": [
+        "repository_audit",
+        "security_review",
+        "research_reconciliation",
+        "documentation",
+        "analytics_registry"
+      ],
+      "priority": "P0",
+      "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "starting_sha": "7c7979d04ecba5c9d6856ac2c0f6401045fbc70c",
+      "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "current_sha": "1b608cc27b15c1f094b5fee2b997ed261d474749",
+      "pull_requests": [
+        66
+      ],
+      "issues": [
+        68
+      ],
+      "commits": [
+        "c070a52c727b57a4ac80d0c1688df009c15e6ae0",
+        "1b2440bfbfff19c49a31ed02dd9c56fae64c1692",
+        "a58d68dd8a61104cc6ae405ae072773554a28e36",
+        "262b4dc337cc39511227578fd5718406f171be90",
+        "1f826cde5e8958885a024e27a307f57e278e077b",
+        "30157706424c601819d7fd3017d010a36fb58921",
+        "1b608cc27b15c1f094b5fee2b997ed261d474749"
+      ],
+      "files_inspected": [
+        "README.md",
+        "pyproject.toml",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md",
+        "docs/ARO_MASTER_ANALYTICS_DASHBOARD.md",
+        "docs/AI_PROVIDER_AND_MODEL_REGISTRY.md",
+        "docs/RESEARCH_REFERENCE_CATALOG.md",
+        "backend/app/approval.py",
+        "backend/app/youtube_upload.py",
+        "PR #66 metadata",
+        "PR #67 metadata",
+        "issue #68"
+      ],
+      "files_created": [],
+      "files_modified": [
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md",
+        "docs/ARO_MASTER_ANALYTICS_DASHBOARD.md",
+        "analytics/ai_chat_sessions.json",
+        "docs/RESEARCH_REFERENCE_CATALOG.md"
+      ],
+      "tests": {
+        "added": 0,
+        "executed_by_this_chat": 0,
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "ci_runs": [
+          {
+            "run_id": 44696075728,
+            "head_sha": "2e2ff9775367bf1856f894b62a7aafec3b5aa8f8",
+            "status": "completed",
+            "conclusion": "cancelled",
+            "compile_step": "skipped",
+            "test_step": "skipped",
+            "note": "Cancelled during checkout; no test steps ran."
+          }
+        ]
+      },
+      "ci_status": "CURRENT PR #66 HEAD CI NOT VERIFIED; RUN 44696075728 CANCELLED DURING CHECKOUT BEFORE COMPILE/TESTS",
+      "windows_status": "NOT_VERIFIED",
+      "real_media_status": "BLOCKED_AUTHORIZED_MEDIA_REQUIRED",
+      "bugs_discovered": 1,
+      "bugs_fixed": 0,
+      "regressions_introduced": null,
+      "regressions_resolved": null,
+      "duplicate_work": {
+        "overlapping_work_reviewed": [
+          "ARO-CHAT-0017 completed research catalog",
+          "ARO-CHAT-0021 owner-identity helper PR #67",
+          "ARO-ZERO-ONE existing branch and PR #66"
+        ],
+        "duplicate_pr_created": false,
+        "duplicate_renderer_implementation_created": false
+      },
+      "blockers": [
+        "No creator-authorized GTA 6 recording/export or approved media handoff has been supplied.",
+        "Issue #68 remains open/unassigned: actual YouTube uploader is not bound to authenticated channel-owner identity and durable per-clip approval.",
+        "Latest docs-only PR head changed after the queued/cancelled workflow; no completed exact-head CI evidence."
+      ],
+      "impact": {
+        "importance": "P0",
+        "criticality_to_first_clip": "LOW_DIRECT_IMPACT; HIGH_PUBLISHING_SECURITY",
+        "committed_deliverables": 4,
+        "verified_deliverables": 4,
+        "independent_completion": true,
+        "required_repair_by_another_ai": "Implement and test issue #68 only after task ownership is confirmed; keep upload disabled until complete."
+      },
+      "acceptance_status": "GOVERNANCE_AND_RESEARCH_AUDIT_COMMITTED; LATEST_HEAD_CI_NOT_VERIFIED; AUTHENTICATED_UPLOADER_GATE_OPEN; REAL_MEDIA_BLOCKED",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
+        "security_pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/67",
+        "follow_up_issue": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/68",
+        "research_catalog": "docs/RESEARCH_REFERENCE_CATALOG.md",
+        "latest_pr66_head": "1b608cc27b15c1f094b5fee2b997ed261d474749",
+        "pr67_ci": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44655744416"
+      }
+    },
+    {
+      "chat_id": "ARO-CHAT-0023",
+      "title": "ARO-CHAT-0023 | GTA6 Clip Engine Live Audit and Execution Readiness",
+      "project": "THE ARO GTA 6 CLIP ENGINE",
+      "workstream_id": "ARO-ZERO-ONE",
+      "task_ids": [
+        "ARO-GTA-P0-23"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T13:06:00+05:30",
+      "ended_at": null,
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "timing_note": "Start time recorded to minute precision; end and active work duration not measured.",
+      "task_category": [
+        "repository_audit",
+        "branch_pr_audit",
+        "renderer_review",
+        "security_review",
+        "documentation",
+        "handoff"
+      ],
+      "priority": "P0",
+      "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "starting_sha": "1b608cc27b15c1f094b5fee2b997ed261d474749",
+      "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "current_sha": "a2182530f00d972bcc95193e173bb94d1bf1c49b",
+      "pull_requests": [
+        66
+      ],
+      "issues": [
+        68
+      ],
+      "commits": [
+        "8f529db6fc6743ce1c34f8cedc047cfad8ded3fe",
+        "69a570913ef3d56b07a382eaf84eae0e87008f4c",
+        "bc642db227ef763907e5f6e9304069bed84b139a",
+        "4992e996a49f69a8cc488409a89964ea244414dc",
+        "a2182530f00d972bcc95193e173bb94d1bf1c49b"
+      ],
+      "files_inspected": [
+        "README.md",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md",
+        "docs/ARO_MASTER_ANALYTICS_DASHBOARD.md",
+        "docs/AI_PROVIDER_AND_MODEL_REGISTRY.md",
+        "analytics/ai_chat_sessions.json",
+        "backend/app/render_validation.py",
+        "backend/app/batch_render.py",
+        "backend/app/approval.py",
+        "backend/app/youtube_upload.py",
+        "PR #66",
+        "PR #67",
+        "issue #68",
+        "workflow run 44696106299"
+      ],
+      "files_created": [],
+      "files_modified": [
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md",
+        "docs/ARO_MASTER_ANALYTICS_DASHBOARD.md",
+        "analytics/ai_chat_sessions.json",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md"
+      ],
+      "tests": {
+        "added": 0,
+        "executed_by_this_chat": 0,
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "ci_runs": [
+          {
+            "run_id": 44696106299,
+            "head_sha": "1f826cde5e8958885a024e27a307f57e278e077b",
+            "status": "completed",
+            "conclusion": "cancelled",
+            "ubuntu_compile_step": "skipped",
+            "ubuntu_test_step": "skipped",
+            "windows_compile_step": "skipped",
+            "windows_test_step": "skipped",
+            "note": "Both jobs were cancelled during FFmpeg/FFprobe installation after checkout and Python setup; no test steps ran."
+          }
+        ]
+      },
+      "ci_status": "OBSERVED RUN 44696106299 CANCELLED DURING FFmpeg/FFprobe INSTALLATION; EXACT CURRENT PR HEAD CI NOT VERIFIED",
+      "windows_status": "HOSTED WINDOWS JOB CANCELLED BEFORE COMPILE/TESTS; OWNER DEVICE NOT VERIFIED",
+      "real_media_status": "BLOCKED_AUTHORIZED_MEDIA_REQUIRED",
+      "bugs_discovered": 1,
+      "bugs_fixed": 0,
+      "regressions_introduced": null,
+      "regressions_resolved": null,
+      "duplicate_work": {
+        "overlapping_work_reviewed": [
+          "ARO-CHAT-0021 owner-identity helper PR #67",
+          "ARO-ZERO-ONE existing branch and PR #66",
+          "ARO-CHAT-0017 existing research catalog"
+        ],
+        "duplicate_pr_created": false,
+        "duplicate_renderer_implementation_created": false
+      },
+      "blockers": [
+        "No creator-authorized GTA 6 recording/export or approved media handoff has been supplied.",
+        "Issue #68 remains open and unassigned; owner assignment/approval is required before implementation.",
+        "Observed workflow run cancelled during FFmpeg/FFprobe installation; exact current PR-head CI is not verified."
+      ],
+      "impact": {
+        "importance": "P0",
+        "criticality_to_first_clip": "HIGH_BLOCKER_FOR_FIRST_REAL_CLIP_AND_PUBLISHING_SECURITY",
+        "committed_deliverables": 4,
+        "verified_deliverables": 4,
+        "independent_completion": true,
+        "required_repair_by_another_ai": "After owner assignment, implement issue #68 by binding durable per-clip approval to verified OAuth channel identity; otherwise obtain authorized GTA 6 media and execute local first-clip acceptance."
+      },
+      "acceptance_status": "LIVE_AUDIT_AND_CANONICAL_DOCUMENTATION_CLOSEOUT_COMMITTED; CI_NOT_VERIFIED; AUTHENTICATED_UPLOADER_GATE_OPEN; REAL_MEDIA_BLOCKED",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
+        "security_pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/67",
+        "follow_up_issue": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/68",
+        "observed_workflow_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44696106299",
+        "latest_observed_workstream_commit": "4992e996a49f69a8cc488409a89964ea244414dc"
+      }
+    },
+    {
+      "chat_id": "ARO-CHAT-0024",
+      "title": "ARO-CHAT-0024 | Exact-Head CI Reconciliation and First-Clip Handoff",
+      "project": "THE ARO GTA 6 CLIP ENGINE",
+      "workstream_id": "ARO-ZERO-ONE",
+      "task_ids": [
+        "ARO-GTA-P0-24"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T13:07:00+05:30",
+      "ended_at": null,
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "timing_note": "Start time recorded to minute resolution; end and active work duration not measured.",
+      "task_category": [
+        "repository_audit",
+        "ci_cd",
+        "qa",
+        "documentation",
+        "handoff"
+      ],
+      "priority": "P0",
+      "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "starting_sha": "125234af6fea09db64b434f4e520233658bf4aa9",
+      "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "current_sha": "c7be4d9ab42111fbd1f7290904da2b08a6210474",
+      "pull_requests": [
+        66
+      ],
+      "issues": [
+        26,
+        68
+      ],
+      "commits": [
+        "16dfbc86bbc0bf76917a6fe5e28a630f19bf2b46",
+        "a439ee1167b25a224692c71a0b6f7df75ddcf599",
+        "ca19530e0f043ba63a8ee489cf9554c4a66a2e51",
+        "b828fe816405aef08ed96240a87f9006c6224784",
+        "c7be4d9ab42111fbd1f7290904da2b08a6210474"
+      ],
+      "files_inspected": [
+        "README.md",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "analytics/ai_chat_sessions.json",
+        "backend/app/clipping.py",
+        "backend/app/render_validation.py",
+        "backend/app/batch_render.py",
+        "backend/app/approval.py",
+        "backend/app/youtube_upload.py",
+        "tests/test_live_sources_and_approval.py",
+        "PR #66",
+        "PR #67",
+        "issue #26",
+        "issue #68",
+        "workflow run 44696473060",
+        "workflow run 44655744416"
+      ],
+      "files_created": [],
+      "files_modified": [
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/PROJECT_HANDOFF.md",
+        "analytics/ai_chat_sessions.json",
+        "issue #26 comment"
+      ],
+      "tests": {
+        "added": 0,
+        "executed_by_this_chat": 0,
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "ci_runs": [
+          {
+            "run_id": 44696473060,
+            "head_sha": "125234af6fea09db64b434f4e520233658bf4aa9",
+            "platform": "ubuntu-latest",
+            "status": "cancelled",
+            "conclusion": "cancelled",
+            "runner_allocated": true,
+            "checkout": "success",
+            "python_setup": "success",
+            "ffmpeg_ffprobe_install": "success",
+            "compile_step": "cancelled",
+            "test_step": "skipped"
+          },
+          {
+            "run_id": 44696473060,
+            "head_sha": "125234af6fea09db64b434f4e520233658bf4aa9",
+            "platform": "windows-latest",
+            "status": "cancelled",
+            "conclusion": "cancelled",
+            "runner_allocated": true,
+            "checkout": "success",
+            "python_setup": "success",
+            "ffmpeg_ffprobe_install": "cancelled",
+            "compile_step": "skipped",
+            "test_step": "skipped"
+          },
+          {
+            "run_id": 44655744416,
+            "head_sha": "c2d3dc1873a97d624dae78282d38448a0d54e3f6",
+            "platform": "ubuntu-latest + windows-latest",
+            "status": "completed",
+            "conclusion": "success",
+            "compile_step": "success",
+            "test_step": "success",
+            "test_count": 283,
+            "note": "Separate PR #67 owner-identity helper code/test SHA; not PR #66 evidence."
+          }
+        ]
+      },
+      "ci_status": "PR #66 exact observed head run cancelled; latest post-documentation-update head requires fresh CI; PR #67 helper code/test SHA passed both platforms (283 tests each)",
+      "windows_status": "PR #66 hosted Windows job cancelled during FFmpeg install; owner device NOT VERIFIED",
+      "real_media_status": "BLOCKED_AUTHORIZED_MEDIA_REQUIRED",
+      "bugs_discovered": 0,
+      "bugs_fixed": 0,
+      "new_security_findings": 0,
+      "known_security_followup_revalidated": "Issue #68 remains OPEN / UNASSIGNED; uploader still not bound to authenticated channel identity.",
+      "regressions_introduced": 0,
+      "duplicate_work": {
+        "overlapping_work_reviewed": [
+          "ARO-CHAT-0023 live audit",
+          "ARO-CHAT-0021 owner identity helper",
+          "ARO-ZERO-ONE existing renderer"
+        ],
+        "duplicate_pr_created": false,
+        "duplicate_renderer_implementation_created": false,
+        "existing_pr_reused": 66
+      },
+      "blockers": [
+        "No creator-authorized GTA 6 recording/export or supported media handoff.",
+        "No PR-triggered workflow run was returned for the final documentation/analytics branch head at closeout; exact-head CI remains NOT VERIFIED.",
+        "Issue #68 implementation owner requires explicit owner assignment/approval."
+      ],
+      "impact": {
+        "importance": "P0",
+        "criticality_to_first_clip": "HIGH",
+        "committed_deliverables": 2,
+        "verified_deliverables": 2,
+        "independent_completion": true,
+        "required_repair_by_another_ai": "Recover exact-head PR #66 CI, then obtain authorized footage and run first-clip acceptance; implement issue #68 only after owner assigns/approves ownership."
+      },
+      "acceptance_status": "IMPLEMENTED_READ_ONLY_CI_RECONCILIATION_AND_HANDOFF; PR66_CURRENT_HEAD_CI_NOT_VERIFIED; REAL_MEDIA_BLOCKED",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
+        "security_pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/67",
+        "issue_26": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/26",
+        "issue_68": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/68",
+        "pr66_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44696473060",
+        "pr67_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44655744416",
+        "issue_26_comment_id": 7033511958
+      },
+      "permission_notes": "GitHub read access and documentation/issue-comment writes used. No merge, retarget, deployment, publishing, credential access, or destructive operation. No explicit authorization to implement issue #68 was assumed."
+    },
+    {
+      "chat_id": "ARO-CHAT-0026",
+      "title": "ARO-CHAT-0026 | Exact-Head CI Verification and First-Clip Handoff",
+      "project": "THE ARO GTA 6 CLIP ENGINE",
+      "workstream_id": "ARO-ZERO-ONE",
+      "task_ids": [
+        "ARO-GTA-P0-26"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T13:10:00+05:30",
+      "ended_at": null,
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "timing_note": "Start time is approximate to the minute; end and active work duration were not measured.",
+      "task_category": [
+        "repository_audit",
+        "ci_cd",
+        "qa",
+        "documentation",
+        "handoff"
+      ],
+      "priority": "P0",
+      "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "starting_sha": "817c7947c6756b80ae91ba272d172c3efaa2fa07",
+      "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "current_sha": "817c7947c6756b80ae91ba272d172c3efaa2fa07",
+      "pull_requests": [
+        66
+      ],
+      "issues": [
+        26
+      ],
+      "commits": [
+        "48437397314c27f0df0e6493a209e8a89e155a33",
+        "32e1e0171adb5423cee2c4d4e143fece94fea43e",
+        "5fbe8f7fd3a29de577258dba6460d2180bbf9d4b"
+      ],
+      "files_inspected": [
+        "README.md",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/RESEARCH_REFERENCE_CATALOG.md",
+        "docs/ARO_MASTER_ANALYTICS_DASHBOARD.md",
+        "analytics/ai_chat_sessions.json",
+        "PR #66",
+        "issue #26",
+        "workflow run 44696785004",
+        "Ubuntu job 136155337178 logs",
+        "Windows job 136155337553 logs"
+      ],
+      "files_created": [],
+      "files_modified": [
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/ARO_MASTER_ANALYTICS_DASHBOARD.md",
+        "analytics/ai_chat_sessions.json",
+        "issue #26 comment"
+      ],
+      "tests": {
+        "added": 0,
+        "executed_by_this_chat": 0,
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "ci_runs": [
+          {
+            "run_id": 44696785004,
+            "head_sha": "817c7947c6756b80ae91ba272d172c3efaa2fa07",
+            "platform": "ubuntu-latest",
+            "job_id": 136155337178,
+            "status": "completed",
+            "conclusion": "success",
+            "compile_step": "success",
+            "test_step": "success",
+            "test_count": 281,
+            "duration_seconds": 4.853,
+            "log_result": "Ran 281 tests; OK"
+          },
+          {
+            "run_id": 44696785004,
+            "head_sha": "817c7947c6756b80ae91ba272d172c3efaa2fa07",
+            "platform": "windows-latest",
+            "job_id": 136155337553,
+            "status": "completed",
+            "conclusion": "success",
+            "compile_step": "success",
+            "test_step": "success",
+            "test_count": 281,
+            "duration_seconds": 15.632,
+            "log_result": "Ran 281 tests; OK"
+          }
+        ]
+      },
+      "ci_status": "CI_VERIFIED: exact PR #66 head 817c7947c6756b80ae91ba272d172c3efaa2fa07; Ubuntu and Windows compile and 281-test suite passed on both platforms.",
+      "windows_status": "HOSTED WINDOWS CI PASSED; OWNER-DEVICE WINDOWS EXECUTION NOT VERIFIED.",
+      "real_media_status": "BLOCKED_AUTHORIZED_GTA6_RECORDING_OR_EXPORT_REQUIRED",
+      "bugs_discovered": 0,
+      "bugs_fixed": 0,
+      "regressions_introduced": 0,
+      "duplicate_work": {
+        "duplicate_pr_created": false,
+        "duplicate_renderer_implementation_created": false,
+        "existing_pr_reused": 66,
+        "workstream_reused": "ARO-ZERO-ONE"
+      },
+      "blockers": [
+        "No creator-authorized GTA 6 recording/export or supported media handoff has been supplied.",
+        "Owner-device Windows execution remains unverified."
+      ],
+      "impact": {
+        "importance": "P0",
+        "criticality_to_first_clip": "CI RISK REDUCED; REAL MEDIA INPUT STILL BLOCKS FIRST CLIP",
+        "committed_deliverables": 3,
+        "verified_deliverables": 3,
+        "independent_completion": true,
+        "required_next_action": "Obtain an expressly authorized GTA 6 recording/export, then execute the existing local preflight, render, FFprobe validation, and playback acceptance."
+      },
+      "acceptance_status": "EXACT_HEAD_CI_VERIFIED_ON_UBUNTU_AND_WINDOWS; FIRST_AUTHORIZED_GTA6_MP4_BLOCKED",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
+        "workflow_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44696785004",
+        "issue_26": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/26",
+        "issue_26_comment_id": 7033585164,
+        "tested_head": "817c7947c6756b80ae91ba272d172c3efaa2fa07",
+        "test_warning": "Non-fatal Python ResourceWarning observed in both platform logs; no test failures."
+      },
+      "permission_notes": "Read-only GitHub audit, documentation updates on existing workstream branch, and issue #26 comment. No source/test/workflow changes; no merge, retarget, deployment, upload, publishing, credential access, or destructive action."
+    },
+    {
+      "chat_id": "ARO-CHAT-0025",
+      "title": "ARO-CHAT-0025 | Exact-Head CI Reconciliation and Clipping-First Execution Audit",
+      "project": "THE ARO GTA 6 Clip Engine",
+      "workstream_id": "ARO-ZERO-ONE",
+      "task_ids": [
+        "ARO-GTA-P0-25"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T13:10:00+05:30",
+      "ended_at": null,
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "timing_note": "End time and active duration not measured. The known starting checkpoint was c99b4bfdd62015dde0c8d544744deba646808be8; the live branch had advanced beyond it and the exact initial branch-tip SHA was not exposed by the connector.",
+      "task_category": [
+        "repository_audit",
+        "ci_cd",
+        "qa",
+        "security_review",
+        "documentation",
+        "analytics_registry"
+      ],
+      "priority": "P0",
+      "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "starting_sha": "c99b4bfdd62015dde0c8d544744deba646808be8",
+      "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "current_sha": null,
+      "pull_requests": [
+        66
+      ],
+      "issues": [
+        26,
+        68
+      ],
+      "commits": [
+        "8ec0fb420e47f12028abf95e25ea80bf1c88866b",
+        "85bdba2dd34804677c02a5ed71c938df7404e1bf"
+      ],
+      "files_inspected": [
+        "README.md",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/ARO_MASTER_ANALYTICS_DASHBOARD.md",
+        "docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md",
+        "docs/AI_PROVIDER_AND_MODEL_REGISTRY.md",
+        "docs/RESEARCH_REFERENCE_CATALOG.md",
+        "docs/ARO_AUTOMATION_DEPLOYMENT_BETA.md",
+        "analytics/ai_chat_sessions.json",
+        "backend/app/approval.py",
+        "backend/app/live_sources.py",
+        "backend/app/youtube_upload.py",
+        ".github/workflows/ci.yml"
+      ],
+      "files_created": [],
+      "files_modified": [
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md"
+      ],
+      "tests": {
+        "added": 0,
+        "executed_by_this_chat": 0,
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "ci_runs": [
+          {
+            "run_id": 44696711758,
+            "head_sha": "c99b4bfdd62015dde0c8d544744deba646808be8",
+            "platform": "ubuntu-latest",
+            "status": "cancelled",
+            "conclusion": "cancelled",
+            "compile_step": "skipped",
+            "test_step": "skipped"
+          },
+          {
+            "run_id": 44696711758,
+            "head_sha": "c99b4bfdd62015dde0c8d544744deba646808be8",
+            "platform": "windows-latest",
+            "status": "cancelled",
+            "conclusion": "cancelled",
+            "compile_step": "skipped",
+            "test_step": "skipped"
+          },
+          {
+            "run_id": 44696785004,
+            "head_sha": "817c7947c6756b80ae91ba272d172c3efaa2fa07",
+            "platform": "ubuntu-latest + windows-latest",
+            "status": "completed",
+            "conclusion": "success",
+            "compile_step": "success",
+            "test_step": "success",
+            "test_count_per_platform": 281,
+            "note": "Verified by subsequent ARO-CHAT-0026 live audit; not executed by ARO-CHAT-0025."
+          }
+        ]
+      },
+      "ci_status": "ARO-CHAT-0025 observed run 44696711758 cancelled before compile/tests. Subsequent ARO-CHAT-0026 verified PR #66 run 44696785004 successful on SHA 817c7947c6756b80ae91ba272d172c3efaa2fa07 with 281 tests passing on Ubuntu and 281 on Windows. CI evidence is external to this chat.",
+      "windows_status": "Hosted Windows CI passed 281 tests on the tested SHA per ARO-CHAT-0026; owner-device Windows execution NOT VERIFIED.",
+      "real_media_status": "BLOCKED_AUTHORIZED_MEDIA_REQUIRED",
+      "bugs_discovered": 0,
+      "bugs_fixed": 0,
+      "new_security_findings": 0,
+      "known_security_followup_revalidated": "Issue #68 remains OPEN / UNASSIGNED; youtube_upload.py does not invoke the authenticated owner-identity approval helper.",
+      "regressions_introduced": 0,
+      "regressions_resolved": 0,
+      "duplicate_work": {
+        "overlapping_work_reviewed": [
+          "ARO-CHAT-0024 CI handoff",
+          "ARO-CHAT-0021 owner-identity helper",
+          "ARO-CHAT-0026 subsequent exact-head CI verification",
+          "ARO-ZERO-ONE existing renderer"
+        ],
+        "duplicate_pr_created": false,
+        "duplicate_renderer_implementation_created": false,
+        "existing_pr_reused": 66
+      },
+      "blockers": [
+        "No creator-authorized GTA 6 recording/export or supported media handoff.",
+        "Issue #68 implementation owner requires explicit owner assignment/approval.",
+        "Current branch-tip SHA was not exposed by the available branch search; later exact tested SHA is recorded from ARO-CHAT-0026."
+      ],
+      "impact": {
+        "importance": "P0",
+        "criticality_to_first_clip": "HIGH",
+        "committed_deliverables": 2,
+        "verified_deliverables": 2,
+        "independent_completion": true,
+        "required_repair_by_another_ai": "Use the now-passing exact-head CI evidence, then obtain authorized GTA 6 media and run the first real-media render/playback acceptance. Implement issue #68 only after owner assignment/approval."
+      },
+      "acceptance_status": "IMPLEMENTED_READ_ONLY_LIVE_AUDIT_AND_CANONICAL_REGISTRY_PERMISSION_RECORDS; PR66_CI_SUBSEQUENTLY_VERIFIED_BY_ARO_CHAT_0026; REAL_MEDIA_BLOCKED",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
+        "permission_ledger_commit": "85bdba2dd34804677c02a5ed71c938df7404e1bf",
+        "registry_commit": "8ec0fb420e47f12028abf95e25ea80bf1c88866b",
+        "issue_26": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/26",
+        "issue_68": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/68",
+        "cancelled_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44696711758",
+        "verified_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44696785004"
+      },
+      "permission_notes": "Read-only repository inspection and two documentation commits on the existing ARO-ZERO-ONE branch. No application/test/workflow implementation, issue #68 assignment, merge, retarget, deployment, publishing, credential access, destructive action, or permission escalation."
+    },
+    {
+      "chat_id": "ARO-CHAT-0028",
+      "title": "ARO-CHAT-0028 | Live Repository, CI and Portfolio Evidence Reconciliation",
+      "project": "THE ARO GTA 6 Clip Engine",
+      "workstream_id": "ARO-ZERO-ONE",
+      "task_ids": [
+        "ARO-GTA-P0-28"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T13:14:00+05:30",
+      "ended_at": null,
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "timing_note": "End time and active duration not measured. The connector did not expose the final branch-tip commit SHA. The last identified documentation commit before this analytics reconciliation is 596affa119cd741b3aadc10c4ac7a2ff9f41fa57; audited application/test blobs match exact CI-tested SHA 817c7947c6756b80ae91ba272d172c3efaa2fa07.",
+      "task_category": [
+        "repository_audit",
+        "ci_cd",
+        "qa",
+        "security_review",
+        "documentation",
+        "analytics_registry",
+        "portfolio_reconciliation"
+      ],
+      "priority": "P0",
+      "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "starting_sha": null,
+      "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "current_sha": null,
+      "pull_requests": [
+        66
+      ],
+      "issues": [
+        26,
+        68
+      ],
+      "commits": [
+        "297421a9ed8b34b22b754a52a6693b3a1c2a675f",
+        "503730d6162538e5eda6e2689b86de27fd2768fe",
+        "8a0c493ac346320340112cad06a01edc1feea55f",
+        "ce608b4b1571cae0816bc288910086c9d7e4b317",
+        "d70b3c1d1a5e862520810c575f7ea714bb502fbf",
+        "99bdb651deb66d42bb28303ed80dc6d032d4a7cc",
+        "596affa119cd741b3aadc10c4ac7a2ff9f41fa57"
+      ],
+      "files_inspected": [
+        "README.md",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md",
+        "docs/ARO_MASTER_ANALYTICS_DASHBOARD.md",
+        "docs/AI_PROVIDER_AND_MODEL_REGISTRY.md",
+        "docs/RESEARCH_REFERENCE_CATALOG.md",
+        "docs/ARO_AUTOMATION_DEPLOYMENT_BETA.md",
+        "analytics/ai_chat_sessions.json",
+        "backend/app/approval.py",
+        "backend/app/youtube_upload.py",
+        "backend/app/clipping.py",
+        "backend/app/render_validation.py",
+        "backend/app/review_dashboard.py",
+        "tests/test_batch_render.py"
+      ],
+      "files_created": [],
+      "files_modified": [
+        "README.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/ARO_MASTER_ANALYTICS_DASHBOARD.md",
+        "docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md",
+        "docs/AI_PROVIDER_AND_MODEL_REGISTRY.md",
+        "docs/ARO_AUTOMATION_DEPLOYMENT_BETA.md",
+        "analytics/ai_chat_sessions.json"
+      ],
+      "tests": {
+        "added": 0,
+        "executed_by_this_chat": 0,
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "ci_runs": [
+          {
+            "run_id": 44696785004,
+            "head_sha": "817c7947c6756b80ae91ba272d172c3efaa2fa07",
+            "platforms": [
+              "ubuntu-latest",
+              "windows-latest"
+            ],
+            "status": "completed",
+            "conclusion": "success",
+            "jobs": [
+              136155337178,
+              136155337553
+            ],
+            "compile_step": "success",
+            "ffmpeg_ffprobe_install": "success",
+            "test_step": "success",
+            "test_count_per_platform": 281,
+            "note": "Verified from Actions job steps and logs by ARO-CHAT-0028; the workflow was executed in the prior ARO-CHAT-0026 session. Five audited source/test files have identical blob SHAs to this tested commit. Current branch-tip SHA remains unavailable."
+          }
+        ]
+      },
+      "ci_status": "PR #66 run 44696785004 passed on exact SHA 817c7947c6756b80ae91ba272d172c3efaa2fa07: Ubuntu and Windows each compiled and passed 281 tests. This is external CI evidence, not local execution by ARO-CHAT-0028. The current branch-tip SHA was not exposed.",
+      "windows_status": "Hosted Windows CI passed 281 tests on the tested SHA; owner-device Windows execution NOT VERIFIED.",
+      "real_media_status": "BLOCKED_AUTHORIZED_MEDIA_REQUIRED",
+      "bugs_discovered": 1,
+      "bugs_fixed": 0,
+      "new_security_findings": 0,
+      "known_findings": [
+        "LOW: ResourceWarning for unclosed candidates.csv at tests/test_batch_render.py:227 on Ubuntu and Windows; non-failing; not fixed.",
+        "Issue #68 remains OPEN / UNASSIGNED; youtube_upload.py does not invoke authenticated owner-identity approval helper."
+      ],
+      "regressions_introduced": 0,
+      "regressions_resolved": 0,
+      "duplicate_work": {
+        "overlapping_work_reviewed": [
+          "ARO-CHAT-0026 renderer/dashboard no-overwrite implementation",
+          "ARO-CHAT-0027 review-dashboard PR QA",
+          "ARO-CHAT-0021 owner-identity helper",
+          "ARO-ZERO-ONE existing renderer"
+        ],
+        "duplicate_pr_created": false,
+        "duplicate_renderer_implementation_created": false,
+        "existing_pr_reused": 66
+      },
+      "blockers": [
+        "No creator-authorized GTA 6 recording/export or supported media handoff.",
+        "Issue #68 implementation owner requires explicit owner assignment/approval.",
+        "Current PR #66 branch-tip commit SHA was not exposed by the available connector; only exact code SHA 817c7947c6756b80ae91ba272d172c3efaa2fa07 was verified."
+      ],
+      "impact": {
+        "importance": "P0",
+        "criticality_to_first_clip": "HIGH",
+        "committed_deliverables": 8,
+        "verified_deliverables": 7,
+        "independent_completion": true,
+        "required_repair_by_another_ai": "Obtain the authorized GTA 6 media handoff and run local/Windows preflight, FFmpeg render, FFprobe validation and playback. Implement issue #68 only after explicit owner assignment/approval. Track PR #69 through ARO-CHAT-0027 without duplicating its QA."
+      },
+      "acceptance_status": "IMPLEMENTED_DOCUMENTATION_AND_LIVE_AUDIT; PR66_CI_VERIFIED_ON_SHA_817c7947; REAL_MEDIA_BLOCKED; CURRENT_BRANCH_TIP_UNAVAILABLE",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
+        "verified_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44696785004",
+        "issue_26": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/26",
+        "issue_68": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/68",
+        "pr_69": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/69",
+        "readme_ci_refresh_commit": "596affa119cd741b3aadc10c4ac7a2ff9f41fa57"
+      },
+      "permission_notes": "Bounded QA/audit and documentation contribution only, authorized by the owner's EXECUTE NOW instruction. No application/test/workflow implementation, issue #68 assignment, merge, retarget, deployment, publishing, credential access, destructive action, permission escalation, or owner-only approval."
+    }
+  ]
+}

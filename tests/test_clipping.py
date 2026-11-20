@@ -60,7 +60,7 @@ class ClipRenderTests(unittest.TestCase):
                 temporary_output.write_bytes(b"synthetic mp4")
                 return None
 
-            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg) as run:
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg) as run, patch("backend.app.clipping.verify_rendered_media"):
                 result = render_clip(source, output, 1, 4, rights_confirmed=True)
             self.assertEqual(result, output.resolve())
             self.assertEqual(output.read_bytes(), b"synthetic mp4")
@@ -81,7 +81,7 @@ class ClipRenderTests(unittest.TestCase):
                 Path(command[-1]).write_bytes(b"first render")
                 output.write_bytes(b"second render owns destination")
 
-            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg):
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg), patch("backend.app.clipping.verify_rendered_media"):
                 with self.assertRaisesRegex(FileExistsError, "created by another render"):
                     render_clip(source, output, 0, 2, rights_confirmed=True)
             self.assertEqual(output.read_bytes(), b"second render owns destination")
@@ -112,8 +112,11 @@ class ClipRenderTests(unittest.TestCase):
             def fake_ffmpeg(command, **kwargs):
                 Path(command[-1]).write_bytes(b"vertical mp4")
 
-            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg) as run:
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg) as run, patch("backend.app.clipping.verify_rendered_media") as verify:
                 result = render_clip(source, output, 1, 20, rights_confirmed=True, vertical=True)
+            verify.assert_called_once()
+            self.assertEqual(verify.call_args.kwargs["expected_duration_seconds"], 19)
+            self.assertTrue(verify.call_args.kwargs["vertical"])
 
             self.assertEqual(result, output.resolve())
             command = run.call_args.args[0]
@@ -126,7 +129,7 @@ class ClipRenderTests(unittest.TestCase):
             self.assertIn("yuv420p", command)
 
 
-    @unittest.skipUnless(shutil.which("ffmpeg"), "FFmpeg is not installed on this runner")
+    @unittest.skipUnless(shutil.which("ffmpeg") and shutil.which("ffprobe"), "FFmpeg and ffprobe are required for media integration tests")
     def test_renders_a_generated_synthetic_video(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / "synthetic.mp4"
@@ -138,6 +141,44 @@ class ClipRenderTests(unittest.TestCase):
             result = render_clip(source, output, 0.5, 2.0, rights_confirmed=True)
             self.assertTrue(result.is_file())
             self.assertGreater(result.stat().st_size, 0)
+
+
+    def test_custom_ffprobe_binary_is_used_for_post_render_validation(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            output = Path(folder) / "clip.mp4"
+            source.write_bytes(b"synthetic")
+            custom_ffprobe = "/opt/Media Tools/ffprobe"
+
+            def fake_ffmpeg(command, **kwargs):
+                Path(command[-1]).write_bytes(b"synthetic mp4")
+
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg), patch(
+                "backend.app.clipping.verify_rendered_media"
+            ) as verify:
+                render_clip(
+                    source, output, 0, 2, rights_confirmed=True,
+                    ffprobe_binary=custom_ffprobe,
+                )
+            self.assertEqual(verify.call_args.kwargs["ffprobe_binary"], custom_ffprobe)
+
+    def test_invalid_rendered_media_is_never_published(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            output = Path(folder) / "clip.mp4"
+            source.write_bytes(b"synthetic")
+
+            def fake_ffmpeg(command, **kwargs):
+                Path(command[-1]).write_bytes(b"not a valid mp4")
+
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg), patch(
+                "backend.app.clipping.verify_rendered_media", side_effect=ValueError("no video stream")
+            ):
+                with self.assertRaisesRegex(ClipRenderError, "failed media validation"):
+                    render_clip(source, output, 0, 2, rights_confirmed=True)
+
+            self.assertFalse(output.exists())
+            self.assertFalse(list(Path(folder).glob(".clip-*.mp4")))
 
     def test_reports_missing_ffmpeg(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
