@@ -83,3 +83,16 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 - 2026-11-20 13:10 IST: ARO-CHAT-0025 / OpenAI GPT-6 received a bounded QA/auditor and documentation-contributor scope from the owner's explicit EXECUTE NOW instruction: inspect the existing ARO-ZERO-ONE repository state, reconcile CI/PR evidence, review renderer and uploader security boundaries, reserve its unique chat/task identity, and update canonical audit/handoff records on the existing workstream branch.
 - ARO-CHAT-0025 did not receive authority to modify application/test/CI/publishing code, implement issue #68, merge or retarget PRs, deploy, publish, access credentials, perform destructive actions, or change permission grants. Issue #68 remains OPEN / UNASSIGNED pending explicit owner assignment/approval.
 - GitHub connector admin/push capability was observed as technical API capability only; it does not expand this session's project authority.
+
+## ARO-CHAT-0028 bounded session scope — 2026-11-20
+
+| Identity | Chat ID | Role | Granted scope | Granting authority / evidence | Status |
+|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0028 | QA / AUDITOR; bounded documentation contributor | Read repository, branch, PR, issue and CI evidence; create an isolated documentation branch; update the canonical research catalog, chat registry, dashboard, permission ledger and project handoff for task ARO-GTA-P0-28 | Owner's explicit master execution instruction in the current conversation; branch `workstream/aro-chat-0028-research-ci-reconciliation-2026-11-20` | ACTIVE FOR ASSIGNED DOCUMENTATION ONLY |
+
+### Restrictions retained
+
+- No permission to merge PRs, retarget/close PRs, deploy, publish, approve clips, access or change production credentials, modify collaborator permissions, delete resources, or alter production settings.
+- Repository API write capability is not owner authority.
+- No assignment or approval was inferred for issue #68.
+- The branch name for ARO-CHAT-0027 was observed, but its owner and task remain unconfirmed; this session did not claim or modify that workstream.
