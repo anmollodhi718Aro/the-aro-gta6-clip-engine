@@ -648,6 +648,108 @@
         "starting_sha": "23daf0fa0ec14886733ba59cd52df642b4a1c28c"
       },
       "collision_resolution": "Allocated after checking the canonical registry: ARO-CHAT-0017 was already reserved for Research Reference Audit; ARO-CHAT-0018 is used to preserve the previously unregistered duplicate CI audit record."
+    },
+    {
+      "chat_id": "ARO-CHAT-0017",
+      "title": "ARO-CHAT-0017 | Research Reference Audit and Clipping-First Integration",
+      "project": "THE ARO GTA 6 CLIP ENGINE",
+      "workstream_id": "ARO-ZERO-ONE",
+      "task_ids": [
+        "ARO-GTA-P0-17"
+      ],
+      "provider": "OpenAI",
+      "model": "GPT-6",
+      "started_at": "2026-11-20T07:07:00+05:30",
+      "ended_at": null,
+      "elapsed_seconds": null,
+      "active_work_seconds": null,
+      "timing_note": "Start time captured from session local clock; end time and active work time are not yet measured.",
+      "task_category": [
+        "repository_audit",
+        "research",
+        "documentation",
+        "architecture"
+      ],
+      "priority": "P0",
+      "starting_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "starting_sha": "23daf0fa0ec14886733ba59cd52df642b4a1c28c",
+      "current_branch": "workstream/aro-zero-one-clipping-first-2026-11-20",
+      "current_sha": null,
+      "pull_requests": [
+        66
+      ],
+      "issues": [
+        26
+      ],
+      "commits": [
+        "1335d978e76ec8b724d1b58d9ee298f52c07aa5b"
+      ],
+      "files_inspected": [
+        "README.md",
+        "docs/PROJECT_HANDOFF.md",
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "analytics/ai_chat_sessions.json",
+        ".github/workflows/ci.yml",
+        "docs/AI_CHAT_ANALYTICS.md",
+        "backend/app/analytics_validation.py",
+        "analytics/ai_chat_sessions.schema.json",
+        "tests/test_analytics_validation.py",
+        "external research repository READMEs, licenses and selected source files"
+      ],
+      "files_created": [
+        "docs/RESEARCH_REFERENCE_CATALOG.md"
+      ],
+      "files_modified": [
+        "docs/CHAT_WORKSTREAM_REGISTRY.md",
+        "docs/PROJECT_HANDOFF.md",
+        "analytics/ai_chat_sessions.json"
+      ],
+      "tests": {
+        "added": 0,
+        "executed_by_this_chat": 0,
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "ci_runs": []
+      },
+      "ci_status": "NOT_RUN_RESEARCH_AND_DOCUMENTATION_ONLY",
+      "windows_status": "NOT_VERIFIED",
+      "real_media_status": "BLOCKED_AUTHORIZED_MEDIA_REQUIRED",
+      "bugs_discovered": 0,
+      "bugs_fixed": 0,
+      "regressions_introduced": null,
+      "regressions_resolved": null,
+      "duplicate_work": {
+        "overlapping_work_reviewed": [
+          "ARO-ZERO-ONE existing branch and PR #66",
+          "four named external research repositories"
+        ],
+        "duplicate_pr_created": false,
+        "duplicate_renderer_implementation_created": false
+      },
+      "blockers": [
+        "No creator-authorized GTA 6 recording/export or approved media handoff has been supplied.",
+        "Windows FFmpeg dependency installation previously failed with Chocolatey HTTP 503; no compile/test steps ran in that Windows job.",
+        "Latest follow-up CI run was cancelled without job records."
+      ],
+      "impact": {
+        "importance": "P0",
+        "criticality_to_first_clip": "LOW_DIRECT_IMPACT; MEDIUM_ARCHITECTURE_AND_RESEARCH",
+        "committed_deliverables": 1,
+        "verified_deliverables": 1,
+        "independent_completion": true,
+        "required_repair_by_another_ai": null
+      },
+      "acceptance_status": "RESEARCH_CATALOG_IMPLEMENTED_AND_SOURCE_REVIEWED; NO_EXTERNAL_CODE_ADOPTED; TESTS_NOT_RUN; REAL_MEDIA_BLOCKED",
+      "score": null,
+      "evidence": {
+        "repository": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine",
+        "pull_request": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66",
+        "research_catalog": "docs/RESEARCH_REFERENCE_CATALOG.md",
+        "reservation_commit": "1335d978e76ec8b724d1b58d9ee298f52c07aa5b",
+        "windows_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44637236056",
+        "cancelled_followup_run": "https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44638350854"
+      }
     }
   ]
 }
