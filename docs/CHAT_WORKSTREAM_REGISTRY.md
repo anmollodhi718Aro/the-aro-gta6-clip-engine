@@ -440,3 +440,10 @@
 - Direct local tests: 0. No application source, tests, renderer, workflow, or uploader code changed. No merge, retarget, deployment, upload, or publication.
 - Current PR #66 branch head after the documentation/analytics commits is `c99b4bfdd62015dde0c8d544744deba646808be8`; GitHub returned no PR-triggered workflow run for this exact commit at closeout. Exact-head CI remains NOT VERIFIED.
 - First authorized GTA 6 MP4 remains BLOCKED pending authorized creator footage/export. Issue #68 remains OPEN / UNASSIGNED; implementation ownership requires owner assignment/approval.
+
+
+## ARO-CHAT-0025 reservation — 2026-11-20 13:10 IST
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0025 | ARO-CHAT-0025 | Exact-Head CI Verification and Clipping-First Handoff | ARO-ZERO-ONE continuation; task ARO-GTA-P0-25 | Reconcile the current PR #66 exact-head CI run, inspect the local renderer/FFprobe/synthetic smoke path, record current owner/security blockers, and refresh the canonical handoff. No overlapping source implementation; existing branch and PR reused. | workstream/aro-zero-one-clipping-first-2026-11-20 / existing PR #66 | RESERVED / ACTIVE; previous registry entries through ARO-CHAT-0024 inspected; PR #66 head at reservation 817c7947c6756b80ae91ba272d172c3efaa2fa07; main 5f3332770b27d8a5211b3e74feade222563a9263. |
