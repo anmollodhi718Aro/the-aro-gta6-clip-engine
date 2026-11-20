@@ -284,3 +284,9 @@ No merge, retarget, deployment, upload, public publishing, or issue #68 implemen
 5. **P2:** Keep Automation Deployment Beta planned until the first-clip milestone.
 
 No arbitrary progress percentage or AI leaderboard score is assigned. Chat duration, active time and score remain N/A because telemetry is unavailable.
+
+### ARO-CHAT-0029 delivery
+
+- Documentation PR #70: OPEN / DRAFT / UNMERGED; GitHub reported `mergeable=false` at creation.
+- PR #70 contains only the canonical documentation and analytics updates. No merge was attempted.
+- Documentation branch CI: UNAVAILABLE at the time of the last commit lookup.
