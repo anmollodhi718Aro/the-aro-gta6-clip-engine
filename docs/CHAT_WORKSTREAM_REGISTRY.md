@@ -461,3 +461,14 @@
 | Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
 |---|---|---|---|---|---|---|
 | ARO-CHAT-0027 | ARO-CHAT-0027 | Review Dashboard Collision-Safe Export QA | ARO-ZERO-ONE continuation; task ARO-GTA-P0-27 | Independently review PR #69's no-overwrite implementation and regression tests; reconcile exact-head CI and identify defects without duplicating ARO-CHAT-0026 implementation. Read-only QA; no source/test changes planned. | `workstream/aro-chat-0027-review-dashboard-pr-qa-2026-11-20` / audit of PR #69 | Previous registry entries through ARO-CHAT-0026 inspected; PR #69 head at reservation `f84364345bf578754b870274cd6be6884db1b88e`; branch based on that exact head. |
+
+
+### ARO-CHAT-0027 closeout — 2026-11-20
+- Chat: `ARO-CHAT-0027 | Review Dashboard Collision-Safe Export QA | GPT-6`; provider/model: OpenAI / GPT-6; role: QA / Auditor; task `ARO-GTA-P0-27`.
+- Registry serial was checked before reservation: entries ended at ARO-CHAT-0026. A dedicated QA branch was created from PR #69 head `f84364345bf578754b870274cd6be6884db1b88e`; reservation commit: `8ed566e08949a42d387853a764da40ba243a389c`.
+- PR #69 is OPEN, DRAFT, UNMERGED, and GitHub reports `mergeable=false`; it targets the ARO-ZERO-ONE workstream branch, not `main`. Current observed PR head: `f84364345bf578754b870274cd6be6884db1b88e`.
+- Static review covered `backend/app/review_dashboard.py`, `backend/app/output_manager.py`, `tests/test_review_dashboard.py`, `tests/test_output_manager.py`, and `.github/workflows/ci.yml`. The CLI now calls the existing `write_texts_no_overwrite` helper; tests cover refusal to overwrite and successful creation in a new nested path. Existing output-manager tests cover collision refusal and rollback of partial multi-file publication.
+- No correctness defect was confirmed in the reviewed diff. This is static QA only: direct tests executed by this chat = 0. GitHub's commit-workflow lookup returned no PR-triggered workflow runs for PR #69 head `f84364345bf578754b870274cd6be6884db1b88e`; exact-head CI is NOT VERIFIED. Do not infer that tests passed from the presence of test code.
+- No source/test/workflow changes were made by this QA session. No review approval was submitted, and no PR state, merge, retarget, deployment, upload, or publishing action was taken. No owner-only permission was used.
+- First real authorized GTA 6 MP4 remains BLOCKED on a creator-authorized recording/export or approved media handoff. Issue #68 remains OPEN / UNASSIGNED and owner assignment is still required before uploader integration.
+- Session score: N/A. Time/efficiency and outcome telemetry are insufficient; do not assign a numerical score.
