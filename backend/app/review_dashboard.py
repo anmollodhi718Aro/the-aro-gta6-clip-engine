@@ -9,6 +9,8 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+from .output_manager import write_texts_no_overwrite
+
 
 _ALLOWED_STATUSES = {"planned", "rendered", "blocked", "not_approved", "failed"}
 
@@ -127,8 +129,7 @@ def main() -> int:
     try:
         rows = load_report(args.report)
         output = args.output.expanduser()
-        output.parent.mkdir(parents=True, exist_ok=True)
-        output.write_text(render_dashboard(rows, args.title), encoding="utf-8")
+        write_texts_no_overwrite({output: render_dashboard(rows, args.title)})
         print(f"Dashboard created: {output} ({len(rows)} candidates)")
         return 0
     except (OSError, ValueError, json.JSONDecodeError) as exc:
