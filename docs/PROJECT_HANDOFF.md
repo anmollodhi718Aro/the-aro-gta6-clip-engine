@@ -461,3 +461,17 @@ A subsequent live branch read found four commits added after the ARO-CHAT-0011 h
 - Decisions: OpenShorts STUDY ONLY; AI YouTube Shorts Generator ADAPT IDEAS ONLY (not its URL downloader); Auto-Editor STUDY ONLY; Remotion STUDY ONLY / DEFER due conditional proprietary license and second-renderer complexity. No external code or dependencies adopted.
 - CI evidence reconciliation: Windows run `44637236056` allocated a runner but failed during Chocolatey FFmpeg installation (HTTP 503); compile and tests were skipped. Follow-up run `44638350854` was cancelled with no job records. Do not classify these as code-test failures or passes. Earlier green evidence remains scoped to its exact earlier SHA only.
 - No source-code changes, tests, CI rerun, merge, retarget, deployment, upload or publishing in this research task. Real authorized GTA 6 media remains unavailable; actual GTA 6 MP4/playback remains NOT VERIFIED.
+
+
+## ARO-CHAT-0019 live audit — analytics identity regression and CI recovery (2026-11-20)
+
+- Reused existing ARO-ZERO-ONE branch and PR #66. No new branch, PR, merge, retarget, deployment, upload, or publication.
+- Starting PR head for this repair: `23daf0fa0ec14886733ba59cd52df642b4a1c28c`; live `main` remains `5f3332770b27d8a5211b3e74feade222563a9263`.
+- Exact-head Actions run [44638736182](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44638736182) allocated both Ubuntu and Windows runners. Both installed Python 3.11 and FFmpeg/FFprobe and passed compile. Both unit-test suites executed 281 tests and ended with 2 errors, 0 assertion failures. Root cause in both logs: duplicate `ARO-CHAT-0015` records in `analytics/ai_chat_sessions.json`; the analytics validator correctly rejected the ledger.
+- The canonical registry showed `ARO-CHAT-0017` was already reserved for Research Reference Audit. To preserve attribution without collision, the unregistered duplicate “Exact-Head CI and Windows Verification Audit” record was re-attributed to `ARO-CHAT-0018`; the canonical Windows CI Recovery record remains `ARO-CHAT-0015`; the analytics-schema session remains `ARO-CHAT-0016`; the research task remains `ARO-CHAT-0017`; this repair session is `ARO-CHAT-0019`.
+- Updated `analytics/ai_chat_sessions.json` to unique IDs and recorded the historical shared commit overlap explicitly so it is not double-counted. Updated `docs/CHAT_WORKSTREAM_REGISTRY.md` with identity reconciliation and this repair session. Current ledger inspection confirms unique session IDs.
+- Identity correction commits: `9d5d1c8d172577facb478798c18ff2af06b7b385` (initial ledger correction, superseded after discovering reserved ID 0017) and `98b03d16ba014ab7aa6aa7835d2bd3ee792dc858` (final corrected ledger IDs). Registry update: `4273f49c09c8476a4d06f0b881e15e22d787079b`.
+- The validator implementation is unchanged; duplicate rejection is intentional. The repair is to historical ledger attribution, not to weaken validation.
+- Exact-head CI after the final ledger/registry correction is pending; a subsequent research continuation also updated canonical docs on the same branch. Reconcile the actual latest PR head and its run before claiming tests passed.
+- Windows runner/toolchain availability is demonstrated; Windows test-suite success is not yet verified. GTA 6 authorized real-media render/playback remains blocked on an expressly authorized recording/export/media handoff.
+- No production OAuth, media-byte ingestion, persistent review UI, or production publishing is claimed. Public publishing remains owner-gated.
