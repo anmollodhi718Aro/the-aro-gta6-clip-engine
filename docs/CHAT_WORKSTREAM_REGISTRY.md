@@ -288,3 +288,16 @@
 | Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
 |---|---|---|---|---|---|---|
 | ARO-CHAT-0017 | ARO-CHAT-0017 | Research Reference Audit and Clipping-First Integration | ARO-ZERO-ONE (continuation; task ARO-GTA-P0-17) | Verify the four named research repositories from current README/source/license; record dated metadata, architecture findings, risks, and evidence-backed adopt/adapt/study/reject decisions. No renderer, workflow, or publishing changes in this task. | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 | RESERVED | Existing branch and PR #66 reused; starting observed PR head `23daf0fa0ec14886733ba59cd52df642b4a1c28c`; main remains `5f3332770b27d8a5211b3e74feade222563a9263`; no new branch or PR |
+
+
+## ARO-CHAT-0018 identity reconciliation (2026-11-20)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0018 | ARO-CHAT-0018 \| Exact-Head CI and Windows Verification Audit (identity reconciled) | ARO-ZERO-ONE (historical continuation; task ARO-GTA-P0-18) | Preserve the previously unregistered duplicate CI/Windows audit record without reusing ARO-CHAT-0015; commit overlap is explicitly excluded from independent contribution counts | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 | HISTORICAL IDENTITY RECONCILED; shared commit overlap with ARO-CHAT-0015; no independent test/CI claims added | Original ledger record had title “Exact-Head CI and Windows Verification Audit”, current SHA `fd7fa41dc75e19235d75b96ffb1791d7e101b9d6`; ARO-CHAT-0017 was already reserved here for Research Reference Audit |
+
+## ARO-CHAT-0019 reservation and execution (2026-11-20 07:07 IST)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0019 | ARO-CHAT-0019 \| Analytics Identity Collision Repair and Exact-Head CI Recovery | ARO-ZERO-ONE (continuation; task ARO-GTA-P0-19) | Repair duplicate analytics session identity while preserving historical attribution; reconcile CI failure and verify exact PR head; update canonical handoff | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 | IN_PROGRESS; duplicate identity repaired in ledger; exact-head CI pending; Windows/real-media status pending | Starting SHA `23daf0fa0ec14886733ba59cd52df642b4a1c28c`; analytics correction commit `98b03d16ba014ab7aa6aa7835d2bd3ee792dc858`; failed run `44638736182` diagnosed from both runner logs; no new branch or PR |
