@@ -317,3 +317,10 @@
 - Starting observed PR #66 head: `23daf0fa0ec14886733ba59cd52df642b4a1c28c`; branch: `workstream/aro-zero-one-clipping-first-2026-11-20`; base: `integration/release-candidate`; `main`: `5f3332770b27d8a5211b3e74feade222563a9263`.
 - Scope: reconcile the duplicate historical chat identity in the analytics ledger, preserve traceability, run exact-head CI after the correction, and update handoff/analytics evidence. No renderer, publishing, or workflow redesign.
 - Status: IN_PROGRESS; no merge, retarget, deployment, upload, or public publishing.
+
+
+## ARO-CHAT-0020 reservation (2026-11-20 07:08 IST)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0020 | ARO-CHAT-0020 \| Governance Ledgers and Analytics Dashboard Foundation | ARO-GTA-P0-20 | Create the missing canonical permission/approval ledger, AI provider/model registry, master analytics dashboard specification, and Automation Deployment Beta status document. Docs-only; no renderer, CI, research-catalog, or analytics-schema implementation changes. | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 | RESERVED | Starting PR #66 head observed: `19e74d488ccdb5f49f645a084eea02019938c573`; main remains `5f3332770b27d8a5211b3e74feade222563a9263`; existing branch/PR reused; no new branch or PR |
