@@ -31,6 +31,15 @@ class MediaProbeTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "does not contain an audio stream"):
                     probe_media(media, require_audio=True)
 
+    def test_rejects_empty_local_file_before_running_ffprobe(self):
+        with tempfile.TemporaryDirectory() as folder:
+            media = Path(folder) / "empty.mp4"
+            media.touch()
+            with patch("backend.app.media_probe.subprocess.run") as run:
+                with self.assertRaisesRegex(ValueError, "local media file is empty"):
+                    probe_media(media)
+                run.assert_not_called()
+
     def test_rejects_non_local_missing_file(self):
         with self.assertRaises(FileNotFoundError):
             probe_media("missing-local-video.mp4")
