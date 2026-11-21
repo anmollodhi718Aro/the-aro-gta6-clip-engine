@@ -14,6 +14,11 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+# Make repository packages importable when this file is launched as a script.
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPOSITORY_ROOT))
+
 from backend.app.batch_render import run_batch
 from backend.app.media_probe import probe_media
 
