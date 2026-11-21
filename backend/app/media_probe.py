@@ -13,13 +13,21 @@ class MediaInfo:
     path: Path
     duration_seconds: float
     format_name: str
+    has_audio: bool = False
 
 
-def probe_media(path: str | Path, *, ffprobe_binary: str = "ffprobe") -> MediaInfo:
-    """Return validated duration metadata for an existing local media file."""
+def probe_media(
+    path: str | Path,
+    *,
+    ffprobe_binary: str = "ffprobe",
+    require_audio: bool = False,
+) -> MediaInfo:
+    """Return validated metadata for a local video and optionally require audio."""
     source = Path(path).expanduser().resolve()
     if not source.is_file():
         raise FileNotFoundError(f"local media file does not exist: {source}")
+    if source.stat().st_size == 0:
+        raise ValueError(f"local media file is empty: {source}")
     command = [
         ffprobe_binary, "-v", "error", "-show_entries",
         "format=duration,format_name:stream=codec_type", "-of", "json", str(source),
@@ -42,11 +50,20 @@ def probe_media(path: str | Path, *, ffprobe_binary: str = "ffprobe") -> MediaIn
         streams = payload.get("streams", [])
     except (json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
         raise ValueError("ffprobe returned incomplete or invalid media metadata") from exc
-    if not isinstance(streams, list) or not any(
+    if not isinstance(streams, list):
+        raise ValueError("ffprobe returned invalid stream metadata")
+    has_video = any(
         isinstance(stream, dict) and stream.get("codec_type") == "video"
         for stream in streams
-    ):
+    )
+    has_audio = any(
+        isinstance(stream, dict) and stream.get("codec_type") == "audio"
+        for stream in streams
+    )
+    if not has_video:
         raise ValueError("local media file does not contain a video stream")
+    if require_audio and not has_audio:
+        raise ValueError("local media file does not contain an audio stream")
     if not math.isfinite(duration) or duration <= 0:
         raise ValueError("media duration must be finite and positive")
-    return MediaInfo(source, duration, format_name)
+    return MediaInfo(source, duration, format_name, has_audio)

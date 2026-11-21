@@ -13,13 +13,32 @@ class MediaProbeTests(unittest.TestCase):
             media = Path(folder) / "sample.mp4"
             media.write_bytes(b"synthetic")
             with patch("backend.app.media_probe.subprocess.run") as run:
-                run.return_value.stdout = '{"format":{"duration":"123.5","format_name":"mov,mp4"},"streams":[{"codec_type":"video"}]}'
-                info = probe_media(media)
+                run.return_value.stdout = '{"format":{"duration":"123.5","format_name":"mov,mp4"},"streams":[{"codec_type":"video"},{"codec_type":"audio"}]}'
+                info = probe_media(media, require_audio=True)
             self.assertEqual(info.duration_seconds, 123.5)
             self.assertEqual(info.format_name, "mov,mp4")
+            self.assertTrue(info.has_audio)
             command = run.call_args.args[0]
             self.assertIsInstance(command, list)
             self.assertEqual(command[-1], str(media.resolve()))
+
+    def test_rejects_silent_source_when_audio_is_required(self):
+        with tempfile.TemporaryDirectory() as folder:
+            media = Path(folder) / "silent.mp4"
+            media.write_bytes(b"synthetic")
+            with patch("backend.app.media_probe.subprocess.run") as run:
+                run.return_value.stdout = '{"format":{"duration":"12","format_name":"mov,mp4"},"streams":[{"codec_type":"video"}]}'
+                with self.assertRaisesRegex(ValueError, "does not contain an audio stream"):
+                    probe_media(media, require_audio=True)
+
+    def test_rejects_empty_local_file_before_running_ffprobe(self):
+        with tempfile.TemporaryDirectory() as folder:
+            media = Path(folder) / "empty.mp4"
+            media.touch()
+            with patch("backend.app.media_probe.subprocess.run") as run:
+                with self.assertRaisesRegex(ValueError, "local media file is empty"):
+                    probe_media(media)
+                run.assert_not_called()
 
     def test_rejects_non_local_missing_file(self):
         with self.assertRaises(FileNotFoundError):

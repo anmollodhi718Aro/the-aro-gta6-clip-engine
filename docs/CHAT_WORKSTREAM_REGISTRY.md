@@ -671,3 +671,37 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 | Starting SHA | 9f916c530b64405cf72d18fc4d97a24da648a78c (PR #76 exact head) |
 | Status | RESERVED / ACTIVE; research refresh in progress |
 | Attribution evidence | Registry, all open PRs, branches and issues checked; ARO-CHAT-0033 is the latest recorded identity. Existing research catalog reused; no duplicate registry/catalog created. |
+
+
+## ARO-CHAT-0036 reservation and implementation — 2026-11-21
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0036 |
+| Task ID | ARO-TASK-0036 |
+| Project / priority | THE ARO GTA 6 Clip Engine / P0 source-media intake |
+| Role | Media Engineer + QA; bounded implementation contributor |
+| Branch / PR | `workstream/aro-chat-0036-source-audio-preflight-2026-11-21` / [PR #79](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/79) |
+| Starting SHA | `7d81b363e8b9c8d3953257d3e59d670679b21bd0` (PR #78 head) |
+| Code implementation SHA | `36ec5a4ccbb43dbdef1c8033606dbabb69017cfd` |
+| Status | IMPLEMENTED; CI_VERIFIED on exact head `4a19e8a3638680e394670352659ae606a397dd02`; real-media verification BLOCKED |
+| Scope | Extend the existing FFprobe intake helper to detect source audio and enforce it during required-audio dry-run and execution; add regression tests. No replacement renderer or new dependencies. |
+
+### Verified work
+- `backend/app/media_probe.py` now exposes source audio presence and an optional required-audio gate.
+- `backend/app/batch_render.py` invokes source audio preflight during dry-run when `--require-audio` is selected, before FFmpeg execution.
+- `tests/test_media_probe.py` and `tests/test_batch_render.py` cover audio-present, silent-source rejection and preflight-before-render behavior.
+- The Windows manual wizard already passes `--require-audio` into its dry-run by default; the existing flow now benefits from the earlier source check.
+- Local tests were not run in this connector session. GitHub Actions run [44807719540](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44807719540) passed on exact head `4a19e8a3638680e394670352659ae606a397dd02`: Ubuntu compiled and passed 287 tests; Windows compiled and passed 287 tests.
+
+### Serial audit note
+- The canonical registry ended at ARO-CHAT-0034.
+- A branch named `workstream/aro-chat-0035-research-reference-refresh-2026-11-20` exists but resolves to the same commit as PR #77 head (`d18eabb62488cd9297d9df02f3025b96639f5380)); no matching ARO-CHAT-0035 registry reservation, PR or issue was found. It was treated as an existing branch alias and not claimed.
+- Searches found no ARO-CHAT-0036 branch, PR or issue before this task was reserved. ARO-CHAT-0036 / ARO-TASK-0036 is registered here.
+- PR #79 is stacked on PR #78 and must not be integrated independently of its base chain.
+
+### Remaining acceptance
+- Obtain the actual creator-authorized GTA 6 recording/export.
+- Confirm and record the specific permission scopes and reference supplied by the creator.
+- Run source intake, render a short candidate, FFprobe-validate it, play it back and obtain owner review.
+- Verify PR #79 on its exact final head before considering this code change tested.

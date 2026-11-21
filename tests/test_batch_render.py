@@ -8,6 +8,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from backend.app.batch_render import load_failed_rows, parse_approvals, run_batch
+from backend.app.media_probe import MediaInfo
 
 
 class BatchRenderTests(unittest.TestCase):
@@ -201,8 +202,37 @@ class BatchRenderTests(unittest.TestCase):
         self.assertEqual([row["status"] for row in result], ["rendered", "not_approved", "not_approved"])
 
 
+    def test_required_audio_is_preflighted_during_dry_run(self) -> None:
+        info = MediaInfo(self.media.resolve(), 100.0, "mov,mp4", True)
+        with patch("backend.app.batch_render.probe_media", return_value=info) as probe, \
+             patch("backend.app.batch_render.render_clip") as render:
+            result = run_batch(
+                self.csv_path, self.media, self.root / "out", {1},
+                require_audio=True, run_id="audio-preflight",
+            )
+        probe.assert_called_once_with(
+            self.media.resolve(), ffprobe_binary="ffprobe", require_audio=True
+        )
+        render.assert_not_called()
+        self.assertEqual(result[0]["status"], "planned")
+        self.assertEqual(result[0]["media_duration_seconds"], 100.0)
+
+    def test_silent_source_fails_required_audio_preflight_before_render(self) -> None:
+        with patch(
+            "backend.app.batch_render.probe_media",
+            side_effect=ValueError("local media file does not contain an audio stream"),
+        ), patch("backend.app.batch_render.render_clip") as render:
+            with self.assertRaisesRegex(ValueError, "does not contain an audio stream"):
+                run_batch(
+                    self.csv_path, self.media, self.root / "out", {1},
+                    require_audio=True, run_id="silent-source",
+                )
+        render.assert_not_called()
+
     def test_execution_forwards_require_audio_to_renderer(self) -> None:
-        with patch("backend.app.batch_render.render_clip") as render:
+        info = MediaInfo(self.media.resolve(), 100.0, "mov,mp4", True)
+        with patch("backend.app.batch_render.probe_media", return_value=info), \
+             patch("backend.app.batch_render.render_clip") as render:
             result = run_batch(
                 self.csv_path, self.media, self.root / "out", {1},
                 execute=True, rights_confirmed=True, media_duration_seconds=100.0,
