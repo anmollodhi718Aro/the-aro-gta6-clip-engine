@@ -26,6 +26,8 @@ def probe_media(
     source = Path(path).expanduser().resolve()
     if not source.is_file():
         raise FileNotFoundError(f"local media file does not exist: {source}")
+    if source.stat().st_size == 0:
+        raise ValueError(f"local media file is empty: {source}")
     command = [
         ffprobe_binary, "-v", "error", "-show_entries",
         "format=duration,format_name:stream=codec_type", "-of", "json", str(source),
