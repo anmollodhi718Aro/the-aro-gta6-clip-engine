@@ -35,9 +35,11 @@ jobs:
           ffmpeg -version
           ffprobe -version
       - name: Compile source
-        run: python -m compileall -q backend tests THE_ARO_STUDIO.py
+        run: python -m compileall -q backend tests THE_ARO_STUDIO.py scripts
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
+      - name: Render and verify synthetic MP4
+        run: python scripts/synthetic_first_clip_test.py --output-dir synthetic_test_runs
 
   windows-tests:
     runs-on: windows-latest
@@ -76,6 +78,8 @@ jobs:
           ffprobe -version
           if ($LASTEXITCODE -ne 0) { throw "FFprobe is unavailable." }
       - name: Compile source and tests
-        run: python -m compileall -q backend tests THE_ARO_STUDIO.py
+        run: python -m compileall -q backend tests THE_ARO_STUDIO.py scripts
       - name: Run complete unittest suite
         run: python -m unittest discover -s tests -v
+      - name: Render and verify synthetic MP4
+        run: python scripts/synthetic_first_clip_test.py --output-dir synthetic_test_runs
