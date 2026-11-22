@@ -756,3 +756,27 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 ## Historical chat range clarification
 
 The ARO-CHAT-0001 through ARO-CHAT-0008 entries above are legacy/historical chat records. They are not interchangeable with the newer ARO-CHAT-0036 and ARO-CHAT-0037 workstreams. Preserve all existing rows and corrections; never renumber or overwrite historical attribution.
+
+
+## ARO-CHAT-0039 reservation and implementation — 2026-11-22
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0039 |
+| Exact chat title | ARO-CHAT-0039 | Authenticated Channel-Owner Approval Security |
+| Workstream ID | ARO-GTA-P0-39 |
+| Scope | Integrate the existing owner-identity approval helper into the YouTube uploader; derive destination channel identity from verified OAuth via YouTube channels.list(mine=True); add immutable durable per-clip approval records; re-check exact clip/source, authenticated reviewer identity, and active publish permission immediately before upload; mocked no-network tests. |
+| Branch / PR | \`workstream/aro-chat-0039-authenticated-uploader-approval-2026-11-22\` / PR pending |
+| Base | PR #81 documentation branch \`workstream/aro-master-script-registry-refresh-2026-11-22\` |
+| Starting SHA | \`20a6645690935ac04054fc1a6564d8e6275daa3c\` |
+| Status | RESERVED / IN_PROGRESS; CI not yet run |
+| Duplicate-work check | A separate branch named for ARO-CHAT-0038 already existed at the PR #81 starting SHA and was not reused. No ARO-CHAT-0039 branch or PR existed at reservation. Existing PR #67 helper hardening was reused rather than duplicated. |
+| Authority | Owner's explicit scoped authorization to implement issue #68 in the recent project conversation; this workstream does not authorize real uploads, publishing, OAuth credential exposure, merge, deployment, or destructive actions. |
+
+### ARO-CHAT-0039 implementation notes
+
+- The current uploader's \`--owner-approved\` boolean was not authenticated and could not prove which channel owner reviewed the clip.
+- \`backend/app/approval.py\` now requires the trusted authenticated channel identity and rejects reviewer mismatch.
+- The uploader now obtains the channel ID from the authenticated YouTube API session, persists immutable per-clip approval JSON with exclusive-create semantics, loads a separate publish-permission record, and checks both immediately before the upload insert call.
+- Approval recording and upload are separate CLI invocations. Existing rights preflight remains unapproved for human review; no source-media or publication rights are inferred.
+- Tests use mocked YouTube clients; no real upload is performed.
