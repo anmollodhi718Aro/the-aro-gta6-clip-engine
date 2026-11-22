@@ -789,3 +789,11 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Implementation and regression-test commits are recorded in the branch history; PR #83 is Draft on PR #80's exact base head. The OIDC-subject hardening is now included. Exact-head Actions evidence must be refreshed after the latest commit; local test execution is not claimed.
 - Owner-side OAuth setup and a real authorized upload remain separate acceptance steps. This implementation does not authorize a real upload.
 - First authorized GTA 6 MP4 acceptance remains BLOCKED pending source permission evidence, actual local rendering, FFprobe validation, playback and owner acceptance.
+
+
+### ARO-CHAT-0038 security hardening update
+- PR #83 remains a draft and unmerged.
+- Owner approval binds the verified Google OIDC subject and OAuth-resolved YouTube channel, exact clip/source IDs, exact file hash and privacy level.
+- Public visibility requires the distinct typed confirmation PUBLISH PUBLIC CLIP_ID.
+- Current publish grants are rechecked for the clip source and each source-bound asset immediately before the upload API request.
+- CI evidence must be refreshed on the latest PR head before the workstream can be marked verified.

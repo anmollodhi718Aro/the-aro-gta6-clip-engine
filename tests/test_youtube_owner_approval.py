@@ -42,7 +42,7 @@ class OwnerApprovalTests(unittest.TestCase):
         })
         write_owner_approval_record(
             self.record, clip_id="clip-1", source_id="source-1",
-            video_path=self.video, owner=OWNER, confirmed=True,
+            video_path=self.video, owner=OWNER, privacy="private", confirmed=True,
             at=NOW, expires_at=NOW + timedelta(hours=12),
         )
 
@@ -56,6 +56,7 @@ class OwnerApprovalTests(unittest.TestCase):
             "source_id": "source-1",
             "video_path": self.video,
             "owner": OWNER,
+            "privacy": "private",
             "rights_registry": self.registry,
             "at": NOW + timedelta(minutes=1),
         }
@@ -212,7 +213,7 @@ class OwnerApprovalTests(unittest.TestCase):
         with self.assertRaises(FileExistsError):
             write_owner_approval_record(
                 self.record, clip_id="clip-2", source_id="source-1",
-                video_path=self.video, owner=OWNER, confirmed=True, at=NOW,
+                video_path=self.video, owner=OWNER, privacy="private", confirmed=True, at=NOW,
             )
 
     def test_approval_is_bound_to_exact_video_hash(self):
@@ -227,6 +228,14 @@ class OwnerApprovalTests(unittest.TestCase):
     def test_different_destination_channel_is_rejected(self):
         with self.assertRaisesRegex(PermissionError, "does not match"):
             self.gate(owner=AuthenticatedChannelOwner(OWNER.google_subject, "another-channel"))
+
+    def test_different_google_subject_on_same_channel_is_rejected(self):
+        with self.assertRaisesRegex(PermissionError, "does not match"):
+            self.gate(owner=AuthenticatedChannelOwner("different-google-subject", OWNER.channel_id))
+
+    def test_privacy_mismatch_is_rejected(self):
+        with self.assertRaisesRegex(PermissionError, "does not match"):
+            self.gate(privacy="public")
 
     def test_clip_and_source_mismatch_are_rejected(self):
         with self.assertRaisesRegex(PermissionError, "does not match"):
@@ -290,6 +299,7 @@ class OwnerApprovalTests(unittest.TestCase):
         data = json.loads(self.record.read_text(encoding="utf-8"))
         self.assertEqual(data["reviewer_google_subject"], OWNER.google_subject)
         self.assertEqual(data["reviewer_channel_id"], OWNER.channel_id)
+        self.assertEqual(data["privacy"], "private")
         self.assertEqual(data["destination_channel_id"], OWNER.channel_id)
         self.assertEqual(data["source_sha256"], sha256_file(self.video))
         self.assertEqual(data["decision"], "approved")

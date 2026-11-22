@@ -83,7 +83,7 @@ python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
   --upload --owner-approved --confirm-rights
 ```
 
-Immediately before `videos.insert`, the uploader re-verifies the Google OIDC subject and authenticated channel, the exact clip/source/file approval and current publish permission. The default privacy setting is private. Public or unlisted uploads still require every gate to pass. The flags do not guarantee legal clearance, platform acceptance, copyright safety, or monetization.
+Immediately before `videos.insert`, the uploader re-verifies the Google OIDC subject and authenticated channel, the exact account/channel/clip/source/file/privacy approval and current publish permissions for every source-bound asset. The default privacy setting is private. Public or unlisted uploads still require every gate to pass. The `--owner-approved` flag is only an additional operator acknowledgement, never identity authentication or a substitute for the durable record. The flags do not guarantee legal clearance, platform acceptance, copyright safety, or monetization.
 
 ## Limits
 
@@ -93,3 +93,13 @@ Immediately before `videos.insert`, the uploader re-verifies the Google OIDC sub
 - OAuth client secrets and refresh tokens must remain local and out of Git.
 - No scheduling or automatic posting is implemented; each upload is a deliberate CLI action.
 - The owner must supply the correct made-for-kids declaration. Do not guess.
+
+
+## Approval binding and privacy rules
+
+- The OAuth ID token is verified against the configured OAuth client ID; its stable Google subject must equal ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT.
+- The same OAuth session must resolve the configured destination channel through YouTube channels.list(mine=True).
+- Approval records bind both the Google subject and YouTube channel, plus clip ID, source ID, exact local file SHA-256, privacy, review time and expiry.
+- A private or unlisted approval cannot authorize a public upload. Public approval requires the distinct phrase PUBLISH PUBLIC CLIP_ID.
+- Immediately before videos.insert, the uploader rechecks the current publish grant for the clip source and every source-bound asset in the rights report.
+- Tests use synthetic files and mocked YouTube/OAuth clients only. They never perform a real upload.

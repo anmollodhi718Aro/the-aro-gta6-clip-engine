@@ -207,3 +207,7 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 - No creator media acquisition or real-media acceptance is included. The first authorized GTA 6 MP4 remains subject to its separate source-permission, render, FFprobe, playback and owner-acceptance gates.
 - GitHub push/admin capability is technical capability only and does not grant authority for owner-only actions.
 - PR #83 remains draft and unmerged; owner review is required before integration.
+
+
+### ARO-CHAT-0038 security control refinement
+The active scoped grant includes tests and documentation for verified Google OIDC subject binding, destination channel resolution, immutable per-clip approval, privacy-bound visibility, and immediate revalidation of all source-bound publish grants. No real upload, publish, merge, deployment or credential exposure is authorized.

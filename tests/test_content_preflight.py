@@ -99,6 +99,21 @@ class ContentPreflightTests(unittest.TestCase):
         self.assertEqual(report["status"], "blocked")
         self.assertEqual(len(report["errors"]), 2)
 
+    def test_clip_and_source_ids_are_preserved_in_preflight_report(self):
+        report = preflight_content_pack(
+            {
+                "clip_id": "clip-123",
+                "source_id": "approved-source",
+                "visual_assets": [{
+                    "asset_id": "creator-clip", "kind": "creator_authorized",
+                    "source_id": "approved-source",
+                }],
+            },
+            self.registry, "youtube", at=self.now,
+        )
+        self.assertEqual(report["clip_id"], "clip-123")
+        self.assertEqual(report["source_id"], "approved-source")
+
     def test_requires_pack_object_platform_and_asset_list(self):
         with self.assertRaises(ValueError):
             preflight_content_pack([], self.registry, "youtube", at=self.now)
