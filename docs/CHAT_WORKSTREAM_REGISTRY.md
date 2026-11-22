@@ -978,3 +978,19 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - New documentation branch CI NOT RUN.
 - Registry records PR #93 exact-head run `45020379946`; that evidence does not transfer to this branch.
 - Owner-device and real-media verification NOT VERIFIED.
+
+
+## ARO-CHAT-0048 direct uploader size-guard regression — 2026-11-22
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0048 |
+| Exact title | ARO-CHAT-0048 | Direct Upload Size-Guard Regression Test |
+| Workstream ID | ARO-GTA-P1-48 |
+| Role | Bounded QA contributor |
+| Task | Add a regression proving direct callers of upload_video() are rejected by the configured size ceiling before OAuth authorization or API initialization. |
+| Branch | workstream/aro-chat-0048-direct-upload-size-guard-test-2026-11-22 |
+| Base | PR #95 exact head f29fd9d5ce5db4b10e0e2fd8c14d83b4bdd1e061 |
+| Status | RESERVED / IN_PROGRESS; test not yet committed or executed |
+| Scope | Test-only change to tests/test_youtube_upload.py; no uploader behavior changes. |
+| Safety boundary | Synthetic local bytes and mocks only. No credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
