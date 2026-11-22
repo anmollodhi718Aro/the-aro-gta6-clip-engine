@@ -991,6 +991,8 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Task | Add a regression proving direct callers of upload_video() are rejected by the configured size ceiling before OAuth authorization or API initialization. |
 | Branch | workstream/aro-chat-0048-direct-upload-size-guard-test-2026-11-22 |
 | Base | PR #95 exact head f29fd9d5ce5db4b10e0e2fd8c14d83b4bdd1e061 |
-| Status | RESERVED / IN_PROGRESS; test not yet committed or executed |
-| Scope | Test-only change to tests/test_youtube_upload.py; no uploader behavior changes. |
+| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI pending; PR #96 draft/open/unmerged |
+| Changed files | tests/test_youtube_upload.py; docs/CHAT_WORKSTREAM_REGISTRY.md. |
+| Commits | 63b9f9cb6c6d3b8442ac3ee4c8e27bd90d1d297f (reservation); 83606d3357f9c487543799aadae955fdecca9cdf (regression test). |
+| Scope | Test-only change proving oversized direct upload_video() calls fail before OAuth; no uploader behavior changes. |
 | Safety boundary | Synthetic local bytes and mocks only. No credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
