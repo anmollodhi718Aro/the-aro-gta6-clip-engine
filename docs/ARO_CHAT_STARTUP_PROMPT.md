@@ -59,7 +59,7 @@ Do not label REAL_MEDIA_VERIFIED or COMPLETE before every required step has evid
 
 ### Security, rights, and owner approval boundaries
 - Keep public publishing disabled until uploader identity is bound to the authenticated channel owner and durable per-clip approval is enforced.
-- Issue #68 implementation is in draft PR #83 under the separately authorized ARO-CHAT-0038 / ARO-GTA-P1-38 workstream. Keep the issue open and the gate unresolved until owner review, exact-head CI verification and approved integration. No real upload or public publishing is authorized by that implementation task.
+- Issue #68 has two parallel draft implementations: PR #82 (ARO-CHAT-0039), which has exact-head Ubuntu/Windows CI success, and PR #83 (ARO-CHAT-0038), which adds Google OIDC subject and visibility-bound approval but still needs exact-head CI. Do not merge both independently; the project owner must select or consolidate one canonical implementation. Keep the issue open and the gate unresolved until owner review and approved integration. No real upload or public publishing is authorized by either implementation task.
 - Never scrape, stream-rip, download, or process unapproved third-party media. Use only owner-provided or otherwise explicitly licensed media within its documented scope.
 - Do not expose secrets, tokens, private credentials, or sensitive account data in commits, logs, prompts, or PRs.
 - Broad repository access or a general statement of permission does not waive action-specific approval gates.
