@@ -3,8 +3,12 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
-from backend.app.youtube_upload import build_upload_body, load_rights_report, validate_upload
+from backend.app.youtube_upload import (
+    build_upload_body, load_rights_report, record_upload_approval,
+    resolve_authenticated_channel_id, validate_upload,
+)
 
 
 class YouTubeUploadTests(unittest.TestCase):
@@ -106,6 +110,86 @@ class YouTubeUploadTests(unittest.TestCase):
         empty.touch()
         with self.assertRaisesRegex(ValueError, "empty"):
             validate_upload(empty, self.report, title="Short", made_for_kids=False)
+
+    def test_authenticated_channel_resolution_fails_closed_for_zero_or_multiple_channels(self):
+        class Request:
+            def __init__(self, items):
+                self.items = items
+            def execute(self, num_retries=0):
+                return {"items": self.items}
+        class Channels:
+            def __init__(self, items):
+                self.items = items
+            def list(self, **kwargs):
+                return Request(self.items)
+        class YouTube:
+            def __init__(self, items):
+                self.items = items
+            def channels(self):
+                return Channels(self.items)
+
+        self.assertEqual(resolve_authenticated_channel_id(YouTube([{"id": "UC_OWNER"}])), "UC_OWNER")
+        with self.assertRaisesRegex(PermissionError, "exactly one"):
+            resolve_authenticated_channel_id(YouTube([]))
+        with self.assertRaisesRegex(PermissionError, "exactly one"):
+            resolve_authenticated_channel_id(YouTube([{"id": "UC_A"}, {"id": "UC_B"}]))
+
+    def test_approval_record_uses_oauth_channel_identity_not_cli_reviewer_text(self):
+        permission = self.root / "permission.json"
+        permission.write_text(json.dumps({
+            "source_id": "source-001", "granted_by": "creator-001",
+            "scopes": ["publish"], "granted_at": "2026-11-22T00:00:00+00:00",
+            "expires_at": None, "revoked_at": None,
+        }), encoding="utf-8")
+        class Request:
+            def execute(self, num_retries=0):
+                return {"items": [{"id": "UC_AUTHENTICATED_OWNER"}]}
+        class Channels:
+            def list(self, **kwargs):
+                return Request()
+        class YouTube:
+            def channels(self):
+                return Channels()
+        with patch("backend.app.youtube_upload._authorize_google", return_value=object()), \\
+             patch("backend.app.youtube_upload._build_youtube_client", return_value=YouTube()), \\
+             patch("builtins.input", return_value="APPROVE"), \\
+             patch.dict(os.environ, {"ARO_UPLOAD_APPROVAL_KEY": "test-only-signing-key-with-32-bytes-minimum"}):
+            approval_path = record_upload_approval(
+                approval_record=self.root / "approval.json",
+                permission_record=permission,
+                clip_id="clip-001",
+                source_id="source-001",
+                expected_channel_id="UC_AUTHENTICATED_OWNER",
+                client_secrets=self.root / "client.json",
+                token_path=self.root / "token.json",
+            )
+        saved = json.loads(approval_path.read_text(encoding="utf-8"))
+        self.assertEqual(saved["reviewed_by"], "UC_AUTHENTICATED_OWNER")
+        self.assertNotIn("reviewed_by", saved.keys() - {"reviewed_by"})
+
+    def test_approval_record_rejects_oauth_channel_mismatch(self):
+        class Request:
+            def execute(self, num_retries=0):
+                return {"items": [{"id": "UC_OTHER"}]}
+        class Channels:
+            def list(self, **kwargs):
+                return Request()
+        class YouTube:
+            def channels(self):
+                return Channels()
+        with patch("backend.app.youtube_upload._authorize_google", return_value=object()), \\
+             patch("backend.app.youtube_upload._build_youtube_client", return_value=YouTube()):
+            with self.assertRaisesRegex(PermissionError, "does not match"):
+                record_upload_approval(
+                    approval_record=self.root / "approval.json",
+                    permission_record=self.root / "missing-permission.json",
+                    clip_id="clip-001",
+                    source_id="source-001",
+                    expected_channel_id="UC_EXPECTED",
+                    client_secrets=self.root / "client.json",
+                    token_path=self.root / "token.json",
+                )
+        self.assertFalse((self.root / "approval.json").exists())
 
 
 if __name__ == "__main__":
