@@ -136,27 +136,40 @@ class YouTubeUploadTests(unittest.TestCase):
                 self.video, {}, client_secrets=self.root / "unused.json",
                 token_path=self.root / "unused-token.json", approval_path=self.approval_path,
                 permission_path=self.permission_path, clip_id="clip-1", source_id="source-1",
-                youtube_client=youtube, at=NOW,
+                expected_channel_id="channel-owner-1", youtube_client=youtube, at=NOW,
             )
         youtube.videos.return_value.insert.assert_not_called()
 
     def test_pending_or_rejected_approval_cannot_upload(self):
-        for approved in (False,):
-            with self.subTest(approved=approved):
-                save_upload_approval(
-                    self.approval_path, clip_id="clip-1", source_id="source-1",
-                    approved=approved, authenticated_owner_identity="channel-owner-1", at=NOW,
-                )
-                youtube = self._youtube()
-                with self.assertRaisesRegex(PermissionError, "owner approval"):
-                    upload_video(
-                        self.video, {}, client_secrets=self.root / "unused.json",
-                        token_path=self.root / "unused-token.json", approval_path=self.approval_path,
-                        permission_path=self.permission_path, clip_id="clip-1", source_id="source-1",
-                        youtube_client=youtube, at=NOW,
-                    )
-                youtube.videos.return_value.insert.assert_not_called()
-                self.approval_path.unlink()
+        pending = {
+            "clip_id": "clip-1", "source_id": "source-1", "status": "needs_review",
+            "reviewed_by": None, "reviewed_at": None,
+        }
+        self.approval_path.write_text(json.dumps(pending), encoding="utf-8")
+        youtube = self._youtube()
+        with self.assertRaisesRegex(PermissionError, "owner approval"):
+            upload_video(
+                self.video, {}, client_secrets=self.root / "unused.json",
+                token_path=self.root / "unused-token.json", approval_path=self.approval_path,
+                permission_path=self.permission_path, clip_id="clip-1", source_id="source-1",
+                expected_channel_id="channel-owner-1", youtube_client=youtube, at=NOW,
+            )
+        youtube.videos.return_value.insert.assert_not_called()
+        self.approval_path.unlink()
+
+        save_upload_approval(
+            self.approval_path, clip_id="clip-1", source_id="source-1",
+            approved=False, authenticated_owner_identity="channel-owner-1", at=NOW,
+        )
+        youtube = self._youtube()
+        with self.assertRaisesRegex(PermissionError, "owner approval"):
+            upload_video(
+                self.video, {}, client_secrets=self.root / "unused.json",
+                token_path=self.root / "unused-token.json", approval_path=self.approval_path,
+                permission_path=self.permission_path, clip_id="clip-1", source_id="source-1",
+                expected_channel_id="channel-owner-1", youtube_client=youtube, at=NOW,
+            )
+        youtube.videos.return_value.insert.assert_not_called()
 
     def test_wrong_clip_or_source_cannot_reuse_approval(self):
         self._approved_record()
