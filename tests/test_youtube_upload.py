@@ -236,6 +236,56 @@ class YouTubeUploadTests(unittest.TestCase):
         self.assertNotEqual(captured["uploaded_bytes"], self.video.read_bytes())
         youtube.videos.return_value.insert.assert_called_once()
 
+    def test_modified_staged_snapshot_fails_hash_gate_before_api_insert(self):
+        db_path = self.root / "source_rights.sqlite3"
+        self._write_upload_rights(db_path)
+        youtube = Mock()
+        youtube.channels.return_value.list.return_value.execute.return_value = {
+            "items": [{"id": "youtube-channel-456"}]
+        }
+
+        def mutate_staged_snapshot(stream, **kwargs):
+            # Simulate staged-byte tampering after the upload stream is bound
+            # but before the approval gate hashes the staged file.
+            snapshot_path = Path(stream.name)
+            stream.close()
+            os.chmod(snapshot_path, 0o600)
+            snapshot_path.write_bytes(b"modified staged snapshot")
+            return SimpleNamespace(stream=stream)
+
+        modules = self._mock_google_modules(youtube)
+        modules["googleapiclient.http"].MediaIoBaseUpload = Mock(
+            side_effect=mutate_staged_snapshot
+        )
+        with patch.dict(sys.modules, modules):
+            with patch.dict(os.environ, {
+                "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
+                "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
+            }):
+                with patch(
+                    "backend.app.youtube_upload._authorize_google",
+                    return_value=object(),
+                ), patch(
+                    "backend.app.youtube_owner_approval.verify_authenticated_channel_owner",
+                    return_value=self.owner,
+                ):
+                    with self.assertRaisesRegex(PermissionError, "exact video"):
+                        upload_video(
+                            self.video,
+                            {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                            client_secrets=self.client_secrets,
+                            token_path=self.root / "token.json",
+                            rights_report_path=self.report,
+                            approval_record_path=self.root / "approval.json",
+                            rights_db_path=db_path,
+                            clip_id="clip-1",
+                            source_id="source-1",
+                            owner_approved=True,
+                            rights_confirmed=True,
+                        )
+
+        youtube.videos.return_value.insert.assert_not_called()
+
     def test_revoked_permission_blocks_before_any_upload_api_request(self):
         db_path = self.root / "source_rights.sqlite3"
         registry, _, _ = self._write_upload_rights(db_path)
