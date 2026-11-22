@@ -799,3 +799,27 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Public visibility requires the distinct typed confirmation PUBLISH PUBLIC CLIP_ID.
 - Current publish grants are rechecked for the clip source and each source-bound asset immediately before the upload API request.
 - CI evidence must be refreshed on the latest PR head before the workstream can be marked verified.
+
+## ARO-CHAT-0041 security remediation reservation — 2026-11-22
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0041 |
+| Exact title | ARO-CHAT-0041 | YouTube Uploader Security Remediation |
+| Workstream ID | ARO-GTA-P1-41 |
+| Role | Bounded security implementation contributor |
+| Task | Repair the recursive Google OIDC token-verification helper in the selected PR #83 implementation and add mocked regression coverage. |
+| Branch | `workstream/aro-chat-0041-oidc-helper-recursion-fix-2026-11-22` |
+| Base | `workstream/aro-chat-0038-authenticated-uploader-approval-2026-11-22` |
+| Starting SHA | `9f3107e9fc520ce93a0487c7311b17d1b5b1a67a` (PR #83 exact head) |
+| Status | IMPLEMENTED; exact-head CI pending; independent review and owner integration required |
+| Scope boundary | No changes to PR #83 branch, PR #82, OAuth credentials, tokens, real media, upload, publish, merge, retarget, or deployment. |
+
+### ARO-CHAT-0041 implementation evidence
+
+- Confirmed `_verify_google_id_token()` recursively invoked itself instead of calling Google's OIDC verifier. The helper was not used by the primary verification path, which duplicated the verification logic inline.
+- Replaced the recursive call with a fail-closed call to `google.oauth2.id_token.verify_oauth2_token`, passing the configured OAuth client ID as the audience and wrapping verification failures as `PermissionError`.
+- Routed `verify_authenticated_channel_owner()` through the helper so the tested helper is the actual identity-verification path.
+- Added mocked tests for signature/audience invocation, missing token/client ID, and verifier failure. Tests do not use live Google credentials or perform uploads.
+- Implementation commits: `9bed24b0d77162312e3cd9cfc68bb9f30afabc87`, `ce0f809c72de22b6e0d53f5902c5f3bf436a4eaa`, `ec272c3a5112f50eeaf658f2bd8e10530279704f`; registry reservation commit is recorded in PR history.
+- CI, full-suite results, and independent security review are pending. This work does not establish upload readiness or resolve Issue #68 by itself.

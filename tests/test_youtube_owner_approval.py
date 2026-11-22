@@ -14,6 +14,7 @@ from backend.app.youtube_owner_approval import (
     AuthenticatedChannelOwner,
     require_current_owner_approval,
     sha256_file,
+    _verify_google_id_token,
     verify_authenticated_channel_owner,
     write_owner_approval_record,
 )
@@ -85,6 +86,37 @@ class OwnerApprovalTests(unittest.TestCase):
             "google.oauth2": oauth2,
             "google.oauth2.id_token": id_token,
         }, id_token
+
+    def test_id_token_helper_verifies_signature_and_audience(self):
+        claims = {
+            "sub": OWNER.google_subject,
+            "iss": "https://accounts.google.com",
+            "azp": "client-id",
+        }
+        modules, id_token = self._mock_google_modules(claims)
+        credentials = SimpleNamespace(id_token="signed-id-token")
+        with patch.dict(sys.modules, modules):
+            actual = _verify_google_id_token(credentials, "client-id")
+        self.assertEqual(actual, claims)
+        id_token.verify_oauth2_token.assert_called_once()
+        args, kwargs = id_token.verify_oauth2_token.call_args
+        self.assertEqual(args[0], "signed-id-token")
+        self.assertEqual(kwargs["audience"], "client-id")
+
+    def test_id_token_helper_rejects_missing_token_and_client_id(self):
+        with self.assertRaisesRegex(PermissionError, "no OpenID Connect"):
+            _verify_google_id_token(SimpleNamespace(id_token=None), "client-id")
+        with self.assertRaisesRegex(PermissionError, "OAuth client ID"):
+            _verify_google_id_token(SimpleNamespace(id_token="signed-id-token"), "")
+
+    def test_id_token_helper_wraps_signature_verification_failure(self):
+        modules, id_token = self._mock_google_modules({})
+        id_token.verify_oauth2_token.side_effect = ValueError("bad signature")
+        with patch.dict(sys.modules, modules):
+            with self.assertRaisesRegex(PermissionError, "could not be verified"):
+                _verify_google_id_token(
+                    SimpleNamespace(id_token="invalid-token"), "client-id"
+                )
 
     def test_oauth_subject_and_youtube_channel_are_both_verified(self):
         modules, id_token = self._mock_google_modules({
