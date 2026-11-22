@@ -171,9 +171,9 @@ python -m backend.app.youtube_upload /path/to/authorized-clip.mp4 \\
   --rights-db aro_studio_data/source_rights.sqlite3
 ```
 
-After OAuth channel verification and a current publish-scope check, the CLI asks for the exact typed confirmation `APPROVE CLIP_ID`. The resulting record is non-overwritable, expires after 24 hours by default, and binds the Google OIDC subject, destination channel, clip, source and SHA-256 of the local video.
+After OAuth channel verification and a current publish-scope check, the CLI asks for a visibility-specific typed confirmation: `APPROVE PRIVATE CLIP_ID`, `APPROVE UNLISTED CLIP_ID`, or `PUBLISH PUBLIC CLIP_ID`. The resulting record is non-overwritable, expires after 24 hours by default, and binds the Google OIDC subject, destination channel, clip, source, requested privacy level and SHA-256 of the local video.
 
-A separate upload invocation still requires the same clip/source IDs, the approval record, `--upload --owner-approved --confirm-rights`, and a fresh check of channel identity, approval and the SQLite publish grant immediately before the YouTube API request. The default privacy is `private`. A client-supplied flag is never treated as channel authentication. Unit tests use mocked API clients; they do not perform uploads. A real upload remains a separate owner-approved acceptance test.
+A separate upload invocation still requires the same clip/source IDs and approved privacy level, the approval record, `--upload --owner-approved --confirm-rights`, and a fresh check of channel identity, approval and the SQLite publish grant immediately before the YouTube API request. The default privacy is `private`. A client-supplied flag is never treated as channel authentication. Unit tests use mocked API clients; they do not perform uploads. A real upload remains a separate owner-approved acceptance test.
 
 ## Seven-day creator activity watchlist
 
