@@ -60,7 +60,7 @@ python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
   --clip-id clip-001 --source-id source-001 \
   --rights-db aro_studio_data/source_rights.sqlite3 \
   --approval-record local_approvals/clip-001.json \
-  --approve-clip --owner-approved
+  --approve-clip
 ```
 
 This step calls the official YouTube API with the current OAuth session, verifies that the configured channel is returned by `channels.list(mine=true)`, checks current source publish permission, and records a 24-hour approval bound to the exact file's SHA-256. It does not upload. Existing approval files are never overwritten.
