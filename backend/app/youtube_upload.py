@@ -351,8 +351,9 @@ def main() -> int:
                 credentials, youtube, oauth_client_id=oauth_client_id,
                 expected_google_subject=expected_subject, expected_channel_id=expected_channel,
             )
-            SourceRightsRegistry(args.rights_db.expanduser()).authorize(
-                args.source_id, "publish", "youtube"
+            approval_rights_registry = SourceRightsRegistry(args.rights_db.expanduser())
+            require_report_publish_permissions(
+                approval_report, approval_rights_registry, args.source_id
             )
             expected_confirmation = _approval_confirmation_phrase(args.clip_id, args.privacy)
             print(
