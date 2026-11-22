@@ -136,6 +136,18 @@ def write_owner_approval_record(
     return record
 
 
+def require_active_publish_permission(permission_evidence: Mapping[str, Any], source_id: str, *, at: datetime | None = None) -> None:
+    """Validate the current, source-bound publish grant before owner review."""
+    if not isinstance(permission_evidence, Mapping) or permission_evidence.get("source_id") != source_id:
+        raise PermissionError("source-specific publish permission evidence is required")
+    if permission_evidence.get("status") != "active" or permission_evidence.get("revoked") is not False:
+        raise PermissionError("source publish permission is inactive or revoked")
+    scopes = permission_evidence.get("scopes")
+    if not isinstance(scopes, list) or "publish" not in scopes:
+        raise PermissionError("current publish scope is required")
+    if _parse_aware(permission_evidence.get("expires_at"), "permission expires_at") <= (at or datetime.now(timezone.utc)):
+        raise PermissionError("source publish permission has expired")
+
 def require_current_owner_approval(
     approval_path: str | Path,
     *,
