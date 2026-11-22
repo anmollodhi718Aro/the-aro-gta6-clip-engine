@@ -854,3 +854,25 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Changed files: `backend/app/youtube_upload.py`, `tests/test_youtube_upload.py`, and this registry.
 - Implementation commits: `dc2db998f020abaaa7caf40e69a7d750a942474c` and `364cecc67e4b3acac4bbb58a8a2734077dc5a271`; registry reservation commit: `6bebabc81e20392d473ec70931c022085233583c`.
 - Direct/local tests: NOT RUN in this connector session. Exact-head GitHub Actions: PENDING. No live OAuth, network upload, public publishing, or real-media operation is part of this task.
+
+
+## ARO-CHAT-0043 snapshot hash-mismatch regression reservation — 2026-11-22
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0043 |
+| Exact title | ARO-CHAT-0043 | Reject modified upload snapshots before API insert |
+| Workstream ID | ARO-GTA-P1-43 |
+| Role | Bounded security regression-test contributor |
+| Task | Add a mocked regression proving that if the private staged upload snapshot changes after staging but before approval validation, the exact-file-hash gate rejects it before the YouTube upload API insert. |
+| Branch | `workstream/aro-chat-0043-upload-snapshot-hash-mismatch-test-2026-11-22` |
+| Base | `workstream/aro-chat-0042-upload-snapshot-toctou-2026-11-22` |
+| Starting SHA | `7a1d9a9a66a7b16ed0632eee10189554f20d2aa6` |
+| Status | RESERVED; implementation and tests pending |
+| Scope boundary | Test-only change plus registry evidence. No changes to PR #83/#87/#88 branches, credentials, tokens, real media, live OAuth, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Acceptance checks
+- Use a mocked YouTube client and synthetic local bytes only.
+- Mutate the staged snapshot after MediaIoBaseUpload receives the open stream but before the approval/hash gate runs.
+- Assert the approval/hash check raises and `youtube.videos().insert` is never called.
+- Run the focused test and full unit suite locally if available; require exact-head Ubuntu and Windows CI before claiming CI_VERIFIED.
