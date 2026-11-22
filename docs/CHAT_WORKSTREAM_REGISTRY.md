@@ -1019,3 +1019,33 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - The PR #96 patch adds a mocked regression proving direct upload_video() callers reject an over-limit file before OAuth authorization and do not create a token file.
 - This is exact-head hosted CI evidence. It does not establish owner-device Windows verification, real-media verification, or live-upload readiness. Synthetic MP4 output is not GTA 6 footage.
 - PR #96 remains draft/open/unmerged. Issue #68 remains open pending owner-controlled selection and integration of the canonical authenticated uploader approval implementation. Do not merge competing security branches independently.
+
+
+## ARO-CHAT-0050 PR #97 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0050 |
+| Exact title | ARO-CHAT-0050 | PR #97 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-50 |
+| Role | CI evidence auditor + bounded documentation contributor |
+| Task | Verify the exact head of PR #97 using live Actions job and log evidence, record the result, and refresh the owner-gated next-action status without changing uploader behavior. |
+| Branch | workstream/aro-chat-0050-pr97-exact-head-ci-closeout-2026-11-23 |
+| Base | PR #97 exact head `54a0a175af0abf495b6d2d66df0e138691c6b695` |
+| Starting SHA | `54a0a175af0abf495b6d2d66df0e138691c6b695` |
+| Status | IMPLEMENTED (documentation-only); CI_VERIFIED for audited PR #97 exact head; this follow-up branch's own CI remains pending |
+| Changed files | docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No uploader source/test changes, credentials/tokens, OAuth, real media, live upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head evidence
+- PR #97 exact head `54a0a175af0abf495b6d2d66df0e138691c6b695` has successful Python CI run [45055732006](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45055732006).
+- Ubuntu job `137310410353` and hosted Windows job `137310410636` both completed setup, checkout, Python setup, FFmpeg/FFprobe installation, compilation, full unit-test steps, and synthetic MP4 render/FFprobe validation successfully.
+- Both synthetic render reports explicitly identify locally generated test pattern/tone; `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- The connector log excerpt did not establish numeric unittest counts; no count is claimed. Hosted Windows CI is not owner-device Windows verification. Synthetic media is not GTA 6 footage or real-media acceptance.
+- This run validates PR #97's exact head only. It does not validate this new documentation follow-up branch.
+
+### Latest pending owner gates
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. The project owner must assign the implementation owner and select one canonical authenticated-uploader security PR/branch or explicitly approve a consolidation plan. Do not integrate overlapping security branches independently.
+- Keep live upload and public publishing disabled until OAuth-authenticated channel identity, exact per-clip approval, immutable approved bytes, current source-rights checks, and expiry/revocation handling are independently reviewed and enforced.
+- The first real GTA 6 clip remains BLOCKED pending creator-authorized source media, documented permission scope, local render, FFprobe validation, playback, and owner acceptance.
+- No merge, retarget, deployment, upload, public publishing, or destructive operation was performed by this workstream.
