@@ -346,3 +346,18 @@
 | Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
 |---|---|---|---|---|---|---|
 | ARO-CHAT-0021 | ARO-CHAT-0021 | Owner Identity Enforcement for Upload Approval Gate | ARO-ZERO-ONE (security hardening; task ARO-GTA-P0-21) | Require upload approval to match a trusted authenticated channel-owner identity; add mismatch/missing-identity regression tests; document authentication boundary. No OAuth implementation or publishing. | `workstream/aro-chat-0021-owner-identity-guard-2026-11-20` / [draft PR #67](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/67), stacked on PR #66 | IMPLEMENTED; CI pending | Base PR #66 head `008f1fc9b0088788b2037b32e89c14dd6c504a1c`; existing PR #65/#66 approval implementation inspected; no matching open issue or branch found |
+
+
+## ARO-CHAT-0022 reservation — 2026-11-22
+- Chat: `ARO-CHAT-0022 | Authenticated Channel-Owner Upload Approval Integration`; provider/model: OpenAI / GPT-6.
+- Workstream: existing `ARO-ZERO-ONE` security integration; task `ARO-GTA-P1-01`; follow-up issue #68.
+- Duplicate check: PR #67 is the owner-identity helper foundation; issue #68 is open and no implementation PR for its uploader integration was found. This work is deliberately stacked on PR #67 rather than replacing or duplicating it.
+- Branch: `workstream/aro-chat-0022-authenticated-upload-approval-2026-11-22`; base: `workstream/aro-chat-0021-owner-identity-guard-2026-11-20`; starting SHA: `000b8a63d52d1f4a48fabe65af867cf5a24868af`.
+- Scope: resolve the OAuth-authenticated YouTube channel through the official API; bind a durable, signed approval to exact clip/source IDs and the authenticated channel subject; re-read approval and source publish permission immediately before upload; remove the boolean `--owner-approved` trust path. No actual upload, deployment, merge, or public publishing.
+- Initial implementation: add immutable HMAC-signed approval records, require an environment-held `ARO_UPLOAD_APPROVAL_KEY`, add a separate interactive OAuth owner-approval step, and require a matching channel identity and active publish permission before an upload request.
+- Files created: `backend/app/upload_approval_store.py`, `tests/test_upload_approval_store.py`.
+- Files modified: `backend/app/youtube_upload.py`, `tests/test_youtube_upload.py`.
+- Commits: `ffa7667a1897b3bc86fdb7737c2eb944319c6436`, `44a3548773b68a6da5d5502731ca556381e3937b`, `f30c76ce94bb790fef89415bafe9cb02ed984bf0`, `80e9c5a1aa8843ebea1542b94f2d80c5d5963756`, `4cab5b5778ea0229e412745b6e3e343b8ea64964`, `d12a3b27026a9a2e1500f37e16e4dab79662cec1`, `ad11899825b214656b452c2a1e4ae86f78a3c9db`, `50865f41cf620317e68350e0861f2da19de52705`, `1177bf29c4620c4e7bd02c66fe342c7e0d21f70a`, `c4fe7c9bcdec114b9cd7007d7a13d906b48b6973`, `06e06230681b9641c65caefe5cf64f60a21f33ca`, `7df8c082f1d2a006062efcf13d96c95a03c30e8a`.
+- Tests: added/updated, but not yet executed in this chat; exact-head CI is pending. No test pass is claimed.
+- Status: IN_PROGRESS / IMPLEMENTATION UNDER REVIEW. OAuth live identity, durable-store key management on the owner device, expiry/revocation race behavior, and no-network upload tests still require validation. The approval file is integrity-protected by HMAC, but the signing key must be provisioned and protected outside Git.
+- Safety boundary: no credentials/tokens committed; no upload API call executed; no production deployment; public publishing remains blocked until all approval, rights, and permission gates pass.
