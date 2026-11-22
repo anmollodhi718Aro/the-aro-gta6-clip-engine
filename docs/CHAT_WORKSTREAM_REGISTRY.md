@@ -868,7 +868,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Branch | `workstream/aro-chat-0043-upload-snapshot-hash-mismatch-test-2026-11-22` |
 | Base | `workstream/aro-chat-0042-upload-snapshot-toctou-2026-11-22` |
 | Starting SHA | `7a1d9a9a66a7b16ed0632eee10189554f20d2aa6` |
-| Status | RESERVED; implementation and tests pending |
+| Status | IMPLEMENTED; mocked regression added; local tests not run in this connector session; exact-head CI pending |
 | Scope boundary | Test-only change plus registry evidence. No changes to PR #83/#87/#88 branches, credentials, tokens, real media, live OAuth, network upload, public publishing, merge, retarget, deployment, or destructive action. |
 
 ### Acceptance checks
@@ -876,3 +876,13 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Mutate the staged snapshot after MediaIoBaseUpload receives the open stream but before the approval/hash gate runs.
 - Assert the approval/hash check raises and `youtube.videos().insert` is never called.
 - Run the focused test and full unit suite locally if available; require exact-head Ubuntu and Windows CI before claiming CI_VERIFIED.
+
+
+### ARO-CHAT-0043 implementation evidence
+- Added `test_modified_staged_snapshot_fails_hash_gate_before_api_insert` in `tests/test_youtube_upload.py`.
+- The mocked `MediaIoBaseUpload` factory changes the staged snapshot after the stream is bound and before the approval/hash gate runs.
+- The test asserts the exact-file approval check raises `PermissionError` and the mocked YouTube `videos.insert` endpoint is never called.
+- Only synthetic local bytes and mocked API clients are used. No credentials, live OAuth, network upload, real media, or publishing is involved.
+- Changed files: `tests/test_youtube_upload.py` and this registry.
+- Implementation commit: `5da41efef4eac4d09d44b7d91d24c3cec2e364b7`.
+- Local tests: NOT RUN in this connector session. Exact-head Ubuntu/Windows CI: PENDING.
