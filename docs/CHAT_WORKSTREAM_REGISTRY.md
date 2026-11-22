@@ -947,3 +947,34 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Owner must select a conservative --max-upload-bytes value using actual available device memory and expected clip sizes before any real upload.
 - Issue #68 still requires independent security review and owner-controlled canonical integration of the parallel uploader approval work. Do not independently merge competing PRs.
 - First real clip remains blocked pending creator-authorized source media, documented permission scope, local render, FFprobe validation, playback, and owner acceptance.
+
+
+## ARO-CHAT-0047 independent YouTube uploader security audit — 2026-11-22
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0047 |
+| Exact title | ARO-CHAT-0047 | Independent YouTube Uploader Security Audit |
+| Workstream ID | ARO-GTA-P1-47 |
+| Role | Independent static security reviewer |
+| Task | Compare PR #82 and the PR #83 remediation lineage for Issue #68; record security gaps and owner-gated next steps without changing uploader behavior. |
+| Branch | `workstream/aro-chat-0047-independent-uploader-security-audit-2026-11-22` |
+| Base | `workstream/aro-chat-0046-exact-head-ci-closeout-2026-11-22` (PR #94 head) |
+| Starting SHA | `93ca44365b111fb9ce5a6dd0be8bd7aa6ab0bf50` |
+| Status | IMPLEMENTED (documentation-only static audit); dynamic tests NOT RUN; owner selection and integration remain BLOCKED |
+| Changed files | `docs/ARO_UPLOAD_SECURITY_AUDIT_2026-11-22.md`; this registry |
+| Scope boundary | No uploader source/test changes, credentials/tokens, OAuth, real media, live upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Audit conclusion
+- PR #82's reviewed approval model binds clip/source and a channel-level reviewer identity, but does not bind a stable Google OIDC subject, exact file digest, privacy level, or expiry. It is not equivalent to the PR #83 security design.
+- PR #83's reviewed head contains a recursive `_verify_google_id_token()` helper and path-based upload/hash TOCTOU exposure. PR #87 addresses the helper defect; PR #88 and PR #92 remediate the upload-byte integrity issue; PR #93 adds a configurable size ceiling and incremental copy-time enforcement.
+- The PR #93 stack is the stronger candidate for owner review, but no canonical PR selection or integration is inferred. PR #82/#83/#87/#91 histories remain preserved.
+- Owner must choose a device-appropriate `--max-upload-bytes` value before any real upload.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No real upload or public publishing is authorized.
+
+### Verification
+- Static source review completed for PR #82 head `f0f1976eab6db2d428152eba220078e5a4893a9b`, PR #83 head `f66f6406a496d08e3e85972010f1f52d831298ab`, and PR #93 head `f9834d29235738573ad773f19ebcc9b7c0f4c129`.
+- Local tests and dynamic security tests NOT RUN.
+- New documentation branch CI NOT RUN.
+- Registry records PR #93 exact-head run `45020379946`; that evidence does not transfer to this branch.
+- Owner-device and real-media verification NOT VERIFIED.
