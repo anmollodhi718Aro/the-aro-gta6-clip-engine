@@ -15,6 +15,7 @@ from backend.app.youtube_owner_approval import (
     require_active_publish_permission,
     verify_authenticated_channel_owner,
     write_owner_approval_record,
+    sha256_file,
 )
 
 
@@ -59,7 +60,7 @@ def main() -> int:
     )
     phrase = f"APPROVE {args.clip_id}"
     print("Authenticated channel owner and destination channel verified.")
-    print(f"Clip: {args.clip_id} | Source: {args.source_id} | Video SHA-256: {__import__('backend.app.youtube_owner_approval', fromlist=['sha256_file']).sha256_file(args.video)}")
+    print(f"Clip: {args.clip_id} | Source: {args.source_id} | Video SHA-256: {sha256_file(args.video)}")
     if input(f"Type exactly '{phrase}' to approve this clip for this channel: ").strip() != phrase:
         raise SystemExit("Approval not recorded.")
     record = write_owner_approval_record(
