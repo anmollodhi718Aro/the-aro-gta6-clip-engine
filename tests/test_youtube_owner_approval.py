@@ -14,6 +14,7 @@ from backend.app.youtube_owner_approval import (
     AuthenticatedChannelOwner,
     require_current_owner_approval,
     sha256_file,
+    sha256_bytes,
     _verify_google_id_token,
     verify_authenticated_channel_owner,
     write_owner_approval_record,
@@ -233,6 +234,14 @@ class OwnerApprovalTests(unittest.TestCase):
 
     def test_matching_owner_clip_source_hash_and_publish_permission_pass(self):
         self.gate()
+
+    def test_approval_gate_accepts_hash_of_immutable_upload_payload(self):
+        payload = self.video.read_bytes()
+        self.gate(video_path=None, video_sha256=sha256_bytes(payload))
+
+    def test_approval_gate_rejects_mismatched_immutable_upload_payload_hash(self):
+        with self.assertRaisesRegex(PermissionError, "does not match"):
+            self.gate(video_path=None, video_sha256=sha256_bytes(b"tampered payload"))
 
     def test_cannot_create_record_without_explicit_confirmation(self):
         with self.assertRaisesRegex(PermissionError, "explicit channel-owner confirmation"):
