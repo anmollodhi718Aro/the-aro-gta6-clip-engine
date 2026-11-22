@@ -756,3 +756,36 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 ## Historical chat range clarification
 
 The ARO-CHAT-0001 through ARO-CHAT-0008 entries above are legacy/historical chat records. They are not interchangeable with the newer ARO-CHAT-0036 and ARO-CHAT-0037 workstreams. Preserve all existing rows and corrections; never renumber or overwrite historical attribution.
+
+
+## ARO-CHAT-0038 implementation record — 2026-11-22
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0038 |
+| Exact chat title | ARO-CHAT-0038 \| Authenticated YouTube Owner Approval |
+| Workstream ID | ARO-GTA-P1-01 |
+| Project / priority | THE ARO GTA 6 Clip Engine / P1 uploader security gate |
+| Role | Security implementation contributor + QA |
+| Branch / PR | \`workstream/aro-chat-0038-authenticated-uploader-approval-2026-11-22\` / draft PR pending |
+| Base / starting SHA | PR #80 branch \`workstream/aro-chat-0037-synthetic-first-clip-test-2026-11-22\` / \`722945ba162a274b3ff78b5e5d472c97e7269a23\` |
+| Status | IN_PROGRESS; tests and exact-head CI pending |
+| Issue | [#68](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/68) |
+
+### Scope
+Integrate the existing local YouTube uploader with a verified OAuth-backed channel identity and a durable, per-clip owner approval record. The record binds the authenticated channel ID, clip ID, source ID, exact local video SHA-256, timezone-aware review time, and expiry. Re-check the current source-rights registry and approval immediately before the YouTube upload API request.
+
+### Security behavior
+- Resolve the destination channel through the official YouTube Data API using the current OAuth credentials and \`channels.list(mine=True)\`; compare it with the configured \`ARO_YOUTUBE_CHANNEL_ID\`.
+- Request the YouTube read-only scope in addition to upload scope so the channel identity can be resolved. Existing OAuth tokens lacking the required scopes must be re-authorized.
+- Require explicit \`--approve-clip --owner-approved\` in a separate invocation to create a durable approval. Approval creation does not upload.
+- Refuse to overwrite an existing approval record. Records expire after 24 hours by default and bind to the exact local file hash.
+- Before upload, require exact clip/source/file/channel matches and a current \`publish\` grant for YouTube in the SQLite source-rights registry. Re-check identity, approval and rights again immediately before \`videos.insert\`.
+- Legacy \`--owner-approved\` and \`--confirm-rights\` flags remain additional explicit intent checks; neither is treated as authentication.
+- Unit tests use mocked YouTube clients and local SQLite fixtures. No test performs a network upload.
+- No credentials, tokens, real media, upload, public publication, merge, deployment or destructive action is included.
+
+### Verification evidence
+- Implementation commits are recorded in the branch history; update this section with the exact final head SHA, local test counts, Actions run and per-platform results before claiming TESTED or CI_VERIFIED.
+- Owner-side OAuth setup and a real authorized upload remain separate acceptance steps. This implementation does not authorize a real upload.
+- First authorized GTA 6 MP4 acceptance remains BLOCKED pending source permission evidence, actual local rendering, FFprobe validation, playback and owner acceptance.
