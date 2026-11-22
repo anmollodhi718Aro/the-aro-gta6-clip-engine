@@ -758,16 +758,16 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 The ARO-CHAT-0001 through ARO-CHAT-0008 entries above are legacy/historical chat records. They are not interchangeable with the newer ARO-CHAT-0036 and ARO-CHAT-0037 workstreams. Preserve all existing rows and corrections; never renumber or overwrite historical attribution.
 
 
-## ARO-CHAT-0039 — Voice-first workforce coordination architecture (2026-11-22)
+## ARO-CHAT-0040 — Voice-first workforce coordination architecture (2026-11-22)
 
 | Field | Record |
 |---|---|
-| Chat ID | ARO-CHAT-0039 |
-| Exact chat title | ARO-CHAT-0039 | Safe Voice-First ARO Workforce Coordination Architecture |
-| Workstream ID | ARO-VOICE-0039 |
+| Chat ID | ARO-CHAT-0040 |
+| Exact chat title | ARO-CHAT-0040 | Safe Voice-First ARO Workforce Coordination Architecture |
+| Workstream ID | ARO-VOICE-0040 |
 | Role | Workforce architect / security-minded documentation contributor |
 | Scope | Define a voice-first, two-agent coordination architecture with separate agent identities, owner-controlled push-to-talk, authenticated task/event protocol, turn-taking, privacy safeguards, bounded GitHub permissions, fail-closed approval gates, text fallback, and activation tests. |
-| Branch / PR | `workstream/aro-chat-0039-voice-workforce-coordination-2026-11-22` / draft PR pending |
+| Branch / PR | `workstream/aro-chat-0040-voice-workforce-coordination-2026-11-22` / draft PR pending |
 | Starting SHA | `20a6645690935ac04054fc1a6564d8e6275daa3c` (PR #81 head) |
 | Implementation commit | `5c0e5b07929c19b96fddee0ddbc8a6762c9dd2f7` |
 | Files | `docs/ARO_WORKFORCE_VOICE_COORDINATION.md`; this registry |
