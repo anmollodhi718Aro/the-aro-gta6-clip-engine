@@ -156,6 +156,25 @@ python -m backend.app.content_preflight output/gta6_short.json \
 
 For each declared third-party visual, the preflight requires both `edit` and `publish` scope on the target platform. A matching record is metadata only, not legal verification. All included music, game publisher, guest and other third-party rights need separate review. Credit and a disclaimer do not replace permission.
 
+### Optional YouTube uploader: two-step owner approval
+
+The uploader remains opt-in. Configure `ARO_YOUTUBE_CHANNEL_ID` for the destination channel and keep the OAuth client file and token outside Git. The OAuth session must be able to resolve the configured channel through YouTube's authenticated `channels.list(mine=True)` endpoint. Existing tokens without the required read-only identity scope must be re-authorized.
+
+First, create a durable approval for one exact local video, clip ID and source ID. This command does not upload:
+
+```bash
+python -m backend.app.youtube_upload /path/to/authorized-clip.mp4 \\
+  --rights-report output/preflight_report.json \\
+  --title "THE ARO clip" --not-made-for-kids \\
+  --approve-clip --clip-id CLIP_ID --source-id SOURCE_ID \\
+  --approval-record aro_studio_data/approvals/CLIP_ID.json \\
+  --rights-db aro_studio_data/source_rights.sqlite3
+```
+
+After OAuth channel verification and a current publish-scope check, the CLI asks for the exact typed confirmation `APPROVE CLIP_ID`. The resulting record is non-overwritable, expires after 24 hours by default, and binds the channel, clip, source and SHA-256 of the local video.
+
+A separate upload invocation still requires the same clip/source IDs, the approval record, `--upload --owner-approved --confirm-rights`, and a fresh check of channel identity, approval and the SQLite publish grant immediately before the YouTube API request. The default privacy is `private`. A client-supplied flag is never treated as channel authentication. Unit tests use mocked API clients; they do not perform uploads. A real upload remains a separate owner-approved acceptance test.
+
 ## Seven-day creator activity watchlist
 
 Supply evidence-backed metrics; the tool does not scrape creators or download media.
@@ -230,7 +249,7 @@ GitHub Actions runs the same compile and unittest discovery workflow on pull req
 - YouTube chat access does not provide the stream's video bytes. Video must be separately supplied as a local file with adequate rights.
 - No fully automatic chat-to-video synchronization: mapping requires a manually measured single origin or at least three calibration anchors; the clock fit refuses extrapolation.
 - No packaged Windows desktop installer; the current unified app is a local Python HTTP dashboard.
-- The optional OAuth uploader is implemented, but owner-side Google Cloud setup and a private/unlisted end-to-end upload test remain outstanding.
+- The optional OAuth uploader's authenticated per-clip approval gate is implemented on draft PR #83; owner-side Google Cloud setup and a private/unlisted end-to-end upload test remain outstanding. No real upload has been performed or accepted.
 - No automatic posting, background cloud worker, billing, or monetization guarantee.
 - The creator watchlist only ranks supplied, evidence-backed metrics.
 - A score or successful rights-metadata preflight is not an upload or monetization approval.
