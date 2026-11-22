@@ -190,3 +190,19 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 - No GTA 6 real-media acceptance claim. Synthetic fixtures and CI are not creator-media evidence.
 - GitHub connector push/admin capability is technical capability only and does not confer owner-only authority.
 - PR #79 remains draft and unmerged; owner review is required before integration.
+
+
+## ARO-CHAT-0039 bounded security implementation grant — 2026-11-22
+
+| Identity | Chat ID | Role | Granted scope | Granting authority / evidence | Status |
+|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0039 | SECURITY ENGINEERING + BACKEND QA | Implement issue #68's authenticated channel-owner approval integration in the local YouTube uploader; reuse the existing owner-identity helper; add durable immutable per-clip approval storage, trusted OAuth channel identity lookup, active publish-permission re-check, and mocked unit tests; update workstream/security documentation and open a draft PR. | Project owner's explicit scoped authorization to implement issue #68 in the recent project conversation, reaffirmed by the current instruction to start safe and authorized implementation. | ACTIVE FOR BOUNDED ISSUE #68 IMPLEMENTATION ONLY |
+
+### Restrictions retained
+- No real upload, public publishing, production deployment, OAuth credential exposure, secret access/change, merge, retarget, destructive action, collaborator permission change, or permission escalation.
+- No creator media acquisition, scraping, stream ripping, or processing of unapproved media.
+- OAuth credentials remain local and are never committed or printed. The implementation's approval tests use mocked YouTube clients and perform no network upload.
+- Public publishing remains disabled unless all runtime checks pass; a passing unit test is not owner approval for a real clip.
+- PR #67's helper hardening is reused as a dependency; this workstream does not claim that the existing PR #67 has been merged.
+- The first authorized GTA 6 MP4 remains blocked pending creator permission evidence, owner-approved bounds, local render, FFprobe validation, playback and owner acceptance.
+- GitHub push/admin capability is technical capability only and does not confer owner-only authority.
