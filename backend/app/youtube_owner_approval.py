@@ -11,7 +11,7 @@ import json
 import os
 import tempfile
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -100,7 +100,7 @@ def write_owner_approval_record(
     if not clip_id.strip() or not source_id.strip() or not owner.google_subject or not owner.channel_id:
         raise ValueError("clip, source and authenticated owner identities are required")
     reviewed_at = at or datetime.now(timezone.utc)
-    expiry = expires_at or reviewed_at.replace(microsecond=0)
+    expiry = expires_at or (reviewed_at + timedelta(hours=24))
     if reviewed_at.tzinfo is None or reviewed_at.utcoffset() is None:
         raise ValueError("approval timestamp must be timezone-aware")
     if expiry.tzinfo is None or expiry.utcoffset() is None or expiry <= reviewed_at:
