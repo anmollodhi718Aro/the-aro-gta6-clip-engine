@@ -30,6 +30,8 @@ class OwnerApprovalTests(unittest.TestCase):
         self.record = self.root / "approval.json"
         self.permission = {
             "source_id": "source-1",
+            "granting_identity": "creator-owner-1",
+            "evidence_ref": "permission-record-1",
             "status": "active",
             "revoked": False,
             "scopes": ["read", "publish"],
