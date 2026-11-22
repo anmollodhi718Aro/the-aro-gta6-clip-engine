@@ -854,3 +854,39 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Changed files: `backend/app/youtube_upload.py`, `tests/test_youtube_upload.py`, and this registry.
 - Implementation commits: `dc2db998f020abaaa7caf40e69a7d750a942474c` and `364cecc67e4b3acac4bbb58a8a2734077dc5a271`; registry reservation commit: `6bebabc81e20392d473ec70931c022085233583c`.
 - Direct/local tests: NOT RUN in this connector session. Exact-head GitHub Actions: PENDING. No live OAuth, network upload, public publishing, or real-media operation is part of this task.
+
+
+## ARO-CHAT-0043 snapshot hash-mismatch regression follow-up — 2026-11-22
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0043 |
+| Exact title | ARO-CHAT-0043 | Snapshot Hash-Mismatch Regression Test |
+| Workstream ID | ARO-GTA-P1-43 |
+| Role | Bounded test contributor / independent follow-up |
+| Task | Add the missing negative regression proving that mutation of the staged snapshot after its upload descriptor is opened is detected by the approval SHA-256 gate before any YouTube API insert. |
+| Branch | `workstream/aro-chat-0043-snapshot-hash-mismatch-test-2026-11-22` |
+| Base | `workstream/aro-chat-0042-upload-snapshot-toctou-2026-11-22` (PR #88) |
+| Starting SHA | `7a1d9a9a66a7b16ed0632eee10189554f20d2aa6` (PR #88 exact head at branch creation) |
+| Status | RESERVED; implementation and tests pending |
+| Scope boundary | Test-only follow-up stacked on PR #88. Do not modify PR #82, #83, #87, or #88 branches; no credentials, tokens, live OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action. |
+
+
+### ARO-CHAT-0043 implementation evidence
+- Added `test_staged_snapshot_hash_mismatch_blocks_before_api_insert` in `tests/test_youtube_upload.py`. The mocked media adapter mutates the staged file after its descriptor is opened; the real approval check must reject the changed SHA-256 before `youtube.videos().insert` is called.
+- Changed files in this follow-up: `tests/test_youtube_upload.py` and `docs/CHAT_WORKSTREAM_REGISTRY.md`; no production uploader code changed.
+- Reservation commit: `6b1fc6c030a62f040f6fcf84021d35a8c9598422`; regression-test commit: `4b82666e00a9c3c6c189fab5baa7070d21da7ed1`.
+- Branch compare against PR #88 exact starting head `7a1d9a9a66a7b16ed0632eee10189554f20d2aa6`: 2 commits ahead, 0 behind.
+- Direct/local tests: NOT RUN. Exact-head CI: PENDING. This is mocked test coverage only; no credentials, live OAuth, network upload, real media, or publishing were used.
+- Status: IMPLEMENTED; TESTED and CI_VERIFIED NOT CLAIMED; independent owner review required.
+
+
+### ARO-CHAT-0043 exact-head CI reconciliation — 2026-11-22
+
+- PR [#90](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/90) exact head: `992ec8134913045df0b0a05d16a7c359925a370f`.
+- GitHub Actions run [45010139941](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45010139941) completed successfully on that exact head.
+- Ubuntu `tests` job `137170460481`: checkout, Python setup, FFmpeg/FFprobe install, compile, unit tests, and synthetic MP4 render/FFprobe verification all completed successfully.
+- Windows hosted `windows-tests` job `137170460767`: checkout, Python 3.11 setup, FFmpeg/FFprobe install, compile, complete unittest suite, and synthetic MP4 render/FFprobe verification all completed successfully.
+- Classification: CI_VERIFIED on the exact PR #90 head (Ubuntu + hosted Windows). This is not owner-device Windows verification, real GTA 6 media verification, uploader approval, or permission to upload/publish.
+- Local tests in this connector session: NOT RUN. Real media, live OAuth, network upload, and public publishing: NOT performed.
+- PR #90 remains OPEN / DRAFT / UNMERGED; owner review remains pending. PR #89 is a separate parallel draft with overlapping ARO-CHAT-0043 attribution; preserve both histories and do not merge or consolidate without owner direction.
