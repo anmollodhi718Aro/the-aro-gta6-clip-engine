@@ -1217,3 +1217,39 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - This verifies PR #103's exact documentation-only head. The PR remains draft/open/unmerged. Hosted Windows CI is not owner-device Windows verification; synthetic media is not GTA 6 footage. No local tests were run in this connector session.
 - Issue #68 remains OPEN / unassigned. The next safe task is continued bounded, read-only security review of the PR #93 remediation/test lineage and documentation of concrete findings. Do not infer canonical integration approval from broad task approval; no overlapping security branch may be merged or consolidated without the explicit owner selection recorded in Issue #68.
 - No application code, credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0056 PR #103 merge reconciliation and Issue #68 rights-registry review — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0056 |
+| Exact title | ARO-CHAT-0056 | Registry Reconciliation & Issue #68 Security Review |
+| Workstream ID | ARO-GTA-P1-56 |
+| Role | Exact-head CI auditor + bounded security reviewer |
+| Task | Reconcile the live merge state of PR #103 into the PR #102 workstream branch, verify PR #102's resulting exact-head CI, and document a bounded source-rights registry review finding without changing uploader behavior. |
+| Branch | workstream/aro-chat-0056-registry-issue68-review-2026-11-23 |
+| Base | PR #102 exact head after PR #103 merge: `c0c6f4644aa76f8b68dcedb23456ee224b749da2` |
+| Starting SHA | `c0c6f4644aa76f8b68dcedb23456ee224b749da2` |
+| Status | IN_PROGRESS → IMPLEMENTED (documentation-only); PR #102 exact head CI_VERIFIED; this follow-up's CI pending |
+| Changed files | docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No uploader/application/test code changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### PR #103 / PR #102 live-state correction
+- Live GitHub PR metadata shows PR #103 is CLOSED and MERGED at merge commit `c0c6f4644aa76f8b68dcedb23456ee224b749da2`; its base was PR #102's branch `workstream/aro-chat-0054-pr101-exact-head-ci-closeout-2026-11-23`. Therefore PR #103 is not an open/pending PR and its changes are present in PR #102's branch tip. This does NOT mean PR #103 or PR #102 was merged to `main`.
+- PR #102 remains OPEN / DRAFT / UNMERGED. Its exact current head is `c0c6f4644aa76f8b68dcedb23456ee224b749da2`, base `a5bce0136543ee4f404d1fa2b8788f1b8558f190`.
+- PR #102 exact head passed Actions run [45083016688](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45083016688). Ubuntu job `137395190535`: `Ran 332 tests in 5.581s; OK`. Hosted Windows job `137395190751`: `Ran 332 tests in 21.781s; OK`. Both jobs concluded success. These are 332 tests independently executed per platform, not 664 unique tests.
+- Hosted Windows CI is not owner-device Windows verification. Synthetic MP4/FFprobe CI is not real GTA 6 media acceptance. No local tests were run in this workstream.
+
+### Additional bounded Issue #68 review: source-rights re-registration semantics
+- Re-read PR #93 exact head `f9834d29235738573ad773f19ebcc9b7c0f4c129`, file `backend/app/rights_registry.py` (blob `edf1f74f2baf0aef9c354061b53220bc04965f25`).
+- In `SourceRightsRegistry.register()`, the `INSERT ... ON CONFLICT(source_id) DO UPDATE` path resets `revoked_at=NULL` when an existing source ID is registered again. The audit table records the event as `registered`, even when it replaces a previously revoked row.
+- Security interpretation: this is a potential rights-reinstatement ambiguity, not a proven unauthorized-publication bypass. A caller able to write the local registry can reactivate the source ID with replacement grant metadata; the current schema does not distinguish an initial registration from an explicit, separately evidenced re-grant event. The registry's own module documentation already states that grantor/evidence metadata is operator-supplied and not authenticated.
+- Recommended review/test before any security implementation change: add an explicit reauthorization operation or require a new grant/version identity with durable evidence; preserve the prior revocation event; record a distinct audit action (for example, `reinstated`) and test that ordinary duplicate registration cannot silently clear revocation. Confirm intended renewal semantics with the implementation owner first.
+- No application code or tests were changed for this finding. It is a bounded static observation, not independent security sign-off or legal rights determination.
+
+### Current owner gates
+- Issue #68 is still OPEN and unassigned; its current issue body explicitly requires project-owner assignment and selection of one canonical authenticated-uploader PR/branch or an approved consolidation plan.
+- PR #82/#83 and related OIDC/upload-payload remediation branches remain draft histories. Preserve their lineage; do not independently merge or consolidate overlapping implementations.
+- Keep live uploads/public publishing disabled pending owner selection, independent security review, owner-device verification, creator-authorized source media/permission evidence, device-appropriate `--max-upload-bytes`, real-media FFprobe/playback, and owner acceptance.
+- No OAuth credentials/tokens, live OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive operation was performed.
