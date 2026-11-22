@@ -1079,3 +1079,34 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Keep live upload and public publishing disabled until OAuth-authenticated channel identity, exact per-clip approval, immutable approved bytes, current source-rights checks, and expiry/revocation handling are independently reviewed and enforced.
 - The first real GTA 6 clip remains BLOCKED pending creator-authorized source media, documented permission scope, local render, FFprobe validation, playback, and owner acceptance.
 - No merge, retarget, deployment, upload, public publishing, or destructive operation was performed by this workstream.
+
+
+## ARO-CHAT-0052 PR #99 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0052 |
+| Exact title | ARO-CHAT-0052 \\| PR #99 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-52 |
+| Role | Exact-head CI evidence auditor + bounded documentation contributor |
+| Task | Verify PR #99's exact branch head against live GitHub Actions job and log evidence, then record the result and refresh owner-gated next actions without changing application behavior. |
+| Branch | workstream/aro-chat-0052-pr99-exact-head-ci-closeout-2026-11-23 |
+| Base | PR #99 exact head `05d99f3ba3657d7878a2d5890abd302b2ed74d4e` |
+| Starting SHA | `05d99f3ba3657d7878a2d5890abd302b2ed74d4e` |
+| Status | RESERVED → IMPLEMENTED (documentation-only); CI_VERIFIED for audited PR #99 exact head; this follow-up branch's own CI is pending |
+| Changed files | docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No uploader source/test changes, credentials/tokens, OAuth, real media, live upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head evidence
+- Live commit workflow lookup for `05d99f3ba3657d7878a2d5890abd302b2ed74d4e` returned successful Python CI run [45058733108](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45058733108).
+- Ubuntu job `137319655958` and hosted Windows job `137319655684` both completed setup, checkout, Python setup, FFmpeg/FFprobe installation, compilation, full unittest steps, and synthetic MP4 render/FFprobe validation successfully.
+- Ubuntu log: `Ran 332 tests in 4.969s; OK`. Hosted Windows log: `Ran 332 tests in 13.877s; OK`. These are 332 distinct tests executed independently on each platform, not 664 unique tests.
+- Both synthetic render reports identify locally generated test pattern/tone; `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. This is not GTA 6 real-media verification.
+- The run validates PR #99's exact head `05d99f3ba3657d7878a2d5890abd302b2ed74d4e`; it does not validate this new documentation follow-up branch. Hosted Windows CI is not owner-device Windows verification. Local tests were not run in this connector session.
+
+### Latest pending owner gates
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. The project owner must assign the implementation owner and select one canonical authenticated-uploader security PR/branch or explicitly approve a consolidation plan. Do not integrate overlapping security branches independently.
+- Keep live uploads and public publishing disabled until OAuth-authenticated channel identity, exact per-clip approval, immutable approved bytes, current source-rights checks, and expiry/revocation handling are independently reviewed and enforced.
+- Before any real upload, owner must select a conservative `--max-upload-bytes` value based on actual device memory and expected clip sizes.
+- The first real GTA 6 clip remains BLOCKED pending creator-authorized source media, documented permission scope, local render, FFprobe validation, playback, and owner acceptance.
+- No merge, retarget, deployment, upload, public publishing, or destructive operation was performed by this workstream.
