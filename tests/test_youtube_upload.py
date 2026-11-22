@@ -5,6 +5,7 @@ import sys
 import tempfile
 import types
 import unittest
+from types import SimpleNamespace
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from unittest.mock import Mock, patch
@@ -155,7 +156,7 @@ class YouTubeUploadTests(unittest.TestCase):
         discovery = types.ModuleType("googleapiclient.discovery")
         http = types.ModuleType("googleapiclient.http")
         discovery.build = Mock(return_value=youtube)
-        http.MediaFileUpload = Mock(return_value=object())
+        http.MediaIoBaseUpload = Mock(side_effect=lambda stream, **kwargs: SimpleNamespace(stream=stream))
         package.discovery = discovery
         package.http = http
         return {
@@ -184,6 +185,55 @@ class YouTubeUploadTests(unittest.TestCase):
                     )
         self.assertEqual(result["video_id"], "video-123")
         self.assertEqual(verify_owner.call_count, 2)
+        youtube.videos.return_value.insert.assert_called_once()
+
+    def test_upload_uses_approved_snapshot_when_original_changes_after_staging(self):
+        db_path = self.root / "source_rights.sqlite3"
+        self._write_upload_rights(db_path)
+        approved_bytes = self.video.read_bytes()
+        youtube = Mock()
+        youtube.channels.return_value.list.return_value.execute.return_value = {
+            "items": [{"id": "youtube-channel-456"}]
+        }
+        captured = {}
+
+        def execute_upload(num_retries):
+            media_body = youtube.videos.return_value.insert.call_args.kwargs["media_body"]
+            media_body.stream.seek(0)
+            captured["uploaded_bytes"] = media_body.stream.read()
+            return {"id": "snapshot-video"}
+
+        youtube.videos.return_value.insert.return_value.execute.side_effect = execute_upload
+
+        def media_io_upload(stream, **kwargs):
+            # Simulate another process replacing the caller's source path after
+            # the private snapshot has been made but before the API consumes it.
+            self.video.write_bytes(b"attacker-substituted bytes")
+            return SimpleNamespace(stream=stream)
+
+        modules = self._mock_google_modules(youtube)
+        modules["googleapiclient.http"].MediaIoBaseUpload = Mock(side_effect=media_io_upload)
+        with patch.dict(sys.modules, modules):
+            with patch.dict(os.environ, {
+                "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
+                "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
+            }):
+                with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch(
+                    "backend.app.youtube_owner_approval.verify_authenticated_channel_owner",
+                    return_value=self.owner,
+                ):
+                    result = upload_video(
+                        self.video,
+                        {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                        client_secrets=self.client_secrets, token_path=self.root / "token.json",
+                        rights_report_path=self.report, approval_record_path=self.root / "approval.json",
+                        rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
+                        owner_approved=True, rights_confirmed=True,
+                    )
+
+        self.assertEqual(result["video_id"], "snapshot-video")
+        self.assertEqual(captured["uploaded_bytes"], approved_bytes)
+        self.assertNotEqual(captured["uploaded_bytes"], self.video.read_bytes())
         youtube.videos.return_value.insert.assert_called_once()
 
     def test_revoked_permission_blocks_before_any_upload_api_request(self):
