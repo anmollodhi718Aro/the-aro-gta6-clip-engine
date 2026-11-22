@@ -211,3 +211,10 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 
 ### ARO-CHAT-0038 security control refinement
 The active scoped grant includes tests and documentation for verified Google OIDC subject binding, destination channel resolution, immutable per-clip approval, privacy-bound visibility, and immediate revalidation of all source-bound publish grants. No real upload, publish, merge, deployment or credential exposure is authorized.
+
+
+## ARO-CHAT-0040 bounded security QA grant — 2026-11-22
+- Identity: OpenAI / GPT-6 session; role: SECURITY QA + bounded contributor.
+- Scope: Independently inspect the selected Issue #68 implementation, repair the recursive Google OIDC token-verification helper on a separate branch, add direct mocked regression tests, and update this session's registry/startup handoff.
+- Evidence: Owner's current instruction to read the Master Script and Workstream Registry, identify the latest pending task, and safely begin coding; prior project handoff identifies PR #83 / ARO-CHAT-0038 as the selected primary candidate.
+- Restrictions: No merge, retarget, close, deployment, public upload, real upload, OAuth credential/token access or change, destructive action, permission escalation, or processing/acquisition of unapproved media. Exact-head CI and owner review remain required.

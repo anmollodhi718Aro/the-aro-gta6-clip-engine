@@ -12,6 +12,7 @@ from unittest.mock import Mock, patch
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import (
     AuthenticatedChannelOwner,
+    _verify_google_id_token,
     require_current_owner_approval,
     sha256_file,
     verify_authenticated_channel_owner,
@@ -85,6 +86,39 @@ class OwnerApprovalTests(unittest.TestCase):
             "google.oauth2": oauth2,
             "google.oauth2.id_token": id_token,
         }, id_token
+
+    def test_oidc_helper_verifies_signature_and_expected_audience(self):
+        modules, id_token = self._mock_google_modules({
+            "sub": OWNER.google_subject,
+            "iss": "https://accounts.google.com",
+        })
+        credentials = SimpleNamespace(id_token="signed-id-token")
+        with patch.dict(sys.modules, modules):
+            claims = _verify_google_id_token(credentials, "client-id")
+        self.assertEqual(claims["sub"], OWNER.google_subject)
+        id_token.verify_oauth2_token.assert_called_once()
+        args, kwargs = id_token.verify_oauth2_token.call_args
+        self.assertEqual(args[0], "signed-id-token")
+        self.assertEqual(kwargs["audience"], "client-id")
+
+    def test_oidc_helper_fails_closed_for_missing_token_or_verifier_error(self):
+        with self.assertRaisesRegex(PermissionError, "no OpenID Connect"):
+            _verify_google_id_token(SimpleNamespace(id_token=None), "client-id")
+        modules, id_token = self._mock_google_modules({})
+        id_token.verify_oauth2_token.side_effect = ValueError("bad signature")
+        with patch.dict(sys.modules, modules):
+            with self.assertRaisesRegex(PermissionError, "could not be verified"):
+                _verify_google_id_token(
+                    SimpleNamespace(id_token="invalid-token"), "client-id"
+                )
+
+    def test_oidc_helper_rejects_non_mapping_claims(self):
+        modules, id_token = self._mock_google_modules([])
+        with patch.dict(sys.modules, modules):
+            with self.assertRaisesRegex(PermissionError, "claims are invalid"):
+                _verify_google_id_token(
+                    SimpleNamespace(id_token="signed-id-token"), "client-id"
+                )
 
     def test_oauth_subject_and_youtube_channel_are_both_verified(self):
         modules, id_token = self._mock_google_modules({

@@ -90,3 +90,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - The uploader must verify the Google OIDC subject and destination channel from the same OAuth session, require a durable per-clip approval bound to the exact video hash, Google subject and channel, and re-check live publish permission immediately before the upload API call.
 - A client-supplied reviewer string or legacy boolean is never identity authentication. Fail closed on missing/mismatched channel, clip, source, file hash, approval, permission, expiry or revocation.
 - Use mocked API clients in tests; no test may perform a network upload. Keep public publishing disabled unless every authenticated owner, per-clip approval and source-rights gate passes.
+
+
+### Latest security QA handoff — ARO-CHAT-0040
+- Primary Issue #68 implementation candidate remains draft PR #83 / ARO-CHAT-0038; parallel PR #82 / ARO-CHAT-0039 must not be integrated independently.
+- A subsequent independent audit found a self-recursive `_verify_google_id_token()` helper at PR #83 head `f66f6406a496d08e3e85972010f1f52d831298ab`. The caller's duplicated inline verifier masked the defective helper in existing tests.
+- ARO-CHAT-0040 isolates the helper correction and direct regression coverage on a separate branch. Do not mark it CI_VERIFIED until exact-head Ubuntu and hosted Windows jobs pass.
+- Keep the uploader fail-closed. No real upload, public publishing, merge, retarget, deployment, OAuth credential access, or destructive action is authorized by this QA correction.
