@@ -17,7 +17,9 @@ Install the optional uploader dependencies:
 pip install -e ".[youtube-upload]"
 ```
 
-The uploader requests only the `youtube.upload` OAuth scope. On first use, it opens a loopback browser flow at 127.0.0.1 and stores a local token file with restricted permissions where supported.
+The uploader requests `youtube.upload`, `youtube.readonly`, `openid`, and `email` scopes. The read-only scope is used to resolve the authenticated channel through `channels.list(mine=true)`; the configured channel ID must match. Existing token files without the required scopes must be re-authorized. On first use, it opens a loopback browser flow at 127.0.0.1 and stores a local token file with restricted permissions where supported.
+
+Set `ARO_YOUTUBE_CHANNEL_ID` locally to the exact destination channel ID. Do not put OAuth secrets, tokens, or this configuration in Git.
 
 ## 2. Create a rights preflight report
 
@@ -46,7 +48,24 @@ python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
 
 No API upload occurs unless `--upload` is supplied. The uploader requires an explicit audience declaration using exactly one of `--made-for-kids` or `--not-made-for-kids`.
 
-## 4. Perform an explicitly approved upload
+## 4. Record authenticated owner approval for the exact clip
+
+First ensure the source has an active YouTube `publish` grant in the SQLite rights database. The rights report must include the exact `clip_id` and `source_id`. Authenticate as the configured channel owner and explicitly approve the exact local file in a separate, non-uploading invocation:
+
+```bash
+python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
+  --rights-report output/preflight_report.json \
+  --title "THE ARO GTA 6 Highlight" \
+  --not-made-for-kids \
+  --clip-id clip-001 --source-id source-001 \
+  --rights-db aro_studio_data/source_rights.sqlite3 \
+  --approval-record local_approvals/clip-001.json \
+  --approve-clip --owner-approved
+```
+
+This step calls the official YouTube API with the current OAuth session, verifies that the configured channel is returned by `channels.list(mine=true)`, checks current source publish permission, and records a 24-hour approval bound to the exact file's SHA-256. It does not upload. Existing approval files are never overwritten.
+
+## 5. Perform the separately requested upload
 
 Only after reviewing the exact finished file, all source permissions, attribution/disclosures, title, description and audience declaration:
 
@@ -58,10 +77,13 @@ python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
   --tags "GTA6,GTAVI,THEARO" \
   --privacy private \
   --not-made-for-kids \
+  --clip-id clip-001 --source-id source-001 \
+  --rights-db aro_studio_data/source_rights.sqlite3 \
+  --approval-record local_approvals/clip-001.json \
   --upload --owner-approved --confirm-rights
 ```
 
-The default privacy setting is private. Choose unlisted/public only after checking the final video and channel settings. The upload flags are explicit engineering gates; they do not guarantee legal clearance, platform acceptance, copyright safety, or monetization.
+Immediately before `videos.insert`, the uploader re-verifies the authenticated channel, the exact clip/source/file approval and current publish permission. The default privacy setting is private. Public or unlisted uploads still require every gate to pass. The flags do not guarantee legal clearance, platform acceptance, copyright safety, or monetization.
 
 ## Limits
 
