@@ -97,7 +97,7 @@ class YouTubeUploadTests(unittest.TestCase):
             upload_video(
                 self.video, {}, client_secrets=self.root / "missing.json",
                 token_path=self.root / "token.json", approval_path=self.approval_path,
-                permission_path=self.permission_path, clip_id="clip-1", source_id="source-1",
+                permission_path=self.permission_path, clip_id="clip-1", source_id="source-1", expected_channel_id="channel-owner-1",
                 youtube_client=youtube, at=NOW,
             )
         youtube.videos.return_value.insert.assert_not_called()
@@ -110,11 +110,23 @@ class YouTubeUploadTests(unittest.TestCase):
                 self.video, {"status": {"privacyStatus": "private"}},
                 client_secrets=self.root / "unused.json", token_path=self.root / "unused-token.json",
                 approval_path=self.approval_path, permission_path=self.permission_path,
-                clip_id="clip-1", source_id="source-1", youtube_client=youtube, at=NOW,
+                clip_id="clip-1", source_id="source-1", expected_channel_id="channel-owner-1", youtube_client=youtube, at=NOW,
             )
         self.assertEqual(result["video_id"], "video-1")
         youtube.channels.return_value.list.assert_called_once_with(part="id", mine=True)
         youtube.videos.return_value.insert.assert_called_once()
+
+    def test_oauth_channel_must_match_configured_destination(self):
+        self._approved_record()
+        youtube = self._youtube(channel_id="unexpected-channel")
+        with self.assertRaisesRegex(PermissionError, "configured destination channel owner"):
+            upload_video(
+                self.video, {}, client_secrets=self.root / "unused.json",
+                token_path=self.root / "unused-token.json", approval_path=self.approval_path,
+                permission_path=self.permission_path, clip_id="clip-1", source_id="source-1",
+                expected_channel_id="channel-owner-1", youtube_client=youtube, at=NOW,
+            )
+        youtube.videos.return_value.insert.assert_not_called()
 
     def test_approval_by_different_authenticated_account_fails_closed(self):
         self._approved_record(reviewer="some-other-channel")
@@ -153,7 +165,7 @@ class YouTubeUploadTests(unittest.TestCase):
             upload_video(
                 self.video, {}, client_secrets=self.root / "unused.json",
                 token_path=self.root / "unused-token.json", approval_path=self.approval_path,
-                permission_path=self.permission_path, clip_id="clip-other", source_id="source-1",
+                permission_path=self.permission_path, clip_id="clip-other", source_id="source-1", expected_channel_id="channel-owner-1",
                 youtube_client=youtube, at=NOW,
             )
         youtube.videos.return_value.insert.assert_not_called()
