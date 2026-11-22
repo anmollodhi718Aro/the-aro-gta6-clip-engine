@@ -756,3 +756,29 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 ## Historical chat range clarification
 
 The ARO-CHAT-0001 through ARO-CHAT-0008 entries above are legacy/historical chat records. They are not interchangeable with the newer ARO-CHAT-0036 and ARO-CHAT-0037 workstreams. Preserve all existing rows and corrections; never renumber or overwrite historical attribution.
+
+
+## ARO-CHAT-0039 — Voice-first workforce coordination architecture (2026-11-22)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0039 |
+| Exact chat title | ARO-CHAT-0039 | Safe Voice-First ARO Workforce Coordination Architecture |
+| Workstream ID | ARO-VOICE-0039 |
+| Role | Workforce architect / security-minded documentation contributor |
+| Scope | Define a voice-first, two-agent coordination architecture with separate agent identities, owner-controlled push-to-talk, authenticated task/event protocol, turn-taking, privacy safeguards, bounded GitHub permissions, fail-closed approval gates, text fallback, and activation tests. |
+| Branch / PR | `workstream/aro-chat-0039-voice-workforce-coordination-2026-11-22` / draft PR pending |
+| Starting SHA | `20a6645690935ac04054fc1a6564d8e6275daa3c` (PR #81 head) |
+| Implementation commit | `5c0e5b07929c19b96fddee0ddbc8a6762c9dd2f7` |
+| Files | `docs/ARO_WORKFORCE_VOICE_COORDINATION.md`; this registry |
+| Status | ARCHITECTURE DOCUMENTED; runtime NOT IMPLEMENTED; voice NOT ACTIVE; automatic coordination NOT VERIFIED; end-to-end tests NOT RUN |
+| Boundaries | No audio capture, provider integration, credentials, OAuth, GitHub permission expansion, merge, deployment, upload, publishing, or destructive action. |
+
+### Architecture decision
+
+- ChatGPT mobile Voice sessions are not treated as directly connected agent endpoints. Two devices playing audio into each other's microphones is not an authenticated or reliable coordination channel.
+- The proposed path is owner push-to-talk → authenticated voice gateway → durable coordination service → independently authenticated Lead and Auditor runtimes → scoped GitHub adapter.
+- The owner remains final authority. Voice transcripts are requests, not identity proof or privileged-action approval.
+- The design requires one active speaker at a time, explicit session/role binding, short-lived revocable credentials, task leases, idempotency, replay/expiry protection, bounded turns, loop detection, secret redaction, minimal audio retention, text fallback, and a global stop switch.
+- Merge, retarget, release, deployment, upload, publishing, credential access, and destructive actions remain blocked absent separate authenticated, action-specific owner approval. Issue #68 remains an independent uploader security gate.
+- Activation requires a successful owner-supervised two-device end-to-end pilot. Until that evidence exists, voice and automatic coordination must remain NOT ACTIVE / NOT VERIFIED.
