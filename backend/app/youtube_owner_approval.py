@@ -31,6 +31,13 @@ def sha256_file(path: str | Path) -> str:
     return digest.hexdigest()
 
 
+
+def _verify_google_id_token(credentials: Any, oauth_client_id: str) -> dict[str, Any]:
+    """Verify token signature and audience before trusting its stable subject."""
+    claims = _verify_google_id_token(credentials, oauth_client_id)
+    return claims
+
+
 def verify_authenticated_channel_owner(
     credentials: Any,
     youtube: Any,
