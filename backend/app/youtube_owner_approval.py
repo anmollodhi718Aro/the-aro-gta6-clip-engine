@@ -100,6 +100,7 @@ def write_owner_approval_record(
     source_id: str,
     video_path: str | Path,
     owner: AuthenticatedChannelOwner,
+    privacy: str,
     confirmed: bool,
     at: datetime | None = None,
     expires_at: datetime | None = None,
@@ -107,6 +108,8 @@ def write_owner_approval_record(
     """Persist a one-time owner decision; never overwrite an existing record."""
     if confirmed is not True:
         raise PermissionError("explicit channel-owner confirmation is required")
+    if privacy not in {"private", "unlisted", "public"}:
+        raise ValueError("approval privacy must be private, unlisted or public")
     if not all(isinstance(value, str) and value.strip() for value in (
         clip_id, source_id, owner.google_subject, owner.channel_id
     )):
@@ -122,6 +125,7 @@ def write_owner_approval_record(
         "decision": "approved",
         "clip_id": clip_id.strip(),
         "source_id": source_id.strip(),
+        "privacy": privacy,
         "source_sha256": sha256_file(video_path),
         "reviewer_google_subject": owner.google_subject,
         "reviewer_channel_id": owner.channel_id,
@@ -158,6 +162,7 @@ def require_current_owner_approval(
     source_id: str,
     video_path: str | Path,
     owner: AuthenticatedChannelOwner,
+    privacy: str,
     rights_registry: SourceRightsRegistry,
     at: datetime | None = None,
 ) -> None:
@@ -172,6 +177,7 @@ def require_current_owner_approval(
         "decision": "approved",
         "clip_id": clip_id,
         "source_id": source_id,
+        "privacy": privacy,
         "source_sha256": sha256_file(video_path),
         "reviewer_google_subject": owner.google_subject,
         "reviewer_channel_id": owner.channel_id,
