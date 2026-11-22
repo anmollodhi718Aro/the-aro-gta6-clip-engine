@@ -778,7 +778,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 ### Security behavior
 - Resolve the destination channel through the official YouTube Data API using the current OAuth credentials and \`channels.list(mine=True)\`; compare it with the configured \`ARO_YOUTUBE_CHANNEL_ID\`.
 - Request the YouTube read-only scope in addition to upload scope so the channel identity can be resolved. Existing OAuth tokens lacking the required scopes must be re-authorized.
-- Require explicit \`--approve-clip --owner-approved\` in a separate invocation to create a durable approval. Approval creation does not upload.
+- Require a separate `--approve-clip` invocation and exact typed confirmation `APPROVE <clip_id>` to create a durable approval. Approval creation does not upload. The `--owner-approved` flag remains an additional acknowledgement only for a later upload invocation, never identity authentication.
 - Refuse to overwrite an existing approval record. Records expire after 24 hours by default and bind to the exact local file hash.
 - Before upload, require exact clip/source/file/channel matches and a current \`publish\` grant for YouTube in the SQLite source-rights registry. Re-check identity, approval and rights again immediately before \`videos.insert\`.
 - Legacy \`--owner-approved\` and \`--confirm-rights\` flags remain additional explicit intent checks; neither is treated as authentication.
