@@ -1,7 +1,7 @@
 # THE ARO Workforce Voice Coordination Architecture
 
 **Status:** DESIGN IMPLEMENTED IN DOCUMENTATION; runtime NOT IMPLEMENTED; voice NOT ACTIVE; automatic coordination NOT VERIFIED  
-**Workstream:** ARO-VOICE-0039  
+**Workstream:** ARO-VOICE-0040  
 **Owner control:** Human owner remains the final authority for privileged actions.
 
 ## 1. Purpose and non-goals
