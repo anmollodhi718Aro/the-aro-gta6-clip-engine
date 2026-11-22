@@ -223,6 +223,7 @@ class YouTubeUploadTests(unittest.TestCase):
                             client_secrets=self.client_secrets, token_path=self.root / "token.json",
                             rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                             rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
+                            owner_approved=True, rights_confirmed=True,
                         )
         youtube.videos.return_value.insert.assert_not_called()
 
@@ -239,7 +240,6 @@ class YouTubeUploadTests(unittest.TestCase):
             "--clip-id", "clip-1", "--source-id", "source-1",
             "--approval-record", str(self.root / "new-approval.json"),
             "--rights-db", str(db_path),
-            "--client-secrets", str(self.client_secrets),
         ]
         with patch.object(sys, "argv", args):
             with patch.dict(sys.modules, self._mock_google_modules(youtube)):
@@ -276,7 +276,7 @@ class YouTubeUploadTests(unittest.TestCase):
         self.assertEqual(approval["clip_id"], "clip-1")
         self.assertEqual(approval["source_id"], "source-1")
         self.assertEqual(approval["reviewer_channel_id"], "youtube-channel-456")
-        self.assertEqual(approval["reviewer_google_subject"], "google-subject-456")
+        self.assertEqual(approval["reviewer_google_subject"], "google-subject-123")
         self.assertEqual(approval["privacy"], "private")
         youtube.videos.return_value.insert.assert_not_called()
 
