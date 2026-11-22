@@ -236,6 +236,78 @@ class YouTubeUploadTests(unittest.TestCase):
         self.assertNotEqual(captured["uploaded_bytes"], self.video.read_bytes())
         youtube.videos.return_value.insert.assert_called_once()
 
+    def test_staged_file_mutation_after_final_checks_cannot_change_upload_payload(self):
+        db_path = self.root / "source_rights.sqlite3"
+        self._write_upload_rights(db_path)
+        approved_bytes = self.video.read_bytes()
+        youtube = Mock()
+        youtube.channels.return_value.list.return_value.execute.return_value = {
+            "items": [{"id": "youtube-channel-456"}]
+        }
+        staged = {}
+        captured = {}
+        real_tempdir = tempfile.TemporaryDirectory
+
+        class RecordingTemporaryDirectory:
+            def __init__(self, *args, **kwargs):
+                self._delegate = real_tempdir(*args, **kwargs)
+
+            def __enter__(self):
+                directory = self._delegate.__enter__()
+                staged["path"] = Path(directory) / "approved-upload.mp4"
+                return directory
+
+            def __exit__(self, *exc_info):
+                return self._delegate.__exit__(*exc_info)
+
+        def execute_upload(num_retries):
+            media_body = youtube.videos.return_value.insert.call_args.kwargs["media_body"]
+            media_body.stream.seek(0)
+            captured["uploaded_bytes"] = media_body.stream.read()
+            return {"id": "immutable-snapshot-video"}
+
+        def mutate_staged_file_after_final_checks(*args, **kwargs):
+            # insert() is reached only after the final approval/hash and
+            # rights checks. Simulate a same-user filesystem mutation before
+            # execute() consumes the media stream.
+            snapshot_path = staged["path"]
+            os.chmod(snapshot_path, 0o600)
+            snapshot_path.write_bytes(b"tampered after final approval checks")
+            captured["staged_bytes_after_gate"] = snapshot_path.read_bytes()
+            return youtube.videos.return_value.insert.return_value
+
+        youtube.videos.return_value.insert.side_effect = mutate_staged_file_after_final_checks
+        youtube.videos.return_value.insert.return_value.execute.side_effect = execute_upload
+        modules = self._mock_google_modules(youtube)
+        modules["googleapiclient.http"].MediaIoBaseUpload = Mock(
+            side_effect=lambda stream, **kwargs: SimpleNamespace(stream=stream)
+        )
+
+        with patch("backend.app.youtube_upload.tempfile.TemporaryDirectory", RecordingTemporaryDirectory):
+            with patch.dict(sys.modules, modules):
+                with patch.dict(os.environ, {
+                    "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
+                    "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
+                }):
+                    with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch(
+                        "backend.app.youtube_owner_approval.verify_authenticated_channel_owner",
+                        return_value=self.owner,
+                    ):
+                        result = upload_video(
+                            self.video,
+                            {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                            client_secrets=self.client_secrets, token_path=self.root / "token.json",
+                            rights_report_path=self.report, approval_record_path=self.root / "approval.json",
+                            rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
+                            owner_approved=True, rights_confirmed=True,
+                        )
+
+        self.assertEqual(result["video_id"], "immutable-snapshot-video")
+        self.assertEqual(captured["staged_bytes_after_gate"], b"tampered after final approval checks")
+        self.assertEqual(captured["uploaded_bytes"], approved_bytes)
+        self.assertNotEqual(captured["uploaded_bytes"], captured["staged_bytes_after_gate"])
+        youtube.videos.return_value.insert.assert_called_once()
+
     def test_revoked_permission_blocks_before_any_upload_api_request(self):
         db_path = self.root / "source_rights.sqlite3"
         registry, _, _ = self._write_upload_rights(db_path)
