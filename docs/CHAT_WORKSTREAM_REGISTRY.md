@@ -747,7 +747,7 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 ## Current project blockers and integration notes — 2026-11-22
 
 1. **First real clip:** BLOCKED pending an actually received creator-authorized GTA 6 recording/export, documented permission scope, local intake, render, FFprobe validation, playback, and owner acceptance.
-2. **Uploader security:** Issue [#68](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/68) was OPEN / UNASSIGNED at the prior audit. Recheck live state. Keep publishing disabled until authenticated channel-owner identity and durable per-clip approval are enforced.
+2. **Uploader security:** Issue [#68](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/68) remains open with parallel draft PRs #82 (ARO-CHAT-0039) and #83 (ARO-CHAT-0038). PR #82 has exact-head CI success; PR #83 adds Google OIDC subject and visibility binding but still needs exact-head CI. Do not merge both independently; owner must select or consolidate one canonical implementation.
 3. **Attribution conflict:** PRs [#72](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/72) and [#74](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/74) both historically claimed ARO-CHAT-0031 / ARO-GTA-P0-31. Preserve history and reconcile using evidence; do not guess.
 4. **Documentation overlap:** PRs #77 and #78 historically overlap as parallel documentation branches. Compare ancestry and file trees before consolidation.
 5. **Dependency chain:** historical chain #18 → #66 → #71 → #75 → #76 → #78 → #79 → #80, with #77 parallel to #78. Revalidate all current PR states and dependencies.
@@ -769,7 +769,7 @@ The ARO-CHAT-0001 through ARO-CHAT-0008 entries above are legacy/historical chat
 | Role | Security implementation contributor + QA |
 | Branch / PR | \`workstream/aro-chat-0038-authenticated-uploader-approval-2026-11-22\` / [draft PR #83](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/83) |
 | PR base / branch starting point | PR base: #80 branch \`workstream/aro-chat-0037-synthetic-first-clip-test-2026-11-22\` / \`722945ba162a274b3ff78b5e5d472c97e7269a23\`; branch starting point: PR #81 head \`workstream/aro-master-script-registry-refresh-2026-11-22\` / \`20a6645690935ac04054fc1a6564d8e6275daa3c\` |
-| Status | IMPLEMENTED; mocked tests committed; exact-head CI pending |
+| Status | IMPLEMENTED; mocked tests committed; exact-head CI NOT VERIFIED; parallel PR #82 collision requires owner consolidation |
 | Issue | [#68](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/68) |
 
 ### Scope
@@ -786,13 +786,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - No credentials, tokens, real media, upload, public publication, merge, deployment or destructive action is included.
 
 ### Verification evidence
-- Implementation and regression-test commits are recorded in the branch history; PR #83 is Draft on PR #80's exact base head. The OIDC-subject hardening is now included. Exact-head Actions evidence must be refreshed after the latest commit; local test execution is not claimed.
+- PR #82 (ARO-CHAT-0039) exact-head run #44999545798 passed on head `f0f1976eab6db2d428152eba220078e5a4893a9b`: Ubuntu and Windows hosted jobs each ran 297 tests (OK) and passed the synthetic MP4 render/FFprobe smoke test. This evidence belongs to PR #82, not PR #83.
+- PR #83 current head `6df2e19d64cdf015cc4af0e70c86347133973b5b` has no exact-head Actions run. Earlier PR #83 run #44999861430 on older head `a3ac82614d26d33d999cd177df42cd9f04a0dc97` failed because tests expected privacy-bound approval fields before the helper accepted them; the helper and tests were subsequently updated. Latest head remains CI-unverified; local test execution is not claimed.
 - Owner-side OAuth setup and a real authorized upload remain separate acceptance steps. This implementation does not authorize a real upload.
 - First authorized GTA 6 MP4 acceptance remains BLOCKED pending source permission evidence, actual local rendering, FFprobe validation, playback and owner acceptance.
 
 
 ### ARO-CHAT-0038 security hardening update
-- PR #83 remains a draft and unmerged.
+- PR #82 (ARO-CHAT-0039) is a parallel draft with independently passing exact-head CI; PR #83 (ARO-CHAT-0038) is a parallel hardening candidate. Do not merge both independently; project owner must select or consolidate one canonical PR.
+- PR #83 remains a draft and unmerged. Its current exact head has no CI run.
 - Owner approval binds the verified Google OIDC subject and OAuth-resolved YouTube channel, exact clip/source IDs, exact file hash and privacy level.
 - Public visibility requires the distinct typed confirmation PUBLISH PUBLIC CLIP_ID.
 - Current publish grants are rechecked for the clip source and each source-bound asset immediately before the upload API request.
