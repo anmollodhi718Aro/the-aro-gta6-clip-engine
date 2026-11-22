@@ -17,7 +17,7 @@ class UploadApprovalStoreTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
-        self.key_patch = patch.dict(os.environ, {\"ARO_UPLOAD_APPROVAL_KEY\": \"test-only-signing-key-with-32-bytes-minimum\"})
+        self.key_patch = patch.dict(os.environ, {"ARO_UPLOAD_APPROVAL_KEY": "test-only-signing-key-with-32-bytes-minimum"})
         self.key_patch.start()
 
     def tearDown(self):
