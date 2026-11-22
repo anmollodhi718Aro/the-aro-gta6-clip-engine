@@ -203,7 +203,7 @@ class YouTubeUploadTests(unittest.TestCase):
                     self.video, {}, client_secrets=self.root / "unused.json",
                     token_path=self.root / "unused-token.json", approval_path=self.approval_path,
                     permission_path=self.permission_path, clip_id="clip-1", source_id="source-1",
-                    youtube_client=youtube, at=NOW,
+                    expected_channel_id="channel-owner-1", youtube_client=youtube, at=NOW,
                 )
             youtube.videos.return_value.insert.assert_not_called()
 
