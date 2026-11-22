@@ -81,3 +81,12 @@ Do not label REAL_MEDIA_VERIFIED or COMPLETE before every required step has evid
 
 ### Reporting format for every continuation
 Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIFIED, WINDOWS_VERIFIED, REAL_MEDIA_VERIFIED, BLOCKED, or COMPLETE. Include exact SHA/run/test counts and distinguish hosted Windows CI from owner-device Windows verification. List unverified work explicitly. Never report a synthetic MP4 as a GTA 6 clip.
+
+
+### ARO-CHAT-0038 scoped security continuation — 2026-11-22
+- A dedicated owner authorization has been supplied for Issue #68's fail-closed authenticated channel-owner approval integration.
+- Active workstream: ARO-CHAT-0038 / ARO-GTA-P1-01 on \`workstream/aro-chat-0038-authenticated-uploader-approval-2026-11-22\`, based on PR #80 head \`722945ba162a274b3ff78b5e5d472c97e7269a23\`.
+- Preserve the draft-only boundary. No real upload, public publishing, credential handling beyond the local OAuth flow, merge, retarget or deployment is authorized by this engineering task.
+- The uploader must derive channel identity from the current OAuth-backed YouTube API session, require a durable per-clip approval bound to the exact video hash and owner channel, and re-check live publish permission immediately before the upload API call.
+- A client-supplied reviewer string or legacy boolean is never identity authentication. Fail closed on missing/mismatched channel, clip, source, file hash, approval, permission, expiry or revocation.
+- Use mocked API clients in tests; no test may perform a network upload. Keep public publishing disabled unless every authenticated owner, per-clip approval and source-rights gate passes.
