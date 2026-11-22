@@ -125,3 +125,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - This supersedes the prior note that the documentation-only tip had no exact-head run. Hosted Windows CI is not owner-device verification, and synthetic media is not GTA 6 footage.
 - PR #93 remains draft/open/unmerged. Before any real upload, the owner must choose a conservative --max-upload-bytes limit based on actual device RAM and expected clip sizes.
 - Remaining gates: independent security review and owner-controlled resolution of Issue #68's parallel uploader PRs; creator-authorized GTA 6 media and permission evidence; local render, FFprobe validation, playback, and owner acceptance.
+
+
+### Latest workstream refresh — ARO-CHAT-0048 (2026-11-22)
+- Latest recorded bounded workstream: ARO-CHAT-0048 / ARO-GTA-P1-48, branch `workstream/aro-chat-0048-direct-upload-size-guard-test-2026-11-22`, PR #96. Its exact head `1ef93e7964afe13533fc25c0b9b6f0244462f343` passed Actions run `45055224315`; Ubuntu job `137308884581` and hosted Windows job `137308884348` passed compilation, complete unittest steps, and synthetic MP4/FFprobe validation. The PR record reports 332 tests passed per job; the connector step summary does not independently expose test-log counts. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 footage.
+- The ARO-CHAT-0048 change is test-only: direct oversized `upload_video()` calls must fail before OAuth authorization and must not create a token file. No network upload is performed. PR #96 remains draft/open/unmerged.
+- The next pending project-level security gate remains Issue #68 (OPEN / WAITING_FOR_OWNER_APPROVAL). It requires the project owner to assign an implementation owner and explicitly select a canonical security PR/branch or approve a consolidation plan. Do not create competing uploader implementations or integrate/merge parallel PRs without that decision.
+- Until Issue #68 is owner-approved and independently verified, keep public uploads disabled. No credentials/tokens, real media, live OAuth, live upload, public publishing, merge, retarget, or deployment are authorized by this follow-up.
