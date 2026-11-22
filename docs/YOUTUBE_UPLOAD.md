@@ -63,7 +63,7 @@ python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
   --approve-clip
 ```
 
-Set `ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT` to the expected Google OIDC `sub` and `ARO_YOUTUBE_CHANNEL_ID` to the destination channel ID in local environment configuration. This step verifies the signed Google ID token's issuer and OAuth-client audience, matches the OIDC subject to the configured owner subject, verifies the same OAuth session's channel through `channels.list(mine=true)`, and checks current source publish permission. It then asks you to type `APPROVE <clip_id>` and records a 24-hour approval bound to the Google subject, channel ID, clip/source IDs and exact file SHA-256. It does not upload. Existing approval files are never overwritten.
+Set `ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT` to the expected Google OIDC `sub` and `ARO_YOUTUBE_CHANNEL_ID` to the destination channel ID in local environment configuration. This step verifies the signed Google ID token's issuer and OAuth-client audience, matches the OIDC subject to the configured owner subject, verifies the same OAuth session's channel through `channels.list(mine=true)`, and checks current source publish permission. For private approval, type `APPROVE PRIVATE <clip_id>`; for unlisted approval, type `APPROVE UNLISTED <clip_id>`; public approval requires the distinct phrase `PUBLISH PUBLIC <clip_id>`. The 24-hour record binds the Google subject, channel ID, clip/source IDs, requested privacy level and exact file SHA-256. It does not upload. Existing approval files are never overwritten.
 
 ## 5. Perform the separately requested upload
 
