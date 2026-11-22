@@ -88,13 +88,13 @@ Before an upload can proceed:
 Example local approval-recording command:
 
 \`\`\`powershell
-python -m backend.app.youtube_upload .\candidate.mp4 --rights-report .\rights-report.json --title "THE ARO clip" --not-made-for-kids --approval-record .\approvals\clip-001.json --clip-id clip-001 --source-id creator-source-001 --approve-clip
+python -m backend.app.youtube_upload .\candidate.mp4 --rights-report .\rights-report.json --title "THE ARO clip" --not-made-for-kids --approval-record .\approvals\clip-001.json --clip-id clip-001 --source-id creator-source-001 --expected-channel-id UC_CONFIGURED_CHANNEL --approve-clip
 \`\`\`
 
 Example local upload command (still requires the independent permission record and exact matching approval):
 
 \`\`\`powershell
-python -m backend.app.youtube_upload .\candidate.mp4 --rights-report .\rights-report.json --title "THE ARO clip" --not-made-for-kids --approval-record .\approvals\clip-001.json --permission-record .\permissions\creator-source-001.json --clip-id clip-001 --source-id creator-source-001 --upload --owner-approved --confirm-rights
+python -m backend.app.youtube_upload .\candidate.mp4 --rights-report .\rights-report.json --title "THE ARO clip" --not-made-for-kids --approval-record .\approvals\clip-001.json --permission-record .\permissions\creator-source-001.json --clip-id clip-001 --source-id creator-source-001 --expected-channel-id UC_CONFIGURED_CHANNEL --upload --owner-approved --confirm-rights
 \`\`\`
 
 Keep OAuth tokens and client secrets local. Unit tests mock the YouTube client and do not upload media. A successful local authorization check is not a real-media acceptance or publishing approval.
