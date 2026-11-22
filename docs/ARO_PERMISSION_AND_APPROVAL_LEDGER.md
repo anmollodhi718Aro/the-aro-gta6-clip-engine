@@ -202,7 +202,7 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 - No real upload, public publishing, OAuth credential/token disclosure, credential rotation, production deployment, merge, retarget, destructive action, permission escalation or collaborator access change.
 - `--owner-approved` is not identity authentication. Verify the signed Google OIDC subject and OAuth-backed YouTube channel ID against local owner configuration; bind both identities into each approval record.
 - Approval creation is a separate, non-upload action requiring exact per-clip typed confirmation. Existing approval records must not be overwritten.
-- Upload authorization must re-check the exact clip/source/file/channel binding and the live SQLite publish permission immediately before the API request.
+- Upload authorization must re-check the exact clip/source/file/Google-subject/channel/privacy binding and the live SQLite publish permission immediately before the API request. Private or unlisted approval cannot authorize public visibility; public requires its distinct typed confirmation.
 - All automated tests use mocked YouTube API clients and local SQLite fixtures; no test may make a real upload request.
 - No creator media acquisition or real-media acceptance is included. The first authorized GTA 6 MP4 remains subject to its separate source-permission, render, FFprobe, playback and owner-acceptance gates.
 - GitHub push/admin capability is technical capability only and does not grant authority for owner-only actions.
