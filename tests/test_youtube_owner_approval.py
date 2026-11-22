@@ -206,7 +206,8 @@ class OwnerApprovalTests(unittest.TestCase):
         with self.assertRaisesRegex(PermissionError, "explicit channel-owner confirmation"):
             write_owner_approval_record(
                 self.record, clip_id="clip-1", source_id="source-1",
-                video_path=self.video, owner=OWNER, confirmed=False, at=NOW,
+                video_path=self.video, owner=OWNER, privacy="private",
+                confirmed=False, at=NOW,
             )
 
     def test_existing_approval_record_cannot_be_overwritten(self):
