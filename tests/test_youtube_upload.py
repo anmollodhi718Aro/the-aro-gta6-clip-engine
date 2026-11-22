@@ -287,6 +287,24 @@ class YouTubeUploadTests(unittest.TestCase):
                         )
         youtube.videos.return_value.insert.assert_not_called()
 
+    def test_cli_passes_exact_clip_and_source_to_upload_boundary(self):
+        db_path = self.root / "source_rights.sqlite3"
+        self._write_upload_rights(db_path)
+        approval_path = self.root / "approval.json"
+        args = [
+            "youtube_upload.py", str(self.video), "--rights-report", str(self.report),
+            "--title", "THE ARO test", "--not-made-for-kids", "--upload",
+            "--owner-approved", "--confirm-rights", "--clip-id", "clip-1",
+            "--source-id", "source-1", "--approval-record", str(approval_path),
+            "--rights-db", str(db_path),
+        ]
+        with patch.object(sys, "argv", args):
+            with patch("backend.app.youtube_upload.upload_video", return_value={"video_id": "mock-id", "url": "https://youtube.invalid/mock-id"}) as upload:
+                from backend.app.youtube_upload import main
+                self.assertEqual(main(), 0)
+        self.assertEqual(upload.call_args.kwargs["clip_id"], "clip-1")
+        self.assertEqual(upload.call_args.kwargs["source_id"], "source-1")
+
 
 if __name__ == "__main__":
     unittest.main()
