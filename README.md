@@ -158,7 +158,7 @@ For each declared third-party visual, the preflight requires both `edit` and `pu
 
 ### Optional YouTube uploader: two-step owner approval
 
-The uploader remains opt-in. Configure `ARO_YOUTUBE_CHANNEL_ID` for the destination channel and keep the OAuth client file and token outside Git. The OAuth session must be able to resolve the configured channel through YouTube's authenticated `channels.list(mine=True)` endpoint. Existing tokens without the required read-only identity scope must be re-authorized.
+The uploader remains opt-in. Configure both `ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT` (the expected Google OIDC `sub`) and `ARO_YOUTUBE_CHANNEL_ID` for the owner account and destination channel; keep these in local environment configuration, not Git. Keep the OAuth client file and token outside Git. The verified OIDC subject and OAuth-backed `channels.list(mine=True)` result must both match configuration. Existing tokens without the required OpenID and YouTube read-only scopes must be re-authorized.
 
 First, create a durable approval for one exact local video, clip ID and source ID. This command does not upload:
 
@@ -171,7 +171,7 @@ python -m backend.app.youtube_upload /path/to/authorized-clip.mp4 \\
   --rights-db aro_studio_data/source_rights.sqlite3
 ```
 
-After OAuth channel verification and a current publish-scope check, the CLI asks for the exact typed confirmation `APPROVE CLIP_ID`. The resulting record is non-overwritable, expires after 24 hours by default, and binds the channel, clip, source and SHA-256 of the local video.
+After OAuth channel verification and a current publish-scope check, the CLI asks for the exact typed confirmation `APPROVE CLIP_ID`. The resulting record is non-overwritable, expires after 24 hours by default, and binds the Google OIDC subject, destination channel, clip, source and SHA-256 of the local video.
 
 A separate upload invocation still requires the same clip/source IDs, the approval record, `--upload --owner-approved --confirm-rights`, and a fresh check of channel identity, approval and the SQLite publish grant immediately before the YouTube API request. The default privacy is `private`. A client-supplied flag is never treated as channel authentication. Unit tests use mocked API clients; they do not perform uploads. A real upload remains a separate owner-approved acceptance test.
 
