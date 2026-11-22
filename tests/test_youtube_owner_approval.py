@@ -92,6 +92,19 @@ class OwnerApprovalTests(unittest.TestCase):
                 youtube, expected_channel_id=OWNER.channel_id
             )
 
+    def test_pending_or_rejected_decision_cannot_pass_upload_gate(self):
+        original = json.loads(self.record.read_text(encoding="utf-8"))
+        for decision in ("pending", "rejected", "needs_review"):
+            altered = dict(original, decision=decision)
+            self.record.write_text(json.dumps(altered), encoding="utf-8")
+            with self.assertRaisesRegex(PermissionError, "does not match"):
+                self.gate()
+        self.record.write_text(json.dumps(original), encoding="utf-8")
+
+    def test_missing_source_rights_cannot_pass_upload_gate(self):
+        empty_registry = SourceRightsRegistry(self.root / "empty-rights.sqlite3")
+        with self.assertRaisesRegex(PermissionError, "no recorded rights"):
+            self.gate(rights_registry=empty_registry)
     def test_matching_owner_clip_source_hash_and_publish_permission_pass(self):
         self.gate()
 
