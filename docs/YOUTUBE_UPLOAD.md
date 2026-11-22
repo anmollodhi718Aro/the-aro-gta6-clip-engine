@@ -63,7 +63,7 @@ python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
   --approve-clip
 ```
 
-This step calls the official YouTube API with the current OAuth session, verifies that the configured channel is returned by `channels.list(mine=true)`, checks current source publish permission, and records a 24-hour approval bound to the exact file's SHA-256. It does not upload. Existing approval files are never overwritten.
+Set `ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT` to the expected Google OIDC `sub` and `ARO_YOUTUBE_CHANNEL_ID` to the destination channel ID in local environment configuration. This step verifies the signed Google ID token's issuer and OAuth-client audience, matches the OIDC subject to the configured owner subject, verifies the same OAuth session's channel through `channels.list(mine=true)`, and checks current source publish permission. It then asks you to type `APPROVE <clip_id>` and records a 24-hour approval bound to the Google subject, channel ID, clip/source IDs and exact file SHA-256. It does not upload. Existing approval files are never overwritten.
 
 ## 5. Perform the separately requested upload
 
@@ -83,7 +83,7 @@ python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
   --upload --owner-approved --confirm-rights
 ```
 
-Immediately before `videos.insert`, the uploader re-verifies the authenticated channel, the exact clip/source/file approval and current publish permission. The default privacy setting is private. Public or unlisted uploads still require every gate to pass. The flags do not guarantee legal clearance, platform acceptance, copyright safety, or monetization.
+Immediately before `videos.insert`, the uploader re-verifies the Google OIDC subject and authenticated channel, the exact clip/source/file approval and current publish permission. The default privacy setting is private. Public or unlisted uploads still require every gate to pass. The flags do not guarantee legal clearance, platform acceptance, copyright safety, or monetization.
 
 ## Limits
 
