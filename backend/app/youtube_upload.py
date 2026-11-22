@@ -162,6 +162,20 @@ def _authorize_google(client_secrets: Path, token_path: Path):
     return credentials
 
 
+
+def _oauth_client_id(client_secrets: Path) -> str:
+    """Read only the OAuth client ID needed to validate the OIDC audience."""
+    try:
+        config = json.loads(client_secrets.expanduser().read_text(encoding="utf-8"))
+        client_config = config.get("installed", config.get("web", {}))
+    except (OSError, json.JSONDecodeError, AttributeError) as exc:
+        raise PermissionError("OAuth client configuration is unreadable") from exc
+    client_id = client_config.get("client_id") if isinstance(client_config, dict) else None
+    if not isinstance(client_id, str) or not client_id.strip():
+        raise PermissionError("OAuth client ID is missing")
+    return client_id
+
+
 def upload_video(
     video_path: Path,
     body: dict[str, Any],
@@ -187,13 +201,16 @@ def upload_video(
         require_current_owner_approval,
     )
     from backend.app.rights_registry import SourceRightsRegistry
+    expected_subject = os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "")
     expected_channel = os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "")
-    if not expected_channel:
-        raise PermissionError("ARO_YOUTUBE_CHANNEL_ID must identify the configured destination channel")
+    if not expected_subject or not expected_channel:
+        raise PermissionError("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT and ARO_YOUTUBE_CHANNEL_ID must be configured")
+    oauth_client_id = _oauth_client_id(client_secrets)
     credentials = _authorize_google(client_secrets, token_path)
     youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)
     owner = verify_authenticated_channel_owner(
-        youtube, expected_channel_id=expected_channel
+        credentials, youtube, oauth_client_id=oauth_client_id,
+        expected_google_subject=expected_subject, expected_channel_id=expected_channel,
     )
     rights_registry = SourceRightsRegistry(rights_db_path.expanduser())
     mime_type, _ = mimetypes.guess_type(video_path.name)
@@ -217,7 +234,8 @@ def upload_video(
     # Repeat all identity, approval and current-rights checks immediately
     # before the upload API side effect. Any mismatch fails closed.
     owner = verify_authenticated_channel_owner(
-        youtube, expected_channel_id=expected_channel
+        credentials, youtube, oauth_client_id=oauth_client_id,
+        expected_google_subject=expected_subject, expected_channel_id=expected_channel,
     )
     require_current_owner_approval(
         approval_record_path, clip_id=clip_id, source_id=source_id,
@@ -288,9 +306,14 @@ def main() -> int:
                 args.client_secrets.expanduser(), args.token.expanduser()
             )
             youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)
+            expected_subject = os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "")
             expected_channel = os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "")
+            if not expected_subject or not expected_channel:
+                raise PermissionError("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT and ARO_YOUTUBE_CHANNEL_ID must be configured")
+            oauth_client_id = _oauth_client_id(args.client_secrets.expanduser())
             owner = verify_authenticated_channel_owner(
-                youtube, expected_channel_id=expected_channel
+                credentials, youtube, oauth_client_id=oauth_client_id,
+                expected_google_subject=expected_subject, expected_channel_id=expected_channel,
             )
             SourceRightsRegistry(args.rights_db.expanduser()).authorize(
                 args.source_id, "publish", "youtube"
