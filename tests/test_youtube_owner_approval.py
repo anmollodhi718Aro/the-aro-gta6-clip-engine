@@ -1,10 +1,13 @@
 """Mocked security tests for OAuth-bound, durable YouTube owner approvals."""
 import json
+import sys
 import tempfile
+import types
 import unittest
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from unittest.mock import Mock
+from types import SimpleNamespace
+from unittest.mock import Mock, patch
 
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import (
@@ -16,7 +19,7 @@ from backend.app.youtube_owner_approval import (
 )
 
 NOW = datetime(2026, 11, 22, 12, 0, tzinfo=timezone.utc)
-OWNER = AuthenticatedChannelOwner("youtube-channel-456")
+OWNER = AuthenticatedChannelOwner("google-subject-123", "youtube-channel-456")
 
 
 class OwnerApprovalTests(unittest.TestCase):
@@ -59,38 +62,127 @@ class OwnerApprovalTests(unittest.TestCase):
         args.update(overrides)
         require_current_owner_approval(**args)
 
-    def test_oauth_channel_is_resolved_from_mocked_youtube_api(self):
+    def _mock_google_modules(self, claims):
+        google = types.ModuleType("google")
+        auth = types.ModuleType("google.auth")
+        transport = types.ModuleType("google.auth.transport")
+        requests = types.ModuleType("google.auth.transport.requests")
+        oauth2 = types.ModuleType("google.oauth2")
+        id_token = types.ModuleType("google.oauth2.id_token")
+        requests.Request = Mock(return_value=object())
+        id_token.verify_oauth2_token = Mock(return_value=claims)
+        google.auth = auth
+        auth.transport = transport
+        transport.requests = requests
+        google.oauth2 = oauth2
+        oauth2.id_token = id_token
+        return {
+            "google": google,
+            "google.auth": auth,
+            "google.auth.transport": transport,
+            "google.auth.transport.requests": requests,
+            "google.oauth2": oauth2,
+            "google.oauth2.id_token": id_token,
+        }, id_token
+
+    def test_oauth_subject_and_youtube_channel_are_both_verified(self):
+        modules, id_token = self._mock_google_modules({
+            "sub": OWNER.google_subject,
+            "iss": "https://accounts.google.com",
+            "azp": "client-id",
+        })
         youtube = Mock()
         youtube.channels.return_value.list.return_value.execute.return_value = {
             "items": [{"id": OWNER.channel_id}]
         }
-        self.assertEqual(
-            verify_authenticated_channel_owner(
-                youtube, expected_channel_id=OWNER.channel_id
-            ),
-            OWNER,
-        )
+        credentials = SimpleNamespace(id_token="signed-id-token")
+        with patch.dict(sys.modules, modules):
+            actual = verify_authenticated_channel_owner(
+                credentials, youtube, oauth_client_id="client-id",
+                expected_google_subject=OWNER.google_subject,
+                expected_channel_id=OWNER.channel_id,
+            )
+        self.assertEqual(actual, OWNER)
+        id_token.verify_oauth2_token.assert_called_once()
         youtube.channels.return_value.list.assert_called_once_with(part="id", mine=True)
 
+    def test_different_google_account_is_rejected_even_for_same_channel(self):
+        modules, _ = self._mock_google_modules({
+            "sub": "different-google-account",
+            "iss": "accounts.google.com",
+            "azp": "client-id",
+        })
+        youtube = Mock()
+        credentials = SimpleNamespace(id_token="signed-id-token")
+        with patch.dict(sys.modules, modules):
+            with self.assertRaisesRegex(PermissionError, "not the configured channel owner"):
+                verify_authenticated_channel_owner(
+                    credentials, youtube, oauth_client_id="client-id",
+                    expected_google_subject=OWNER.google_subject,
+                    expected_channel_id=OWNER.channel_id,
+                )
+        youtube.channels.assert_not_called()
+
+    def test_missing_oidc_identity_token_fails_closed(self):
+        with self.assertRaisesRegex(PermissionError, "no OpenID Connect"):
+            verify_authenticated_channel_owner(
+                SimpleNamespace(id_token=None), Mock(), oauth_client_id="client-id",
+                expected_google_subject=OWNER.google_subject,
+                expected_channel_id=OWNER.channel_id,
+            )
+
+    def test_invalid_issuer_or_authorized_party_fails_closed(self):
+        for claims in (
+            {"sub": OWNER.google_subject, "iss": "untrusted.example"},
+            {"sub": OWNER.google_subject, "iss": "accounts.google.com", "azp": "other-client"},
+        ):
+            modules, _ = self._mock_google_modules(claims)
+            with patch.dict(sys.modules, modules):
+                with self.assertRaisesRegex(PermissionError, "valid subject, issuer or authorized party"):
+                    verify_authenticated_channel_owner(
+                        SimpleNamespace(id_token="signed-id-token"), Mock(),
+                        oauth_client_id="client-id",
+                        expected_google_subject=OWNER.google_subject,
+                        expected_channel_id=OWNER.channel_id,
+                    )
+
     def test_missing_or_mismatched_channel_fails_closed(self):
-        with self.assertRaisesRegex(PermissionError, "configured destination"):
-            verify_authenticated_channel_owner(Mock(), expected_channel_id="")
+        with self.assertRaisesRegex(PermissionError, "configured Google owner subject"):
+            verify_authenticated_channel_owner(
+                SimpleNamespace(id_token="token"), Mock(), oauth_client_id="",
+                expected_google_subject=OWNER.google_subject,
+                expected_channel_id=OWNER.channel_id,
+            )
+        modules, _ = self._mock_google_modules({
+            "sub": OWNER.google_subject, "iss": "accounts.google.com",
+        })
         youtube = Mock()
         youtube.channels.return_value.list.return_value.execute.return_value = {
             "items": [{"id": "another-channel"}]
         }
-        with self.assertRaisesRegex(PermissionError, "does not resolve"):
-            verify_authenticated_channel_owner(
-                youtube, expected_channel_id=OWNER.channel_id
-            )
+        with patch.dict(sys.modules, modules):
+            with self.assertRaisesRegex(PermissionError, "does not resolve"):
+                verify_authenticated_channel_owner(
+                    SimpleNamespace(id_token="signed-id-token"), youtube,
+                    oauth_client_id="client-id",
+                    expected_google_subject=OWNER.google_subject,
+                    expected_channel_id=OWNER.channel_id,
+                )
 
     def test_channel_lookup_error_fails_closed(self):
+        modules, _ = self._mock_google_modules({
+            "sub": OWNER.google_subject, "iss": "accounts.google.com",
+        })
         youtube = Mock()
         youtube.channels.return_value.list.return_value.execute.side_effect = RuntimeError("offline")
-        with self.assertRaisesRegex(PermissionError, "could not verify"):
-            verify_authenticated_channel_owner(
-                youtube, expected_channel_id=OWNER.channel_id
-            )
+        with patch.dict(sys.modules, modules):
+            with self.assertRaisesRegex(PermissionError, "could not verify"):
+                verify_authenticated_channel_owner(
+                    SimpleNamespace(id_token="signed-id-token"), youtube,
+                    oauth_client_id="client-id",
+                    expected_google_subject=OWNER.google_subject,
+                    expected_channel_id=OWNER.channel_id,
+                )
 
     def test_pending_or_rejected_decision_cannot_pass_upload_gate(self):
         original = json.loads(self.record.read_text(encoding="utf-8"))
@@ -105,6 +197,7 @@ class OwnerApprovalTests(unittest.TestCase):
         empty_registry = SourceRightsRegistry(self.root / "empty-rights.sqlite3")
         with self.assertRaisesRegex(PermissionError, "no recorded rights"):
             self.gate(rights_registry=empty_registry)
+
     def test_matching_owner_clip_source_hash_and_publish_permission_pass(self):
         self.gate()
 
@@ -127,9 +220,13 @@ class OwnerApprovalTests(unittest.TestCase):
         with self.assertRaisesRegex(PermissionError, "does not match"):
             self.gate()
 
-    def test_different_authenticated_channel_is_rejected(self):
+    def test_different_google_account_is_rejected_even_when_channel_matches(self):
         with self.assertRaisesRegex(PermissionError, "does not match"):
-            self.gate(owner=AuthenticatedChannelOwner("another-channel"))
+            self.gate(owner=AuthenticatedChannelOwner("other-subject", OWNER.channel_id))
+
+    def test_different_destination_channel_is_rejected(self):
+        with self.assertRaisesRegex(PermissionError, "does not match"):
+            self.gate(owner=AuthenticatedChannelOwner(OWNER.google_subject, "another-channel"))
 
     def test_clip_and_source_mismatch_are_rejected(self):
         with self.assertRaisesRegex(PermissionError, "does not match"):
@@ -191,6 +288,7 @@ class OwnerApprovalTests(unittest.TestCase):
 
     def test_record_contains_durable_identity_and_timezone_fields(self):
         data = json.loads(self.record.read_text(encoding="utf-8"))
+        self.assertEqual(data["reviewer_google_subject"], OWNER.google_subject)
         self.assertEqual(data["reviewer_channel_id"], OWNER.channel_id)
         self.assertEqual(data["destination_channel_id"], OWNER.channel_id)
         self.assertEqual(data["source_sha256"], sha256_file(self.video))
