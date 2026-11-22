@@ -1,5 +1,6 @@
 """Tests for gated YouTube upload without making network requests."""
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -165,7 +166,6 @@ class YouTubeUploadTests(unittest.TestCase):
             )
         saved = json.loads(approval_path.read_text(encoding="utf-8"))
         self.assertEqual(saved["reviewed_by"], "UC_AUTHENTICATED_OWNER")
-        self.assertNotIn("reviewed_by", saved.keys() - {"reviewed_by"})
 
     def test_approval_record_rejects_oauth_channel_mismatch(self):
         class Request:
