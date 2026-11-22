@@ -823,3 +823,34 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Added mocked tests for signature/audience invocation, missing token/client ID, and verifier failure. Tests do not use live Google credentials or perform uploads.
 - Implementation commits: `9bed24b0d77162312e3cd9cfc68bb9f30afabc87`, `ce0f809c72de22b6e0d53f5902c5f3bf436a4eaa`, `ec272c3a5112f50eeaf658f2bd8e10530279704f`; registry reservation commit is recorded in PR history.
 - CI, full-suite results, and independent security review are pending. This work does not establish upload readiness or resolve Issue #68 by itself.
+
+
+## ARO-CHAT-0042 upload snapshot TOCTOU remediation reservation — 2026-11-22
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0042 |
+| Exact title | ARO-CHAT-0042 | YouTube Upload Snapshot TOCTOU Remediation |
+| Workstream ID | ARO-GTA-P1-42 |
+| Role | Bounded security implementation contributor |
+| Task | Close the file-hash/upload time-of-check-to-time-of-use gap in the selected PR #83 uploader path by hashing and uploading the same private staged byte snapshot; add mocked regression coverage. |
+| Branch | `workstream/aro-chat-0042-upload-snapshot-toctou-2026-11-22` |
+| Base | `workstream/aro-chat-0041-oidc-helper-recursion-fix-2026-11-22` (PR #87 remediation branch) |
+| Starting SHA | `ccfbdc3ea5157b59aaf05ab4dece001f93db136b` |
+| Status | IMPLEMENTED; mocked TOCTOU regression added; exact-head CI pending; independent review and owner integration required |
+| Scope boundary | Separate stacked branch only. Do not modify PR #83/#87 branches, PR #82, credentials, tokens, real media, live upload, publishing, merge, retarget, or deployment. |
+
+### Security finding motivating ARO-CHAT-0042
+- The current uploader constructs `MediaFileUpload` from the caller-controlled source path before the final approval/hash checks.
+- The approval gate hashes that path, then YouTube's media upload later reads the path. A concurrent replacement or modification between the final hash check and media consumption can cause bytes different from the approved SHA-256 to be uploaded.
+- The remediation will stage a private byte snapshot, bind approval verification to that snapshot, and stream that same open snapshot to the API. The original source path must not be re-opened for upload after the approval check.
+- Tests must prove that mutation of the original path after staging cannot change the bytes sent, and that a snapshot hash mismatch blocks before the API insert. No test may perform a network upload.
+
+
+### ARO-CHAT-0042 implementation evidence
+- Replaced path-based `MediaFileUpload` with a private temporary byte snapshot and `MediaIoBaseUpload` over the same open snapshot file.
+- Both approval/hash checks now validate the staged snapshot that is streamed to YouTube; the caller-controlled original path is not reopened after staging.
+- Added a mocked regression that replaces the original source path after staging and proves the bytes consumed by the API mock remain the originally approved bytes.
+- Changed files: `backend/app/youtube_upload.py`, `tests/test_youtube_upload.py`, and this registry.
+- Implementation commits: `dc2db998f020abaaa7caf40e69a7d750a942474c` and `364cecc67e4b3acac4bbb58a8a2734077dc5a271`; registry reservation commit: `6bebabc81e20392d473ec70931c022085233583c`.
+- Direct/local tests: NOT RUN in this connector session. Exact-head GitHub Actions: PENDING. No live OAuth, network upload, public publishing, or real-media operation is part of this task.
