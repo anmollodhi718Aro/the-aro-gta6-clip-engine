@@ -1,7 +1,7 @@
 """Fail-closed, OAuth-bound per-clip YouTube upload approval.
 
-The authenticated YouTube channel ID is the stable reviewer subject. This
-module records approval for one exact local file and never performs uploads.
+Approval records bind the verified Google OIDC subject, destination channel,
+clip/source IDs, and exact local video bytes. This module never uploads.
 """
 from __future__ import annotations
 
@@ -19,6 +19,7 @@ from .rights_registry import SourceRightsRegistry
 
 @dataclass(frozen=True)
 class AuthenticatedChannelOwner:
+    google_subject: str
     channel_id: str
 
 
@@ -31,11 +32,41 @@ def sha256_file(path: str | Path) -> str:
 
 
 def verify_authenticated_channel_owner(
-    youtube: Any, *, expected_channel_id: str
+    credentials: Any,
+    youtube: Any,
+    *,
+    oauth_client_id: str,
+    expected_google_subject: str,
+    expected_channel_id: str,
 ) -> AuthenticatedChannelOwner:
-    """Resolve the channel from the current OAuth-backed YouTube API client."""
-    if not isinstance(expected_channel_id, str) or not expected_channel_id.strip():
-        raise PermissionError("configured destination YouTube channel ID is required")
+    """Verify the Google OIDC principal and its OAuth-backed YouTube channel."""
+    required = (oauth_client_id, expected_google_subject, expected_channel_id)
+    if not all(isinstance(value, str) and value.strip() for value in required):
+        raise PermissionError("configured Google owner subject, OAuth client ID and YouTube channel ID are required")
+    token = getattr(credentials, "id_token", None)
+    if not isinstance(token, str) or not token:
+        raise PermissionError("OAuth session has no OpenID Connect identity token")
+    try:
+        from google.auth.transport.requests import Request
+        from google.oauth2 import id_token
+
+        claims = id_token.verify_oauth2_token(token, Request(), audience=oauth_client_id)
+    except Exception as exc:
+        raise PermissionError("Google identity token could not be verified") from exc
+    if not isinstance(claims, dict):
+        raise PermissionError("verified Google identity token claims are invalid")
+    subject = claims.get("sub")
+    issuer = claims.get("iss")
+    authorized_party = claims.get("azp")
+    if (
+        not isinstance(subject, str)
+        or not subject
+        or issuer not in ("accounts.google.com", "https://accounts.google.com")
+        or (authorized_party is not None and authorized_party != oauth_client_id)
+    ):
+        raise PermissionError("verified Google identity token is missing a valid subject, issuer or authorized party")
+    if subject != expected_google_subject:
+        raise PermissionError("authenticated Google account is not the configured channel owner")
     try:
         response = youtube.channels().list(part="id", mine=True).execute()
         items = response.get("items", [])
@@ -47,7 +78,7 @@ def verify_authenticated_channel_owner(
         raise PermissionError("could not verify the OAuth account's YouTube channel") from exc
     if expected_channel_id not in channel_ids:
         raise PermissionError("OAuth account does not resolve to the configured destination channel")
-    return AuthenticatedChannelOwner(expected_channel_id)
+    return AuthenticatedChannelOwner(subject, expected_channel_id)
 
 
 def _parse_aware(value: Any, field: str) -> datetime:
@@ -77,7 +108,7 @@ def write_owner_approval_record(
     if confirmed is not True:
         raise PermissionError("explicit channel-owner confirmation is required")
     if not all(isinstance(value, str) and value.strip() for value in (
-        clip_id, source_id, owner.channel_id
+        clip_id, source_id, owner.google_subject, owner.channel_id
     )):
         raise ValueError("clip, source and authenticated owner identities are required")
     reviewed_at = at or datetime.now(timezone.utc)
@@ -92,6 +123,7 @@ def write_owner_approval_record(
         "clip_id": clip_id.strip(),
         "source_id": source_id.strip(),
         "source_sha256": sha256_file(video_path),
+        "reviewer_google_subject": owner.google_subject,
         "reviewer_channel_id": owner.channel_id,
         "destination_channel_id": owner.channel_id,
         "reviewed_at": reviewed_at.astimezone(timezone.utc).isoformat(),
@@ -103,11 +135,11 @@ def write_owner_approval_record(
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as stream:
             json.dump(record, stream, indent=2, sort_keys=True)
-            stream.write("\n")
+            stream.write("\\n")
             stream.flush()
             os.fsync(stream.fileno())
-        # A hard link publishes the fully-written record atomically and refuses
-        # to replace a prior approval for the same path.
+        # A hard link atomically publishes the complete record and refuses
+        # to replace an existing approval at this path.
         os.link(temp_name, target)
         try:
             os.chmod(target, 0o600)
@@ -141,11 +173,12 @@ def require_current_owner_approval(
         "clip_id": clip_id,
         "source_id": source_id,
         "source_sha256": sha256_file(video_path),
+        "reviewer_google_subject": owner.google_subject,
         "reviewer_channel_id": owner.channel_id,
         "destination_channel_id": owner.channel_id,
     }
     if any(record.get(key) != value for key, value in expected.items()):
-        raise PermissionError("owner approval does not match the authenticated owner, clip, source or exact video")
+        raise PermissionError("owner approval does not match the authenticated account, channel, clip, source or exact video")
     now = at or datetime.now(timezone.utc)
     reviewed_at = _parse_aware(record.get("reviewed_at"), "reviewed_at")
     expires_at = _parse_aware(record.get("expires_at"), "expires_at")
@@ -153,5 +186,4 @@ def require_current_owner_approval(
         raise PermissionError("owner approval is expired or has an invalid review time")
     if not isinstance(rights_registry, SourceRightsRegistry):
         raise PermissionError("current source publish permission registry is required")
-    # This is the live permission check, including validity, expiry and revocation.
     rights_registry.authorize(source_id, "publish", "youtube", at=now)
