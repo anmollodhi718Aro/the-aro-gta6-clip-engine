@@ -90,3 +90,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - The uploader must verify the Google OIDC subject and destination channel from the same OAuth session, require a durable per-clip approval bound to the exact video hash, Google subject and channel, and re-check live publish permission immediately before the upload API call.
 - A client-supplied reviewer string or legacy boolean is never identity authentication. Fail closed on missing/mismatched channel, clip, source, file hash, approval, permission, expiry or revocation.
 - Use mocked API clients in tests; no test may perform a network upload. Keep public publishing disabled unless every authenticated owner, per-clip approval and source-rights gate passes.
+
+
+### Latest uploader byte-integrity follow-up — ARO-CHAT-0044
+- Active bounded workstream: ARO-CHAT-0044 / ARO-GTA-P1-44 on branch workstream/aro-chat-0044-immutable-upload-payload-2026-11-22.
+- Base is PR #88's exact head 7a1d9a9a66a7b16ed0632eee10189554f20d2aa6. This is a separate follow-up; PR #88 and the parallel PR #89/#90 branches are not modified.
+- Security finding: even when the original source is staged and the staged file is hashed, the same file can be modified after the final hash check but before the YouTube client consumes its open stream.
+- Fix: compare the durable approval against the SHA-256 of an immutable in-memory byte payload, and pass a stream over those exact bytes to MediaIoBaseUpload. The filesystem snapshot is no longer the upload source after capture.
+- Mocked regression mutates the staged file after final approval checks and before the API mock consumes the media stream; it must prove the transmitted bytes remain the approved bytes. No network upload is used.
+- PR #89 and PR #90 both claim ARO-CHAT-0043 / ARO-GTA-P1-43 for the same staged-snapshot hash-mismatch regression. Both exact-head Ubuntu and hosted-Windows CI runs passed; preserve both histories and wait for owner selection. Do not independently merge both.
+- PR #87 and PR #91 contain parallel fixes for the same recursive Google OIDC verifier defect. PR #91 exact-head run 45014281658 passed Ubuntu and hosted Windows; do not independently integrate both verifier branches.
+- ARO-CHAT-0044 code is IMPLEMENTED on its isolated branch; local tests were not run in this connector session; exact-head CI is pending. Keep PR draft-only, Issue #68 open until owner review, and all live uploads/public publishing disabled.
+- No merge, retarget, deployment, credential/token access, real-media processing, live upload, public publishing, or destructive action is authorized by this follow-up.

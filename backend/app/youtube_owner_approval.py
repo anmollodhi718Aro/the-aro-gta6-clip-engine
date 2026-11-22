@@ -30,6 +30,12 @@ def sha256_file(path: str | Path) -> str:
             digest.update(chunk)
     return digest.hexdigest()
 
+def sha256_bytes(content: bytes) -> str:
+    """Hash an immutable in-memory upload payload."""
+    if not isinstance(content, bytes):
+        raise TypeError("content must be immutable bytes")
+    return hashlib.sha256(content).hexdigest()
+
 
 
 def _verify_google_id_token(credentials: Any, oauth_client_id: str) -> dict[str, Any]:
@@ -168,7 +174,8 @@ def require_current_owner_approval(
     *,
     clip_id: str,
     source_id: str,
-    video_path: str | Path,
+    video_path: str | Path | None = None,
+    video_sha256: str | None = None,
     owner: AuthenticatedChannelOwner,
     privacy: str,
     rights_registry: SourceRightsRegistry,
@@ -181,12 +188,24 @@ def require_current_owner_approval(
         raise PermissionError("durable owner approval record is missing or unreadable") from exc
     if not isinstance(record, dict) or record.get("schema_version") != 1:
         raise PermissionError("owner approval record has an unsupported schema")
+    if (video_path is None) == (video_sha256 is None):
+        raise PermissionError("provide exactly one exact-video path or SHA-256")
+    if video_sha256 is None:
+        video_sha256 = sha256_file(video_path)
+    else:
+        if (
+            not isinstance(video_sha256, str)
+            or len(video_sha256) != 64
+            or any(character not in "0123456789abcdef" for character in video_sha256.lower())
+        ):
+            raise PermissionError("exact video SHA-256 is invalid")
+        video_sha256 = video_sha256.lower()
     expected = {
         "decision": "approved",
         "clip_id": clip_id,
         "source_id": source_id,
         "privacy": privacy,
-        "source_sha256": sha256_file(video_path),
+        "source_sha256": video_sha256,
         "reviewer_google_subject": owner.google_subject,
         "reviewer_channel_id": owner.channel_id,
         "destination_channel_id": owner.channel_id,

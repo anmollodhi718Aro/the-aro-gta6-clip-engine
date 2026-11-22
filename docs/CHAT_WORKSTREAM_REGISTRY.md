@@ -854,3 +854,35 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Changed files: `backend/app/youtube_upload.py`, `tests/test_youtube_upload.py`, and this registry.
 - Implementation commits: `dc2db998f020abaaa7caf40e69a7d750a942474c` and `364cecc67e4b3acac4bbb58a8a2734077dc5a271`; registry reservation commit: `6bebabc81e20392d473ec70931c022085233583c`.
 - Direct/local tests: NOT RUN in this connector session. Exact-head GitHub Actions: PENDING. No live OAuth, network upload, public publishing, or real-media operation is part of this task.
+
+
+## ARO-CHAT-0043 duplicate-workstream reconciliation note — 2026-11-22
+
+- PR #89 and PR #90 both claim ARO-CHAT-0043 / ARO-GTA-P1-43 for the same staged-snapshot hash-mismatch regression scope. Preserve both branches and histories; the owner has not selected a canonical PR.
+- PR #89 exact head 1572a76524a60418c4321e1d798adc98125b8245 passed Actions run 45010046043; Ubuntu and hosted Windows both passed compile, unit tests, and synthetic MP4/FFprobe steps.
+- PR #90 exact head b82550f372a9737407d109d82ba285040e2fae44 passed Actions run 45011621526; Ubuntu and hosted Windows both passed compile, unit tests, and synthetic MP4/FFprobe steps.
+- Both remain draft/open. This note records the collision and evidence only; it does not choose, merge, close, or retarget either PR.
+
+## ARO-CHAT-0044 reservation and implementation — 2026-11-22
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0044 |
+| Exact title | ARO-CHAT-0044 | Immutable YouTube Upload Payload After Approval Gate |
+| Workstream ID | ARO-GTA-P1-44 |
+| Role | Bounded uploader-security contributor + QA |
+| Task | Close the residual TOCTOU gap where a staged file could be modified after the final approval hash check but before the YouTube client consumes its open file stream. |
+| Branch | workstream/aro-chat-0044-immutable-upload-payload-2026-11-22 |
+| Base | PR #88 branch workstream/aro-chat-0042-upload-snapshot-toctou-2026-11-22 |
+| Starting SHA | 7a1d9a9a66a7b16ed0632eee10189554f20d2aa6 |
+| Status | IMPLEMENTED; mocked regression added; local tests NOT RUN; exact-head CI PENDING |
+| Changed files | backend/app/youtube_owner_approval.py, backend/app/youtube_upload.py, tests/test_youtube_owner_approval.py, tests/test_youtube_upload.py, this registry, and the startup prompt |
+| Scope boundary | Isolated stacked draft only. No changes to PR #82/#83/#87/#88/#89/#90 branches; no credentials/tokens, live OAuth, real media, live upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Security finding and implementation
+- PR #88 correctly stages the original source and binds upload to that staged file descriptor, but the file remains mutable by a process with the same filesystem permissions. A mutation after the final path-based hash check and before the API consumes the stream can still change the uploaded bytes.
+- The uploader now reads the staged file into an immutable bytes payload, computes its SHA-256, and passes that exact digest to the approval gate. MediaIoBaseUpload receives an in-memory stream over those same bytes, not a mutable filesystem path.
+- Identity, per-clip approval, and current source-rights checks remain fail-closed and occur immediately before request construction.
+- Added helper tests for matching/mismatched immutable payload hashes and a mocked uploader regression that mutates the staged file after final checks but before the mocked API consumes the payload. The test asserts the uploaded bytes remain identical to the approved payload.
+- Tests use local synthetic bytes and mocked API clients only. No network upload occurs.
+- Direct/local tests: NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI: PENDING. Real-media and owner-device verification remain NOT VERIFIED.
