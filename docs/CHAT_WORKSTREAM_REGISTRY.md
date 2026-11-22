@@ -799,3 +799,24 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Public visibility requires the distinct typed confirmation PUBLISH PUBLIC CLIP_ID.
 - Current publish grants are rechecked for the clip source and each source-bound asset immediately before the upload API request.
 - CI evidence must be refreshed on the latest PR head before the workstream can be marked verified.
+
+
+## ARO-CHAT-0040 OIDC verifier regression fix — 2026-11-22
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0040 |
+| Exact title | ARO-CHAT-0040 | Independent Security Review and OIDC Verification Fix |
+| Workstream ID | ARO-GTA-P1-40 |
+| Scope | Independently review the selected PR #83 authenticated uploader implementation; repair the recursive Google OIDC token-verification helper; route channel-owner verification through that single fail-closed verifier; add direct regression tests for signature/audience invocation, verifier failure and malformed claims. |
+| Branch | `workstream/aro-chat-0040-oidc-verifier-recursion-fix-2026-11-22` |
+| Starting SHA | `f66f6406a496d08e3e85972010f1f52d831298ab` (PR #83 audited head) |
+| Status | IN_PROGRESS; exact-head CI pending; no upload or publishing |
+| Related work | Issue #68; primary candidate PR #83 (ARO-CHAT-0038). PR #82 (ARO-CHAT-0039) remains parallel reference only; do not integrate both independently. |
+
+### Findings and boundaries
+- The audited PR #83 head contained an accidental self-recursive `_verify_google_id_token()` implementation. Its caller duplicated the lower-level verifier inline, so existing end-to-end mocked tests passed without directly exercising the defective helper.
+- The fix restores the helper's direct Google ID-token signature/audience verification and makes `verify_authenticated_channel_owner()` call that helper as its single token-verification boundary.
+- Added direct unit tests for successful verifier invocation with the configured audience, missing/invalid token failure, verifier exceptions, and malformed claims.
+- No OAuth secrets, tokens, real uploads, public publishing, deployment, merge, retarget, or destructive operation.
+- PR #83 remains draft; exact-head CI must pass before this correction is treated as verified. First real GTA 6 media acceptance remains separately blocked.
