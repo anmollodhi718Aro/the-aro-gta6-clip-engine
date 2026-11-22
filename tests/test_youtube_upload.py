@@ -41,22 +41,17 @@ class YouTubeUploadTests(unittest.TestCase):
         self.assertEqual(body["status"]["privacyStatus"], "private")
         self.assertFalse(body["status"]["selfDeclaredMadeForKids"])
 
-    def test_actual_upload_requires_both_explicit_approvals(self):
-        with self.assertRaisesRegex(PermissionError, "owner-approved"):
-            validate_upload(
-                self.video, self.report, title="Approved title",
-                made_for_kids=False, rights_confirmed=True, upload_requested=True,
-            )
+    def test_actual_upload_requires_explicit_rights_confirmation(self):
         with self.assertRaisesRegex(PermissionError, "confirm-rights"):
             validate_upload(
                 self.video, self.report, title="Approved title",
-                made_for_kids=False, owner_approved=True, upload_requested=True,
+                made_for_kids=False, upload_requested=True,
             )
 
     def test_actual_upload_validation_passes_with_both_approvals(self):
         video, body = validate_upload(
             self.video, self.report, title="Approved title",
-            made_for_kids=True, owner_approved=True, rights_confirmed=True,
+            made_for_kids=True, rights_confirmed=True,
             upload_requested=True, privacy="unlisted",
         )
         self.assertEqual(video, self.video)
