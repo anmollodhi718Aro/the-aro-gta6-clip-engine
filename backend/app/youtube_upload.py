@@ -16,6 +16,7 @@ from typing import Any
 
 
 UPLOAD_SCOPE = "https://www.googleapis.com/auth/youtube.upload"
+IDENTITY_SCOPES = ["openid", "email", "https://www.googleapis.com/auth/youtube.readonly", UPLOAD_SCOPE]
 DEFAULT_CATEGORY_ID = "20"  # Gaming
 
 
@@ -135,7 +136,7 @@ def _authorize_google(client_secrets: Path, token_path: Path):
     credentials = None
     if token_path.is_file():
         try:
-            credentials = Credentials.from_authorized_user_file(str(token_path), [UPLOAD_SCOPE])
+            credentials = Credentials.from_authorized_user_file(str(token_path), IDENTITY_SCOPES)
         except (OSError, ValueError):
             credentials = None
 
@@ -147,7 +148,7 @@ def _authorize_google(client_secrets: Path, token_path: Path):
             raise FileNotFoundError(
                 f"OAuth client file not found: {client_secrets}. Create a Desktop OAuth client in Google Cloud and store it locally."
             )
-        flow = InstalledAppFlow.from_client_secrets_file(str(client_secrets), [UPLOAD_SCOPE])
+        flow = InstalledAppFlow.from_client_secrets_file(str(client_secrets), IDENTITY_SCOPES)
         credentials = flow.run_local_server(
             host="127.0.0.1", port=0, open_browser=True,
             authorization_prompt_message="Authorize THE ARO Studio in your browser: {url}",
@@ -167,6 +168,8 @@ def upload_video(
     *,
     client_secrets: Path,
     token_path: Path,
+    rights_report_path: Path,
+    approval_record_path: Path,
 ) -> dict[str, str]:
     try:
         from googleapiclient.discovery import build
@@ -176,8 +179,24 @@ def upload_video(
             'Google upload dependencies are missing. Install with: pip install -e ".[youtube-upload]"'
         ) from exc
 
+    from backend.app.youtube_owner_approval import (
+        verify_authenticated_channel_owner,
+        require_current_owner_approval,
+    )
+    expected_subject = os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "")
+    expected_channel = os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "")
+    if not expected_subject or not expected_channel:
+        raise PermissionError("configured owner Google subject and YouTube channel ID are required")
     credentials = _authorize_google(client_secrets, token_path)
     youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)
+    try:
+        config = json.loads(client_secrets.expanduser().read_text(encoding="utf-8"))
+        oauth_client_id = config.get("installed", config.get("web", {})).get("client_id")
+    except (OSError, json.JSONDecodeError, AttributeError) as exc:
+        raise PermissionError("OAuth client configuration is unreadable") from exc
+    if not oauth_client_id:
+        raise PermissionError("OAuth client ID is missing")
+    owner = verify_authenticated_channel_owner(credentials, youtube, oauth_client_id=oauth_client_id, expected_google_subject=expected_subject, expected_channel_id=expected_channel)
     mime_type, _ = mimetypes.guess_type(video_path.name)
     media = MediaFileUpload(
         str(video_path),
@@ -185,10 +204,16 @@ def upload_video(
         chunksize=8 * 1024 * 1024,
         resumable=True,
     )
+    current_report = load_rights_report(rights_report_path)
+    require_current_owner_approval(
+        approval_record_path,
+        clip_id=str(current_report.get("clip_id", "")),
+        source_id=str(current_report.get("source_id", "")),
+        video_path=video_path, owner=owner,
+        permission_evidence=current_report.get("permission_evidence"),
+    )
     response = youtube.videos().insert(
-        part="snippet,status",
-        body=body,
-        media_body=media,
+        part="snippet,status", body=body, media_body=media,
     ).execute(num_retries=3)
     video_id = str(response.get("id", "")).strip()
     if not video_id:
@@ -215,6 +240,7 @@ def main() -> int:
     parser.add_argument("--upload", action="store_true", help="Perform an API upload; default is dry-run only.")
     parser.add_argument("--owner-approved", action="store_true", help="Confirm that the final edit was reviewed and approved by the channel owner.")
     parser.add_argument("--confirm-rights", action="store_true", help="Confirm that the exact local video and all included assets are cleared for this upload.")
+    parser.add_argument("--approval-record", type=Path, help="OAuth-bound per-clip approval JSON; required for upload.")
     args = parser.parse_args()
 
     try:
@@ -236,10 +262,13 @@ def main() -> int:
                 "next_step": "Review metadata and rights, then rerun with --upload --owner-approved --confirm-rights if authorized.",
             }, ensure_ascii=False, indent=2))
             return 0
+        if args.approval_record is None:
+            raise PermissionError("actual upload requires --approval-record")
         result = upload_video(
-            video, body,
-            client_secrets=args.client_secrets.expanduser(),
+            video, body, client_secrets=args.client_secrets.expanduser(),
             token_path=args.token.expanduser(),
+            rights_report_path=args.rights_report.expanduser(),
+            approval_record_path=args.approval_record.expanduser(),
         )
         print(json.dumps({"status": "uploaded", **result}, indent=2))
         return 0
