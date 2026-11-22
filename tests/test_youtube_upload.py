@@ -154,6 +154,26 @@ class YouTubeUploadTests(unittest.TestCase):
                         max_upload_bytes=invalid,
                     )
 
+    def test_upload_video_direct_call_rejects_oversized_file_before_oauth(self):
+        with patch("backend.app.youtube_upload._authorize_google") as authorize:
+            with self.assertRaisesRegex(ValueError, "configured upload limit"):
+                upload_video(
+                    self.video,
+                    {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                    client_secrets=self.client_secrets,
+                    token_path=self.root / "token.json",
+                    rights_report_path=self.report,
+                    approval_record_path=self.root / "approval.json",
+                    rights_db_path=self.root / "source_rights.sqlite3",
+                    clip_id="clip-1",
+                    source_id="source-1",
+                    owner_approved=True,
+                    rights_confirmed=True,
+                    max_upload_bytes=4,
+                )
+        authorize.assert_not_called()
+        self.assertFalse((self.root / "token.json").exists())
+
     def _write_upload_rights(self, db_path):
         now = datetime.now(timezone.utc)
         registry = SourceRightsRegistry(db_path)
