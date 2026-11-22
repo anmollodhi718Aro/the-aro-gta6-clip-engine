@@ -24,14 +24,15 @@ Creator permission authorizes only the granted source scopes. It does not author
 
 The optional local uploader now has a fail-closed, OAuth-backed per-clip approval gate:
 
-- The active OAuth credentials are used with the official YouTube Data API `channels.list(mine=True)`. The returned channel ID must match the locally configured `ARO_YOUTUBE_CHANNEL_ID`; the configured ID is not accepted as proof by itself.
-- Run `--approve-clip --owner-approved` as a separate invocation. The CLI requires typing the exact `APPROVE <clip_id>` phrase after showing the authenticated destination channel. This operation records approval only and never uploads.
-- The durable approval record is created atomically without overwriting an existing record. It binds the reviewer/destination channel ID, clip ID, source ID, exact local video SHA-256, timezone-aware review timestamp and expiry (24 hours by default). The file is restricted to the current user where the platform supports file permissions.
+- Verify the signed Google OIDC ID token's issuer and OAuth-client audience; the token `sub` must match the locally configured `ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT`.
+- The same active OAuth credentials are used with the official YouTube Data API `channels.list(mine=True)`. The returned channel ID must match `ARO_YOUTUBE_CHANNEL_ID`; the configured ID is not accepted as proof by itself.
+- Run `--approve-clip` as a separate invocation. After identity and current publish-scope checks, the CLI requires typing the exact `APPROVE <clip_id>` phrase. This operation records approval only and never uploads.
+- The durable approval record is created atomically without overwriting an existing record. It binds the Google OIDC subject, reviewer/destination channel ID, clip ID, source ID, exact local video SHA-256, timezone-aware review timestamp and expiry (24 hours by default). The file is restricted to the current user where the platform supports file permissions.
 - The source-rights SQLite registry independently verifies the exact source's active `publish` scope for YouTube, including validity, expiry and revocation.
 - Before the upload request, the uploader rechecks the authenticated channel, exact approval and current rights; it repeats those checks immediately before `videos.insert`. The CLI `--owner-approved` and `--confirm-rights` flags are additional explicit intent checks, never identity authentication.
 - Tests use mocked YouTube API clients and temporary SQLite databases. No unit test performs a network upload.
 
-This is a local security gate, not evidence of a completed real upload or production OAuth operations. Configure the destination channel ID locally; never commit OAuth client secrets or token files. Owner setup and any real upload remain separate, explicit actions.
+This is a local security gate, not evidence of a completed real upload or production OAuth operations. Configure the expected Google OIDC subject and destination channel ID locally; never commit OAuth client secrets or token files. Owner setup and any real upload remain separate, explicit actions.
 
 ## Not production functionality
 
