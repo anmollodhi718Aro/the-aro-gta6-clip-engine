@@ -33,7 +33,7 @@ def sha256_file(path: str | Path) -> str:
 
 
 def _verify_google_id_token(credentials: Any, oauth_client_id: str) -> dict[str, Any]:
-    """Verify token signature and audience before trusting its stable subject."""
+    """Verify the OAuth session's Google ID token signature and audience."""
     claims = _verify_google_id_token(credentials, oauth_client_id)
     return claims
 
