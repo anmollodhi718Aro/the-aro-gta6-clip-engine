@@ -206,7 +206,7 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 - All automated tests use mocked YouTube API clients and local SQLite fixtures; no test may make a real upload request.
 - No creator media acquisition or real-media acceptance is included. The first authorized GTA 6 MP4 remains subject to its separate source-permission, render, FFprobe, playback and owner-acceptance gates.
 - GitHub push/admin capability is technical capability only and does not grant authority for owner-only actions.
-- PR #83 remains draft and unmerged; owner review is required before integration.
+- PR #82 (ARO-CHAT-0039) is a parallel draft with exact-head CI success; PR #83 (ARO-CHAT-0038) is a parallel Google OIDC/visibility hardening candidate with exact-head CI pending. Do not merge both independently; owner review must select or consolidate one canonical implementation. Both remain draft and unmerged.
 
 
 ### ARO-CHAT-0038 security control refinement
