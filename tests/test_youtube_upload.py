@@ -35,6 +35,11 @@ class YouTubeUploadTests(unittest.TestCase):
                 "human_edit_and_platform_policy_review_required": True,
             },
         }), encoding="utf-8")
+        self.client_secrets = self.root / "client.json"
+        self.client_secrets.write_text(
+            json.dumps({"installed": {"client_id": "client-id"}}), encoding="utf-8"
+        )
+        self.owner = AuthenticatedChannelOwner("google-subject-123", "youtube-channel-456")
 
     def tearDown(self):
         self.temp.cleanup()
@@ -135,7 +140,7 @@ class YouTubeUploadTests(unittest.TestCase):
         report = json.loads(self.report.read_text(encoding="utf-8"))
         report.update({"clip_id": "clip-1", "source_id": "source-1"})
         self.report.write_text(json.dumps(report), encoding="utf-8")
-        owner = AuthenticatedChannelOwner("youtube-channel-456")
+        owner = self.owner
         approval_path = self.root / "approval.json"
         write_owner_approval_record(
             approval_path, clip_id="clip-1", source_id="source-1",
@@ -166,16 +171,16 @@ class YouTubeUploadTests(unittest.TestCase):
         }
         youtube.videos.return_value.insert.return_value.execute.return_value = {"id": "video-123"}
         with patch.dict(sys.modules, self._mock_google_modules(youtube)):
-            with patch.dict(os.environ, {"ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456"}):
-                with patch("backend.app.youtube_upload._authorize_google", return_value=object()):
+            with patch.dict(os.environ, {"ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123", "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456"}):
+                with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch("backend.app.youtube_owner_approval.verify_authenticated_channel_owner", return_value=self.owner) as verify_owner:
                     result = upload_video(
                         self.video, {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
-                        client_secrets=self.root / "client.json", token_path=self.root / "token.json",
+                        client_secrets=self.client_secrets, token_path=self.root / "token.json",
                         rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                         rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
                     )
         self.assertEqual(result["video_id"], "video-123")
-        self.assertEqual(youtube.channels.return_value.list.call_count, 2)
+        self.assertEqual(verify_owner.call_count, 2)
         youtube.videos.return_value.insert.assert_called_once()
 
     def test_revoked_permission_blocks_before_any_upload_api_request(self):
@@ -187,12 +192,12 @@ class YouTubeUploadTests(unittest.TestCase):
             "items": [{"id": "youtube-channel-456"}]
         }
         with patch.dict(sys.modules, self._mock_google_modules(youtube)):
-            with patch.dict(os.environ, {"ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456"}):
-                with patch("backend.app.youtube_upload._authorize_google", return_value=object()):
+            with patch.dict(os.environ, {"ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123", "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456"}):
+                with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch("backend.app.youtube_owner_approval.verify_authenticated_channel_owner", return_value=self.owner):
                     with self.assertRaises(PermissionError):
                         upload_video(
                             self.video, {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
-                            client_secrets=self.root / "client.json", token_path=self.root / "token.json",
+                            client_secrets=self.client_secrets, token_path=self.root / "token.json",
                             rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                             rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
                         )
@@ -206,12 +211,12 @@ class YouTubeUploadTests(unittest.TestCase):
             "items": [{"id": "another-channel"}]
         }
         with patch.dict(sys.modules, self._mock_google_modules(youtube)):
-            with patch.dict(os.environ, {"ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456"}):
-                with patch("backend.app.youtube_upload._authorize_google", return_value=object()):
+            with patch.dict(os.environ, {"ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123", "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456"}):
+                with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch("backend.app.youtube_owner_approval.verify_authenticated_channel_owner", side_effect=PermissionError("OAuth account does not resolve to the configured destination channel")):
                     with self.assertRaisesRegex(PermissionError, "does not resolve"):
                         upload_video(
                             self.video, {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
-                            client_secrets=self.root / "client.json", token_path=self.root / "token.json",
+                            client_secrets=self.client_secrets, token_path=self.root / "token.json",
                             rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                             rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
                         )
@@ -226,15 +231,15 @@ class YouTubeUploadTests(unittest.TestCase):
         }
         args = [
             "youtube_upload.py", str(self.video), "--rights-report", str(self.report),
-            "--title", "THE ARO test", "--not-made-for-kids", "--approve-clip",
+            "--title", "THE ARO test", "--not-made-for-kids", "--approve-clip", "--client-secrets", str(self.client_secrets),
             "--clip-id", "clip-1", "--source-id", "source-1",
             "--approval-record", str(self.root / "new-approval.json"),
             "--rights-db", str(db_path),
         ]
         with patch.object(sys, "argv", args):
             with patch.dict(sys.modules, self._mock_google_modules(youtube)):
-                with patch.dict(os.environ, {"ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456"}):
-                    with patch("backend.app.youtube_upload._authorize_google", return_value=object()):
+                with patch.dict(os.environ, {"ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123", "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456"}):
+                    with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch("backend.app.youtube_owner_approval.verify_authenticated_channel_owner", return_value=self.owner):
                         with patch("builtins.input", return_value="NO"):
                             from backend.app.youtube_upload import main
                             self.assertEqual(main(), 2)
@@ -251,14 +256,14 @@ class YouTubeUploadTests(unittest.TestCase):
         approval_path = self.root / "new-approval.json"
         args = [
             "youtube_upload.py", str(self.video), "--rights-report", str(self.report),
-            "--title", "THE ARO test", "--not-made-for-kids", "--approve-clip",
+            "--title", "THE ARO test", "--not-made-for-kids", "--approve-clip", "--client-secrets", str(self.client_secrets),
             "--clip-id", "clip-1", "--source-id", "source-1",
             "--approval-record", str(approval_path), "--rights-db", str(db_path),
         ]
         with patch.object(sys, "argv", args):
             with patch.dict(sys.modules, self._mock_google_modules(youtube)):
-                with patch.dict(os.environ, {"ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456"}):
-                    with patch("backend.app.youtube_upload._authorize_google", return_value=object()):
+                with patch.dict(os.environ, {"ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123", "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456"}):
+                    with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch("backend.app.youtube_owner_approval.verify_authenticated_channel_owner", return_value=self.owner):
                         with patch("builtins.input", return_value="APPROVE clip-1"):
                             from backend.app.youtube_upload import main
                             self.assertEqual(main(), 0)
@@ -276,12 +281,12 @@ class YouTubeUploadTests(unittest.TestCase):
             "items": [{"id": "youtube-channel-456"}]
         }
         with patch.dict(sys.modules, self._mock_google_modules(youtube)):
-            with patch.dict(os.environ, {"ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456"}):
-                with patch("backend.app.youtube_upload._authorize_google", return_value=object()):
+            with patch.dict(os.environ, {"ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123", "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456"}):
+                with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch("backend.app.youtube_owner_approval.verify_authenticated_channel_owner", return_value=self.owner):
                     with self.assertRaisesRegex(PermissionError, "do not match"):
                         upload_video(
                             self.video, {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
-                            client_secrets=self.root / "client.json", token_path=self.root / "token.json",
+                            client_secrets=self.client_secrets, token_path=self.root / "token.json",
                             rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                             rights_db_path=db_path, clip_id="other-clip", source_id="source-1",
                         )
