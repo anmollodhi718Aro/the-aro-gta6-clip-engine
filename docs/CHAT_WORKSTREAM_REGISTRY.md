@@ -756,3 +756,26 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 ## Historical chat range clarification
 
 The ARO-CHAT-0001 through ARO-CHAT-0008 entries above are legacy/historical chat records. They are not interchangeable with the newer ARO-CHAT-0036 and ARO-CHAT-0037 workstreams. Preserve all existing rows and corrections; never renumber or overwrite historical attribution.
+
+
+## ARO-CHAT-0040 controlled coordination architecture — 2026-11-22
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0040 |
+| Workstream ID | ARO-GTA-P1-40 |
+| Task | Controlled, owner-mediated multi-agent coordination |
+| Communication preference | CONTROLLED; no direct agent-to-agent or voice relay |
+| Branch | `workstream/aro-chat-0040-controlled-coordination-2026-11-22` |
+| Starting SHA | `20a6645690935ac04054fc1a6564d8e6275daa3c` (PR #81 exact documentation head) |
+| Architecture document | `docs/ARO_WORKFORCE_CONTROLLED_COORDINATION.md` |
+| Status | DESIGN DOCUMENT COMMITTED; DRAFT PR / OWNER REVIEW REQUIRED; runtime coordination NOT VERIFIED |
+| Scope | Define owner-mediated handoffs, agent roles, a structured message envelope, concurrency rules, security boundaries, voice policy, and activation tests. |
+| Boundaries | No ChatGPT session integration, automatic messaging, voice relay, credentials, merge, deployment, upload, or publishing. |
+
+### Implementation notes
+- GitHub is the durable source of truth; the owner manually relays approved task context and immutable commit/PR references between AI-1 and AI-2.
+- One writer per workstream branch. Auditor reviews an exact SHA and does not silently edit the builder's branch.
+- Conflicting PRs or overlapping issue implementations require owner selection/consolidation before integration.
+- Voice is explicitly out of scope and inactive. Any future voice bridge requires separate design, consent, authentication, auditability, and end-to-end tests.
+- This document defines a process only. The runtime remains NOT VERIFIED until the activation checklist is completed and evidence is recorded.
