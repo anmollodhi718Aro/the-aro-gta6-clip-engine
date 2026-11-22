@@ -117,3 +117,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #93 implementation SHA `5cf8cc7e823f7ce9e8f319704d72c5f0da00d496` passed Actions run `45019724453`: Ubuntu and hosted Windows both passed setup, FFmpeg/FFprobe installation, compilation, full unittest step, and synthetic MP4/FFprobe validation.
 - The connector exposed step conclusions but not test-log counts; do not infer a test count. Hosted Windows CI is not owner-device Windows verification.
 - The subsequent registry-only documentation commit does not inherit the implementation SHA's exact-head CI claim. PR #93 remains draft/open/unmerged. Owner must review a device-appropriate upload memory budget before any real upload; no real media, live OAuth, upload, or public publishing was performed.
+
+
+### ARO-CHAT-0046 exact-head CI reconciliation — 2026-11-22
+- PR #93's documentation-only branch tip f9834d29235738573ad773f19ebcc9b7c0f4c129 has now been checked directly: Actions run 45020379946 succeeded on that exact commit.
+- Ubuntu job 137201721141 and hosted Windows job 137201721314 passed setup, compilation, full unittest steps, and synthetic MP4/FFprobe validation. No numeric test count is asserted because test logs/counts were not returned in this audit.
+- This supersedes the prior note that the documentation-only tip had no exact-head run. Hosted Windows CI is not owner-device verification, and synthetic media is not GTA 6 footage.
+- PR #93 remains draft/open/unmerged. Before any real upload, the owner must choose a conservative --max-upload-bytes limit based on actual device RAM and expected clip sizes.
+- Remaining gates: independent security review and owner-controlled resolution of Issue #68's parallel uploader PRs; creator-authorized GTA 6 media and permission evidence; local render, FFprobe validation, playback, and owner acceptance.
