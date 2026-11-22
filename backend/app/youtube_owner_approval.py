@@ -34,6 +34,8 @@ def sha256_file(path: str | Path) -> str:
 
 def _verify_google_id_token(credentials: Any, oauth_client_id: str) -> dict[str, Any]:
     """Verify the OAuth session's Google ID token signature and audience."""
+    if not isinstance(oauth_client_id, str) or not oauth_client_id.strip():
+        raise PermissionError("configured OAuth client ID is required")
     claims = _verify_google_id_token(credentials, oauth_client_id)
     return claims
 
