@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from datetime import datetime, timezone
 from pathlib import Path
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 from backend.app.approval import ApprovalStatus, UploadApproval
 from backend.app.youtube_upload import (
@@ -105,12 +105,13 @@ class YouTubeUploadTests(unittest.TestCase):
     def test_authenticated_owner_approval_and_permission_allow_mocked_upload(self):
         self._approved_record()
         youtube = self._youtube()
-        result = upload_video(
-            self.video, {"status": {"privacyStatus": "private"}},
-            client_secrets=self.root / "unused.json", token_path=self.root / "unused-token.json",
-            approval_path=self.approval_path, permission_path=self.permission_path,
-            clip_id="clip-1", source_id="source-1", youtube_client=youtube, at=NOW,
-        )
+        with patch("backend.app.youtube_upload._media_upload", return_value=object()):
+            result = upload_video(
+                self.video, {"status": {"privacyStatus": "private"}},
+                client_secrets=self.root / "unused.json", token_path=self.root / "unused-token.json",
+                approval_path=self.approval_path, permission_path=self.permission_path,
+                clip_id="clip-1", source_id="source-1", youtube_client=youtube, at=NOW,
+            )
         self.assertEqual(result["video_id"], "video-1")
         youtube.channels.return_value.list.assert_called_once_with(part="id", mine=True)
         youtube.videos.return_value.insert.assert_called_once()
