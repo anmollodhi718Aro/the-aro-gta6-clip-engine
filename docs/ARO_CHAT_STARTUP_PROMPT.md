@@ -32,3 +32,52 @@ Before doing any engineering work:
 ## TASK EXECUTION
 
 After the first response line and identity allocation, begin the owner's requested task immediately. Provide concise evidence, links, changed files, commit/PR identifiers, tests and blockers. Do not spend the response explaining the naming mechanism unless asked.
+
+
+## CURRENT PROJECT BASELINE — refreshed 2026-11-22
+
+Before acting, treat the live repository, current PR heads, workflow logs, and this registry as authoritative. Historical chat summaries are context, not proof of current state.
+
+### Current verified engineering state
+- Repository: `anmollodhi718Aro/the-aro-gta6-clip-engine`; default branch: `main`.
+- Current documented continuation chain includes PRs #66, #71, #75, #76, #78, #79 and #80; PR #77 is a parallel documentation line. Inspect live ancestry and exact heads before choosing a base.
+- PR #79 (`ARO-CHAT-0036`) adds source-audio preflight. Its exact current head at the latest audit was `ff82349dd509b1dbdd32038e92fd9efb4dc5fa36`.
+- PR #80 (`ARO-CHAT-0037`) adds a locally generated synthetic MP4 render smoke test. Its audited head was `722945ba162a274b3ff78b5e5d472c97e7269a23`, stacked on PR #79.
+- GitHub Actions run #44947413047 passed on PR #80 head: Ubuntu and Windows jobs each compiled and ran 288 tests; both also generated a synthetic MP4 and validated its video/audio metadata with FFprobe. Run #44947144076 passed the same 288-test suite on Ubuntu and Windows for PR #79 head.
+- Synthetic fixtures are locally generated test patterns and tones only. They are NOT GTA 6 footage, do not establish real-media compatibility, and do not satisfy first-real-clip acceptance.
+- PR #79 and #80 were OPEN / DRAFT / UNMERGED at the latest audit. Recheck before acting; do not infer they remain unchanged.
+
+### First real GTA 6 clip: acceptance gate
+The first real clip is NOT COMPLETE and remains blocked until all of the following are evidenced:
+1. Owner/creator-authorized source recording or export is actually received through an authorized transfer path.
+2. Permission evidence records the granting identity, asset/source, permitted processing and publishing scopes, applicable expiry/revocation terms, and a durable reference. Permission to process does not imply permission to publish or monetize.
+3. Local intake confirms the file is present, non-empty, has video and required audio streams, valid duration, and sufficient output space.
+4. Owner-approved clip bounds and render intent are recorded before execution.
+5. A real MP4 is rendered locally and FFprobe validates the output streams, duration, and expected media properties.
+6. The MP4 is played back and reviewed by the owner; acceptance is recorded.
+Do not label REAL_MEDIA_VERIFIED or COMPLETE before every required step has evidence.
+
+### Security, rights, and owner approval boundaries
+- Keep public publishing disabled until uploader identity is bound to the authenticated channel owner and durable per-clip approval is enforced.
+- Issue #68 remains a security/owner-identity blocker unless a live audit proves it resolved. Do not implement uploader integration, bypass approval, or change OAuth/credentials without a separately scoped owner grant.
+- Never scrape, stream-rip, download, or process unapproved third-party media. Use only owner-provided or otherwise explicitly licensed media within its documented scope.
+- Do not expose secrets, tokens, private credentials, or sensitive account data in commits, logs, prompts, or PRs.
+- Broad repository access or a general statement of permission does not waive action-specific approval gates.
+
+### Known reconciliation items
+- PR #72 and PR #74 both historically claimed ARO-CHAT-0031 / ARO-GTA-P0-31. Preserve both histories and reconcile attribution from PR bodies, commits, and registry evidence; never silently overwrite or delete either.
+- PR #77 and #78 historically overlap as parallel documentation branches. Compare trees and ancestry before integration; do not merge both blindly.
+- Earlier dependency sequence recorded as #18 → #66 → #71 → #75 → #76 → #78 → #79 → #80, with #77 parallel to #78. Revalidate the live graph each session.
+- ARO-CHAT-0001 historical PR attribution remains unverified. Do not invent exact ownership.
+- Chat serials #0001–#0008 are historical registry entries, distinct from the newer #0036–#0037 workstream records. Do not conflate these numbering groups.
+
+### Required next-action order
+1. Re-audit live PRs, branches, issue #68, exact CI heads, and dependency graph.
+2. Reconcile duplicate attribution (#72/#74) and overlapping docs (#77/#78) without destructive changes.
+3. Resolve the authenticated uploader/approval design only under a dedicated approved security task.
+4. Obtain the authorized source media and permission evidence.
+5. Run the local first-real-clip workflow, FFprobe validation, playback, and owner acceptance.
+6. Only then prepare release integration. Merge, close, retarget, deploy, upload, publish, or delete only with explicit action-specific owner approval.
+
+### Reporting format for every continuation
+Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIFIED, WINDOWS_VERIFIED, REAL_MEDIA_VERIFIED, BLOCKED, or COMPLETE. Include exact SHA/run/test counts and distinguish hosted Windows CI from owner-device Windows verification. List unverified work explicitly. Never report a synthetic MP4 as a GTA 6 clip.
