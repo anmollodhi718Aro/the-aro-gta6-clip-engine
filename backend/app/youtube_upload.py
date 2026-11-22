@@ -247,13 +247,13 @@ def main() -> int:
     parser.add_argument("--client-secrets", type=Path, default=Path("client_secret.json"))
     parser.add_argument("--token", type=Path, default=Path("token.json"))
     parser.add_argument("--upload", action="store_true", help="Perform an API upload; default is dry-run only.")
-    parser.add_argument("--owner-approved", action="store_true", help="Confirm that the final edit was reviewed and approved by the channel owner.")
+    parser.add_argument("--owner-approved", action="store_true", help="Additional operator acknowledgement; not identity authentication and not a substitute for the OAuth-bound per-clip approval record.")
     parser.add_argument("--confirm-rights", action="store_true", help="Confirm that the exact local video and all included assets are cleared for this upload.")
     parser.add_argument("--approval-record", type=Path,
                         help="OAuth-bound per-clip approval JSON; required for approval and upload.")
     parser.add_argument("--clip-id", help="Stable clip ID to bind to the approval.")
     parser.add_argument("--source-id", help="Source ID in the source-rights registry.")
-    parser.add_argument("--rights-db", type=Path, default=Path("data/source_rights.db"),
+    parser.add_argument("--rights-db", type=Path, default=Path("aro_studio_data/source_rights.sqlite3"),
                         help="SQLite source-rights registry.")
     parser.add_argument("--approve-clip", action="store_true",
                         help="Authenticate the channel owner and record explicit approval; does not upload.")
@@ -272,10 +272,11 @@ def main() -> int:
             upload_requested=args.upload,
         )
         if args.approve_clip:
-            if not args.owner_approved:
-                raise PermissionError("--approve-clip requires explicit --owner-approved confirmation")
             if not args.clip_id or not args.source_id or args.approval_record is None:
                 raise PermissionError("--approve-clip requires --clip-id, --source-id and --approval-record")
+            approval_report = load_rights_report(args.rights_report)
+            if approval_report.get("clip_id") != args.clip_id or approval_report.get("source_id") != args.source_id:
+                raise PermissionError("approval clip/source IDs must match the rights report exactly")
             from googleapiclient.discovery import build
             from backend.app.rights_registry import SourceRightsRegistry
             from backend.app.youtube_owner_approval import (
@@ -292,6 +293,17 @@ def main() -> int:
             SourceRightsRegistry(args.rights_db.expanduser()).authorize(
                 args.source_id, "publish", "youtube"
             )
+            expected_confirmation = f"APPROVE {args.clip_id}"
+            print(
+                "Authenticated channel: " + owner.channel_id + "\n"
+                "This records approval for this exact clip and source only. "
+                "It does not upload or publish.\n"
+                f"Type {expected_confirmation!r} to continue:",
+                file=sys.stderr,
+            )
+            confirmation = input("> ").strip()
+            if confirmation != expected_confirmation:
+                raise PermissionError("channel-owner approval confirmation did not match")
             record = write_owner_approval_record(
                 args.approval_record.expanduser(), clip_id=args.clip_id,
                 source_id=args.source_id, video_path=video, owner=owner,
@@ -316,6 +328,9 @@ def main() -> int:
             raise PermissionError("actual upload requires --approval-record")
         if not args.clip_id or not args.source_id:
             raise PermissionError("actual upload requires --clip-id and --source-id")
+        upload_report = load_rights_report(args.rights_report)
+        if upload_report.get("clip_id") != args.clip_id or upload_report.get("source_id") != args.source_id:
+            raise PermissionError("upload clip/source IDs must match the rights report exactly")
         result = upload_video(
             video, body, client_secrets=args.client_secrets.expanduser(),
             token_path=args.token.expanduser(),
