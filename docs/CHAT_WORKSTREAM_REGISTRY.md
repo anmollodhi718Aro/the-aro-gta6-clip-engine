@@ -767,8 +767,8 @@ The ARO-CHAT-0001 through ARO-CHAT-0008 entries above are legacy/historical chat
 | Workstream ID | ARO-GTA-P1-38 |
 | Project / priority | THE ARO GTA 6 Clip Engine / P1 uploader security gate |
 | Role | Security implementation contributor + QA |
-| Branch / PR | \`workstream/aro-chat-0038-authenticated-uploader-approval-2026-11-22\` / draft PR pending |
-| Base / starting SHA | PR #80 branch \`workstream/aro-chat-0037-synthetic-first-clip-test-2026-11-22\` / \`722945ba162a274b3ff78b5e5d472c97e7269a23\` |
+| Branch / PR | \`workstream/aro-chat-0038-authenticated-uploader-approval-2026-11-22\` / [draft PR #83](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/83) |
+| PR base / branch starting point | PR base: #80 branch \`workstream/aro-chat-0037-synthetic-first-clip-test-2026-11-22\` / \`722945ba162a274b3ff78b5e5d472c97e7269a23\`; branch starting point: PR #81 head \`workstream/aro-master-script-registry-refresh-2026-11-22\` / \`20a6645690935ac04054fc1a6564d8e6275daa3c\` |
 | Status | IMPLEMENTED; mocked tests committed; exact-head CI pending |
 | Issue | [#68](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/issues/68) |
 
