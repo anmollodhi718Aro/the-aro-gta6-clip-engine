@@ -71,3 +71,30 @@ The default privacy setting is private. Choose unlisted/public only after checki
 - OAuth client secrets and refresh tokens must remain local and out of Git.
 - No scheduling or automatic posting is implemented; each upload is a deliberate CLI action.
 - The owner must supply the correct made-for-kids declaration. Do not guess.
+
+
+## Authenticated per-clip owner approval (ARO-CHAT-0039)
+
+The CLI's \`--owner-approved\` switch is only an additional acknowledgement. It is not proof of identity and cannot authorize an upload by itself.
+
+Before an upload can proceed:
+
+1. OAuth must resolve exactly one destination channel using YouTube Data API \`channels.list(part="id", mine=True)\`. The uploader requests the \`youtube.readonly\` scope in addition to \`youtube.upload\`.
+2. The durable approval JSON must identify the exact \`clip_id\` and \`source_id\`, have status \`approved\`, and record the authenticated channel ID as \`reviewed_by\`.
+3. The separate permission JSON must contain the matching \`source_id\`, an active \`publish\` scope, and timezone-aware grant/expiry/revocation timestamps.
+4. The uploader reloads both records and re-checks the authenticated owner identity immediately before calling \`videos.insert\`.
+5. Approval creation is a separate invocation and uses exclusive file creation. Existing records cannot be silently overwritten.
+
+Example local approval-recording command:
+
+\`\`\`powershell
+python -m backend.app.youtube_upload .\candidate.mp4 --rights-report .\rights-report.json --title "THE ARO clip" --not-made-for-kids --approval-record .\approvals\clip-001.json --clip-id clip-001 --source-id creator-source-001 --approve-clip
+\`\`\`
+
+Example local upload command (still requires the independent permission record and exact matching approval):
+
+\`\`\`powershell
+python -m backend.app.youtube_upload .\candidate.mp4 --rights-report .\rights-report.json --title "THE ARO clip" --not-made-for-kids --approval-record .\approvals\clip-001.json --permission-record .\permissions\creator-source-001.json --clip-id clip-001 --source-id creator-source-001 --upload --owner-approved --confirm-rights
+\`\`\`
+
+Keep OAuth tokens and client secrets local. Unit tests mock the YouTube client and do not upload media. A successful local authorization check is not a real-media acceptance or publishing approval.
