@@ -769,7 +769,7 @@ The ARO-CHAT-0001 through ARO-CHAT-0008 entries above are legacy/historical chat
 | Branch / PR | \`workstream/aro-chat-0039-authenticated-uploader-approval-2026-11-22\` / PR pending |
 | Base | PR #81 documentation branch \`workstream/aro-master-script-registry-refresh-2026-11-22\` |
 | Starting SHA | \`20a6645690935ac04054fc1a6564d8e6275daa3c\` |
-| Status | RESERVED / IN_PROGRESS; CI not yet run |
+| Status | IMPLEMENTED; TESTED; CI_VERIFIED on exact head `adb3e07dc2276772444b7d5856a118432d745fd0`; hosted Windows CI passed; REAL_MEDIA_VERIFIED BLOCKED |
 | Duplicate-work check | A separate branch named for ARO-CHAT-0038 already existed at the PR #81 starting SHA and was not reused. No ARO-CHAT-0039 branch or PR existed at reservation. Existing PR #67 helper hardening was reused rather than duplicated. |
 | Authority | Owner's explicit scoped authorization to implement issue #68 in the recent project conversation; this workstream does not authorize real uploads, publishing, OAuth credential exposure, merge, deployment, or destructive actions. |
 
@@ -780,3 +780,14 @@ The ARO-CHAT-0001 through ARO-CHAT-0008 entries above are legacy/historical chat
 - The uploader now obtains the channel ID from the authenticated YouTube API session, persists immutable per-clip approval JSON with exclusive-create semantics, loads a separate publish-permission record, and checks both immediately before the upload insert call.
 - Approval recording and upload are separate CLI invocations. Existing rights preflight remains unapproved for human review; no source-media or publication rights are inferred.
 - Tests use mocked YouTube clients; no real upload is performed.
+
+
+### ARO-CHAT-0039 exact-head CI closeout — 2026-11-22
+
+- Final PR #82 head: `adb3e07dc2276772444b7d5856a118432d745fd0`.
+- GitHub Actions run [44999431223](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/44999431223) completed successfully on that exact head.
+- Ubuntu job `137137518769`: compile passed; 297 tests ran; `OK`; synthetic MP4 render/FFprobe smoke test passed.
+- Windows hosted job `137137519081`: compile passed; 297 tests ran; `OK`; synthetic MP4 render/FFprobe smoke test passed.
+- Both synthetic run logs explicitly report locally generated synthetic test pattern and tone, `gta6_footage_used=false`, and `publishing_enabled=false`. This is not GTA 6 real-media verification and is not owner-device Windows verification.
+- An earlier exact-head attempt failed because three test invocations had not been updated for the new required configured-channel argument. The missing test arguments were corrected, pending-approval coverage was made explicit, and the final exact-head run above passed. The failed run is retained as historical evidence, not hidden.
+- No live YouTube upload, merge, retarget, deployment, public publishing, credential access, or destructive action was performed.
