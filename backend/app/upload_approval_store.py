@@ -85,7 +85,7 @@ def save_upload_approval(path: str | Path, approval: UploadApproval) -> Path:
     # Exclusive creation prevents silently replacing a prior decision.
     with target.open("x", encoding="utf-8") as stream:
         json.dump({**payload, "signature": signature}, stream, ensure_ascii=False, indent=2)
-        stream.write("\\n")
+        stream.write("\n")
     try:
         os.chmod(target, 0o600)
     except OSError:
