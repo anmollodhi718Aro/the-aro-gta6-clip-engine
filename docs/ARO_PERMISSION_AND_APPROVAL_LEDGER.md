@@ -190,3 +190,20 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 - No GTA 6 real-media acceptance claim. Synthetic fixtures and CI are not creator-media evidence.
 - GitHub connector push/admin capability is technical capability only and does not confer owner-only authority.
 - PR #79 remains draft and unmerged; owner review is required before integration.
+
+## ARO-CHAT-0038 bounded security implementation grant — 2026-11-22
+
+| Identity | Chat ID | Workstream / issue | Role | Granted scope | Grant evidence | Status |
+|---|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0038 | ARO-GTA-P1-38 / Issue #68 | SECURITY IMPLEMENTATION CONTRIBUTOR + QA | Modify only the existing optional YouTube uploader's authenticated channel-owner gate, durable per-clip approval integration, focused mocked tests, and directly related usage/governance documentation. Open or update a draft PR for owner review. | Project owner's explicit scoped authorization to implement Issue #68 in the prior project instruction; current continuation request authorizes safe repository implementation and draft PR work. | ACTIVE FOR THIS BOUNDED SECURITY TASK ONLY |
+
+### Restrictions retained
+
+- No real upload, public publishing, OAuth credential/token disclosure, credential rotation, production deployment, merge, retarget, destructive action, permission escalation or collaborator access change.
+- `--owner-approved` is not identity authentication. The authenticated YouTube channel must be resolved through the OAuth-backed API and matched to the configured destination channel.
+- Approval creation is a separate, non-upload action requiring exact per-clip typed confirmation. Existing approval records must not be overwritten.
+- Upload authorization must re-check the exact clip/source/file/channel binding and the live SQLite publish permission immediately before the API request.
+- All automated tests use mocked YouTube API clients and local SQLite fixtures; no test may make a real upload request.
+- No creator media acquisition or real-media acceptance is included. The first authorized GTA 6 MP4 remains subject to its separate source-permission, render, FFprobe, playback and owner-acceptance gates.
+- GitHub push/admin capability is technical capability only and does not grant authority for owner-only actions.
+- PR #83 remains draft and unmerged; owner review is required before integration.
