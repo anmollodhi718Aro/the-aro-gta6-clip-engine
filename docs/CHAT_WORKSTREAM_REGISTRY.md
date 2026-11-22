@@ -854,3 +854,20 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Changed files: `backend/app/youtube_upload.py`, `tests/test_youtube_upload.py`, and this registry.
 - Implementation commits: `dc2db998f020abaaa7caf40e69a7d750a942474c` and `364cecc67e4b3acac4bbb58a8a2734077dc5a271`; registry reservation commit: `6bebabc81e20392d473ec70931c022085233583c`.
 - Direct/local tests: NOT RUN in this connector session. Exact-head GitHub Actions: PENDING. No live OAuth, network upload, public publishing, or real-media operation is part of this task.
+
+
+## ARO-CHAT-0043 snapshot hash-mismatch regression follow-up — 2026-11-22
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0043 |
+| Exact title | ARO-CHAT-0043 | Snapshot Hash-Mismatch Regression Test |
+| Workstream ID | ARO-GTA-P1-43 |
+| Role | Bounded test contributor / independent follow-up |
+| Task | Add the missing negative regression proving that mutation of the staged snapshot after its upload descriptor is opened is detected by the approval SHA-256 gate before any YouTube API insert. |
+| Branch | `workstream/aro-chat-0043-snapshot-hash-mismatch-test-2026-11-22` |
+| Base | `workstream/aro-chat-0042-upload-snapshot-toctou-2026-11-22` (PR #88) |
+| Starting SHA | `7a1d9a9a66a7b16ed0632eee10189554f20d2aa6` (PR #88 exact head at branch creation) |
+| Status | RESERVED; implementation and tests pending |
+| Scope boundary | Test-only follow-up stacked on PR #88. Do not modify PR #82, #83, #87, or #88 branches; no credentials, tokens, live OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action. |
+
