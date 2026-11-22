@@ -1,14 +1,19 @@
 """Tests for gated YouTube upload without making network requests."""
 import json
 import os
+import sys
 import tempfile
+import types
 import unittest
+from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import patch
 
+from backend.app.approval import ApprovalStatus, UploadApproval
+from backend.app.upload_approval_store import save_upload_approval
 from backend.app.youtube_upload import (
     build_upload_body, load_rights_report, record_upload_approval,
-    resolve_authenticated_channel_id, validate_upload,
+    resolve_authenticated_channel_id, upload_video, validate_upload,
 )
 
 
@@ -190,6 +195,124 @@ class YouTubeUploadTests(unittest.TestCase):
                     token_path=self.root / "token.json",
                 )
         self.assertFalse((self.root / "approval.json").exists())
+
+    def test_upload_api_is_not_called_when_owner_approval_does_not_match_oauth(self):
+        os.environ["ARO_UPLOAD_APPROVAL_KEY"] = "test-only-signing-key-with-32-bytes-minimum"
+        permission = self.root / "permission.json"
+        permission.write_text(json.dumps({
+            "source_id": "source-001", "granted_by": "creator-001",
+            "scopes": ["publish"], "granted_at": "2026-11-22T00:00:00+00:00",
+            "expires_at": None, "revoked_at": None,
+        }), encoding="utf-8")
+        approval = UploadApproval(
+            clip_id="clip-001", source_id="source-001",
+            status=ApprovalStatus.APPROVED, reviewed_by="UC_DIFFERENT_OWNER",
+            reviewed_at=datetime.now(timezone.utc),
+        )
+        approval_path = save_upload_approval(self.root / "approval.json", approval)
+
+        class Request:
+            def execute(self, num_retries=0):
+                return {"items": [{"id": "UC_AUTHENTICATED_OWNER"}]}
+        class Channels:
+            def list(self, **kwargs):
+                return Request()
+        class Videos:
+            def __init__(self):
+                self.insert_called = False
+            def insert(self, **kwargs):
+                self.insert_called = True
+                raise AssertionError("upload request must not be constructed")
+        class YouTube:
+            def __init__(self):
+                self.video_api = Videos()
+            def channels(self):
+                return Channels()
+            def videos(self):
+                return self.video_api
+        youtube = YouTube()
+        package = types.ModuleType("googleapiclient")
+        package.__path__ = []
+        http_module = types.ModuleType("googleapiclient.http")
+        http_module.MediaFileUpload = lambda *args, **kwargs: object()
+        with patch.dict(sys.modules, {
+            "googleapiclient": package,
+            "googleapiclient.http": http_module,
+        }), patch("backend.app.youtube_upload._authorize_google", return_value=object()), \\
+             patch("backend.app.youtube_upload._build_youtube_client", return_value=youtube):
+            with self.assertRaisesRegex(PermissionError, "authenticated channel owner"):
+                upload_video(
+                    self.video, {"snippet": {}, "status": {}},
+                    client_secrets=self.root / "client.json",
+                    token_path=self.root / "token.json",
+                    approval_record=approval_path,
+                    permission_record=permission,
+                    clip_id="clip-001",
+                    source_id="source-001",
+                    expected_channel_id="UC_AUTHENTICATED_OWNER",
+                )
+        self.assertFalse(youtube.video_api.insert_called)
+
+    def test_expired_or_revoked_publish_permission_blocks_upload(self):
+        os.environ["ARO_UPLOAD_APPROVAL_KEY"] = "test-only-signing-key-with-32-bytes-minimum"
+        for permission_fields in (
+            {"expires_at": "2026-11-22T00:00:00+00:00", "revoked_at": None},
+            {"expires_at": None, "revoked_at": "2026-11-22T00:00:00+00:00"},
+        ):
+            permission = self.root / "permission.json"
+            permission.write_text(json.dumps({
+                "source_id": "source-001", "granted_by": "creator-001",
+                "scopes": ["publish"], "granted_at": "2026-11-21T00:00:00+00:00",
+                **permission_fields,
+            }), encoding="utf-8")
+            approval = UploadApproval(
+                clip_id="clip-001", source_id="source-001",
+                status=ApprovalStatus.APPROVED, reviewed_by="UC_AUTHENTICATED_OWNER",
+                reviewed_at=datetime.now(timezone.utc),
+            )
+            approval_path = save_upload_approval(self.root / f"approval-{len(list(self.root.glob('approval-*.json')))}.json", approval)
+
+            class Request:
+                def execute(self, num_retries=0):
+                    return {"items": [{"id": "UC_AUTHENTICATED_OWNER"}]}
+            class Channels:
+                def list(self, **kwargs):
+                    return Request()
+            class Videos:
+                def __init__(self):
+                    self.insert_called = False
+                def insert(self, **kwargs):
+                    self.insert_called = True
+                    raise AssertionError("upload request must not be constructed")
+            class YouTube:
+                def __init__(self):
+                    self.video_api = Videos()
+                def channels(self):
+                    return Channels()
+                def videos(self):
+                    return self.video_api
+            youtube = YouTube()
+            package = types.ModuleType("googleapiclient")
+            package.__path__ = []
+            http_module = types.ModuleType("googleapiclient.http")
+            http_module.MediaFileUpload = lambda *args, **kwargs: object()
+            with patch.dict(sys.modules, {
+                "googleapiclient": package,
+                "googleapiclient.http": http_module,
+            }), patch("backend.app.youtube_upload._authorize_google", return_value=object()), \\
+                 patch("backend.app.youtube_upload._build_youtube_client", return_value=youtube):
+                with self.assertRaisesRegex(PermissionError, "active publish permission"):
+                    upload_video(
+                        self.video, {"snippet": {}, "status": {}},
+                        client_secrets=self.root / "client.json",
+                        token_path=self.root / "token.json",
+                        approval_record=approval_path,
+                        permission_record=permission,
+                        clip_id="clip-001",
+                        source_id="source-001",
+                        expected_channel_id="UC_AUTHENTICATED_OWNER",
+                    )
+            self.assertFalse(youtube.video_api.insert_called)
 
 
 if __name__ == "__main__":
