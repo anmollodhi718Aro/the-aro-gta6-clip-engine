@@ -13,6 +13,7 @@ import os
 import sys
 from pathlib import Path
 from typing import Any
+from datetime import datetime, timezone
 
 from .approval import UploadApproval, require_upload_approval
 from .upload_approval_store import (
@@ -213,7 +214,7 @@ def record_upload_approval(
     if owner_identity != expected_channel_id:
         raise PermissionError("OAuth channel does not match the configured destination channel")
     permission = load_publish_permission(permission_record)
-    if permission.source_id != source_id or not permission.allows("publish", __import__("datetime").datetime.now(__import__("datetime").timezone.utc)):
+    if permission.source_id != source_id or not permission.allows("publish", datetime.now(timezone.utc)):
         raise PermissionError("active publish permission for this source is required")
     confirmation = input(
         f"Approve clip {clip_id!r} from source {source_id!r} for channel {owner_identity!r}? Type APPROVE to confirm: "
