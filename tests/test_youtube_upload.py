@@ -1,4 +1,5 @@
 """Tests for gated YouTube upload without making network requests."""
+import io
 import json
 import os
 import sys
@@ -12,7 +13,10 @@ from unittest.mock import Mock, patch
 
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
-from backend.app.youtube_upload import build_upload_body, load_rights_report, upload_video, validate_upload
+from backend.app.youtube_upload import (
+    _copy_stream_with_limit, build_upload_body, load_rights_report,
+    upload_video, validate_upload,
+)
 
 
 class YouTubeUploadTests(unittest.TestCase):
@@ -126,6 +130,29 @@ class YouTubeUploadTests(unittest.TestCase):
         empty.touch()
         with self.assertRaisesRegex(ValueError, "empty"):
             validate_upload(empty, self.report, title="Short", made_for_kids=False)
+
+    def test_validate_upload_rejects_file_above_memory_budget(self):
+        with self.assertRaisesRegex(ValueError, "configured upload limit"):
+            validate_upload(
+                self.video, self.report, title="Short", made_for_kids=False,
+                max_upload_bytes=4,
+            )
+
+    def test_snapshot_copy_stops_before_writing_bytes_over_limit(self):
+        source = io.BytesIO(b"12345")
+        snapshot = io.BytesIO()
+        with self.assertRaisesRegex(ValueError, "configured upload limit"):
+            _copy_stream_with_limit(source, snapshot, max_upload_bytes=4)
+        self.assertEqual(snapshot.getvalue(), b"")
+
+    def test_max_upload_bytes_must_be_positive(self):
+        for invalid in (0, -1, True):
+            with self.subTest(invalid=invalid):
+                with self.assertRaisesRegex(ValueError, "positive integer"):
+                    validate_upload(
+                        self.video, self.report, title="Short", made_for_kids=False,
+                        max_upload_bytes=invalid,
+                    )
 
     def _write_upload_rights(self, db_path):
         now = datetime.now(timezone.utc)
