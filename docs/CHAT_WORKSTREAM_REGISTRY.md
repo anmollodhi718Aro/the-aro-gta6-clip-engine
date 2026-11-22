@@ -991,8 +991,17 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Task | Add a regression proving direct callers of upload_video() are rejected by the configured size ceiling before OAuth authorization or API initialization. |
 | Branch | workstream/aro-chat-0048-direct-upload-size-guard-test-2026-11-22 |
 | Base | PR #95 exact head f29fd9d5ce5db4b10e0e2fd8c14d83b4bdd1e061 |
-| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI pending; PR #96 draft/open/unmerged |
+| Status | IMPLEMENTED; exact-head CI_VERIFIED (run 45055224315); local tests NOT RUN in this connector session; PR #96 draft/open/unmerged |
 | Changed files | tests/test_youtube_upload.py; docs/CHAT_WORKSTREAM_REGISTRY.md. |
 | Commits | 63b9f9cb6c6d3b8442ac3ee4c8e27bd90d1d297f (reservation); 83606d3357f9c487543799aadae955fdecca9cdf (regression test). |
 | Scope | Test-only change proving oversized direct upload_video() calls fail before OAuth; no uploader behavior changes. |
 | Safety boundary | Synthetic local bytes and mocks only. No credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+
+### ARO-CHAT-0048 exact-head CI reconciliation — 2026-11-22
+- PR #96 head `1ef93e7964afe13533fc25c0b9b6f0244462f343` was checked directly with Actions run `45055224315`.
+- Run conclusion: `success`. Ubuntu job `137308884581` and hosted Windows job `137308884348` both completed compilation, the complete unittest step, and synthetic MP4/FFprobe validation successfully.
+- The PR #96 record reports 332 tests passed on each job; the retrieved job-step summary confirms the unittest steps succeeded but does not expose the test log/count independently. Preserve the count as PR-reported, not separately log-verified.
+- The direct-call regression verifies an oversized `upload_video()` call fails before OAuth authorization and does not create a token file. Tests use synthetic bytes and mocks; no network upload occurs.
+- This is hosted Windows CI, not owner-device Windows verification. Synthetic MP4 validation is not GTA 6 real-media verification.
+- PR #96 remains draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; no canonical security PR selection, uploader integration, live upload, public publishing, merge, retarget, or deployment is authorized by this documentation update.
