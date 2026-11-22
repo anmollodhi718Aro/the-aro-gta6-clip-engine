@@ -143,7 +143,7 @@ def _authorize_google(client_secrets: Path, token_path: Path):
     if credentials and credentials.expired and credentials.refresh_token:
         credentials.refresh(Request())
 
-    if not credentials or not credentials.valid:
+    if not credentials or not credentials.valid or not getattr(credentials, "id_token", None):
         if not client_secrets.is_file():
             raise FileNotFoundError(
                 f"OAuth client file not found: {client_secrets}. Create a Desktop OAuth client in Google Cloud and store it locally."
@@ -310,7 +310,7 @@ def main() -> int:
                 "video_file": video.name,
                 "metadata": body,
                 "upload_performed": False,
-                "next_step": "Review metadata and rights, then rerun with --upload --owner-approved --confirm-rights if authorized.",
+                "next_step": "Review metadata and rights, obtain an OAuth-bound approval record, then rerun with --upload --owner-approved --confirm-rights --approval-record if authorized.",
             }, ensure_ascii=False, indent=2))
             return 0
         if args.approval_record is None:
