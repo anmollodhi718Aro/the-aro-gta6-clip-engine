@@ -886,3 +886,36 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Added helper tests for matching/mismatched immutable payload hashes and a mocked uploader regression that mutates the staged file after final checks but before the mocked API consumes the payload. The test asserts the uploaded bytes remain identical to the approved payload.
 - Tests use local synthetic bytes and mocked API clients only. No network upload occurs.
 - Direct/local tests: NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI: PENDING. Real-media and owner-device verification remain NOT VERIFIED.
+
+
+## ARO-CHAT-0045 bounded immutable upload memory — 2026-11-22
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0045 |
+| Exact title | ARO-CHAT-0045 | Bounded Immutable Upload Memory |
+| Workstream ID | ARO-GTA-P1-45 |
+| Role | Bounded uploader-security contributor + QA |
+| Task | Bound memory exposure introduced by ARO-CHAT-0044's immutable in-memory upload payload, while preserving exact-byte approval and fail-closed upload checks. |
+| Branch | workstream/aro-chat-0045-bounded-upload-memory-2026-11-22 |
+| Base | PR #92 exact head b528fbcf672a9f25e99a75e1898b50bee639e22c |
+| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI pending |
+| Scope | Add a default 256 MiB local payload ceiling, positive integer CLI override, preflight size check, and streaming copy-time enforcement before loading the immutable payload. Add synthetic unit coverage and document that operators must choose a conservative limit for their device memory. |
+| Safety boundary | Isolated follow-up branch only. No changes to PR #92 or its base; no OAuth credentials/tokens, real media, live upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### ARO-CHAT-0045 implementation evidence
+- validate_upload() rejects non-positive limits and files already above the configured byte budget before approval/upload work proceeds.
+- The private snapshot copy enforces the same limit incrementally, so a source that grows after the initial stat is rejected before the full payload is read into memory.
+- upload_video() independently enforces the configured limit for direct callers; the CLI exposes --max-upload-bytes and defaults to 256 MiB.
+- Added tests for oversized preflight rejection, copy-time rejection, and invalid limits. Tests use synthetic bytes and never perform network uploads.
+- Documentation explains the memory trade-off and shows a lower 128 MiB example. The default is a conservative product default, not a device-specific memory guarantee; owner review should set an appropriate value before any real upload.
+- Local tests: NOT RUN in this connector session. Exact-head Ubuntu and hosted-Windows CI: PENDING.
+- No real-media, owner-device, OAuth, upload, or publishing verification is claimed.
+
+
+### ARO-CHAT-0045 exact-head CI closeout — 2026-11-22
+- PR #93 implementation head `5cf8cc7e823f7ce9e8f319704d72c5f0da00d496` completed Actions run [45019724453](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45019724453) successfully.
+- Ubuntu job `137199715507` and hosted Windows job `137199715294` both completed setup, FFmpeg/FFprobe installation, source compilation, the complete unit-test step, and synthetic MP4 render/FFprobe verification successfully.
+- The connector exposed successful step conclusions but not test-log counts; no numeric test count is asserted here. This is hosted Windows CI, not owner-device Windows verification.
+- The CI run validates implementation head `5cf8cc7e823f7ce9e8f319704d72c5f0da00d496`. Any later documentation-only commit is a different branch tip and does not inherit exact-head CI status automatically.
+- PR #93 remains OPEN / DRAFT / UNMERGED. No real media, live OAuth, network upload, public publishing, merge, retarget, deployment, or destructive action occurred. Owner review must still choose a device-appropriate memory limit before any real upload.

@@ -85,6 +85,20 @@ python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
 
 Immediately before `videos.insert`, the uploader re-verifies the Google OIDC subject and authenticated channel, the exact account/channel/clip/source/file/privacy approval and current publish permissions for every source-bound asset. The default privacy setting is private. Public or unlisted uploads still require every gate to pass. The `--owner-approved` flag is only an additional operator acknowledgement, never identity authentication or a substitute for the durable record. The flags do not guarantee legal clearance, platform acceptance, copyright safety, or monetization.
 
+## Upload memory budget
+
+The uploader defaults to a maximum local video size of 256 MiB because it captures the approved payload in immutable memory before constructing the resumable API upload. The limit is checked during metadata preflight and again while copying the source into the private snapshot, so a file that grows during copying is rejected before the full payload is loaded into memory. Set `--max-upload-bytes` to a positive integer only after checking the machine's available memory; choose a conservative value because the in-memory payload and upload stream may require additional overhead. This limit is a local safety ceiling, not a YouTube quota or a guarantee that a device can safely upload a file of that size.
+
+Example with a smaller 128 MiB budget:
+
+```bash
+python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \\
+  --rights-report output/preflight_report.json \\
+  --title "THE ARO GTA 6 Highlight" \\
+  --not-made-for-kids \\
+  --max-upload-bytes 134217728
+```
+
 ## Limits
 
 - The source file must already exist locally and be authorized for this use.
