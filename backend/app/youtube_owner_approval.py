@@ -135,7 +135,7 @@ def write_owner_approval_record(
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as stream:
             json.dump(record, stream, indent=2, sort_keys=True)
-            stream.write("\\n")
+            stream.write("\n")
             stream.flush()
             os.fsync(stream.fileno())
         # A hard link atomically publishes the complete record and refuses
