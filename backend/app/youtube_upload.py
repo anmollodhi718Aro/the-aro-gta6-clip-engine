@@ -171,6 +171,8 @@ def upload_video(
     rights_report_path: Path,
     approval_record_path: Path,
     rights_db_path: Path,
+    clip_id: str,
+    source_id: str,
 ) -> dict[str, str]:
     try:
         from googleapiclient.discovery import build
@@ -202,12 +204,10 @@ def upload_video(
         resumable=True,
     )
     current_report = load_rights_report(rights_report_path)
-    clip_id = current_report.get("clip_id")
-    source_id = current_report.get("source_id")
-    if not isinstance(clip_id, str) or not clip_id.strip():
-        raise PermissionError("rights report must identify the exact clip_id")
-    if not isinstance(source_id, str) or not source_id.strip():
-        raise PermissionError("rights report must identify the exact source_id")
+    report_clip_id = current_report.get("clip_id")
+    report_source_id = current_report.get("source_id")
+    if report_clip_id != clip_id or report_source_id != source_id:
+        raise PermissionError("CLI clip/source IDs do not match the rights report")
     require_current_owner_approval(
         approval_record_path, clip_id=clip_id, source_id=source_id,
         video_path=video_path, owner=owner, rights_registry=rights_registry,
@@ -322,6 +322,8 @@ def main() -> int:
             rights_report_path=args.rights_report.expanduser(),
             approval_record_path=args.approval_record.expanduser(),
             rights_db_path=args.rights_db.expanduser(),
+            clip_id=args.clip_id,
+            source_id=args.source_id,
         )
         print(json.dumps({"status": "uploaded", **result}, indent=2))
         return 0
