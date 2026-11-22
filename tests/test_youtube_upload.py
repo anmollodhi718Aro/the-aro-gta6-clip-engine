@@ -284,21 +284,61 @@ class YouTubeUploadTests(unittest.TestCase):
         db_path = self.root / "source_rights.sqlite3"
         self._write_upload_rights(db_path)
         youtube = Mock()
-        youtube.channels.return_value.list.return_value.execute.return_value = {
-            "items": [{"id": "youtube-channel-456"}]
-        }
-        with patch.dict(sys.modules, self._mock_google_modules(youtube)):
-            with patch.dict(os.environ, {"ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456", "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-456"}):
-                with patch("backend.app.youtube_upload._authorize_google", return_value=Mock(id_token="mock-token")):
-                    with patch("backend.app.youtube_owner_approval._verify_google_id_token", return_value={"sub": "different-google-subject", "iss": "https://accounts.google.com"}):
-                        with self.assertRaisesRegex(PermissionError, "not the configured channel owner"):
-                            upload_video(
-                                self.video, {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
-                                client_secrets=self.client_secrets, token_path=self.root / "token.json",
-                                rights_report_path=self.report, approval_record_path=self.root / "approval.json",
-                                rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
-                                owner_approved=True, rights_confirmed=True,
-                            )
+        google = types.ModuleType("google")
+        auth = types.ModuleType("google.auth")
+        transport = types.ModuleType("google.auth.transport")
+        requests = types.ModuleType("google.auth.transport.requests")
+        oauth2 = types.ModuleType("google.oauth2")
+        id_token = types.ModuleType("google.oauth2.id_token")
+        requests.Request = Mock(return_value=object())
+        id_token.verify_oauth2_token = Mock(return_value={
+            "sub": "different-google-subject",
+            "iss": "https://accounts.google.com",
+            "azp": "client-id",
+        })
+        google.auth = auth
+        auth.transport = transport
+        transport.requests = requests
+        google.oauth2 = oauth2
+        oauth2.id_token = id_token
+        modules = self._mock_google_modules(youtube)
+        modules.update({
+            "google": google,
+            "google.auth": auth,
+            "google.auth.transport": transport,
+            "google.auth.transport.requests": requests,
+            "google.oauth2": oauth2,
+            "google.oauth2.id_token": id_token,
+        })
+        with patch.dict(sys.modules, modules):
+            with patch.dict(os.environ, {
+                "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
+                "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-456",
+            }):
+                with patch(
+                    "backend.app.youtube_upload._authorize_google",
+                    return_value=Mock(id_token="mock-token"),
+                ):
+                    with self.assertRaisesRegex(
+                        PermissionError, "not the configured channel owner"
+                    ):
+                        upload_video(
+                            self.video,
+                            {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                            client_secrets=self.client_secrets,
+                            token_path=self.root / "token.json",
+                            rights_report_path=self.report,
+                            approval_record_path=self.root / "approval.json",
+                            rights_db_path=db_path,
+                            clip_id="clip-1",
+                            source_id="source-1",
+                            owner_approved=True,
+                            rights_confirmed=True,
+                        )
+        id_token.verify_oauth2_token.assert_called_once_with(
+            "mock-token", unittest.mock.ANY, audience="client-id"
+        )
+        youtube.channels.assert_not_called()
         youtube.videos.return_value.insert.assert_not_called()
 
     def test_upload_rejects_private_approval_for_public_visibility(self):
