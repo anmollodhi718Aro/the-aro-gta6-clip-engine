@@ -996,3 +996,26 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Commits | 63b9f9cb6c6d3b8442ac3ee4c8e27bd90d1d297f (reservation); 83606d3357f9c487543799aadae955fdecca9cdf (regression test). |
 | Scope | Test-only change proving oversized direct upload_video() calls fail before OAuth; no uploader behavior changes. |
 | Safety boundary | Synthetic local bytes and mocks only. No credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+
+## ARO-CHAT-0049 PR #96 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0049 |
+| Exact title | ARO-CHAT-0049 | PR #96 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-49 |
+| Role | CI evidence auditor + documentation contributor |
+| Task | Reconcile PR #96's direct upload-size-guard regression against live exact-head GitHub Actions evidence and record the verified result without changing uploader behavior. |
+| Branch | workstream/aro-chat-0049-pr96-ci-closeout-2026-11-23 |
+| Base | PR #96 exact head 1ef93e7964afe13533fc25c0b9b6f0244462f343 |
+| Status | IMPLEMENTED (documentation-only); CI_VERIFIED for the audited PR #96 exact head; owner review and Issue #68 canonical integration remain pending |
+| Changed files | docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No uploader source/test changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head evidence
+- Live commit workflow lookup for PR #96 head 1ef93e7964afe13533fc25c0b9b6f0244462f343 returned successful Python CI run 45055224315.
+- Ubuntu job 137308884581 and hosted Windows job 137308884348 both completed checkout, Python setup, FFmpeg/FFprobe installation, compilation, full unit-test steps, and synthetic MP4 render/FFprobe verification successfully.
+- The PR #96 patch adds a mocked regression proving direct upload_video() callers reject an over-limit file before OAuth authorization and do not create a token file.
+- This is exact-head hosted CI evidence. It does not establish owner-device Windows verification, real-media verification, or live-upload readiness. Synthetic MP4 output is not GTA 6 footage.
+- PR #96 remains draft/open/unmerged. Issue #68 remains open pending owner-controlled selection and integration of the canonical authenticated uploader approval implementation. Do not merge competing security branches independently.
