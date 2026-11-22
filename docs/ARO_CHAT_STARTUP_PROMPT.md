@@ -102,3 +102,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #87 and PR #91 contain parallel fixes for the same recursive Google OIDC verifier defect. PR #91 exact-head run 45014281658 passed Ubuntu and hosted Windows; do not independently integrate both verifier branches.
 - ARO-CHAT-0044 code is IMPLEMENTED on its isolated branch; local tests were not run in this connector session; exact-head CI is pending. Keep PR draft-only, Issue #68 open until owner review, and all live uploads/public publishing disabled.
 - No merge, retarget, deployment, credential/token access, real-media processing, live upload, public publishing, or destructive action is authorized by this follow-up.
+
+
+### Latest uploader memory-budget follow-up — ARO-CHAT-0045
+- Active bounded workstream: ARO-CHAT-0045 / ARO-GTA-P1-45 on branch workstream/aro-chat-0045-bounded-upload-memory-2026-11-22, based on PR #92 exact head b528fbcf672a9f25e99a75e1898b50bee639e22c.
+- PR #92 exact-head Actions run 45019152380 passed on Ubuntu and hosted Windows. This verifies that PR #92 head only; each follow-up head requires its own CI evidence.
+- PR #92's immutable in-memory payload closes the staged-file mutation gap but can consume substantial RAM. This follow-up adds a 256 MiB default size ceiling, a positive --max-upload-bytes override, and incremental copy-time enforcement so source growth is rejected before full payload capture.
+- Keep the exact immutable bytes as the approved/uploaded payload. Do not replace this with a mutable path or file descriptor without a separately proven immutable mechanism.
+- The default limit is not a device-specific guarantee. Before any real upload, the owner must choose a conservative limit based on the actual machine's available memory and expected clip sizes.
+- Draft only; local tests and exact-head CI are pending. No credentials/tokens, real media, live OAuth, upload, public publishing, merge, retarget, deployment, or destructive action is part of this workstream.
