@@ -111,3 +111,9 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Keep the exact immutable bytes as the approved/uploaded payload. Do not replace this with a mutable path or file descriptor without a separately proven immutable mechanism.
 - The default limit is not a device-specific guarantee. Before any real upload, the owner must choose a conservative limit based on the actual machine's available memory and expected clip sizes.
 - Draft only; local tests and exact-head CI are pending. No credentials/tokens, real media, live OAuth, upload, public publishing, merge, retarget, deployment, or destructive action is part of this workstream.
+
+
+### ARO-CHAT-0045 CI evidence refresh — 2026-11-22
+- PR #93 implementation SHA `5cf8cc7e823f7ce9e8f319704d72c5f0da00d496` passed Actions run `45019724453`: Ubuntu and hosted Windows both passed setup, FFmpeg/FFprobe installation, compilation, full unittest step, and synthetic MP4/FFprobe validation.
+- The connector exposed step conclusions but not test-log counts; do not infer a test count. Hosted Windows CI is not owner-device Windows verification.
+- The subsequent registry-only documentation commit does not inherit the implementation SHA's exact-head CI claim. PR #93 remains draft/open/unmerged. Owner must review a device-appropriate upload memory budget before any real upload; no real media, live OAuth, upload, or public publishing was performed.
