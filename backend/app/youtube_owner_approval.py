@@ -1,8 +1,7 @@
 """Fail-closed, OAuth-bound per-clip YouTube upload approval.
 
-The Google OIDC subject and the YouTube channel ID are verified from the
-current OAuth credentials. Approval records are bound to the exact clip,
-source and SHA-256 of the local rendered file. This module never uploads.
+The authenticated YouTube channel ID is the stable reviewer subject. This
+module records approval for one exact local file and never performs uploads.
 """
 from __future__ import annotations
 
@@ -13,12 +12,13 @@ import tempfile
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any
+
+from .rights_registry import SourceRightsRegistry
 
 
 @dataclass(frozen=True)
 class AuthenticatedChannelOwner:
-    google_subject: str
     channel_id: str
 
 
@@ -31,44 +31,23 @@ def sha256_file(path: str | Path) -> str:
 
 
 def verify_authenticated_channel_owner(
-    credentials: Any,
-    youtube: Any,
-    *,
-    oauth_client_id: str,
-    expected_google_subject: str,
-    expected_channel_id: str,
+    youtube: Any, *, expected_channel_id: str
 ) -> AuthenticatedChannelOwner:
-    """Verify the OIDC principal and the channel returned by channels.list(mine=True)."""
-    if not all(isinstance(value, str) and value.strip() for value in (
-        oauth_client_id, expected_google_subject, expected_channel_id
-    )):
-        raise PermissionError("configured Google owner subject and YouTube channel ID are required")
-    token = getattr(credentials, "id_token", None)
-    if not isinstance(token, str) or not token:
-        raise PermissionError("OAuth session has no OpenID Connect identity token")
-    try:
-        from google.auth.transport.requests import Request
-        from google.oauth2 import id_token
-        claims = id_token.verify_oauth2_token(token, Request(), audience=oauth_client_id)
-    except Exception as exc:
-        raise PermissionError("Google identity token could not be verified") from exc
-    subject = claims.get("sub") if isinstance(claims, dict) else None
-    issuer = claims.get("iss") if isinstance(claims, dict) else None
-    if not isinstance(subject, str) or not subject or issuer not in (
-        "accounts.google.com", "https://accounts.google.com"
-    ):
-        raise PermissionError("verified Google identity token is missing a valid subject or issuer")
-    if subject != expected_google_subject:
-        raise PermissionError("authenticated Google account is not the configured channel owner")
+    """Resolve the channel from the current OAuth-backed YouTube API client."""
+    if not isinstance(expected_channel_id, str) or not expected_channel_id.strip():
+        raise PermissionError("configured destination YouTube channel ID is required")
     try:
         response = youtube.channels().list(part="id", mine=True).execute()
         items = response.get("items", [])
-        channel_ids = [item.get("id") for item in items if isinstance(item, dict)]
+        channel_ids = [
+            item.get("id") for item in items
+            if isinstance(item, dict) and isinstance(item.get("id"), str)
+        ]
     except Exception as exc:
         raise PermissionError("could not verify the OAuth account's YouTube channel") from exc
     if expected_channel_id not in channel_ids:
         raise PermissionError("OAuth account does not resolve to the configured destination channel")
-    return AuthenticatedChannelOwner(subject, expected_channel_id)
+    return AuthenticatedChannelOwner(expected_channel_id)
 
 
 def _parse_aware(value: Any, field: str) -> datetime:
@@ -94,10 +73,12 @@ def write_owner_approval_record(
     at: datetime | None = None,
     expires_at: datetime | None = None,
 ) -> dict[str, Any]:
-    """Persist an explicit owner decision; caller must obtain confirmation in trusted UI."""
+    """Persist a one-time owner decision; never overwrite an existing record."""
     if confirmed is not True:
         raise PermissionError("explicit channel-owner confirmation is required")
-    if not clip_id.strip() or not source_id.strip() or not owner.google_subject or not owner.channel_id:
+    if not all(isinstance(value, str) and value.strip() for value in (
+        clip_id, source_id, owner.channel_id
+    )):
         raise ValueError("clip, source and authenticated owner identities are required")
     reviewed_at = at or datetime.now(timezone.utc)
     expiry = expires_at or (reviewed_at + timedelta(hours=24))
@@ -111,7 +92,7 @@ def write_owner_approval_record(
         "clip_id": clip_id.strip(),
         "source_id": source_id.strip(),
         "source_sha256": sha256_file(video_path),
-        "reviewer_google_subject": owner.google_subject,
+        "reviewer_channel_id": owner.channel_id,
         "destination_channel_id": owner.channel_id,
         "reviewed_at": reviewed_at.astimezone(timezone.utc).isoformat(),
         "expires_at": expiry.astimezone(timezone.utc).isoformat(),
@@ -125,7 +106,9 @@ def write_owner_approval_record(
             stream.write("\n")
             stream.flush()
             os.fsync(stream.fileno())
-        os.replace(temp_name, target)
+        # A hard link publishes the fully-written record atomically and refuses
+        # to replace a prior approval for the same path.
+        os.link(temp_name, target)
         try:
             os.chmod(target, 0o600)
         except OSError:
@@ -136,18 +119,6 @@ def write_owner_approval_record(
     return record
 
 
-def require_active_publish_permission(permission_evidence: Mapping[str, Any], source_id: str, *, at: datetime | None = None) -> None:
-    """Validate the current, source-bound publish grant before owner review."""
-    if not isinstance(permission_evidence, Mapping) or permission_evidence.get("source_id") != source_id:
-        raise PermissionError("source-specific publish permission evidence is required")
-    if permission_evidence.get("status") != "active" or permission_evidence.get("revoked") is not False:
-        raise PermissionError("source publish permission is inactive or revoked")
-    scopes = permission_evidence.get("scopes")
-    if not isinstance(scopes, list) or "publish" not in scopes:
-        raise PermissionError("current publish scope is required")
-    if _parse_aware(permission_evidence.get("expires_at"), "permission expires_at") <= (at or datetime.now(timezone.utc)):
-        raise PermissionError("source publish permission has expired")
-
 def require_current_owner_approval(
     approval_path: str | Path,
     *,
@@ -155,7 +126,7 @@ def require_current_owner_approval(
     source_id: str,
     video_path: str | Path,
     owner: AuthenticatedChannelOwner,
-    permission_evidence: Mapping[str, Any],
+    rights_registry: SourceRightsRegistry,
     at: datetime | None = None,
 ) -> None:
     """Fail closed on stale, mismatched, revoked or non-publishable evidence."""
@@ -170,7 +141,7 @@ def require_current_owner_approval(
         "clip_id": clip_id,
         "source_id": source_id,
         "source_sha256": sha256_file(video_path),
-        "reviewer_google_subject": owner.google_subject,
+        "reviewer_channel_id": owner.channel_id,
         "destination_channel_id": owner.channel_id,
     }
     if any(record.get(key) != value for key, value in expected.items()):
@@ -180,15 +151,7 @@ def require_current_owner_approval(
     expires_at = _parse_aware(record.get("expires_at"), "expires_at")
     if reviewed_at > now or expires_at <= now or expires_at <= reviewed_at:
         raise PermissionError("owner approval is expired or has an invalid review time")
-    if not isinstance(permission_evidence, Mapping):
-        raise PermissionError("current source publish permission evidence is required")
-    if permission_evidence.get("source_id") != source_id:
-        raise PermissionError("publish permission does not match the clip source")
-    scopes = permission_evidence.get("scopes")
-    if permission_evidence.get("status") != "active" or permission_evidence.get("revoked") is not False:
-        raise PermissionError("source publish permission is inactive or revoked")
-    if not isinstance(scopes, list) or "publish" not in scopes:
-        raise PermissionError("current publish scope is required")
-    permission_expiry = _parse_aware(permission_evidence.get("expires_at"), "permission expires_at")
-    if permission_expiry <= now:
-        raise PermissionError("source publish permission has expired")
+    if not isinstance(rights_registry, SourceRightsRegistry):
+        raise PermissionError("current source publish permission registry is required")
+    # This is the live permission check, including validity, expiry and revocation.
+    rights_registry.authorize(source_id, "publish", "youtube", at=now)
