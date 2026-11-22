@@ -170,6 +170,7 @@ def upload_video(
     token_path: Path,
     rights_report_path: Path,
     approval_record_path: Path,
+    rights_db_path: Path,
 ) -> dict[str, str]:
     try:
         from googleapiclient.discovery import build
@@ -192,9 +193,7 @@ def upload_video(
     owner = verify_authenticated_channel_owner(
         youtube, expected_channel_id=expected_channel
     )
-    rights_registry = SourceRightsRegistry(Path(os.environ.get(
-        "ARO_SOURCE_RIGHTS_DB", "data/source_rights.db"
-    )).expanduser())
+    rights_registry = SourceRightsRegistry(rights_db_path.expanduser())
     mime_type, _ = mimetypes.guess_type(video_path.name)
     media = MediaFileUpload(
         str(video_path),
@@ -322,6 +321,7 @@ def main() -> int:
             token_path=args.token.expanduser(),
             rights_report_path=args.rights_report.expanduser(),
             approval_record_path=args.approval_record.expanduser(),
+            rights_db_path=args.rights_db.expanduser(),
         )
         print(json.dumps({"status": "uploaded", **result}, indent=2))
         return 0
