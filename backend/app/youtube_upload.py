@@ -265,12 +265,17 @@ def upload_video(
     permission_path: Path,
     clip_id: str,
     source_id: str,
+    expected_channel_id: str,
     youtube_client: Any | None = None,
     at: datetime | None = None,
 ) -> dict[str, str]:
     """Re-check owner identity, exact-clip approval and active publish scope immediately before insert."""
     youtube = youtube_client or _build_youtube(client_secrets, token_path)
     owner_identity = authenticated_channel_identity(youtube)
+    if not isinstance(expected_channel_id, str) or not expected_channel_id.strip():
+        raise ValueError("configured destination channel ID is required")
+    if owner_identity != expected_channel_id.strip():
+        raise PermissionError("OAuth identity does not match the configured destination channel owner")
     approval = load_upload_approval(approval_path)
     permission = load_publish_permission(permission_path)
     if approval.clip_id != clip_id or approval.source_id != source_id:
@@ -321,6 +326,7 @@ def main() -> int:
     parser.add_argument("--permission-record", type=Path, help="Active source publish-permission JSON path")
     parser.add_argument("--clip-id")
     parser.add_argument("--source-id")
+    parser.add_argument("--expected-channel-id", help="Configured destination channel ID; must match the OAuth-authenticated channel")
     decision = parser.add_mutually_exclusive_group()
     decision.add_argument("--approve-clip", action="store_true", help="Record approval using the authenticated channel identity")
     decision.add_argument("--reject-clip", action="store_true", help="Record rejection using the authenticated channel identity")
@@ -344,10 +350,12 @@ def main() -> int:
         if args.approve_clip or args.reject_clip:
             if args.upload:
                 raise ValueError("approval recording and upload must be separate invocations")
-            if not args.approval_record or not args.clip_id or not args.source_id:
-                raise ValueError("--approval-record, --clip-id and --source-id are required to record a decision")
+            if not args.approval_record or not args.clip_id or not args.source_id or not args.expected_channel_id:
+                raise ValueError("--approval-record, --clip-id, --source-id and --expected-channel-id are required to record a decision")
             youtube = _build_youtube(args.client_secrets.expanduser(), args.token.expanduser())
             owner_identity = authenticated_channel_identity(youtube)
+            if owner_identity != args.expected_channel_id.strip():
+                raise PermissionError("OAuth identity does not match the configured destination channel owner")
             approval = save_upload_approval(
                 args.approval_record,
                 clip_id=args.clip_id,
@@ -370,8 +378,8 @@ def main() -> int:
             return 0
         if not args.owner_approved or not args.confirm_rights:
             raise PermissionError("upload requires both additional acknowledgement flags")
-        if not args.approval_record or not args.permission_record or not args.clip_id or not args.source_id:
-            raise ValueError("--approval-record, --permission-record, --clip-id and --source-id are required for upload")
+        if not args.approval_record or not args.permission_record or not args.clip_id or not args.source_id or not args.expected_channel_id:
+            raise ValueError("--approval-record, --permission-record, --clip-id, --source-id and --expected-channel-id are required for upload")
         result = upload_video(
             video, body,
             client_secrets=args.client_secrets.expanduser(),
@@ -380,6 +388,7 @@ def main() -> int:
             permission_path=args.permission_record,
             clip_id=args.clip_id,
             source_id=args.source_id,
+            expected_channel_id=args.expected_channel_id,
         )
         print(json.dumps({"status": "uploaded", **result}, indent=2))
         return 0
