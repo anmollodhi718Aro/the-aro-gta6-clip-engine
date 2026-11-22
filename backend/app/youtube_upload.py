@@ -1,8 +1,8 @@
-"""Explicitly approved YouTube Data API upload for local authorized videos.
+"""Owner-authenticated YouTube upload for local, authorized video assets.
 
-No upload occurs unless --upload, --owner-approved, --confirm-rights, and an
-explicit made-for-kids declaration are supplied. Google OAuth dependencies
-are optional and are imported only when an upload is requested.
+Uploads require a durable per-clip approval created in a separate OAuth-authenticated
+step, an active source publish grant, explicit rights confirmation, and --upload.
+Google OAuth dependencies remain optional until an action is requested.
 """
 from __future__ import annotations
 
@@ -14,8 +14,16 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from .approval import UploadApproval, require_upload_approval
+from .upload_approval_store import (
+    load_publish_permission, load_upload_approval, save_upload_approval,
+)
 
-UPLOAD_SCOPE = "https://www.googleapis.com/auth/youtube.upload"
+
+UPLOAD_SCOPES = [
+    "https://www.googleapis.com/auth/youtube.upload",
+    "https://www.googleapis.com/auth/youtube.readonly",
+]
 DEFAULT_CATEGORY_ID = "20"  # Gaming
 
 
@@ -97,7 +105,6 @@ def validate_upload(
     tags: list[str] | None = None,
     privacy: str = "private",
     made_for_kids: bool,
-    owner_approved: bool = False,
     rights_confirmed: bool = False,
     upload_requested: bool = False,
 ) -> tuple[Path, dict[str, Any]]:
@@ -115,8 +122,6 @@ def validate_upload(
         title=title, description=description, tags=tags or [],
         privacy=privacy, made_for_kids=made_for_kids,
     )
-    if upload_requested and not owner_approved:
-        raise PermissionError("actual upload requires --owner-approved")
     if upload_requested and not rights_confirmed:
         raise PermissionError("actual upload requires --confirm-rights")
     return video, body
@@ -135,7 +140,7 @@ def _authorize_google(client_secrets: Path, token_path: Path):
     credentials = None
     if token_path.is_file():
         try:
-            credentials = Credentials.from_authorized_user_file(str(token_path), [UPLOAD_SCOPE])
+            credentials = Credentials.from_authorized_user_file(str(token_path), UPLOAD_SCOPES)
         except (OSError, ValueError):
             credentials = None
 
@@ -147,7 +152,7 @@ def _authorize_google(client_secrets: Path, token_path: Path):
             raise FileNotFoundError(
                 f"OAuth client file not found: {client_secrets}. Create a Desktop OAuth client in Google Cloud and store it locally."
             )
-        flow = InstalledAppFlow.from_client_secrets_file(str(client_secrets), [UPLOAD_SCOPE])
+        flow = InstalledAppFlow.from_client_secrets_file(str(client_secrets), UPLOAD_SCOPES)
         credentials = flow.run_local_server(
             host="127.0.0.1", port=0, open_browser=True,
             authorization_prompt_message="Authorize THE ARO Studio in your browser: {url}",
@@ -161,15 +166,78 @@ def _authorize_google(client_secrets: Path, token_path: Path):
     return credentials
 
 
+def _build_youtube_client(credentials):
+    try:
+        from googleapiclient.discovery import build
+    except ImportError as exc:
+        raise RuntimeError(
+            'Google upload dependencies are missing. Install with: pip install -e ".[youtube-upload]"'
+        ) from exc
+    return build("youtube", "v3", credentials=credentials, cache_discovery=False)
+
+
+def resolve_authenticated_channel_id(youtube) -> str:
+    """Resolve the OAuth-selected channel identity from YouTube, never from CLI text."""
+    response = youtube.channels().list(
+        part="id", mine=True, maxResults=50
+    ).execute(num_retries=0)
+    items = response.get("items", [])
+    channel_ids = [
+        str(item.get("id", "")).strip()
+        for item in items
+        if isinstance(item, dict) and str(item.get("id", "")).strip()
+    ]
+    if len(channel_ids) != 1:
+        raise PermissionError(
+            "OAuth session must resolve to exactly one destination YouTube channel"
+        )
+    return channel_ids[0]
+
+
+def record_upload_approval(
+    *,
+    approval_record: Path,
+    permission_record: Path,
+    clip_id: str,
+    source_id: str,
+    expected_channel_id: str,
+    client_secrets: Path,
+    token_path: Path,
+) -> Path:
+    """Create an immutable approval only after OAuth identity and interactive owner confirmation."""
+    if not clip_id.strip() or not source_id.strip() or not expected_channel_id.strip():
+        raise ValueError("clip ID, source ID, and configured channel ID are required")
+    credentials = _authorize_google(client_secrets, token_path)
+    youtube = _build_youtube_client(credentials)
+    owner_identity = resolve_authenticated_channel_id(youtube)
+    if owner_identity != expected_channel_id:
+        raise PermissionError("OAuth channel does not match the configured destination channel")
+    permission = load_publish_permission(permission_record)
+    if permission.source_id != source_id or not permission.allows("publish", __import__("datetime").datetime.now(__import__("datetime").timezone.utc)):
+        raise PermissionError("active publish permission for this source is required")
+    confirmation = input(
+        f"Approve clip {clip_id!r} from source {source_id!r} for channel {owner_identity!r}? Type APPROVE to confirm: "
+    )
+    if confirmation.strip() != "APPROVE":
+        raise PermissionError("owner did not confirm this exact clip approval")
+    pending = UploadApproval(clip_id=clip_id, source_id=source_id)
+    decision = pending.decide(True, owner_identity)
+    return save_upload_approval(approval_record, decision)
+
+
 def upload_video(
     video_path: Path,
     body: dict[str, Any],
     *,
     client_secrets: Path,
     token_path: Path,
+    approval_record: Path,
+    permission_record: Path,
+    clip_id: str,
+    source_id: str,
+    expected_channel_id: str,
 ) -> dict[str, str]:
     try:
-        from googleapiclient.discovery import build
         from googleapiclient.http import MediaFileUpload
     except ImportError as exc:
         raise RuntimeError(
@@ -177,13 +245,25 @@ def upload_video(
         ) from exc
 
     credentials = _authorize_google(client_secrets, token_path)
-    youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)
+    youtube = _build_youtube_client(credentials)
+    owner_identity = resolve_authenticated_channel_id(youtube)
+    if owner_identity != expected_channel_id:
+        raise PermissionError("OAuth channel does not match the configured destination channel")
     mime_type, _ = mimetypes.guess_type(video_path.name)
     media = MediaFileUpload(
         str(video_path),
         mimetype=mime_type or "application/octet-stream",
         chunksize=8 * 1024 * 1024,
         resumable=True,
+    )
+    # Re-read both durable records immediately before constructing the upload request.
+    # This catches permission expiry/revocation and changed/missing approvals.
+    approval = load_upload_approval(approval_record)
+    permission = load_publish_permission(permission_record)
+    if approval.clip_id != clip_id or approval.source_id != source_id:
+        raise PermissionError("approval record does not match the exact clip and source")
+    require_upload_approval(
+        approval, permission, owner_identity=owner_identity
     )
     response = youtube.videos().insert(
         part="snippet,status",
@@ -212,8 +292,14 @@ def main() -> int:
     made_for_kids.add_argument("--not-made-for-kids", dest="made_for_kids", action="store_false")
     parser.add_argument("--client-secrets", type=Path, default=Path("client_secret.json"))
     parser.add_argument("--token", type=Path, default=Path("token.json"))
-    parser.add_argument("--upload", action="store_true", help="Perform an API upload; default is dry-run only.")
-    parser.add_argument("--owner-approved", action="store_true", help="Confirm that the final edit was reviewed and approved by the channel owner.")
+    action = parser.add_mutually_exclusive_group()
+    action.add_argument("--upload", action="store_true", help="Perform an API upload; default is dry-run only.")
+    action.add_argument("--record-approval", action="store_true", help="Authenticate the channel owner and create an immutable approval record; does not upload.")
+    parser.add_argument("--clip-id", default="", help="Exact clip identifier bound to the approval.")
+    parser.add_argument("--source-id", default="", help="Exact creator/source identifier bound to the approval.")
+    parser.add_argument("--channel-id", default="", help="Expected destination channel ID; must match the OAuth-selected channel.")
+    parser.add_argument("--approval-record", type=Path, help="Path for the immutable per-clip approval JSON.")
+    parser.add_argument("--permission-record", type=Path, help="Path to the current source permission JSON.")
     parser.add_argument("--confirm-rights", action="store_true", help="Confirm that the exact local video and all included assets are cleared for this upload.")
     args = parser.parse_args()
 
@@ -223,27 +309,50 @@ def main() -> int:
             args.video, args.rights_report, title=args.title,
             description=args.description, tags=tags, privacy=args.privacy,
             made_for_kids=args.made_for_kids,
-            owner_approved=args.owner_approved,
             rights_confirmed=args.confirm_rights,
             upload_requested=args.upload,
         )
+        if args.record_approval or args.upload:
+            if not all((args.clip_id, args.source_id, args.channel_id, args.approval_record, args.permission_record)):
+                raise ValueError("approval/upload requires --clip-id, --source-id, --channel-id, --approval-record, and --permission-record")
+        if args.record_approval:
+            saved = record_upload_approval(
+                approval_record=args.approval_record.expanduser(),
+                permission_record=args.permission_record.expanduser(),
+                clip_id=args.clip_id,
+                source_id=args.source_id,
+                expected_channel_id=args.channel_id,
+                client_secrets=args.client_secrets.expanduser(),
+                token_path=args.token.expanduser(),
+            )
+            print(json.dumps({
+                "status": "owner_approval_recorded",
+                "approval_file": str(saved),
+                "upload_performed": False,
+            }, indent=2))
+            return 0
         if not args.upload:
             print(json.dumps({
                 "status": "dry_run_validated",
                 "video_file": video.name,
                 "metadata": body,
                 "upload_performed": False,
-                "next_step": "Review metadata and rights, then rerun with --upload --owner-approved --confirm-rights if authorized.",
+                "next_step": "Review rights, create a separate OAuth-authenticated per-clip approval, then rerun with --upload --confirm-rights.",
             }, ensure_ascii=False, indent=2))
             return 0
         result = upload_video(
             video, body,
             client_secrets=args.client_secrets.expanduser(),
             token_path=args.token.expanduser(),
+            approval_record=args.approval_record.expanduser(),
+            permission_record=args.permission_record.expanduser(),
+            clip_id=args.clip_id,
+            source_id=args.source_id,
+            expected_channel_id=args.channel_id,
         )
         print(json.dumps({"status": "uploaded", **result}, indent=2))
         return 0
-    except (OSError, ValueError, PermissionError, RuntimeError, json.JSONDecodeError) as exc:
+    except (OSError, ValueError, PermissionError, RuntimeError, json.JSONDecodeError, EOFError) as exc:
         print(f"YouTube upload stopped: {exc}", file=sys.stderr)
         return 2
 
