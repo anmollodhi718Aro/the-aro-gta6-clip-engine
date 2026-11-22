@@ -879,3 +879,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Branch compare against PR #88 exact starting head `7a1d9a9a66a7b16ed0632eee10189554f20d2aa6`: 2 commits ahead, 0 behind.
 - Direct/local tests: NOT RUN. Exact-head CI: PENDING. This is mocked test coverage only; no credentials, live OAuth, network upload, real media, or publishing were used.
 - Status: IMPLEMENTED; TESTED and CI_VERIFIED NOT CLAIMED; independent owner review required.
+
+
+### ARO-CHAT-0043 exact-head CI reconciliation — 2026-11-22
+
+- PR [#90](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/90) exact head: `992ec8134913045df0b0a05d16a7c359925a370f`.
+- GitHub Actions run [45010139941](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45010139941) completed successfully on that exact head.
+- Ubuntu `tests` job `137170460481`: checkout, Python setup, FFmpeg/FFprobe install, compile, unit tests, and synthetic MP4 render/FFprobe verification all completed successfully.
+- Windows hosted `windows-tests` job `137170460767`: checkout, Python 3.11 setup, FFmpeg/FFprobe install, compile, complete unittest suite, and synthetic MP4 render/FFprobe verification all completed successfully.
+- Classification: CI_VERIFIED on the exact PR #90 head (Ubuntu + hosted Windows). This is not owner-device Windows verification, real GTA 6 media verification, uploader approval, or permission to upload/publish.
+- Local tests in this connector session: NOT RUN. Real media, live OAuth, network upload, and public publishing: NOT performed.
+- PR #90 remains OPEN / DRAFT / UNMERGED; owner review remains pending. PR #89 is a separate parallel draft with overlapping ARO-CHAT-0043 attribution; preserve both histories and do not merge or consolidate without owner direction.
