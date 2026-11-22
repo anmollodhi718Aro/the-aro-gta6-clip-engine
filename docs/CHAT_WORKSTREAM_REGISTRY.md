@@ -787,7 +787,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 
 ### Verification evidence
 - PR #82 (ARO-CHAT-0039) exact-head run #44999545798 passed on head `f0f1976eab6db2d428152eba220078e5a4893a9b`: Ubuntu and Windows hosted jobs each ran 297 tests (OK) and passed the synthetic MP4 render/FFprobe smoke test. This evidence belongs to PR #82, not PR #83.
-- PR #83 current head `8f90cd755ac424f708dc26420c9a3ac63cca7aa1` has no exact-head Actions run. Earlier PR #83 run #44999861430 on older head `a3ac82614d26d33d999cd177df42cd9f04a0dc97` failed because tests expected privacy-bound approval fields before the helper accepted them; the helper and tests were subsequently updated. Latest head remains CI-unverified; local test execution is not claimed.
+- PR #83's latest branch head has no exact-head Actions run; use the PR metadata for the current SHA. Earlier PR #83 run #44999861430 on older head `a3ac82614d26d33d999cd177df42cd9f04a0dc97` failed because tests expected privacy-bound approval fields before the helper accepted them; the helper and tests were subsequently updated. Latest head remains CI-unverified; local test execution is not claimed.
 - Owner-side OAuth setup and a real authorized upload remain separate acceptance steps. This implementation does not authorize a real upload.
 - First authorized GTA 6 MP4 acceptance remains BLOCKED pending source permission evidence, actual local rendering, FFprobe validation, playback and owner acceptance.
 
