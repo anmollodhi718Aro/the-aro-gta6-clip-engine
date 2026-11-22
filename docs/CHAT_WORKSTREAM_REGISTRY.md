@@ -871,3 +871,11 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Status | RESERVED; implementation and tests pending |
 | Scope boundary | Test-only follow-up stacked on PR #88. Do not modify PR #82, #83, #87, or #88 branches; no credentials, tokens, live OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action. |
 
+
+### ARO-CHAT-0043 implementation evidence
+- Added `test_staged_snapshot_hash_mismatch_blocks_before_api_insert` in `tests/test_youtube_upload.py`. The mocked media adapter mutates the staged file after its descriptor is opened; the real approval check must reject the changed SHA-256 before `youtube.videos().insert` is called.
+- Changed files in this follow-up: `tests/test_youtube_upload.py` and `docs/CHAT_WORKSTREAM_REGISTRY.md`; no production uploader code changed.
+- Reservation commit: `6b1fc6c030a62f040f6fcf84021d35a8c9598422`; regression-test commit: `4b82666e00a9c3c6c189fab5baa7070d21da7ed1`.
+- Branch compare against PR #88 exact starting head `7a1d9a9a66a7b16ed0632eee10189554f20d2aa6`: 2 commits ahead, 0 behind.
+- Direct/local tests: NOT RUN. Exact-head CI: PENDING. This is mocked test coverage only; no credentials, live OAuth, network upload, real media, or publishing were used.
+- Status: IMPLEMENTED; TESTED and CI_VERIFIED NOT CLAIMED; independent owner review required.
