@@ -200,7 +200,7 @@ Record each future grant with: identity, provider, chat ID, role, project, exact
 ### Restrictions retained
 
 - No real upload, public publishing, OAuth credential/token disclosure, credential rotation, production deployment, merge, retarget, destructive action, permission escalation or collaborator access change.
-- `--owner-approved` is not identity authentication. The authenticated YouTube channel must be resolved through the OAuth-backed API and matched to the configured destination channel.
+- `--owner-approved` is not identity authentication. Verify the signed Google OIDC subject and OAuth-backed YouTube channel ID against local owner configuration; bind both identities into each approval record.
 - Approval creation is a separate, non-upload action requiring exact per-clip typed confirmation. Existing approval records must not be overwritten.
 - Upload authorization must re-check the exact clip/source/file/channel binding and the live SQLite publish permission immediately before the API request.
 - All automated tests use mocked YouTube API clients and local SQLite fixtures; no test may make a real upload request.
