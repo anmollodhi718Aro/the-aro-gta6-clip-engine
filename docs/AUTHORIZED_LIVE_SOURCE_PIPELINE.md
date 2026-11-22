@@ -20,9 +20,22 @@ Creator permission authorizes only the granted source scopes. It does not author
 - `backend/app/approval.py`: immutable `needs_review` / `approved` / `rejected` decision model; final decisions cannot be changed in place; upload gate requires active publish scope.
 - `tests/test_live_sources_and_approval.py`: synthetic adapter tests for missing, mismatched, expired and revoked source grants; pending/rejected approvals; and independent publishing scope.
 
+## Authenticated local YouTube uploader gate
+
+The optional local uploader now has a fail-closed, OAuth-backed per-clip approval gate:
+
+- The active OAuth credentials are used with the official YouTube Data API `channels.list(mine=True)`. The returned channel ID must match the locally configured `ARO_YOUTUBE_CHANNEL_ID`; the configured ID is not accepted as proof by itself.
+- Run `--approve-clip --owner-approved` as a separate invocation. The CLI requires typing the exact `APPROVE <clip_id>` phrase after showing the authenticated destination channel. This operation records approval only and never uploads.
+- The durable approval record is created atomically without overwriting an existing record. It binds the reviewer/destination channel ID, clip ID, source ID, exact local video SHA-256, timezone-aware review timestamp and expiry (24 hours by default). The file is restricted to the current user where the platform supports file permissions.
+- The source-rights SQLite registry independently verifies the exact source's active `publish` scope for YouTube, including validity, expiry and revocation.
+- Before the upload request, the uploader rechecks the authenticated channel, exact approval and current rights; it repeats those checks immediately before `videos.insert`. The CLI `--owner-approved` and `--confirm-rights` flags are additional explicit intent checks, never identity authentication.
+- Tests use mocked YouTube API clients and temporary SQLite databases. No unit test performs a network upload.
+
+This is a local security gate, not evidence of a completed real upload or production OAuth operations. Configure the destination channel ID locally; never commit OAuth client secrets or token files. Owner setup and any real upload remain separate, explicit actions.
+
 ## Not production functionality
 
-This foundation does not implement OAuth screens, encrypted token storage, refresh/revocation webhooks, a real YouTube provider, video ingestion, durable review storage/UI, or an upload adapter. It does not extract protected stream URLs or bypass platform controls. A real provider integration must use its official supported API and media-access mechanism.
+The repository still does not implement OAuth screens, encrypted token storage, refresh/revocation webhooks, a real live-source provider, creator media-byte ingestion, or a persistent review UI. The optional local YouTube upload adapter is gated as described above and has not been used for a real upload. It does not extract protected stream URLs or bypass platform controls. A real provider integration must use its official supported API and media-access mechanism.
 
 ## Next increments
 
@@ -30,5 +43,5 @@ This foundation does not implement OAuth screens, encrypted token storage, refre
 2. Add encrypted token storage, refresh, expiry and revocation handling.
 3. Confirm the provider-supported recording/export handoff for actual media bytes.
 4. Persist review records and expose preview/approve/reject operations.
-5. Re-check creator permission and destination-channel permission immediately before upload.
+5. Expand owner-side OAuth lifecycle handling and retain current rights/approval rechecks immediately before upload.
 6. Default to private staging and require explicit owner confirmation for every public upload.
