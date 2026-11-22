@@ -1086,7 +1086,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Field | Record |
 |---|---|
 | Chat ID | ARO-CHAT-0052 |
-| Exact title | ARO-CHAT-0052 | PR #99 Exact-Head CI Closeout |
+| Exact title | ARO-CHAT-0052 \\| PR #99 Exact-Head CI Closeout |
 | Workstream ID | ARO-GTA-P1-52 |
 | Role | Exact-head CI evidence auditor + bounded documentation contributor |
 | Task | Verify PR #99's exact branch head against live GitHub Actions job and log evidence, then record the result and refresh owner-gated next actions without changing application behavior. |
