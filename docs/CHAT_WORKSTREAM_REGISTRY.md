@@ -786,6 +786,6 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - No credentials, tokens, real media, upload, public publication, merge, deployment or destructive action is included.
 
 ### Verification evidence
-- Implementation commits are recorded in the branch history; update this section with the exact final head SHA, local test counts, Actions run and per-platform results before claiming TESTED or CI_VERIFIED.
+- Implementation commits are recorded in the branch history; PR #83 was opened as Draft on the exact PR #80 head. The first CI attempt was cancelled during FFmpeg installation before compile/tests. A later branch update is awaiting its own Actions run; local test execution is not claimed.
 - Owner-side OAuth setup and a real authorized upload remain separate acceptance steps. This implementation does not authorize a real upload.
 - First authorized GTA 6 MP4 acceptance remains BLOCKED pending source permission evidence, actual local rendering, FFprobe validation, playback and owner acceptance.
