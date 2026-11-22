@@ -98,6 +98,8 @@ def preflight_content_pack(
     return {
         "status": status,
         "platform": platform.strip().lower(),
+        "clip_id": str(pack.get("clip_id", "")).strip() or None,
+        "source_id": str(pack.get("source_id", "")).strip() or None,
         "checked_at": (at or datetime.now(timezone.utc)).isoformat(),
         "assets": checked,
         "errors": errors,

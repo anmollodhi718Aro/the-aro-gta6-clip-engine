@@ -16,6 +16,7 @@ from typing import Any
 
 
 UPLOAD_SCOPE = "https://www.googleapis.com/auth/youtube.upload"
+IDENTITY_SCOPES = ["openid", "https://www.googleapis.com/auth/youtube.readonly", UPLOAD_SCOPE]
 DEFAULT_CATEGORY_ID = "20"  # Gaming
 
 
@@ -135,19 +136,21 @@ def _authorize_google(client_secrets: Path, token_path: Path):
     credentials = None
     if token_path.is_file():
         try:
-            credentials = Credentials.from_authorized_user_file(str(token_path), [UPLOAD_SCOPE])
+            credentials = Credentials.from_authorized_user_file(str(token_path), IDENTITY_SCOPES)
         except (OSError, ValueError):
             credentials = None
 
+    if credentials and hasattr(credentials, "has_scopes") and not credentials.has_scopes(IDENTITY_SCOPES):
+        credentials = None
     if credentials and credentials.expired and credentials.refresh_token:
         credentials.refresh(Request())
 
-    if not credentials or not credentials.valid:
+    if not credentials or not credentials.valid or not getattr(credentials, "id_token", None):
         if not client_secrets.is_file():
             raise FileNotFoundError(
                 f"OAuth client file not found: {client_secrets}. Create a Desktop OAuth client in Google Cloud and store it locally."
             )
-        flow = InstalledAppFlow.from_client_secrets_file(str(client_secrets), [UPLOAD_SCOPE])
+        flow = InstalledAppFlow.from_client_secrets_file(str(client_secrets), IDENTITY_SCOPES)
         credentials = flow.run_local_server(
             host="127.0.0.1", port=0, open_browser=True,
             authorization_prompt_message="Authorize THE ARO Studio in your browser: {url}",
@@ -161,12 +164,56 @@ def _authorize_google(client_secrets: Path, token_path: Path):
     return credentials
 
 
+
+def _oauth_client_id(client_secrets: Path) -> str:
+    """Read only the OAuth client ID needed to validate the OIDC audience."""
+    try:
+        config = json.loads(client_secrets.expanduser().read_text(encoding="utf-8"))
+        client_config = config.get("installed", config.get("web", {}))
+    except (OSError, json.JSONDecodeError, AttributeError) as exc:
+        raise PermissionError("OAuth client configuration is unreadable") from exc
+    client_id = client_config.get("client_id") if isinstance(client_config, dict) else None
+    if not isinstance(client_id, str) or not client_id.strip():
+        raise PermissionError("OAuth client ID is missing")
+    return client_id
+
+
+def require_report_publish_permissions(
+    report: dict[str, Any], rights_registry: Any, source_id: str
+) -> None:
+    """Recheck the clip source and all source-bound assets against current publish grants."""
+    if report.get("source_id") != source_id:
+        raise PermissionError("requested source_id does not match the rights report")
+    source_ids = {source_id}
+    for asset in report.get("assets", []):
+        if asset.get("status") == "scope_match_metadata_only":
+            asset_source_id = str(asset.get("source_id", "")).strip()
+            if not asset_source_id:
+                raise PermissionError("source-bound rights report asset is missing source_id")
+            source_ids.add(asset_source_id)
+    for current_source_id in sorted(source_ids):
+        rights_registry.authorize(current_source_id, "publish", "youtube")
+
+
+def _approval_confirmation_phrase(clip_id: str, privacy: str) -> str:
+    if privacy == "public":
+        return f"PUBLISH PUBLIC {clip_id}"
+    return f"APPROVE {privacy.upper()} {clip_id}"
+
+
 def upload_video(
     video_path: Path,
     body: dict[str, Any],
     *,
     client_secrets: Path,
     token_path: Path,
+    rights_report_path: Path,
+    approval_record_path: Path,
+    rights_db_path: Path,
+    clip_id: str,
+    source_id: str,
+    owner_approved: bool,
+    rights_confirmed: bool,
 ) -> dict[str, str]:
     try:
         from googleapiclient.discovery import build
@@ -176,8 +223,28 @@ def upload_video(
             'Google upload dependencies are missing. Install with: pip install -e ".[youtube-upload]"'
         ) from exc
 
+    from backend.app.youtube_owner_approval import (
+        verify_authenticated_channel_owner,
+        require_current_owner_approval,
+    )
+    from backend.app.rights_registry import SourceRightsRegistry
+    if owner_approved is not True or rights_confirmed is not True:
+        raise PermissionError("actual upload requires --owner-approved and --confirm-rights")
+    privacy = body.get("status", {}).get("privacyStatus")
+    if privacy not in {"private", "unlisted", "public"}:
+        raise PermissionError("upload privacy must be explicit")
+    expected_subject = os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "").strip()
+    expected_channel = os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "").strip()
+    if not expected_subject or not expected_channel:
+        raise PermissionError("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT and ARO_YOUTUBE_CHANNEL_ID must be configured")
+    oauth_client_id = _oauth_client_id(client_secrets)
     credentials = _authorize_google(client_secrets, token_path)
     youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)
+    owner = verify_authenticated_channel_owner(
+        credentials, youtube, oauth_client_id=oauth_client_id,
+        expected_google_subject=expected_subject, expected_channel_id=expected_channel,
+    )
+    rights_registry = SourceRightsRegistry(rights_db_path.expanduser())
     mime_type, _ = mimetypes.guess_type(video_path.name)
     media = MediaFileUpload(
         str(video_path),
@@ -185,10 +252,33 @@ def upload_video(
         chunksize=8 * 1024 * 1024,
         resumable=True,
     )
+    current_report = load_rights_report(rights_report_path)
+    if not isinstance(clip_id, str) or not clip_id.strip():
+        raise PermissionError("requested clip_id is required")
+    if not isinstance(source_id, str) or not source_id.strip():
+        raise PermissionError("requested source_id is required")
+    if current_report.get("clip_id") != clip_id or current_report.get("source_id") != source_id:
+        raise PermissionError("requested clip/source IDs do not match the rights report")
+    require_report_publish_permissions(current_report, rights_registry, source_id)
+    require_current_owner_approval(
+        approval_record_path, clip_id=clip_id, source_id=source_id,
+        video_path=video_path, owner=owner, privacy=privacy,
+        rights_registry=rights_registry,
+    )
+    # Repeat all identity, approval and current-rights checks immediately
+    # before the upload API side effect. Any mismatch fails closed.
+    owner = verify_authenticated_channel_owner(
+        credentials, youtube, oauth_client_id=oauth_client_id,
+        expected_google_subject=expected_subject, expected_channel_id=expected_channel,
+    )
+    require_current_owner_approval(
+        approval_record_path, clip_id=clip_id, source_id=source_id,
+        video_path=video_path, owner=owner, privacy=privacy,
+        rights_registry=rights_registry,
+    )
+    require_report_publish_permissions(current_report, rights_registry, source_id)
     response = youtube.videos().insert(
-        part="snippet,status",
-        body=body,
-        media_body=media,
+        part="snippet,status", body=body, media_body=media,
     ).execute(num_retries=3)
     video_id = str(response.get("id", "")).strip()
     if not video_id:
@@ -213,12 +303,22 @@ def main() -> int:
     parser.add_argument("--client-secrets", type=Path, default=Path("client_secret.json"))
     parser.add_argument("--token", type=Path, default=Path("token.json"))
     parser.add_argument("--upload", action="store_true", help="Perform an API upload; default is dry-run only.")
-    parser.add_argument("--owner-approved", action="store_true", help="Confirm that the final edit was reviewed and approved by the channel owner.")
+    parser.add_argument("--owner-approved", action="store_true", help="Additional operator acknowledgement; not identity authentication and not a substitute for the OAuth-bound per-clip approval record.")
     parser.add_argument("--confirm-rights", action="store_true", help="Confirm that the exact local video and all included assets are cleared for this upload.")
+    parser.add_argument("--approval-record", type=Path,
+                        help="OAuth-bound per-clip approval JSON; required for approval and upload.")
+    parser.add_argument("--clip-id", help="Stable clip ID to bind to the approval.")
+    parser.add_argument("--source-id", help="Source ID in the source-rights registry.")
+    parser.add_argument("--rights-db", type=Path, default=Path("aro_studio_data/source_rights.sqlite3"),
+                        help="SQLite source-rights registry.")
+    parser.add_argument("--approve-clip", action="store_true",
+                        help="Authenticate the channel owner and record explicit approval; does not upload.")
     args = parser.parse_args()
 
     try:
         tags = [tag.strip() for tag in args.tags.split(",") if tag.strip()]
+        if args.approve_clip and args.upload:
+            raise PermissionError("--approve-clip and --upload must be separate invocations")
         video, body = validate_upload(
             args.video, args.rights_report, title=args.title,
             description=args.description, tags=tags, privacy=args.privacy,
@@ -227,19 +327,82 @@ def main() -> int:
             rights_confirmed=args.confirm_rights,
             upload_requested=args.upload,
         )
+        if args.approve_clip:
+            if not args.clip_id or not args.source_id or args.approval_record is None:
+                raise PermissionError("--approve-clip requires --clip-id, --source-id and --approval-record")
+            approval_report = load_rights_report(args.rights_report)
+            if approval_report.get("clip_id") != args.clip_id or approval_report.get("source_id") != args.source_id:
+                raise PermissionError("approval clip/source IDs must match the rights report exactly")
+            from googleapiclient.discovery import build
+            from backend.app.rights_registry import SourceRightsRegistry
+            from backend.app.youtube_owner_approval import (
+                verify_authenticated_channel_owner, write_owner_approval_record,
+            )
+            credentials = _authorize_google(
+                args.client_secrets.expanduser(), args.token.expanduser()
+            )
+            youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)
+            expected_subject = os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "")
+            expected_channel = os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "")
+            if not expected_subject or not expected_channel:
+                raise PermissionError("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT and ARO_YOUTUBE_CHANNEL_ID must be configured")
+            oauth_client_id = _oauth_client_id(args.client_secrets.expanduser())
+            owner = verify_authenticated_channel_owner(
+                credentials, youtube, oauth_client_id=oauth_client_id,
+                expected_google_subject=expected_subject, expected_channel_id=expected_channel,
+            )
+            approval_rights_registry = SourceRightsRegistry(args.rights_db.expanduser())
+            require_report_publish_permissions(
+                approval_report, approval_rights_registry, args.source_id
+            )
+            expected_confirmation = _approval_confirmation_phrase(args.clip_id, args.privacy)
+            print(
+                "Authenticated channel: " + owner.channel_id + "\n"
+                "This records approval for this exact clip and source only. "
+                "It does not upload or publish.\n"
+                f"Type {expected_confirmation!r} to continue:",
+                file=sys.stderr,
+            )
+            confirmation = input("> ").strip()
+            if confirmation != expected_confirmation:
+                raise PermissionError("channel-owner approval confirmation did not match")
+            record = write_owner_approval_record(
+                args.approval_record.expanduser(), clip_id=args.clip_id,
+                source_id=args.source_id, video_path=video, owner=owner,
+                privacy=args.privacy, confirmed=True,
+            )
+            print(json.dumps({
+                "status": "owner_approval_recorded",
+                "upload_performed": False,
+                "approval": record,
+            }, ensure_ascii=False, indent=2))
+            return 0
         if not args.upload:
             print(json.dumps({
                 "status": "dry_run_validated",
                 "video_file": video.name,
                 "metadata": body,
                 "upload_performed": False,
-                "next_step": "Review metadata and rights, then rerun with --upload --owner-approved --confirm-rights if authorized.",
+                "next_step": "Review metadata and rights, obtain an OAuth-bound approval record, then rerun with --upload --owner-approved --confirm-rights --approval-record if authorized.",
             }, ensure_ascii=False, indent=2))
             return 0
+        if args.approval_record is None:
+            raise PermissionError("actual upload requires --approval-record")
+        if not args.clip_id or not args.source_id:
+            raise PermissionError("actual upload requires --clip-id and --source-id")
+        upload_report = load_rights_report(args.rights_report)
+        if upload_report.get("clip_id") != args.clip_id or upload_report.get("source_id") != args.source_id:
+            raise PermissionError("upload clip/source IDs must match the rights report exactly")
         result = upload_video(
-            video, body,
-            client_secrets=args.client_secrets.expanduser(),
+            video, body, client_secrets=args.client_secrets.expanduser(),
             token_path=args.token.expanduser(),
+            rights_report_path=args.rights_report.expanduser(),
+            approval_record_path=args.approval_record.expanduser(),
+            rights_db_path=args.rights_db.expanduser(),
+            clip_id=args.clip_id,
+            source_id=args.source_id,
+            owner_approved=args.owner_approved,
+            rights_confirmed=args.confirm_rights,
         )
         print(json.dumps({"status": "uploaded", **result}, indent=2))
         return 0
