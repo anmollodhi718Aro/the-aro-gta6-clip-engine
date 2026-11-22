@@ -2,6 +2,9 @@
 import json
 import tempfile
 import unittest
+import sys
+import types
+from unittest.mock import Mock, patch
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -11,6 +14,7 @@ from backend.app.youtube_owner_approval import (
     require_current_owner_approval,
     sha256_file,
     write_owner_approval_record,
+    verify_authenticated_channel_owner,
 )
 
 NOW = datetime(2026, 11, 22, 12, 0, tzinfo=timezone.utc)
@@ -52,6 +56,53 @@ class OwnerApprovalTests(unittest.TestCase):
         }
         args.update(overrides)
         require_current_owner_approval(**args)
+
+    def test_oauth_identity_and_channel_are_verified_with_mocked_google_clients(self):
+        google = types.ModuleType("google")
+        auth = types.ModuleType("google.auth")
+        transport = types.ModuleType("google.auth.transport")
+        requests = types.ModuleType("google.auth.transport.requests")
+        oauth2 = types.ModuleType("google.oauth2")
+        id_token = types.ModuleType("google.oauth2.id_token")
+        requests.Request = Mock
+        id_token.verify_oauth2_token = Mock(return_value={"sub": OWNER.google_subject, "iss": "https://accounts.google.com"})
+        google.auth = auth
+        auth.transport = transport
+        transport.requests = requests
+        google.oauth2 = oauth2
+        oauth2.id_token = id_token
+        credentials = types.SimpleNamespace(id_token="mock-signed-id-token")
+        youtube = Mock()
+        youtube.channels.return_value.list.return_value.execute.return_value = {"items": [{"id": OWNER.channel_id}]}
+        modules = {"google": google, "google.auth": auth, "google.auth.transport": transport, "google.auth.transport.requests": requests, "google.oauth2": oauth2, "google.oauth2.id_token": id_token}
+        with patch.dict(sys.modules, modules):
+            identity = verify_authenticated_channel_owner(credentials, youtube, oauth_client_id="client-id", expected_google_subject=OWNER.google_subject, expected_channel_id=OWNER.channel_id)
+        self.assertEqual(identity, OWNER)
+        id_token.verify_oauth2_token.assert_called_once()
+        youtube.channels.return_value.list.assert_called_once_with(part="id", mine=True)
+
+    def test_wrong_google_subject_fails_before_channel_lookup(self):
+        google = types.ModuleType("google")
+        auth = types.ModuleType("google.auth")
+        transport = types.ModuleType("google.auth.transport")
+        requests = types.ModuleType("google.auth.transport.requests")
+        oauth2 = types.ModuleType("google.oauth2")
+        id_token = types.ModuleType("google.oauth2.id_token")
+        requests.Request = Mock
+        id_token.verify_oauth2_token = Mock(return_value={"sub": "attacker", "iss": "accounts.google.com"})
+        google.auth, auth.transport, transport.requests = auth, transport, requests
+        google.oauth2, oauth2.id_token = oauth2, id_token
+        credentials = types.SimpleNamespace(id_token="mock-signed-id-token")
+        youtube = Mock()
+        modules = {"google": google, "google.auth": auth, "google.auth.transport": transport, "google.auth.transport.requests": requests, "google.oauth2": oauth2, "google.oauth2.id_token": id_token}
+        with patch.dict(sys.modules, modules):
+            with self.assertRaisesRegex(PermissionError, "not the configured channel owner"):
+                verify_authenticated_channel_owner(credentials, youtube, oauth_client_id="client-id", expected_google_subject=OWNER.google_subject, expected_channel_id=OWNER.channel_id)
+        youtube.channels.assert_not_called()
+
+    def test_missing_oidc_identity_token_fails_closed(self):
+        with self.assertRaisesRegex(PermissionError, "no OpenID Connect"):
+            verify_authenticated_channel_owner(types.SimpleNamespace(id_token=None), Mock(), oauth_client_id="client-id", expected_google_subject=OWNER.google_subject, expected_channel_id=OWNER.channel_id)
 
     def test_matching_authenticated_owner_clip_source_and_hash_pass(self):
         self.gate()
