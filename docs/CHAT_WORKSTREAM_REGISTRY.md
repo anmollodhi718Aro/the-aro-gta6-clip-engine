@@ -1478,3 +1478,19 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #177 review submissions and inline review threads were empty. Hosted Windows CI is not owner-device Windows verification; synthetic media is not real-media acceptance.
 - PR #177 is CI_VERIFIED on its merge ref. ARO-CHAT-0111's own follow-up branch CI remains PENDING until inspected independently. Report: `docs/ARO_CHAT_0111_PR177_CI_AUDIT.md`.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No application behavior, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0112 (2026-11-24)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0112 | ARO-CHAT-0112 | PR #179 Exact-Head CI Audit | ARO-GTA-P1-112 | Audit PR #179's own Actions run, Ubuntu/hosted-Windows logs, compile/tests, synthetic MP4/FFprobe output, checkout refs, and review state; documentation-only | `workstream/aro-chat-0112-pr179-exact-head-ci-audit-2026-11-24` / follow-up PR pending | IMPLEMENTED (documentation-only audit); PR #179 exact-head CI NOT VERIFIED / CANCELLED before compile; independent review PENDING | Starting SHA `e8bf24ee28420112c6c0a10b1d4f1f38ca84bbab`; run `45253730143`; Ubuntu job `137969904317`; Windows job `137969905022` |
+
+### ARO-CHAT-0112 evidence notes
+- PR #179 head `e8bf24ee28420112c6c0a10b1d4f1f38ca84bbab` is associated with Python CI run [#45253730143](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45253730143), run 1002, conclusion CANCELLED.
+- Ubuntu job `137969904317` and hosted-Windows job `137969905022` were both cancelled during FFmpeg/FFprobe installation. Compile, unit tests, and synthetic MP4/FFprobe steps were skipped; no test count or pass/fail result is available.
+- Job summaries returned no logs URL and no checkout SHA. Raw-head-only CI is NOT DEMONSTRATED. No local tests were run in this connector session.
+- PR #179 review submissions and inline review threads were empty. This audit's own branch CI is PENDING and must be inspected independently.
+- Report: `docs/ARO_CHAT_0112_PR179_CI_AUDIT.md`. Documentation-only; no application, uploader, test, renderer, media-ingestion, or workflow behavior changed.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. PR #179 is stacked on PR #177; do not merge independently of its base.
+- No retry, merge, retarget, deployment, credentials/OAuth access, real-media processing, upload, publishing, or destructive action was performed.
