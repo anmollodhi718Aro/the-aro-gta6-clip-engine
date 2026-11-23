@@ -298,3 +298,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Security fix: SourceRightsRegistry registration is append-only. Duplicate source IDs cannot overwrite grants or clear revocation; renewed grants use a new versioned source_id and new evidence.
 - Keep Issue #68 open and all live/public uploads disabled until this branch's exact-head CI and independent review are complete, owner integration is approved, and a device-specific upload limit is chosen.
 - Report: `docs/ARO_CHAT_0106_ISSUE68_SECURITY_CONSOLIDATION.md`. No credentials, live OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action.
+
+
+## Latest security continuation — ARO-CHAT-0109 (2026-11-24)
+- Current workstream: ARO-GTA-P1-109 / ARO-CHAT-0109 | Issue #68 Pre-OAuth Bounded Upload Staging.
+- Branch: `workstream/aro-chat-0109-issue68-pre-oauth-bounded-copy-2026-11-24`; base and starting SHA: PR #168 head `9ff25d7356d5badc39f448c9f5e939cda4048541`.
+- Finding: the oversized-source-growth regression previously reached `_authorize_google()` before the bounded staging copy. The implementation and regression now require the source to be staged and hashed before any OAuth interaction.
+- Bounded incremental copy rejects growth beyond `--max-upload-bytes`; immutable payload bytes are captured and the temporary staging directory is cleaned before OAuth.
+- Regression asserts OAuth is not called, no token file is created, no upload API request occurs, and staging is removed on rejection.
+- Local tests were not run in this connector session. Inspect this branch's own exact-head Ubuntu and hosted-Windows CI before claiming TESTED or CI_VERIFIED.
+- Keep PR #168 and this follow-up draft/open/unmerged. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled pending independent review and owner-controlled integration.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action is authorized by this workstream.
+- Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage. The owner must choose a device-appropriate upload-memory limit before any real upload.
