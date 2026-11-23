@@ -1948,3 +1948,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Final run conclusion, test count, synthetic validation, checkout SHA, and combined status remain NOT VERIFIED. Recheck before closeout; do not transfer predecessor evidence.
 - PR #212 reviews and inline threads were empty. Independent review NOT RECORDED. Local tests NOT RUN in this connector session.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0141 PR #212 CI closeout — 2026-11-24
+- PR #212 head `ab045dc715b68e00d6d50eb46ca19e18843fabb0` completed run [#45267652106](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45267652106), run 1047, with conclusion CANCELLED.
+- Ubuntu job #138018721020 checked out `refs/remotes/pull/212/merge` at merge SHA `2a673b7b0b8dc80027505f8f6d22544d768f8f9a`, merging PR #212 head into PR #211 head `197336f21775941e917cacbf06753b10f2f10982`. Compilation passed; 338 tests ran in 8.791s and reported OK; synthetic MP4/FFprobe validation was skipped after cancellation.
+- Hosted-Windows job #138018720335 checked out the same merge ref/SHA. FFmpeg/FFprobe installation was CANCELLED; compilation, tests, and synthetic render were SKIPPED.
+- Both jobs used merge-ref checkout; raw-head-only execution is NOT DEMONSTRATED. Same 338-test suite ran on Ubuntu only; no cross-platform matrix pass is claimed.
+- PR #212 is NOT CI_VERIFIED because the overall run was cancelled and hosted Windows did not reach compile/tests/render. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage.
+- PR #212 reviews and inline threads were empty; independent review NOT RECORDED. No workflow retry was initiated.
+- Follow-up PR [#214](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/214) is OPEN / DRAFT / UNMERGED; its own exact-head CI lookup returned zero runs. Recheck independently; do not transfer PR #212 evidence.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No credentials/tokens, OAuth, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
