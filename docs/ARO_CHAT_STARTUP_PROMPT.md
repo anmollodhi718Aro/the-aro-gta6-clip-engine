@@ -337,3 +337,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Static diff changed the regression test only; production uploader module unchanged. The test mutates the original source at the mocked insert boundary and confirms immutable captured bytes are uploaded.
 - PR #238 reviews/comments empty; independent review NOT RECORDED. Local tests NOT RUN in this connector session. Owner-device Windows and authorized real-media acceptance NOT VERIFIED.
 - Keep PR #238 draft/open/unmerged pending independent security review and owner-controlled integration. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live/public uploads disabled. Owner-selected device-appropriate `--max-upload-bytes` still required before any real upload. No OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0164 (2026-11-24)
+
+- Current workstream: ARO-CHAT-0164 / ARO-GTA-P1-164 | Require Explicit Device Upload Memory Limit.
+- Branch: `workstream/aro-chat-0164-explicit-upload-memory-limit-2026-11-24`; base and starting SHA: PR #238 head `cdcf7a4bef2728e3299e82bc88d376992ecec39d`.
+- Issue #68's owner-selected device-appropriate `--max-upload-bytes` gate was not enforced by the CLI: live upload could inherit the 256 MiB default. The follow-up now requires explicit selection for `--upload` and direct `upload_video()` calls.
+- Dry-run and approval-only commands retain the documented default; no default is accepted for a live upload.
+- Added regression tests for missing explicit limits and updated README. Report: `docs/ARO_CHAT_0164_EXPLICIT_UPLOAD_LIMIT.md`.
+- Local tests NOT RUN; this branch's own exact-head Ubuntu/hosted-Windows CI is PENDING. Do not transfer PR #238 run #45277658000.
+- No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment or destructive action.
+- Issue #68 remains OPEN. Keep live/public uploads disabled pending exact-head CI, independent security review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
