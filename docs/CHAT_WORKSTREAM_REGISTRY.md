@@ -1435,7 +1435,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Branch | `workstream/aro-chat-0164-explicit-upload-memory-limit-2026-11-24` |
 | Base / starting SHA | PR #238 head `cdcf7a4bef2728e3299e82bc88d376992ecec39d` |
 | Parent lineage | PR #83 → #87 → #88 → #92 → #93, consolidated through #168; bounded staging #176; test repair #238 |
-| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI PENDING; draft PR not yet opened |
+| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI PENDING; Draft PR [#242](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/242) opened at head `414fd4f7da94fdffcdd3261a5ea723b5f03290b3` |
 | Report | `docs/ARO_CHAT_0164_EXPLICIT_UPLOAD_LIMIT.md` |
 
 ### Change and safety
