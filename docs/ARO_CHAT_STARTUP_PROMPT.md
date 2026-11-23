@@ -574,3 +574,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #208's exact-head workflow lookup returned zero runs and combined status returned zero entries. Its own CI is PENDING / NOT VERIFIED; inspect independently when a run appears.
 - PR #208 review submissions, inline threads, and conversation comments were empty. Independent review is NOT RECORDED. Local tests NOT RUN in this connector session.
 - Do not transfer PR #207's successful CI result to PR #208. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
+
+
+## Live continuation baseline — refreshed 2026-11-24 (ARO-CHAT-0137)
+
+- Latest registered workstream: ARO-CHAT-0137 / ARO-GTA-P1-137, documentation-only zero-run exact-head audit of PR #208.
+- Branch: `workstream/aro-chat-0137-pr208-exact-head-ci-audit-2026-11-24`; base: `workstream/aro-chat-0136-pr207-exact-head-ci-audit-2026-11-24`; starting SHA: PR #208 head `9ca600ce809eac21feeaa775fe30fa8edfad28da`.
+- PR #208's current exact-head workflow lookup and combined status returned zero entries. Reviews, inline threads, and conversation comments were also empty.
+- No workflow jobs were available. Compilation, tests, synthetic MP4/FFprobe validation, and checkout refs remain NOT VERIFIED. Do not infer CI success or transfer predecessor results.
+- PR #208 remains OPEN / DRAFT / UNMERGED; GitHub reported `mergeable=false`. No merge/rebase/retarget was attempted.
+- Report: `docs/ARO_CHAT_0137_PR208_CI_AUDIT.md`. Recheck this exact PR head if Actions later appears; no workflow retry is authorized.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage.
+- Documentation-only; no credentials/tokens, OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, workflow retry, or destructive action.

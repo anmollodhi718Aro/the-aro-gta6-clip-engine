@@ -448,7 +448,6 @@
 
 
 ## ARO-CHAT-0025 reservation and live audit — 2026-11-20 13:10 IST
-
 | Field | Record |
 |---|---|
 | Chat ID | ARO-CHAT-0025 |
@@ -897,8 +896,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 
 ### ARO-CHAT-0045 implementation evidence
 - validate_upload() rejects non-positive limits and files already above the configured byte budget before approval/upload work proceeds.
-- The private snapshot copy enforces the same limit incrementally, so a source that grows after the initial stat is rejected before the full payload is read into memory.
-- upload_video() independently enforces the configured limit for direct callers; the CLI exposes --max-upload-bytes and defaults to 256 MiB.
+- The private snapshot copy enforces the same limit incrementally, so a source that grows after the initial stat is rejected before the full payload is read into memory.- upload_video() independently enforces the configured limit for direct callers; the CLI exposes --max-upload-bytes and defaults to 256 MiB.
 - Added tests for oversized preflight rejection, copy-time rejection, and invalid limits. Tests use synthetic bytes and never perform network uploads.
 - Documentation explains the memory trade-off and shows a lower 128 MiB example. The default is a conservative product default, not a device-specific memory guarantee; owner review should set an appropriate value before any real upload.
 - Local tests: NOT RUN in this connector session. Exact-head Ubuntu and hosted-Windows CI: PENDING.
@@ -1347,8 +1345,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #93 exact-head run #45020379946 passed compile, unit-test, and synthetic MP4/FFprobe steps on Ubuntu and hosted Windows. This is predecessor evidence only.
 
 ### Implementation
-- `SourceRightsRegistry.register()` is now append-only. Duplicate `source_id` raises `PermissionError`; it cannot overwrite an existing grant or clear `revoked_at`.
-- New permission grants require a new versioned `source_id`; downstream reports and approvals must use that new identifier.
+- `SourceRightsRegistry.register()` is now append-only. Duplicate `source_id` raises `PermissionError`; it cannot overwrite an existing grant or clear `revoked_at`.- New permission grants require a new versioned `source_id`; downstream reports and approvals must use that new identifier.
 - Registration audit details include grantor and evidence reference.
 - Regression tests cover duplicate active grant, duplicate revoked grant, new versioned grant, and upload-source growth after initial stat with staging cleanup and no OAuth/API call.
 
@@ -1797,8 +1794,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #205 remains OPEN / DRAFT / UNMERGED; GitHub reported `mergeable: false` at inspection.
 - Compilation, tests, synthetic MP4/FFprobe validation, and checkout refs are NOT VERIFIED because no workflow run or job was returned. No test count or pass/fail result is claimed.
 - Local tests NOT RUN in this connector session. No workflow retry was initiated.
-- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
-- Do not transfer PR #204 or any predecessor CI result to PR #205. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage or real-media acceptance.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.- Do not transfer PR #204 or any predecessor CI result to PR #205. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage or real-media acceptance.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
 
 
@@ -1869,3 +1865,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #208's own exact-head workflow lookup returned zero runs and combined status returned zero entries. CI is PENDING / NOT VERIFIED.
 - PR #208 review submissions, inline review threads, and conversation comments returned empty arrays. Independent review is NOT RECORDED. Local tests NOT RUN in this connector session.
 - Inspect PR #208's own exact-head Actions run and logs when available; do not transfer PR #207's successful CI evidence.
+
+## Latest continuation baseline — ARO-CHAT-0137 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-137 / ARO-CHAT-0137 | PR #208 exact-head CI audit.
+- Branch: `workstream/aro-chat-0137-pr208-exact-head-ci-audit-2026-11-24`; base branch: `workstream/aro-chat-0136-pr207-exact-head-ci-audit-2026-11-24`; starting SHA: PR #208 head `9ca600ce809eac21feeaa775fe30fa8edfad28da`.
+- PR #208's commit-associated workflow lookup returned zero runs; combined commit status returned zero status entries.
+- PR #208 review submissions, inline review threads, and conversation comments were empty. Independent review is NOT RECORDED.
+- No workflow jobs were available. Compilation, tests, synthetic MP4/FFprobe validation, and checkout refs are NOT VERIFIED. Local tests NOT RUN; no workflow retry initiated.
+- PR #208 remains OPEN / DRAFT / UNMERGED; GitHub reported `mergeable=false`. No merge, rebase, or retarget was attempted.
+- Report: `docs/ARO_CHAT_0137_PR208_CI_AUDIT.md`. This is a documentation-only zero-run evidence snapshot. Inspect the same PR #208 head again if a new Actions run appears; do not transfer predecessor CI results.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
