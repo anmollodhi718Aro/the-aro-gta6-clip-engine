@@ -24,6 +24,8 @@
 
 ## Registry
 
+| ARO-CHAT-0092 | ARO-CHAT-0092 \\| PR #150 Exact-Head CI Audit | ARO-GTA-P1-92 | Audit PR #150 current-head Actions run, Ubuntu/Windows logs, compile/tests, synthetic MP4/FFprobe results, and checkout refs; documentation-only | `workstream/aro-chat-0092-pr150-exact-head-ci-audit-2026-11-23` / pending PR | IMPLEMENTED; current PR #150 head CI_VERIFIED on merge ref (Ubuntu/Windows, 334 tests each); raw-head-only CI NOT DEMONSTRATED | Starting SHA `5fbd066a62ebafdafe30de05a7978a11522003b2`; run #45234590422; merge SHA `62850ae392e7555a893f427ff285667f1aabf8fc` |
+
 | Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
 | ARO-CHAT-0091 | ARO-CHAT-0091 \\| PR #147 Exact-Head CI Audit | ARO-GTA-P1-91 | Audit PR #147's exact-head Actions run, Ubuntu/Windows logs, compile/tests, synthetic MP4/FFprobe results, and checkout refs; documentation-only | `workstream/aro-chat-0091-pr147-exact-head-ci-audit-2026-11-23` / [PR #150](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/150) | IMPLEMENTED; PR #150 CI_VERIFIED on merge ref (Ubuntu/Windows, 334 tests each); raw-head-only CI NOT DEMONSTRATED | Unique ID ARO-CHAT-0091; parent PR #147; PR #150 exact head `5cb9e675b9b081bc1c45b55eaed1e3f470deddec`; run #45233266948 |
 |---|---|---|---|---|---|---|
