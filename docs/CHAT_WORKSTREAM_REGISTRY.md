@@ -1581,3 +1581,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Combined commit status returned zero entries; PR #193 review submissions and inline review comments were empty at inspection.
 - Local tests were NOT RUN. This follow-up branch's own exact-head CI must be inspected independently.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+
+
+### ARO-CHAT-0124 CI evidence refresh — 2026-11-24
+- PR #193 head `dbe91e01290c9f7aab01c09dff73d21d6c44d1bf` is associated with run [#45257323510](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45257323510), run 1018, SUCCESS.
+- Ubuntu job #137982495041 passed compilation, 338 tests (3.559s), and synthetic MP4/FFprobe validation.
+- Hosted-Windows job #137982494501 passed compilation, 338 tests (15.841s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/193/merge` at merge SHA `27e6ca95566ee9b103478867cd434546f4796104`; raw-head-only checkout is NOT DEMONSTRATED. The same 338-test suite ran on both platforms, not 676 unique tests.
+- Synthetic reports confirm locally generated test pattern/tone, 8.0-second source, 4.0-second output, no GTA 6 or third-party media, publishing disabled, and manual review required.
+- PR #193 is CI_VERIFIED on the merge ref only. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- PR #193 review submissions and inline comments were empty; combined status returned zero entries. Local tests were NOT RUN in this connector session.
+- Follow-up draft PR #195 is OPEN / DRAFT / UNMERGED. Its own head had zero associated workflow runs at inspection; inspect separately. No CI result transfers from PR #193 to PR #195.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
