@@ -289,3 +289,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 ### ARO-CHAT-0102 CI evidence refresh — 2026-11-24
 - PR #161 head run #45242621235 (run 970) concluded CANCELLED overall. Ubuntu job #137930984235 succeeded through compile, unit-test, and synthetic MP4 validation steps; exact test count/log text and checkout SHA remain unverified. Hosted-Windows job #137930984793 was cancelled during the unit-test step; synthetic render was skipped. PR #161 is not CI_VERIFIED across the matrix.
 - Follow-up PR #162 is documentation-only and its own CI must be inspected independently. Do not transfer PR #161's Ubuntu success or Windows cancellation to the follow-up branch.
+
+
+## Latest continuation baseline — ARO-CHAT-0104 (2026-11-24)
+- Active workstream: ARO-GTA-P1-104 / ARO-CHAT-0104 | exact-head CI audit of PR #162.
+- Branch: workstream/aro-chat-0104-pr162-exact-head-ci-audit-2026-11-24; base and starting SHA: fa3223c5ac7f46d261cd121911aedfd77c5c498e.
+- ARO-CHAT-0103 branch name was already reserved by another branch and was left untouched; ARO-CHAT-0104 was allocated after duplicate checks.
+- PR #162 head fa3223c5ac7f46d261cd121911aedfd77c5c498e had no commit-associated workflow runs at inspection. Re-fetch exact-head runs and both platform logs before claiming compile/tests/render/checkout evidence.
+- Report: docs/ARO_CHAT_0104_PR162_CI_AUDIT.md. Documentation-only.
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; no merge, retarget, deployment, upload, publishing, credential/OAuth access, or destructive action is authorized by this audit.
