@@ -44,3 +44,15 @@ Re-fetch run #45269230348 and both jobs after completion. Inspect decoded logs f
 - Ubuntu source compilation passed; 338 tests passed in 4.303s. Synthetic first-clip validation passed using a locally generated pattern and tone, with `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. The mocked approval evidence records `upload_performed=false`.
 - Hosted-Windows job #138024276330 has completed setup, checkout, Python 3.11, FFmpeg/FFprobe installation, and compilation; its 338-test suite was still IN_PROGRESS at this refresh, and synthetic render had not started.
 - Combined status still returned zero entries. Reviews and comments remain empty. Do not claim matrix CI_VERIFIED until hosted Windows finishes and the overall run concludes successfully.
+
+
+## Final exact-head CI closeout — 2026-11-24
+- Python CI run [#45269230348](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45269230348), run 1062, completed SUCCESS.
+- Ubuntu job #138024276868 completed SUCCESS: compilation passed; 338 tests passed in 4.303s; synthetic MP4 render and FFprobe validation passed.
+- Hosted-Windows job #138024276330 completed SUCCESS: compilation passed; the same 338 tests passed in 15.093s; synthetic MP4 render and FFprobe validation passed. These are the same 338 test cases executed on two platforms, not 676 unique tests.
+- Both jobs checked out `refs/remotes/pull/221/merge` at merge SHA `cba11074982e05c4c5c725c5292223a9a129cf6c`, merging PR #221 head `eee181efc37f040b77e91df416a77983d7c7c687` into base `47072a6ac9b42d48d273176dc7e04fe019779fd7`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both synthetic reports use a locally generated test pattern and tone; `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. The mocked upload/approval fixture records `upload_performed=false`.
+- Combined commit status returned zero entries even though both workflow jobs and the overall run concluded SUCCESS. Reviews, inline review threads, and conversation comments remained empty; independent review NOT RECORDED.
+- PR #221 remains OPEN / DRAFT / UNMERGED; GitHub reported `mergeable=false` at inspection. CI_VERIFIED applies to the PR merge ref only. WINDOWS_VERIFIED and REAL_MEDIA_VERIFIED remain NOT VERIFIED.
+- Local tests NOT RUN in this connector session. Hosted-Windows CI is not owner-device Windows verification; synthetic media is not GTA 6 footage or real-media acceptance.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
