@@ -1963,3 +1963,29 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #213 has a separate pre-existing ARO-CHAT-0142 branch; PRs #213 and #214 both show ARO-CHAT-0141 in their visible attribution. This workstream does not modify either.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes; no credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0144 PR #216 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0144 |
+| Exact title | ARO-CHAT-0144 | PR #216 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-144 |
+| Scope | Documentation-only audit of PR #216's own Actions runs, combined status, Ubuntu/hosted-Windows jobs if available, compile/tests, synthetic MP4/FFprobe validation, checkout refs, and review state |
+| Branch | `workstream/aro-chat-0144-pr216-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #216 head `d3a3e3dd656eb28961003026d1906137a344eca7` |
+| Parent PR | [PR #216](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/216) |
+| Report | `docs/ARO_CHAT_0144_PR216_CI_AUDIT.md` |
+| Status | IMPLEMENTED (documentation snapshot); PR #216 exact-head CI PENDING / NOT VERIFIED; independent review NOT RECORDED |
+| Safety | Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes; no credentials, OAuth, real media, upload, publishing, workflow retry, merge, retarget, deployment, or destructive action. |
+
+### Evidence at inspection
+- PR #216 head `d3a3e3dd656eb28961003026d1906137a344eca7` returned zero commit-associated Actions workflow runs.
+- Combined commit status returned zero entries; no CI pass is claimed.
+- PR #216 review submissions, inline review threads, and conversation comments returned empty arrays. Independent review NOT RECORDED.
+- No jobs were available. Compilation, tests, synthetic MP4/FFprobe validation, and checkout refs are NOT VERIFIED. Local tests NOT RUN.
+- PR #216 remains OPEN / DRAFT / UNMERGED; GitHub reported `mergeable=false`.
+- No predecessor CI evidence was transferred. No workflow retry was initiated.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
