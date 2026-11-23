@@ -1280,3 +1280,32 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Full review note: `docs/ISSUE_68_PR93_SECURITY_REVIEW.md`. This is a bounded static pass, not exhaustive audit, independent security sign-off, legal determination, local test run, owner-device verification, or real-media acceptance.
 - Issue #68 remains OPEN / UNASSIGNED. Preserve overlapping PR histories and require owner assignment plus explicit canonical PR selection or approved consolidation before implementation changes. Keep live uploads/public publishing disabled.
 - No application code/tests changed; no OAuth credentials/tokens, live OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action occurred.
+
+
+## ARO-CHAT-0058 PR #93 cumulative upload-limit regression coverage — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0058 |
+| Exact title | ARO-CHAT-0058 | PR #93 Cumulative Upload-Limit Regression Tests |
+| Workstream ID | ARO-GTA-P1-58 |
+| Role | Bounded test contributor + QA |
+| Task | Close the R1 multi-read cumulative-copy-limit coverage gap and strengthen the existing R2 direct-call guard test to prove rejection before OAuth and YouTube API client setup. |
+| Branch | workstream/aro-chat-0058-pr93-copy-limit-regressions-2026-11-23 |
+| Base | PR #105 head `aed4fd8a03f8bce5aac4cdf0a2e42c91606cd57d` |
+| Starting SHA | `aed4fd8a03f8bce5aac4cdf0a2e42c91606cd57d` |
+| Status | IMPLEMENTED (tests only); local tests NOT RUN; exact-head CI PENDING |
+| Changed files | tests/test_youtube_upload.py; docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No uploader implementation changes, credentials/tokens, live OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Changes
+- Added a deterministic two-read helper regression: the first four-byte chunk is accepted, the following one-byte chunk is rejected under a four-byte ceiling, and the snapshot remains at or below the configured limit.
+- Added an upload-path regression that simulates a file growing after the initial size check, forces a four-byte read chunk, verifies the later chunk is rejected, confirms the temporary staging directory is removed, and asserts no upload API insert occurs.
+- Strengthened the existing direct-call oversized-file test. The current branch already contained a basic direct-call regression from the PR #96 lineage; this update now also asserts that YouTube API client construction and media-upload object construction are not reached, OAuth is not invoked, and no token file is created.
+- All new coverage uses synthetic local bytes and mocked Google/YouTube modules. No network upload is possible in these tests.
+
+### Verification
+- Local tests: NOT RUN in this connector session.
+- Exact-head GitHub Actions: PENDING; inspect compile, full unittest, and synthetic MP4/FFprobe jobs before claiming CI_VERIFIED.
+- This workstream changes tests and registry documentation only; it does not alter uploader runtime behavior.
+- Issue #68 remains OPEN / UNASSIGNED. This test-only branch does not select a canonical uploader PR or authorize integration. Keep live uploads/public publishing disabled.
