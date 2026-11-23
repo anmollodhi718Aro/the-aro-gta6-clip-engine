@@ -41,3 +41,17 @@ Date: 2026-11-23
 - PR #139 is a duplicate ARO-CHAT-0085 / ARO-GTA-P1-85 submission on a different branch; no duplicate was modified.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads and public publishing disabled until the project owner assigns an implementation owner and selects one canonical authenticated-uploader implementation or approves a consolidation plan.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## Final exact-head CI evidence — ARO-CHAT-0086 (2026-11-23)
+
+- PR #142 head `807c2472705a7bebfa0c8f1b2b6f756d5c74b0ff` is associated with Python CI run [45199074333](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45199074333), which completed SUCCESS.
+- Ubuntu job `137777349883`: setup, checkout, Python setup, FFmpeg/FFprobe installation, compilation, unit tests, and synthetic MP4/FFprobe validation all succeeded. Decoded log: `Ran 334 tests in 4.903s`; `OK`.
+- Hosted Windows job `137777350647`: setup, checkout, Python 3.11 setup, FFmpeg/FFprobe installation, compilation, full unittest suite, and synthetic MP4/FFprobe validation all succeeded. Decoded log: `Ran 334 tests in 18.509s`; `OK`.
+- Both platforms ran the same 334-test suite, not 668 unique tests.
+- Both jobs checked out merge ref `refs/remotes/pull/142/merge` at merge commit `09e8a222e51c5da124b0bac71a7309d4e54231fd`, merging PR #142 head `807c2472705a7bebfa0c8f1b2b6f756d5c74b0ff` into base `2340917095a3d8a9c275c6659d56a3c18912d8a8`. This is PR merge-ref CI associated with the exact head, not a direct raw-head checkout.
+- Both synthetic reports passed and state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. Synthetic media is not GTA 6 footage and does not establish real-media acceptance.
+- Hosted Windows CI is not owner-device Windows verification. Local tests were not run in this connector session.
+- The workflow emitted a Node.js 20 deprecation warning for actions currently running under Node.js 24; it did not fail either job.
+- Status: documentation audit IMPLEMENTED; PR #142-associated merge-ref CI successful on Ubuntu and hosted Windows; raw-head-only checkout not demonstrated; REAL_MEDIA_VERIFIED / COMPLETE not claimed.
+- Safety gates unchanged: PR #142 remains draft/open/unmerged; Issue #68 remains OPEN / UNASSIGNED; no real media, OAuth session, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
