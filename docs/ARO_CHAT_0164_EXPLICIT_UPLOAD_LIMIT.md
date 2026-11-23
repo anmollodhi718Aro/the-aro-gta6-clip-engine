@@ -38,4 +38,4 @@ The upload CLI and direct `upload_video()` API previously inherited a 256 MiB de
 ## Pull request status
 - Draft PR: [#242](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/242).
 - Current PR head: `414fd4f7da94fdffcdd3261a5ea723b5f03290b3`.
-- Commit-associated exact-head CI lookup returned no run at the latest inspection; CI remains PENDING.
+- PR #242 exact-head Actions run [#45278418962](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45278418962) (run 1115) is QUEUED at inspection; jobs/logs are not yet available. CI remains PENDING.
