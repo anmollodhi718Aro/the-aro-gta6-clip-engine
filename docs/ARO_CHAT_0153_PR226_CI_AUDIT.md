@@ -44,3 +44,16 @@ Independently audit PR #226's own commit-associated Actions runs, Ubuntu and hos
 
 ## Follow-up
 Re-fetch PR #226's exact head and inspect any newly associated workflow run, every job and log, checkout refs, combined status, and review state. Any head change requires a fresh audit. Do not infer success from a queued run, an empty combined-status response, or a predecessor PR's CI.
+
+
+## Recheck / CI attribution closeout — 2026-11-24
+
+- PR #226 currently reports head `d8433a2c31dc0634d5fc9a853b82c8e061ced0ab`, base `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`, and remains OPEN / DRAFT / UNMERGED. The PR body’s earlier “current branch head” note is stale; the live PR metadata is authoritative for this inspection.
+- Commit-associated lookup for that head returned two successful Python CI runs: [#45270942827](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45270942827) and [#45270941723](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45270941723). However, both logs show checkout merge commit `d07abf4`: “Merge d8433a2c31dc0634d5fc9a853b82c8e061ced0ab into 894bf28f07b2bb5eccbbb393f63425da5e64c0da”. That base is not PR #226’s current base (`e03528ebbcb66a44d2b3f438fd3a2f115ab67acd)); the evidence is for the same source head merged into a different base and MUST NOT be represented as PR #226’s exact merge-ref CI.
+- The two observed runs have identical successful Ubuntu/hosted-Windows matrix outcomes: each platform compiled successfully, ran 338 tests (Ubuntu 4.377s; Windows 11.136s), and passed synthetic MP4/FFprobe validation. These are the same 338 tests on two platforms, not 676 unique tests.
+- Both synthetic reports identify locally generated pattern/tone only, 8.0-second source, 4.0-second output, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. Mocked approval output explicitly reports `upload_performed=false`; no live upload occurred.
+- PR #226 combined status returned zero entries; review submissions, inline threads, and conversation comments were empty. Independent review NOT RECORDED. PR #226 remains OPEN / DRAFT / UNMERGED.
+- **Disposition:** PR #226 exact-base merge-ref CI remains PENDING / NOT VERIFIED. The successful runs for the alternate base do not satisfy the exact PR #226 audit. Raw-head-only CI is also NOT DEMONSTRATED. Local tests were NOT RUN in this connector session.
+- PR #229 (this audit branch) was OPEN / DRAFT / UNMERGED at inspection; its own head had zero associated workflow runs before this documentation update. Its post-update CI must be inspected independently.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- No workflow retry, credential/OAuth action, real-media use, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
