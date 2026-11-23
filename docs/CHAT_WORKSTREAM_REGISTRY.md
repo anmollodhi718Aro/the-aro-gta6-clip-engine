@@ -1680,3 +1680,31 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0128_PR199_CI_AUDIT.md`. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
+
+
+## Live continuation baseline — refreshed 2026-11-24 (ARO-CHAT-0129)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0129 |
+| Exact title | ARO-CHAT-0129 | PR #200 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-129 |
+| Scope | Independently audit PR #200's own commit-associated Actions run, Ubuntu/hosted-Windows compile/tests, synthetic MP4/FFprobe evidence, checkout refs, combined status, and review state; documentation-only |
+| Branch | `workstream/aro-chat-0129-pr200-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #200 head `d8f345b6c914fc116b6f2e402b3d82d52c247720` |
+| Parent PR | [PR #200](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/200) |
+| Report | `docs/ARO_CHAT_0129_PR200_CI_AUDIT.md` |
+| Status | IMPLEMENTED (audit report); PR #200 CI_VERIFIED on merge ref only; independent review NOT RECORDED; this follow-up branch's own CI PENDING |
+| Safety | Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes; no credentials, OAuth, real media, upload, publishing, workflow retry, merge, retarget, deployment, or destructive action. |
+
+### Evidence
+- PR #200 head `d8f345b6c914fc116b6f2e402b3d82d52c247720` is associated with Python CI run [#45258999909](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45258999909), run 1034, SUCCESS.
+- Ubuntu job #137988500173 passed compilation, 338 tests (4.274s), and synthetic MP4/FFprobe validation.
+- Hosted-Windows job #137988499863 passed compilation, 338 tests (18.980s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/200/merge` at merge SHA `ebeca96b7bd25b3c2a5eab61426d864f2b23b09c`, merging PR #200 head into base `ef342e3e4bf91a2d9f55ced0983166ab4772f1a7`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both platforms ran the same 338-test suite, not 676 unique tests. Synthetic reports used local pattern/tone only, 8.0-second source and 4.0-second output, no GTA 6/third-party media, publishing disabled, and manual review required.
+- Combined commit status returned zero entries. PR #200 review submissions, inline threads, and conversation comments were empty. Independent review is NOT RECORDED. Local tests were NOT RUN in this connector session.
+- PR #200 is CI_VERIFIED on merge ref only. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage or real-media acceptance.
+- Report: `docs/ARO_CHAT_0129_PR200_CI_AUDIT.md`. This follow-up branch's own exact-head CI must be inspected independently; do not transfer PR #200's CI result.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
