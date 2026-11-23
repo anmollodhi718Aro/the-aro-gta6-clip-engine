@@ -335,3 +335,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #167 review submissions and inline review threads were empty; combined commit status returned no entries. The successful commit-associated Actions run is the CI evidence.
 - Report: `docs/ARO_CHAT_0108_PR167_CI_CLOSEOUT.md`. This workstream changes documentation only; its own exact-head CI remains PENDING until inspected.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth session, real media, network upload, merge, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0110 (2026-11-24)
+- Active workstream: ARO-GTA-P1-110 / ARO-CHAT-0110, documentation-only exact-head CI audit of PR #172; branch `workstream/aro-chat-0110-pr172-exact-head-ci-audit-2026-11-24`; base and starting SHA `c385c729bfb6ca6d62861ad94f01d83e2d38bbc4` (PR #172 head).
+- PR #172's associated Python CI run #45252856603 (run 992) completed SUCCESS. Ubuntu job #137966816646 passed compilation, 334 tests (4.975s), and synthetic MP4/FFprobe validation. Hosted-Windows job #137966816226 passed compilation, 334 tests (11.244s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/172/merge` at merge SHA `b011481230fa6e93c34d196c8bf78eef65bfa6aa`. Raw-head-only CI is NOT DEMONSTRATED. The same 334-test suite ran on both platforms, not 668 unique tests.
+- Synthetic reports confirm no GTA 6 or third-party media, publishing disabled, and manual review required. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- PR #172 had no review submissions or inline review threads. This follow-up branch's own exact-head CI remains PENDING until inspected independently.
+- Report: `docs/ARO_CHAT_0110_PR172_CI_AUDIT.md`. Documentation-only; no application/uploader/test/workflow behavior changed.
+- ARO-CHAT-0109 was already reserved by existing branches; it was not reused. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action was performed.
