@@ -771,3 +771,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Combined status, PR #225 reviews, inline threads, and conversation comments returned no entries. Independent review NOT RECORDED.
 - Report: `docs/ARO_CHAT_0152_PR225_CI_AUDIT.md`. The result applies only to PR #225's audited merge ref and must not be transferred to PR #226.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0152 PR #225 exact-head CI closeout — 2026-11-24
+- PR #225 head `894bf28f07b2bb5eccbbb393f63425da5e64c0da` completed run #45270102698 (run 1069), SUCCESS.
+- Ubuntu and hosted Windows each passed compilation, the same 338-test suite, and synthetic MP4/FFprobe validation. Runtime: 3.720s Ubuntu and 14.950s Windows.
+- Both jobs checked out `refs/remotes/pull/225/merge` at merge SHA `cc181eed7c60443ffb2f47bfa7093341d7402c21`; raw-head-only checkout is NOT DEMONSTRATED. Count this as 338 shared tests executed on two platforms, not 676 unique tests.
+- Synthetic test pattern/tone only; 8-second source, 4-second output; no GTA 6/third-party media; publishing disabled; manual review required; mocked approval fixture reports `upload_performed=false`.
+- Combined status returned zero entries. Reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #225 remains OPEN / DRAFT / UNMERGED.
+- CI_VERIFIED applies to the merge ref only. Owner-device Windows, raw-head-only CI, independent review, and real-media acceptance remain NOT VERIFIED. Local tests NOT RUN.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
