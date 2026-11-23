@@ -2239,3 +2239,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Matrix CI, Windows tests/render, checkout refs, raw-head-only execution, owner-device Windows, and real-media acceptance are NOT VERIFIED. Local tests NOT RUN; no workflow retry initiated.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes. No credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0156 PR #231 exact-head CI closeout — 2026-11-24
+- Workstream: ARO-CHAT-0156 / ARO-GTA-P1-156; audit PR [#232](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/232); parent PR [#231](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/231).
+- PR #231 head `558705cad949bb6e187dcb35f2a06fd20fcb0d92` passed associated Python CI run [#45274128757](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45274128757), run 1086.
+- Ubuntu job #138041361665 passed compilation, 338 tests (4.922s), and synthetic MP4/FFprobe validation. Hosted-Windows job #138041362059 passed compilation, the same 338 tests (15.748s), and synthetic MP4/FFprobe validation. These are 338 shared tests on two platforms, not 676 unique tests.
+- Both jobs checked out `refs/remotes/pull/231/merge` at merge SHA `ca3e66d8173d2f058d2084e6d74d21ce5711fa4e`, merging PR #231 head into base `17451dd789aa2c7e1f18893d9f7f2e6b0d8dc9e1`. Raw-head-only CI is NOT DEMONSTRATED.
+- Synthetic pattern/tone only; `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`, mocked `upload_performed=false`.
+- PR #231 combined status returned zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
+- Audit PR #232 contains documentation-only updates to the audit report, registry, and startup prompt. Its branch-ref workflow lookup and combined status returned zero entries; PR #232's own CI is PENDING / NOT VERIFIED. Reviews, inline threads, and comments were empty. Do not transfer PR #231 CI to PR #232.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Local tests NOT RUN in this connector session.
+- No credentials/OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
