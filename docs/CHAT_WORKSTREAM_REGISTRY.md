@@ -1792,3 +1792,37 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #125 remains OPEN / DRAFT / UNMERGED; this closeout does not authorize merge or integration.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0075 PR #126 exact-head CI cancellation closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0075 |
+| Exact title | ARO-CHAT-0075 | PR #126 Exact-Head CI Cancellation Closeout |
+| Workstream ID | ARO-GTA-P1-75 |
+| Role | Exact-head CI evidence auditor + documentation-only contributor |
+| Task | Inspect PR #126's exact-head Actions run, both platform job steps, and decoded logs; record cancellation evidence without changing application behavior. |
+| Branch | `workstream/aro-chat-0075-pr126-exact-head-ci-closeout-2026-11-23` |
+| Parent PR / reviewed head | PR #126 / `d953f0b328b3d1e12299dbb4d7d2929d36392cce` |
+| Base / starting SHA | PR #126 branch head `d953f0b328b3d1e12299dbb4d7d2929d36392cce` |
+| Status | IMPLEMENTED (documentation-only); PR #126 exact-head CI NOT VERIFIED because both jobs were cancelled before compile/tests; this follow-up branch CI pending |
+| Changed files | docs/ARO_CHAT_0075_PR126_CI_CLOSEOUT.md; docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head CI evidence
+
+- PR #126 exact head `d953f0b328b3d1e12299dbb4d7d2929d36392cce` is associated with Actions run [45182370227](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45182370227).
+- Ubuntu job `137719135955` (`tests`) and hosted Windows job `137719135383` (`windows-tests`) both concluded CANCELLED.
+- Both jobs completed runner setup, checkout, and Python setup. Both were cancelled during the `Install FFmpeg and FFprobe` step.
+- Windows decoded log shows Chocolatey starting, followed by `The operation was canceled.` Ubuntu decoded log shows the FFmpeg package installation progressing through package setup, followed by `The operation was canceled.` The available evidence does not establish who or what initiated cancellation or a root cause.
+- Compile, unit-test, and synthetic MP4/FFprobe steps were SKIPPED on both platforms. No test count, test pass/fail result, or synthetic-render result is available for this run.
+- Classify this as an infrastructure/dependency-install cancellation, not a code-test failure and not a pass. Re-run the exact PR head after the cancellation cause is understood or the dependency-install step can complete.
+- Local tests were not run in this connector session.
+
+### Safety and owner gates
+
+- PR #126 remains OPEN / DRAFT / UNMERGED; this closeout does not authorize merging or integration.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
+- Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
