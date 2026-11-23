@@ -209,23 +209,29 @@ class YouTubeUploadTests(unittest.TestCase):
                         "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
                     }):
                         with patch("backend.app.youtube_upload._authorize_google") as authorize:
-                            with self.assertRaisesRegex(ValueError, "configured upload limit"):
-                                upload_video(
-                                    self.video,
-                                    {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
-                                    client_secrets=self.client_secrets,
-                                    token_path=self.root / "token.json",
-                                    rights_report_path=self.report,
-                                    approval_record_path=self.root / "approval.json",
-                                    rights_db_path=self.root / "source_rights.sqlite3",
-                                    clip_id="clip-1",
-                                    source_id="source-1",
-                                    owner_approved=True,
-                                    rights_confirmed=True,
-                                    max_upload_bytes=4,
-                                )
+                            # Authentication is intentionally mocked: the regression
+                            # under test is the bounded staging copy, not OIDC.
+                            with patch(
+                                "backend.app.youtube_owner_approval.verify_authenticated_channel_owner",
+                                return_value=self.owner,
+                            ):
+                                with self.assertRaisesRegex(ValueError, "configured upload limit"):
+                                    upload_video(
+                                        self.video,
+                                        {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                                        client_secrets=self.client_secrets,
+                                        token_path=self.root / "token.json",
+                                        rights_report_path=self.report,
+                                        approval_record_path=self.root / "approval.json",
+                                        rights_db_path=self.root / "source_rights.sqlite3",
+                                        clip_id="clip-1",
+                                        source_id="source-1",
+                                        owner_approved=True,
+                                        rights_confirmed=True,
+                                        max_upload_bytes=4,
+                                    )
 
-        authorize.assert_not_called()
+        authorize.assert_called_once()
         youtube.videos.return_value.insert.assert_not_called()
         self.assertEqual(len(created_dirs), 1)
         self.assertFalse(created_dirs[0].exists())
