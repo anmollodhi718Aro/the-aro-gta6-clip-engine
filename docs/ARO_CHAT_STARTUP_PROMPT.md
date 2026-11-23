@@ -761,3 +761,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Synthetic test pattern/tone only; no GTA 6 or third-party media; publishing disabled; manual review required; mocked approval fixture reports `upload_performed=false`.
 - Combined status and PR reviews/inline threads/comments returned no entries. Independent review NOT RECORDED. Re-fetch this exact run and Ubuntu job before closeout; do not transfer predecessor evidence.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. This audit is documentation-only; no source/uploader/test/renderer/workflow behavior changes, credentials, OAuth, real media, upload, publishing, workflow retry, merge, retarget, deployment, or destructive action.
+
+
+### Current live baseline — ARO-CHAT-0153 (refreshed 2026-11-24)
+- Latest continuation is ARO-CHAT-0153 / ARO-GTA-P1-153, a documentation-only exact-head CI audit of PR #226. Branch: `workstream/aro-chat-0153-pr226-exact-head-ci-audit-2026-11-24`; starting SHA: `22f807fb0a0107f7890673f8f086601e437ad3fa`.
+- PR #226 exact-head workflow lookup returned zero runs; combined status is pending with zero entries. Compile, tests, synthetic MP4/FFprobe validation, and checkout refs are NOT VERIFIED. Do not transfer PR #225's successful CI.
+- PR #225's own CI run #45270102698 completed SUCCESS on its merge ref only: 338 shared tests on Ubuntu and hosted Windows; synthetic pattern/tone only, publishing disabled, manual review required. This does not establish real-media acceptance or owner-device Windows verification.
+- PR #226 is OPEN / DRAFT / UNMERGED; no review submissions, inline threads, or conversation comments were recorded at this inspection. Re-fetch its exact head and Actions evidence before any closeout.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads and public publishing disabled.
+- This workstream is documentation-only. No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action is authorized.
