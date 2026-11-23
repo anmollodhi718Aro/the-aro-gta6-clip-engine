@@ -397,9 +397,7 @@
 - No merge, retarget, deployment, upload, public publishing, credential access, or destructive action.
 - Handoff: next session should either obtain owner assignment for issue #68 and implement its acceptance tests, or run the existing clip workflow once authorized media is supplied. First priority remains the first verified real-media MP4.
 
-
 ## ARO-CHAT-0024 reservation — 2026-11-20 13:07 IST
-
 | Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
 |---|---|---|---|---|---|---|
 | ARO-CHAT-0024 | ARO-CHAT-0024 | Exact-Head CI Reconciliation and First-Clip Handoff | ARO-ZERO-ONE continuation; task ARO-GTA-P0-24 | Reconcile the post-ARO-CHAT-0023 exact-head Actions run, preserve precise runner/dependency/cancellation evidence, and update issue #26 without duplicating renderer, governance, or security implementation. | `workstream/aro-zero-one-clipping-first-2026-11-20` / existing PR #66 | IMPLEMENTED (read-only CI/issue evidence follow-up); exact-head CI NOT VERIFIED; no source/test changes. |
@@ -797,10 +795,8 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Field | Record |
 |---|---|
 | Chat ID | ARO-CHAT-0041 |
-| Exact title | ARO-CHAT-0041 | YouTube Uploader Security Remediation |
-| Workstream ID | ARO-GTA-P1-41 |
-| Role | Bounded security implementation contributor |
-| Task | Repair the recursive Google OIDC token-verification helper in the selected PR #83 implementation and add mocked regression coverage. |
+| Exact title | ARO-CHAT-0041 | YouTube Uploader Security Remediation || Workstream ID | ARO-GTA-P1-41 |
+| Role | Bounded security implementation contributor || Task | Repair the recursive Google OIDC token-verification helper in the selected PR #83 implementation and add mocked regression coverage. |
 | Branch | `workstream/aro-chat-0041-oidc-helper-recursion-fix-2026-11-22` |
 | Base | `workstream/aro-chat-0038-authenticated-uploader-approval-2026-11-22` |
 | Starting SHA | `9f3107e9fc520ce93a0487c7311b17d1b5b1a67a` (PR #83 exact head) |
@@ -1197,11 +1193,9 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 
 ## ARO-CHAT-0097 — PR #156 exact-head CI audit (2026-11-24)
 
-| Field | Record |
-|---|---|
+| Field | Record ||---|---|
 | Chat ID | ARO-CHAT-0097 |
-| Exact title | ARO-CHAT-0097 | PR #156 Exact-Head CI Audit |
-| Workstream ID | ARO-GTA-P1-97 |
+| Exact title | ARO-CHAT-0097 | PR #156 Exact-Head CI Audit || Workstream ID | ARO-GTA-P1-97 |
 | Scope | Independently audit PR #156's commit-associated Actions run, Ubuntu/Windows job logs, compile/test outcomes, synthetic MP4/FFprobe evidence, and checkout refs; documentation-only |
 | Branch / base | `workstream/aro-chat-0097-pr156-exact-head-ci-audit-2026-11-24` / PR #156 head `0441db3418786b88625cce9cb950e03a4e9aac9f` |
 | Starting SHA | `0441db3418786b88625cce9cb950e03a4e9aac9f` |
@@ -1597,12 +1591,10 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Field | Record |
 |---|---|
 | Chat ID | ARO-CHAT-0126 |
-| Exact title | ARO-CHAT-0126 | PR #195 Exact-Head CI Audit |
-| Workstream ID | ARO-GTA-P1-126 |
+| Exact title | ARO-CHAT-0126 | PR #195 Exact-Head CI Audit || Workstream ID | ARO-GTA-P1-126 |
 | Scope | Audit PR #195's own Actions run, Ubuntu/hosted-Windows compile/tests, synthetic MP4/FFprobe evidence, checkout refs, combined status, and review state; documentation-only |
 | Branch | `workstream/aro-chat-0126-pr195-exact-head-ci-audit-2026-11-24` |
-| Base / starting SHA | PR #195 head `0141f32fcc584e05af5828f461f873667bd7c8d9` |
-| Parent PR | [PR #195](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/195) |
+| Base / starting SHA | PR #195 head `0141f32fcc584e05af5828f461f873667bd7c8d9` || Parent PR | [PR #195](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/195) |
 | Report | `docs/ARO_CHAT_0126_PR195_CI_AUDIT.md`; follow-up draft [PR #198](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/198) |
 | Status | IMPLEMENTED (initial audit snapshot); PR #195 exact-head matrix CI PENDING / NOT VERIFIED; follow-up PR #198 OPEN / DRAFT; PR #198's own exact-head CI PENDING |
 | Safety | Documentation-only; no application/uploader/test/renderer/workflow behavior changes; no credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
@@ -1916,3 +1908,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Local tests NOT RUN in this connector session. No workflow retry was initiated. Do not transfer PR #209 or predecessor CI evidence.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes. No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+## Latest continuation baseline — ARO-CHAT-0140 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-140 / ARO-CHAT-0140 | PR #211 exact-head CI audit.
+- Branch: `workstream/aro-chat-0140-pr211-exact-head-ci-audit-2026-11-24` / [PR #212](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/212); base branch: `workstream/aro-chat-0139-pr210-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #211 head `197336f21775941e917cacbf06753b10f2f10982`.
+- Parent PR: [#211](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/211). Report: `docs/ARO_CHAT_0140_PR211_CI_AUDIT.md`.
+- PR #211's commit-associated workflow lookup returned zero runs; combined commit status returned zero entries. No CI pass is claimed. Compilation, tests, synthetic MP4/FFprobe validation, and checkout refs are NOT VERIFIED.
+- PR #211 reviews and inline review threads were empty; independent review is NOT RECORDED. PR #211 remains OPEN / DRAFT / UNMERGED; GitHub reported `mergeable=false`.
+- Local tests NOT RUN in this connector session. No workflow retry was initiated. Do not transfer PR #210 or predecessor CI evidence.
+- Parent PR #210's separate run #45267261132 concluded CANCELLED on both platforms during FFmpeg/FFprobe installation; compile/tests/render were skipped. This does not establish PR #211 CI.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes. No credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
