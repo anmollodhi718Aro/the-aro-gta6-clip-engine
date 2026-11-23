@@ -349,3 +349,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Local tests NOT RUN; this branch's own exact-head Ubuntu/hosted-Windows CI is PENDING. Do not transfer PR #238 run #45277658000.
 - No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment or destructive action.
 - Issue #68 remains OPEN. Keep live/public uploads disabled pending exact-head CI, independent security review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
+
+
+### Latest continuation baseline — ARO-CHAT-0165 (2026-11-24)
+- Current task: ARO-GTA-P1-165 / ARO-CHAT-0165, documentation-only exact-head CI cancellation audit of PR #242.
+- Audit branch: `workstream/aro-chat-0165-pr242-ci-cancellation-audit-2026-11-24`; base PR #242 branch; reviewed starting SHA `414fd4f7da94fdffcdd3261a5ea723b5f03290b3`.
+- PR #242 run #45278355448 (run 1113) was CANCELLED on both Ubuntu and hosted Windows during FFmpeg/FFprobe installation. Compile, unit tests and synthetic MP4/FFprobe steps were skipped; checkout refs/SHAs were not exposed. Combined status, reviews, inline threads and conversation comments were empty. No retry was initiated.
+- Audit report: `docs/ARO_CHAT_0165_PR242_CI_AUDIT.md`. Recheck PR #242 exact-head CI only after an owner-authorized workflow run; never transfer PR #238's CI.
+- Keep Issue #68 open and live uploads/public publishing disabled. No credentials/OAuth, real media, network upload, publishing, merge, rebase, retarget, deployment or destructive actions. Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 acceptance.
