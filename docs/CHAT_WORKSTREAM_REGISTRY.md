@@ -1901,7 +1901,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 
 | Field | Record |
 |---|---|
-| Chat ID | ARO-CHAT-0078 | ARO-CHAT-0078 \\| PR #129 Exact-Head CI Closeout | ARO-GTA-P1-78 | Exact-head CI evidence audit for PR #129; refresh Ubuntu/Windows Actions evidence and record limitations | `workstream/aro-chat-0078-pr129-exact-head-ci-closeout-2026-11-23` / [PR #130](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/130) | TESTED; PR #129 associated two-platform CI passed (334 tests/platform); raw-head checkout not claimed | PR #129 head `346f1a7f91c2d394a85790b6c682fd593c4d8777`; run `45183249615`; final evidence refresh recorded by ARO-CHAT-0079 |
+| Chat ID | ARO-CHAT-0078 |
 | Exact title | ARO-CHAT-0078 | PR #129 Exact-Head CI Closeout |
 | Workstream ID | ARO-GTA-P1-78 |
 | Role | Exact-head CI evidence auditor + documentation-only contributor |
