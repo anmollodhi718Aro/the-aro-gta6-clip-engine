@@ -1379,3 +1379,32 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #168 remains OPEN / DRAFT / UNMERGED; no submitted review was present at audit time. Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Next gates: independent security review; owner-controlled integration of authenticated OAuth channel identity and durable per-clip approval; owner selection of a device-appropriate `--max-upload-bytes` before any real upload.
 - Documentation-only. No application/uploader/test/workflow behavior, credentials, OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0108 Issue #68 OAuth token persistence hardening — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0108 |
+| Exact title | ARO-CHAT-0108 | Issue #68 OAuth Token Persistence Hardening |
+| Workstream ID | ARO-GTA-P1-108 |
+| Scope | Focused second-pass security review; atomically persist OAuth credentials with private file permissions and add an offline regression |
+| Branch | `workstream/aro-chat-0108-issue68-security-review-2026-11-24` |
+| Base / starting SHA | PR #170 head `647d68a76244e5f951bd4e44cf6ed322834f0d90` |
+| Parent PR | [PR #170](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/170) |
+| Changed files | `backend/app/youtube_upload.py`, `tests/test_youtube_upload.py`, `docs/ARO_CHAT_0108_ISSUE68_OAUTH_TOKEN_PERSISTENCE.md`, this registry |
+| Status | IMPLEMENTED; local tests NOT RUN; final-head exact CI PENDING |
+| Scope boundary | No live credentials/OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### Finding and implementation
+- The prior OAuth token persistence path wrote directly to the destination and only afterward attempted `chmod(0600)`; chmod failures were silently ignored. This could briefly expose a newly written token under a permissive process umask or leave it with broader permissions.
+- Added `_write_private_token()`: same-directory temporary file, private mode before content write, flush/fsync, atomic `os.replace`, and cleanup on failure.
+- OAuth flow now calls the helper. Added an offline test for token contents, POSIX mode 0600, and no leftover temp file.
+- Report: `docs/ARO_CHAT_0108_ISSUE68_OAUTH_TOKEN_PERSISTENCE.md`.
+
+### Verification and owner gates
+- Code and test changes are committed on this isolated branch; no local test execution is claimed. An intermediate-head workflow was observed, but later documentation commits advanced the branch; the final head had no associated check-runs at latest inspection. Exact-final-head CI is PENDING.
+- This bounded fix does not constitute independent approval of the complete uploader or resolve Issue #68.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment, canonical security-lineage approval, independent review, and exact-head CI.
+- Owner must choose a device-appropriate `--max-upload-bytes` before any real upload. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 footage.
+- No live OAuth, credentials/tokens, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
