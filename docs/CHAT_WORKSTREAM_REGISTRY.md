@@ -1647,22 +1647,23 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Branch | `workstream/aro-chat-0069-pr120-exact-head-ci-closeout-2026-11-23` |
 | Base | PR #120 head `0d9c6f0c01867ca038fe5bf9b5b835e51ecfaba9` |
 | Starting SHA | `0d9c6f0c01867ca038fe5bf9b5b835e51ecfaba9` |
-| Status | RESERVED / IN_PROGRESS; Ubuntu compile, 334 tests, and synthetic MP4/FFprobe steps passed; hosted Windows unit-test step still in progress; overall run pending |
+| Status | IMPLEMENTED (documentation-only); PR #120 exact-head CI_VERIFIED on run 45177297906; this follow-up branch exact-head CI pending |
 | Changed files | docs/ARO_CHAT_0069_PR120_CI_CLOSEOUT.md; docs/CHAT_WORKSTREAM_REGISTRY.md |
 | Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
 
-### Initial exact-head evidence
+### Exact-head verification
 
-- PR #120 exact head `0d9c6f0c01867ca038fe5bf9b5b835e51ecfaba9` is associated with Actions run [45177297906](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45177297906).
-- Ubuntu job `137701749832`: setup, checkout, Python, FFmpeg/FFprobe installation, compilation, unit tests, and synthetic MP4/FFprobe validation steps completed successfully. Decoded log: `Ran 334 tests in 4.972s`.
-- Hosted Windows job `137701750451`: setup, checkout, Python 3.11, FFmpeg/FFprobe installation, and compilation passed. At this reservation snapshot, the complete unittest step was still in progress; synthetic MP4/FFprobe validation had not started.
-- Overall run conclusion remains pending. No cross-platform CI_VERIFIED status or Windows test count is asserted.
-- Ubuntu synthetic report states `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- PR #120 exact head `0d9c6f0c01867ca038fe5bf9b5b835e51ecfaba9` passed GitHub Actions run [45177297906](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45177297906).
+- Ubuntu job `137701749832`: compilation passed; decoded log: `Ran 334 tests in 4.972s`; synthetic MP4 render and FFprobe validation passed.
+- Hosted Windows job `137701750451`: compilation passed; decoded log: `Ran 334 tests in 15.057s`; synthetic MP4 render and FFprobe validation passed.
+- Both platforms independently ran the same 334-test suite. This is 334 distinct tests, not 668 unique tests.
+- Synthetic reports on both platforms state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
 - Local tests were not run in this connector session.
 
 ### Safety and owner gates
 
+- This closes the exact-head CI evidence gap for PR #120 only. This documentation-only follow-up branch requires its own exact-head CI before it can be called CI_VERIFIED.
 - PR #120 remains OPEN / DRAFT / UNMERGED and stacked on PR #119; do not merge independently of its base.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
-- Hosted Windows CI is not owner-device verification; synthetic MP4 is not GTA 6 real-media acceptance.
+- Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
