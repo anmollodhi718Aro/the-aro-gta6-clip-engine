@@ -2197,3 +2197,12 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #225's successful run #45270102698 must not be transferred to PR #226. Local tests NOT RUN; no workflow retry initiated.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Owner-device Windows and real-media acceptance remain NOT VERIFIED.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0153 recheck closeout — 2026-11-24
+- Live PR #226 metadata: head `d8433a2c31dc0634d5fc9a853b82c8e061ced0ab`, base `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`, OPEN / DRAFT / UNMERGED.
+- Two commit-associated successful runs (#45270942827 and #45270941723) exist for the same source SHA, but both job logs checked out merge commit `d07abf4`, merging that SHA into base `894bf28f07b2bb5eccbbb393f63425da5e64c0da`. This is not PR #226's base. Do not transfer these alternate-base results as PR #226 exact merge-ref CI.
+- Each run's Ubuntu and hosted-Windows jobs passed compilation, the same 338 tests (4.377s Ubuntu; 11.136s Windows in run #45270942827), and synthetic MP4/FFprobe validation. Synthetic pattern/tone only; 8-second source, 4-second output, no GTA 6/third-party media, publishing disabled, manual review required, mocked `upload_performed=false`.
+- PR #226 combined status had zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. **PR #226 exact-base CI remains PENDING / NOT VERIFIED; raw-head-only CI NOT DEMONSTRATED.** Local tests NOT RUN.
+- PR #229's own pre-update head had zero associated workflow runs; inspect its new head's CI independently after this documentation-only update.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No retry, OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
