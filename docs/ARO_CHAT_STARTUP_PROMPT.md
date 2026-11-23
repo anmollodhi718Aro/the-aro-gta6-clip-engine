@@ -349,3 +349,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Local tests NOT RUN; this branch's own exact-head Ubuntu/hosted-Windows CI is PENDING (run #45278418962 / run 1115 is QUEUED; jobs not yet available). Draft PR #242 is open at head `414fd4f7da94fdffcdd3261a5ea723b5f03290b3`. Do not transfer PR #238 run #45277658000.
 - No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment or destructive action.
 - Issue #68 remains OPEN. Keep live/public uploads disabled pending exact-head CI, independent security review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
+
+
+## Latest continuation baseline — ARO-CHAT-0165 (2026-11-24)
+
+- Current workstream: ARO-CHAT-0165 / ARO-GTA-P1-165 | PR #242 Windows CI Failure Audit.
+- Branch: `workstream/aro-chat-0165-pr242-windows-ci-failure-audit-2026-11-24`; base/starting SHA: PR #242 head `dfb1e9390490806e44bad93fc661ddff0a551f54`.
+- Draft documentation-only audit records exact-head run #45278668116: Ubuntu compile/tests/synthetic MP4 passed; available Windows step summary reports FFmpeg/FFprobe installation failure and skipped later steps.
+- Raw Windows installer diagnostic is NOT VERIFIED because the subsequent jobs lookup returned a null Windows conclusion and no steps. Existing workflow already retries Chocolatey four times; do not modify workflow or rerun until diagnostic evidence is available.
+- Audit report: `docs/ARO_CHAT_0165_PR242_WINDOWS_CI_AUDIT.md`. Issue #68 remains OPEN; keep live/public uploads disabled.
+- No credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment or destructive action.
