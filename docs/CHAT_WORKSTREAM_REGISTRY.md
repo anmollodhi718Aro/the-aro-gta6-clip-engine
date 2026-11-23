@@ -1861,3 +1861,37 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
 - Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0077 PR #128 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0077 |
+| Exact title | ARO-CHAT-0077 | PR #128 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-77 |
+| Role | Exact-head CI evidence auditor + documentation-only contributor |
+| Task | Inspect PR #128's exact-head Actions run, both platform job steps, and decoded logs; record exact-head evidence without changing application behavior. |
+| Branch / parent PR | `workstream/aro-chat-0077-pr128-exact-head-ci-closeout-2026-11-23` / [PR #128](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/128) |
+| Parent PR / reviewed head | PR #128 / `f102c1b5f71c82d7d6d38a2d80343126aa3ab2f5` |
+| Base / starting SHA | PR #128 exact head `f102c1b5f71c82d7d6d38a2d80343126aa3ab2f5` |
+| Status | IMPLEMENTED (documentation-only); PR #128 exact-head CI_VERIFIED on Ubuntu and hosted Windows; this follow-up branch's own exact-head CI pending |
+| Changed files | docs/ARO_CHAT_0077_PR128_CI_CLOSEOUT.md; docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head CI evidence
+
+- PR #128 exact head `f102c1b5f71c82d7d6d38a2d80343126aa3ab2f5` is associated with Actions run [45182957037](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45182957037), conclusion SUCCESS.
+- Ubuntu job `137721174045` and hosted Windows job `137721174516` both passed setup, FFmpeg/FFprobe installation, compilation, full unit-test steps, and synthetic MP4/FFprobe validation.
+- Ubuntu log: `Ran 334 tests in 4.767s; OK`.
+- Hosted Windows log: `Ran 334 tests in 11.586s; OK`.
+- Both platforms ran the same 334-test suite, not 668 unique tests.
+- Both synthetic reports confirm `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- This is exact-head CI evidence for PR #128. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
+- Local tests were not run in this connector session.
+
+### Safety and owner gates
+
+- PR #128 remains OPEN / DRAFT / UNMERGED; this closeout does not authorize merging or integration.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
