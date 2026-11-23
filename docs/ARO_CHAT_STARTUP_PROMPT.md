@@ -795,3 +795,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0154_PR229_CI_AUDIT.md`. Documentation-only; do not transfer PR #226 alternate-base CI evidence.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads and public publishing disabled.
 - No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+### Current live baseline — ARO-CHAT-0154 recheck (2026-11-24 03:34 IST)
+- Active workstream: ARO-CHAT-0154 / ARO-GTA-P1-154; documentation-only exact-head CI audit of PR #229, tracked in draft PR #230.
+- Target PR #229 remains OPEN / DRAFT / UNMERGED, `mergeable=false`; exact current head `1f703e856d59ca5b41b19e8f8aad65a6d0539547` is unchanged.
+- Exact-head Actions lookup returned zero runs; combined status is pending with zero entries. Reviews, inline threads, and conversation comments are empty. Jobs/logs are unavailable; checkout refs, compilation, tests, synthetic MP4/FFprobe, and hosted-Windows outcome are NOT VERIFIED. Local tests NOT RUN; no workflow retry.
+- Do not transfer evidence from PR #226, PR #230, or alternate-base refs. Recheck the target head before any later update.
+- Keep PR #230 draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled. No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
