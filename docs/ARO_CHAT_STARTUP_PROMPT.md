@@ -632,3 +632,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Current head: `5ebc2d71ae6ca0e25d59ec124be27d1e4c5a6ab0`.
 - Associated Python CI run [#45267788376](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45267788376), run 1051, is PENDING; the job lookup returned zero jobs at inspection.
 - Combined status returned zero entries; PR #213 reviews and inline threads were empty. Its own CI remains PENDING / NOT VERIFIED.
+
+
+## Latest continuation baseline — ARO-CHAT-0142 (2026-11-24)
+
+- Active workstream: ARO-CHAT-0142 / ARO-GTA-P1-142, documentation-only exact-head CI audit of PR #213.
+- Branch: `workstream/aro-chat-0142-pr213-exact-head-ci-audit-2026-11-24`; base: `workstream/aro-chat-0141-pr211-exact-head-ci-audit-2026-11-24`; starting SHA: PR #213 head `71a7eb16997dad90b65c1fcaa62d8ed9a072d5cd`.
+- Parent PR audited: [PR #213](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/213). Audit report: `docs/ARO_CHAT_0142_PR213_CI_AUDIT.md`.
+- Exact-head run [#45267871069](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45267871069), run 1053, was IN_PROGRESS: Ubuntu was installing FFmpeg/FFprobe and hosted Windows was checking out the repository. Compile, tests, and synthetic MP4/FFprobe were pending; no checkout ref or verification result is claimed.
+- Combined status, PR reviews, inline threads, and conversation comments were empty. PR #213 remains OPEN / DRAFT / UNMERGED. Keep this CI state NOT VERIFIED until both jobs complete and their evidence is inspected.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Documentation-only; no workflow retries, credentials/OAuth, real media, uploads, publishing, merges, retargets, deployments, or destructive actions.
