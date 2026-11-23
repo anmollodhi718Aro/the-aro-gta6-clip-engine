@@ -1477,3 +1477,16 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Keep live uploads/public publishing disabled pending current-head CI, independent security review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
 - Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 footage.
 - Documentation-only. No OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, workflow configuration change, or destructive action.
+
+
+### ARO-CHAT-0166 CI closeout — 2026-11-24
+- PR #242 current head at closeout: `dfb1e9390490806e44bad93fc661ddff0a551f54`; exact-head-associated run #45278668116 (run 1118) completed SUCCESS.
+- Ubuntu job #138058372656: compile passed, 340 tests passed (4.934s), synthetic MP4/FFprobe passed.
+- Hosted-Windows job #138058368900: compile passed, the same 340 tests passed (24.840s), synthetic MP4/FFprobe passed.
+- Both jobs checked out `refs/remotes/pull/242/merge` at merge SHA `ad80436817f46f8f36093ae95dc4eeed6cf0ce7e`, merging PR head `dfb1e9390490806e44bad93fc661ddff0a551f54` into base `cdcf7a4bef2728e3299e82bc88d376992ecec39d`. Raw-head-only CI NOT DEMONSTRATED; same 340 tests per platform, not 680 unique tests.
+- Synthetic pattern/tone only: 8-second source / 4-second output; no GTA 6 or third-party footage; publishing disabled; manual review required. Hosted Windows is not owner-device verification.
+- Earlier run #1113 tested older head `414fd4f7da94fdffcdd3261a5ea723b5f03290b3` and failed one CLI fixture on both platforms; superseded by current-head run #1118. Earlier run #1115 is also not current-head evidence.
+- Bounded static diff review found the explicit CLI and direct-call limits fail closed before OAuth and the incremental copy enforces the configured ceiling. No critical defect identified in this bounded review; independent human security review remains NOT RECORDED.
+- PR #242 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. Keep live/public uploads disabled pending independent review, owner-controlled integration, owner-device verification, and authorized real-media acceptance.
+- Audit PR #246 run #45279477145 also passed 340 tests and synthetic MP4/FFprobe on both platforms on merge ref `9e5243f6e6cccfa2706a5c2715689c88702bc903`, which combines audit docs with PR #242 head. This is corroborating evidence, not a substitute for PR #242 run #1118.
+- Audit report: `docs/ARO_CHAT_0166_PR242_CI_AUDIT.md`. PR #246 remains draft-only; no merge requested.
