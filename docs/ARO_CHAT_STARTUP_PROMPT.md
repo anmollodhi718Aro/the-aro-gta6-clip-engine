@@ -256,3 +256,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #157's own follow-up CI must be checked on its exact current head after this documentation branch is submitted; do not transfer parent PR #156 evidence.
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled until owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage. No credentials, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action is authorized by this documentation-only audit.
+
+
+## Latest continuation baseline — ARO-CHAT-0100 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-100 / ARO-CHAT-0100, exact-head CI audit of PR #159; branch `workstream/aro-chat-0100-pr159-exact-head-ci-audit-2026-11-24`; base and starting SHA `548558208245f0a769e7296b24a6b2a07e28a9ac`.
+- Audited PR #159 head is associated with Python CI run #45240937656 (run 968), SUCCESS. Ubuntu job #137925069305 passed compilation, 334 tests (6.085s), and synthetic MP4/FFprobe validation. Hosted Windows job #137925069829 passed compilation, 334 tests (18.191s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/159/merge` at merge SHA `b12db3779f71a971772a6e4a2f5c29e2adf6df34`, merging PR #159 head into base `437eccb023316b2ab86a7906ab6e01e6534c2acb`; raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic reports confirm `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage.
+- Report: `docs/ARO_CHAT_0100_PR159_CI_AUDIT.md`. Audited PR #159 is CI_VERIFIED on merge ref; this documentation-only follow-up's own exact-head CI remains PENDING until inspected separately.
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled until owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
+- No application/uploader/test/workflow behavior, credentials, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
