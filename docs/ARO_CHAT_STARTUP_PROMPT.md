@@ -895,3 +895,9 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Recommendation: optional Director Mode companion for original THE ARO commentary/storyboards; do not make the upstream project a core renderer dependency.
 - Keep authorized local-media ingestion, rights review, FFmpeg/FFprobe, per-clip approval, and upload controls unchanged. No scraping, stream ripping, automatic publishing, or upstream code vendoring.
 - Report: `docs/ARO_CHAT_0163_STICKMAN_DIRECTOR_INTEGRATION.md`. Documentation-only; local tests NOT RUN; no upstream code/assets/dependencies added.
+
+
+## ARO-CHAT-0163 Phase 1 manual storyboard POC — 2026-11-24
+- Drafted `examples/stickman_director/aro_chat_signal_to_clip_review_30s.md`: original 30-second 16:9 THE ARO explainer storyboard. This is text-only; no video/audio/assets were generated and no upstream runtime/code/dependencies were installed or vendored.
+- Storyboard shows chat activity → timestamped candidate → authorized local recording → rights/quality checks → human review. No GTA 6 footage, scraped streams, third-party assets, automatic upload, or public publishing.
+- Next gate: owner approves storyboard and confirms any generation/voice costs before a low-resolution sample. Do not implement an adapter or Autopilot path before the manual experiment proves useful.
