@@ -305,3 +305,9 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - No workflow runs were returned for the newer PR #162 SHA. Keep exact-head CI PENDING / NOT VERIFIED.
 - ARO-CHAT-0104 PR #163 is three commits ahead and two behind its moved base, with merge base fa3223c5ac7f46d261cd121911aedfd77c5c498e; GitHub reported mergeable=false.
 - Preserve the draft PR/branch. Do not rebase, force-push, retarget, or merge without explicit owner direction.
+
+
+### ARO-CHAT-0104 duplicate-workstream stop — 2026-11-24
+- Branch-content inspection found ARO-CHAT-0103 already audits PR #162 with the same scope. ARO-CHAT-0104's initial collision check was incomplete.
+- Stop ARO-CHAT-0104 implementation. Preserve both PRs/branches pending owner reconciliation; no merge, close, delete, rebase, force-push, or retarget.
+- ARO-CHAT-0104 / PR #163 is DUPLICATE-WORKSTREAM / BLOCKED and is not a canonical audit record.
