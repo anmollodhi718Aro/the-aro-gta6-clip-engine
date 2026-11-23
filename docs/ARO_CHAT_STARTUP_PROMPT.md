@@ -289,3 +289,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 ### ARO-CHAT-0102 CI evidence refresh — 2026-11-24
 - PR #161 head run #45242621235 (run 970) concluded CANCELLED overall. Ubuntu job #137930984235 succeeded through compile, unit-test, and synthetic MP4 validation steps; exact test count/log text and checkout SHA remain unverified. Hosted-Windows job #137930984793 was cancelled during the unit-test step; synthetic render was skipped. PR #161 is not CI_VERIFIED across the matrix.
 - Follow-up PR #162 is documentation-only and its own CI must be inspected independently. Do not transfer PR #161's Ubuntu success or Windows cancellation to the follow-up branch.
+
+
+### Latest Issue #68 security continuation — ARO-CHAT-0106 (2026-11-24)
+- Workstream: ARO-GTA-P1-106 / ARO-CHAT-0106; branch `workstream/aro-chat-0106-issue68-rights-registry-hardening-2026-11-24`; base and starting SHA `546906fca62ff2493a7ae1955dfdd1b4948233f2` (PR #162 head).
+- Canonical implementation candidate: PR #83 remediation lineage #87 → #88 → #92 → #93. PR #82 remains a parallel reference and must not be independently integrated.
+- PRs #106–#109 overlap on upload-limit tests. #106 had the broadest integrated coverage; this branch adds its missing upload-copy growth/staging-cleanup regression without duplicating the direct-call size guard already in the selected base.
+- Security fix: SourceRightsRegistry registration is append-only. Duplicate source IDs cannot overwrite grants or clear revocation; renewed grants use a new versioned source_id and new evidence.
+- Keep Issue #68 open and all live/public uploads disabled until this branch's exact-head CI and independent review are complete, owner integration is approved, and a device-specific upload limit is chosen.
+- Report: `docs/ARO_CHAT_0106_ISSUE68_SECURITY_CONSOLIDATION.md`. No credentials, live OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action.
