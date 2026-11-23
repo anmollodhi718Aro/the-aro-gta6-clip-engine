@@ -60,3 +60,14 @@ Independently audit PR #200's commit-associated GitHub Actions run, Ubuntu/hoste
 - Combined commit status for this SHA returned zero status entries. PR #201 review submissions and inline review threads were empty at inspection; its conversation comments were also empty.
 - This establishes a successful commit-associated workflow run and successful named CI steps for the inspected SHA. It does not establish raw-head-only checkout, a test count, real-media acceptance, owner-device Windows verification, or independent review.
 - PR #201 remains OPEN / DRAFT / UNMERGED at inspection. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### PR #201 run #45269680311 detailed log verification — 2026-11-24
+- Follow-up inspection recovered both job logs and confirms the exact test counts, runtimes, checkout refs, and synthetic report flags omitted from the initial observation above.
+- Run metadata head SHA: `2c6a2fa62fc632088a7e321b0101a55acc1bdd5b`. Both jobs fetched and checked out `refs/remotes/pull/201/merge` at merge SHA `48d7e74b70550fc29c5e29ed32fa393f13ca6972`, merging the PR head into base `d8f345b6c914fc116b6f2e402b3d82d52c247720`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Ubuntu job #138025968064: compileall passed; 338 tests passed in 5.070s; synthetic MP4/FFprobe step passed.
+- Hosted-Windows job #138025967094: compileall passed; 338 tests passed in 10.358s; synthetic MP4/FFprobe step passed.
+- Both jobs ran the same 338-test suite, not 676 unique tests. Synthetic source was locally generated pattern/tone only; logs report `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`; mocked approval fixture reports `upload_performed=false`.
+- No real upload or public publishing occurred. Hosted Windows CI is not owner-device Windows verification; synthetic media is not real-media acceptance.
+- PR #201 remains OPEN / DRAFT / UNMERGED with no recorded independent review submissions, inline review threads, or conversation comments. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- Local tests were NOT RUN in this connector session. No workflow retry, OAuth, credentials/tokens, real media, network upload, merge, retarget, deployment, or destructive action was performed.
