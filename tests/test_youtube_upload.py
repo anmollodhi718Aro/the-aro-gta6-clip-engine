@@ -346,7 +346,7 @@ class YouTubeUploadTests(unittest.TestCase):
         self.assertNotEqual(captured["uploaded_bytes"], self.video.read_bytes())
         youtube.videos.return_value.insert.assert_called_once()
 
-    def test_staged_file_mutation_after_final_checks_cannot_change_upload_payload(self):
+    def test_temporary_staging_is_cleaned_before_upload_and_payload_remains_immutable(self):
         db_path = self.root / "source_rights.sqlite3"
         self._write_upload_rights(db_path)
         approved_bytes = self.video.read_bytes()
@@ -364,6 +364,7 @@ class YouTubeUploadTests(unittest.TestCase):
 
             def __enter__(self):
                 directory = self._delegate.__enter__()
+                staged["directory"] = Path(directory)
                 staged["path"] = Path(directory) / "approved-upload.mp4"
                 return directory
 
@@ -376,17 +377,16 @@ class YouTubeUploadTests(unittest.TestCase):
             captured["uploaded_bytes"] = media_body.stream.read()
             return {"id": "immutable-snapshot-video"}
 
-        def mutate_staged_file_after_final_checks(*args, **kwargs):
-            # insert() is reached only after the final approval/hash and
-            # rights checks. Simulate a same-user filesystem mutation before
-            # execute() consumes the media stream.
-            snapshot_path = staged["path"]
-            os.chmod(snapshot_path, 0o600)
-            snapshot_path.write_bytes(b"tampered after final approval checks")
-            captured["staged_bytes_after_gate"] = snapshot_path.read_bytes()
+        def inspect_cleaned_staging_before_upload(*args, **kwargs):
+            # The bounded snapshot must be removed before OAuth/API activity.
+            # Upload consumes the immutable in-memory bytes, not a temp path.
+            captured["staging_directory_exists_at_insert"] = staged["directory"].exists()
+            captured["staged_file_exists_at_insert"] = staged["path"].exists()
+            self.video.write_bytes(b"source changed after staging and approval checks")
+            captured["source_bytes_after_gate"] = self.video.read_bytes()
             return youtube.videos.return_value.insert.return_value
 
-        youtube.videos.return_value.insert.side_effect = mutate_staged_file_after_final_checks
+        youtube.videos.return_value.insert.side_effect = inspect_cleaned_staging_before_upload
         youtube.videos.return_value.insert.return_value.execute.side_effect = execute_upload
         modules = self._mock_google_modules(youtube)
         modules["googleapiclient.http"].MediaIoBaseUpload = Mock(
@@ -413,9 +413,11 @@ class YouTubeUploadTests(unittest.TestCase):
                         )
 
         self.assertEqual(result["video_id"], "immutable-snapshot-video")
-        self.assertEqual(captured["staged_bytes_after_gate"], b"tampered after final approval checks")
+        self.assertFalse(captured["staging_directory_exists_at_insert"])
+        self.assertFalse(captured["staged_file_exists_at_insert"])
+        self.assertEqual(captured["source_bytes_after_gate"], b"source changed after staging and approval checks")
         self.assertEqual(captured["uploaded_bytes"], approved_bytes)
-        self.assertNotEqual(captured["uploaded_bytes"], captured["staged_bytes_after_gate"])
+        self.assertNotEqual(captured["uploaded_bytes"], captured["source_bytes_after_gate"])
         youtube.videos.return_value.insert.assert_called_once()
 
     def test_revoked_permission_blocks_before_any_upload_api_request(self):
