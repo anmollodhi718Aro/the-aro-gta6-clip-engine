@@ -418,3 +418,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #185 exact-head Actions lookup initially returned zero runs. Its own CI, compile/tests, synthetic MP4/FFprobe validation, and checkout refs are PENDING / NOT VERIFIED. Re-query by exact SHA before concluding the audit.
 - Do not transfer PR #182 or sibling PR CI evidence. Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL and live uploads/public publishing disabled.
 - Audit report: `docs/ARO_CHAT_0116_PR185_CI_AUDIT.md`. Documentation-only; no application or workflow behavior changes.
+
+
+### Latest continuation baseline — ARO-CHAT-0117 (2026-11-24)
+- Current chat: ARO-CHAT-0117 | PR #187 Exact-Head CI Audit.
+- Active workstream: ARO-GTA-P1-117 on `workstream/aro-chat-0117-pr187-exact-head-ci-audit-2026-11-24`, based on PR #187 head `b39394b2cd9e5c5234e287b92ece48dbaa67ddf0`.
+- PR #187's exact-head commit-associated workflow lookup and combined status returned zero entries. Compile/tests, synthetic MP4/FFprobe validation, and checkout refs are PENDING / NOT VERIFIED; do not transfer parent or sibling CI evidence.
+- PR #187 is OPEN / DRAFT / UNMERGED; GitHub reported mergeable=false. Review submissions, inline threads, and comments returned no entries. No rebase, force-push, retarget, or workflow retry was attempted.
+- Audit report: `docs/ARO_CHAT_0117_PR187_CI_AUDIT.md`. Documentation-only; no application or workflow behavior changes.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action was performed.
