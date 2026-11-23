@@ -233,3 +233,16 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Audit report: `docs/ARO_CHAT_0096_PR154_CI_AUDIT.md`; registry updated. Parent PR #154 merge-ref CI is CI_VERIFIED; PR #156's own CI must be inspected separately after it runs.
 - PR #154 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED. No merge, retarget, deploy, upload, publish, credential/OAuth access, or destructive action is authorized by this documentation-only audit.
+
+
+## Latest continuation baseline — ARO-CHAT-0097 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-97 / ARO-CHAT-0097, independent exact-head CI audit of PR #156; branch `workstream/aro-chat-0097-pr156-exact-head-ci-audit-2026-11-24`; starting SHA `0441db3418786b88625cce9cb950e03a4e9aac9f`.
+- Audited PR #156 head `0441db3418786b88625cce9cb950e03a4e9aac9f` is associated with Python CI run #45236561219 (run 962), SUCCESS.
+- Ubuntu job #137909721243: compilation passed; 334 tests passed (4.209s); synthetic MP4/FFprobe validation passed.
+- Hosted Windows job #137909720763: compilation passed; 334 tests passed (21.227s); synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/156/merge` at merge SHA `9b5cb765fdb72fa9d1b08e4ed294f54ddad29cfc`, merging PR #156 head into PR #154 head `0139e594ce43d04f17172fdb150f7dadd20f9fae`. Raw-head-only checkout is NOT DEMONSTRATED. Same 334-test suite ran on each platform, not 668 unique tests.
+- Synthetic reports confirm `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Report: `docs/ARO_CHAT_0097_PR156_CI_AUDIT.md`. Audited PR #156 head is CI_VERIFIED on merge ref; this follow-up branch's own exact-head CI remains PENDING until its associated run and logs are inspected.
+- Hosted Windows CI is not owner-device verification; synthetic MP4 is not real GTA 6 media acceptance. Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+- Documentation-only. No application/uploader/test/workflow behavior, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action is authorized or performed by this workstream.
