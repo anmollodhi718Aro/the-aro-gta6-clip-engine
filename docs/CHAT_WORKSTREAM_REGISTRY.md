@@ -1323,3 +1323,42 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Follow-up PR #162 head `098844642622bdf044363a4c84791f5d7313033a` had zero check-runs and combined status PENDING at the time checked; re-fetch after the final documentation commit. No CI evidence is transferred from PR #161.
 
 - Final PR #162 documentation scope includes the bounded permission grant in `docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md`; PR #162 is OPEN / DRAFT / UNMERGED. Latest branch head at this update: `fa3223c5ac7f46d261cd121911aedfd77c5c498e`. Its own check-runs have not yet appeared; do not claim CI verification.
+
+
+## ARO-CHAT-0105 PR #162 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0105 |
+| Exact title | ARO-CHAT-0105 | PR #162 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-105 |
+| Scope | Audit PR #162's own commit-associated Actions run, combined status, and (if present) Ubuntu/hosted-Windows logs; documentation-only |
+| Branch | `workstream/aro-chat-0105-pr162-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #162 head `546906fca62ff2493a7ae1955dfdd1b4948233f2` |
+| Parent PR | [PR #162](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/162) |
+| Report | `docs/ARO_CHAT_0105_PR162_CI_AUDIT.md` |
+| Report commit | `edc91757c632fe65b72cbd515a398c1daad1fbf6` |
+| Status | IN_PROGRESS; no commit-associated workflow run or combined-status entries returned for the audited SHA; exact-head CI PENDING / NOT VERIFIED |
+| Collision check | ARO-CHAT-0103 and ARO-CHAT-0104 branch names already existed and were left untouched; 0105 was the first unused identity found |
+| Scope boundary | No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, permission escalation, or destructive action. |
+
+### Exact-head evidence
+- PR #162 audited head: `546906fca62ff2493a7ae1955dfdd1b4948233f2`.
+- Commit-associated workflow lookup returned zero runs; combined commit status returned zero entries.
+- No job IDs, logs, checkout SHA, compile/test result, test count, synthetic MP4 result, or FFprobe result are available. Do not infer any of them.
+- Do not transfer PR #161's cancelled matrix result or predecessor CI evidence to PR #162.
+- No rerun was initiated because no run or failed job was returned. Local tests were not run in this documentation-only audit.
+- Re-query this exact SHA when checks appear; inspect both platform jobs and decoded logs before changing status.
+
+### Safety and owner gates
+- PR #162 remains draft-only; no merge, retarget, deployment, upload, or publishing is authorized.
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
+- Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, permission escalation, or destructive action was performed.
+
+## Latest continuation baseline — ARO-CHAT-0105 (2026-11-24)
+- Active workstream: ARO-GTA-P1-105 / ARO-CHAT-0105, documentation-only exact-head CI audit of PR #162.
+- Branch: `workstream/aro-chat-0105-pr162-exact-head-ci-audit-2026-11-24`; base and starting SHA: `546906fca62ff2493a7ae1955dfdd1b4948233f2`.
+- Parent PR #162's current exact head has no associated workflow run and no combined status entries at the audit snapshot. Exact-head CI remains PENDING / NOT VERIFIED.
+- Next action: re-query that exact SHA, then inspect any returned Ubuntu/hosted-Windows jobs and decoded logs. Do not rerun absent jobs or transfer predecessor CI.
+- Keep issue #68 owner approval gate and all live upload/public publishing restrictions unchanged.
