@@ -475,3 +475,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0129_PR200_CI_AUDIT.md`. This audit workstream is documentation-only; its own exact-head CI must be inspected independently after PR creation. Do not transfer PR #200's CI result to this follow-up.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0130 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-130 / ARO-CHAT-0130 | PR #201 exact-head CI audit.
+- Branch: `workstream/aro-chat-0130-pr201-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #201 head `f41ed82acb5e94e1d64727765942c58855add1fb`.
+- PR #201 head-associated Python CI run [#45263378947](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45263378947), run 1035, completed SUCCESS. Ubuntu and hosted Windows each passed compilation, the same 338-test suite, and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/201/merge` at merge SHA `bc43ab4e2bc7a26b7e4e3d681421a710c2f7d871`; raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic media only; no GTA 6/third-party media, publishing disabled, manual review required. Combined status and PR #201 review submissions/inline threads were empty. Independent review is NOT RECORDED.
+- Report: `docs/ARO_CHAT_0130_PR201_CI_AUDIT.md`. Documentation-only; inspect this follow-up branch's own exact-head CI independently. Do not transfer PR #201's CI result.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
