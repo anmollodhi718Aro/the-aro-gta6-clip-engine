@@ -475,3 +475,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0129_PR200_CI_AUDIT.md`. This audit workstream is documentation-only; its own exact-head CI must be inspected independently after PR creation. Do not transfer PR #200's CI result to this follow-up.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
+
+
+### Latest continuation baseline — ARO-CHAT-0131 (2026-11-24)
+- Current workstream: ARO-CHAT-0131 / ARO-GTA-P1-131, documentation-only CI evidence audit of PR #201.
+- Branch: `workstream/aro-chat-0131-pr201-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #201 head `f41ed82acb5e94e1d64727765942c58855add1fb`.
+- Parent PR #201 remains OPEN / DRAFT / UNMERGED. Its associated Python CI run #45263378947 (run 1035) completed SUCCESS: Ubuntu job #138003760216 passed compilation, 338 tests (4.461s), and synthetic MP4/FFprobe; hosted-Windows job #138003759888 passed compilation, 338 tests (22.891s), and synthetic MP4/FFprobe.
+- Both jobs checked out `refs/remotes/pull/201/merge` at merge SHA `bc43ab4e2bc7a26b7e4e3d681421a710c2f7d871`, merging PR #201 head into base `d8f345b6c914fc116b6f2e402b3d82d52c247720`; raw-head-only checkout is NOT DEMONSTRATED. Both platforms ran the same 338-test suite.
+- Synthetic reports use local pattern/tone only, source duration 8.0 seconds, output duration 4.0 seconds, no GTA 6/third-party media, publishing disabled, and manual review required. Mocked fixture confirms `upload_performed=false`.
+- Report: `docs/ARO_CHAT_0131_PR201_CI_AUDIT.md`. This documentation-only follow-up's own exact-head CI must be inspected independently after PR creation.
+- PR #201 has no recorded independent review submissions, inline threads, or conversation comments. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage. Local tests were NOT RUN in this connector session.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment, canonical security-lineage selection, independent review, and owner-controlled integration.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
