@@ -145,6 +145,19 @@ class YouTubeUploadTests(unittest.TestCase):
             _copy_stream_with_limit(source, snapshot, max_upload_bytes=4)
         self.assertEqual(snapshot.getvalue(), b"")
 
+    def test_snapshot_copy_enforces_cumulative_limit_across_multiple_reads(self):
+        # The first chunk is valid by itself; the second pushes the cumulative
+        # byte count over the ceiling and must never be written to the snapshot.
+        source = Mock()
+        source.read.side_effect = [b"1234", b"5"]
+        snapshot = io.BytesIO()
+
+        with self.assertRaisesRegex(ValueError, "configured upload limit"):
+            _copy_stream_with_limit(source, snapshot, max_upload_bytes=4)
+
+        self.assertEqual(snapshot.getvalue(), b"1234")
+        self.assertEqual(source.read.call_count, 2)
+
     def test_max_upload_bytes_must_be_positive(self):
         for invalid in (0, -1, True):
             with self.subTest(invalid=invalid):
