@@ -195,3 +195,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Both jobs checked out `refs/remotes/pull/150/merge` at `62850ae392e7555a893f427ff285667f1aabf8fc`, merging PR #150 head into base `06babec863840afb8cecf0dd6608021bce9067a1`; raw-head-only CI is NOT DEMONSTRATED. Both synthetic reports confirm no GTA 6 or third-party media, publishing disabled, and manual review required.
 - PR #150 remains OPEN / DRAFT / UNMERGED. PR #149 remains an independent related draft; PR #146 remains independent and untouched. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled.
 - Report: `docs/ARO_CHAT_0092_PR150_CI_AUDIT.md`. Owner-device Windows and real-media acceptance remain NOT VERIFIED. Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit owner approval.
+
+
+### Latest continuation baseline — ARO-CHAT-0094 (2026-11-23)
+
+- Current workstream: ARO-GTA-P1-94 / ARO-CHAT-0094 | PR #151 exact-head CI audit; branch `workstream/aro-chat-0094-pr151-exact-head-ci-audit-2026-11-23`; base PR #151 head `1168348aa5088da5945638ff0ec54e67554f0c1f`.
+- ARO-CHAT-0093's expected PR #151 audit branch name already existed during duplicate checks, so it was treated as reserved and left untouched. No issue or PR collision was found for ARO-CHAT-0094 / ARO-GTA-P1-94.
+- PR #151 head is associated with Python CI run [#45234999220](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45234999220), run 953, SUCCESS. Ubuntu job #137904237729 passed compilation, 334 tests (5.053s), and synthetic MP4/FFprobe validation. Hosted Windows job #137904237208 passed compilation, 334 tests (19.626s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/151/merge` at merge SHA `56e8c01b00f8d2a0a7b2e425f7439f1038335a31`, merging PR #151 head into base `5fbd066a62ebafdafe30de05a7978a11522003b2`; raw-head-only checkout is NOT DEMONSTRATED. Both synthetic reports confirm no GTA 6 or third-party media, publishing disabled, and manual review required.
+- PR #151 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled.
+- Report: `docs/ARO_CHAT_0094_PR151_CI_AUDIT.md`. Owner-device Windows and real-media acceptance remain NOT VERIFIED. This workstream is documentation-only; its own exact-head CI must be inspected separately. Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit owner approval.
