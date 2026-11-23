@@ -34,3 +34,15 @@ The current PR #176 branch has a failing regression test on both Ubuntu and host
 - Draft follow-up only; no merge, retarget, deployment, OAuth, credentials/tokens, real media, network upload, or publishing.
 - Issue #68 remains OPEN. Keep live/public uploads disabled until the canonical security lineage passes exact-head CI, independent review, owner-controlled integration, and the owner selects a device-appropriate `--max-upload-bytes`.
 - No real GTA 6 media acceptance is claimed. Hosted Windows CI is not owner-device verification.
+
+
+## Exact-head CI closeout — 2026-11-24
+
+The test-fix commit `2a35e73351880d255177599cdbd2631741748033` was included in PR head `e2620b00c1ff383cc3b0d76be7da614d1ad5556a` and passed Python CI run [#45277330824](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45277330824), run 1101.
+
+- Ubuntu job #138052406607: compilation passed; 338 tests passed in 4.902s; synthetic MP4/FFprobe passed.
+- Hosted-Windows job #138052406300: compilation passed; the same 338 tests passed in 15.648s; synthetic MP4/FFprobe passed.
+- Both jobs checked out `refs/remotes/pull/238/merge` at merge SHA `829d1fe11bc27456143f0119de4e4db734679f63`, merging PR head `e2620b00c1ff383cc3b0d76be7da614d1ad5556a` into base `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`. Raw-head-only CI is NOT DEMONSTRATED.
+- The corrected mutation regression passed on both platforms. Synthetic evidence reports `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`, and mocked `upload_performed=false`.
+- This is 338 shared test cases run on two platforms, not 676 unique tests.
+- Status for the tested code head: CI_VERIFIED on the PR merge ref. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
