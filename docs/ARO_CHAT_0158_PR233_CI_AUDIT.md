@@ -53,3 +53,12 @@ Re-fetch PR #233 metadata and its exact current head before any later closeout. 
 - Re-fetched PR review submissions, inline review threads, and conversation comments: all empty; independent review remains NOT RECORDED.
 - No jobs/logs are available; compile, unit tests, synthetic MP4/FFprobe, checkout refs, and hosted-Windows outcome remain NOT VERIFIED. Local tests NOT RUN; no retry initiated.
 - Conclusion unchanged: PR #233 exact-head CI remains PENDING / NOT VERIFIED. No predecessor CI evidence transferred.
+
+
+## Live exact-head recheck — 2026-11-24 03:50 IST
+- Re-fetched PR #233: OPEN / DRAFT / UNMERGED; audited head remains `d67abeed45628a935a6747a8da03fd26878236c8`; base remains `ccde1827d1f8b7d25a7f3ef8d206c8f55cb3fc5b`.
+- Re-ran commit-associated pull-request workflow lookup for PR #233's exact head: zero runs. Combined commit status has zero entries. PR #233 reviews, inline review threads, and conversation comments remain empty; independent review NOT RECORDED.
+- No PR #233 jobs/logs exist to inspect. Checkout refs, compile, tests, synthetic MP4/FFprobe, and hosted-Windows results remain NOT VERIFIED. Local tests NOT RUN; no workflow retry.
+- Attribution correction: run #45276421389 (run 1094) is associated with the *audit PR #234 head* `a7d3f6898663af918eea6187e99ab09f1fc737ed`, not audited PR #233 head `d67abeed45628a935a6747a8da03fd26878236c8`. Its Ubuntu and hosted-Windows jobs each passed 338 tests and synthetic MP4/FFprobe, but both checked out PR #234's merge ref `refs/remotes/pull/234/merge` at merge SHA `b235304...`. This evidence MUST NOT be transferred to PR #233.
+- Conclusion: PR #233 exact-head CI remains PENDING / NOT VERIFIED. Do not infer a pass from PR #234's own successful audit-branch CI or from empty status entries.
+- Issue #68 remains OPEN; the authenticated channel-owner approval integration remains a P1 gate. Keep live uploads/public publishing disabled. No credentials/OAuth, real media, network upload, publishing, retry, merge, rebase, retarget, deployment, or destructive action was performed.
