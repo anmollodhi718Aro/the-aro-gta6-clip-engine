@@ -1623,3 +1623,13 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #195 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage or real-media acceptance.
 - No credentials/tokens, OAuth, real media, network upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
+
+
+### ARO-CHAT-0125 exact-head CI closeout — 2026-11-24
+- PR #195 exact head `0141f32fcc584e05af5828f461f873667bd7c8d9` passed Python CI run [#45257788515](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45257788515), run 1024, SUCCESS.
+- Ubuntu job `137984067440` passed compilation, 338 tests (3.477s), and synthetic MP4/FFprobe validation. Hosted-Windows job `137984066970` passed compilation, 338 tests (21.670s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/195/merge` at merge SHA `5b77a6ae66485dd9de6be78affd77298ca9946c8`; raw-head-only checkout is NOT DEMONSTRATED. Same 338-test suite on both platforms, not 676 unique tests.
+- Synthetic reports show locally generated test pattern/tone, 8-second source, 4-second output, no GTA 6/third-party media, publishing disabled, and manual review required. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- PR #195 reviews/threads/comments and combined status were empty; local tests NOT RUN in this connector session.
+- Follow-up PR #197 is OPEN / DRAFT / UNMERGED. Its head `72bc3bd688b490b8243c0715642f2ddd00501bc3` has no associated workflow run or combined status at inspection; its own exact-head CI remains PENDING.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, network upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
