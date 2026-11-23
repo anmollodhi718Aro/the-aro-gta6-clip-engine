@@ -2051,3 +2051,11 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #219 reviews and inline review threads were empty; independent review NOT RECORDED. Local tests NOT RUN. No workflow retry initiated.
 - Do not transfer PR #218's CI result. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
 - Documentation-only; no credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0146 PR #219 CI evidence refresh — 2026-11-24 02:52 IST
+- Re-fetched run #45268686766 (run 1060); it remains IN_PROGRESS. Hosted-Windows job #138022361285 completed SUCCESS on merge ref `refs/remotes/pull/219/merge`, merge SHA `5a51ba34bfbe734487c164a1b86dceec0e641ce1`, merging PR #219 head `cdacb24c9d1db25ad0a85f93d51afabb94d6f836` into base `da6a25275037a52f3ec35ff36451712dfeac3db2`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Windows passed compilation, 338 tests (28.916s), and synthetic MP4/FFprobe validation. Synthetic input was locally generated pattern/tone only; no GTA 6 or third-party media; publishing disabled; manual review required; mocked upload reports `upload_performed=false`.
+- Ubuntu job #138022360674 remains IN_PROGRESS during FFmpeg/FFprobe installation; compile/tests/render are PENDING. Decoded log fetch returned BlobNotFound. Matrix CI remains NOT VERIFIED until Ubuntu completes and is inspected.
+- Combined status returned zero entries; no passing status inferred. Local tests NOT RUN; no workflow retry. This records PR #219 only and does not transfer evidence to PR #220's own CI.
+- Documentation-only; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action.
