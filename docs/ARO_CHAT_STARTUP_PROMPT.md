@@ -298,3 +298,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Security fix: SourceRightsRegistry registration is append-only. Duplicate source IDs cannot overwrite grants or clear revocation; renewed grants use a new versioned source_id and new evidence.
 - Keep Issue #68 open and all live/public uploads disabled until this branch's exact-head CI and independent review are complete, owner integration is approved, and a device-specific upload limit is chosen.
 - Report: `docs/ARO_CHAT_0106_ISSUE68_SECURITY_CONSOLIDATION.md`. No credentials, live OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action.
+
+
+### Latest continuation baseline — ARO-CHAT-0107 (2026-11-24)
+- Workstream: ARO-GTA-P1-107 / ARO-CHAT-0107, documentation-only audit of PR #168's associated CI; branch `workstream/aro-chat-0107-pr168-exact-head-ci-audit-2026-11-24`; base and starting SHA PR #168 head `9ff25d7356d5badc39f448c9f5e939cda4048541`.
+- PR #168 associated Python CI run #45245685334 (run 971) completed SUCCESS. Ubuntu job #137941689306 and hosted-Windows job #137941688716 each compiled, passed 338 unit tests, and passed synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/168/merge` at merge SHA `f5d5fd8e51a36dc39f448c9f5e939cda4048541`; raw-head-only checkout is NOT DEMONSTRATED. The 338-test suite ran on both platforms, not 676 unique tests.
+- Synthetic evidence: no GTA 6 or third-party media; publishing disabled; manual review required. Hosted Windows is not owner-device verification.
+- Report: `docs/ARO_CHAT_0107_PR168_CI_AUDIT.md`. PR #168 remains OPEN / DRAFT / UNMERGED; no submitted review was present at audit time.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled. Next gates are independent security review, owner-controlled authenticated OAuth channel-owner/per-clip approval integration, and a device-appropriate `--max-upload-bytes` decision before real uploads.
+- No credentials, OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
