@@ -2137,3 +2137,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #138 remains OPEN / DRAFT / UNMERGED; this follow-up does not authorize merge or integration.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+### Final evidence update — ARO-CHAT-0085 (2026-11-23)
+- PR #138 head `f3ecc88600015f97c4067d314717f1c6b0adc3b5` passed Actions run [45198107955](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45198107955).
+- Ubuntu job `137773900779`: compilation passed; decoded log reports `Ran 334 tests in 4.815s`; synthetic MP4/FFprobe validation passed.
+- Hosted Windows job `137773901881`: compilation passed; decoded log reports `Ran 334 tests in 13.152s`; synthetic MP4/FFprobe validation passed.
+- Both jobs checked out merge ref `refs/remotes/pull/138/merge` at `ff624bfa50bb576c9b62a7f6543a3f9a1cdd595e`, containing the PR #138 head merged into base `8668a7dd38bce2290d277757d8baa52f63e42e8e`. Raw-head-only checkout is not demonstrated.
+- Both synthetic reports confirm `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. This is synthetic-media validation, not GTA 6 real-media acceptance.
+- Both platforms ran the same 334-test suite, not 668 unique tests. Local tests were not run in this connector session.
+- This follow-up branch's own exact-head CI remains pending until its run and logs are inspected. PR #138 remains open/draft/unmerged; Issue #68 remains open/unassigned and publishing stays disabled.
+- No credentials, OAuth session, real media, network upload, publishing, merge, retarget, deployment, or destructive action was used.
