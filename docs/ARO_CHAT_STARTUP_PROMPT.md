@@ -297,3 +297,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Do not transfer PR #161's cancelled matrix run or any other branch's CI evidence to PR #162.
 - Report: `docs/ARO_CHAT_0103_PR162_CI_AUDIT.md`. Documentation-only; application, uploader, tests, and workflows are unchanged.
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
+
+
+## Latest continuation baseline — ARO-CHAT-0107 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-107 / ARO-CHAT-0107, documentation-only exact-head CI audit of PR #166; branch `workstream/aro-chat-0107-pr166-exact-head-ci-audit-2026-11-24`; base and starting SHA `4e2e74805c2e4c21aa246a4765e66c0a97cc7be2`.
+- PR #166 head is associated with Python CI run #45243626968 (run 977), IN_PROGRESS at initial inspection. Ubuntu job #137934533544 passed setup, checkout and Python setup and was installing FFmpeg/FFprobe; hosted-Windows job #137934534056 passed setup and was checking out the repository. Compile/tests/render remain pending.
+- Re-fetch both jobs and decoded logs after completion. Do not claim CI_VERIFIED, test counts, synthetic MP4/FFprobe success, or checkout refs until observed.
+- PR #166 review submissions and inline review threads were empty; combined status returned no entries at inspection.
+- Report: `docs/ARO_CHAT_0107_PR166_CI_AUDIT.md`. This workstream is documentation-only; no application, uploader, test, renderer, media-ingestion, or workflow behavior changes.
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
+- ARO-CHAT-0106 is already reserved on a separate Issue #68 rights-registry branch and was not reused. Do not duplicate it.
