@@ -2295,3 +2295,34 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #144 remains OPEN / DRAFT / UNMERGED and owner-selected canonical for ARO-GTA-P1-88. PR #145 remains a preserved non-canonical alternate.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0090 PR #147 exact-head CI audit — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0090 |
+| Exact title | ARO-CHAT-0090 | PR #147 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-90 |
+| Role | Exact-head CI evidence auditor; documentation-only |
+| Task | Audit PR #147's exact-head Actions run, Ubuntu and hosted-Windows jobs, decoded logs, test counts, synthetic MP4/FFprobe validation, and checkout refs. |
+| Branch / PR | `workstream/aro-chat-0090-pr147-exact-head-ci-audit-2026-11-23` / [PR #149](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/149) |
+| Base / starting SHA | PR #147 head `06babec863840afb8cecf0dd6608021bce9067a1` |
+| Parent PR | [PR #147](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/147) |
+| Changed files | `docs/ARO_CHAT_0090_PR147_CI_AUDIT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md`; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+| Status | IMPLEMENTED; PR #147 merge-ref CI_VERIFIED; PR #149 current head CI_VERIFIED on merge ref (run #45233330488, Ubuntu/Windows 334 tests each + synthetic MP4/FFprobe); raw-head-only checkout not demonstrated; owner-device Windows and real-media NOT VERIFIED |
+| Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### Initial CI snapshot
+
+- PR #147 exact head `06babec863840afb8cecf0dd6608021bce9067a1` is associated with Actions run [45232862569](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45232862569), run 945.
+- Run #45232862569 (run 945) completed SUCCESS.
+- Ubuntu job `137896915549`: compile passed; `Ran 334 tests in 5.017s`; synthetic MP4/FFprobe passed.
+- Hosted Windows job `137896914783`: compile passed; `Ran 334 tests in 18.305s`; synthetic MP4/FFprobe passed.
+- Both jobs checked out `refs/remotes/pull/147/merge` at `759fe64c4362cd15cdc76b03fc7e85876aa152d4`, containing PR #147 head `06babec863840afb8cecf0dd6608021bce9067a1`; raw-head-only checkout is not demonstrated.
+- Both synthetic reports state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Both platforms ran the same 334-test suite, not 668 unique tests. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
+- PR #149's own Actions run [45233253566](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45233253566), run 947, is IN_PROGRESS on exact PR head `be3b24b30fa85516019a1a92f9aa770161c5a7d9`. Ubuntu job `137898134777` is installing FFmpeg/FFprobe; hosted Windows job `137898135206` is checking out the repository. This is separate verification of the documentation follow-up; PR #147's successful run must not be transferred to PR #149.
+- Local tests were not run in this connector session. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 footage.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader implementation selection or approved consolidation.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.

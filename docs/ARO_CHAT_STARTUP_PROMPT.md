@@ -172,3 +172,16 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #144 remains open/draft/unmerged and owner-selected canonical for ARO-GTA-P1-88; preserve PR #145 as non-canonical alternate. PR #146 is an independent open draft targeting `integration/release-candidate`; do not alter it in this workstream.
 - Issue #68 remains OPEN / UNASSIGNED. No uploader/OAuth/public-publishing implementation is authorized until owner assignment and canonical PR/consolidation selection. Keep live uploads and public publishing disabled.
 - Report: `docs/ARO_CHAT_0089_PR144_CI_CLOSEOUT.md`; follow-up PR [#147](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/147) is OPEN / DRAFT / UNMERGED. Its own exact-head CI is pending. Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
+
+
+## Live continuation baseline — refreshed 2026-11-23 (ARO-CHAT-0090)
+
+- Latest registered workstream: ARO-CHAT-0090 / ARO-GTA-P1-90, exact-head CI audit of PR #147.
+- Branch: `workstream/aro-chat-0090-pr147-exact-head-ci-audit-2026-11-23`; base: `workstream/aro-chat-0089-pr144-ci-closeout-2026-11-23`; starting/reviewed SHA: PR #147 head `06babec863840afb8cecf0dd6608021bce9067a1`.
+- PR #147 is OPEN / DRAFT / UNMERGED. Its associated Python CI run #45232862569 (run 945) completed SUCCESS on Ubuntu and hosted Windows. Ubuntu passed compilation, 334 tests, and synthetic MP4/FFprobe; hosted Windows passed compilation, 334 tests, and synthetic MP4/FFprobe.
+- Both jobs checked out `refs/remotes/pull/147/merge` at `759fe64c4362cd15cdc76b03fc7e85876aa152d4`, containing PR #147 head `06babec863840afb8cecf0dd6608021bce9067a1`; raw-head-only checkout is not demonstrated. The two platforms ran the same 334-test suite, not 668 unique tests.
+- PR #149 is the draft documentation-only follow-up for ARO-CHAT-0090. Run #45233253566 (run 947) was cancelled during branch updates. The subsequent run #45233330488 (run 949) completed SUCCESS on PR #149 head `72b12ce1519c7fc9aef37edaa99eb9024708a090`: Ubuntu and hosted Windows each passed compilation, 334 tests, and synthetic MP4/FFprobe. Both checked out `refs/remotes/pull/149/merge` at `23cb6793ec5a8fd5524642f42f685f485b5806cd`; raw-head-only checkout is not demonstrated. The two jobs ran the same 334-test suite, not 668 unique tests.
+- PR #146 remains an independent open draft targeting `integration/release-candidate`; do not alter it in this workstream.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads and public publishing disabled pending owner assignment and canonical authenticated-uploader implementation selection or approved consolidation.
+- Synthetic MP4 validation is not real GTA 6 media acceptance. Hosted Windows CI is not owner-device Windows verification. First real clip remains NOT COMPLETE until authorized media, documented permission scope, local render, FFprobe validation, playback, and owner acceptance are evidenced.
+- No merge, retarget, deployment, upload, publishing, credential/OAuth access, real-media processing, or destructive action is authorized by this documentation-only audit.
