@@ -751,3 +751,21 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0150_PR224_CI_AUDIT.md`. Registry: `docs/CHAT_WORKSTREAM_REGISTRY.md`.
 - PR #223 exact-head CI remains PENDING / NOT VERIFIED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Audit branch: `workstream/aro-chat-0150-pr224-exact-head-ci-audit-2026-11-24`, based on PR #224 head. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes.
+
+
+## Latest continuation baseline — ARO-CHAT-0151 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-151 / ARO-CHAT-0151, documentation-only exact-head CI audit of PR #225.
+- Branch: `workstream/aro-chat-0151-pr225-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #225 head `894bf28f07b2bb5eccbbb393f63425da5e64c0da`.
+- Parent PR audited: [PR #225](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/225). Report: `docs/ARO_CHAT_0151_PR225_CI_AUDIT.md`.
+- Exact-head-associated Python CI run #45270102698 (run 1069) was IN_PROGRESS at initial inspection. Hosted-Windows job #138027336285 passed compilation, 338 tests (14.950s), and synthetic MP4/FFprobe validation. Ubuntu job #138027336794 was still installing FFmpeg/FFprobe; compile/tests/render pending.
+- Windows checked out `refs/remotes/pull/225/merge` at merge SHA `cc181eed7c60443ffb2f47bfa7093341d7402c21`; raw-head-only checkout is NOT DEMONSTRATED. Re-fetch Ubuntu job/logs, final run conclusion, combined status, and review state before claiming matrix CI_VERIFIED.
+- Synthetic media only; no GTA 6/third-party media, publishing disabled, manual review required, mocked upload `upload_performed=false`. Do not transfer PR #224's CI result to PR #225.
+- Issue #68 remains OPEN / NOT IMPLEMENTED / UNASSIGNED. Keep live uploads/public publishing disabled. No credentials/OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0151 PR #225 CI closeout — 2026-11-24
+- PR #225 head `894bf28f07b2bb5eccbbb393f63425da5e64c0da` passed run #45270102698 (run 1069): Ubuntu and hosted Windows each passed compilation, the same 338-test suite, and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/225/merge` at merge SHA `cc181eed7c60443ffb2f47bfa7093341d7402c21`; raw-head-only checkout is NOT DEMONSTRATED. Do not count this as 676 unique tests.
+- Synthetic media only; no GTA 6/third-party media, publishing disabled, manual review required, mocked upload `upload_performed=false`. Combined status, reviews, inline threads, and conversation comments were empty.
+- CI_VERIFIED applies to merge ref only. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance. Issue #68 remains OPEN / NOT IMPLEMENTED / UNASSIGNED; keep live uploads/public publishing disabled.
