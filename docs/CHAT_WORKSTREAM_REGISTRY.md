@@ -1302,3 +1302,38 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - R1: deterministic reader yields an in-budget first chunk followed by a cumulative-limit-crossing chunk; assert staged bytes never exceed the limit and temporary staging is cleaned up.
 - R2: oversized direct upload_video() call must reject before Google API client construction, media upload object creation, or OAuth authorization.
 - All fixtures are synthetic and offline. Keep live uploads/public publishing disabled; Issue #68 remains OPEN / UNASSIGNED.
+
+
+## ARO-CHAT-0059 upload-limit PR overlap and exact-head CI reconciliation — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0059 |
+| Exact title | ARO-CHAT-0059 | Upload Security Regression Audit |
+| Workstream ID | ARO-GTA-P1-59 |
+| Role | Bounded PR overlap auditor + exact-head CI evidence reviewer |
+| Task | Reconcile the overlapping ARO-CHAT-0058 upload-limit regression PRs #106–#109, inspect their changed test coverage, and verify exact-head Ubuntu/hosted-Windows CI without changing application behavior. |
+| Branch | workstream/aro-chat-0059-upload-limit-pr-reconciliation-2026-11-23 |
+| Base | PR #109 branch workstream/aro-chat-0058-upload-limit-regressions-2026-11-23, head de014ba42999b30e44a3fe68b81d9f9016d109d1 |
+| Starting SHA | de014ba42999b30e44a3fe68b81d9f9016d109d1 |
+| Status | IMPLEMENTED (documentation-only audit); exact-head CI_VERIFIED for reviewed PRs #106–#109; this audit branch CI pending |
+| Changed files | docs/ARO_CHAT_0058_UPLOAD_LIMIT_PR_RECONCILIATION.md; docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No uploader/application/test behavior changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Reconciliation and CI evidence
+- PRs #106, #107, #108, and #109 all reuse Chat ID ARO-CHAT-0058 / Workstream ARO-GTA-P1-58 for overlapping cumulative upload-limit tests. Their branch bases differ; preserve the ancestry and do not independently integrate duplicate variants.
+- PR #106 has the broadest directly observed test coverage: helper-level cumulative limit, upload-path file-growth rejection with temporary staging cleanup and no API insert, and direct-call oversize rejection before OAuth/API/media setup.
+- PR #109 covers helper-level cumulative limit and direct-call oversize rejection in a separate test module, but lacks the integrated upload-path file-growth/staging-cleanup test present in PR #106.
+- PR #107 and #108 are narrower helper-level variants; their PR bodies identify direct-call guard coverage in their respective ancestry.
+- PR #106 exact head 9055b98454c856f9368cced0c626e076f89a7dd9 passed Actions run [45104569746](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45104569746); Ubuntu and hosted Windows each ran 334 tests successfully and completed synthetic MP4/FFprobe validation.
+- PR #107 exact head a53c90bc6bd32d01abd55809bcf953b09da8dd08 passed run [45104584626](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45104584626); Ubuntu and hosted-Windows jobs completed successfully.
+- PR #108 exact head 1d11c4dd5fe757543af7ea0a0a68b7dfdba214fe passed run [45104575778](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45104575778); Ubuntu and hosted-Windows jobs completed successfully.
+- PR #109 exact head de014ba42999b30e44a3fe68b81d9f9016d109d1 passed run [45104624957](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45104624957); Ubuntu and hosted Windows each ran 334 tests successfully and completed synthetic MP4/FFprobe validation.
+- The successful CI evidence supersedes the earlier ARO-CHAT-0058 registry statements that these exact-head runs were pending. No test count is inferred for #107/#108 because their logs were not inspected here.
+- Hosted Windows CI is not owner-device Windows verification; synthetic MP4 output is not GTA 6 real-media acceptance. Local tests were not run in this connector session.
+
+### Disposition and owner gates
+- The review note is docs/ARO_CHAT_0058_UPLOAD_LIMIT_PR_RECONCILIATION.md.
+- PR #106 has the broadest test coverage among the reviewed variants, but this audit does not select a canonical PR or authorize integration. The owner/assigned implementation owner must approve any consolidation plan.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending canonical security implementation selection, independent review, owner-device verification, device-appropriate upload-size configuration, creator-authorized source media, and real-media acceptance.
+- No merge, retarget, deployment, upload, public publishing, or destructive action was performed.
