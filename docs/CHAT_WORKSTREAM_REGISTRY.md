@@ -2181,3 +2181,36 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #139 remains an open duplicate ARO-CHAT-0085 submission; preserve both histories pending owner reconciliation.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0087 PR #142 exact-head CI audit — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0087 |
+| Exact title | ARO-CHAT-0087 | PR #142 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-87 |
+| Role | Exact-head CI evidence auditor; documentation-only |
+| Task | Inspect PR #142's associated Actions run, both platform jobs and decoded logs; record compile, test, synthetic-media, and checkout-ref evidence. |
+| Branch | `workstream/aro-chat-0087-pr142-ci-audit-2026-11-23` |
+| Base / starting SHA | PR #142 head `807c2472705a7bebfa0c8f1b2b6f756d5c74b0ff` |
+| Parent PR | [PR #142](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/142) |
+| Changed files | `docs/ARO_CHAT_0087_PR142_CI_AUDIT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md`; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+| Status | IMPLEMENTED; PR #142-associated merge-ref CI_VERIFIED on Ubuntu and hosted Windows (334 tests each); raw-head-only checkout not demonstrated; this follow-up branch's own exact-head CI pending |
+| Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### CI evidence
+
+- PR #142 head `807c2472705a7bebfa0c8f1b2b6f756d5c74b0ff` is associated with Actions run [45199074333](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45199074333), run number 914, conclusion SUCCESS.
+- Ubuntu job `137777349883`: compilation passed; decoded log reports `Ran 334 tests in 4.903s`; synthetic MP4/FFprobe validation passed.
+- Hosted Windows job `137777350647`: compilation passed; decoded log reports `Ran 334 tests in 18.509s`; synthetic MP4/FFprobe validation passed.
+- Both jobs checked out merge ref `refs/remotes/pull/142/merge` at `09e8a222e51c5da124b0bac71a7309d4e54231fd`, not a raw PR-head-only checkout.
+- Both synthetic reports state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Both platforms ran the same 334-test suite, not 668 unique tests. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
+- Local tests were not run in this connector session.
+
+### Safety and owner gates
+
+- PR #142 remains OPEN / DRAFT / UNMERGED; this follow-up does not authorize merge or integration.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.

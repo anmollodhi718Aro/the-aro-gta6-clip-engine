@@ -125,3 +125,18 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - This supersedes the prior note that the documentation-only tip had no exact-head run. Hosted Windows CI is not owner-device verification, and synthetic media is not GTA 6 footage.
 - PR #93 remains draft/open/unmerged. Before any real upload, the owner must choose a conservative --max-upload-bytes limit based on actual device RAM and expected clip sizes.
 - Remaining gates: independent security review and owner-controlled resolution of Issue #68's parallel uploader PRs; creator-authorized GTA 6 media and permission evidence; local render, FFprobe validation, playback, and owner acceptance.
+
+
+
+
+## Live continuation baseline — refreshed 2026-11-23 (ARO-CHAT-0087)
+
+- Latest registered workstream before this update: ARO-CHAT-0086 / ARO-GTA-P1-86, auditing PR #140. PR #142 is that audit's follow-up and remains OPEN / DRAFT / UNMERGED.
+- Current chat: ARO-CHAT-0087 / ARO-GTA-P1-87, exact-head CI audit of PR #142. Branch: `workstream/aro-chat-0087-pr142-ci-audit-2026-11-23`; starting SHA: `807c2472705a7bebfa0c8f1b2b6f756d5c74b0ff`.
+- PR #142 head is associated with Actions run #45199074333. Ubuntu job #137777349883 and hosted Windows job #137777350647 each passed compilation, 334 unit tests, and synthetic MP4/FFprobe validation.
+- Both jobs checked out merge ref `refs/remotes/pull/142/merge` at `09e8a222e51c5da124b0bac71a7309d4e54231fd`. This is successful merge-ref CI evidence; raw-head-only checkout is not demonstrated. The two platforms ran the same suite, not 668 unique tests.
+- Synthetic test reports confirm no GTA 6 footage or third-party media was used, publishing was disabled, and manual review remained required. This is not real-media acceptance or owner-device Windows verification.
+- Issue #68 remains OPEN / UNASSIGNED. No uploader/OAuth/publishing implementation work is authorized until owner assignment and canonical PR/consolidation selection. Keep real uploads and public publishing disabled.
+- Preserve duplicate ARO-CHAT-0085 records in PRs #139 and #140 until owner reconciliation; do not silently close or merge either. PR #142 audits PR #140 only.
+- Current next step after this audit: inspect this workstream branch's own exact-head CI, then continue only with the next non-duplicate registry task. Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
+- First real GTA 6 clip remains NOT COMPLETE until authorized media, documented scope-specific permission, local intake, approved clip bounds, local render, FFprobe validation, playback, and owner acceptance are all evidenced.
