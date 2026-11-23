@@ -381,3 +381,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0122_PR190_CI_AUDIT.md`. This workstream is documentation-only; this branch's own exact-head CI must be inspected independently.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
 - No credentials/tokens, OAuth, real media, network upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0124 (2026-11-24)
+- Current workstream: ARO-GTA-P1-124 / ARO-CHAT-0124, documentation-only exact-head CI audit of PR #193.
+- Branch: `workstream/aro-chat-0124-pr193-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #193 head `dbe91e01290c9f7aab01c09dff73d21d6c44d1bf`.
+- PR #193 head-associated Python CI run #45257323510 (run 1018) is IN_PROGRESS. Ubuntu job #137982495041 passed compilation, 338 tests (3.559s), and synthetic MP4/FFprobe validation. Hosted-Windows job #137982494501 passed setup, checkout, and Python 3.11 setup; FFmpeg/FFprobe installation was still running. Windows compile/tests/render are NOT VERIFIED.
+- Ubuntu checked out `refs/remotes/pull/193/merge` at merge SHA `27e6ca95566ee9b103478867cd434546f4796104`; raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic report confirms locally generated test pattern/tone, 8.0-second source, 4.0-second output, no GTA 6 or third-party media, publishing disabled, and manual review required.
+- PR #193 review submissions and inline comments were empty; combined status had zero entries. Local tests were NOT RUN in this connector session.
+- Report: `docs/ARO_CHAT_0124_PR193_CI_AUDIT.md`. This workstream is documentation-only; its own exact-head CI must be inspected separately.
+- ARO-CHAT-0123 was already reserved for a separate PR #192 audit and was not reused. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
