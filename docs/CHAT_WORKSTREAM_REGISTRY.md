@@ -2206,3 +2206,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #226 combined status had zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. **PR #226 exact-base CI remains PENDING / NOT VERIFIED; raw-head-only CI NOT DEMONSTRATED.** Local tests NOT RUN.
 - PR #229's own pre-update head had zero associated workflow runs; inspect its new head's CI independently after this documentation-only update.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No retry, OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation — ARO-CHAT-0154 (2026-11-24)
+- Current workstream: ARO-CHAT-0154 / ARO-GTA-P1-154, documentation-only exact-head CI audit of PR #229.
+- Audit branch: `workstream/aro-chat-0154-pr229-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #229 head `1f703e856d59ca5b41b19e8f8aad65a6d0539547`; base branch: `workstream/aro-chat-0153-pr226-exact-head-ci-audit-2026-11-24`.
+- PR #229 is OPEN / DRAFT / UNMERGED. Its current head-associated pull-request workflow lookup returned zero runs; direct Actions lookup by the exact SHA also returned zero runs. Combined commit status returned zero entries, which is not a passing signal.
+- No jobs/logs were available. Checkout refs, compilation, tests, and synthetic MP4/FFprobe validation are NOT VERIFIED. PR #229 reviews, inline comments, and conversation comments were empty; independent review NOT RECORDED. Local tests NOT RUN; no workflow retry initiated.
+- Do not transfer PR #226's alternate-base runs (#45270942827 and #45270941723) to PR #229.
+- Report: `docs/ARO_CHAT_0154_PR229_CI_AUDIT.md`. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
