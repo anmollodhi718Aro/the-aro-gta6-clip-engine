@@ -359,3 +359,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #242 review submissions, inline threads and comments were empty; independent GitHub reviewer sign-off NOT RECORDED. Local tests NOT RUN in this connector session.
 - Issue #68 remains OPEN. Keep live/public uploads disabled pending complete exact-head CI, separate reviewer sign-off, owner-controlled integration, owner-device verification and authorized real-media acceptance.
 - Audit report: `docs/ARO_CHAT_0165_PR242_CI_AUDIT.md`. Documentation-only; no OAuth, credentials, real media, upload, publishing, workflow retry, merge, retarget, deployment or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0165 CI closeout (2026-11-24)
+- Active workstream: ARO-CHAT-0165 / ARO-GTA-P1-165 | PR #242 exact-head CI audit; audit follow-up [PR #245](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/245), branch `workstream/aro-chat-0165-pr242-exact-head-ci-audit-2026-11-24`.
+- Audited PR #242 actual head: `dfb1e9390490806e44bad93fc661ddff0a551f54`; base `cdcf7a4bef2728e3299e82bc88d376992ecec39d`. Earlier SHA `414fd4f7da94fdffcdd3261a5ea723b5f03290b3` was an ancestor, not the current PR head.
+- Exact-head run #45278668116 (run 1118) completed SUCCESS: Ubuntu job #138058372656 passed compile, 340 tests (4.934s), synthetic MP4/FFprobe; hosted-Windows job #138058368900 passed compile, the same 340 tests (24.840s), synthetic MP4/FFprobe.
+- Both jobs checked out PR merge ref at `ad80436817f46f8f36093ae95dc4eeed6cf0ce7e`, combining audited head with base. CI_VERIFIED on merge ref; raw-head-only checkout NOT DEMONSTRATED. Same 340-test suite ran on both platforms.
+- Synthetic pattern/tone only; 8s source / 4s output; no GTA 6/third-party footage; publishing disabled; manual review required.
+- Combined status returned zero entries. PR #242 review submissions, inline threads and comments were empty; independent GitHub reviewer sign-off NOT RECORDED. Local tests NOT RUN in this connector session.
+- Issue #68 remains OPEN. Keep live/public uploads disabled pending separate reviewer sign-off, owner-controlled integration, owner-device verification and authorized real-media acceptance.
+- Report: `docs/ARO_CHAT_0165_PR242_CI_AUDIT.md`. Documentation-only; no OAuth, credentials, real media, upload, publishing, workflow retry, merge, retarget, deployment or destructive action.
