@@ -225,3 +225,17 @@ The active scoped grant includes tests and documentation for verified Google OID
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL; no uploader implementation or publishing authority is granted.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 media acceptance.
 - GitHub connector capability does not expand project authority.
+
+
+## ARO-CHAT-0106 bounded security implementation grant — 2026-11-24
+
+| Identity | Chat ID | Workstream / issue | Role | Granted scope | Grant evidence | Status |
+|---|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0106 | ARO-GTA-P1-106 / Issue #68 | Security implementation contributor + QA | Audit the existing uploader-security PR lineage; select one canonical candidate without merging or closing competing PRs; harden source-rights registration so duplicate IDs cannot clear revocation; add offline regression tests and directly related documentation; open a draft PR. | User's explicit current instruction approving all three sequential tasks: security PR audit, canonical PR/branch selection, and safe implementation. | ACTIVE FOR THIS BOUNDED TASK ONLY |
+
+### Restrictions retained
+- No live OAuth session, credential/token disclosure, real upload, public publishing, deployment, merge, retarget, destructive action, collaborator permission change, or permission escalation.
+- Source-rights `actor` remains audit metadata, not proof of grantor identity. A new grant after revocation must use a distinct versioned `source_id` and new permission evidence.
+- Keep public upload disabled until exact-head CI, independent security review, and owner-controlled integration are complete.
+- Before any real upload, the owner must choose a device-appropriate `--max-upload-bytes` value.
+- Synthetic tests and hosted Windows CI are not real-media or owner-device acceptance.
