@@ -1904,3 +1904,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #209 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Do not transfer PR #208 or predecessor CI evidence to PR #209. Hosted Windows is not owner-device verification; synthetic media is not GTA 6 footage or real-media acceptance.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0139 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-139 / ARO-CHAT-0139 | PR #210 exact-head CI audit.
+- Branch: `workstream/aro-chat-0139-pr210-exact-head-ci-audit-2026-11-24`; base branch: `workstream/aro-chat-0138-pr209-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #210 head `a97d8786e0f1cc799d7a3131127d2151e11bf0e2`.
+- Parent PR audited: [PR #210](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/210). Report: `docs/ARO_CHAT_0139_PR210_CI_AUDIT.md`.
+- PR #210's commit-associated workflow lookup returned zero runs; combined commit status returned zero entries. This is NOT a CI pass. No workflow jobs were available, so compilation, tests, synthetic MP4/FFprobe validation, and checkout refs remain NOT VERIFIED.
+- PR #210 reviews, inline review threads, and conversation comments were empty; independent review is NOT RECORDED. PR #210 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=true at inspection.
+- Local tests NOT RUN in this connector session. No workflow retry was initiated. Do not transfer PR #209 or predecessor CI evidence.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes. No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
