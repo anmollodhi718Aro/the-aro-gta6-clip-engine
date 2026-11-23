@@ -174,6 +174,59 @@ class YouTubeUploadTests(unittest.TestCase):
         authorize.assert_not_called()
         self.assertFalse((self.root / "token.json").exists())
 
+    def test_upload_copy_growth_after_initial_stat_fails_closed_and_cleans_staging(self):
+        self.video.write_bytes(b"1234")
+        youtube = Mock()
+        modules = self._mock_google_modules(youtube)
+        created_dirs = []
+        real_tempdir = tempfile.TemporaryDirectory
+        real_path_open = Path.open
+
+        class RecordingTemporaryDirectory:
+            def __init__(self, *args, **kwargs):
+                self._delegate = real_tempdir(*args, **kwargs)
+                created_dirs.append(Path(self._delegate.name))
+
+            def __enter__(self):
+                return self._delegate.__enter__()
+
+            def __exit__(self, *exc_info):
+                return self._delegate.__exit__(*exc_info)
+
+        def source_grows_after_stat(path, mode="r", *args, **kwargs):
+            if path == self.video and mode == "rb":
+                return io.BytesIO(b"12345")
+            return real_path_open(path, mode, *args, **kwargs)
+
+        with patch("backend.app.youtube_upload.tempfile.TemporaryDirectory", RecordingTemporaryDirectory):
+            with patch.object(Path, "open", source_grows_after_stat):
+                with patch.dict(sys.modules, modules):
+                    with patch.dict(os.environ, {
+                        "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
+                        "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
+                    }):
+                        with patch("backend.app.youtube_upload._authorize_google") as authorize:
+                            with self.assertRaisesRegex(ValueError, "configured upload limit"):
+                                upload_video(
+                                    self.video,
+                                    {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                                    client_secrets=self.client_secrets,
+                                    token_path=self.root / "token.json",
+                                    rights_report_path=self.report,
+                                    approval_record_path=self.root / "approval.json",
+                                    rights_db_path=self.root / "source_rights.sqlite3",
+                                    clip_id="clip-1",
+                                    source_id="source-1",
+                                    owner_approved=True,
+                                    rights_confirmed=True,
+                                    max_upload_bytes=4,
+                                )
+
+        authorize.assert_not_called()
+        youtube.videos.return_value.insert.assert_not_called()
+        self.assertEqual(len(created_dirs), 1)
+        self.assertFalse(created_dirs[0].exists())
+
     def _write_upload_rights(self, db_path):
         now = datetime.now(timezone.utc)
         registry = SourceRightsRegistry(db_path)
