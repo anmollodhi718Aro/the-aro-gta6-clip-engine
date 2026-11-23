@@ -375,3 +375,9 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - This audit branch's own exact-head CI remains pending until observed. Do not transfer PR #246's run to this branch.
 - Issue #68 remains OPEN; keep live uploads/public publishing disabled pending independent review, owner-controlled integration, owner-device verification, owner-selected device-appropriate `--max-upload-bytes`, and authorized real-media acceptance.
 - Documentation-only; no OAuth, credentials/tokens, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0168 audit PR status refresh — 2026-11-24
+- Draft PR #248 is OPEN / DRAFT / UNMERGED; branch `workstream/aro-chat-0168-pr246-exact-head-ci-audit-2026-11-24`; latest head `837370abb12dba897f24de86ad72be9ecf755c28`; base is the ARO-CHAT-0166 branch.
+- PR #248 exact-head workflow lookup and combined status returned zero entries; own CI is PENDING / NOT VERIFIED. Reviews/comments empty; independent review NOT RECORDED.
+- Do not transfer PR #246 run #45279477145 to PR #248. No merge or retarget.
