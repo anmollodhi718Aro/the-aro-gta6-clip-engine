@@ -56,3 +56,8 @@ Inspect PR #225's own commit-associated Actions run, both platform jobs/logs, co
 - Hosted Windows CI is not owner-device Windows verification. Synthetic media is not GTA 6 footage or real-media acceptance.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
 - This audit branch is documentation-only. No merge requested.
+
+
+## Audit workstream follow-up
+- Documentation closeout is in [draft PR #228](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/228), OPEN / DRAFT / UNMERGED, head `5c0e47b252c566f6d755b91f8227fb636f2398cc`.
+- PR #228's own Python CI run #45270832453 (run 1076) is PENDING. Its result must be inspected independently; PR #225's successful CI does not transfer.
