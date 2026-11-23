@@ -1331,3 +1331,10 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: docs/ARO_CHAT_0104_PR162_CI_AUDIT.md. Documentation-only; no application, uploader, test, or workflow behavior changes.
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; hosted Windows CI is not owner-device verification, and synthetic media is not GTA 6 real-media acceptance.
 - No credentials, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0104 follow-up head-drift note — 2026-11-24
+- PR #162's workstream branch advanced after ARO-CHAT-0104 forked: observed base moved from fa3223c5ac7f46d261cd121911aedfd77c5c498e to 546906fca62ff2493a7ae1955dfdd1b4948233f2.
+- No commit-associated workflow runs were returned for the newer SHA. CI remains PENDING / NOT VERIFIED.
+- Compare shows ARO-CHAT-0104's branch is three commits ahead and two behind the moved base, with merge base fa3223c5ac7f46d261cd121911aedfd77c5c498e. PR #163 is not mergeable at this snapshot.
+- Preserve PR #163 and its branch. No rebase, force-push, retarget, or merge was performed or authorized.
