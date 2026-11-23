@@ -402,3 +402,29 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #193 had no review submissions or inline comments; combined status returned zero entries. Local tests were NOT RUN in this connector session.
 - Report: `docs/ARO_CHAT_0124_PR193_CI_AUDIT.md`. Follow-up draft PR #195 is OPEN / DRAFT / UNMERGED; its own exact-head CI had zero associated runs at inspection and must be checked independently.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0126 (2026-11-24)
+- Current workstream: ARO-GTA-P1-126 / ARO-CHAT-0126 | PR #195 exact-head CI audit.
+- Branch: `workstream/aro-chat-0126-pr195-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #195 head `0141f32fcc584e05af5828f461f873667bd7c8d9`.
+- PR #195 head-associated Python CI run #45257788515 (run 1024) is IN_PROGRESS. Ubuntu job #137984067440 and hosted-Windows job #137984066970 both completed setup, checkout, and Python setup, then reached FFmpeg/FFprobe installation. Compilation, tests, and synthetic MP4/FFprobe validation had not started at inspection.
+- Decoded job-log retrieval returned BlobNotFound for both jobs; checkout refs and final outcomes are NOT VERIFIED. Combined status entries and PR #195 review submissions/inline threads were empty. Local tests were NOT RUN in this connector session.
+- Report: `docs/ARO_CHAT_0126_PR195_CI_AUDIT.md`. Documentation-only; do not transfer PR #193's CI result to PR #195. Re-fetch run #45257788515 and both jobs after completion.
+- Existing ARO-CHAT-0125 branch was detected and left untouched; this workstream uses unique ARO-CHAT-0126 attribution.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0126 follow-up status — 2026-11-24
+- Documentation-only audit branch is recorded in draft PR [#198](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/198), OPEN / DRAFT / UNMERGED; head `3609f463d53180368394ce44c516707361ba9647`.
+- PR #198's own exact-head workflow lookup returned zero associated runs and combined status returned zero entries at inspection. Inspect its own CI independently; do not infer a pass from PR #195.
+- PR #195's associated run #45257788515 was IN_PROGRESS at the audit snapshot; both platform jobs were still installing FFmpeg/FFprobe and compile/tests/render had not started. Decoded logs were unavailable (BlobNotFound).
+
+
+### ARO-CHAT-0126 PR #195 CI closeout — 2026-11-24
+- PR #195 exact-head-associated run #45257788515 (run 1024) completed SUCCESS.
+- Ubuntu: compilation, 338 tests (3.477s), and synthetic MP4/FFprobe validation passed. Hosted Windows: compilation, 338 tests (21.670s), and synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/195/merge` at merge SHA `5b77a6ae66485dd9de6be78affd77298ca9946c8`; raw-head-only checkout is NOT DEMONSTRATED. The same 338-test suite ran on each platform.
+- Synthetic media only; no GTA 6 or third-party media, publishing disabled, manual review required. Combined status and PR #195 review records were empty. Independent review is NOT RECORDED.
+- PR #195 is CI_VERIFIED on merge ref only. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- Follow-up draft PR #198 remains OPEN / DRAFT / UNMERGED; its own exact-head CI must be checked separately.
