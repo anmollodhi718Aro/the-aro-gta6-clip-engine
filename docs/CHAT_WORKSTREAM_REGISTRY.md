@@ -1948,3 +1948,18 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Final run conclusion, test count, synthetic validation, checkout SHA, and combined status remain NOT VERIFIED. Recheck before closeout; do not transfer predecessor evidence.
 - PR #212 reviews and inline threads were empty. Independent review NOT RECORDED. Local tests NOT RUN in this connector session.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
+
+
+## Latest continuation baseline — ARO-CHAT-0143 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-143 / ARO-CHAT-0143 | PR #214 exact-head CI audit.
+- Branch: `workstream/aro-chat-0143-pr214-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #214 head `d11b4077f1e2caf14866559aa4b0e1ab5a802c99`.
+- Parent PR audited: [PR #214](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/214).
+- PR #214 exact-head workflow lookup returned zero runs; check-runs returned zero entries; combined commit status was pending with zero status entries.
+- PR #214 reviews and inline review threads were empty. Independent review NOT RECORDED.
+- No workflow jobs were available. Compilation, tests, synthetic MP4/FFprobe validation, and checkout refs are NOT VERIFIED. Local tests NOT RUN; no workflow retry initiated.
+- PR #214 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=false. This is a zero-run evidence snapshot, not CI_VERIFIED.
+- Report: `docs/ARO_CHAT_0143_PR214_CI_AUDIT.md`. Recheck this exact head if Actions appears; do not transfer predecessor CI evidence.
+- PR #213 has a separate pre-existing ARO-CHAT-0142 branch; PRs #213 and #214 both show ARO-CHAT-0141 in their visible attribution. This workstream does not modify either.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes; no credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
