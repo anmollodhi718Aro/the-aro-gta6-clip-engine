@@ -499,3 +499,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Parent CI is PENDING / NOT VERIFIED. This workstream's own exact-head CI must be inspected independently after the follow-up PR is opened. Do not transfer PR #203's CI result to this branch.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage.
 - Documentation-only. No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0132 (2026-11-24)
+- Current workstream: ARO-GTA-P1-132 / ARO-CHAT-0132 | PR #203 exact-head CI audit.
+- Branch: `workstream/aro-chat-0132-pr203-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #203 head `4f17acae0e94e168d088ab40e1b22619982ee1f4`.
+- Follow-up draft PR #204: [Audit PR #203 exact-head CI](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/204). Report: `docs/ARO_CHAT_0132_PR203_CI_AUDIT.md`.
+- PR #203 head-associated Python CI run [#45263845053](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45263845053), run 1038, concluded CANCELLED. Ubuntu job #138005400958 passed source compilation and 338 tests (5.042s), then was cancelled before synthetic MP4/FFprobe render. Hosted-Windows job #138005401312 was cancelled during FFmpeg extraction; compilation, tests, and render were skipped.
+- Both jobs checked out `refs/remotes/pull/203/merge` at merge SHA `3444c4d91f18c8331b65f168eb44a1b25f8fb475`, merging PR #203 head into base `f41ed82acb5e94e1d64727765942c58855add1fb`. Raw-head-only checkout is NOT DEMONSTRATED.
+- PR #203 is NOT CI_VERIFIED across the matrix. The Ubuntu test result is partial evidence only. Combined status and review records were empty; independent review is NOT RECORDED.
+- PR #204 head `edf9ab501f0225808573c232cf75dedb38e105b4` had no associated workflow runs at latest inspection; its own exact-head CI is PENDING / NOT VERIFIED. Do not transfer CI results.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry, merge, retarget, deployment, credentials, OAuth, real media, network upload, publishing, or destructive action was performed.
