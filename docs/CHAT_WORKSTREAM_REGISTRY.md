@@ -2125,3 +2125,28 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Draft PR [#223](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/223) is OPEN / DRAFT / UNMERGED; head `ab163cbb70298bacb2fab637f61772d7440aa04f`.
 - Its own exact-head workflow lookup and combined status returned zero entries. PR #223 CI is PENDING / NOT VERIFIED; do not transfer PR #221's successful run. Recheck the exact head when Actions appears.
 - PR #223 reviews, inline threads, and conversation comments were empty. Local tests NOT RUN; no workflow retry initiated.
+
+
+## ARO-CHAT-0149 PR #223 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0149 |
+| Exact title | ARO-CHAT-0149 | PR #223 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-149 |
+| Scope | Documentation-only audit of PR #223 current-head Actions runs, combined status, review state, jobs/logs, compile/tests, synthetic media validation, and checkout refs |
+| Branch | `workstream/aro-chat-0149-pr223-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #223 head `7b65279f15981f8b15170f87bac34cba7772f6d2` |
+| Parent PR | [#223](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/223) |
+| Report | `docs/ARO_CHAT_0149_PR223_CI_AUDIT.md` |
+| Status | IMPLEMENTED (initial evidence report); PR #223 exact-head CI PENDING / NOT VERIFIED; independent review NOT RECORDED |
+| Safety | Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes; no credentials, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action. |
+
+### Evidence at inspection
+- PR #223 current head `7b65279f15981f8b15170f87bac34cba7772f6d2` returned zero commit-associated Actions workflow runs and zero combined status entries.
+- No jobs/logs were available. Compilation, unit tests, synthetic MP4/FFprobe validation, and checkout refs are NOT VERIFIED.
+- Reviews, inline threads, and conversation comments returned empty arrays. Independent review NOT RECORDED.
+- PR #223 remains OPEN / DRAFT / UNMERGED; GitHub reported `mergeable=false`.
+- Do not transfer PR #221's successful run #45269230348 to PR #223. Local tests NOT RUN; no workflow retry initiated.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Recheck this exact head when an associated Actions run appears. Any new commit changes the head and requires a fresh audit.
