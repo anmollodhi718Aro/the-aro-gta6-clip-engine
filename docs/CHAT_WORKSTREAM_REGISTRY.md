@@ -1321,3 +1321,13 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 
 - CI evidence refresh: PR #161 head run #45242621235 (run 970) completed with overall conclusion CANCELLED. Ubuntu job #137930984235 succeeded through compile, unit-test, and synthetic MP4/FFprobe workflow steps; exact test count/log text and checkout SHA were not available. Hosted-Windows job #137930984793 was cancelled during the unit-test step after compile; synthetic render was skipped. Therefore PR #161 is not matrix CI_VERIFIED. No rerun was initiated.
 - Follow-up PR #162 head `098844642622bdf044363a4c84791f5d7313033a` had zero check-runs and combined status PENDING at the time checked; re-fetch after the final documentation commit. No CI evidence is transferred from PR #161.
+
+
+## Latest continuation baseline — ARO-CHAT-0104 (2026-11-24)
+- Current workstream: ARO-GTA-P1-104 / ARO-CHAT-0104, exact-head CI audit of PR #162.
+- Branch: workstream/aro-chat-0104-pr162-exact-head-ci-audit-2026-11-24; base and starting SHA: fa3223c5ac7f46d261cd121911aedfd77c5c498e (PR #162 current head at reservation).
+- Duplicate reservation check: the proposed ARO-CHAT-0103 branch already existed, although no corresponding open PR appeared in the inspected open-PR list. It was preserved untouched; ARO-CHAT-0104 was allocated on a new branch.
+- Commit-associated workflow lookup for PR #162 head fa3223c5ac7f46d261cd121911aedfd77c5c498e returned no runs. Exact-head CI, compile/tests, synthetic MP4/FFprobe, and checkout refs remain PENDING / NOT VERIFIED.
+- Report: docs/ARO_CHAT_0104_PR162_CI_AUDIT.md. Documentation-only; no application, uploader, test, or workflow behavior changes.
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; hosted Windows CI is not owner-device verification, and synthetic media is not GTA 6 real-media acceptance.
+- No credentials, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
