@@ -795,3 +795,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0154_PR229_CI_AUDIT.md`. Documentation-only; do not transfer PR #226 alternate-base CI evidence.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads and public publishing disabled.
 - No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0155 — PR #230 exact-head CI audit (2026-11-24)
+- Current workstream: ARO-CHAT-0155 / ARO-GTA-P1-155; exact title: `ARO-CHAT-0155 | PR #230 Exact-Head CI Audit`.
+- Documentation-only audit branch: `workstream/aro-chat-0155-pr230-exact-head-ci-audit-2026-11-24`; starting SHA is PR #230 head `17451dd789aa2c7e1f18893d9f7f2e6b0d8dc9e1`.
+- PR #230 associated Python CI run #45273696018 completed SUCCESS on merge SHA `363c6f07fda6939d7608edd5ea89422e04869cd0`. Ubuntu and hosted Windows each passed compilation, the same 338 tests, and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/230/merge`; raw-head-only CI is NOT DEMONSTRATED. Synthetic media only; no GTA 6/third-party media; publishing disabled; manual review required.
+- Combined status returned zero entries; PR reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. Local tests NOT RUN.
+- Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED and live uploads/public publishing disabled. No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
