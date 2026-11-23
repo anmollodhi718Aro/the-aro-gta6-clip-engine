@@ -597,7 +597,8 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 | Exact title | ARO-CHAT-0032 | Test ResourceWarning Cleanup |
 | Provider / model | OpenAI / GPT-6 |
 | Project / workstream | THE ARO GTA 6 Clip Engine / ARO-GTA-P2-32 |
-| Role | Contributor / QA-minded maintenance || Scope | Close the CSV reader in the batch-render test and record the isolated test-hygiene change; no application renderer or publishing changes |
+| Role | Contributor / QA-minded maintenance |
+| Scope | Close the CSV reader in the batch-render test and record the isolated test-hygiene change; no application renderer or publishing changes |
 | Branch / PR | `workstream/aro-chat-0032-test-resourcewarning-2026-11-20` / PR pending |
 | Starting SHA | `4787c069d498b51177968546198eea3e1e8ac84a` |
 | Status | IMPLEMENTED; exact-head tests/CI NOT VERIFIED |
@@ -1196,7 +1197,8 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 ### Issue #68 security-lineage review status
 - Issue #68 remains OPEN. PR #83 identifies itself as the owner-selected primary candidate; PR #87 → #88 → #92 → #93 is a remediation chain that adds OIDC verifier repair, staged upload snapshot, immutable approved payload, and bounded-memory enforcement.
 - PR #82 and PR #91 remain parallel alternatives/reference histories. Preserve all branches; do not independently integrate overlapping implementations or infer permission to merge.
-- Security review and exact ancestry reconciliation remain in progress. Live uploads and public publishing stay disabled. Device-specific `--max-upload-bytes`, creator-authorized media, documented rights, real-media render/FFprobe/playback, and owner acceptance remain separate gates.- No OAuth credential/token access, real upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+- Security review and exact ancestry reconciliation remain in progress. Live uploads and public publishing stay disabled. Device-specific `--max-upload-bytes`, creator-authorized media, documented rights, real-media render/FFprobe/playback, and owner acceptance remain separate gates.
+- No OAuth credential/token access, real upload, public publishing, merge, retarget, deployment, or destructive action was performed.
 
 
 ### ARO-CHAT-0055 preliminary static review of Issue #68 remediation lineage
@@ -1795,7 +1797,8 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 ## ARO-CHAT-0075 PR #126 exact-head CI cancellation closeout — 2026-11-23
 
 | Field | Record |
-|---|---|| Chat ID | ARO-CHAT-0075 |
+|---|---|
+| Chat ID | ARO-CHAT-0075 |
 | Exact title | ARO-CHAT-0075 | PR #126 Exact-Head CI Cancellation Closeout |
 | Workstream ID | ARO-GTA-P1-75 |
 | Role | Exact-head CI evidence auditor + documentation-only contributor |
