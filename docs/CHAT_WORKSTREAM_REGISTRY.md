@@ -2253,3 +2253,12 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Combined status returned zero entries. PR #232 review submissions and inline review threads were empty; independent review NOT RECORDED. Conversation comments count was zero. Local tests NOT RUN; no workflow retry initiated.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage or real-media acceptance.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials/OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0157 PR #232 live exact-head recheck — 2026-11-24
+- PR #232 current live head is `ccde1827d1f8b7d25a7f3ef8d206c8f55cb3fc5b`, base `workstream/aro-chat-0155-pr230-exact-head-ci-audit-2026-11-24`, OPEN / DRAFT / UNMERGED. This supersedes reservation-time head `35acfb1961b8cd3ff3d3ae2b1a4c9db34f566e73` for current reporting.
+- Current-head Python CI run [#45274631218](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45274631218), run 1089, is PENDING. Job lookup returned zero jobs; compile, tests, synthetic MP4/FFprobe, and checkout refs are NOT VERIFIED.
+- Combined status returned zero entries. PR #232 reviews, inline threads, and conversation comments are empty; independent review NOT RECORDED. Local tests NOT RUN; no workflow retry.
+- Do not transfer older run #45274445897 from reservation SHA `35acfb1961b8cd3ff3d3ae2b1a4c9db34f566e73` to current head `ccde1827d1f8b7d25a7f3ef8d206c8f55cb3fc5b`.
+- Report: `docs/ARO_CHAT_0157_PR232_CI_AUDIT.md`; audit PR #233 remains draft-only. PR #233's own CI is a separate gate.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No credentials/OAuth, real media, upload, publishing, retry, merge, rebase, retarget, deployment, or destructive action.
