@@ -2239,3 +2239,16 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Local tests were not run in this connector session. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 footage.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled until owner assignment and canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+### Final evidence update — ARO-CHAT-0088 (2026-11-23)
+
+- PR #143 Actions run [45205002366](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45205002366), run 919, completed successfully on both required jobs.
+- Ubuntu job `137798218807`: compile passed; decoded log reports `Ran 334 tests in 3.585s`; synthetic MP4/FFprobe validation passed.
+- Hosted Windows job `137798218139`: compile passed; decoded log reports `Ran 334 tests in 16.983s`; synthetic MP4/FFprobe validation passed.
+- Both jobs fetched and checked out `refs/remotes/pull/143/merge` at `76dcc56ee7dca3dfa836569e0ec9ead920ce4482`. Raw-head-only checkout is not demonstrated.
+- Both synthetic reports state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. This is not real GTA 6 media acceptance.
+- Both platforms ran the same 334-test suite, not 668 unique tests. Hosted Windows CI is not owner-device verification. Local tests were not run in this connector session.
+- Parent PR #143 is CI_VERIFIED on its merge ref only. PR #144's own exact-head CI remains pending after this documentation refresh.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
+- No credentials/tokens, OAuth session, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
