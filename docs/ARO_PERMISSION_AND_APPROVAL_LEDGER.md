@@ -239,3 +239,17 @@ The active scoped grant includes tests and documentation for verified Google OID
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL; no uploader implementation or publishing authority is granted.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 media acceptance.
 - GitHub connector capability does not expand project authority.
+
+
+## ARO-CHAT-0108 bounded QA/documentation grant — 2026-11-24
+
+| Identity | Chat ID | Task ID | Role | Granted scope | Grant evidence | Status |
+|---|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0108 | ARO-GTA-P1-108 | QA / AUDITOR; documentation contributor | Audit PR #167's own commit-associated Actions run, Ubuntu/hosted-Windows job summaries and decoded logs, compile/tests, synthetic MP4/FFprobe evidence, checkout refs, combined status and review state; update only the dedicated audit report, registry, startup prompt and this ledger on the isolated ARO-CHAT-0108 branch; open a draft documentation PR. | Owner's current instruction to identify the latest pending GTA 6 Clip Engine task and safely begin work; scope bounded to the sequential PR #167 CI audit. | ACTIVE FOR BOUNDED AUDIT AND DOCUMENTATION ONLY |
+
+### Restrictions retained
+- No application, uploader, test, workflow, renderer, or media-ingestion implementation changes.
+- No merge, retarget, deployment, upload, public publishing, credential/OAuth access, destructive action, collaborator permission change, permission escalation, or owner-only approval.
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL; no uploader implementation or publishing authority is granted.
+- Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 media acceptance.
+- GitHub connector capability does not expand project authority.
