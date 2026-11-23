@@ -5,8 +5,10 @@ This module never downloads media or publishes rendered clips.
 from __future__ import annotations
 import json
 import math
+import os
 import shutil
 import subprocess
+import tempfile
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -51,21 +53,25 @@ def render_local_clip(
         raise FileExistsError("output already exists; refusing to overwrite")
     if shutil.which(ffmpeg_binary) is None or shutil.which(ffprobe_binary) is None:
         raise FileNotFoundError("FFmpeg and FFprobe must both be installed and available on PATH")
-    command = [
-        ffmpeg_binary, "-hide_banner", "-nostdin", "-v", "error", "-n",
-        "-protocol_whitelist", "file", "-ss", f"{start_seconds:.3f}",
-        "-i", str(source), "-t", f"{duration_seconds:.3f}",
-        "-map", "0:v:0", "-map", "0:a?", "-c:v", "libx264",
-        "-c:a", "aac", "-movflags", "+faststart", "-f", "mp4", str(destination),
-    ]
-    try:
+    # Render into a private temporary directory on the destination filesystem.
+    # Publish with os.link(), which atomically fails if destination already exists.
+    # Never clean up destination on failure: it may belong to another process.
+    with tempfile.TemporaryDirectory(prefix=".aro-render-", dir=destination.parent) as staging:
+        staged_output = Path(staging) / "render.mp4"
+        command = [
+            ffmpeg_binary, "-hide_banner", "-nostdin", "-v", "error", "-n",
+            "-protocol_whitelist", "file", "-ss", f"{start_seconds:.3f}",
+            "-i", str(source), "-t", f"{duration_seconds:.3f}",
+            "-map", "0:v:0", "-map", "0:a?", "-c:v", "libx264",
+            "-c:a", "aac", "-movflags", "+faststart", "-f", "mp4", str(staged_output),
+        ]
         completed = subprocess.run(command, capture_output=True, text=True, timeout=timeout_seconds, check=False)
         if completed.returncode != 0:
             raise RuntimeError(f"FFmpeg render failed: {completed.stderr[-1000:]}")
         probe = subprocess.run(
             [ffprobe_binary, "-v", "error", "-protocol_whitelist", "file",
              "-show_entries", "format=duration:stream=codec_type,codec_name",
-             "-of", "json", str(destination)],
+             "-of", "json", str(staged_output)],
             capture_output=True, text=True, timeout=timeout_seconds, check=False,
         )
         if probe.returncode != 0:
@@ -78,7 +84,5 @@ def render_local_clip(
             raise RuntimeError("rendered file has no valid video stream or duration")
         if actual_duration > duration_seconds + 1.5:
             raise RuntimeError("rendered duration exceeds the requested clip window")
+        os.link(staged_output, destination)
         return RenderResult(destination, actual_duration, str(video.get("codec_name", "unknown")))
-    except (OSError, subprocess.TimeoutExpired, json.JSONDecodeError, TypeError, ValueError, RuntimeError):
-        destination.unlink(missing_ok=True)
-        raise
