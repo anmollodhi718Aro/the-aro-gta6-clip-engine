@@ -36,3 +36,11 @@ Re-fetch run #45269230348 and both jobs after completion. Inspect decoded logs f
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
 - Hosted Windows CI is not owner-device Windows verification. Synthetic media is not GTA 6 footage or real-media acceptance.
+
+
+## Progress update — 2026-11-24
+- Run #45269230348 remains IN_PROGRESS at this refresh.
+- Ubuntu job #138024276868 completed SUCCESS. Its log confirms checkout of `refs/remotes/pull/221/merge` at merge SHA `cba11074982e05c4c5c725c5292223a9a129cf6c`, merging PR #221 head `eee181efc37f040b77e91df416a77983d7c7c687` into base `47072a6ac9b42d48d273176dc7e04fe019779fd7`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Ubuntu source compilation passed; 338 tests passed in 4.303s. Synthetic first-clip validation passed using a locally generated pattern and tone, with `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. The mocked approval evidence records `upload_performed=false`.
+- Hosted-Windows job #138024276330 has completed setup, checkout, Python 3.11, FFmpeg/FFprobe installation, and compilation; its 338-test suite was still IN_PROGRESS at this refresh, and synthetic render had not started.
+- Combined status still returned zero entries. Reviews and comments remain empty. Do not claim matrix CI_VERIFIED until hosted Windows finishes and the overall run concludes successfully.
