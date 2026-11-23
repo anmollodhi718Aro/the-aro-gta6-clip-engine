@@ -2229,15 +2229,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Base / starting SHA | PR #143 head `6f9d184eb4447c64544ad93e05f7ad1708431e8e` |
 | Parent PR | [PR #143](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/143) |
 | Changed files | `docs/ARO_CHAT_0088_PR143_CI_AUDIT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md`; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
-| Status | IN_PROGRESS; Windows hosted steps passed through synthetic MP4/FFprobe validation; Ubuntu FFmpeg/FFprobe installation in progress at initial snapshot; two-platform CI not yet verified |
+| Status | IN_PROGRESS; Windows hosted job SUCCESS (334 tests + synthetic MP4/FFprobe); Ubuntu FFmpeg/FFprobe installation still in progress at latest snapshot; two-platform CI not yet verified |
 | Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
 
 ### Initial CI evidence snapshot
 - PR #143 head `6f9d184eb4447c64544ad93e05f7ad1708431e8e` is associated with Actions run [45205002366](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45205002366), run number 919.
-- Windows job `137798218139`: setup, checkout, Python 3.11, FFmpeg/FFprobe installation, compilation, unit tests, and synthetic MP4/FFprobe validation all completed successfully; post-job cleanup was still in progress at the snapshot.
-- Ubuntu job `137798218807`: setup, checkout and Python setup passed; FFmpeg/FFprobe installation was in progress; compile, tests and synthetic render had not started.
-- The workflow was still IN_PROGRESS. No final conclusion, Ubuntu test count, or two-platform CI pass is claimed.
-- Checkout-ref identity and decoded log contents remain to be confirmed from the completed run.
+- Windows job `137798218139` completed SUCCESS. Decoded log: Python 3.11.9; compilation passed; `Ran 334 tests in 16.983s`; synthetic MP4/FFprobe validation passed. It checked out `refs/remotes/pull/143/merge` at `76dcc56ee7dca3dfa836569e0ec9ead920ce4482`, not the raw PR head. Synthetic report confirms `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Ubuntu job `137798218807`: setup, checkout and Python setup passed; FFmpeg/FFprobe installation was still in progress at the latest status check; compile, tests and synthetic render had not started.
+- The workflow remained IN_PROGRESS. No final conclusion, Ubuntu test count, or two-platform CI pass is claimed.
+- Hosted Windows CI is not owner-device Windows verification; synthetic media is not GTA 6 real-media acceptance. Local tests were not run in this connector session.
 - Local tests were not run in this connector session.
 
 ### Safety and owner gates
