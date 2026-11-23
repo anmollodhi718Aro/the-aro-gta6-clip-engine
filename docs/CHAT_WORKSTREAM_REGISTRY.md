@@ -1405,3 +1405,34 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #167's own exact-head CI remains a separate pending check; no CI evidence is transferred from PR #166.
 
 - Follow-up PR #167 head `766d5cc9d2bce6b1ff20640a01d3da36ec2733c8` has no associated workflow run or combined status entry at latest inspection; its own exact-head CI remains PENDING / NOT VERIFIED.
+
+
+## ARO-CHAT-0108 PR #167 exact-head CI closeout — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0108 |
+| Exact title | ARO-CHAT-0108 | PR #167 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-108 |
+| Scope | Documentation-only audit of PR #167's own Actions run, Ubuntu/hosted-Windows logs, compilation, tests, synthetic MP4/FFprobe validation, checkout refs, and review state |
+| Branch | `workstream/aro-chat-0108-pr167-exact-head-ci-closeout-2026-11-24` |
+| Base / starting SHA | PR #167 head `ea56bb0f283fe528f8d0c5a4371005baebd13f7b` |
+| Parent PR | #167 |
+| Changed files | `docs/ARO_CHAT_0108_PR167_CI_CLOSEOUT.md`, this registry, and `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+| Status | IMPLEMENTED (documentation-only); audited PR #167 head CI_VERIFIED on merge ref; this follow-up branch's own CI PENDING |
+| Scope boundary | No application/uploader/test/renderer/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### Verification
+- PR #167 head `ea56bb0f283fe528f8d0c5a4371005baebd13f7b` is associated with Python CI run [#45244087758](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45244087758), run 987, SUCCESS.
+- Ubuntu job #137936186035: compilation passed; 334 tests passed (5.070s); synthetic MP4/FFprobe validation passed.
+- Hosted-Windows job #137936186699: compilation passed; 334 tests passed (15.369s); synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/167/merge` at merge SHA `cde5fe4a96bc2702f0c3aa52d5070249c0e245e4`, merging audited head into PR #166 head `4e2e74805c2e4c21aa246a4765e66c0a97cc7be2`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both synthetic reports confirm `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`; source duration 8.0 seconds and rendered duration 4.0 seconds.
+- Both platforms ran the same 334-test suite, not 668 unique tests. Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
+- PR #167 review submissions and inline review threads returned empty lists. Combined commit status returned no entries; the commit-associated successful Actions run is the evidence for CI_VERIFIED.
+- Non-failing Node.js 20 deprecation warning was present for checkout/setup actions under Node.js 24 runners; no workflow change was made.
+- Local tests were not run in this connector session. This follow-up branch's own exact-head CI remains PENDING and must be inspected separately.
+
+### Safety and owner gates
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment, canonical authenticated-uploader integration, and independent review.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
