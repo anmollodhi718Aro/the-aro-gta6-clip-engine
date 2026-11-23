@@ -1452,3 +1452,13 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
 - No credentials/tokens, OAuth, real media, network upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage or real-media acceptance.
+
+
+### ARO-CHAT-0123 PR #192 exact-head CI audit refresh — 2026-11-24
+- Re-audited parent PR #192 head `0b17b17c295af9412ba74c6674fa3fe961784ab0`: commit-associated PR workflow runs = 0; combined status entries = 0; review submissions = 0; inline review threads = 0. Parent PR #192 compilation, tests, synthetic MP4/FFprobe, and checkout refs remain NOT VERIFIED.
+- Separately inspected this audit branch PR #194 head `d6fd5be6c8e9608fc6bb1d4a91e3a4bcb3ce26a8`: Python CI run [45257397865](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45257397865), run 1019, SUCCESS. Ubuntu job `137982722529` and hosted-Windows job `137982723087` each passed compilation, the same 338-test suite, and synthetic MP4/FFprobe validation.
+- Both PR #194 jobs checked out `refs/remotes/pull/194/merge` at merge SHA `82565a6043f1bb5ba15e7de6aa83925155506caf`, merging audit head into base `0b17b17c295af9412ba74c6674fa3fe961784ab0`. Raw-head-only checkout is NOT DEMONSTRATED. The two platform runs are 338 shared test cases, not 676 unique tests.
+- Synthetic reports explicitly show no GTA 6 footage or third-party media, publishing disabled, and manual review required. PR #194 combined legacy status had zero entries; PR #194 review submissions and inline threads were empty.
+- Status distinction: PR #194 audit branch is CI_VERIFIED on its merge ref; the audited parent PR #192 remains NOT VERIFIED because its own exact-head lookup still has zero runs. Do not transfer CI evidence between PRs.
+- Report: `docs/ARO_CHAT_0123_PR192_CI_AUDIT.md`. Local tests NOT RUN. Hosted Windows is not owner-device verification; synthetic MP4 is not real-media acceptance.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live/public uploads disabled. No credentials/tokens, OAuth, real media, upload, publishing, merge, retarget, deployment, workflow retry, or destructive action occurred.
