@@ -140,3 +140,17 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Preserve duplicate ARO-CHAT-0085 records in PRs #139 and #140 until owner reconciliation; do not silently close or merge either. PR #142 audits PR #140 only.
 - Current next step after this audit: inspect this workstream branch's own exact-head CI, then continue only with the next non-duplicate registry task. Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
 - First real GTA 6 clip remains NOT COMPLETE until authorized media, documented scope-specific permission, local intake, approved clip bounds, local render, FFprobe validation, playback, and owner acceptance are all evidenced.
+
+
+### Latest continuation baseline — ARO-CHAT-0089 (2026-11-23)
+
+- Current workstream: ARO-CHAT-0089 / ARO-GTA-P0-89, independent CI evidence audit of PR #146. Branch: `workstream/aro-chat-0089-pr146-ci-audit-2026-11-23`; starting SHA: `6f9d184eb4447c64544ad93e05f7ad1708431e8e`.
+- PR #146 head `e3e1206d286a1e65d566b5820aa5529a8c5e472c`, base `integration/release-candidate` at `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`, is associated with Actions run #45230858696 (run #943), SUCCESS.
+- Ubuntu job #137889693896 passed compile, FFmpeg installation, and all 249 tests. Hosted Windows job #137889694337 passed compile, FFmpeg/FFprobe installation, all 249 tests, PowerShell parsing of both local scripts, and `scripts/check_project.ps1`; that script repeated the 249-test suite.
+- Both jobs checked out `refs/remotes/pull/146/merge` at `c8055145da4ac6f46aa017aba6658bf1f880eb75`, not the raw PR head. Mark merge-ref CI_VERIFIED; raw-head-only CI NOT DEMONSTRATED.
+- Synthetic video rendering passed in the test suite. No GTA 6 footage, third-party media, live OAuth, network upload, or publishing was used. Hosted Windows CI is not owner-device Windows verification.
+- Audit report: `docs/ARO_CHAT_0089_PR146_CI_AUDIT.md`. Documentation-only; no application/uploader/test/workflow behavior changes. This audit branch's own exact-head CI remains pending until checked.
+- PRs #144 and #145 both claim ARO-CHAT-0088 / ARO-GTA-P1-88 with divergent registry/startup snapshots. Preserve both; this workstream branches from their common predecessor and does not choose either.
+- Issue #68 remains OPEN / UNASSIGNED. Keep real uploads and public publishing disabled pending owner assignment and canonical authenticated-uploader implementation/consolidation approval.
+- Parent PR #146 remains OPEN / DRAFT / UNMERGED. Owner-side Windows smoke test with an owner-supplied authorized recording and first-real-clip acceptance remain pending.
+- Next action: inspect this audit branch's own exact-head CI after its documentation commits. Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.

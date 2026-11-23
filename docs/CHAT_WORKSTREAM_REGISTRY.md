@@ -2214,3 +2214,44 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #142 remains OPEN / DRAFT / UNMERGED; this follow-up does not authorize merge or integration.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0088 duplicate reservation note — 2026-11-23
+
+- PRs #144 and #145 both claim Chat ID ARO-CHAT-0088 / Workstream ID ARO-GTA-P1-88 and audit PR #143. Their registry and startup-prompt snapshots differ; neither is selected as canonical here.
+- Preserve both PRs and branches pending owner reconciliation. Do not merge, close, retarget, or delete either as part of this note.
+- Their own head-associated Actions runs completed successfully: PR #144 run #45217116584 and PR #145 run #45205535343. Both runs tested merge refs, not raw-head-only checkouts. This evidence does not resolve the duplicate attribution.
+
+## ARO-CHAT-0089 PR #146 merge-ref CI audit — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0089 |
+| Exact title | ARO-CHAT-0089 | PR #146 Merge-Ref CI Audit |
+| Workstream ID | ARO-GTA-P0-89 |
+| Role | Independent CI evidence auditor; documentation-only |
+| Task | Audit PR #146's current-head-associated Actions run, both hosted platform jobs, decoded logs, test counts, synthetic rendering, and PowerShell validation. |
+| Branch | `workstream/aro-chat-0089-pr146-ci-audit-2026-11-23` |
+| Base / starting SHA | PR #143 head `6f9d184eb4447c64544ad93e05f7ad1708431e8e`, common predecessor of the duplicate ARO-CHAT-0088 branches |
+| Parent PR under audit | [#146](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/146) |
+| Changed files | `docs/ARO_CHAT_0089_PR146_CI_AUDIT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md`; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+| Status | IMPLEMENTED (documentation-only); PR #146 run #943 SUCCESS on Ubuntu and hosted Windows at merge ref; raw-head-only CI not demonstrated |
+| Scope boundary | No application/uploader/test/workflow behavior changes; no credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### PR #146 CI evidence
+
+- Current PR #146 head: `e3e1206d286a1e65d566b5820aa5529a8c5e472c`; base: `integration/release-candidate` at `54cefb14c23b6d5d0bf9c1c6188ee1e9092cd70a`.
+- Actions run [45230858696](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45230858696), run number 943, completed SUCCESS.
+- Both jobs checked out `refs/remotes/pull/146/merge` at `c8055145da4ac6f46aa017aba6658bf1f880eb75`; raw-head-only checkout is not demonstrated.
+- Ubuntu job `137889693896`: compile passed; FFmpeg install passed; 249 tests passed; synthetic video render unit test passed.
+- Hosted Windows job `137889694337`: compile passed; FFmpeg/FFprobe 9.1 installed; 249 tests passed; synthetic video render unit test passed; PowerShell parsing of both local scripts passed; `scripts/check_project.ps1` passed and repeated 249 tests.
+- Both platforms ran the same 249-test suite. The additional Windows check is a repeat, not 249 new unique tests.
+- No real GTA 6 media, third-party media, OAuth session, network upload, or publishing was used. Hosted Windows CI is not owner-device verification.
+- PR #146's description mentions earlier run #942 at a different SHA; use run #943 for current-head-associated evidence. PR #146 remains OPEN / DRAFT / UNMERGED.
+- Local tests were not run in this connector session.
+
+### Remaining gates
+
+- Owner-side Windows smoke test with an owner-supplied authorized recording remains pending.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR/consolidation approval.
+- First real GTA 6 clip remains NOT COMPLETE until authorized media, scoped permission, local intake, approved clip bounds, render, FFprobe validation, playback, and owner acceptance are evidenced.
