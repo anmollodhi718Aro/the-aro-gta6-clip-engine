@@ -397,7 +397,6 @@
 - No merge, retarget, deployment, upload, public publishing, credential access, or destructive action.
 - Handoff: next session should either obtain owner assignment for issue #68 and implement its acceptance tests, or run the existing clip workflow once authorized media is supplied. First priority remains the first verified real-media MP4.
 
-
 ## ARO-CHAT-0024 reservation — 2026-11-20 13:07 IST
 
 | Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
@@ -797,8 +796,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Field | Record |
 |---|---|
 | Chat ID | ARO-CHAT-0041 |
-| Exact title | ARO-CHAT-0041 | YouTube Uploader Security Remediation |
-| Workstream ID | ARO-GTA-P1-41 |
+| Exact title | ARO-CHAT-0041 | YouTube Uploader Security Remediation || Workstream ID | ARO-GTA-P1-41 |
 | Role | Bounded security implementation contributor |
 | Task | Repair the recursive Google OIDC token-verification helper in the selected PR #83 implementation and add mocked regression coverage. |
 | Branch | `workstream/aro-chat-0041-oidc-helper-recursion-fix-2026-11-22` |
@@ -1197,8 +1195,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 
 ## ARO-CHAT-0097 — PR #156 exact-head CI audit (2026-11-24)
 
-| Field | Record |
-|---|---|
+| Field | Record ||---|---|
 | Chat ID | ARO-CHAT-0097 |
 | Exact title | ARO-CHAT-0097 | PR #156 Exact-Head CI Audit |
 | Workstream ID | ARO-GTA-P1-97 |
@@ -1597,8 +1594,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Field | Record |
 |---|---|
 | Chat ID | ARO-CHAT-0126 |
-| Exact title | ARO-CHAT-0126 | PR #195 Exact-Head CI Audit |
-| Workstream ID | ARO-GTA-P1-126 |
+| Exact title | ARO-CHAT-0126 | PR #195 Exact-Head CI Audit || Workstream ID | ARO-GTA-P1-126 |
 | Scope | Audit PR #195's own Actions run, Ubuntu/hosted-Windows compile/tests, synthetic MP4/FFprobe evidence, checkout refs, combined status, and review state; documentation-only |
 | Branch | `workstream/aro-chat-0126-pr195-exact-head-ci-audit-2026-11-24` |
 | Base / starting SHA | PR #195 head `0141f32fcc584e05af5828f461f873667bd7c8d9` |
@@ -1916,3 +1912,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Local tests NOT RUN in this connector session. No workflow retry was initiated. Do not transfer PR #209 or predecessor CI evidence.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes. No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+## Latest continuation baseline — ARO-CHAT-0140 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-140 / ARO-CHAT-0140 | PR #211 exact-head CI audit.
+- Branch: `workstream/aro-chat-0140-pr211-exact-head-ci-audit-2026-11-24`; base branch: `workstream/aro-chat-0139-pr210-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #211 head `197336f21775941e917cacbf06753b10f2f10982`.
+- Parent PR: [#211](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/211). Report: `docs/ARO_CHAT_0140_PR211_CI_AUDIT.md`.
+- PR #211's commit-associated workflow lookup returned zero runs; combined commit status returned zero entries. No CI pass is claimed. Compilation, tests, synthetic MP4/FFprobe validation, and checkout refs are NOT VERIFIED.
+- PR #211 reviews and inline review threads were empty; independent review is NOT RECORDED. PR #211 remains OPEN / DRAFT / UNMERGED; GitHub reported `mergeable=false`.
+- Local tests NOT RUN in this connector session. No workflow retry was initiated. Do not transfer PR #210 or predecessor CI evidence.
+- Parent PR #210's separate run #45267261132 concluded CANCELLED on both platforms during FFmpeg/FFprobe installation; compile/tests/render were skipped. This does not establish PR #211 CI.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes. No credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
