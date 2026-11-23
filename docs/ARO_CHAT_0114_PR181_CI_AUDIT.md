@@ -15,13 +15,13 @@ Audit PR #181's own commit-associated GitHub Actions run, Ubuntu and hosted-Wind
 - ID collision check: ARO-CHAT-0113 already existed on a separate PR #180 branch; ARO-CHAT-0114 was the first unused serial/Workstream ID at reservation.
 
 ## Exact-head workflow evidence
-- Commit-associated Python CI run: [#45254660172](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45254660172), run 1007, IN_PROGRESS at initial audit.
+- Commit-associated Python CI run: [#45254660172](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45254660172), run 1007, SUCCESS.
 - Ubuntu job #137973204059: SUCCESS. Compile passed; 338 unit tests passed in 5.119s; synthetic MP4 render and FFprobe validation passed.
-- Ubuntu checkout used `refs/remotes/pull/181/merge`; fetched merge ref SHA `6a88e7df9fa079d8cf635bdf90d6c1a90ad0c1d0`, merging PR #181 head into base `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`. Raw-head-only checkout is NOT DEMONSTRATED.
-- Hosted-Windows job #137973204383: IN_PROGRESS at initial audit; FFmpeg/FFprobe installation completed, compilation completed, and the full unit-test step was running. Windows test count, final conclusion, synthetic-render outcome, and checkout SHA remain PENDING.
-- Do not infer the Windows outcome from Ubuntu. The two platform jobs run the same suite, not unique combined test counts.
-- Ubuntu synthetic report: locally generated test pattern/tone; source 8.0s, rendered 4.0s; `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`.
-- Ubuntu test log includes mocked uploader behavior only; no real network upload is evidenced.
+- Hosted-Windows job #137973204383: SUCCESS. Compile passed; 338 unit tests passed in 18.123s; synthetic MP4 render and FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/181/merge` at merge SHA `6a88e7df9fa079d8cf635bdf90d6c1a90ad0c1d0`, merging PR #181 head `1a728b4a488ca980bb9704dc55a9e4f713e44af4` into base `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both platforms ran the same 338-test suite, not 676 unique tests.
+- Synthetic reports on both platforms: locally generated test pattern/tone; source 8.0s, rendered 4.0s; `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`.
+- Tests use mocked YouTube clients; no real network upload is evidenced.
 
 ## Review and safety
 - PR #181 remains OPEN / DRAFT / UNMERGED at inspection.
