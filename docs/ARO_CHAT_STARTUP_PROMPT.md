@@ -360,3 +360,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0124_PR194_CI_AUDIT.md`. Documentation-only; application/uploader/test/workflow behavior unchanged.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic MP4 is not real GTA 6 media acceptance.
 - No credentials, OAuth, real media, network upload, public publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
+
+
+### ARO-CHAT-0124 CI closeout — 2026-11-24
+- PR #194 head `d6fd5be6c8e9608fc6bb1d4a91e3a4bcb3ce26a8` passed run #45257397865 (run 1019). Ubuntu: compile, 338 tests (3.466s), and synthetic MP4/FFprobe passed. Hosted Windows: compile, 338 tests (13.661s), and synthetic MP4/FFprobe passed.
+- Both jobs checked out `refs/remotes/pull/194/merge` at `82565a6043f1bb5ba15e7de6aa83925155506caf`, merging PR #194 head into base `0b17b17c295af9412ba74c6674fa3fe961784ab0`. Raw-head-only checkout is NOT DEMONSTRATED; same 338 tests on both platforms, not 676 unique tests.
+- Synthetic reports confirm no GTA 6/third-party media, 8-second source, 4-second render, publishing disabled, and manual review required.
+- Combined status returned PENDING with zero entries; PR #194 review submissions/inline threads were empty. PR #194 is CI_VERIFIED on merge ref; independent review remains pending.
+- Report: `docs/ARO_CHAT_0124_PR194_CI_AUDIT.md`. Local tests NOT RUN. Owner-device Windows and authorized real-media acceptance NOT VERIFIED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action was performed.
