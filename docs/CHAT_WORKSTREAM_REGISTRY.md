@@ -1390,3 +1390,25 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Scope is test-only; no uploader behavior or publishing behavior changed.
 - Verification for this branch: local tests NOT RUN in this connector session; exact-head CI PENDING until its own run and logs are inspected. Do not transfer PR #176's failed run or another branch's results.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth credentials, real media, network upload, merge, retarget, deployment, or destructive action was used.
+
+
+## ARO-CHAT-0121 — PR #191 exact-head CI audit (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0121 |
+| Exact title | ARO-CHAT-0121 | PR #191 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-121 |
+| Scope | Audit PR #191's own Actions run, Ubuntu/hosted-Windows logs, compile/tests, synthetic MP4/FFprobe validation, checkout refs, combined status, and review state; documentation-only |
+| Branch | `workstream/aro-chat-0121-pr191-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #191 head `35d77ce48ec6fbd2f86503a3f45f3ba88d325efc` |
+| Parent PR | #191 (ARO-CHAT-0120 test-contract fix) |
+| Status | IN_PROGRESS; Ubuntu compile/tests/synthetic render steps succeeded; hosted-Windows unit tests still running at initial audit; matrix CI and independent review NOT VERIFIED |
+| Report | `docs/ARO_CHAT_0121_PR191_CI_AUDIT.md` |
+
+### Initial evidence and boundaries
+- PR #191 head `35d77ce48ec6fbd2f86503a3f45f3ba88d325efc` is associated with Python CI run [#45256856022](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45256856022), run 1015.
+- Ubuntu job #137980832512 completed compile, unit-test, and synthetic MP4/FFprobe steps successfully; exact test count and decoded logs remain pending.
+- Hosted-Windows job #137980833158 passed setup, checkout, Python setup, FFmpeg/FFprobe installation, and compilation; unit tests were in progress and synthetic render had not started at the snapshot.
+- Do not transfer PR #176's failure or other branch CI evidence to PR #191. Re-fetch the run, both job logs, combined status, and review records before finalizing.
+- Documentation-only. No uploader behavior, credentials, OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action. Issue #68 owner approval gate remains active; live/public uploads stay disabled.
