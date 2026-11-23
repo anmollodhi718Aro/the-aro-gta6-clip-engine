@@ -699,3 +699,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Re-fetch this exact head and inspect any later run, every job/log, checkout refs, combined status, and review state before assigning CI_VERIFIED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0148 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-148 / ARO-CHAT-0148, documentation-only exact-head CI audit of PR #221.
+- Branch: `workstream/aro-chat-0148-pr221-exact-head-ci-audit-2026-11-24`; base: `workstream/aro-chat-0147-pr220-exact-head-ci-audit-2026-11-24`; starting SHA: PR #221 head `eee181efc37f040b77e91df416a77983d7c7c687`.
+- Parent PR audited: [PR #221](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/221). Report: `docs/ARO_CHAT_0148_PR221_CI_AUDIT.md`.
+- PR #221 head-associated Python CI run #45269230348 (run 1062) was QUEUED at initial inspection. Ubuntu job #138024276868 and hosted-Windows job #138024276330 were both installing FFmpeg/FFprobe; compilation, tests, and synthetic MP4/FFprobe validation were pending.
+- Checkout refs/SHAs, final conclusion, test counts, and synthetic validation remain NOT VERIFIED. Re-fetch this exact run, both jobs/logs, checkout refs, combined status, and review state after completion. Do not transfer predecessor CI evidence or initiate a workflow retry.
+- PR #221 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=false. Reviews and inline threads were empty; independent review NOT RECORDED. Local tests NOT RUN.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Documentation-only; no credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
