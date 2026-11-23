@@ -140,3 +140,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Preserve duplicate ARO-CHAT-0085 records in PRs #139 and #140 until owner reconciliation; do not silently close or merge either. PR #142 audits PR #140 only.
 - Current next step after this audit: inspect this workstream branch's own exact-head CI, then continue only with the next non-duplicate registry task. Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
 - First real GTA 6 clip remains NOT COMPLETE until authorized media, documented scope-specific permission, local intake, approved clip bounds, local render, FFprobe validation, playback, and owner acceptance are all evidenced.
+
+
+### Latest continuation baseline — ARO-CHAT-0088 (2026-11-23)
+- Latest registered workstream before this continuation: ARO-CHAT-0087 / ARO-GTA-P1-87, auditing PR #142. PR #143 is its open draft documentation follow-up.
+- Current workstream: ARO-CHAT-0088 / ARO-GTA-P1-88, audit PR #143's own exact-head CI. Branch: `workstream/aro-chat-0088-pr143-ci-audit-2026-11-23`; starting SHA: `6f9d184eb4447c64544ad93e05f7ad1708431e8e`.
+- PR #143 head `6f9d184eb4447c64544ad93e05f7ad1708431e8e` is associated with Actions run #45205002366. Windows job #137798218139 completed SUCCESS: Python 3.11.9, compilation, 334 tests in 16.983s, and synthetic MP4/FFprobe passed. It checked out merge ref `refs/remotes/pull/143/merge` at `76dcc56ee7dca3dfa836569e0ec9ead920ce4482`, not raw head. Synthetic report: no GTA 6/third-party media; publishing disabled; manual review required. Ubuntu job #137798218807 was still installing FFmpeg/FFprobe at latest check; compile/tests/render had not started.
+- Overall workflow remained IN_PROGRESS. Do not claim two-platform CI_VERIFIED or final conclusion until Ubuntu completes and its logs/checkout ref are inspected. Hosted Windows CI is not owner-device verification.
+- Audit report: `docs/ARO_CHAT_0088_PR143_CI_AUDIT.md`; registry entry added. Documentation-only; no application/uploader/test/workflow behavior changes.
+- Issue #68 remains OPEN / UNASSIGNED. Keep real uploads and public publishing disabled pending owner assignment and canonical authenticated-uploader PR/consolidation selection. No live OAuth or real upload.
+- Preserve duplicate ARO-CHAT-0085 PRs #139/#140 pending owner reconciliation. Do not merge, close or retarget them without explicit owner authorization.
+- Next action: complete Ubuntu job #137798218807 evidence inspection, then update the audit report and registry with final workflow conclusion, test count, decoded logs, and checkout-ref distinction. Do not infer results from earlier runs.
