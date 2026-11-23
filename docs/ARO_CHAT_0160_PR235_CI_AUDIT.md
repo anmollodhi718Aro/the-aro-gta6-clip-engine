@@ -47,3 +47,11 @@ Audit PR #235's current exact head for commit-associated Actions runs, combined 
 
 ## Follow-up
 Re-fetch PR #235 metadata and its exact current head before closeout. If the head changes, audit the new SHA separately. After run #45276253445 completes, inspect both jobs and logs, confirm checkout refs, compile/test/render results, and recheck combined status and reviews. Never infer success from a queued/in-progress run, missing logs, empty status entries, or predecessor PR evidence.
+
+
+## Live matrix progress refresh — 2026-11-24
+- Re-fetched run #45276253445: still IN_PROGRESS.
+- Hosted-Windows job #138048704367 is now COMPLETED / SUCCESS. Its log confirms checkout of `refs/remotes/pull/235/merge` at merge SHA `3bca352f23a77a1af2b6fe39b4ca6508c08e3a87`, merging PR #235 head `3bfd0a1120e35f13af06ad28b305d491e1988254` into base `e38f59c49aad6d1fd2c93137e7690b633ae7def2`. It passed compilation, 338 unit tests (14.744s), and synthetic MP4/FFprobe validation. The synthetic report states `gta6_footage_used=false`, `publishing_enabled=false`, and `upload_performed=false`; rendered duration was 4.0 seconds.
+- Ubuntu job #138048704068 remains IN_PROGRESS: setup, checkout, and Python setup passed; FFmpeg/FFprobe installation is still IN_PROGRESS; compile, tests, and synthetic render remain PENDING. Its log retrieval returned BlobNotFound.
+- Overall matrix remains PENDING / NOT VERIFIED until Ubuntu and the workflow complete. Do not report the Windows result as a full matrix pass. Combined status remains zero entries; no workflow retry initiated.
+- Windows merge-ref evidence is not raw-head-only evidence. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
