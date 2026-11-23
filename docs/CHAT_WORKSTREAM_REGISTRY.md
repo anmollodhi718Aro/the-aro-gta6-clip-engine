@@ -1318,3 +1318,6 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Planned files: `docs/ARO_CHAT_0102_PR161_CI_AUDIT.md`, this registry, and `docs/ARO_CHAT_STARTUP_PROMPT.md`. Documentation-only; no application, uploader, test, or workflow behavior changes.
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action is performed by this workstream.
+
+- CI evidence refresh: PR #161 head run #45242621235 (run 970) completed with overall conclusion CANCELLED. Ubuntu job #137930984235 succeeded through compile, unit-test, and synthetic MP4/FFprobe workflow steps; exact test count/log text and checkout SHA were not available. Hosted-Windows job #137930984793 was cancelled during the unit-test step after compile; synthetic render was skipped. Therefore PR #161 is not matrix CI_VERIFIED. No rerun was initiated.
+- Follow-up PR #162 head `098844642622bdf044363a4c84791f5d7313033a` had zero check-runs and combined status PENDING at the time checked; re-fetch after the final documentation commit. No CI evidence is transferred from PR #161.
