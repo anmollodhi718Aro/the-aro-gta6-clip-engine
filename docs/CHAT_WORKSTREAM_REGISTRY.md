@@ -1708,3 +1708,17 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0129_PR200_CI_AUDIT.md`. This follow-up branch's own exact-head CI must be inspected independently; do not transfer PR #200's CI result.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0131 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-131 / ARO-CHAT-0131 | PR #201 CI evidence audit.
+- Branch: `workstream/aro-chat-0131-pr201-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #201 head `f41ed82acb5e94e1d64727765942c58855add1fb`.
+- Parent PR: [#201](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/201). Report: `docs/ARO_CHAT_0131_PR201_CI_AUDIT.md`.
+- PR #201 head-associated Python CI run [#45263378947](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45263378947), run 1035, completed SUCCESS. Ubuntu job #138003760216 passed compilation, 338 tests (4.461s), and synthetic MP4/FFprobe validation. Hosted-Windows job #138003759888 passed source/tests compilation, 338 tests (22.891s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/201/merge` at merge SHA `bc43ab4e2bc7a26b7e4e3d681421a710c2f7d871`, merging PR #201 head into base `d8f345b6c914fc116b6f2e402b3d82d52c247720`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both platforms ran the same 338-test suite, not 676 unique tests. Synthetic reports show local pattern/tone only, 8.0-second source, 4.0-second output, no GTA 6/third-party media, publishing disabled, and manual review required. Mocked fixture reported `upload_performed=false`.
+- Combined status, PR #201 reviews, inline threads, and conversation comments were empty. Independent review is NOT RECORDED. PR #201 remains OPEN / DRAFT / UNMERGED. Local tests were NOT RUN in this connector session.
+- This workstream is documentation-only; this branch's own exact-head CI must be inspected independently. Do not transfer PR #201's run result to this follow-up.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
