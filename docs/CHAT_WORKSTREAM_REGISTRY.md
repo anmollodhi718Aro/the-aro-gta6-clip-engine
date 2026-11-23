@@ -1550,7 +1550,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Branch | workstream/aro-chat-0066-pr117-exact-head-ci-closeout-2026-11-23 |
 | Base | PR #117 head 81697966f24033ee31268e543eadda71ea53063a |
 | Starting SHA | 81697966f24033ee31268e543eadda71ea53063a |
-| Status | RESERVED / IN_PROGRESS; PR #117 exact-head CI run 45176376354 in progress; no pass/fail conclusion yet |
+| Status | IN_PROGRESS; hosted Windows job passed 334 tests and synthetic MP4/FFprobe; Ubuntu job still running; overall exact-head CI pending |
 | Changed files | docs/ARO_CHAT_0066_PR117_CI_CLOSEOUT.md; docs/CHAT_WORKSTREAM_REGISTRY.md |
 | Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
 
@@ -1558,9 +1558,10 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 
 - PR #117 is OPEN / DRAFT / UNMERGED at exact head `81697966f24033ee31268e543eadda71ea53063a`; this follow-up does not authorize merge or integration.
 - GitHub Actions run [45176376354](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45176376354) is associated with that exact SHA.
-- Ubuntu job `137698581161` and hosted Windows job `137698581431` were both in progress at reservation time.
-- Both jobs completed setup, checkout and Python setup; FFmpeg/FFprobe installation was still running. Compile, unit-test, and synthetic MP4/FFprobe steps had not started.
-- No test count or successful CI status is asserted. Local tests were not run in this connector session.
+- Hosted Windows job `137698581431` completed successfully: compilation, all 334 unit tests, and synthetic MP4/FFprobe validation passed. Decoded log: `Ran 334 tests in 31.608s; OK`.
+- Synthetic report confirms locally generated test pattern/tone, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Ubuntu job `137698581161` remains IN_PROGRESS; FFmpeg/FFprobe installation is running and compile/tests/render have not started. Overall exact-head CI remains pending; no Ubuntu pass/fail conclusion is asserted.
+- Local tests were not run in this connector session.
 
 ### Disposition and owner gates
 
