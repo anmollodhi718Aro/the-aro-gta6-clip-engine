@@ -648,7 +648,7 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 ### ARO-CHAT-0142 PR #213 CI closeout — 2026-11-24
 - Run [#45267871069](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45267871069), run 1053, completed SUCCESS for PR #213 inspected head `71a7eb16997dad90b65c1fcaa62d8ed9a072d5cd`.
 - Ubuntu: compile passed, 338 tests passed (5.067s), synthetic MP4/FFprobe passed. Hosted Windows: compile passed, the same 338 tests passed (17.747s), synthetic MP4/FFprobe passed.
-- Both jobs checked out `refs/remotes/pull/213/merge` at logged commit `b8a594ea514ff44cadb5342986c68b1eac6e22ed`. CI_VERIFIED on merge ref only; raw-head-only checkout NOT DEMONSTRATED.
+- Both jobs checked out `refs/remotes/pull/213/merge` at logged commit `7f1cd20f7e2afec9297f810211a63ff425275417`. CI_VERIFIED on merge ref only; raw-head-only checkout NOT DEMONSTRATED.
 - Synthetic fixture only: locally generated pattern/tone, 8-second source, 4-second output, no GTA 6/third-party media, publishing disabled, manual review required. Same suite ran on both platforms.
 - PR #213 review submissions and inline threads remain empty. Owner-device Windows and real-media verification are NOT VERIFIED. PR #213 remains OPEN / DRAFT / UNMERGED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
@@ -663,3 +663,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Exact-head check-runs `tests` and `windows-tests` passed. Combined commit status returned pending with zero entries and is not a passing signal. PR #213 reviews, inline threads, and comments were empty; independent review NOT RECORDED.
 - Report: `docs/ARO_CHAT_0142_PR213_CI_AUDIT.md`. Documentation-only; no local tests, workflow retry, credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
 - PR #213 remains OPEN / DRAFT / UNMERGED. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0142 follow-up PR #217 CI and attribution collision — 2026-11-24
+- Follow-up draft PR [#217](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/217) is OPEN / DRAFT / UNMERGED; head `5d0c997a831e3291a08abb584f3749abd171502c`.
+- Its own exact-head Python CI run [#45268263453](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45268263453), run 1056, is IN_PROGRESS. Ubuntu job #138021002116 and hosted-Windows job #138021002607 are installing FFmpeg/FFprobe; compile, tests, and synthetic render remain pending. Do not transfer PR #213's CI result.
+- Attribution collision: PRs #215 and #217 both claim ARO-CHAT-0142 / ARO-GTA-P1-142 for different parent audits (#214 vs #213); PRs #213 and #214 both claim ARO-CHAT-0141 / ARO-GTA-P1-141 for different parent audits (#211 vs #212). Preserve all histories and require owner reconciliation before integration; no destructive action taken.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
