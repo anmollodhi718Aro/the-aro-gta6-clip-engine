@@ -145,6 +145,84 @@ class YouTubeUploadTests(unittest.TestCase):
             _copy_stream_with_limit(source, snapshot, max_upload_bytes=4)
         self.assertEqual(snapshot.getvalue(), b"")
 
+    def test_snapshot_copy_rejects_later_chunk_without_exceeding_limit(self):
+        class ChunkedReader:
+            def __init__(self):
+                self.chunks = [b"1234", b"5"]
+
+            def read(self, _size):
+                return self.chunks.pop(0) if self.chunks else b""
+
+        source = ChunkedReader()
+        snapshot = io.BytesIO()
+        with self.assertRaisesRegex(ValueError, "configured upload limit"):
+            _copy_stream_with_limit(source, snapshot, max_upload_bytes=4)
+
+        self.assertEqual(snapshot.getvalue(), b"1234")
+        self.assertLessEqual(len(snapshot.getvalue()), 4)
+
+    def test_upload_copy_growth_rejects_later_chunk_and_cleans_staging_directory(self):
+        self.video.write_bytes(b"12345")
+        youtube = Mock()
+        staged = {}
+        stat_calls = []
+        real_stat = Path.stat
+        real_tempdir = tempfile.TemporaryDirectory
+
+        def stat_with_initial_in_budget_size(path, *args, **kwargs):
+            if path == self.video and not stat_calls:
+                stat_calls.append(path)
+                return SimpleNamespace(st_size=4)
+            return real_stat(path, *args, **kwargs)
+
+        class RecordingTemporaryDirectory:
+            def __init__(self, *args, **kwargs):
+                self._delegate = real_tempdir(*args, **kwargs)
+                staged["directory"] = Path(self._delegate.name)
+
+            def __enter__(self):
+                return self._delegate.__enter__()
+
+            def __exit__(self, *exc_info):
+                return self._delegate.__exit__(*exc_info)
+
+        modules = self._mock_google_modules(youtube)
+        with patch("backend.app.youtube_upload.tempfile.TemporaryDirectory", RecordingTemporaryDirectory):
+            with patch("backend.app.youtube_upload.UPLOAD_COPY_CHUNK_BYTES", 4):
+                with patch.object(Path, "stat", autospec=True, side_effect=stat_with_initial_in_budget_size):
+                    with patch.dict(sys.modules, modules):
+                        with patch.dict(os.environ, {
+                            "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
+                            "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
+                        }):
+                            with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch(
+                                "backend.app.youtube_owner_approval.verify_authenticated_channel_owner",
+                                return_value=self.owner,
+                            ), patch(
+                                "backend.app.youtube_upload.load_rights_report",
+                                return_value={"clip_id": "clip-1", "source_id": "source-1"},
+                            ):
+                                with self.assertRaisesRegex(ValueError, "configured upload limit"):
+                                    upload_video(
+                                        self.video,
+                                        {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                                        client_secrets=self.client_secrets,
+                                        token_path=self.root / "token.json",
+                                        rights_report_path=self.report,
+                                        approval_record_path=self.root / "approval.json",
+                                        rights_db_path=self.root / "source_rights.sqlite3",
+                                        clip_id="clip-1",
+                                        source_id="source-1",
+                                        owner_approved=True,
+                                        rights_confirmed=True,
+                                        max_upload_bytes=4,
+                                    )
+
+        self.assertEqual(len(stat_calls), 1)
+        self.assertIn("directory", staged)
+        self.assertFalse(staged["directory"].exists())
+        youtube.videos.return_value.insert.assert_not_called()
+
     def test_max_upload_bytes_must_be_positive(self):
         for invalid in (0, -1, True):
             with self.subTest(invalid=invalid):
@@ -154,24 +232,39 @@ class YouTubeUploadTests(unittest.TestCase):
                         max_upload_bytes=invalid,
                     )
 
-    def test_upload_video_direct_call_rejects_oversized_file_before_oauth(self):
-        with patch("backend.app.youtube_upload._authorize_google") as authorize:
-            with self.assertRaisesRegex(ValueError, "configured upload limit"):
-                upload_video(
-                    self.video,
-                    {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
-                    client_secrets=self.client_secrets,
-                    token_path=self.root / "token.json",
-                    rights_report_path=self.report,
-                    approval_record_path=self.root / "approval.json",
-                    rights_db_path=self.root / "source_rights.sqlite3",
-                    clip_id="clip-1",
-                    source_id="source-1",
-                    owner_approved=True,
-                    rights_confirmed=True,
-                    max_upload_bytes=4,
-                )
+    def test_upload_video_direct_call_rejects_oversized_file_before_oauth_or_api_setup(self):
+        googleapiclient = types.ModuleType("googleapiclient")
+        googleapiclient.__path__ = []
+        discovery = types.ModuleType("googleapiclient.discovery")
+        discovery.build = Mock(name="youtube_api_build")
+        http = types.ModuleType("googleapiclient.http")
+        http.MediaIoBaseUpload = Mock(name="media_upload")
+
+        with patch.dict(sys.modules, {
+            "googleapiclient": googleapiclient,
+            "googleapiclient.discovery": discovery,
+            "googleapiclient.http": http,
+        }):
+            with patch("backend.app.youtube_upload._authorize_google") as authorize:
+                with self.assertRaisesRegex(ValueError, "configured upload limit"):
+                    upload_video(
+                        self.video,
+                        {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                        client_secrets=self.client_secrets,
+                        token_path=self.root / "token.json",
+                        rights_report_path=self.report,
+                        approval_record_path=self.root / "approval.json",
+                        rights_db_path=self.root / "source_rights.sqlite3",
+                        clip_id="clip-1",
+                        source_id="source-1",
+                        owner_approved=True,
+                        rights_confirmed=True,
+                        max_upload_bytes=4,
+                    )
+
         authorize.assert_not_called()
+        discovery.build.assert_not_called()
+        http.MediaIoBaseUpload.assert_not_called()
         self.assertFalse((self.root / "token.json").exists())
 
     def _write_upload_rights(self, db_path):
