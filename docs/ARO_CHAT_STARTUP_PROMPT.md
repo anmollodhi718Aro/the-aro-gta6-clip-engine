@@ -179,7 +179,7 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Latest registered workstream: ARO-CHAT-0090 / ARO-GTA-P1-90, exact-head CI audit of PR #147.
 - Branch: `workstream/aro-chat-0090-pr147-exact-head-ci-audit-2026-11-23`; base: `workstream/aro-chat-0089-pr144-ci-closeout-2026-11-23`; starting/reviewed SHA: PR #147 head `06babec863840afb8cecf0dd6608021bce9067a1`.
 - PR #147 is OPEN / DRAFT / UNMERGED. Its exact-head Python CI run #45232862569 (run 945) was IN_PROGRESS at the initial snapshot.
-- Ubuntu job #137896915549 and hosted Windows job #137896914783 had completed setup, checkout, and Python setup; FFmpeg/FFprobe installation was still in progress. Compile, tests, synthetic MP4/FFprobe, final conclusions, and checkout SHA remain pending until logs are re-fetched.
+- Ubuntu job #137896915549 succeeded: compile passed, 334 tests passed, synthetic MP4/FFprobe passed, and the job checked out PR merge ref `759fe64c4362cd15cdc76b03fc7e85876aa152d4` containing PR #147 head. Hosted Windows job #137896914783 passed setup, checkout, Python, FFmpeg/FFprobe installation, and compilation; its unittest suite was still in progress at latest check, with synthetic render and final conclusion pending.
 - Do not transfer PR #144's successful CI to PR #147 or this follow-up branch. Re-audit every new head.
 - PR #146 remains an independent open draft targeting `integration/release-candidate`; do not alter it in this workstream.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads and public publishing disabled pending owner assignment and canonical authenticated-uploader implementation selection or approved consolidation.
