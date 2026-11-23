@@ -699,3 +699,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Re-fetch this exact head and inspect any later run, every job/log, checkout refs, combined status, and review state before assigning CI_VERIFIED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0147 CI closeout (2026-11-24)
+- Current workstream: ARO-GTA-P1-147 / ARO-CHAT-0147, documentation-only exact-head CI audit of PR #220.
+- Branch: `workstream/aro-chat-0147-pr220-exact-head-ci-audit-2026-11-24`; base branch: `workstream/aro-chat-0146-pr219-exact-head-ci-audit-2026-11-24`; starting SHA: PR #220 head `47072a6ac9b42d48d273176dc7e04fe019779fd7`.
+- Parent PR audited: [PR #220](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/220). Report: `docs/ARO_CHAT_0147_PR220_CI_AUDIT.md`.
+- PR #220 completed Python CI run [#45269033752](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45269033752), run 1061, SUCCESS. Ubuntu job #138023584264 passed compilation, 338 tests (5.142s), and synthetic MP4/FFprobe. Hosted-Windows job #138023585270 passed compilation, the same 338 tests (15.764s), and synthetic MP4/FFprobe.
+- Both jobs checked out `refs/remotes/pull/220/merge` at merge SHA `9af7af7864be8ad950f2df49e9fa811c2073e824`, merging PR #220 head into base/PR #219 head `cdacb24c9d1db25ad0a85f93d51afabb94d6f836`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both platforms ran the same 338 tests, not 676 unique tests. Synthetic fixtures used locally generated pattern/tone only; no GTA 6 or third-party media, publishing disabled, manual review required, mocked upload `upload_performed=false`.
+- Combined status returned zero entries. PR #220 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #220 remains OPEN / DRAFT / UNMERGED. CI_VERIFIED applies to merge ref only; hosted Windows is not owner-device verification and synthetic media is not real-media acceptance.
+- PR #221 follow-up branch head at the update was `eee181efc37f040b77e91df416a77983d7c7c687`, associated with run [#45269230348](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45269230348), run 1062, IN_PROGRESS. Re-audit its exact final head and jobs independently after documentation changes.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
