@@ -724,3 +724,8 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Both jobs used `refs/remotes/pull/221/merge` at merge SHA `cba11074982e05c4c5c725c5292223a9a129cf6c`; raw-head-only checkout is NOT DEMONSTRATED. Do not count the two platform executions as 676 unique tests.
 - Synthetic fixtures only; no GTA 6/third-party media; publishing disabled; manual review required; mocked upload did not occur.
 - PR #221 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=false. CI_VERIFIED is merge-ref evidence only; owner-device Windows and real-media acceptance remain NOT VERIFIED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED.
+
+
+### ARO-CHAT-0148 follow-up PR #223 status — 2026-11-24
+- Documentation follow-up PR #223 is OPEN / DRAFT / UNMERGED at head `ab163cbb70298bacb2fab637f61772d7440aa04f`. Its own workflow lookup and combined status returned zero entries; CI remains PENDING / NOT VERIFIED.
+- Do not transfer the audited PR #221 CI result to PR #223. Recheck PR #223's exact head independently when a workflow run appears. Keep draft-only; no merge or deployment.
