@@ -852,3 +852,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. Local tests NOT RUN; no workflow retry.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0159 (2026-11-24)
+- Current workstream: ARO-CHAT-0159 / ARO-GTA-P1-159 | PR #234 Exact-Head CI Audit.
+- Branch: `workstream/aro-chat-0159-pr234-exact-head-ci-audit-2026-11-24`; base: `workstream/aro-chat-0158-pr233-exact-head-ci-audit-2026-11-24`; starting SHA: PR #234 head `e38f59c49aad6d1fd2c93137e7690b633ae7def2`.
+- PR #234 is OPEN / DRAFT / UNMERGED. Its own CI run #45275042866 (run 1090) completed successfully on Ubuntu and hosted Windows; each job compiled, ran 338 tests, and passed synthetic MP4/FFprobe validation.
+- Both jobs checked out merge ref `refs/remotes/pull/234/merge` at `d17e947876d85825e54d6e0780c92fa91e6934a0`; raw-head-only checkout is NOT DEMONSTRATED. No real GTA 6 media was used; publishing remained disabled and mocked upload was false.
+- Report: `docs/ARO_CHAT_0159_PR234_CI_AUDIT.md`. This workstream is documentation-only; do not transfer its CI evidence to another PR or a later SHA.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Independent review, owner-device Windows, and authorized real-media acceptance remain NOT VERIFIED.
