@@ -327,8 +327,8 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Current workstream: ARO-GTA-P1-114 / ARO-CHAT-0114 | PR #181 Exact-Head CI Audit.
 - Branch: `workstream/aro-chat-0114-pr181-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #181 head `1a728b4a488ca980bb9704dc55a9e4f713e44af4`.
 - PR #181 repairs a stale immutable-payload regression test by mutating the original source at the mocked upload-request boundary and checking that the upload stream still contains the approved captured bytes.
-- Exact-head Actions run #45254660172 (run 1007): Ubuntu job #137973204059 passed compile, 338 unit tests, and synthetic MP4/FFprobe validation. Hosted-Windows job #137973204383 was still running unit tests at the latest initial snapshot; do not claim matrix CI_VERIFIED until it completes and its logs are inspected.
+- Exact-head Actions run #45254660172 (run 1007) completed SUCCESS: Ubuntu job #137973204059 and hosted-Windows job #137973204383 each passed compilation, 338 unit tests, and synthetic MP4/FFprobe validation. Both checked out merge ref `refs/remotes/pull/181/merge` at `6a88e7df9fa079d8cf635bdf90d6c1a90ad0c1d0`; raw-head-only checkout is NOT DEMONSTRATED. Both platforms ran the same 338-test suite, not 676 unique tests.
 - Ubuntu used merge ref `refs/remotes/pull/181/merge` at `6a88e7df9fa079d8cf635bdf90d6c1a90ad0c1d0`; raw-head-only checkout is not demonstrated.
 - Report: `docs/ARO_CHAT_0114_PR181_CI_AUDIT.md`.
-- This is documentation-only; no application/uploader/test behavior changed. PR #181 remains draft/open/unmerged. Issue #68 remains open / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- Status: IMPLEMENTED and CI_VERIFIED for the audited PR #181 merge-ref workflow. This follow-up branch's own CI must be inspected independently. This is documentation-only; no application/uploader/test behavior changed. PR #181 remains draft/open/unmerged. Issue #68 remains open / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 - No credentials, OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
