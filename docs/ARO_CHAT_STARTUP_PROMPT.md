@@ -453,3 +453,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0128_PR199_CI_AUDIT.md`. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0128 PR #199 CI closeout — 2026-11-24
+- PR #199 exact-head run #45258680568 (run 1032) completed SUCCESS. Ubuntu and hosted Windows each passed compilation, the same 338-test suite, and synthetic MP4/FFprobe validation.
+- Both jobs checked out PR merge ref `refs/remotes/pull/199/merge` at `514041b30c1bf1eb5cae82513955df1b9885466e`; raw-head-only checkout is NOT DEMONSTRATED.
+- Test runtimes: Ubuntu 5.057s; hosted Windows 30.141s. Synthetic media only; no GTA 6/third-party media, publishing disabled, manual review required.
+- PR #199 has no recorded independent reviews or inline threads. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- Follow-up draft PR #200 is OPEN / DRAFT / UNMERGED and its own exact-head CI run #45258911262 is IN_PROGRESS. Inspect independently; do not transfer PR #199's CI result.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
