@@ -814,3 +814,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Combined status returned zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. Local tests NOT RUN; no workflow retry initiated.
 - Recheck this exact head/run after completion. Do not transfer PR #230's CI result. Raw-head-only execution, owner-device Windows, and real-media acceptance are NOT VERIFIED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0157 (2026-11-24)
+
+- Current workstream: ARO-CHAT-0157 / ARO-GTA-P1-157, documentation-only exact-head CI audit of PR #232.
+- Branch: `workstream/aro-chat-0157-pr232-exact-head-ci-audit-2026-11-24`; base: `workstream/aro-chat-0156-pr231-exact-head-ci-audit-2026-11-24`; starting SHA: `35acfb1961b8cd3ff3d3ae2b1a4c9db34f566e73`.
+- Parent PR audited: [#232](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/232); report: `docs/ARO_CHAT_0157_PR232_CI_AUDIT.md`.
+- PR #232 current head at reservation is associated with Python CI run #45274445897 (run 1087), IN_PROGRESS. Ubuntu completed compile, unit-test, and synthetic MP4/FFprobe steps successfully; numeric test count/duration and checkout refs are NOT ASSERTED. Hosted Windows passed setup/checkout/Python/FFmpeg/compile, with unit tests IN_PROGRESS and synthetic render pending.
+- Combined status returned zero entries; PR #232 reviews and inline threads were empty. Independent review NOT RECORDED. Matrix CI PENDING / NOT VERIFIED; local tests NOT RUN.
+- Recheck this exact run after completion. Do not transfer CI evidence from PR #231. Raw-head-only checkout, owner-device Windows, and real-media acceptance remain NOT VERIFIED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
