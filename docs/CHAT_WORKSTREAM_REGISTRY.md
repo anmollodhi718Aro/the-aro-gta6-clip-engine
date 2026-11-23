@@ -1356,3 +1356,52 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0107 — PR #166 exact-head CI audit (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0107 |
+| Exact title | ARO-CHAT-0107 | PR #166 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-107 |
+| Scope | Audit PR #166's own Actions run, Ubuntu/hosted-Windows jobs, compile/tests, synthetic MP4/FFprobe validation, checkout refs, and review state; documentation-only |
+| Branch | `workstream/aro-chat-0107-pr166-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #166 head `4e2e74805c2e4c21aa246a4765e66c0a97cc7be2` |
+| Parent PR | [PR #166](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/166) |
+| Changed files | `docs/ARO_CHAT_0107_PR166_CI_AUDIT.md`, this registry, `docs/ARO_CHAT_STARTUP_PROMPT.md`, `docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md` |
+| Status | IN_PROGRESS; exact-head Python CI run #45243626968 is in progress; final evidence pending |
+| Scope boundary | No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### Initial evidence
+- PR #166 head `4e2e74805c2e4c21aa246a4765e66c0a97cc7be2` is associated with Python CI run [#45243626968](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45243626968), run 977, IN_PROGRESS.
+- Ubuntu job `137934533544`: setup, checkout, and Python setup passed; FFmpeg/FFprobe installation was in progress; compile/tests/render were pending.
+- Hosted-Windows job `137934534056`: setup passed; checkout was in progress; all later steps were pending.
+- No final test count, CI conclusion, synthetic render result, or checkout SHA is claimed. Re-fetch both jobs and decoded logs after completion.
+- Combined status and PR review submissions/threads returned no entries at inspection.
+- Do not transfer PR #162's pending CI or PR #161's cancelled Windows result to PR #166.
+
+### Safety and owner gates
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
+- Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0107 CI evidence refresh — 2026-11-24
+- PR #166 head `4e2e74805c2e4c21aa246a4765e66c0a97cc7be2` is associated with run #45243626968 (run 977).
+- Ubuntu job #137934533544 completed SUCCESS: Python 3.11.18, compilation passed, 334 tests passed (4.414s), and synthetic MP4 render/verification passed. It checked out `refs/remotes/pull/166/merge` at merge SHA `c0830db5375becbc50b8fac9a5eb158a8d13a475`, merging PR #166 head into base `546906fca62ff2493a7ae1955dfdd1b4948233f2`; raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic report: locally generated test pattern/tone, 8.0-second source, 4.0-second output, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Hosted-Windows job #137934534056 was still installing FFmpeg/FFprobe at this refresh. Matrix CI remains IN_PROGRESS / NOT VERIFIED; no Windows result or test count is claimed.
+- PR #166 review submissions and inline review threads were empty at inspection. PR #167's own exact-head CI must be inspected separately.
+
+
+### ARO-CHAT-0107 final parent-PR CI closeout — 2026-11-24
+- PR #166 head `4e2e74805c2e4c21aa246a4765e66c0a97cc7be2` is associated with Python CI run [#45243626968](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45243626968), run 977, SUCCESS.
+- Ubuntu job #137934533544: compile passed; 334 tests passed (4.414s); synthetic MP4/FFprobe validation passed.
+- Hosted-Windows job #137934534056: compile passed; 334 tests passed (15.827s); synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/166/merge` at merge SHA `c0830db5375becbc50b8fac9a5eb158a8d13a475`, merging PR #166 head into base `546906fca62ff2493a7ae1955dfdd1b4948233f2`. Raw-head-only checkout is NOT DEMONSTRATED. Both platforms ran the same 334-test suite, not 668 unique tests.
+- Both synthetic reports confirm `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`; source duration 8.0 seconds and rendered duration 4.0 seconds.
+- PR #166 is CI_VERIFIED on merge ref. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 media acceptance.
+- PR #167's own exact-head CI remains a separate pending check; no CI evidence is transferred from PR #166.
+
+- Follow-up PR #167 head `766d5cc9d2bce6b1ff20640a01d3da36ec2733c8` has no associated workflow run or combined status entry at latest inspection; its own exact-head CI remains PENDING / NOT VERIFIED.
