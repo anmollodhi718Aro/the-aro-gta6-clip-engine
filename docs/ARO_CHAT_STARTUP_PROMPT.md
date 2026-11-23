@@ -361,3 +361,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0166_PR242_CI_AUDIT.md`.
 - Issue #68 remains OPEN; keep live/public uploads disabled pending current-head CI, independent review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
 - Documentation-only audit; no OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0166 CI closeout (2026-11-24)
+
+- ARO-CHAT-0166 / ARO-GTA-P1-166 audits PR #242 current head `dfb1e9390490806e44bad93fc661ddff0a551f54`.
+- PR #242 exact-head-associated run #45278668116 (run 1118) passed on Ubuntu and hosted Windows: compile passed; 340 tests passed on each platform; synthetic MP4/FFprobe passed.
+- Both jobs checked out PR #242 merge ref at `ad80436817f46f8f36093ae95dc4eeed6cf0ce7e`, merging current PR head into base `cdcf7a4bef2728e3299e82bc88d376992ecec39d`. Raw-head-only checkout is not demonstrated.
+- Synthetic pattern/tone only, 8s source / 4s output; no GTA 6 or third-party footage; publishing disabled; manual review required. Hosted Windows is not owner-device verification.
+- Earlier run #1113 on the older PR #242 head failed one CLI fixture on both platforms; current-head run #1118 supersedes it. Do not carry the older failure forward as a current-head failure.
+- Bounded static review found explicit CLI/direct-call upload limits fail closed before OAuth and incremental staging enforces the configured limit. No critical defect identified in the reviewed diff; separate human security review remains NOT RECORDED.
+- Report: `docs/ARO_CHAT_0166_PR242_CI_AUDIT.md`; audit PR #246 remains OPEN / DRAFT / UNMERGED.
+- Issue #68 remains OPEN. Keep live/public uploads disabled pending independent human security review, owner-controlled integration, owner-device verification, owner-selected device limit and authorized real-media acceptance.
