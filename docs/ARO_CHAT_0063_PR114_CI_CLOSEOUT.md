@@ -18,16 +18,19 @@ Documentation-only verification of PR #114's exact-head GitHub Actions run. No a
 
 ## Verification status
 
-- Actions run [45105877305](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45105877305) is running on the exact PR #114 head.
-- Ubuntu job `137466904644`: compilation passed; `Ran 334 tests in 5.282s; OK`; synthetic MP4 render and FFprobe validation passed.
-- Hosted Windows job `137466905039`: IN_PROGRESS at the time of this report. FFmpeg/FFprobe installation was still running; compile, unit tests, and synthetic render steps had not started.
-- Overall exact-head CI status: PENDING. Do not claim CI_VERIFIED until the hosted Windows job completes successfully and its logs are inspected.
-- Synthetic Ubuntu report records `gta6_footage_used=false` and `publishing_enabled=false`.
+- Actions run [45105877305](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45105877305) completed successfully on the exact PR #114 head.
+- Ubuntu job `137466904644`: compilation passed; `Ran 334 tests in 4.036s; OK`; synthetic MP4 render and FFprobe validation passed.
+- Hosted Windows job `137466905039`: compilation passed; `Ran 334 tests in 13.068s; OK`; synthetic MP4 render and FFprobe validation passed.
+- Both jobs completed all listed setup, dependency installation, compile, full unittest, and synthetic render/FFprobe steps successfully.
+- Overall PR #114 exact-head status: CI_VERIFIED.
+- Both synthetic reports record `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- These are 334 tests run on each platform, not 668 distinct tests.
 - Local tests were not run in this connector session.
+- PR #115's prior documentation-branch head `aa7ebfc68c205714534c849ef348b98fc1241008` also passed Actions run [45106044678](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45106044678), with both Ubuntu and hosted-Windows jobs successful. Any subsequent documentation commit creates a new head whose CI must be checked separately.
 
 ## Limitations and safety
 
-- Hosted Windows CI, if successful, is not owner-device Windows verification.
+- Hosted Windows CI is not owner-device Windows verification.
 - Synthetic MP4 output is not GTA 6 footage or real-media acceptance.
 - PR #114 remains a draft documentation-only follow-up stacked on PR #113. Do not merge independently of its base.
 - PR #113 remains draft/open/unmerged and stacked on PR #112.
