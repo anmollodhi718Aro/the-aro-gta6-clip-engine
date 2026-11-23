@@ -389,3 +389,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Documentation-only PR [#180](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/180) is OPEN / DRAFT / UNMERGED, stacked on PR #179.
 - PR #180 head at creation: `a200694e4421c47e16b2c5e4919610f359f4b5a1`. Exact-head workflow lookup returned no associated run at inspection; PR #180's own CI remains PENDING / NOT VERIFIED.
 - Do not transfer PR #179's cancelled CI or PR #177's successful CI to PR #180. Keep draft-only; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest continuation baseline — ARO-CHAT-0113 (2026-11-24)
+- Active workstream: ARO-GTA-P1-113 / ARO-CHAT-0113, documentation-only exact-head CI audit of PR #180; branch `workstream/aro-chat-0113-pr180-exact-head-ci-audit-2026-11-24`; base and starting SHA `1d2a5cd35b871b496880084cfc5a4d926661109b`.
+- PR #180 exact-head workflow lookup returned zero runs; combined status, review submissions, and inline review threads returned no entries. Its CI, compile/tests, synthetic render, and checkout SHA are PENDING / NOT VERIFIED.
+- PR #179's later successful run #45253780041 applies only to PR #179's head, not PR #180. Do not transfer parent or sibling CI evidence.
+- Report: `docs/ARO_CHAT_0113_PR180_CI_AUDIT.md`. Documentation-only; no application or workflow behavior changes.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. PR #180 is stacked on PR #179 and must not be merged independently.
