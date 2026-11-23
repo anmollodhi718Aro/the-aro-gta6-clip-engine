@@ -1877,3 +1877,36 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0137_PR208_CI_AUDIT.md`. This is a documentation-only zero-run evidence snapshot. Inspect the same PR #208 head again if a new Actions run appears; do not transfer predecessor CI results.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0138 PR #209 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0138 |
+| Exact title | ARO-CHAT-0138 | PR #209 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-138 |
+| Scope | Documentation-only audit of PR #209 exact-head Actions run, check-runs, combined status, Ubuntu/hosted-Windows jobs, compilation/tests, synthetic MP4/FFprobe, checkout refs, and review state |
+| Branch | `workstream/aro-chat-0138-pr209-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #209 head `f0529e4eea06ca574465bbe8abbd49768e4a5343` |
+| Parent PR | [#209](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/209) |
+| Report | `docs/ARO_CHAT_0138_PR209_CI_AUDIT.md` |
+| Status | IMPLEMENTED (initial documentation snapshot); PR #209 exact-head CI PENDING / NOT VERIFIED; independent review NOT RECORDED |
+| Safety | Documentation-only; no application/uploader/test/renderer/workflow behavior changes; no credentials, OAuth, real media, upload, publishing, workflow retry, merge, retarget, deployment, or destructive action. |
+
+### Evidence at inspection
+- PR #209 head `f0529e4eea06ca574465bbe8abbd49768e4a5343` is associated with Python CI run [#45266096583](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45266096583), run 1043, IN_PROGRESS.
+- Hosted-Windows job #138013283267 completed SUCCESS through compilation, complete unittest suite, and synthetic MP4/FFprobe validation. Numeric test count was not exposed by the returned step summary.
+- Ubuntu job #138013282843 was still installing FFmpeg/FFprobe; compile, tests, and synthetic render steps remained pending.
+- Combined commit status was PENDING with zero status entries. PR #209 reviews, inline threads, and conversation comments were empty.
+- Checkout refs were not established. Overall matrix CI is NOT VERIFIED until Ubuntu completes and its exact job evidence is inspected.
+- Local tests NOT RUN in this connector session; no workflow retry was initiated.
+- PR #209 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Do not transfer PR #208 or predecessor CI evidence to PR #209. Hosted Windows is not owner-device verification; synthetic media is not GTA 6 footage or real-media acceptance.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0138 follow-up PR #210 status — 2026-11-24
+- Draft PR [#210](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/210) is OPEN / DRAFT / UNMERGED; initial head `a97d8786e0f1cc799d7a3131127d2151e11bf0e2`.
+- PR #210's own exact-head workflow lookup returned zero runs; check-runs returned zero entries; combined status was PENDING with zero entries.
+- PR #210 review submissions were empty. Its exact-head CI is PENDING / NOT VERIFIED; inspect its current head independently after a run appears. Do not transfer PR #209's evidence.
