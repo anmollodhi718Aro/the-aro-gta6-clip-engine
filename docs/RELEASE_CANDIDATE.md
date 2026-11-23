@@ -16,8 +16,9 @@ It is a consolidated review target, not a production release declaration.
 ### Gate 2 — Test and CI
 - [ ] `python -m compileall -q backend tests THE_ARO_STUDIO.py`
 - [ ] `python -m unittest discover -s tests -v`
-- [ ] Confirm the GitHub Actions run reaches the compile and test steps on the exact commit.
-- [ ] Record test totals and any skipped FFmpeg/gRPC tests.
+- [x] Confirm GitHub Actions reaches compile and test steps on the exact PR head in both Ubuntu and Windows.
+- [x] Record test totals: run #936 passed all 249 tests on Ubuntu and all 249 tests on Windows; no tests were skipped.
+- [x] Install FFmpeg/ffprobe in both CI environments and pass the synthetic MP4 render test on both.
 
 ### Gate 3 — Local pipeline validation
 - [ ] Start the local dashboard at 127.0.0.1.
@@ -29,8 +30,8 @@ It is a consolidated review target, not a production release declaration.
 - [ ] Confirm clock-fit drift/residual rejection and calibrated-interval no-extrapolation.
 - [ ] Dry-run batch rendering.
 - [ ] Confirm actual execution probes media duration and blocks clips that exceed it.
-- [ ] Run a synthetic local FFmpeg render if FFmpeg and ffprobe are installed.
-- [ ] On Windows, run `scripts/check_project.ps1` on this exact commit and save the compile/test summary.
+- [x] Run the synthetic FFmpeg render in hosted Ubuntu and Windows CI; both passed.
+- [ ] Owner-side: run `scripts/check_project.ps1` on the owner's Windows PC and save the compile/test summary.
 - [ ] With an owner-supplied authorized local recording, run `START_CLIPPING_TODAY.bat`, verify multi-clip entry and dry-run output, then explicitly test the optional 9:16 render and local review dashboard.
 - [ ] Confirm stopping at either confirmation prompt performs no render; only proceed with `RENDER` and `I CONFIRM RIGHTS` when the exact media and intended distribution are authorized.
 - [ ] Verify dashboard report discovery and failed-only retry behavior.
