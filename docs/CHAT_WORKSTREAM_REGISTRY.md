@@ -1351,3 +1351,31 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - New permission grants require a new versioned `source_id`; downstream reports and approvals must use that new identifier.
 - Registration audit details include grantor and evidence reference.
 - Regression tests cover duplicate active grant, duplicate revoked grant, new versioned grant, and upload-source growth after initial stat with staging cleanup and no OAuth/API call.
+
+
+## ARO-CHAT-0107 PR #168 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0107 |
+| Exact title | ARO-CHAT-0107 | PR #168 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-107 |
+| Scope | Audit PR #168's associated Actions run, Ubuntu/hosted-Windows logs, compile/tests, synthetic MP4/FFprobe validation, and checkout refs; documentation-only |
+| Branch | `workstream/aro-chat-0107-pr168-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #168 head `9ff25d7356d5badc39f448c9f5e939cda4048541` |
+| Parent PR | [PR #168](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/168) |
+| Changed files | `docs/ARO_CHAT_0107_PR168_CI_AUDIT.md`, this registry, `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+| Status | IMPLEMENTED (documentation-only); PR #168 associated CI_VERIFIED on merge ref; raw-head-only CI NOT DEMONSTRATED |
+
+### Evidence
+- PR #168 head `9ff25d7356d5badc39f448c9f5e939cda4048541` is associated with Python CI run [#45245685334](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45245685334), run 971, SUCCESS.
+- Ubuntu job #137941689306: compilation passed; 338 tests passed (4.760s); synthetic MP4/FFprobe validation passed.
+- Hosted-Windows job #137941688716: compilation passed; 338 tests passed (14.147s); synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/168/merge` at merge SHA `f5d5fd8e51a36dc39f448c9f5e939cda4048541` (merge of PR #168 head into base `546906fca62ff2493a7ae1955dfdd1b4948233f2`); raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic reports confirm `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. The same 338-test suite ran on each platform, not 676 unique tests.
+- Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage.
+
+### Owner gates and safety
+- PR #168 remains OPEN / DRAFT / UNMERGED; no submitted review was present at audit time. Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Next gates: independent security review; owner-controlled integration of authenticated OAuth channel identity and durable per-clip approval; owner selection of a device-appropriate `--max-upload-bytes` before any real upload.
+- Documentation-only. No application/uploader/test/workflow behavior, credentials, OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
