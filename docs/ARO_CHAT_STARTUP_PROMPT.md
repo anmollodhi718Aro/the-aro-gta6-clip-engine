@@ -289,3 +289,17 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 ### ARO-CHAT-0102 CI evidence refresh — 2026-11-24
 - PR #161 head run #45242621235 (run 970) concluded CANCELLED overall. Ubuntu job #137930984235 succeeded through compile, unit-test, and synthetic MP4 validation steps; exact test count/log text and checkout SHA remain unverified. Hosted-Windows job #137930984793 was cancelled during the unit-test step; synthetic render was skipped. PR #161 is not CI_VERIFIED across the matrix.
 - Follow-up PR #162 is documentation-only and its own CI must be inspected independently. Do not transfer PR #161's Ubuntu success or Windows cancellation to the follow-up branch.
+
+
+### Latest continuation baseline — ARO-CHAT-0105 (2026-11-24)
+- Active workstream: ARO-GTA-P1-105 / ARO-CHAT-0105 | PR #162 exact-head CI audit.
+- Branch: `workstream/aro-chat-0105-pr162-exact-head-ci-audit-2026-11-24`; base and starting SHA: `546906fca62ff2493a7ae1955dfdd1b4948233f2`.
+- PR #162's own commit-associated workflow lookup returned zero runs and combined status returned zero entries. Exact-head CI is PENDING / NOT VERIFIED; no test count, compile result, checkout SHA, or synthetic-media result is claimed.
+- Report: `docs/ARO_CHAT_0105_PR162_CI_AUDIT.md`. Documentation-only; no application, uploader, test, or workflow behavior changes.
+- Re-query this exact SHA after checks appear. Do not transfer PR #161 or predecessor CI evidence, and do not rerun a workflow that does not exist.
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
+
+
+### ARO-CHAT-0105 submission note
+- Documentation-only draft PR #165 is OPEN / DRAFT / UNMERGED, based on PR #162 head `546906fca62ff2493a7ae1955dfdd1b4948233f2`.
+- Submitted head: `ae2d41e17f31282c61cbbf551467ae201b296ae4`. Its own CI requires separate exact-head verification; do not inherit PR #162's missing CI evidence.

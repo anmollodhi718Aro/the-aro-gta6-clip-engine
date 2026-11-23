@@ -225,3 +225,17 @@ The active scoped grant includes tests and documentation for verified Google OID
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL; no uploader implementation or publishing authority is granted.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 media acceptance.
 - GitHub connector capability does not expand project authority.
+
+
+## ARO-CHAT-0105 bounded QA/documentation grant — 2026-11-24
+
+| Identity | Chat ID | Task ID | Role | Granted scope | Grant evidence | Status |
+|---|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0105 | ARO-GTA-P1-105 | QA / AUDITOR; documentation contributor | Audit PR #162's own commit-associated Actions run and combined status; record only observed CI evidence; update the dedicated audit report, chat registry, and startup prompt on the isolated ARO-CHAT-0105 branch; open a draft documentation PR. | User's current instruction to identify the latest pending project task and safely begin work. | ACTIVE FOR BOUNDED AUDIT AND DOCUMENTATION ONLY |
+
+### Restrictions retained
+- No application, uploader, test, workflow, renderer, or media-ingestion implementation changes.
+- No merge, retarget, deployment, upload, public publishing, credential/OAuth access, destructive action, collaborator permission change, permission escalation, or owner-only approval.
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL; no uploader implementation or publishing authority is granted.
+- Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 media acceptance.
+- GitHub connector capability does not expand project authority.
