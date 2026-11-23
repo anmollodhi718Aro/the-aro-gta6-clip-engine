@@ -2310,15 +2310,16 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Base / starting SHA | PR #147 head `06babec863840afb8cecf0dd6608021bce9067a1` |
 | Parent PR | [PR #147](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/147) |
 | Changed files | `docs/ARO_CHAT_0090_PR147_CI_AUDIT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md`; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
-| Status | IN_PROGRESS; parent PR #147 exact-head Actions run #45232862569 was active at initial snapshot; both jobs were installing FFmpeg/FFprobe; final logs and checkout evidence pending |
+| Status | IN_PROGRESS; Ubuntu merge-ref CI successful (334 tests + synthetic MP4/FFprobe); hosted Windows unittest still running; final two-platform result pending |
 | Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
 
 ### Initial CI snapshot
 
 - PR #147 exact head `06babec863840afb8cecf0dd6608021bce9067a1` is associated with Actions run [45232862569](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45232862569), run 945.
-- Ubuntu job `137896915549` and hosted Windows job `137896914783` completed setup, checkout, and Python setup; both were installing FFmpeg/FFprobe at the initial snapshot.
-- Compilation, unit tests, synthetic MP4/FFprobe validation, final conclusions, test counts, and checkout-ref evidence were pending. No result is inferred.
-- Combined status lookup returned no status entries; no green status is inferred from that absence.
+- Ubuntu job `137896915549` completed SUCCESS: compilation passed; decoded log reports `Ran 334 tests in 5.017s`; synthetic MP4/FFprobe validation passed. It checked out `refs/remotes/pull/147/merge` at `759fe64c4362cd15cdc76b03fc7e85876aa152d4`, containing PR #147 head; raw-head-only checkout is not demonstrated.
+- Ubuntu synthetic report states `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Hosted Windows job `137896914783` completed setup, checkout, Python 3.11, FFmpeg/FFprobe installation, and compilation; its unittest step was still IN_PROGRESS at the latest status check. Synthetic MP4/FFprobe and final conclusion remain pending.
+- Combined status lookup returned no status entries; the workflow-run endpoint and decoded job logs are the evidence sources.
 - Local tests were not run in this connector session. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 footage.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
