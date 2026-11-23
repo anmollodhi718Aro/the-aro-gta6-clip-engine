@@ -152,6 +152,43 @@ def validate_upload(
     return video, body
 
 
+def _write_private_token(token_path: str | Path, token_json: str) -> None:
+    """Atomically persist OAuth credentials in a private 0600 file.
+
+    Create the temporary file in the destination directory so os.replace is
+    atomic on the same filesystem. Never expose a newly written token through
+    the process umask or leave a partial token at the destination path.
+    """
+    target = Path(token_path).expanduser()
+    target.parent.mkdir(parents=True, exist_ok=True)
+    fd, temporary_name = tempfile.mkstemp(
+        prefix=f".{target.name}.", suffix=".tmp", dir=str(target.parent)
+    )
+    try:
+        try:
+            os.fchmod(fd, 0o600)
+        except (AttributeError, OSError):
+            # mkstemp creates a private file on supported platforms. If
+            # explicit mode-setting is unavailable, verify it before writing.
+            try:
+                os.chmod(temporary_name, 0o600)
+            except OSError as exc:
+                raise PermissionError("could not secure OAuth token file permissions") from exc
+        with os.fdopen(fd, "w", encoding="utf-8") as stream:
+            fd = -1
+            stream.write(token_json)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary_name, target)
+    finally:
+        if fd >= 0:
+            os.close(fd)
+        try:
+            os.unlink(temporary_name)
+        except FileNotFoundError:
+            pass
+
+
 def _authorize_google(client_secrets: Path, token_path: Path):
     try:
         from google.auth.transport.requests import Request
@@ -184,12 +221,7 @@ def _authorize_google(client_secrets: Path, token_path: Path):
             host="127.0.0.1", port=0, open_browser=True,
             authorization_prompt_message="Authorize THE ARO Studio in your browser: {url}",
         )
-        token_path.parent.mkdir(parents=True, exist_ok=True)
-        token_path.write_text(credentials.to_json(), encoding="utf-8")
-        try:
-            os.chmod(token_path, 0o600)
-        except OSError:
-            pass
+        _write_private_token(token_path, credentials.to_json())
     return credentials
 
 
