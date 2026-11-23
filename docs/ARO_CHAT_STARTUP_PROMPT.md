@@ -324,3 +324,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #167's own exact-head CI must be inspected separately; do not transfer parent PR #166's results.
 
 - Follow-up PR #167 head `766d5cc9d2bce6b1ff20640a01d3da36ec2733c8` had no associated workflow run or combined status entry at latest inspection. Its exact-head CI remains PENDING / NOT VERIFIED; inspect it independently after Actions starts.
+
+
+## Latest continuation baseline — ARO-CHAT-0109 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-109 / ARO-CHAT-0109, documentation-only exact-head CI closeout of PR #167; branch `workstream/aro-chat-0109-pr167-exact-head-ci-closeout-2026-11-24`; base and starting SHA `ea56bb0f283fe528f8d0c5a4371005baebd13f7b` (PR #167 head).
+- PR #167's own Python CI run #45244087758 (run 987) completed SUCCESS. Ubuntu job #137936186035 passed compilation, 334 tests (5.070s), and synthetic MP4/FFprobe validation. Hosted-Windows job #137936186699 passed compilation, 334 tests (15.369s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/167/merge` at merge SHA `cde5fe4a96bc2702f0c3aa52d5070249c0e245e4`, merging PR #167 head into PR #166 head `4e2e74805c2e4c21aa246a4765e66c0a97cc7be2`. Raw-head-only checkout is NOT DEMONSTRATED. The same 334 tests ran on both platforms, not 668 unique tests.
+- Synthetic reports confirm no GTA 6 or third-party media, publishing disabled, and manual review required. Hosted Windows CI is not owner-device verification; synthetic media is not real-media acceptance.
+- PR #167 review submissions and inline review threads were empty; combined commit status returned no entries. The successful commit-associated Actions run is the CI evidence.
+- Report: `docs/ARO_CHAT_0109_PR167_CI_CLOSEOUT.md`. This workstream changes documentation only; its own exact-head CI remains PENDING until inspected.
+- Identity collision: ARO-CHAT-0108 was concurrently reserved by a different branch. Preserve the first closeout PR #172 as a non-canonical collision artifact; do not integrate or alter it pending owner reconciliation.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth session, real media, network upload, merge, retarget, deployment, or destructive action was performed.
