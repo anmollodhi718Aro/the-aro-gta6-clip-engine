@@ -1448,3 +1448,32 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Parent PR #238 run #45277658000 passed Ubuntu and hosted Windows (338 tests per platform plus synthetic MP4/FFprobe); this predecessor evidence is NOT transferred to ARO-CHAT-0164.
 - No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment or destructive action.
 - Keep Issue #68 OPEN and all live/public uploads disabled pending this branch's exact-head CI, independent security review, owner-controlled integration, owner-device verification and separate authorized real-media acceptance.
+
+
+## ARO-CHAT-0166 PR #242 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0166 |
+| Exact title | ARO-CHAT-0166 | PR #242 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-166 |
+| Scope | Documentation-only audit of PR #242's current-head CI, jobs, logs, checkout refs, compile/tests, synthetic MP4/FFprobe, and review state |
+| Branch | `workstream/aro-chat-0166-pr242-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #242 head `414fd4f7da94fdffcdd3261a5ea723b5f03290b3` |
+| Parent PR | #242 |
+| Report | `docs/ARO_CHAT_0166_PR242_CI_AUDIT.md` |
+| Status | IN_PROGRESS; current-head run #45278355448 was cancelled during FFmpeg setup; targeted rerun queued; prior-lineage run #45278418962 failed one test and is not current-head evidence |
+
+### Initial evidence
+- PR #242 current head: `414fd4f7da94fdffcdd3261a5ea723b5f03290b3`.
+- Current-head run #45278355448 (run 1113) was cancelled during FFmpeg/FFprobe installation on both platforms; compile, tests and synthetic render were skipped.
+- A targeted Ubuntu job rerun was accepted and is QUEUED. Windows remains cancelled pending a safe rerun after the active attempt completes.
+- Earlier-lineage run #45278418962 (run 1115) ran 340 tests on Ubuntu and failed one CLI fixture, `test_cli_passes_exact_clip_and_source_to_upload_boundary`, because the fixture invocation lacked the explicit `--max-upload-bytes` argument. Windows was cancelled during FFmpeg setup. Do not transfer this result to current head.
+- The current branch-tip fixture now passes the explicit limit argument, but this later state remains unverified until its own CI completes.
+- PR #242 reviews, inline threads, and conversation comments were empty at inspection; independent review NOT RECORDED.
+
+### Safety and remaining gates
+- PR #242 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN.
+- Keep live uploads/public publishing disabled pending current-head CI, independent security review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
+- Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 footage.
+- Documentation-only. No OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, workflow configuration change, or destructive action.
