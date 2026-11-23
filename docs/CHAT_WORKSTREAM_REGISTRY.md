@@ -2082,7 +2082,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Field | Record |
 |---|---|
 | Chat ID | ARO-CHAT-0084 |
-| ARO-CHAT-0085 | ARO-CHAT-0085 | PR #138 Exact-Head CI Audit | ARO-GTA-P1-85 | Audit PR #138 Actions run, both platform jobs, decoded logs, and merge-ref checkout evidence | `workstream/aro-chat-0085-pr138-exact-head-ci-audit-2026-11-23` / pending PR | IN_PROGRESS | Started from PR #138 head `f3ecc88600015f97c4067d314717f1c6b0adc3b5`; run `45198107955` was still in progress at initial snapshot; documentation-only. |
+| ARO-CHAT-0085 | ARO-CHAT-0085 \| PR #138 Exact-Head CI Audit | ARO-GTA-P1-85 | Audit PR #138 Actions run, platform jobs, decoded logs, and merge-ref checkout evidence | `workstream/aro-chat-0085-pr138-exact-head-ci-audit-2026-11-23` / pending PR | IMPLEMENTED; parent PR #138 merge-ref CI successful | Starting SHA `f3ecc88600015f97c4067d314717f1c6b0adc3b5`; run `45198107955` passed both platforms (334 tests each); raw-head checkout not demonstrated; follow-up CI pending. |
 | Exact title | ARO-CHAT-0084 | PR #137 CI Evidence Closeout |
 | Workstream ID | ARO-GTA-P1-84 |
 | Role | Exact-head CI evidence auditor; documentation-only |
@@ -2123,7 +2123,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Base / starting SHA | PR #138 head `f3ecc88600015f97c4067d314717f1c6b0adc3b5` |
 | Parent PR | #138 |
 | Changed files | `docs/ARO_CHAT_0085_PR138_CI_AUDIT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md` |
-| Status | IN_PROGRESS; parent PR #138 Actions run `45198107955` was running at initial snapshot; this branch's exact-head CI pending |
+| Status | IMPLEMENTED; parent PR #138 merge-ref CI successful on Ubuntu and hosted Windows; this branch's exact-head CI pending |
 | Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
 
 ### Initial CI snapshot
@@ -2134,4 +2134,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 ### Safety and owner gates
 - PR #138 remains OPEN / DRAFT / UNMERGED; no merge or integration is authorized.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader implementation selection or approved consolidation.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0085 final CI evidence refresh — 2026-11-23
+- Parent PR #138 head `f3ecc88600015f97c4067d314717f1c6b0adc3b5` is associated with Actions run [45198107955](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45198107955), run 910, conclusion SUCCESS.
+- Ubuntu job `137773900779`: compilation passed; `Ran 334 tests in 4.815s`; synthetic MP4/FFprobe validation passed.
+- Hosted Windows job `137773901881`: compilation passed; `Ran 334 tests in 13.152s`; synthetic MP4/FFprobe validation passed.
+- Both jobs checked out merge ref `refs/remotes/pull/138/merge` at `ff624bfa50bb576c9b62a7f6543a3f9a1cdd595e`, containing PR #138 head merged into base `8668a7dd38bce2290d277757d8baa52f63e42e8e`; raw-head-only checkout is not demonstrated.
+- Both synthetic reports state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. The same 334-test suite ran on both platforms; this is not 668 unique tests.
+- Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance. Local tests were not run in this connector session.
+- PR #138 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
