@@ -2197,3 +2197,11 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Audit CI_VERIFIED on merge ref only; raw-head-only CI, owner-device Windows, independent review, and real-media acceptance remain NOT VERIFIED.
 - Report: `docs/ARO_CHAT_0152_PR225_CI_AUDIT.md`. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+## Follow-up PR #228 exact-head CI status — 2026-11-24
+- This audit is recorded in draft PR [#228](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/228), OPEN / DRAFT / UNMERGED.
+- PR #228 current head: `5c0e47b252c566f6d755b91f8227fb636f2398cc`.
+- Its own commit-associated Python CI run [#45270832453](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45270832453), run 1076, is PENDING at initial lookup.
+- PR #225's successful run #45270102698 does not transfer to PR #228. Inspect PR #228's own jobs/logs and exact checked-out refs before assigning any CI status.
+- PR #228 remains documentation-only; no merge, retarget, workflow retry, deployment, upload, or publishing.
