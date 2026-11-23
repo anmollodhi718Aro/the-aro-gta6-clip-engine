@@ -1905,26 +1905,35 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Exact title | ARO-CHAT-0078 | PR #129 Exact-Head CI Closeout |
 | Workstream ID | ARO-GTA-P1-78 |
 | Role | Exact-head CI evidence auditor + documentation-only contributor |
-| Task | Inspect the Actions run associated with PR #129's exact head, both platform job steps, and decoded logs; record evidence without changing application behavior. |
+| Task | Inspect the Actions run associated with PR #129's exact head, both platform job steps, and decoded logs; record final evidence without changing application behavior. |
 | Branch / parent PR | `workstream/aro-chat-0078-pr129-exact-head-ci-closeout-2026-11-23` / [PR #129](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/129) |
 | Parent PR / reviewed head | PR #129 / `346f1a7f91c2d394a85790b6c682fd593c4d8777` |
 | Base / starting SHA | PR #129 exact head `346f1a7f91c2d394a85790b6c682fd593c4d8777` |
-| Status | IN_PROGRESS; Windows job SUCCESS (334 tests + synthetic MP4/FFprobe); Ubuntu job still running at initial evidence snapshot |
+| Status | IMPLEMENTED (documentation-only); PR #129 exact-head CI_VERIFIED on Ubuntu and hosted Windows; PR #130 documentation head CI passed at recorded snapshot |
 | Changed files | docs/ARO_CHAT_0078_PR129_CI_CLOSEOUT.md; docs/CHAT_WORKSTREAM_REGISTRY.md |
 | Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
 
-### Exact-head CI evidence snapshot
+### Exact-head CI evidence
 
-- PR #129 exact head `346f1a7f91c2d394a85790b6c682fd593c4d8777` is associated with Actions run [45183249615](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45183249615).
-- Windows job `137722183707` completed successfully. Its decoded log reports `Ran 334 tests in 15.328s; OK`; compilation and synthetic MP4/FFprobe validation passed.
-- Windows synthetic report states `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
-- The Windows job checked out PR merge ref `37d277b1ef12fa7c52325ba3b0faf9d3a1a166b5`, which merges PR #129 head into its base. Do not describe this as a raw-head checkout.
-- Ubuntu job `137722184375` had completed setup, checkout, and Python setup; FFmpeg/FFprobe installation was still in progress at the snapshot. Compile, tests, and synthetic render had not started. No Ubuntu test result is claimed.
-- This is partial cross-platform evidence, not two-platform CI_VERIFIED. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
+- PR #129 exact head `346f1a7f91c2d394a85790b6c682fd593c4d8777` is associated with Actions run [45183249615](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45183249615), conclusion SUCCESS.
+- Ubuntu job `137722184375` (`tests`) and hosted Windows job `137722183707` (`windows-tests`) both completed setup, checkout, FFmpeg/FFprobe installation, compilation, unit tests, and synthetic MP4/FFprobe validation successfully.
+- Ubuntu decoded log: `Ran 334 tests in 3.679s; OK`.
+- Hosted Windows decoded log: `Ran 334 tests in 15.328s; OK`.
+- Each platform ran the same 334-test suite; this is 334 distinct tests, not 668 unique tests.
+- Both synthetic reports confirm `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Both jobs checked out PR merge ref `37d277b1ef12fa7c52325ba3b0faf9d3a1a166b5`, not the raw PR head.
+- Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
 - Local tests were not run in this connector session.
+
+### Follow-up documentation branch CI
+
+- PR #130 documentation head `dced72b7fcff53379c28256f1cd44d29a80d42dc` is associated with Actions run [45183656517](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45183656517), conclusion SUCCESS.
+- Ubuntu job `137723580369` and hosted Windows job `137723580563` both passed setup, FFmpeg/FFprobe installation, compilation, unit tests, and synthetic MP4/FFprobe validation.
+- This evidence applies to the recorded PR #130 head only. A later documentation commit requires its own exact-head CI evidence.
 
 ### Safety and owner gates
 
-- PR #129 remains OPEN / DRAFT / UNMERGED; this closeout does not authorize merge or integration.
+- PR #129 remains OPEN / DRAFT / UNMERGED; this closeout does not authorize merging or integration.
+- PR #130 remains a documentation-only follow-up; do not merge it independently of its base.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
