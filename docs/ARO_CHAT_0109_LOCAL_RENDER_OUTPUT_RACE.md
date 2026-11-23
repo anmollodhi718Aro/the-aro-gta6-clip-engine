@@ -9,7 +9,8 @@ Date: 2026-11-24
 - Repository: anmollodhi718Aro/the-aro-gta6-clip-engine
 - Branch: `workstream/aro-chat-0109-local-render-output-race-2026-11-24`
 - Base: PR #169 head `5156eeb07b32a20bba2f60593f9e0b53fca07295`
-- Parent: PR #169, Add permission-gated local FFmpeg clip renderer
+- Draft follow-up PR: [#178](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/178), stacked on parent PR #169
+- Current head: `cf75d5189d7818fddb1f2ae1162cf2ac87a2e83f`
 
 ## Finding
 The original renderer wrote directly to the final output path and, on any caught failure, unconditionally unlinked that path. A concurrent process could create the destination after the initial existence check; if FFmpeg refused to overwrite it, cleanup could then delete the other process's file.
