@@ -608,3 +608,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0139_PR210_CI_AUDIT.md`. Keep the PR draft-only; do not transfer predecessor CI results or retry workflows without authorization.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - This workstream is documentation-only. No application/uploader/test/renderer/workflow changes, credentials, OAuth, real media, uploads, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest repository snapshot — 2026-11-24 (ARO-CHAT-0139)
+- Active workstream: ARO-CHAT-0139 / ARO-GTA-P1-139, documentation-only exact-head CI audit of PR #210; draft PR #211.
+- PR #210 exact-head Python CI run #45267261132 was CANCELLED during FFmpeg/FFprobe installation on Ubuntu and hosted Windows. Compile/tests/synthetic MP4 steps were skipped; exact-head CI remains NOT VERIFIED.
+- Both jobs checked out merge ref `refs/remotes/pull/210/merge` at `2fa6317854acbf688ef903864575978c59b03f99`; raw-head-only checkout is NOT DEMONSTRATED.
+- Do not retry workflows without authorization or transfer predecessor CI evidence. Keep PR #211 draft-only.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, merge, retarget, or deployment.
