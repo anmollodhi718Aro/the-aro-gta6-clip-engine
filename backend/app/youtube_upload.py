@@ -243,8 +243,12 @@ def upload_video(
     source_id: str,
     owner_approved: bool,
     rights_confirmed: bool,
-    max_upload_bytes: int = DEFAULT_MAX_UPLOAD_BYTES,
+    max_upload_bytes: int | None = None,
 ) -> dict[str, str]:
+    if max_upload_bytes is None:
+        raise PermissionError(
+            "actual upload requires an explicit device-selected --max-upload-bytes value"
+        )
     max_upload_bytes = _validate_max_upload_bytes(max_upload_bytes)
     video_path = Path(video_path)
     if video_path.stat().st_size > max_upload_bytes:
@@ -366,8 +370,8 @@ def main() -> int:
     parser.add_argument("--client-secrets", type=Path, default=Path("client_secret.json"))
     parser.add_argument("--token", type=Path, default=Path("token.json"))
     parser.add_argument("--upload", action="store_true", help="Perform an API upload; default is dry-run only.")
-    parser.add_argument("--max-upload-bytes", type=int, default=DEFAULT_MAX_UPLOAD_BYTES,
-                        help=f"Maximum local video size accepted (default: {DEFAULT_MAX_UPLOAD_BYTES} bytes). Set explicitly for the available memory budget.")
+    parser.add_argument("--max-upload-bytes", type=int, default=None,
+                        help="Required for --upload: choose a positive byte limit appropriate for this device. Dry-run and approval-only commands use the conservative default.")
     parser.add_argument("--owner-approved", action="store_true", help="Additional operator acknowledgement; not identity authentication and not a substitute for the OAuth-bound per-clip approval record.")
     parser.add_argument("--confirm-rights", action="store_true", help="Confirm that the exact local video and all included assets are cleared for this upload.")
     parser.add_argument("--approval-record", type=Path,
@@ -381,6 +385,15 @@ def main() -> int:
     args = parser.parse_args()
 
     try:
+        if args.upload and args.max_upload_bytes is None:
+            raise PermissionError(
+                "--upload requires an explicit device-selected --max-upload-bytes value"
+            )
+        max_upload_bytes = (
+            args.max_upload_bytes
+            if args.max_upload_bytes is not None
+            else DEFAULT_MAX_UPLOAD_BYTES
+        )
         tags = [tag.strip() for tag in args.tags.split(",") if tag.strip()]
         if args.approve_clip and args.upload:
             raise PermissionError("--approve-clip and --upload must be separate invocations")
@@ -391,7 +404,7 @@ def main() -> int:
             owner_approved=args.owner_approved,
             rights_confirmed=args.confirm_rights,
             upload_requested=args.upload,
-            max_upload_bytes=args.max_upload_bytes,
+            max_upload_bytes=max_upload_bytes,
         )
         if args.approve_clip:
             if not args.clip_id or not args.source_id or args.approval_record is None:
