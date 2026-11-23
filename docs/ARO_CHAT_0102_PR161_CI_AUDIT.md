@@ -39,3 +39,12 @@ Audit PR #161's own commit-associated GitHub Actions run, Ubuntu and hosted-Wind
 - [ ] Verify synthetic render report and FFprobe output on each job.
 - [ ] Record actual checkout refs and distinguish merge-ref from raw-head checkout.
 - [ ] Update this report and registry with evidence; do not claim owner-device or real-media verification.
+
+
+## Parent PR #161 CI evidence refresh
+
+- Re-fetched run [#45242621235](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45242621235), run 970, for exact PR #161 head `031708372017a17a65b1ccdcbb4b24145b27858f`: overall conclusion `cancelled`.
+- Ubuntu job #137930984235 concluded `success`. The Actions job summary reports successful setup, checkout, Python setup, FFmpeg/FFprobe installation, source compilation, unit-test step, and synthetic MP4 render/verification step. Detailed log text and exact test count were not available through the inspected endpoint, so no count or checkout SHA is claimed.
+- Hosted Windows job #137930984793 concluded `cancelled`. Setup, checkout, Python 3.11 setup, FFmpeg/FFprobe installation, and compile step succeeded; the complete unittest step was cancelled, and synthetic MP4 render was skipped. No Windows test count or render result is claimed.
+- Because the Windows job was cancelled, PR #161 is NOT CI_VERIFIED across the required matrix. Ubuntu job-level success is recorded separately. No rerun was initiated.
+- Run #45242621235 belongs to PR #161's exact head; it is not this follow-up PR #162's own CI. PR #162's head `098844642622bdf044363a4c84791f5d7313033a` currently has zero check-runs and a pending combined status at inspection.
