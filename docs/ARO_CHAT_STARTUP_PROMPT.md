@@ -328,3 +328,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Synthetic media only; no GTA 6/third-party footage; publishing disabled; manual review required; mocked upload false.
 - Corrected source-file mutation regression passed. Later documentation-only commits record this evidence; inspect the latest branch-tip CI separately before claiming the new tip CI_VERIFIED.
 - Issue #68 remains OPEN and assigned to the project owner. Keep public uploads disabled pending independent review, owner-controlled integration, and the owner-selected device-appropriate upload limit.
+
+
+## Latest continuation baseline — ARO-CHAT-0162 CI closeout (2026-11-24)
+- Active workstream: ARO-CHAT-0162 / ARO-GTA-P1-162 | PR #176 staged-payload mutation regression repair. PR #238 is OPEN / DRAFT / UNMERGED at head `e2620b00c1ff383cc3b0d76be7da614d1ad5556a`, based on PR #176 head `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`.
+- Own CI run #45277330824 (run 1101) completed SUCCESS. Ubuntu job #138052406607 passed compile, 338 tests (4.902s), and synthetic MP4/FFprobe. Hosted-Windows job #138052406300 passed compile, the same 338 tests (15.648s), and synthetic MP4/FFprobe.
+- Both jobs checked out PR #238 merge ref at merge SHA `829d1fe11bc27456143f0119de4e4db734679f63`; raw-head-only CI NOT DEMONSTRATED. Synthetic test pattern/tone only, 8s source / 4s output, no GTA 6/third-party media, publishing disabled, manual review required, mocked upload false.
+- Static diff changed the regression test only; production uploader module unchanged. The test mutates the original source at the mocked insert boundary and confirms immutable captured bytes are uploaded.
+- PR #238 reviews/comments empty; independent review NOT RECORDED. Local tests NOT RUN in this connector session. Owner-device Windows and authorized real-media acceptance NOT VERIFIED.
+- Keep PR #238 draft/open/unmerged pending independent security review and owner-controlled integration. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live/public uploads disabled. Owner-selected device-appropriate `--max-upload-bytes` still required before any real upload. No OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
