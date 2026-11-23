@@ -244,3 +244,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #156 merge-ref CI is CI_VERIFIED; PR #156 remains OPEN / DRAFT / UNMERGED. This evidence does not authorize merge. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled.
 - Report: `docs/ARO_CHAT_0096_PR154_CI_AUDIT.md`; registry records this closeout. Real-media acceptance and owner-device Windows verification remain NOT VERIFIED.
 - Next step: inspect the latest registry and live PR graph, then select only the next non-duplicate owner-authorized bounded task. Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
+
+
+### ARO-CHAT-0096 follow-up PR #156 exact-head CI closeout — refreshed 2026-11-23
+- PR #156 reviewed head `0441db3418786b88625cce9cb950e03a4e9aac9f` passed Python CI run #45236561219 (run 962).
+- Ubuntu job #137909721243: compilation passed; 334 tests passed (4.209s); synthetic MP4/FFprobe passed.
+- Hosted Windows job #137909720763: compilation passed; 334 tests passed (21.227s); synthetic MP4/FFprobe passed.
+- Both jobs checked out `refs/remotes/pull/156/merge` at merge SHA `9b5cb765fdb72fa9d1b08e4ed294f54ddad29cfc`, merging reviewed head `0441db3418786b88625cce9cb950e03a4e9aac9f` into base `0139e594ce43d04f17172fdb150f7dadd20f9fae`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic reports: `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 footage.
+- PR #156 merge-ref CI is CI_VERIFIED. PR #156 remains OPEN / DRAFT / UNMERGED. Any later commit needs a new exact-head CI audit.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled; canonical uploader security implementation still requires owner assignment and selection/approved consolidation. Real-media acceptance and owner-device Windows verification remain NOT VERIFIED.
+- No credentials/OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action was performed.
