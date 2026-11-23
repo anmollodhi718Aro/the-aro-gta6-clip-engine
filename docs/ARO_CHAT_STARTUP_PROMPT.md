@@ -310,3 +310,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Keep PR #168 and this follow-up draft/open/unmerged. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled pending independent review and owner-controlled integration.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action is authorized by this workstream.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage. The owner must choose a device-appropriate upload-memory limit before any real upload.
+
+
+## Current continuation — ARO-CHAT-0120
+- Exact title: ARO-CHAT-0120 | PR #176 CI Test-Contract Fix.
+- Workstream: ARO-GTA-P1-120. Branch: `workstream/aro-chat-0120-pr176-ci-test-contract-fix-2026-11-24`.
+- Base/start SHA: PR #176 head `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`.
+- Fix the stale regression expectation: staging is intentionally deleted before OAuth; assert cleanup at API request construction and verify immutable in-memory bytes remain unchanged after the original source is modified.
+- Test-only scope. Run targeted test and full suite where available, then inspect this branch's exact-head Ubuntu/hosted-Windows CI. Never claim verification without logs.
+- Preserve PR #176 and all parallel branches. Do not merge, retarget, deploy, upload, or publish. Issue #68 owner approval gate remains active.
