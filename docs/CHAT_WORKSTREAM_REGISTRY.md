@@ -1759,3 +1759,36 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #123 remains OPEN / DRAFT / UNMERGED; this closeout does not authorize merge or integration.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0074 PR #125 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0074 |
+| Exact title | ARO-CHAT-0074 | PR #125 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-74 |
+| Role | Exact-head CI evidence auditor + documentation-only contributor |
+| Task | Verify the Actions run associated with PR #125's exact head and record job-step evidence without changing application behavior. |
+| Branch | `workstream/aro-chat-0074-pr125-exact-head-ci-closeout-2026-11-23` |
+| Parent PR / reviewed head | PR #125 / `bf8c5a58aecaa5ee4b7457b340a45d646d79a10b` |
+| Base / starting SHA | PR #125 exact head `bf8c5a58aecaa5ee4b7457b340a45d646d79a10b` |
+| Status | IMPLEMENTED (documentation-only); parent PR #125 exact-head CI passed on Ubuntu and hosted Windows; this follow-up branch's own exact-head CI pending |
+| Changed files | docs/ARO_CHAT_0074_PR125_CI_CLOSEOUT.md; docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head CI evidence
+
+- PR #125 exact head `bf8c5a58aecaa5ee4b7457b340a45d646d79a10b` is associated with Actions run [45179351925](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45179351925).
+- Ubuntu job `137708815139` (`tests`) completed SUCCESS. Setup, checkout, Python, FFmpeg/FFprobe installation, compilation, unit-test step, synthetic MP4/FFprobe step, and cleanup all passed.
+- Hosted Windows job `137708814586` (`windows-tests`) completed SUCCESS. Setup, checkout, Python 3.11, FFmpeg/FFprobe installation, compilation, unit-test step, synthetic MP4/FFprobe step, and cleanup all passed.
+- The connector exposed job-step conclusions but not decoded logs. Numeric test counts, durations, and synthetic report flags are NOT ASSERTED.
+- Both platforms passed the same configured workflow steps; do not infer a test count from step success.
+- Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
+- Local tests were not run in this connector session.
+
+### Safety and owner gates
+
+- PR #125 remains OPEN / DRAFT / UNMERGED; do not merge independently of its base.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
