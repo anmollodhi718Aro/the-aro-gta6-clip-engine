@@ -70,3 +70,16 @@ This section supersedes the earlier pending- CI note for PR #156 in the initial 
 - The same 334-test suite ran independently on both platforms, not 668 unique tests. Hosted Windows CI is not owner-device Windows verification.
 - PR #156 merge-ref CI is now **CI_VERIFIED**. This does not authorize merge or establish raw-head-only verification.
 - PR #156 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled.
+
+
+## Follow-up PR #156 exact-head CI closeout
+
+- PR #156 reviewed head: `0441db3418786b88625cce9cb950e03a4e9aac9f`.
+- Associated Python CI run [#45236561219](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45236561219), run 962, completed with conclusion **SUCCESS**.
+- Ubuntu job `137909721243`: Python 3.11 setup, FFmpeg/FFprobe installation, compilation, and synthetic MP4/FFprobe steps succeeded; unit tests reported `Ran 334 tests in 4.209s` and `OK`.
+- Hosted Windows job `137909720763`: Python 3.11 setup, FFmpeg/FFprobe installation, compilation, and synthetic MP4/FFprobe steps succeeded; unit tests reported `Ran 334 tests in 21.227s`. The job completed successfully.
+- Both platforms ran the same 334-test suite; this is not 668 unique tests.
+- Both jobs checked out `refs/remotes/pull/156/merge` at merge SHA `9b5cb765fdb72fa9d1b08e4ed294f54ddad29cfc`, merging PR #156 head `0441db3418786b88625cce9cb950e03a4e9aac9f` into base `0139e594ce43d04f17172fdb150f7dadd20f9fae`. **Raw-head-only checkout is NOT DEMONSTRATED.**
+- Both synthetic reports identify locally generated test pattern/tone and record `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. This is not real GTA 6 footage or real-media acceptance.
+- PR #156 merge-ref CI: **CI_VERIFIED**. Owner-device Windows verification and real-media acceptance remain **NOT VERIFIED**. Local tests were not run in this connector session.
+- PR #156 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / UNASSIGNED; keep live uploads and public publishing disabled. No merge, retarget, deployment, OAuth session, credentials, real media, upload, or publishing was used.
