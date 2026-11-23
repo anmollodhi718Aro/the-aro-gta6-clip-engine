@@ -1195,3 +1195,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Parent PR #154 merge-ref CI is CI_VERIFIED. PR #156's own CI remains a separate pending check; do not transfer this result to the follow-up PR.
 - Report: `docs/ARO_CHAT_0096_PR154_CI_AUDIT.md`. PR #156 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled.
 - Documentation-only; no application, uploader, test, or workflow behavior changes. No merge, retarget, deployment, upload, publishing, credential/OAuth access, real-media processing, or destructive action was performed.
+
+
+### ARO-CHAT-0096 follow-up PR #156 exact-head CI closeout — 2026-11-23
+
+- Follow-up PR #156 head `0441db3418786b88625cce9cb950e03a4e9aac9f` is associated with Python CI run [#45236561219](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45236561219), run 962, conclusion SUCCESS.
+- Ubuntu job `137909721243`: compilation passed; 334 tests ran (4.209s); synthetic MP4/FFprobe validation passed.
+- Hosted Windows job `137909720763`: compilation passed; 334 tests ran (21.227s); synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/156/merge` at merge SHA `9b5cb765fdb72fa9d1b08e4ed294f54ddad29cfc`, merging PR #156 head into PR #154 head `0139e594ce43d04f17172fdb150f7dadd20f9fae`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both synthetic reports confirm `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. Same 334-test suite on both platforms, not 668 unique tests; hosted Windows is not owner-device verification.
+- PR #156 merge-ref CI is CI_VERIFIED. PR #156 remains OPEN / DRAFT / UNMERGED; no merge authorization is inferred. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled.
+- Documentation-only CI evidence closeout. No application/uploader/test/workflow behavior, credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
