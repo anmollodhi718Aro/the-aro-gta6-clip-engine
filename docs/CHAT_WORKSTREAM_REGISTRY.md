@@ -1831,3 +1831,12 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Compile/tests/synthetic MP4/FFprobe/checkout refs are NOT VERIFIED. No test count or CI outcome is claimed.
 - Local tests were NOT RUN in this connector session. No workflow retry was initiated.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0135 follow-up CI closeout — 2026-11-24
+- PR #206 exact head `c708ab5553b783245b668f55988939ee4bdc202d`: zero associated Actions runs and zero combined status entries; compilation/tests/synthetic MP4/FFprobe/checkout remain NOT VERIFIED.
+- PR #207 exact head `29dd243c8a062f077528c938e617f9324fd6698e`: own run [#45264752822](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45264752822) completed SUCCESS. Ubuntu job #138008595866 and hosted-Windows job #138008595477 passed compileall, 338 tests each, and synthetic MP4/FFprobe validation.
+- Both PR #207 jobs checked out `refs/remotes/pull/207/merge` at merge SHA `03f4ff2897ea0c04623a185a87ca8984276a4588`; raw-head-only checkout is NOT DEMONSTRATED. The same 338-test suite ran on both platforms, not 676 unique tests.
+- Synthetic fixture: locally generated pattern/tone, 8.0-second source, 4.0-second output, `upload_performed=false`; no GTA 6/third-party media or publishing.
+- PR #207 remains OPEN / DRAFT / UNMERGED. Combined status, review submissions, inline threads, and conversation comments were empty; independent review NOT RECORDED. Local tests NOT RUN in this connector session.
+- This closes the current ARO-CHAT-0135 evidence update only. Issue #68 remains OPEN / NOT IMPLEMENTED / UNASSIGNED; public uploads stay disabled. No CI evidence is transferred from PR #207 to PR #206.
