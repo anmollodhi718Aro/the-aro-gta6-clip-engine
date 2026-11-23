@@ -2273,7 +2273,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Workstream ID | ARO-GTA-P1-89 |
 | Role | Exact-head CI evidence auditor; documentation-only |
 | Task | Audit the latest canonical PR #144 head, Actions run, Ubuntu/hosted-Windows job steps and decoded logs; record test counts, synthetic MP4/FFprobe results, and merge-ref checkout evidence. |
-| Branch | `workstream/aro-chat-0089-pr144-ci-closeout-2026-11-23` |
+| Branch / PR | `workstream/aro-chat-0089-pr144-ci-closeout-2026-11-23` / [PR #147](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/147) |
 | Base / starting SHA | PR #144 head `7e259e5f2316c0af3e37411dd3b2cfbd1451d43c` |
 | Parent PR | [PR #144](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/144) |
 | Changed files | `docs/ARO_CHAT_0089_PR144_CI_CLOSEOUT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md`; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
