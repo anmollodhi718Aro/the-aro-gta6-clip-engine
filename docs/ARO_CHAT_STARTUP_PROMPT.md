@@ -825,3 +825,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Audit PR #232 remains OPEN / DRAFT / UNMERGED. Its own branch-ref workflow lookup and combined status returned zero entries; CI PENDING / NOT VERIFIED. Do not transfer PR #231 CI to PR #232. Its reviews, inline threads, and comments were empty.
 - Report: `docs/ARO_CHAT_0156_PR231_CI_AUDIT.md`. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
 - Documentation-only. No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action. Local tests NOT RUN in this connector session.
+
+
+## ARO-CHAT-0156 CI closeout update — 2026-11-24
+- PR #231 audit completed; PR #232 own head `ccde1827d1f8b7d25a7f3ef8d206c8f55cb3fc5b` passed Python CI run #45274631218 (run 1089).
+- Ubuntu and hosted Windows each passed compilation, the same 338 tests (4.917s / 14.615s), and synthetic MP4/FFprobe validation. Both checked out PR #232 merge ref at `fb4687d94c1019eba0b72138458dcb399c9d4548`; raw-head-only CI is NOT DEMONSTRATED.
+- Synthetic pattern/tone only; no GTA 6/third-party media; publishing disabled; manual review required; mocked upload did not occur. Combined status is pending with zero entries; independent review NOT RECORDED.
+- PR #232 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
