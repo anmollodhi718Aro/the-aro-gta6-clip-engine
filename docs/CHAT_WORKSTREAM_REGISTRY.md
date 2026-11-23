@@ -1452,3 +1452,18 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Synthetic output confirms no GTA 6/third-party media, publishing disabled, and manual review required. This is not owner-device Windows or real-media acceptance.
 - PR #172 had no review submissions or inline review threads at inspection. Follow-up PR #177 own exact-head CI: PENDING; initial lookup returned no associated run.
 - ARO-CHAT-0109 was already reserved by existing branch names and was not reused. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## Latest continuation baseline — ARO-CHAT-0111 (2026-11-24)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0111 | ARO-CHAT-0111 \| PR #177 Exact-Head CI Audit | ARO-GTA-P1-111 | Audit PR #177's own Actions run, Ubuntu/hosted-Windows logs, compile/tests, synthetic MP4/FFprobe output, checkout refs, and review state; documentation-only | `workstream/aro-chat-0111-pr177-exact-head-ci-audit-2026-11-24` / pending PR | IN_PROGRESS; Ubuntu job SUCCESS (334 tests, synthetic MP4/FFprobe passed); hosted-Windows job passed compile/tests and was rendering synthetic MP4 at initial snapshot; overall CI not yet verified | Starting SHA `bed4409bb9d43f5be1b5ecb13fb86dacb63f43bd`; run `45253255815`; Ubuntu merge SHA `cf50b76eb52ba758789043e43c13eefe0b5cc08d` |
+
+### ARO-CHAT-0111 evidence notes
+- PR #177 head at reservation: `bed4409bb9d43f5be1b5ecb13fb86dacb63f43bd`; associated Python CI run [#45253255815](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45253255815), run 1001, was IN_PROGRESS.
+- Ubuntu job `137968386479` completed SUCCESS: compilation passed, 334 tests in 4.832s, and synthetic MP4/FFprobe validation passed.
+- Hosted-Windows job `137968385850` passed setup, checkout, Python, FFmpeg/FFprobe installation, compilation, and its complete unittest step; synthetic MP4/FFprobe validation was IN_PROGRESS at the initial snapshot.
+- Ubuntu checked out PR merge ref `refs/remotes/pull/177/merge` at `cf50b76eb52ba758789043e43c13eefe0b5cc08d`, merging PR #177 head with PR #172 head `c385c729bfb6ca6d62861ad94f01d83e2d38bbc4`. Raw-head-only CI is NOT DEMONSTRATED.
+- Report: `docs/ARO_CHAT_0111_PR177_CI_AUDIT.md`. Recheck Windows completion, exact checkout SHA, review submissions, and this follow-up branch's own exact-head CI before claiming CI_VERIFIED.
+- Documentation-only; application/uploader/test/renderer/workflow behavior is unchanged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
