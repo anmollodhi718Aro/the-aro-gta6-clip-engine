@@ -1308,3 +1308,13 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0102 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-102 / ARO-CHAT-0102, documentation-only exact-head CI audit of PR #161; branch `workstream/aro-chat-0102-pr161-exact-head-ci-audit-2026-11-24`; base and starting SHA `031708372017a17a65b1ccdcbb4b24145b27858f` (PR #161 head).
+- Parent PR under audit: [PR #161](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/161), OPEN / DRAFT / UNMERGED at reservation. PR #161 records ARO-CHAT-0101 / ARO-GTA-P1-101 and audits PR #160; this workstream audits PR #161's own CI and is not a duplicate of that task.
+- Commit-associated Python CI lookup for PR #161 head returned run [#45242621235](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45242621235), run 970, IN_PROGRESS at reservation. Final jobs, compile/tests, synthetic MP4/FFprobe outcomes, and checkout refs are NOT VERIFIED. Re-fetch the run and decoded Ubuntu/Windows logs before updating this status.
+- Planned files: `docs/ARO_CHAT_0102_PR161_CI_AUDIT.md`, this registry, and `docs/ARO_CHAT_STARTUP_PROMPT.md`. Documentation-only; no application, uploader, test, or workflow behavior changes.
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action is performed by this workstream.
