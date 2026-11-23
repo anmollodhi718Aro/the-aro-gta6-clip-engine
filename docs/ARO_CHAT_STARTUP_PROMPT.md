@@ -140,3 +140,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Preserve duplicate ARO-CHAT-0085 records in PRs #139 and #140 until owner reconciliation; do not silently close or merge either. PR #142 audits PR #140 only.
 - Current next step after this audit: inspect this workstream branch's own exact-head CI, then continue only with the next non-duplicate registry task. Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
 - First real GTA 6 clip remains NOT COMPLETE until authorized media, documented scope-specific permission, local intake, approved clip bounds, local render, FFprobe validation, playback, and owner acceptance are all evidenced.
+
+
+## Live continuation baseline — refreshed 2026-11-23 (ARO-CHAT-0088)
+
+- Latest registered workstream: ARO-CHAT-0088 / ARO-GTA-P1-88, auditing the exact-head Actions run for PR #143.
+- Current branch: `workstream/aro-chat-0088-pr143-exact-head-ci-audit-2026-11-23`; base and starting SHA: PR #143 head `6f9d184eb4447c64544ad93e05f7ad1708431e8e`.
+- PR #143 head is associated with Actions run #45205002366 (run 919). At initial inspection, Ubuntu job #137798218807 and hosted Windows job #137798218139 had completed setup, checkout, and Python setup; both were still installing FFmpeg/FFprobe. Compile, tests, synthetic render, final conclusions, and checkout-ref evidence were pending.
+- Refresh the audit report from completed job steps and decoded logs. Do not infer pass/fail or test counts from an in-progress run.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled until owner assignment and explicit canonical authenticated-uploader PR selection or approved consolidation.
+- No merge, retarget, deploy, upload, publish, credential/OAuth access, real-media processing, or destructive action is authorized by this documentation-only audit.
+- First real GTA 6 clip remains NOT COMPLETE until authorized media, documented permission scope, local intake, approved clip bounds, local render, FFprobe validation, playback, and owner acceptance are evidenced.
