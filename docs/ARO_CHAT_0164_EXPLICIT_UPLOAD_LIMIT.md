@@ -33,3 +33,9 @@ The upload CLI and direct `upload_video()` API previously inherited a 256 MiB de
 - Issue #68 remains OPEN. Keep live/public uploads disabled pending exact-head CI, independent security review, owner-controlled integration, owner-device verification and separate authorized real-media acceptance.
 - A device-appropriate upload limit must be selected by the owner before any real upload. This change enforces explicit selection but does not choose the value.
 - PR #238 remains the parent test-regression repair; no CI result is transferred between branches or SHAs.
+
+
+## Pull request status
+- Draft PR: [#242](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/242).
+- Current PR head: `414fd4f7da94fdffcdd3261a5ea723b5f03290b3`.
+- Commit-associated exact-head CI lookup returned no run at the latest inspection; CI remains PENDING.
