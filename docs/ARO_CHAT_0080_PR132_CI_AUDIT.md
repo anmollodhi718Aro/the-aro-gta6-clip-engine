@@ -38,3 +38,11 @@ Inspect the Actions workflow associated with PR #132's exact head, then record t
 - No workflow job IDs or logs are available to inspect. Compilation, unit tests, synthetic MP4 generation, and FFprobe validation therefore remain unverified for this exact SHA.
 - No code changes or test results are inferred from the absence of a run. Parent PR #129 evidence remains non-transferable.
 - Status remains IN_PROGRESS / CI NOT VERIFIED. Next action: inspect or trigger the authorized PR workflow through the repository's normal CI process, then capture both platform jobs and logs. Do not rerun or change workflow configuration without owner approval.
+
+## Follow-up exact-SHA recheck — 2026-11-23 21:02 IST
+- Requeried GitHub Actions workflow runs for reviewed PR #132 head `1b4b07a7d3436674a0815dcbbcd0c7cdc3873700`; the exact-SHA workflow-run list remains empty.
+- Requeried combined commit status for the same SHA; GitHub returned no status entries.
+- No job IDs or logs are available. Compilation, unit tests, synthetic MP4 generation, and FFprobe validation remain NOT VERIFIED for PR #132's exact head.
+- No evidence was borrowed from parent PR #129, and no CI result was inferred from an empty response.
+- No workflow rerun, workflow configuration change, application edit, or test execution was performed. Continue waiting for the repository's normal authorized PR workflow; inspect both platform jobs and decoded logs if a run appears.
+- Status remains IN_PROGRESS / exact-head CI NOT VERIFIED.
