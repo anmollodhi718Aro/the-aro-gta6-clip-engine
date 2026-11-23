@@ -17,7 +17,7 @@ It is a consolidated review target, not a production release declaration.
 - [ ] `python -m compileall -q backend tests THE_ARO_STUDIO.py`
 - [ ] `python -m unittest discover -s tests -v`
 - [x] Confirm GitHub Actions reaches compile and test steps on the exact PR head in both Ubuntu and Windows.
-- [x] Record test totals: run #936 passed all 249 tests on Ubuntu and all 249 tests on Windows; no tests were skipped.
+- [x] Record test totals: run #942 at exact PR head `856e4d9c1afe299bac55176209a4bd87ce275240` passed all 249 tests on Ubuntu and all 249 tests on Windows; no tests were skipped.
 - [x] Install FFmpeg/ffprobe in both CI environments and pass the synthetic MP4 render test on both.
 - [x] Parse `scripts/check_project.ps1` and `scripts/manual_clip_wizard.ps1` on Windows CI, then run `scripts/check_project.ps1` successfully with FFmpeg/ffprobe available.
 
