@@ -887,3 +887,17 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0161_PR236_CI_AUDIT.md`. CI_VERIFIED is merge-ref evidence only. Independent review, owner-device Windows, and authorized real-media acceptance remain NOT VERIFIED.
 - Issue #68 remains OPEN; owner assignment and canonical security implementation approval remain unresolved. Keep live uploads/public publishing disabled.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials/OAuth, real media, upload, publishing, retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Optional Stickman Video Director evaluation — ARO-CHAT-0163 (2026-11-24)
+- Workstream: ARO-GTA-P1-163 / ARO-CHAT-0163 | Stickman Video Director Integration Presentation.
+- Branch: `workstream/aro-chat-0163-stickman-director-integration-presentation-2026-11-24`; base / starting SHA: PR #237 head `efd0a9e1f4d275748125e50355f7eeb5f0f845ce`.
+- Recommendation: optional Director Mode companion for original THE ARO commentary/storyboards; do not make the upstream project a core renderer dependency.
+- Keep authorized local-media ingestion, rights review, FFmpeg/FFprobe, per-clip approval, and upload controls unchanged. No scraping, stream ripping, automatic publishing, or upstream code vendoring.
+- Report: `docs/ARO_CHAT_0163_STICKMAN_DIRECTOR_INTEGRATION.md`. Documentation-only; local tests NOT RUN; no upstream code/assets/dependencies added.
+
+
+## ARO-CHAT-0163 Phase 1 manual storyboard POC — 2026-11-24
+- Drafted `examples/stickman_director/aro_chat_signal_to_clip_review_30s.md`: original 30-second 16:9 THE ARO explainer storyboard. This is text-only; no video/audio/assets were generated and no upstream runtime/code/dependencies were installed or vendored.
+- Storyboard shows chat activity → timestamped candidate → authorized local recording → rights/quality checks → human review. No GTA 6 footage, scraped streams, third-party assets, automatic upload, or public publishing.
+- Next gate: owner approves storyboard and confirms any generation/voice costs before a low-resolution sample. Do not implement an adapter or Autopilot path before the manual experiment proves useful.

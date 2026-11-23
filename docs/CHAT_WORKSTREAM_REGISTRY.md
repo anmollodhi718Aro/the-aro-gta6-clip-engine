@@ -2323,3 +2323,28 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0161_PR236_CI_AUDIT.md`. CI_VERIFIED applies only to PR #236's audited merge ref; do not transfer it to another PR or SHA.
 - Issue #68 remains OPEN / awaiting explicit owner assignment and canonical implementation approval. Keep live uploads/public publishing disabled. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials/OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0163 Stickman Video Director integration presentation — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0163 |
+| Exact title | ARO-CHAT-0163 | Stickman Video Director Integration Presentation |
+| Workstream ID | ARO-GTA-P1-163 |
+| Scope | Evaluate the upstream MIT-licensed Stickman Video Director as an optional script/storyboard companion for original THE ARO commentary; document a low-risk integration boundary |
+| Branch | `workstream/aro-chat-0163-stickman-director-integration-presentation-2026-11-24` |
+| Base / starting SHA | PR #237 head `efd0a9e1f4d275748125e50355f7eeb5f0f845ce` |
+| Status | RESERVED; documentation-only proposal, no upstream code vendored |
+| Report | `docs/ARO_CHAT_0163_STICKMAN_DIRECTOR_INTEGRATION.md` |
+
+### Safety and scope
+- The upstream project is a separate optional storytelling/animation workflow, not a gameplay-capture or video-ingestion source.
+- Keep the GTA 6 engine's authorized-local-media, FFmpeg/FFprobe, rights-review, and explicit upload-approval boundaries unchanged.
+- No automatic publishing, external media scraping, credential storage, upstream code import, or production dependency is introduced by this proposal.
+
+
+### ARO-CHAT-0163 manual storyboard POC draft — 2026-11-24
+- Added `examples/stickman_director/aro_chat_signal_to_clip_review_30s.md`, an original 30-second 16:9 explainer storyboard using abstract chat signals, a local authorized recording, rights/quality checks, and human review.
+- Status: STORYBOARD_DRAFT; not an executed upstream workflow, generated media, or rendered MP4. No paid service, third-party asset, upstream code, dependency, gameplay footage, upload, or publishing was used.
+- Next gate: owner approval of the storyboard and confirmation of any service costs before a low-resolution sample. No adapter or Autopilot integration until the manual proof of concept demonstrates value.
