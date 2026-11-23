@@ -834,3 +834,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #232 combined status returned zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. No retry was initiated.
 - Audit report: `docs/ARO_CHAT_0157_PR232_CI_AUDIT.md`; documentation audit PR #233 remains draft-only. Re-fetch exact PR #232 head and run after jobs become available; any head change requires a fresh audit.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No credentials/OAuth, real media, upload, publishing, retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0157 PR #232 matrix progress refresh — 2026-11-24
+- Current PR #232 head `ccde1827d1f8b7d25a7f3ef8d206c8f55cb3fc5b` has run #45274631218 (run 1089) IN_PROGRESS.
+- Ubuntu job #138043250570 completed SUCCESS through compile, unit tests, and synthetic MP4/FFprobe. Numeric test count/duration and checkout ref/SHA are not asserted; logs were unavailable.
+- Hosted-Windows job #138043250473 remains IN_PROGRESS: setup, checkout, Python 3.11, FFmpeg/FFprobe, and compile passed; tests are running and synthetic validation is pending. Log retrieval returned BlobNotFound.
+- Overall matrix remains PENDING / NOT VERIFIED; no retry. Re-fetch run/jobs/logs after completion and do not transfer earlier SHA evidence.
+- Report: `docs/ARO_CHAT_0157_PR232_CI_AUDIT.md`; audit PR #233 remains draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
