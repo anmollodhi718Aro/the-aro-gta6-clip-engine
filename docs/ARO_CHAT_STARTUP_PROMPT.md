@@ -529,3 +529,34 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #205 review submissions, inline review threads, and conversation comments returned zero entries. Its compile/tests/synthetic MP4/FFprobe/checkout refs remain NOT VERIFIED.
 - The original snapshot remains historical only; no evidence is transferred from it or from PR #204.
 - This follow-up branch's current head must receive its own independent CI inspection after PR creation.
+
+
+## ARO-CHAT-0135 PR #206 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0135 |
+| Exact title | ARO-CHAT-0135 | PR #206 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-135 |
+| Scope | Documentation-only audit of PR #206 exact-head Actions runs, check-runs, combined status, platform jobs, compile/tests, synthetic MP4/FFprobe, checkout refs, and reviews |
+| Branch | `workstream/aro-chat-0135-pr206-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #206 head `c708ab5553b783245b668f55988939ee4bdc202d` |
+| Parent PR | [PR #206](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/206) |
+| Report | `docs/ARO_CHAT_0135_PR206_CI_AUDIT.md` |
+| Status | IMPLEMENTED (audit report); PR #206 exact-head CI PENDING / NOT VERIFIED; independent review NOT RECORDED |
+| Safety | Documentation-only; no application/uploader/test/renderer/workflow behavior changes; no credentials, OAuth, real media, upload, publishing, workflow retry, merge, retarget, deployment, or destructive action. |
+
+### Evidence
+- PR #206 head `c708ab5553b783245b668f55988939ee4bdc202d` returned zero associated workflow runs and zero combined status entries.
+- PR #206 review submissions, inline threads, and conversation comments returned zero entries.
+- Compile/tests/synthetic MP4/FFprobe/checkout refs are NOT VERIFIED. No test count or CI outcome is claimed.
+- Local tests were NOT RUN in this connector session. No workflow retry was initiated.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+
+
+## Current repository baseline (refresh 2026-11-24)
+- Latest active documentation audit: ARO-CHAT-0135 / ARO-GTA-P1-135, PR #207 auditing PR #206; branch `workstream/aro-chat-0135-pr206-exact-head-ci-audit-2026-11-24`.
+- PR #206 exact head `c708ab5553b783245b668f55988939ee4bdc202d` has zero associated Actions runs and zero combined status entries. Its test/CI evidence remains NOT VERIFIED.
+- PR #207 exact head `29dd243c8a062f077528c938e617f9324fd6698e` has successful run #45264752822 on PR merge ref `03f4ff2897ea0c04623a185a87ca8984276a4588`; Ubuntu and hosted Windows each passed compileall, 338 tests, and synthetic MP4/FFprobe validation. Raw-head-only checkout is NOT DEMONSTRATED.
+- PR #207 remains draft/open/unmerged; independent review is not recorded. Issue #68 remains open, not implemented, and unassigned. Keep public uploads disabled.
+- Continue documentation-only exact-evidence work unless the project owner explicitly approves a separate implementation task. Never enable upload/publishing or use real media without recorded authorization and approval gates.
