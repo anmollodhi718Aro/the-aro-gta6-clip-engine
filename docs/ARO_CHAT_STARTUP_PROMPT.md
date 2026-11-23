@@ -871,3 +871,9 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0160_PR235_CI_AUDIT.md`. Re-fetch PR #235's exact current head and run after completion. Do not transfer predecessor CI evidence.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled; owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
 - Documentation-only. No credentials/OAuth, real media, upload, publishing, retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0160 PR #235 live CI refresh — 2026-11-24
+- Run #45276253445 remains IN_PROGRESS. Hosted Windows job #138048704367 passed compilation, 338 tests (14.744s), and synthetic MP4/FFprobe on merge ref `refs/remotes/pull/235/merge` at `3bca352f23a77a1af2b6fe39b4ca6508c08e3a87`; synthetic-only, 4.0-second output, publishing disabled, mocked upload false.
+- Ubuntu job #138048704068 remains IN_PROGRESS at FFmpeg/FFprobe install; compile/tests/render pending, log unavailable (BlobNotFound). Matrix remains PENDING / NOT VERIFIED.
+- Recheck exact PR #235 head and Ubuntu job after completion. Do not transfer prior PR evidence. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live publishing disabled.
