@@ -1708,3 +1708,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0129_PR200_CI_AUDIT.md`. This follow-up branch's own exact-head CI must be inspected independently; do not transfer PR #200's CI result.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0130 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-130 / ARO-CHAT-0130, documentation-only exact-head CI audit of PR #201.
+- Branch: `workstream/aro-chat-0130-pr201-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #201 head `f41ed82acb5e94e1d64727765942c58855add1fb`.
+- PR #201 head-associated Python CI run [#45263378947](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45263378947), run 1035, completed SUCCESS. Ubuntu job #138003760216 passed compilation, 338 tests (4.461s), and synthetic MP4/FFprobe validation. Hosted-Windows job #138003759888 passed compilation, 338 tests (22.891s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/201/merge` at merge SHA `bc43ab4e2bc7a26b7e4e3d681421a710c2f7d871`; raw-head-only checkout is NOT DEMONSTRATED. The same 338-test suite ran on both platforms, not 676 unique tests.
+- Synthetic reports use locally generated pattern/tone only, 8.0-second source, 4.0-second output, no GTA 6/third-party media, publishing disabled, and manual review required. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- Combined status returned zero entries. PR #201 review submissions and inline review threads were empty; independent review is NOT RECORDED. PR #201 remains OPEN / DRAFT / UNMERGED. Local tests were NOT RUN in this connector session.
+- Report: `docs/ARO_CHAT_0130_PR201_CI_AUDIT.md`. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes. This workstream's own exact-head CI must be inspected independently; do not transfer PR #201's CI result to this follow-up.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
