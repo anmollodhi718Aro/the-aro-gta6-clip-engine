@@ -1697,3 +1697,35 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader security PR selection or approved consolidation.
 - Hosted Windows CI is not owner-device verification; synthetic MP4 is not GTA 6 real-media acceptance.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0071 PR #122 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0071 |
+| Exact title | ARO-CHAT-0071 | PR #122 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-71 |
+| Role | Exact-head CI evidence auditor + documentation-only contributor |
+| Task | Verify PR #122 exact-head Actions job-step summaries and decoded logs; record the result without changing application behavior. |
+| Branch | `workstream/aro-chat-0071-pr122-exact-head-ci-closeout-2026-11-23` |
+| Base | PR #122 head `cf78447a48bb1a31bc4853f127d0187f4123c3bb` |
+| Starting SHA | `cf78447a48bb1a31bc4853f127d0187f4123c3bb` |
+| Status | IMPLEMENTED / TESTED on Ubuntu (334 tests); hosted Windows CI CANCELLED during FFmpeg installation; overall exact-head CI NOT VERIFIED |
+| Changed files | docs/ARO_CHAT_0071_PR122_CI_CLOSEOUT.md; docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head verification
+
+- PR #122 exact head `cf78447a48bb1a31bc4853f127d0187f4123c3bb` is associated with Actions run [45177807073](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45177807073).
+- Ubuntu job `137703497183`: compilation passed; decoded log: `Ran 334 tests in 4.272s`; synthetic MP4 render and FFprobe validation passed.
+- Hosted Windows job `137703497654`: checkout and Python setup passed; FFmpeg installation was cancelled; compile, unit tests, and synthetic render were skipped.
+- Ubuntu synthetic report states `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- This is not a two-platform CI pass. Windows cancellation is an infrastructure/runner-step interruption, not a code-test failure. Local tests were not run.
+
+### Safety and owner gates
+
+- PR #122 remains OPEN / DRAFT / UNMERGED and stacked on PR #121; do not merge independently of its base.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader security PR selection or approved consolidation.
+- Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
