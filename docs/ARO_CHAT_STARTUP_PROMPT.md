@@ -368,3 +368,16 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0119_PR189_CI_AUDIT.md`. This workstream is documentation-only; local tests were NOT RUN. Review submissions and inline threads for PR #189 were empty at inspection. Checkout refs were not established; raw-head-only checkout is NOT DEMONSTRATED.
 - Re-fetch run #45255826453 and inspect Ubuntu logs and checkout refs after completion. Inspect this follow-up branch's own exact-head CI separately; do not transfer PR #189's result.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials/tokens, real media, network upload, publishing, merge, retarget, deployment, workflow retry, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0122 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-122 / ARO-CHAT-0122 | PR #190 exact-head CI audit.
+- Branch: `workstream/aro-chat-0122-pr190-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #190 head `2252a570d93108d42a5ad0b6890fcfb8cff7f304`.
+- PR #190 exact-head-associated Python CI run #45256749454 (run 1014) completed SUCCESS. Ubuntu job #137980462168 passed compilation, 338 tests (5.305s), and synthetic MP4/FFprobe validation. Hosted-Windows job #137980462832 passed compilation, 338 tests (12.648s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out merge ref `refs/remotes/pull/190/merge` at `0694098bf7f5e6e22cbd960d6505dd2dba93f021`, merging PR #190 head into base `d15fcfbcf02883c26a2b61710576f5f6ce369ed1`; raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic reports show no GTA 6 or third-party media, 8.0-second source, 4.0-second output, publishing disabled, and manual review required. Same 338-test suite ran on both platforms, not 676 unique tests.
+- PR #190 remains OPEN / DRAFT / UNMERGED. Combined status entries and review submissions/inline threads were empty at inspection. Local tests were NOT RUN in this connector session.
+- Report: `docs/ARO_CHAT_0122_PR190_CI_AUDIT.md`. This workstream is documentation-only; this branch's own exact-head CI must be inspected independently.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- No credentials/tokens, OAuth, real media, network upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
