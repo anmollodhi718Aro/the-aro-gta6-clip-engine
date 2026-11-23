@@ -397,8 +397,7 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 
 ### ARO-CHAT-0124 PR #193 CI closeout — 2026-11-24
 - PR #193 head-associated run #45257323510 (run 1018) completed SUCCESS. Ubuntu job #137982495041 passed compilation, 338 tests (3.559s), and synthetic MP4/FFprobe validation. Hosted-Windows job #137982494501 passed compilation, 338 tests (15.841s), and synthetic MP4/FFprobe validation.
-- Both jobs checked out `refs/remotes/pull/193/merge` at merge SHA `27e6ca95566ee9b103478867cd434546f4796104`; raw-head-only checkout is NOT DEMONSTRATED. The same 338-test suite ran on each platform, not 676 unique tests.
-- Synthetic reports confirm no GTA 6 or third-party media, publishing disabled, and manual review required. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- Both jobs checked out `refs/remotes/pull/193/merge` at merge SHA `27e6ca95566ee9b103478867cd434546f4796104`; raw-head-only checkout is NOT DEMONSTRATED. The same 338-test suite ran on each platform, not 676 unique tests.- Synthetic reports confirm no GTA 6 or third-party media, publishing disabled, and manual review required. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
 - PR #193 had no review submissions or inline comments; combined status returned zero entries. Local tests were NOT RUN in this connector session.
 - Report: `docs/ARO_CHAT_0124_PR193_CI_AUDIT.md`. Follow-up draft PR #195 is OPEN / DRAFT / UNMERGED; its own exact-head CI had zero associated runs at inspection and must be checked independently.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
@@ -608,3 +607,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0139_PR210_CI_AUDIT.md`. Keep the PR draft-only; do not transfer predecessor CI results or retry workflows without authorization.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - This workstream is documentation-only. No application/uploader/test/renderer/workflow changes, credentials, OAuth, real media, uploads, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+### Latest continuation baseline — ARO-CHAT-0140 (2026-11-24)
+- Current workstream: ARO-GTA-P1-140 / ARO-CHAT-0140, documentation-only exact-head CI audit of PR #211.
+- Branch: `workstream/aro-chat-0140-pr211-exact-head-ci-audit-2026-11-24`; base branch: `workstream/aro-chat-0139-pr210-exact-head-ci-audit-2026-11-24`; starting SHA: PR #211 head `197336f21775941e917cacbf06753b10f2f10982`.
+- PR #211's own exact-head workflow lookup returned zero runs and combined status returned zero entries. Reviews and inline threads were empty. Compile/tests/synthetic MP4/FFprobe/checkout refs remain NOT VERIFIED; PR #211 is OPEN / DRAFT / UNMERGED and GitHub reported mergeable=false.
+- Report: `docs/ARO_CHAT_0140_PR211_CI_AUDIT.md`. Do not transfer PR #210 or predecessor CI evidence. Local tests NOT RUN; no workflow retry initiated.
+- Parent PR #210 run #45267261132 was CANCELLED on both Ubuntu and hosted Windows during FFmpeg/FFprobe installation; compilation, tests, and synthetic render were skipped.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Documentation-only; no credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
