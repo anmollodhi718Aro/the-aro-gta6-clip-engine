@@ -2310,3 +2310,16 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Hosted-Windows job #138048704367 completed SUCCESS on merge ref `refs/remotes/pull/235/merge`, merge SHA `3bca352f23a77a1af2b6fe39b4ca6508c08e3a87`. It passed compile, 338 tests (14.744s), and synthetic MP4/FFprobe; generated pattern/tone only, 4.0-second output, `gta6_footage_used=false`, `publishing_enabled=false`, `upload_performed=false`.
 - Ubuntu job #138048704068 remains IN_PROGRESS at FFmpeg/FFprobe installation; compile/tests/render pending. Log retrieval returned BlobNotFound. Overall matrix remains PENDING / NOT VERIFIED; no retry.
 - Combined status has zero entries; independent review NOT RECORDED. Do not transfer this partial result or predecessor evidence. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
+
+
+## Latest continuation — ARO-CHAT-0161 (2026-11-24)
+- Current workstream: ARO-CHAT-0161 / ARO-GTA-P1-161, documentation-only exact-head CI audit of PR #236.
+- Audit branch: `workstream/aro-chat-0161-pr236-exact-head-ci-audit-2026-11-24`; base branch: `workstream/aro-chat-0160-pr235-exact-head-ci-audit-2026-11-24`; starting SHA: PR #236 head `aa9a415e5fd2efe44041f6acc8466cbecdc5e84a`.
+- Parent PR #236 is OPEN / DRAFT / UNMERGED. Its exact-head-associated Python CI run #45276663626 (run 1097) completed SUCCESS.
+- Ubuntu job #138050117038 passed compilation, 338 tests (5.028s), and synthetic MP4/FFprobe validation. Hosted-Windows job #138050117271 passed compilation, the same 338 tests (18.631s), and synthetic MP4/FFprobe validation. These are 338 shared test cases run on two platforms, not 676 unique tests.
+- Both jobs checked out `refs/remotes/pull/236/merge` at merge SHA `212cc29d0ae41d23d77010e52d97f44154426ea6`, merging PR #236 head into base `3bfd0a1120e35f13af06ad28b305d491e1988254`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic pattern/tone only; 8-second source and 4-second output; no GTA 6/third-party media; publishing disabled; manual review required; mocked upload reports `upload_performed=false`.
+- Combined status returned zero entries with state pending. Reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. Local tests NOT RUN.
+- Report: `docs/ARO_CHAT_0161_PR236_CI_AUDIT.md`. CI_VERIFIED applies only to PR #236's audited merge ref; do not transfer it to another PR or SHA.
+- Issue #68 remains OPEN / awaiting explicit owner assignment and canonical implementation approval. Keep live uploads/public publishing disabled. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
+- Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials/OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
