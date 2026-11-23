@@ -1826,3 +1826,38 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
 - Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0076 PR #127 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0076 |
+| Exact title | ARO-CHAT-0076 | PR #127 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-76 |
+| Role | Exact-head CI evidence auditor + documentation-only contributor |
+| Task | Inspect PR #127's exact-head Actions run, both platform job steps, and decoded logs; record cancellation evidence without changing application behavior. |
+| Branch / parent PR | `workstream/aro-chat-0076-pr127-exact-head-ci-closeout-2026-11-23` / [PR #127](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/127) |
+| Parent PR / reviewed head | PR #127 / `ebaa91709b9e49f4dd51544df25766ce078c81cc` |
+| Base / starting SHA | PR #127 exact head `ebaa91709b9e49f4dd51544df25766ce078c81cc` |
+| Status | IMPLEMENTED (documentation-only); PR #127 exact-head CI NOT VERIFIED because both jobs were cancelled during FFmpeg/FFprobe installation; this follow-up branch CI pending |
+| Changed files | docs/ARO_CHAT_0076_PR127_CI_CLOSEOUT.md; docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head CI evidence
+
+- PR #127 exact head `ebaa91709b9e49f4dd51544df25766ce078c81cc` is associated with Actions run [45182703887](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45182703887), conclusion CANCELLED.
+- Ubuntu job `137720305039` (`tests`) and hosted Windows job `137720304476` (`windows-tests`) both concluded CANCELLED.
+- Both jobs completed runner setup, checkout, and Python setup. Both were cancelled during `Install FFmpeg and FFprobe`.
+- Ubuntu logs show FFmpeg package setup progressing before `The operation was canceled.` Windows logs show Chocolatey starting the FFmpeg installation before the same cancellation message.
+- Compile, unit-test, and synthetic MP4/FFprobe steps were SKIPPED on both platforms. No test count or render result is available.
+- The available logs do not establish who or what initiated cancellation or the root cause. Do not infer a code failure or dependency-feed failure.
+- Classify this as an infrastructure/dependency-install cancellation, not a code-test failure and not a pass. PR #127 exact-head CI remains NOT VERIFIED.
+- Local tests were not run in this connector session.
+
+### Safety and owner gates
+
+- PR #127 remains OPEN / DRAFT / UNMERGED; this closeout does not authorize merge or integration.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
+- Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
