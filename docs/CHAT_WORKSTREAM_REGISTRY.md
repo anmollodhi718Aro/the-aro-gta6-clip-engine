@@ -1470,3 +1470,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Existing workflow already retries Chocolatey installation four times. No workflow behavior change or retry is justified without the raw log.
 - PR #242 remains OPEN / DRAFT / UNMERGED; independent review NOT RECORDED. Issue #68 remains OPEN; keep live/public uploads disabled.
 - Documentation-only. No credentials, OAuth, real media, network upload, publishing, merge, rebase, retarget, deployment or destructive action.
+
+
+### ARO-CHAT-0165 exact-head CI evidence correction — 2026-11-24
+- Recovered the completed logs for PR #242 run #45278668116. Final conclusion is SUCCESS, not failure.
+- Ubuntu job #138058372656 passed checkout, Python setup, FFmpeg/FFprobe installation, compilation, 340 unit tests (4.934s), and synthetic MP4/FFprobe validation.
+- Hosted-Windows job #138058368900 passed checkout, Python 3.11 setup, FFmpeg/FFprobe installation, compilation, the same 340 unit tests (24.840s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out PR #242 merge ref `refs/remotes/pull/242/merge` at `ad80436817f46f8f36093ae95dc4eeed6cf0ce7e`, combining head `dfb1e9390490806e44bad93fc661ddff0a551f54` with base `cdcf7a4bef2728e3299e82bc88d376992ecec39d`. Raw-head-only checkout NOT DEMONSTRATED.
+- The earlier interim Windows-installer failure report is superseded by the completed job steps and decoded logs; installation succeeded. No additional workflow retry or workflow edit was justified or initiated.
+- Same 340 tests ran on each platform, not 680 unique tests. Synthetic-only validation; no GTA 6/third-party media, publishing disabled, manual review required, and mocked uploader tests only.
+- PR #242 remains OPEN / DRAFT / UNMERGED. Combined status returned zero entries; independent review NOT RECORDED. Hosted Windows is not owner-device verification; authorized real-media acceptance remains NOT VERIFIED.
+- This correction does not close Issue #68 or authorize live/public uploads. Keep uploads disabled pending independent security review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
+- Audit report: `docs/ARO_CHAT_0165_PR242_WINDOWS_CI_AUDIT.md`. This audit branch's own CI must be checked independently; do not transfer PR #242's run.
