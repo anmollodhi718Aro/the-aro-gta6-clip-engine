@@ -277,3 +277,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0101_PR160_CI_AUDIT.md`. Documentation-only; application, uploader, tests, and workflows are unchanged.
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage. No credentials, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+### Latest continuation baseline — ARO-CHAT-0102 (2026-11-24)
+- Active workstream: ARO-GTA-P1-102 / ARO-CHAT-0102 | PR #161 exact-head CI audit; branch `workstream/aro-chat-0102-pr161-exact-head-ci-audit-2026-11-24`; base and starting SHA `031708372017a17a65b1ccdcbb4b24145b27858f`.
+- PR #161's own commit-associated Python CI run is #45242621235 (run 970), IN_PROGRESS at reservation. Re-fetch both Ubuntu and hosted-Windows jobs and decoded logs; compile/test/render results and checkout refs remain NOT VERIFIED until observed.
+- This is a separate sequential audit from ARO-CHAT-0101 / PR #160. Do not transfer PR #160 CI evidence.
+- Report: `docs/ARO_CHAT_0102_PR161_CI_AUDIT.md`. Documentation-only. Keep issue #68 owner approval gate, live publishing disabled, and real-media/owner-device acceptance unverified.
