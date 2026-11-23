@@ -58,3 +58,12 @@ Independently inspect PR #232's own current-head Actions run, Ubuntu/hosted-Wind
 - PR #232 current-head CI: PENDING / NOT VERIFIED (run #45274631218; no jobs exposed yet).
 - Older reservation SHA `35acfb1961b8cd3ff3d3ae2b1a4c9db34f566e73` and run #45274445897 remain historical evidence only; do not conflate them with current head `ccde1827d1f8b7d25a7f3ef8d206c8f55cb3fc5b`.
 - Re-fetch the current SHA/run and inspect all jobs/logs when available. Any head change requires a fresh audit.
+
+
+### Run #45274631218 progress refresh — 2026-11-24
+- The same current-head run #45274631218 (run 1089) has advanced to IN_PROGRESS.
+- Ubuntu job #138043250570 is COMPLETED / SUCCESS. Setup, checkout, Python, FFmpeg/FFprobe installation, compilation, unit tests, and synthetic MP4/FFprobe steps all report SUCCESS. Numeric test count/duration and checkout SHA/ref remain NOT ASSERTED because the job log could not yet be retrieved.
+- Hosted-Windows job #138043250473 is IN_PROGRESS. Setup, checkout, Python 3.11, FFmpeg/FFprobe installation, and compilation report SUCCESS; complete unittest suite is IN_PROGRESS and synthetic MP4/FFprobe validation is PENDING.
+- A log retrieval attempt returned BlobNotFound for the Windows job log; no decoded log evidence is available from that attempt. Do not infer a test count, checkout SHA, or rendered artifact details.
+- Combined status still returns zero entries. Overall matrix CI remains PENDING / NOT VERIFIED until the Windows job and overall run complete successfully.
+- No workflow retry initiated. No credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
