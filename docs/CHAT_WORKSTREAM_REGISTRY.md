@@ -1831,3 +1831,34 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Compile/tests/synthetic MP4/FFprobe/checkout refs are NOT VERIFIED. No test count or CI outcome is claimed.
 - Local tests were NOT RUN in this connector session. No workflow retry was initiated.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0136 PR #207 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0136 |
+| Exact title | ARO-CHAT-0136 | PR #207 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-136 |
+| Scope | Documentation-only audit of PR #207's commit-associated Actions run, Ubuntu/hosted-Windows jobs, compilation/tests, synthetic MP4/FFprobe, checkout refs, combined status, and reviews |
+| Branch | `workstream/aro-chat-0136-pr207-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #207 head `29dd243c8a062f077528c938e617f9324fd6698e` |
+| Parent PR | [PR #207](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/207) |
+| Report | `docs/ARO_CHAT_0136_PR207_CI_AUDIT.md` |
+| Status | IMPLEMENTED (audit report); PR #207 CI_VERIFIED on merge ref only; independent review NOT RECORDED; this follow-up's own CI PENDING |
+| Safety | Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes; no credentials, OAuth, real media, upload, publishing, workflow retry, merge, retarget, deployment, or destructive action. |
+
+### Evidence
+- PR #207 head `29dd243c8a062f077528c938e617f9324fd6698e` is associated with Python CI run [#45264752822](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45264752822), run 1040, SUCCESS.
+- Ubuntu job #138008595866 passed compilation, 338 tests (4.359s), and synthetic MP4/FFprobe validation.
+- Hosted-Windows job #138008595477 passed compilation, 338 tests (16.505s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/207/merge` at merge SHA `03f4ff2897ea0c04623a185a87ca8984276a4588`, merging PR #207 head into base `c708ab5553b783245b668f55988939ee4bdc202d`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both platforms ran the same 338-test suite, not 676 unique tests. Synthetic reports used locally generated pattern/tone only, 8.0-second source, 4.0-second output, no GTA 6/third-party media, publishing disabled, and manual review required.
+- Mocked approval output reports `upload_performed=false`; no live upload or publishing is evidenced. Non-blocking Python `punycode` and Node.js 20 deprecation warnings were present.
+- Combined status returned zero entries. PR #207 review submissions, inline threads, and conversation comments were empty. Independent review is NOT RECORDED. Local tests were NOT RUN in this connector session.
+- PR #207 is CI_VERIFIED on merge ref only. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
+
+### Follow-up
+- This workstream's own exact-head CI must be inspected independently after PR creation. Do not transfer PR #207's CI result to the follow-up branch.
