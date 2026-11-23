@@ -861,3 +861,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Both jobs checked out merge ref `refs/remotes/pull/234/merge` at `d17e947876d85825e54d6e0780c92fa91e6934a0`; raw-head-only checkout is NOT DEMONSTRATED. No real GTA 6 media was used; publishing remained disabled and mocked upload was false.
 - Report: `docs/ARO_CHAT_0159_PR234_CI_AUDIT.md`. This workstream is documentation-only; do not transfer its CI evidence to another PR or a later SHA.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Independent review, owner-device Windows, and authorized real-media acceptance remain NOT VERIFIED.
+
+
+## Latest continuation baseline — ARO-CHAT-0160 (2026-11-24)
+- Current workstream: ARO-CHAT-0160 / ARO-GTA-P1-160 | PR #235 Exact-Head CI Audit.
+- Audit branch: `workstream/aro-chat-0160-pr235-exact-head-ci-audit-2026-11-24`; base: `workstream/aro-chat-0159-pr234-exact-head-ci-audit-2026-11-24`; starting SHA: PR #235 head `3bfd0a1120e35f13af06ad28b305d491e1988254`.
+- Parent PR #235 is OPEN / DRAFT / UNMERGED. Python CI run #45276253445 (run 1091) is IN_PROGRESS. Ubuntu job #138048704068 and hosted-Windows job #138048704367 have completed setup/checkout/Python setup; FFmpeg/FFprobe installation remains IN_PROGRESS; compilation, unit tests, and synthetic MP4/FFprobe are PENDING.
+- Both job-log requests returned BlobNotFound. Checkout refs/SHAs, compile/test/render outcomes are NOT VERIFIED. Combined status has zero entries; reviews and inline threads are empty; independent review NOT RECORDED. Local tests NOT RUN; no retry.
+- Report: `docs/ARO_CHAT_0160_PR235_CI_AUDIT.md`. Re-fetch PR #235's exact current head and run after completion. Do not transfer predecessor CI evidence.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled; owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
+- Documentation-only. No credentials/OAuth, real media, upload, publishing, retry, merge, rebase, retarget, deployment, or destructive action.
