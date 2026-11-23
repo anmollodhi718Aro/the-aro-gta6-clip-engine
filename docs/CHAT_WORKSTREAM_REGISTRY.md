@@ -1485,3 +1485,32 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Bounded static review: live CLI upload and direct `upload_video()` both require an explicit positive `--max-upload-bytes` before OAuth; dry-run/approval-only retain the fallback. The value is a file-size ceiling, not a direct process-RAM measurement, and remains owner-selected.
 - PR #242 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN. Keep live/public uploads disabled pending separate reviewer sign-off, owner-controlled integration, owner-device verification and authorized real-media acceptance.
 - Documentation-only audit. No credentials/OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment or destructive action.
+
+
+## Latest continuation — ARO-CHAT-0167 (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0167 |
+| Exact title | ARO-CHAT-0167 | PR #245 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-167 |
+| Scope | Documentation-only exact-head audit of PR #245 current-head CI, both platform jobs/logs, checkout refs, compile/tests, synthetic MP4/FFprobe, combined status, and review state |
+| Branch | `workstream/aro-chat-0167-pr245-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #245 current head `d126b4bbb8f31c5b665703d707f89ab8f1e89bc1` |
+| Parent PR | [#245](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/245) |
+| Status | IMPLEMENTED; exact-head merge-ref CI_VERIFIED (340 tests on Ubuntu and hosted Windows); raw-head-only CI NOT DEMONSTRATED; independent review NOT RECORDED |
+| Report | `docs/ARO_CHAT_0167_PR245_CI_AUDIT.md` |
+
+### Evidence and guardrails
+- PR #245 current head at reservation: `d126b4bbb8f31c5b665703d707f89ab8f1e89bc1`; base `dfb1e9390490806e44bad93fc661ddff0a551f54`.
+- Run [#45279564114](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45279564114), run 1126, completed SUCCESS. Ubuntu job #138060154970 passed compilation, 340 tests (5.078s), and synthetic MP4/FFprobe. Hosted-Windows job #138060154476 passed compilation, the same 340 tests (14.902s), and synthetic MP4/FFprobe.
+- Both jobs checked out `refs/remotes/pull/245/merge` at `c95a539627951d9ae0842b99c5ac641bbf6d5f86`, merging the audited head into the recorded base. Raw-head-only checkout NOT DEMONSTRATED. This is 340 shared tests run on two platforms, not 680 unique tests.
+- Synthetic pattern/tone only; 8-second source / 4-second output; no GTA 6 or third-party media; publishing disabled; manual review required; mocked approval reports `upload_performed=false`.
+- Earlier run #45279416654 on the prior PR #245 head was cancelled; it is not used as current-head evidence.
+- Combined status returned zero entries. PR #245 review submissions, inline threads, and comments were empty; independent reviewer sign-off NOT RECORDED.
+- PR #245 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Hosted Windows is not owner-device Windows verification; synthetic media is not real-media acceptance. Local tests NOT RUN in this connector session.
+- No credentials/OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+### Collision handling
+- ARO-CHAT-0166 / PR #246 was already reserved for a separate PR #242 audit before this branch was created. This workstream uses the next free ID and audits PR #245 instead; no existing branch or PR was reused or overwritten.
