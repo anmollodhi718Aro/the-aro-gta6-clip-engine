@@ -357,3 +357,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - ARO-CHAT-0117 is separately reserved on a branch auditing PR #187; do not reuse or modify that branch.
 - This follow-up branch's own exact-head CI must be inspected independently after PR creation. Do not transfer PR #186's successful CI result.
 - No credentials/tokens, OAuth, real media, network upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0119 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-119 / ARO-CHAT-0119 | PR #189 exact-head CI audit.
+- Branch: `workstream/aro-chat-0119-pr189-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #189 head `d15fcfbcf02883c26a2b61710576f5f6ce369ed1`.
+- PR #189 head is associated with Python CI run #45255826453 (run 1013). At the audit snapshot, hosted-Windows job #137977243890 passed compilation, 338 tests (13.428s), and synthetic MP4/FFprobe validation; Ubuntu job #137977243580 was still installing FFmpeg/FFprobe, so overall matrix CI remains PENDING / NOT VERIFIED.
+- Windows synthetic output used locally generated test pattern/tone only (8.0-second source, 4.0-second output); no GTA 6 or third-party media, publishing disabled, manual review required. Hosted Windows is not owner-device verification.
+- Report: `docs/ARO_CHAT_0119_PR189_CI_AUDIT.md`. This workstream is documentation-only; local tests were NOT RUN. Review submissions and inline threads for PR #189 were empty at inspection. Checkout refs were not established; raw-head-only checkout is NOT DEMONSTRATED.
+- Re-fetch run #45255826453 and inspect Ubuntu logs and checkout refs after completion. Inspect this follow-up branch's own exact-head CI separately; do not transfer PR #189's result.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials/tokens, real media, network upload, publishing, merge, retarget, deployment, workflow retry, or destructive action.
