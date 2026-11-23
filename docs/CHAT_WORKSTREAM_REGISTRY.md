@@ -1308,3 +1308,16 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0101 final CI closeout (2026-11-24)
+
+The initial snapshot above was superseded after the workflow completed. Final decoded evidence:
+- PR #160 head `ace5cbfb5b61089bcea8fbe426ce3aa582c109e9` is associated with Python CI run [#45242462842](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45242462842), run 969, completed SUCCESS.
+- Ubuntu job `137930435896`: compile passed; 334 tests passed in 4.920s; synthetic MP4/FFprobe validation passed.
+- Hosted Windows job `137930435408`: compile passed; 334 tests passed in 22.523s; synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/160/merge` at merge SHA `51046d127bfc1d6c502efead783e0c61a3b908d3`, merging PR #160 head into base `548558208245f0a769e7296b24a6b2a07e28a9ac`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both synthetic reports passed with locally generated synthetic pattern/tone, source duration 8.0 seconds, rendered duration 4.0 seconds, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- The same 334-test suite ran on both platforms, not 668 unique tests. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
+- Logs emitted a non-failing Node.js 20 deprecation warning for checkout/setup actions running under Node.js 24. No workflow change is made by this audit.
+- PR #160 is CI_VERIFIED on its merge ref. PR #161's own exact-head CI is a separate gate and remains PENDING until its associated run is inspected.
