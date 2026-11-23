@@ -2252,3 +2252,13 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Parent PR #143 is CI_VERIFIED on its merge ref only. PR #144's own exact-head CI remains pending after this documentation refresh.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0088 owner reconciliation — 2026-11-23
+
+- Owner-approved canonical selection: PR #144 (branch workstream/aro-chat-0088-pr143-exact-head-ci-audit-2026-11-23) is the canonical record for workstream ARO-GTA-P1-88.
+- PR #145 (branch workstream/aro-chat-0088-pr143-ci-audit-2026-11-23) is retained as a non-canonical alternate/evidence branch. Preserve its history and content; do not close, delete, merge, or retarget it as part of this selection. Reconsider it only if later evidence demonstrates a material stability or correctness advantage.
+- PR #144's pre-update head c74d001f64976ada076e112d3bc71097103f30ea was associated with Actions run #45217116584, run 930. Ubuntu job 137841164317 and hosted Windows job 137841164720 both succeeded; each ran 334 tests. Synthetic MP4/FFprobe validation passed on both platforms.
+- Both jobs checked out refs/remotes/pull/144/merge at 09f71138d28d9b2213027126b462b0be1a83adb7; raw-head-only checkout is not demonstrated. Synthetic media is not GTA 6 footage; owner-device Windows and real-media acceptance remain unverified.
+- This owner selection establishes the canonical workstream record only. PR #144 remains draft/open/unmerged; no merge, close, delete, retarget, deployment, upload, or public publishing is authorized by this selection. The newly added documentation commit must receive its own CI audit before its head can be called CI_VERIFIED.
+- Issue #68 remains OPEN / UNASSIGNED; live uploads and public publishing remain disabled.
