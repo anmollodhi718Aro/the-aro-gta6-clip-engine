@@ -209,8 +209,8 @@ class YouTubeUploadTests(unittest.TestCase):
                         "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
                     }):
                         with patch("backend.app.youtube_upload._authorize_google") as authorize:
-                            # Authentication is intentionally mocked: the regression
-                            # under test is the bounded staging copy, not OIDC.
+                            # Patch OAuth so the test can assert that an oversized
+                            # source is rejected before authorization is invoked.
                             with patch(
                                 "backend.app.youtube_owner_approval.verify_authenticated_channel_owner",
                                 return_value=self.owner,
@@ -231,8 +231,9 @@ class YouTubeUploadTests(unittest.TestCase):
                                         max_upload_bytes=4,
                                     )
 
-        authorize.assert_called_once()
+        authorize.assert_not_called()
         youtube.videos.return_value.insert.assert_not_called()
+        self.assertFalse((self.root / "token.json").exists())
         self.assertEqual(len(created_dirs), 1)
         self.assertFalse(created_dirs[0].exists())
 

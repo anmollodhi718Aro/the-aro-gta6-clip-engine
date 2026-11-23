@@ -1351,3 +1351,32 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - New permission grants require a new versioned `source_id`; downstream reports and approvals must use that new identifier.
 - Registration audit details include grantor and evidence reference.
 - Regression tests cover duplicate active grant, duplicate revoked grant, new versioned grant, and upload-source growth after initial stat with staging cleanup and no OAuth/API call.
+
+
+## ARO-CHAT-0109 Issue #68 pre-OAuth bounded upload staging — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0109 |
+| Exact title | ARO-CHAT-0109 | Issue #68 Pre-OAuth Bounded Upload Staging |
+| Workstream ID | ARO-GTA-P1-109 |
+| Scope | Stage and hash bounded immutable upload bytes before OAuth; ensure source growth beyond the configured limit fails without OAuth/API interaction |
+| Branch | `workstream/aro-chat-0109-issue68-pre-oauth-bounded-copy-2026-11-24` |
+| Base / starting SHA | PR #168 head `9ff25d7356d5badc39f448c9f5e939cda4048541` |
+| Parent PR | #168 |
+| Implementation commits | `9ee04c7254a3e5feb4506e1cc59b6736efd8c093` (uploader); `8e088ec87823c26091be860b7b9715090a035cd7` (regression) |
+| Status | IMPLEMENTED; local tests NOT RUN in this connector session; exact-head CI PENDING |
+| Report | `docs/ARO_CHAT_0109_ISSUE68_PRE_OAUTH_STAGING.md` |
+
+### Security change
+- Move local rights-report/clip/source validation and bounded staging before OAuth.
+- Copy incrementally under `max_upload_bytes`; reject source growth beyond the limit and empty staged payloads.
+- Hash the exact immutable in-memory bytes and remove the temporary staging directory before OAuth begins.
+- Preserve authenticated channel-owner verification, durable exact-byte approval, current rights checks, and repeated checks immediately before upload request construction.
+- Regression requires OAuth not to be called, no token file, no API upload, and staging cleanup after an over-limit source grows following initial stat.
+
+### Verification and safety
+- No local tests run in this connector session. Exact-head Ubuntu/hosted-Windows CI must be inspected before TESTED or CI_VERIFIED.
+- Draft follow-up only. Issue #68 remains OPEN / UNASSIGNED; keep live/public uploads disabled.
+- No credentials/tokens, live OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+- Owner-device Windows and real-media acceptance remain NOT VERIFIED. Owner must select a device-appropriate `--max-upload-bytes` before any real upload.
