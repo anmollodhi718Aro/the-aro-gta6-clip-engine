@@ -1785,3 +1785,8 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Local tests were NOT RUN in this connector session. No synthetic render result is claimed for PR #203. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0131 follow-up PR status — 2026-11-24
+- Documentation-only follow-up is recorded in draft PR [#203](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/203), OPEN / DRAFT / UNMERGED; head `4f17acae0e94e168d088ab40e1b22619982ee1f4`.
+- Its exact-head Python CI run #45263845053 (run 1038) is now confirmed CANCELLED. See ARO-CHAT-0132 for job-level evidence; do not transfer CI results from PR #201.
