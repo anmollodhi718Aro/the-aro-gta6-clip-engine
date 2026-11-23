@@ -1502,3 +1502,37 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader security PR selection or an approved consolidation plan.
 - Hosted Windows CI is not owner-device Windows verification; synthetic media is not GTA 6 real-media acceptance.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+## ARO-CHAT-0065 PR #116 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0065 |
+| Exact title | ARO-CHAT-0065 | PR #116 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-65 |
+| Role | Exact-head CI evidence auditor + documentation-only contributor |
+| Task | Verify PR #116's exact head using Actions job-step and decoded-log evidence; record the result without changing application behavior. |
+| Branch | workstream/aro-chat-0065-pr116-exact-head-ci-closeout-2026-11-23 |
+| Base | PR #116 head 46c4d088686af51d1991abb8f0fa77b4c6aed4b3 |
+| Starting SHA | 46c4d088686af51d1991abb8f0fa77b4c6aed4b3 |
+| Status | IMPLEMENTED (documentation-only); PR #116 exact-head CI_VERIFIED; this follow-up branch exact-head CI pending |
+| Changed files | docs/ARO_CHAT_0065_PR116_CI_CLOSEOUT.md; docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No application/uploader/test/workflow behavior changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head verification
+
+- PR #116 exact head `46c4d088686af51d1991abb8f0fa77b4c6aed4b3` passed GitHub Actions run [45106508679](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45106508679).
+- Ubuntu job `137468923261`: setup, checkout, Python, FFmpeg/FFprobe installation, compilation, unit tests, and synthetic MP4/FFprobe validation passed; decoded log: `Ran 334 tests in 4.973s; OK`.
+- Hosted Windows job `137468923434`: setup, checkout, Python 3.11, FFmpeg/FFprobe installation, compilation, unit tests, and synthetic MP4/FFprobe validation passed; decoded log: `Ran 334 tests in 22.922s; OK`.
+- Both platforms independently ran the same 334 tests. This is 334 distinct tests, not 668 unique tests.
+- Synthetic reports state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Local tests were not run in this connector session.
+
+### Disposition and owner gates
+
+- This closes the exact-head CI evidence gap for PR #116 only. This documentation-only follow-up branch still requires its own exact-head CI before it can be called CI_VERIFIED.
+- PR #116 remains OPEN / DRAFT / UNMERGED. No merge, retarget, or integration is authorized or inferred.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader security PR selection or an approved consolidation plan.
+- Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
