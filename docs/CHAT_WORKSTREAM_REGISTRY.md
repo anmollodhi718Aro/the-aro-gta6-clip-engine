@@ -1385,3 +1385,11 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0107 CI evidence refresh — 2026-11-24
+- PR #166 head `4e2e74805c2e4c21aa246a4765e66c0a97cc7be2` is associated with run #45243626968 (run 977).
+- Ubuntu job #137934533544 completed SUCCESS: Python 3.11.18, compilation passed, 334 tests passed (4.414s), and synthetic MP4 render/verification passed. It checked out `refs/remotes/pull/166/merge` at merge SHA `c0830db5375becbc50b8fac9a5eb158a8d13a475`, merging PR #166 head into base `546906fca62ff2493a7ae1955dfdd1b4948233f2`; raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic report: locally generated test pattern/tone, 8.0-second source, 4.0-second output, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Hosted-Windows job #137934534056 was still installing FFmpeg/FFprobe at this refresh. Matrix CI remains IN_PROGRESS / NOT VERIFIED; no Windows result or test count is claimed.
+- PR #166 review submissions and inline review threads were empty at inspection. PR #167's own exact-head CI must be inspected separately.
