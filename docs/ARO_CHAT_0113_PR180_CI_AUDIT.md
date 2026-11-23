@@ -52,3 +52,11 @@ Inspect PR #180's own commit-associated GitHub Actions run, Ubuntu/hosted-Window
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled pending explicit owner assignment, canonical authenticated-uploader integration selection/consolidation, and independent review.
 - PR #180 is documentation-only and stacked on PR #179; do not merge it independently of its base.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
+
+
+## Follow-up branch exact-head CI — 2026-11-24
+- This audit's own PR #182 head `b8cc64f9c3a7c037c2e3b491294e55d67f703f47` is associated with Python CI run [#45254816759](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45254816759), run 1008, conclusion SUCCESS.
+- Ubuntu job #137973737851 and hosted-Windows job #137973737378 both completed successfully. Both completed checkout, Python setup, FFmpeg/FFprobe installation, compilation, the full unittest step, and synthetic MP4/FFprobe validation.
+- The connector's job summary did not expose test-log counts or the actual checkout SHA; numeric test count and raw-head-only checkout are therefore NOT VERIFIED. Do not infer either from the green job result.
+- The same suite ran on both platforms; this is not evidence of twice as many unique tests. Hosted Windows CI is not owner-device Windows verification.
+- This run verifies PR #182's head only. It does not change the finding that PR #180's exact head `1d2a5cd35b871b496880084cfc5a4d926661109b` has zero associated workflow runs and remains NOT VERIFIED.
