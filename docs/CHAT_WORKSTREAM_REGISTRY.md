@@ -2206,3 +2206,29 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #226 combined status had zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. **PR #226 exact-base CI remains PENDING / NOT VERIFIED; raw-head-only CI NOT DEMONSTRATED.** Local tests NOT RUN.
 - PR #229's own pre-update head had zero associated workflow runs; inspect its new head's CI independently after this documentation-only update.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No retry, OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation — ARO-CHAT-0154 (2026-11-24)
+- Current workstream: ARO-CHAT-0154 / ARO-GTA-P1-154, documentation-only exact-head CI audit of PR #229.
+- Audit branch: `workstream/aro-chat-0154-pr229-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #229 head `1f703e856d59ca5b41b19e8f8aad65a6d0539547`; base branch: `workstream/aro-chat-0153-pr226-exact-head-ci-audit-2026-11-24`.
+- PR #229 is OPEN / DRAFT / UNMERGED. Its current head-associated pull-request workflow lookup returned zero runs; direct Actions lookup by the exact SHA also returned zero runs. Combined commit status returned zero entries, which is not a passing signal.
+- No jobs/logs were available. Checkout refs, compilation, tests, and synthetic MP4/FFprobe validation are NOT VERIFIED. PR #229 reviews, inline comments, and conversation comments were empty; independent review NOT RECORDED. Local tests NOT RUN; no workflow retry initiated.
+- Do not transfer PR #226's alternate-base runs (#45270942827 and #45270941723) to PR #229.
+- Report: `docs/ARO_CHAT_0154_PR229_CI_AUDIT.md`. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0154 live exact-head recheck — 2026-11-24 03:34 IST
+- Re-fetched target PR #229: OPEN / DRAFT / UNMERGED, `mergeable=false`; current head remains `1f703e856d59ca5b41b19e8f8aad65a6d0539547` on `workstream/aro-chat-0153-pr226-exact-head-ci-audit-2026-11-24`.
+- Exact-head Actions lookup returned zero runs. Combined status is `pending` with zero entries. No passing CI is established.
+- Reviews, inline review threads, and conversation comments remain empty. No jobs/logs exist; compile, tests, synthetic MP4/FFprobe, checkout refs, and hosted-Windows outcome are NOT VERIFIED. Local tests NOT RUN; no retry initiated.
+- ARO-CHAT-0154 / ARO-GTA-P1-154 remains documentation-only and draft-only on PR #230. No changes to PR #229; no workflow retry, merge, rebase, retarget, deploy, upload, publishing, OAuth, credentials, or destructive action.
+
+
+### ARO-CHAT-0154 audit PR #230 CI closeout — 2026-11-24
+- Audit PR #230 head `4f1122edd54e85590d068d477d406cccedd40e89` passed exact-head-associated Python CI run #45276391630 (run 1093): Ubuntu and hosted Windows each compiled, ran 338 tests, and passed synthetic MP4/FFprobe validation.
+- Both jobs checked out PR #230 merge ref at `019437df1b6ca242cff0712a99685fd9673c830c`, merging its head into base `1f703e856d59ca5b41b19e8f8aad65a6d0539547`. Raw-head-only checkout NOT DEMONSTRATED. Count 338 shared tests on two platforms, not 676 unique tests.
+- Synthetic pattern/tone only; no GTA 6 or third-party media; publishing disabled; manual review required; mocked approval `upload_performed=false`. CI_VERIFIED on merge ref only; owner-device Windows and real-media acceptance NOT VERIFIED.
+- PR #230 reviews/comments were empty; independent review NOT RECORDED. Do not transfer PR #230 CI to parent PR #229, whose own exact-head workflow lookup returned zero runs.
+- Issue #68 remains OPEN and owner-authorized for implementation/review on the canonical PR #83 → #87 → #88 → #92 → #93 lineage, consolidated through PR #168, with PR #176/#238 follow-ups. Keep uploads/public publishing disabled until all gates pass.
