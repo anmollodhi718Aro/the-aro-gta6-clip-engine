@@ -497,7 +497,6 @@
 - No direct local tests were executed by this chat. No application, test, or workflow code changed.
 - First authorized GTA 6 MP4 remains BLOCKED pending a creator-authorized recording/export or supported media handoff. No merge, retarget, deployment, upload, or public publishing was performed.
 
-
 ## ARO-CHAT-0028 reservation and closeout — 2026-11-20 13:14 IST
 
 | Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
@@ -997,8 +996,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Branch | workstream/aro-chat-0049-pr96-ci-closeout-2026-11-23 |
 | Base | PR #96 exact head 1ef93e7964afe13533fc25c0b9b6f0244462f343 |
 | Status | IMPLEMENTED (documentation-only); CI_VERIFIED for the audited PR #96 exact head; owner review and Issue #68 canonical integration remain pending |
-| Changed files | docs/CHAT_WORKSTREAM_REGISTRY.md |
-| Scope boundary | No uploader source/test changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+| Changed files | docs/CHAT_WORKSTREAM_REGISTRY.md || Scope boundary | No uploader source/test changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
 
 ### Exact-head evidence
 - Live commit workflow lookup for PR #96 head 1ef93e7964afe13533fc25c0b9b6f0244462f343 returned successful Python CI run 45055224315.
@@ -1497,8 +1495,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Chat ID | ARO-CHAT-0119 |
 | Exact title | ARO-CHAT-0119 | PR #189 Exact-Head CI Audit |
 | Workstream ID | ARO-GTA-P1-119 |
-| Scope | Audit PR #189's own Actions run, Ubuntu/hosted-Windows compile/tests, synthetic MP4/FFprobe evidence, checkout refs, and review state; documentation-only |
-| Branch | `workstream/aro-chat-0119-pr189-exact-head-ci-audit-2026-11-24` |
+| Scope | Audit PR #189's own Actions run, Ubuntu/hosted-Windows compile/tests, synthetic MP4/FFprobe evidence, checkout refs, and review state; documentation-only || Branch | `workstream/aro-chat-0119-pr189-exact-head-ci-audit-2026-11-24` |
 | Base / starting SHA | PR #189 head `d15fcfbcf02883c26a2b61710576f5f6ce369ed1` |
 | Parent PR | [PR #189](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/189) |
 | Report | `docs/ARO_CHAT_0119_PR189_CI_AUDIT.md` |
@@ -1997,8 +1994,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 |---|---|
 | Chat ID | ARO-CHAT-0145 |
 | Exact title | ARO-CHAT-0145 | PR #218 Exact-Head CI Audit |
-| Workstream ID | ARO-GTA-P1-145 |
-| Scope | Documentation-only audit of PR #218's own Actions run/jobs/logs, checkout refs, compile/tests, synthetic MP4/FFprobe validation, combined status, and review state |
+| Workstream ID | ARO-GTA-P1-145 || Scope | Documentation-only audit of PR #218's own Actions run/jobs/logs, checkout refs, compile/tests, synthetic MP4/FFprobe validation, combined status, and review state |
 | Branch | `workstream/aro-chat-0145-pr218-exact-head-ci-audit-2026-11-24` |
 | Base / starting SHA | PR #218 head `da6a25275037a52f3ec35ff36451712dfeac3db2` |
 | Parent PR | [PR #218](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/218) |
@@ -2229,3 +2225,17 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0155_PR230_CI_AUDIT.md`. Documentation-only; do not transfer this run to any later PR head or call it raw-head-only verification.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
 - No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation — ARO-CHAT-0156 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-156 / ARO-CHAT-0156, documentation-only exact-head CI audit of PR #231.
+- Branch: `workstream/aro-chat-0156-pr231-exact-head-ci-audit-2026-11-24`; base branch: `workstream/aro-chat-0155-pr230-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #231 head `558705cad949bb6e187dcb35f2a06fd20fcb0d92`.
+- Parent PR audited: [PR #231](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/231). Report: `docs/ARO_CHAT_0156_PR231_CI_AUDIT.md`.
+- PR #231 exact-head Python CI run [#45274128757](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45274128757), run 1086, was IN_PROGRESS at inspection.
+- Ubuntu job #138041361665 completed SUCCESS through setup, checkout, Python, FFmpeg/FFprobe, compilation, unit tests, and synthetic MP4/FFprobe steps. Test count/duration and checkout SHA were not exposed; do not assert them.
+- Hosted-Windows job #138041362059 was IN_PROGRESS: setup, checkout, Python 3.11, FFmpeg/FFprobe installation, and compilation passed; complete unittest suite was still running and synthetic MP4/FFprobe step was pending.
+- Combined status returned zero entries. PR #231 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #231 remains OPEN / DRAFT / UNMERGED.
+- Matrix CI, Windows tests/render, checkout refs, raw-head-only execution, owner-device Windows, and real-media acceptance are NOT VERIFIED. Local tests NOT RUN; no workflow retry initiated.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes. No credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
