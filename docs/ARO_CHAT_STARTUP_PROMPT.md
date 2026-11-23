@@ -628,3 +628,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0141_PR212_CI_AUDIT.md`. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0141 PR #212 CI closeout — 2026-11-24
+- PR #212 head `ab045dc715b68e00d6d50eb46ca19e18843fabb0` completed run #45267652106 (run 1047), conclusion CANCELLED.
+- Ubuntu checked out PR merge ref `refs/remotes/pull/212/merge` at `2a673b7b0b8dc80027505f8f6d22544d768f8f9a`; compile passed and 338 tests completed with OK (8.791s), but synthetic MP4/FFprobe was skipped after cancellation.
+- Hosted Windows checked out the same merge ref; FFmpeg/FFprobe installation was CANCELLED, so compile/tests/render were skipped. Matrix CI is NOT VERIFIED; raw-head-only checkout is NOT DEMONSTRATED.
+- Follow-up PR #214 is OPEN / DRAFT / UNMERGED; its own exact-head CI lookup returned zero runs at the latest inspection. Recheck independently.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
