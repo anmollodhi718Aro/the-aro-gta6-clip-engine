@@ -1961,3 +1961,45 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #129 and its documentation follow-up PR #130 remain open/draft/unmerged; no merge or integration is authorized by this evidence refresh.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled until the project owner assigns an implementation owner and selects one canonical authenticated-uploader PR/branch or approves a consolidation plan.
 - No secrets, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+## ARO-CHAT-0080 PR #132 exact-head CI audit — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0080 |
+| Exact title | ARO-CHAT-0080 | PR #132 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-80 |
+| Role | Exact-head CI evidence auditor; documentation-only |
+| Task | Inspect PR #132's exact-head Actions run and record actual platform steps, decoded test logs, and synthetic-media validation. |
+| Branch | `workstream/aro-chat-0080-pr132-exact-head-ci-audit-2026-11-23` |
+| Base / starting SHA | PR #132 head `1b4b07a7d3436674a0815dcbbcd0c7cdc3873700` |
+| Changed files | `docs/ARO_CHAT_0080_PR132_CI_AUDIT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md` |
+| Status | BLOCKED; PR #132 exact-head CI has no workflow run or commit status; PR #133 documentation-branch CI_VERIFIED on its own merge ref |
+| Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### Initial evidence
+- PR #132 is OPEN / DRAFT / UNMERGED; reviewed head is `1b4b07a7d3436674a0815dcbbcd0c7cdc3873700`.
+- Exact-SHA workflow-run lookup returned no PR-triggered runs; combined commit status returned no entries.
+- No test count, compile result, synthetic render, or FFprobe result is claimed. Parent PR #129's successful CI is not transferable to PR #132's distinct head.
+- Local tests were not run in this session.
+
+### Owner and safety gates
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled until owner assignment and explicit selection of one canonical authenticated-uploader implementation or an approved consolidation plan.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+### Follow-up recheck — 2026-11-23 20:55 IST
+- Requeried PR #132 reviewed SHA `1b4b07a7d3436674a0815dcbbcd0c7cdc3873700`; no PR-triggered workflow runs were returned.
+- No jobs/logs exist to establish compilation, unit-test, synthetic MP4, or FFprobe outcomes. Exact-head CI remains NOT VERIFIED; parent PR #129 evidence is not transferable.
+- No workflow configuration or application code was changed. Await the normal authorized CI run before making any verification claim.
+
+### Follow-up recheck — 2026-11-23 21:02 IST
+- PR #132 reviewed head `1b4b07a7d3436674a0815dcbbcd0c7cdc3873700` was rechecked through the exact-SHA workflow-run and combined-status endpoints; both returned empty results.
+- Exact-head CI remains NOT VERIFIED; no compile, unit-test, synthetic MP4, or FFprobe result is claimed.
+- ARO-CHAT-0080 remains BLOCKED and documentation-only: PR #132 exact-head CI is absent. PR #133's own merge-ref CI passed, but that does not verify PR #132. The detailed recheck is recorded in `docs/ARO_CHAT_0080_PR132_CI_AUDIT.md`.
+
+
+### ARO-CHAT-0080 final follow-up — 2026-11-23 21:18 IST
+- PR #132 exact reviewed SHA `1b4b07a7d3436674a0815dcbbcd0c7cdc3873700`: exact-SHA Actions workflow-run lookup returned no runs; combined commit status returned no entries. No compile, test, synthetic MP4, or FFprobe result is claimed for PR #132.
+- PR #133 head `0c918b36a5400dcdf64493ba0691bc28cf6bbb3b`: Actions run [45206782421](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45206782421) succeeded. Ubuntu job `137804706270` and hosted Windows job `137804707225` each compiled, ran 334 tests, and passed synthetic MP4/FFprobe validation. Both checked out merge ref `2a95d3c`, not raw head. Synthetic reports confirm no GTA 6 footage, no third-party media, publishing disabled, and manual review required.
+- PR #133's CI does not transfer to PR #132. ARO-CHAT-0080 remains BLOCKED pending normal CI evidence for PR #132's exact head. No workflow rerun, application code change, merge, retarget, deployment, upload, or publishing was performed.
