@@ -428,3 +428,16 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Synthetic media only; no GTA 6 or third-party media, publishing disabled, manual review required. Combined status and PR #195 review records were empty. Independent review is NOT RECORDED.
 - PR #195 is CI_VERIFIED on merge ref only. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
 - Follow-up draft PR #198 remains OPEN / DRAFT / UNMERGED; its own exact-head CI must be checked separately.
+
+
+## Live continuation baseline — refreshed 2026-11-24 (ARO-CHAT-0127)
+
+- Latest registered workstream: ARO-CHAT-0127 / ARO-GTA-P1-127, documentation-only exact-head CI audit of PR #198.
+- Branch: `workstream/aro-chat-0127-pr198-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #198 head `2672ba800c418c0c5915968e44c0eb24a798d993`.
+- PR #198 head-associated Python CI run #45258115741 (run 1030) completed SUCCESS. Ubuntu job #137985374878 and hosted-Windows job #137985375484 each passed compilation, the same 338-test suite, and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/198/merge` at merge SHA `b8400d3f53b73a5a68000bc0a66ea15e4c722669`, merging PR #198 head into base `0141f32fcc584e05af5828f461f873667bd7c8d9`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic reports use locally generated pattern/tone only; no GTA 6/third-party media, publishing disabled, manual review required. Same 338-test suite on each platform, not 676 unique tests.
+- Combined status, PR #198 review submissions, inline review threads, and conversation comments were empty. Independent review is NOT RECORDED. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- Report: `docs/ARO_CHAT_0127_PR198_CI_AUDIT.md`. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes. No local tests run in this connector session.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment, canonical security implementation selection, independent review, and owner-controlled integration.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
