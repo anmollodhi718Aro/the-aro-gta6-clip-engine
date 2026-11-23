@@ -16,11 +16,13 @@ Verify PR #119's exact head using GitHub Actions run, job-step summaries, and de
 - Starting SHA: `821054241606b4f146be7b7c9bb2cc9392df422f`
 - PR #119 remains the parent draft; this workstream is a documentation-only follow-up.
 
-## Initial exact-head CI evidence
+## Exact-head CI verification
 - Actions run: [45176952320](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45176952320), associated with exact SHA `821054241606b4f146be7b7c9bb2cc9392df422f`.
-- Ubuntu job `137700567423`: compile, unit tests, and synthetic MP4/FFprobe validation completed successfully.
-- Hosted Windows job `137700567041`: setup, checkout, Python, FFmpeg/FFprobe installation, and compilation completed; the complete unittest suite was still running at reservation time; synthetic MP4/FFprobe validation had not started.
-- Overall exact-head CI: PENDING. No Windows test count or final result is asserted.
+- Overall run conclusion: SUCCESS; exact head matched `821054241606b4f146be7b7c9bb2cc9392df422f`.
+- Ubuntu job `137700567423`: setup, checkout, Python, FFmpeg/FFprobe installation, compilation, unit tests, and synthetic MP4/FFprobe validation all passed. Decoded log: `Ran 334 tests in 4.231s`.
+- Hosted Windows job `137700567041`: setup, checkout, Python 3.11, FFmpeg/FFprobe installation, compilation, complete unittest suite, and synthetic MP4/FFprobe validation all passed. Decoded log: `Ran 334 tests in 12.570s`.
+- Both platforms ran the same 334 tests; this is 334 distinct tests, not 668 unique tests.
+- Synthetic reports on both platforms state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
 - Local tests: NOT RUN in this connector session.
 
 ## Scope and safety
@@ -31,4 +33,4 @@ Verify PR #119's exact head using GitHub Actions run, job-step summaries, and de
 - Hosted Windows CI is not owner-device verification. Synthetic MP4 is not GTA 6 real-media acceptance.
 
 ## Closeout status
-IN_PROGRESS. Update this report only after inspecting the completed exact-head run's jobs, step summaries, and decoded logs. If CI fails before execution, classify it as infrastructure/unverified rather than a code-test failure or a pass.
+CI_VERIFIED for PR #119 exact head only. The documentation-only ARO-CHAT-0068 follow-up branch still requires its own exact-head CI before it can be called CI_VERIFIED.
