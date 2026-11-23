@@ -402,3 +402,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #193 had no review submissions or inline comments; combined status returned zero entries. Local tests were NOT RUN in this connector session.
 - Report: `docs/ARO_CHAT_0124_PR193_CI_AUDIT.md`. Follow-up draft PR #195 is OPEN / DRAFT / UNMERGED; its own exact-head CI had zero associated runs at inspection and must be checked independently.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0126 (2026-11-24)
+- Current workstream: ARO-GTA-P1-126 / ARO-CHAT-0126 | PR #195 exact-head CI audit.
+- Branch: `workstream/aro-chat-0126-pr195-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #195 head `0141f32fcc584e05af5828f461f873667bd7c8d9`.
+- PR #195 head-associated Python CI run #45257788515 (run 1024) is IN_PROGRESS. Ubuntu job #137984067440 and hosted-Windows job #137984066970 both completed setup, checkout, and Python setup, then reached FFmpeg/FFprobe installation. Compilation, tests, and synthetic MP4/FFprobe validation had not started at inspection.
+- Decoded job-log retrieval returned BlobNotFound for both jobs; checkout refs and final outcomes are NOT VERIFIED. Combined status entries and PR #195 review submissions/inline threads were empty. Local tests were NOT RUN in this connector session.
+- Report: `docs/ARO_CHAT_0126_PR195_CI_AUDIT.md`. Documentation-only; do not transfer PR #193's CI result to PR #195. Re-fetch run #45257788515 and both jobs after completion.
+- Existing ARO-CHAT-0125 branch was detected and left untouched; this workstream uses unique ARO-CHAT-0126 attribution.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
