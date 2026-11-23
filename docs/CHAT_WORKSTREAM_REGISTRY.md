@@ -2077,3 +2077,27 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Local tests NOT RUN in this connector session. No workflow retry initiated. No predecessor CI evidence transferred.
 - Follow-up: re-fetch the exact PR #220 head and inspect any newly associated workflow run, all jobs/logs, checkout refs, combined status, and review state before assigning CI_VERIFIED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0148 PR #221 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0148 |
+| Exact title | ARO-CHAT-0148 | PR #221 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-148 |
+| Scope | Documentation-only audit of PR #221's own Actions run/jobs/logs, checkout refs, compile/tests, synthetic MP4/FFprobe validation, combined status, and review state |
+| Branch | `workstream/aro-chat-0148-pr221-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #221 head `eee181efc37f040b77e91df416a77983d7c7c687` |
+| Parent PR | [#221](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/221) |
+| Report | `docs/ARO_CHAT_0148_PR221_CI_AUDIT.md` |
+| Status | IN_PROGRESS; run #45269230348 / run 1062 QUEUED at initial inspection; both platform jobs were installing FFmpeg/FFprobe; independent review NOT RECORDED |
+| Safety | Documentation-only; no application/uploader/test/renderer/workflow behavior changes, credentials, OAuth, real media, upload, publishing, workflow retry, merge, retarget, deployment, or destructive action. |
+
+### Initial evidence
+- PR #221 head `eee181efc37f040b77e91df416a77983d7c7c687` is associated with Python CI run [#45269230348](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45269230348), run 1062.
+- Hosted-Windows job #138024276330 and Ubuntu job #138024276868 were both IN_PROGRESS; setup, checkout, and Python setup passed. Both were installing FFmpeg/FFprobe; compile, tests, and synthetic render were pending.
+- Checkout refs/SHAs, final conclusion, test counts, and synthetic validation remain NOT VERIFIED. Combined status returned zero entries.
+- PR #221 reviews, inline threads, and conversation comments were empty. Local tests NOT RUN; no workflow retry initiated.
+- PR #221 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=false. Do not transfer predecessor CI evidence.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
