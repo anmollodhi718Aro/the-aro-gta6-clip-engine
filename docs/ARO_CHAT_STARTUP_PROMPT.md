@@ -320,3 +320,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0162_PR176_REGRESSION_REPAIR.md`.
 - Local tests NOT RUN. This branch's own exact-head Ubuntu/Windows CI must pass before TESTED or CI_VERIFIED. Do not transfer PR #168/#176 predecessor results.
 - Keep PR #168 and #176 open/draft pending the follow-up test result and independent security review. Issue #68 remains OPEN; keep live/public uploads disabled. Owner must choose a device-appropriate `--max-upload-bytes` before any real upload.
+
+
+### ARO-CHAT-0162 exact-head CI closeout — 2026-11-24
+- PR #238 test-fix head `e2620b00c1ff383cc3b0d76be7da614d1ad5556a` passed run #45277330824 on Ubuntu and hosted Windows: compile passed; the same 338 tests passed on each platform; synthetic MP4/FFprobe passed.
+- Both jobs checked out `refs/remotes/pull/238/merge` at merge SHA `829d1fe11bc27456143f0119de4e4db734679f63`. Raw-head-only CI is NOT DEMONSTRATED.
+- Synthetic media only; no GTA 6/third-party footage; publishing disabled; manual review required; mocked upload false.
+- Corrected source-file mutation regression passed. Later documentation-only commits record this evidence; inspect the latest branch-tip CI separately before claiming the new tip CI_VERIFIED.
+- Issue #68 remains OPEN and assigned to the project owner. Keep public uploads disabled pending independent review, owner-controlled integration, and the owner-selected device-appropriate upload limit.
