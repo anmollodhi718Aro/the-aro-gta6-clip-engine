@@ -48,7 +48,7 @@ Independently inspect PR #213's current exact head for commit-associated Actions
 - Commit-associated Python CI run [#45267871069](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45267871069), run 1053, completed SUCCESS for the PR #213 head inspected above.
 - Ubuntu job #138019575576: compilation passed; 338 unit tests passed in 5.067s; synthetic MP4/FFprobe validation passed.
 - Hosted-Windows job #138019576300: compilation passed; 338 unit tests passed in 17.747s; synthetic MP4/FFprobe validation passed.
-- Both jobs checked out `refs/remotes/pull/213/merge` at logged checkout commit `b8a594ea514ff44cadb5342986c68b1eac6e22ed`. Raw-head-only checkout is NOT DEMONSTRATED. This is CI_VERIFIED on the PR merge ref only, not a raw-head-only verification.
+- Both jobs checked out `refs/remotes/pull/213/merge` at logged checkout commit `7f1cd20f7e2afec9297f810211a63ff425275417`. Raw-head-only checkout is NOT DEMONSTRATED. This is CI_VERIFIED on the PR merge ref only, not a raw-head-only verification.
 - Both synthetic reports used a locally generated test pattern and tone, 8.0-second source and 4.0-second rendered output; `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
 - The same 338-test suite ran on both platforms, not 676 unique tests. Hosted Windows is not owner-device verification; synthetic media is not GTA 6 footage or real-media acceptance.
 - Combined commit status returned zero entries. PR #213 review submissions, inline review threads, and conversation comments remained empty; independent review is NOT RECORDED.
@@ -83,3 +83,12 @@ Independently inspect PR #213's current exact head for commit-associated Actions
 - Raw-head-only execution: NOT DEMONSTRATED.
 - Independent review: NOT RECORDED.
 - Real-media / owner-device acceptance: NOT VERIFIED.
+
+
+## Follow-up PR #217 exact-head CI snapshot — 2026-11-24
+- This audit is recorded in draft PR [#217](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/217), OPEN / DRAFT / UNMERGED; current head `5d0c997a831e3291a08abb584f3749abd171502c`.
+- PR #217's own Python CI run [#45268263453](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45268263453), run 1056, is IN_PROGRESS on that exact head.
+- Ubuntu job #138021002116 and hosted-Windows job #138021002607 are both IN_PROGRESS. Setup, checkout, and Python setup completed; FFmpeg/FFprobe installation was still running. Compilation, unit tests, and synthetic MP4/FFprobe validation were PENDING.
+- PR #217 check-runs `tests` and `windows-tests` are both IN_PROGRESS. Do not transfer PR #213's successful CI result to PR #217. Recheck this exact head and both jobs after completion.
+- Attribution collision detected: PR #215 and PR #217 both claim ARO-CHAT-0142 / ARO-GTA-P1-142 for different parent audits (#214 and #213). Earlier PRs #213 and #214 both claim ARO-CHAT-0141 / ARO-GTA-P1-141 for different parent audits (#211 and #212). Preserve all histories; owner reconciliation is required before integration. No branch or PR was deleted, closed, merged, or retargeted.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
