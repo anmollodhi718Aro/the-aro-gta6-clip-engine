@@ -1629,3 +1629,30 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Synthetic reports confirm no GTA 6/third-party media, publishing disabled, and manual review required. Combined status entries and PR #195 review submissions/inline threads were empty. Independent review is NOT RECORDED.
 - PR #195 is CI_VERIFIED on merge ref only. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
 - Follow-up PR #198 is OPEN / DRAFT / UNMERGED; its own exact-head CI must be inspected independently. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0127 PR #198 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0127 |
+| Exact title | ARO-CHAT-0127 | PR #198 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-127 |
+| Scope | Audit PR #198's own commit-associated Actions run, Ubuntu/hosted-Windows compile/tests, synthetic MP4/FFprobe evidence, checkout refs, combined status, and review state; documentation-only |
+| Branch | `workstream/aro-chat-0127-pr198-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #198 head `2672ba800c418c0c5915968e44c0eb24a798d993` |
+| Parent PR | [PR #198](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/198) |
+| Report | `docs/ARO_CHAT_0127_PR198_CI_AUDIT.md` |
+| Status | IMPLEMENTED (audit report); PR #198 CI_VERIFIED on merge ref only; independent review NOT RECORDED |
+| Safety | Documentation-only; no application/uploader/test/renderer/workflow behavior changes; no credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### Evidence
+- PR #198 head `2672ba800c418c0c5915968e44c0eb24a798d993` is associated with Python CI run [#45258115741](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45258115741), run 1030, SUCCESS.
+- Ubuntu job #137985374878 and hosted-Windows job #137985375484 both passed setup, checkout, Python, FFmpeg/FFprobe installation, compilation, 338 unit tests, and synthetic MP4/FFprobe validation.
+- Both platforms ran the same 338-test suite, not 676 unique tests; reported runtimes were 4.998s on Ubuntu and 14.950s on Windows.
+- Both jobs checked out `refs/remotes/pull/198/merge` at merge SHA `b8400d3f53b73a5a68000bc0a66ea15e4c722669`, merging audited head into base `0141f32fcc584e05af5828f461f873667bd7c8d9`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic reports show locally generated test pattern/tone, 8.0-second source, 4.0-second render, no GTA 6/third-party media, publishing disabled, and manual review required.
+- Combined status returned zero entries. PR #198 review submissions, inline threads, and conversation comments were empty. Independent review is NOT RECORDED. Local tests were NOT RUN in this connector session.
+- PR #198 is CI_VERIFIED on its merge ref only. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
