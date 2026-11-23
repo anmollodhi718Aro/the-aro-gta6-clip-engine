@@ -339,3 +339,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Synthetic reports show no GTA 6/third-party media, publishing disabled, and manual review required. Legacy combined status returned PENDING with zero entries despite successful Actions run/jobs; PR #191 review submissions and inline comments were empty.
 - Report: `docs/ARO_CHAT_0121_PR191_CI_AUDIT.md`. Audited PR #191 is CI_VERIFIED on merge ref; independent review remains pending. Hosted Windows is not owner-device verification; synthetic MP4 is not real-media acceptance.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live/public uploads disabled. No credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0123 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-123 / ARO-CHAT-0123 | PR #192 exact-head CI audit.
+- Branch: `workstream/aro-chat-0123-pr192-exact-head-ci-audit-2026-11-24`; base: `workstream/aro-chat-0121-pr191-exact-head-ci-audit-2026-11-24`; starting SHA: `0b17b17c295af9412ba74c6674fa3fe961784ab0` (PR #192 branch head at audit start).
+- PR #192's own commit-associated workflow lookup returned zero runs and combined status returned no entries at the initial snapshot. CI, compilation, tests, synthetic MP4/FFprobe, and checkout refs are NOT VERIFIED.
+- PR #192 review submissions and inline review threads were empty at inspection. Re-fetch its exact-head Actions after a run appears; inspect Ubuntu and hosted-Windows logs independently.
+- Report: `docs/ARO_CHAT_0123_PR192_CI_AUDIT.md`. This workstream is documentation-only; local tests were NOT RUN.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, network upload, merge, retarget, deployment, or destructive action.
