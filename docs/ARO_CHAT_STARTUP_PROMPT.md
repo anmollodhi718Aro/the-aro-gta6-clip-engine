@@ -308,3 +308,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0107_PR166_CI_AUDIT.md`. This workstream is documentation-only; no application, uploader, test, renderer, media-ingestion, or workflow behavior changes.
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
 - ARO-CHAT-0106 is already reserved on a separate Issue #68 rights-registry branch and was not reused. Do not duplicate it.
+
+
+### ARO-CHAT-0107 CI evidence refresh — 2026-11-24
+- PR #166's Ubuntu job #137934533544 passed compilation, 334 tests (4.414s), and synthetic MP4/FFprobe workflow validation on merge ref `c0830db5375becbc50b8fac9a5eb158a8d13a475`.
+- Hosted-Windows job #137934534056 was still installing FFmpeg/FFprobe at the latest refresh; overall matrix CI remains unverified.
+- Synthetic fixture report confirms no GTA 6/third-party media, publishing disabled, and manual review required. Do not claim real-media or owner-device Windows acceptance.
+- Follow-up PR #167 is open/draft; inspect its own exact-head CI independently.
