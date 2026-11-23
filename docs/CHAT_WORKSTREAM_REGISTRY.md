@@ -1294,7 +1294,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Branch | workstream/aro-chat-0058-upload-limit-regressions-2026-11-23 |
 | Base | PR #105 head aed4fd8a03f8bce5aac4cdf0a2e42c91606cd57d (stacked; do not integrate independently of PR #105) |
 | Starting SHA | aed4fd8a03f8bce5aac4cdf0a2e42c91606cd57d |
-| Status | IN_PROGRESS; test execution and exact-head CI pending |
+| Status | IMPLEMENTED; CI_VERIFIED on PR #109 exact head; owner review/consolidation pending |
 | Changed files | tests/test_youtube_upload_limits.py; docs/CHAT_WORKSTREAM_REGISTRY.md |
 | Scope boundary | Test-only additions. No uploader/application behavior changes, OAuth credentials, live OAuth, network upload, real media, publishing, merge, retarget, deployment, or destructive action. |
 
@@ -1302,3 +1302,35 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - R1: deterministic reader yields an in-budget first chunk followed by a cumulative-limit-crossing chunk; assert staged bytes never exceed the limit and temporary staging is cleaned up.
 - R2: oversized direct upload_video() call must reject before Google API client construction, media upload object creation, or OAuth authorization.
 - All fixtures are synthetic and offline. Keep live uploads/public publishing disabled; Issue #68 remains OPEN / UNASSIGNED.
+
+
+## ARO-CHAT-0059 exact-head CI reconciliation — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0059 |
+| Exact title | ARO-CHAT-0059 | Exact-Head CI Reconciliation for Upload-Limit Regressions |
+| Workstream ID | ARO-GTA-P1-59 |
+| Role | CI evidence auditor and documentation-only contributor |
+| Task | Reconcile the exact-head CI evidence for ARO-CHAT-0058 PR #109 and record the overlap status of parallel PRs #106–#108 without merging or retargeting them. |
+| Branch | workstream/aro-chat-0059-exact-head-ci-reconciliation-2026-11-23 |
+| Base | PR #109 head branch `workstream/aro-chat-0058-upload-limit-regressions-2026-11-23` |
+| Starting SHA | `de014ba42999b30e44a3fe68b81d9f9016d109d1` |
+| Status | IMPLEMENTED; CI_VERIFIED for PR #109 exact head; no merge/integration decision made |
+| Changed files | docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | Documentation-only evidence reconciliation. No application/test code changes, credentials, OAuth, media upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head verification evidence
+- PR #109 exact head: `de014ba42999b30e44a3fe68b81d9f9016d109d1`.
+- GitHub Actions run [45104624957](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45104624957) completed with conclusion `success` on that exact SHA.
+- Ubuntu job `137462955028` and hosted-Windows job `137462955232` both completed successfully.
+- Both jobs completed checkout, Python setup, FFmpeg/FFprobe setup, compilation, full unittest step, and synthetic MP4/FFprobe validation.
+- Numeric test counts were not returned by the available job-step evidence and are intentionally not asserted.
+- Hosted-Windows CI is not owner-device Windows verification. Synthetic MP4 validation is not real GTA 6 media acceptance.
+
+### Parallel PR overlap audit
+- PR #106, #107, and #108 are open draft branches with overlapping ARO-CHAT-0058 upload-limit regression scope.
+- PR #109 also contains the two intended synthetic regression tests and is the only one of these four for which this workstream has confirmed exact-head CI evidence.
+- Preserve all four PR histories. Do not merge, close, retarget, or independently integrate stacked branches. Project-owner selection/consolidation is still required.
+- Issue #68 remains OPEN / UNASSIGNED. This CI reconciliation does not select a canonical authenticated-uploader implementation and does not authorize any live upload or public publishing.
+- Live uploads/public publishing remain disabled. No local tests, real-media processing, OAuth session, network upload, or owner-device verification occurred.
