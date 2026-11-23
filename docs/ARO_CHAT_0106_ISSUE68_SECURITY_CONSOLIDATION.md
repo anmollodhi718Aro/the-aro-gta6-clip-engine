@@ -42,3 +42,15 @@ Changes:
 - Before any real upload, the owner must select a device-appropriate `--max-upload-bytes` value; 256 MiB is not a universal device-memory guarantee.
 - A new versioned source grant requires genuine, documented permission evidence. The `actor` field is audit metadata, not authentication of the grantor.
 - No credentials/tokens, live OAuth session, real media, network upload, public publishing, deployment, merge, destructive action, or collaborator permission change was performed.
+
+
+## Exact-head CI closeout — 2026-11-24
+
+- Final PR head `9ff25d7356d5badc39f448c9f5e939cda4048541` is associated with Python CI run [#45245685334](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45245685334), completed SUCCESS.
+- Ubuntu job `137941689306`: compile passed; 338 unit tests passed; synthetic MP4 render and FFprobe validation passed.
+- Hosted Windows job `137941688716`: compile passed; 338 unit tests passed; synthetic MP4 render and FFprobe validation passed.
+- Both jobs completed all setup, compile, test, and synthetic-render steps successfully. The same 338-test suite ran on each platform, not 676 unique tests.
+- Synthetic evidence: `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`.
+- Status: IMPLEMENTED and CI_VERIFIED on this exact PR head. Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
+- Remaining gates: independent security review, owner-controlled integration approval, owner selection of a device-appropriate `--max-upload-bytes`, and separate real-media acceptance. Issue #68 remains OPEN; keep live uploads/public publishing disabled.
+- No credentials, live OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
