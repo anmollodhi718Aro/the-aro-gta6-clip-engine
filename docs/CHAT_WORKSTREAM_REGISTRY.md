@@ -1412,3 +1412,13 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Synthetic-only; no GTA 6 or third-party media, publishing disabled, manual review required, mocked upload false.
 - Corrected source-mutation regression passed on both platforms. Local tests NOT RUN in this connector session.
 - PR #238 remains draft/open/unmerged. Issue #68 remains open and assigned to the project owner; keep live/public uploads disabled pending independent review and owner-controlled integration.
+
+
+### ARO-CHAT-0162 PR #176 regression repair CI closeout — 2026-11-24
+- Workstream ARO-CHAT-0162 / ARO-GTA-P1-162; audit/repair PR [#238](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/238) remains OPEN / DRAFT / UNMERGED at head `e2620b00c1ff383cc3b0d76be7da614d1ad5556a`, based on PR #176 head `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`.
+- Run [#45277330824](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45277330824), run 1101, completed SUCCESS. Ubuntu job #138052406607 passed compilation, 338 tests (4.902s), and synthetic MP4/FFprobe; hosted-Windows job #138052406300 passed compilation, the same 338 tests (15.648s), and synthetic MP4/FFprobe.
+- Both jobs checked out PR #238 merge ref at `829d1fe11bc27456143f0119de4e4db734679f63`, merging its head into base `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`. Raw-head-only CI NOT DEMONSTRATED; same 338 tests on both platforms, not 676 unique tests.
+- Synthetic pattern/tone only, 8s source / 4s output, no GTA 6 or third-party media, publishing disabled, manual review required, mocked upload false.
+- Static diff: test-only correction in `tests/test_youtube_upload.py`; production `backend/app/youtube_upload.py` unchanged. Corrected test mutates original source after final approval/rights checks and confirms immutable in-memory upload bytes remain unchanged.
+- Combined status returned zero entries; PR #238 reviews, inline comments, and conversation comments empty; independent review NOT RECORDED. Local tests NOT RUN. Owner-device Windows and real-media acceptance NOT VERIFIED.
+- PR #238 remains draft-only pending independent security review and owner-controlled integration. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live/public uploads disabled. Device-appropriate `--max-upload-bytes` owner decision still required. No OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
