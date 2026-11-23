@@ -2295,3 +2295,30 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #144 remains OPEN / DRAFT / UNMERGED and owner-selected canonical for ARO-GTA-P1-88. PR #145 remains a preserved non-canonical alternate.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0090 PR #147 exact-head CI audit — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0090 |
+| Exact title | ARO-CHAT-0090 | PR #147 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-90 |
+| Role | Exact-head CI evidence auditor; documentation-only |
+| Task | Audit PR #147's exact-head Actions run, Ubuntu and hosted-Windows jobs, decoded logs, test counts, synthetic MP4/FFprobe validation, and checkout refs. |
+| Branch / PR | `workstream/aro-chat-0090-pr147-exact-head-ci-audit-2026-11-23` / pending draft PR |
+| Base / starting SHA | PR #147 head `06babec863840afb8cecf0dd6608021bce9067a1` |
+| Parent PR | [PR #147](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/147) |
+| Changed files | `docs/ARO_CHAT_0090_PR147_CI_AUDIT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md`; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+| Status | IN_PROGRESS; parent PR #147 exact-head Actions run #45232862569 was active at initial snapshot; both jobs were installing FFmpeg/FFprobe; final logs and checkout evidence pending |
+| Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### Initial CI snapshot
+
+- PR #147 exact head `06babec863840afb8cecf0dd6608021bce9067a1` is associated with Actions run [45232862569](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45232862569), run 945.
+- Ubuntu job `137896915549` and hosted Windows job `137896914783` completed setup, checkout, and Python setup; both were installing FFmpeg/FFprobe at the initial snapshot.
+- Compilation, unit tests, synthetic MP4/FFprobe validation, final conclusions, test counts, and checkout-ref evidence were pending. No result is inferred.
+- Combined status lookup returned no status entries; no green status is inferred from that absence.
+- Local tests were not run in this connector session. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 footage.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader implementation selection or approved consolidation.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
