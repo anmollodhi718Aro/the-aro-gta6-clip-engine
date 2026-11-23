@@ -717,3 +717,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #221 Ubuntu job #138024276868 passed compilation, 338 tests (4.303s), and synthetic MP4/FFprobe validation on merge ref `cba11074982e05c4c5c725c5292223a9a129cf6c`. It checked out `refs/remotes/pull/221/merge`; raw-head-only checkout is NOT DEMONSTRATED.
 - Hosted-Windows job #138024276330 had passed setup, checkout, Python, FFmpeg/FFprobe installation, and compilation; its unittest suite was still running at the latest refresh. Overall run #45269230348 remains IN_PROGRESS.
 - Synthetic test media only; publishing disabled; manual review required; mocked upload did not occur. Do not claim CI_VERIFIED until both jobs and the overall run complete successfully.
+
+
+### ARO-CHAT-0148 PR #221 CI closeout — 2026-11-24
+- PR #221 exact-head-associated run #45269230348 completed SUCCESS. Ubuntu and hosted Windows each passed compilation, 338 tests, and synthetic MP4/FFprobe validation.
+- Both jobs used `refs/remotes/pull/221/merge` at merge SHA `cba11074982e05c4c5c725c5292223a9a129cf6c`; raw-head-only checkout is NOT DEMONSTRATED. Do not count the two platform executions as 676 unique tests.
+- Synthetic fixtures only; no GTA 6/third-party media; publishing disabled; manual review required; mocked upload did not occur.
+- PR #221 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=false. CI_VERIFIED is merge-ref evidence only; owner-device Windows and real-media acceptance remain NOT VERIFIED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED.
