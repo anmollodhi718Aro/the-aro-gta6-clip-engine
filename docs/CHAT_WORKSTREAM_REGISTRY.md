@@ -1593,3 +1593,43 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #193 review submissions and inline comments were empty; combined status returned zero entries. Local tests were NOT RUN in this connector session.
 - Follow-up draft PR #195 is OPEN / DRAFT / UNMERGED. Its own head had zero associated workflow runs at inspection; inspect separately. No CI result transfers from PR #193 to PR #195.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
+
+
+## ARO-CHAT-0125 PR #195 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0125 |
+| Exact title | ARO-CHAT-0125 | PR #195 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-125 |
+| Scope | Audit PR #195's own commit-associated Actions run, Ubuntu/hosted-Windows jobs, compile/tests, synthetic MP4/FFprobe validation, checkout refs, combined status, and review records; documentation-only |
+| Branch | `workstream/aro-chat-0125-pr195-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #195 head `0141f32fcc584e05af5828f461f873667bd7c8d9` |
+| Parent PR | #195 |
+| Status | RESERVED → IN_PROGRESS; exact-head CI queued; no test/CI conclusion yet |
+| Report | `docs/ARO_CHAT_0125_PR195_CI_AUDIT.md` |
+| Safety | No application/uploader/test/renderer/workflow behavior changes; no credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, retry, or destructive action. |
+
+### Initial evidence
+- PR #195 is OPEN / DRAFT / UNMERGED; GitHub reported mergeable=true at inspection.
+- Exact head: `0141f32fcc584e05af5828f461f873667bd7c8d9`.
+- Associated Python CI run [#45257788515](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45257788515), run 1024, was QUEUED at inspection.
+- No job outcomes, compile results, test counts, synthetic MP4/FFprobe result, or checkout refs are available yet. Do not infer success or failure.
+- Combined commit status, PR #195 review submissions, inline review threads, and conversation comments returned no entries.
+- Local tests were NOT RUN in this connector session. Do not transfer PR #193's successful CI evidence to PR #195 or this follow-up.
+- Next step: re-fetch run #45257788515 and inspect Ubuntu/hosted-Windows jobs and decoded logs after the run starts/completes.
+
+### Safety and owner gates
+- PR #195 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage or real-media acceptance.
+- No credentials/tokens, OAuth, real media, network upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
+
+
+### ARO-CHAT-0125 exact-head CI closeout — 2026-11-24
+- PR #195 exact head `0141f32fcc584e05af5828f461f873667bd7c8d9` passed Python CI run [#45257788515](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45257788515), run 1024, SUCCESS.
+- Ubuntu job `137984067440` passed compilation, 338 tests (3.477s), and synthetic MP4/FFprobe validation. Hosted-Windows job `137984066970` passed compilation, 338 tests (21.670s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/195/merge` at merge SHA `5b77a6ae66485dd9de6be78affd77298ca9946c8`; raw-head-only checkout is NOT DEMONSTRATED. Same 338-test suite on both platforms, not 676 unique tests.
+- Synthetic reports show locally generated test pattern/tone, 8-second source, 4-second output, no GTA 6/third-party media, publishing disabled, and manual review required. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- PR #195 reviews/threads/comments and combined status were empty; local tests NOT RUN in this connector session.
+- Follow-up PR #197 is OPEN / DRAFT / UNMERGED. Its head `72bc3bd688b490b8243c0715642f2ddd00501bc3` has no associated workflow run or combined status at inspection; its own exact-head CI remains PENDING.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, network upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.

@@ -402,3 +402,21 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #193 had no review submissions or inline comments; combined status returned zero entries. Local tests were NOT RUN in this connector session.
 - Report: `docs/ARO_CHAT_0124_PR193_CI_AUDIT.md`. Follow-up draft PR #195 is OPEN / DRAFT / UNMERGED; its own exact-head CI had zero associated runs at inspection and must be checked independently.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0125 (2026-11-24)
+- Current chat: ARO-CHAT-0125 | PR #195 Exact-Head CI Audit.
+- Active workstream: ARO-GTA-P1-125 on `workstream/aro-chat-0125-pr195-exact-head-ci-audit-2026-11-24`, based on PR #195 exact head `0141f32fcc584e05af5828f461f873667bd7c8d9`.
+- PR #195 is OPEN / DRAFT / UNMERGED. Its exact-head Python CI run #45257788515 (run 1024) was QUEUED at inspection; compile/tests, synthetic MP4/FFprobe, and checkout refs are NOT YET VERIFIED.
+- Do not transfer PR #193's CI evidence to PR #195. Re-fetch run #45257788515 and inspect Ubuntu/hosted-Windows jobs and decoded logs before reporting a result.
+- Report: `docs/ARO_CHAT_0125_PR195_CI_AUDIT.md`. Documentation-only; no application or workflow behavior changes.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
+
+
+### ARO-CHAT-0125 — PR #195 exact-head CI closeout (2026-11-24)
+- PR #195 exact head `0141f32fcc584e05af5828f461f873667bd7c8d9` passed Python CI run #45257788515 (run 1024): Ubuntu job #137984067440 and hosted-Windows job #137984066970 each passed compilation, 338 tests, and synthetic MP4/FFprobe validation.
+- Both jobs checked out PR merge ref `refs/remotes/pull/195/merge` at `5b77a6ae66485dd9de6be78affd77298ca9946c8`; raw-head-only checkout is NOT DEMONSTRATED. The same 338-test suite ran on both platforms, not 676 unique tests.
+- Synthetic media only; no GTA 6/third-party media, publishing disabled, manual review required. Hosted Windows is not owner-device verification.
+- Documentation-only audit report: `docs/ARO_CHAT_0125_PR195_CI_AUDIT.md`.
+- Follow-up PR #197 is OPEN / DRAFT / UNMERGED; its head `72bc3bd688b490b8243c0715642f2ddd00501bc3` has no associated workflow run yet. Its exact-head CI remains PENDING.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, retry, or destructive action was performed.
