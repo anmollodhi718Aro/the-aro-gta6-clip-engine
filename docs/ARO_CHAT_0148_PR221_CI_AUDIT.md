@@ -56,3 +56,10 @@ Re-fetch run #45269230348 and both jobs after completion. Inspect decoded logs f
 - PR #221 remains OPEN / DRAFT / UNMERGED; GitHub reported `mergeable=false` at inspection. CI_VERIFIED applies to the PR merge ref only. WINDOWS_VERIFIED and REAL_MEDIA_VERIFIED remain NOT VERIFIED.
 - Local tests NOT RUN in this connector session. Hosted-Windows CI is not owner-device Windows verification; synthetic media is not GTA 6 footage or real-media acceptance.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+
+
+## Follow-up PR validation snapshot — 2026-11-24
+- Documentation follow-up PR [#223](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/223) was opened as DRAFT / OPEN / UNMERGED, head `ab163cbb70298bacb2fab637f61772d7440aa04f`, base `13ee6c94bf626d57fb9a7dbbc528e797ba48a41b`.
+- Its own exact-head workflow lookup returned zero runs and combined status returned zero entries. This PR's own CI is PENDING / NOT VERIFIED; do not transfer PR #221's successful run.
+- PR #223 reviews, inline threads, and conversation comments were empty at this snapshot. Local tests NOT RUN. No workflow retry initiated.
+- The audited parent PR #221 CI result is independent of this documentation branch's CI. Recheck PR #223's exact head when a run appears.
