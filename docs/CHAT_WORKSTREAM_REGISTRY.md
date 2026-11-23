@@ -1321,3 +1321,5 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 
 - CI evidence refresh: PR #161 head run #45242621235 (run 970) completed with overall conclusion CANCELLED. Ubuntu job #137930984235 succeeded through compile, unit-test, and synthetic MP4/FFprobe workflow steps; exact test count/log text and checkout SHA were not available. Hosted-Windows job #137930984793 was cancelled during the unit-test step after compile; synthetic render was skipped. Therefore PR #161 is not matrix CI_VERIFIED. No rerun was initiated.
 - Follow-up PR #162 head `098844642622bdf044363a4c84791f5d7313033a` had zero check-runs and combined status PENDING at the time checked; re-fetch after the final documentation commit. No CI evidence is transferred from PR #161.
+
+- Final PR #162 documentation scope includes the bounded permission grant in `docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md`; PR #162 is OPEN / DRAFT / UNMERGED. Latest branch head at this update: `fa3223c5ac7f46d261cd121911aedfd77c5c498e`. Its own check-runs have not yet appeared; do not claim CI verification.
