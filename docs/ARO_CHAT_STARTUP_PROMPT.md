@@ -397,3 +397,16 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #179's later successful run #45253780041 applies only to PR #179's head, not PR #180. Do not transfer parent or sibling CI evidence.
 - Report: `docs/ARO_CHAT_0113_PR180_CI_AUDIT.md`. Documentation-only; no application or workflow behavior changes.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. PR #180 is stacked on PR #179 and must not be merged independently.
+
+
+## Latest continuation baseline — ARO-CHAT-0115 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-115 / ARO-CHAT-0115, documentation-only exact-head CI audit of PR #182.
+- Branch: `workstream/aro-chat-0115-pr182-exact-head-ci-audit-2026-11-24`; starting SHA: PR #182 head `b8cc64f9c3a7c037c2e3b491294e55d67f703f47`.
+- PR #182's associated Python CI run [#45254816759](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45254816759), run 1008, completed SUCCESS. Ubuntu job `137973737851` passed compilation, 334 tests (4.957s), and synthetic MP4/FFprobe validation. Hosted-Windows job `137973737378` passed compilation, 334 tests (23.132s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/182/merge` at merge SHA `99d272b34c429e5ecbdbfb4a15be0e1300b0b6bf`, merging PR #182 head into base `1d2a5cd35b871b496880084cfc5a4d926661109b`. Raw-head-only checkout is NOT DEMONSTRATED; the same 334-test suite ran on both platforms, not 668 unique tests.
+- Synthetic reports confirm a locally generated pattern/tone, no GTA 6 or third-party media, publishing disabled, and manual review required. Hosted Windows CI is not owner-device Windows verification; synthetic media is not real-media acceptance.
+- Report: `docs/ARO_CHAT_0115_PR182_CI_AUDIT.md`. Documentation-only; application, uploader, tests, renderer, media ingestion, and workflow behavior are unchanged.
+- PR #182 remains OPEN / DRAFT / UNMERGED and stacked on PR #180; do not merge it independently of its base. This follow-up branch's own exact-head CI remains PENDING until its own run and logs are inspected.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, network upload, public publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
+- ARO-CHAT-0114 was already reserved on a separate PR #181 audit branch and was not reused.
