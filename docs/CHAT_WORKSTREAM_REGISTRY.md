@@ -2051,3 +2051,29 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #219 reviews and inline review threads were empty; independent review NOT RECORDED. Local tests NOT RUN. No workflow retry initiated.
 - Do not transfer PR #218's CI result. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
 - Documentation-only; no credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0147 PR #220 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0147 |
+| Exact title | ARO-CHAT-0147 | PR #220 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-147 |
+| Scope | Documentation-only audit of PR #220's own Actions runs, check status, jobs/logs, checkout refs, compilation/tests, synthetic MP4/FFprobe validation, and review state |
+| Branch | `workstream/aro-chat-0147-pr220-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #220 head `47072a6ac9b42d48d273176dc7e04fe019779fd7` |
+| Parent PR | [PR #220](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/220) |
+| Report | `docs/ARO_CHAT_0147_PR220_CI_AUDIT.md` |
+| Status | IMPLEMENTED (initial audit snapshot); PR #220 exact-head CI PENDING / NOT VERIFIED; independent review NOT RECORDED |
+| Safety | Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action. |
+
+### Evidence at inspection
+- PR #220 head `47072a6ac9b42d48d273176dc7e04fe019779fd7` returned zero commit-associated Actions workflow runs.
+- Combined commit status returned zero status entries; no CI pass is claimed.
+- No jobs were available. Compilation, unit tests, synthetic MP4/FFprobe validation, and checkout refs are NOT VERIFIED.
+- PR #220 review submissions, inline review threads, and conversation comments returned empty arrays. Independent review NOT RECORDED.
+- PR #220 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=true.
+- Local tests NOT RUN in this connector session. No workflow retry initiated. No predecessor CI evidence transferred.
+- Follow-up: re-fetch the exact PR #220 head and inspect any newly associated workflow run, all jobs/logs, checkout refs, combined status, and review state before assigning CI_VERIFIED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.

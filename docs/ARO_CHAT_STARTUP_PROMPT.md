@@ -686,3 +686,16 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Checkout refs/SHAs, final conclusion, Ubuntu tests, and synthetic validation remain NOT VERIFIED. Combined status had zero entries. Re-fetch exact run, jobs, decoded logs, checkout refs, combined status, and review state after completion. Do not transfer PR #218 evidence or retry workflows.
 - PR #219 reviews and inline threads were empty; independent review NOT RECORDED. Local tests NOT RUN. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
 - Documentation-only. No credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0147 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-147 / ARO-CHAT-0147, documentation-only exact-head CI audit of PR #220.
+- Branch: `workstream/aro-chat-0147-pr220-exact-head-ci-audit-2026-11-24`; base branch: `workstream/aro-chat-0146-pr219-exact-head-ci-audit-2026-11-24`; starting SHA: PR #220 head `47072a6ac9b42d48d273176dc7e04fe019779fd7`.
+- Parent PR audited: [PR #220](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/220). Report: `docs/ARO_CHAT_0147_PR220_CI_AUDIT.md`.
+- PR #220's exact-head workflow lookup returned zero runs; combined commit status returned zero entries. Reviews, inline review threads, and conversation comments were empty.
+- No jobs were available. Compilation, tests, synthetic MP4/FFprobe validation, and checkout refs are NOT VERIFIED. Local tests NOT RUN; no workflow retry initiated.
+- PR #220 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=true. Do not transfer PR #219 or predecessor CI evidence.
+- Re-fetch this exact head and inspect any later run, every job/log, checkout refs, combined status, and review state before assigning CI_VERIFIED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
