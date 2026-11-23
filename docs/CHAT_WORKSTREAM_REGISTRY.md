@@ -2281,3 +2281,10 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Do not transfer PR #232 or predecessor CI evidence to PR #233.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials/OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0158 live recheck — 2026-11-24 03:50 IST
+- Rechecked audited PR #233 exact head `d67abeed45628a935a6747a8da03fd26878236c8`: commit-associated workflow lookup returned zero runs; combined status returned zero entries; reviews, inline threads, and conversation comments were empty. Exact-head CI remains PENDING / NOT VERIFIED; compile/tests/synthetic MP4/FFprobe/checkout refs remain NOT VERIFIED.
+- Run #45276421389 (run 1094) belongs to audit PR #234 head `a7d3f6898663af918eea6187e99ab09f1fc737ed`, not audited PR #233. Both audit-PR jobs passed 338 tests and synthetic MP4/FFprobe, but checked out `refs/remotes/pull/234/merge`; do not transfer that result to PR #233.
+- Report updated in `docs/ARO_CHAT_0158_PR233_CI_AUDIT.md`; report commit: `3db024f0cfa9c3f0388f50f6dac8b2ef559898ad`. Documentation-only; no workflow retry, application changes, OAuth, media upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+- Issue #68 remains OPEN; keep live uploads/public publishing disabled pending authenticated channel-owner approval and independent security verification.
