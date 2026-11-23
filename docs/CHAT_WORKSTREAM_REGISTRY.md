@@ -1362,3 +1362,10 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Parent PR #162's current exact head has no associated workflow run and no combined status entries at the audit snapshot. Exact-head CI remains PENDING / NOT VERIFIED.
 - Next action: re-query that exact SHA, then inspect any returned Ubuntu/hosted-Windows jobs and decoded logs. Do not rerun absent jobs or transfer predecessor CI.
 - Keep issue #68 owner approval gate and all live upload/public publishing restrictions unchanged.
+
+
+### ARO-CHAT-0105 PR submission update
+- Draft documentation PR: [#165](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/165), OPEN / DRAFT / UNMERGED.
+- PR #165 head at submission: `ae2d41e17f31282c61cbbf551467ae201b296ae4`; base is PR #162 head `546906fca62ff2493a7ae1955dfdd1b4948233f2`.
+- Four documentation files changed; no application/uploader/test/workflow behavior changed.
+- PR #165's own exact-head CI is a separate check and must not inherit the audited PR #162 status. Re-query its exact head after submission; do not claim CI_VERIFIED without observed run/job logs.
