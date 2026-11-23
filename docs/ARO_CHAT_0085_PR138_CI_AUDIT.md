@@ -15,7 +15,7 @@ Date: 2026-11-23
 - Base / starting SHA: PR #138 head `f3ecc88600015f97c4067d314717f1c6b0adc3b5`
 - Parent PR: https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/138
 - Parent chain: PR #138 is stacked on PR #137; this follow-up is stacked on PR #138.
-- Planned changed files: `docs/ARO_CHAT_0085_PR138_CI_AUDIT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md`
+- Changed files: `docs/ARO_CHAT_0085_PR138_CI_AUDIT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md`
 - Scope: Documentation-only. No application, uploader, test, or workflow behavior changes.
 
 ## Initial Actions snapshot (captured while the parent run was in progress)
