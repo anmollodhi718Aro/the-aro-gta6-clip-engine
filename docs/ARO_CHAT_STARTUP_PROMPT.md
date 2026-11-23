@@ -181,3 +181,9 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - This workstream records the exact-head evidence for PR #147. Its own documentation-only follow-up CI must be inspected separately; do not transfer the parent run to the follow-up head.
 - PR #146 remains independent and untouched. Issue #68 remains OPEN / UNASSIGNED; live uploads/public publishing stay disabled. No credentials, OAuth, real media, upload, publish, merge, retarget, deployment, or destructive action is authorized.
 - First real GTA 6 clip remains NOT COMPLETE until authorized media and scope-specific permission, local intake, owner-approved clip bounds, local render, FFprobe validation, playback, and owner acceptance are evidenced.
+
+
+### ARO-CHAT-0091 follow-up CI closeout — 2026-11-23
+- PR #150 head `5cb9e675b9b081bc1c45b55eaed1e3f470deddec` is associated with Actions run #45233266948 (run 948), SUCCESS. Ubuntu job #137898182465 passed compilation, 334 tests (5.037s), and synthetic MP4/FFprobe validation; hosted Windows job #137898183037 passed compilation, 334 tests (12.176s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/150/merge` at `562731e4781719821418956d10d8cedf51a9cdea`; raw-head-only CI is NOT DEMONSTRATED. Both synthetic reports confirm no GTA 6 or third-party media, publishing disabled, and manual review required. This is not owner-device Windows or real-media acceptance.
+- PR #150 remains draft/open/unmerged. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled. Do not merge, retarget, deploy, upload, or publish without explicit owner approval.
