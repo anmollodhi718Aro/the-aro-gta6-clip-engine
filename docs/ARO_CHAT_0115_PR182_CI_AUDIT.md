@@ -41,3 +41,9 @@ Inspect PR #182's commit-associated Actions run, Ubuntu and hosted-Windows job c
 - PR #182 remains OPEN / DRAFT / UNMERGED and is stacked on PR #180; do not merge it independently of its base.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled pending owner assignment, canonical authenticated-uploader integration selection/consolidation, and independent review.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
+
+
+## Submission details
+- Follow-up documentation PR: [#185](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/185), OPEN / DRAFT / UNMERGED.
+- Follow-up branch head at submission: `1b9dcb4896df28c59be2f26f57d24b1e2c07fb6c`.
+- Follow-up branch exact-head workflow lookup returned zero associated runs at inspection; its own CI remains PENDING / NOT VERIFIED.
