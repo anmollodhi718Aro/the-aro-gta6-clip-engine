@@ -59,3 +59,7 @@ Audit PR #166's own commit-associated GitHub Actions run, Ubuntu and hosted-Wind
 - Windows synthetic report confirms locally generated synthetic pattern/tone only, `gta6_footage_used=false`, `third_party_media_used=false`, source duration 8.0 seconds, rendered duration 4.0 seconds, `publishing_enabled=false`, and `manual_review_required=true`.
 - Both platforms ran the same 334-test suite; this is not 668 unique tests.
 - Run #45243626968 has successful Ubuntu and hosted-Windows jobs. PR #166's required CI matrix is CI_VERIFIED on the PR merge ref, not raw-head-only CI. Hosted Windows is not owner-device verification, and synthetic media is not real GTA 6 footage.
+
+## Follow-up branch verification
+- Follow-up PR #167 head: `766d5cc9d2bce6b1ff20640a01d3da36ec2733c8`.
+- Commit-associated workflow lookup and combined commit status returned zero entries at the latest check. PR #167's own exact-head CI is PENDING / NOT VERIFIED; do not transfer PR #166's successful run to this documentation follow-up.
