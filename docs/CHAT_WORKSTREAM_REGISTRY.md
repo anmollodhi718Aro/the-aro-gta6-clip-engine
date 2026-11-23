@@ -1536,3 +1536,36 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
 
+
+
+## ARO-CHAT-0066 PR #117 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0066 |
+| Exact title | ARO-CHAT-0066 | PR #117 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-66 |
+| Role | Exact-head CI evidence auditor + documentation-only contributor |
+| Task | Verify PR #117 exact head using GitHub Actions job-step and decoded-log evidence; record the result without changing application behavior. |
+| Branch | workstream/aro-chat-0066-pr117-exact-head-ci-closeout-2026-11-23 |
+| Base | PR #117 head 81697966f24033ee31268e543eadda71ea53063a |
+| Starting SHA | 81697966f24033ee31268e543eadda71ea53063a |
+| Status | RESERVED / IN_PROGRESS; PR #117 exact-head CI run 45176376354 in progress; no pass/fail conclusion yet |
+| Changed files | docs/ARO_CHAT_0066_PR117_CI_CLOSEOUT.md; docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Initial exact-head evidence
+
+- PR #117 is OPEN / DRAFT / UNMERGED at exact head `81697966f24033ee31268e543eadda71ea53063a`; this follow-up does not authorize merge or integration.
+- GitHub Actions run [45176376354](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45176376354) is associated with that exact SHA.
+- Ubuntu job `137698581161` and hosted Windows job `137698581431` were both in progress at reservation time.
+- Both jobs completed setup, checkout and Python setup; FFmpeg/FFprobe installation was still running. Compile, unit-test, and synthetic MP4/FFprobe steps had not started.
+- No test count or successful CI status is asserted. Local tests were not run in this connector session.
+
+### Disposition and owner gates
+
+- The exact-head closeout remains IN_PROGRESS until both jobs finish and their step summaries and decoded logs are inspected.
+- If the run fails before runner assignment or before steps execute, classify it as infrastructure/unverified, not a code-test failure or a pass.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader security PR selection or an approved consolidation plan.
+- Hosted Windows CI is not owner-device Windows verification; synthetic media is not GTA 6 real-media acceptance.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
