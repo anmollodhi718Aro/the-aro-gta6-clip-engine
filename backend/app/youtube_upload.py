@@ -246,22 +246,10 @@ def upload_video(
     max_upload_bytes: int = DEFAULT_MAX_UPLOAD_BYTES,
 ) -> dict[str, str]:
     max_upload_bytes = _validate_max_upload_bytes(max_upload_bytes)
-    if Path(video_path).stat().st_size > max_upload_bytes:
+    video_path = Path(video_path)
+    if video_path.stat().st_size > max_upload_bytes:
         raise ValueError(f"video exceeds the configured upload limit of {max_upload_bytes} bytes")
-    try:
-        from googleapiclient.discovery import build
-        from googleapiclient.http import MediaIoBaseUpload
-    except ImportError as exc:
-        raise RuntimeError(
-            'Google upload dependencies are missing. Install with: pip install -e ".[youtube-upload]"'
-        ) from exc
 
-    from backend.app.youtube_owner_approval import (
-        verify_authenticated_channel_owner,
-        require_current_owner_approval,
-        sha256_bytes,
-    )
-    from backend.app.rights_registry import SourceRightsRegistry
     if owner_approved is not True or rights_confirmed is not True:
         raise PermissionError("actual upload requires --owner-approved and --confirm-rights")
     privacy = body.get("status", {}).get("privacyStatus")
@@ -271,15 +259,8 @@ def upload_video(
     expected_channel = os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "").strip()
     if not expected_subject or not expected_channel:
         raise PermissionError("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT and ARO_YOUTUBE_CHANNEL_ID must be configured")
-    oauth_client_id = _oauth_client_id(client_secrets)
-    credentials = _authorize_google(client_secrets, token_path)
-    youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)
-    owner = verify_authenticated_channel_owner(
-        credentials, youtube, oauth_client_id=oauth_client_id,
-        expected_google_subject=expected_subject, expected_channel_id=expected_channel,
-    )
-    rights_registry = SourceRightsRegistry(rights_db_path.expanduser())
-    mime_type, _ = mimetypes.guess_type(video_path.name)
+
+    # Validate local rights metadata before any OAuth interaction.
     current_report = load_rights_report(rights_report_path)
     if not isinstance(clip_id, str) or not clip_id.strip():
         raise PermissionError("requested clip_id is required")
@@ -288,55 +269,80 @@ def upload_video(
     if current_report.get("clip_id") != clip_id or current_report.get("source_id") != source_id:
         raise PermissionError("requested clip/source IDs do not match the rights report")
 
-    # Stage once, then capture the exact staged bytes in an immutable
-    # in-memory payload. Hashing a mutable filesystem path and later streaming
-    # its descriptor still leaves a race after the final hash check. The bytes
-    # hashed below are the same bytes supplied to MediaIoBaseUpload.
+    from backend.app.rights_registry import SourceRightsRegistry
+    from backend.app.youtube_owner_approval import (
+        require_current_owner_approval,
+        sha256_bytes,
+        verify_authenticated_channel_owner,
+    )
+
+    # Capture and bound the exact bytes before OAuth can refresh a token or
+    # open an interactive authorization flow. If the source grows beyond the
+    # configured limit after the initial stat, fail here without OAuth/API use.
     with tempfile.TemporaryDirectory(prefix="aro-youtube-upload-") as staging_dir:
         snapshot_path = Path(staging_dir) / "approved-upload.mp4"
-        with Path(video_path).open("rb") as source, snapshot_path.open("xb") as snapshot:
-            _copy_stream_with_limit(source, snapshot, max_upload_bytes)
+        with video_path.open("rb") as source, snapshot_path.open("xb") as snapshot:
+            copied_bytes = _copy_stream_with_limit(source, snapshot, max_upload_bytes)
             snapshot.flush()
             os.fsync(snapshot.fileno())
+        if copied_bytes <= 0:
+            raise ValueError("video file is empty")
         try:
             os.chmod(snapshot_path, 0o400)
         except OSError:
             pass
-
         with snapshot_path.open("rb") as snapshot_stream:
             upload_bytes = snapshot_stream.read()
-        upload_sha256 = sha256_bytes(upload_bytes)
+    upload_sha256 = sha256_bytes(upload_bytes)
 
-        require_report_publish_permissions(current_report, rights_registry, source_id)
-        require_current_owner_approval(
-            approval_record_path, clip_id=clip_id, source_id=source_id,
-            video_sha256=upload_sha256, owner=owner, privacy=privacy,
-            rights_registry=rights_registry,
-        )
-        # Repeat all identity, approval and current-rights checks immediately
-        # before constructing the request. The in-memory bytes cannot be
-        # changed by later filesystem mutations of either source or staging.
-        owner = verify_authenticated_channel_owner(
-            credentials, youtube, oauth_client_id=oauth_client_id,
-            expected_google_subject=expected_subject, expected_channel_id=expected_channel,
-        )
-        require_current_owner_approval(
-            approval_record_path, clip_id=clip_id, source_id=source_id,
-            video_sha256=upload_sha256, owner=owner, privacy=privacy,
-            rights_registry=rights_registry,
-        )
-        require_report_publish_permissions(current_report, rights_registry, source_id)
+    mime_type, _ = mimetypes.guess_type(video_path.name)
+    rights_registry = SourceRightsRegistry(rights_db_path.expanduser())
+    oauth_client_id = _oauth_client_id(client_secrets)
+    try:
+        from googleapiclient.discovery import build
+        from googleapiclient.http import MediaIoBaseUpload
+    except ImportError as exc:
+        raise RuntimeError(
+            'Google upload dependencies are missing. Install with: pip install -e ".[youtube-upload]"'
+        ) from exc
 
-        media_stream = io.BytesIO(upload_bytes)
-        media = MediaIoBaseUpload(
-            media_stream,
-            mimetype=mime_type or "application/octet-stream",
-            chunksize=8 * 1024 * 1024,
-            resumable=True,
-        )
-        response = youtube.videos().insert(
-            part="snippet,status", body=body, media_body=media,
-        ).execute(num_retries=3)
+    credentials = _authorize_google(client_secrets, token_path)
+    youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)
+    owner = verify_authenticated_channel_owner(
+        credentials, youtube, oauth_client_id=oauth_client_id,
+        expected_google_subject=expected_subject, expected_channel_id=expected_channel,
+    )
+
+    require_report_publish_permissions(current_report, rights_registry, source_id)
+    require_current_owner_approval(
+        approval_record_path, clip_id=clip_id, source_id=source_id,
+        video_sha256=upload_sha256, owner=owner, privacy=privacy,
+        rights_registry=rights_registry,
+    )
+    # Repeat identity, exact-byte approval and live-rights checks immediately
+    # before constructing the upload request. The payload is immutable bytes,
+    # independent of subsequent source/staging filesystem changes.
+    owner = verify_authenticated_channel_owner(
+        credentials, youtube, oauth_client_id=oauth_client_id,
+        expected_google_subject=expected_subject, expected_channel_id=expected_channel,
+    )
+    require_current_owner_approval(
+        approval_record_path, clip_id=clip_id, source_id=source_id,
+        video_sha256=upload_sha256, owner=owner, privacy=privacy,
+        rights_registry=rights_registry,
+    )
+    require_report_publish_permissions(current_report, rights_registry, source_id)
+
+    media_stream = io.BytesIO(upload_bytes)
+    media = MediaIoBaseUpload(
+        media_stream,
+        mimetype=mime_type or "application/octet-stream",
+        chunksize=8 * 1024 * 1024,
+        resumable=True,
+    )
+    response = youtube.videos().insert(
+        part="snippet,status", body=body, media_body=media,
+    ).execute(num_retries=3)
     video_id = str(response.get("id", "")).strip()
     if not video_id:
         raise RuntimeError("YouTube API response did not include a video ID")
