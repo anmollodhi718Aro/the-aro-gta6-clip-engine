@@ -24,9 +24,10 @@ class LocalRendererTests(unittest.TestCase):
     def tearDown(self) -> None:
         self.folder.cleanup()
 
+    @patch("backend.app.clipping.os.link")
     @patch("backend.app.clipping.shutil.which", return_value="/usr/bin/tool")
     @patch("backend.app.clipping.subprocess.run")
-    def test_renders_and_validates_local_clip(self, run: Mock, _which: Mock) -> None:
+    def test_renders_and_validates_local_clip(self, run: Mock, _which: Mock, link: Mock) -> None:
         run.side_effect = [
             Mock(returncode=0, stderr="", stdout=""),
             Mock(returncode=0, stderr="", stdout='{"format":{"duration":"12.0"},"streams":[{"codec_type":"video","codec_name":"h264"}]}'),
@@ -43,6 +44,32 @@ class LocalRendererTests(unittest.TestCase):
         self.assertIn("-n", command)
         self.assertNotIn("-y", command)
         self.assertFalse(any("http://" in str(arg) or "https://" in str(arg) for arg in command))
+        self.assertNotEqual(Path(command[-1]), self.output)
+        self.assertEqual(Path(command[-1]).suffix, ".mp4")
+        link.assert_called_once()
+
+    @patch("backend.app.clipping.os.link")
+    @patch("backend.app.clipping.shutil.which", return_value="/usr/bin/tool")
+    @patch("backend.app.clipping.subprocess.run")
+    def test_output_created_after_initial_check_is_never_deleted(
+        self, run: Mock, _which: Mock, link: Mock
+    ) -> None:
+        run.side_effect = [
+            Mock(returncode=0, stderr="", stdout=""),
+            Mock(returncode=0, stderr="", stdout='{"format":{"duration":"5.0"},"streams":[{"codec_type":"video","codec_name":"h264"}]}'),
+        ]
+
+        def simulate_concurrent_creator(_staged: Path, destination: Path) -> None:
+            destination.write_bytes(b"created by another process")
+            raise FileExistsError("destination appeared during render")
+
+        link.side_effect = simulate_concurrent_creator
+        with self.assertRaises(FileExistsError):
+            render_local_clip(
+                self.source, self.output, source_id="authorized-local-source",
+                permission=self.permission, start_seconds=0, duration_seconds=5, confirmed=True,
+            )
+        self.assertEqual(self.output.read_bytes(), b"created by another process")
 
     @patch("backend.app.clipping.subprocess.run")
     def test_requires_explicit_confirmation(self, run: Mock) -> None:
