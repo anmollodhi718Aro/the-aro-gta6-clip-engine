@@ -1224,3 +1224,30 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Do not change uploader/application behavior until the owner assigns an implementation owner and selects one canonical security PR/branch or approves a consolidation plan.
 - Keep live uploads/public publishing disabled. No credentials/tokens, OAuth session, real media, network upload, or public publishing were used.
 - No merge, retarget, deployment, upload, publishing, or destructive action was performed.
+
+
+## ARO-CHAT-0099 PR #157 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0099 |
+| Exact title | ARO-CHAT-0099 | PR #157 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-99 |
+| Scope | Audit PR #157's own Actions run, Ubuntu/hosted-Windows jobs, decoded logs, compile/tests, synthetic MP4/FFprobe validation, and checkout refs; documentation-only |
+| Branch | `workstream/aro-chat-0099-pr157-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #157 head `437eccb023316b2ab86a7906ab6e01e6534c2acb` |
+| Parent PR | [PR #157](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/157) |
+| Changed files | `docs/ARO_CHAT_0099_PR157_CI_AUDIT.md`, this registry, `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+| Status | IN_PROGRESS; initial exact-head workflow lookup returned no runs; CI evidence pending |
+| Scope boundary | No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### Initial evidence
+- PR #157 head `437eccb023316b2ab86a7906ab6e01e6534c2acb` is the exact audited commit.
+- Commit-associated PR workflow lookup returned no runs at the initial 2026-11-24 snapshot.
+- No compile/test count, synthetic MP4/FFprobe result, or checkout ref is claimed. Recheck after Actions becomes available.
+- Do not transfer PR #156's successful merge-ref CI or any other branch's evidence to PR #157.
+
+### Safety and owner gates
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
+- Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
