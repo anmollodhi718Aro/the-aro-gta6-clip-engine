@@ -31,3 +31,10 @@ Inspect the Actions workflow associated with PR #132's exact head, then record t
 - No credentials, OAuth sessions, real media, network uploads, public publishing, merge, retarget, deployment, or destructive action.
 - Keep Issue #68 OPEN / UNASSIGNED and all live uploads/public publishing disabled until the project owner assigns an implementation owner and selects one canonical authenticated-uploader PR/branch or approves a consolidation plan.
 - Recheck the exact SHA above for a PR-triggered Actions run and inspect both platform job logs before updating this report's status.
+
+
+## Follow-up exact-SHA recheck — 2026-11-23 20:55 IST
+- Requeried PR-triggered workflow runs for reviewed SHA `1b4b07a7d3436674a0815dcbbcd0c7cdc3873700`; GitHub returned an empty workflow-run list.
+- No workflow job IDs or logs are available to inspect. Compilation, unit tests, synthetic MP4 generation, and FFprobe validation therefore remain unverified for this exact SHA.
+- No code changes or test results are inferred from the absence of a run. Parent PR #129 evidence remains non-transferable.
+- Status remains IN_PROGRESS / CI NOT VERIFIED. Next action: inspect or trigger the authorized PR workflow through the repository's normal CI process, then capture both platform jobs and logs. Do not rerun or change workflow configuration without owner approval.
