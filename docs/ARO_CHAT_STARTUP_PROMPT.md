@@ -740,3 +740,53 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Branch: `workstream/aro-chat-0149-pr223-exact-head-ci-audit-2026-11-24`; base: PR #223 head `7b65279f15981f8b15170f87bac34cba7772f6d2`.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes. No credentials, OAuth, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation — ARO-CHAT-0150 (2026-11-24)
+- Current task: documentation-only exact-head CI audit of PR #224; Chat ID ARO-CHAT-0150; Workstream ID ARO-GTA-P1-150.
+- Audited PR #224 head: `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`; exact-head-associated Python CI run #45269803024 completed SUCCESS.
+- Ubuntu and hosted Windows each passed compilation, the same 338-test suite, and synthetic MP4/FFprobe validation. Both checked out `refs/remotes/pull/224/merge` at merge SHA `80a793e6bf472e2534614d6e89a7d19756bcdba6`; raw-head-only checkout is NOT DEMONSTRATED. Do not call this 676 unique tests.
+- Synthetic test pattern/tone only; no GTA 6/third-party media; publishing disabled; manual review required; mocked upload reports `upload_performed=false`.
+- PR #224 combined status returned zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED.
+- Report: `docs/ARO_CHAT_0150_PR224_CI_AUDIT.md`. Registry: `docs/CHAT_WORKSTREAM_REGISTRY.md`.
+- PR #223 exact-head CI remains PENDING / NOT VERIFIED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Audit branch: `workstream/aro-chat-0150-pr224-exact-head-ci-audit-2026-11-24`, based on PR #224 head. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes.
+
+
+### Latest continuation baseline — ARO-CHAT-0152 (2026-11-24)
+- Current workstream: ARO-CHAT-0152 / ARO-GTA-P1-152, documentation-only exact-head CI audit of PR #225.
+- Audit branch: `workstream/aro-chat-0152-pr225-exact-head-ci-audit-2026-11-24`; starting SHA: PR #225 head `894bf28f07b2bb5eccbbb393f63425da5e64c0da`.
+- PR #225 exact-head-associated Python CI run #45270102698 (run 1069) was IN_PROGRESS at initial inspection. Hosted Windows passed compilation, 338 tests, and synthetic MP4/FFprobe validation. Ubuntu was still installing FFmpeg/FFprobe; its compile/tests/render results are pending.
+- Hosted Windows checked out PR merge ref `refs/remotes/pull/225/merge` at merge SHA `cc181eed7c60443ffb2f47bfa7093341d7402c21`, merging head `894bf28f07b2bb5eccbbb393f63425da5e64c0da` into base `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`. Raw-head-only CI is NOT DEMONSTRATED.
+- Synthetic test pattern/tone only; no GTA 6 or third-party media; publishing disabled; manual review required; mocked approval fixture reports `upload_performed=false`.
+- Combined status and PR reviews/inline threads/comments returned no entries. Independent review NOT RECORDED. Re-fetch this exact run and Ubuntu job before closeout; do not transfer predecessor evidence.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. This audit is documentation-only; no source/uploader/test/renderer/workflow behavior changes, credentials, OAuth, real media, upload, publishing, workflow retry, merge, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0152 PR #225 exact-head CI closeout — 2026-11-24
+- PR #225 head `894bf28f07b2bb5eccbbb393f63425da5e64c0da` completed Python CI run #45270102698 (run 1069), SUCCESS.
+- Ubuntu passed compilation, 338 tests (3.720s), and synthetic MP4/FFprobe validation. Hosted Windows passed compilation, the same 338 tests (14.950s), and synthetic MP4/FFprobe validation. This is 338 shared test cases on two platforms, not 676 unique tests.
+- Both jobs checked out PR merge ref `refs/remotes/pull/225/merge` at merge SHA `cc181eed7c60443ffb2f47bfa7093341d7402c21`, merging head `894bf28f07b2bb5eccbbb393f63425da5e64c0da` into base `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`. Raw-head-only CI is NOT DEMONSTRATED.
+- Synthetic media only; no GTA 6/third-party media; publishing disabled; manual review required; mocked approval fixture reports `upload_performed=false`. This is not real-media acceptance or owner-device Windows verification.
+- Combined status, PR #225 reviews, inline threads, and conversation comments returned no entries. Independent review NOT RECORDED.
+- Report: `docs/ARO_CHAT_0152_PR225_CI_AUDIT.md`. The result applies only to PR #225's audited merge ref and must not be transferred to PR #226.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0152 PR #225 exact-head CI closeout — 2026-11-24
+- PR #225 head `894bf28f07b2bb5eccbbb393f63425da5e64c0da` completed run #45270102698 (run 1069), SUCCESS.
+- Ubuntu and hosted Windows each passed compilation, the same 338-test suite, and synthetic MP4/FFprobe validation. Runtime: 3.720s Ubuntu and 14.950s Windows.
+- Both jobs checked out `refs/remotes/pull/225/merge` at merge SHA `cc181eed7c60443ffb2f47bfa7093341d7402c21`; raw-head-only checkout is NOT DEMONSTRATED. Count this as 338 shared tests executed on two platforms, not 676 unique tests.
+- Synthetic test pattern/tone only; 8-second source, 4-second output; no GTA 6/third-party media; publishing disabled; manual review required; mocked approval fixture reports `upload_performed=false`.
+- Combined status returned zero entries. Reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #225 remains OPEN / DRAFT / UNMERGED.
+- CI_VERIFIED applies to the merge ref only. Owner-device Windows, raw-head-only CI, independent review, and real-media acceptance remain NOT VERIFIED. Local tests NOT RUN.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Follow-up PR #228 exact-head CI status — 2026-11-24
+- This audit is recorded in draft PR [#228](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/228), OPEN / DRAFT / UNMERGED.
+- PR #228 current head: `5c0e47b252c566f6d755b91f8227fb636f2398cc`.
+- Its own commit-associated Python CI run [#45270832453](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45270832453), run 1076, is PENDING at initial lookup.
+- PR #225's successful run #45270102698 does not transfer to PR #228. Inspect PR #228's own jobs/logs and exact checked-out refs before assigning any CI status.
+- PR #228 remains documentation-only; no merge, retarget, workflow retry, deployment, upload, or publishing.
