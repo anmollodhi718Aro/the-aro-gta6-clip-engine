@@ -172,3 +172,16 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #144 remains open/draft/unmerged and owner-selected canonical for ARO-GTA-P1-88; preserve PR #145 as non-canonical alternate. PR #146 is an independent open draft targeting `integration/release-candidate`; do not alter it in this workstream.
 - Issue #68 remains OPEN / UNASSIGNED. No uploader/OAuth/public-publishing implementation is authorized until owner assignment and canonical PR/consolidation selection. Keep live uploads and public publishing disabled.
 - Report: `docs/ARO_CHAT_0089_PR144_CI_CLOSEOUT.md`; follow-up PR [#147](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/147) is OPEN / DRAFT / UNMERGED. Its own exact-head CI is pending. Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
+
+
+## Live continuation baseline — refreshed 2026-11-23 (ARO-CHAT-0090)
+
+- Latest registered workstream: ARO-CHAT-0090 / ARO-GTA-P1-90, exact-head CI audit of PR #147.
+- Branch: `workstream/aro-chat-0090-pr147-exact-head-ci-audit-2026-11-23`; base: `workstream/aro-chat-0089-pr144-ci-closeout-2026-11-23`; starting/reviewed SHA: PR #147 head `06babec863840afb8cecf0dd6608021bce9067a1`.
+- PR #147 is OPEN / DRAFT / UNMERGED. Its exact-head Python CI run #45232862569 (run 945) was IN_PROGRESS at the initial snapshot.
+- Ubuntu job #137896915549 and hosted Windows job #137896914783 had completed setup, checkout, and Python setup; FFmpeg/FFprobe installation was still in progress. Compile, tests, synthetic MP4/FFprobe, final conclusions, and checkout SHA remain pending until logs are re-fetched.
+- Do not transfer PR #144's successful CI to PR #147 or this follow-up branch. Re-audit every new head.
+- PR #146 remains an independent open draft targeting `integration/release-candidate`; do not alter it in this workstream.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads and public publishing disabled pending owner assignment and canonical authenticated-uploader implementation selection or approved consolidation.
+- Synthetic MP4 validation is not real GTA 6 media acceptance. Hosted Windows CI is not owner-device Windows verification. First real clip remains NOT COMPLETE until authorized media, documented permission scope, local render, FFprobe validation, playback, and owner acceptance are evidenced.
+- No merge, retarget, deployment, upload, publishing, credential/OAuth access, real-media processing, or destructive action is authorized by this documentation-only audit.
