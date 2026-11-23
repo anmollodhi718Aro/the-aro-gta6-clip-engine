@@ -1446,7 +1446,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Scope | Harden PR #169 local renderer output finalization against concurrent destination creation; add offline regression coverage and directly related documentation |
 | Branch | `workstream/aro-chat-0109-local-render-output-race-2026-11-24` |
 | Base / starting SHA | PR #169 head `5156eeb07b32a20bba2f60593f9e0b53fca07295` |
-| Parent | [PR #169](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/169) |
+| Draft PR | [PR #178](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/178), stacked on parent PR #169 |
 | Status | IN_PROGRESS; implementation committed; local tests not run in this connector session; exact-head CI pending |
 | Safety | Local files only; no OAuth, upload, network media retrieval, publishing, merge, retarget, or deployment. |
 
