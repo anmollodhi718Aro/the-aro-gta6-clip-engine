@@ -711,3 +711,9 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #221 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=false. Reviews and inline threads were empty; independent review NOT RECORDED. Local tests NOT RUN.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Documentation-only; no credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0148 CI progress — 2026-11-24
+- PR #221 Ubuntu job #138024276868 passed compilation, 338 tests (4.303s), and synthetic MP4/FFprobe validation on merge ref `cba11074982e05c4c5c725c5292223a9a129cf6c`. It checked out `refs/remotes/pull/221/merge`; raw-head-only checkout is NOT DEMONSTRATED.
+- Hosted-Windows job #138024276330 had passed setup, checkout, Python, FFmpeg/FFprobe installation, and compilation; its unittest suite was still running at the latest refresh. Overall run #45269230348 remains IN_PROGRESS.
+- Synthetic test media only; publishing disabled; manual review required; mocked upload did not occur. Do not claim CI_VERIFIED until both jobs and the overall run complete successfully.
