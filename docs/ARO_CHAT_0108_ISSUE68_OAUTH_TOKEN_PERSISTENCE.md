@@ -24,7 +24,7 @@ The OAuth flow previously wrote serialized credentials directly to the destinati
 ## Verification
 - Implementation and regression test are committed on this isolated workstream branch.
 - Local tests: NOT RUN in this connector session.
-- Exact-head GitHub Actions run #45253092552 is IN_PROGRESS on head `8dd8649002e3ce1fc7c7ff34fbe9ff4299547d94`; Windows job is running and Ubuntu test job is queued. No conclusion or test count is claimed.
+- A workflow run was observed on intermediate head `8dd8649002e3ce1fc7c7ff34fbe9ff4299547d94`, but subsequent documentation commits advanced the branch. The final head has no associated check-runs at the latest inspection; exact-final-head CI is PENDING. No conclusion or test count is claimed.
 - Live OAuth, actual credentials, real media, API upload, and public publishing: NOT USED / NOT VERIFIED.
 
 ## Boundaries and remaining gates
