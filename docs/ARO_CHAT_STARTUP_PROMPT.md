@@ -628,3 +628,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0141_PR212_CI_AUDIT.md`. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — refreshed 2026-11-24 (ARO-CHAT-0143)
+
+- Latest reserved workstream in this continuation: ARO-CHAT-0143 / ARO-GTA-P1-143, documentation-only exact-head CI audit of PR #214.
+- Branch: `workstream/aro-chat-0143-pr214-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #214 head `d11b4077f1e2caf14866559aa4b0e1ab5a802c99`.
+- PR #214's exact-head workflow lookup returned zero runs; check-runs returned zero entries; combined commit status was pending with zero status entries. Reviews and inline threads were empty.
+- No workflow jobs were available. Compilation, tests, synthetic MP4/FFprobe validation, and checkout refs remain NOT VERIFIED. Do not infer CI success or transfer predecessor results.
+- PR #214 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=false. Recheck this exact head if a run appears; no workflow retry is authorized.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- This workstream is documentation-only. No credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
