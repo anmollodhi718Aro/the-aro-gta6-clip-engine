@@ -30,12 +30,14 @@ Audit PR #231's exact head for its own commit-associated Actions run, combined s
 - PR #231 review submissions, inline review threads, and conversation comments returned empty arrays. Independent review NOT RECORDED.
 - Local tests NOT RUN in this connector session.
 
-## Audit PR #232 current status
+## Audit PR #232 exact-head CI closeout
 - PR #232 is OPEN / DRAFT / UNMERGED and contains documentation-only changes to this report, the registry, and startup prompt.
-- The audit branch is three commits ahead of its starting SHA `558705cad949bb6e187dcb35f2a06fd20fcb0d92`.
-- Commit-associated workflow lookup by the audit branch ref returned zero runs; combined status returned zero entries. PR #232's own CI is PENDING / NOT VERIFIED. Do not transfer PR #231's successful CI to PR #232.
-- PR #232 review submissions, inline threads, and conversation comments returned empty arrays. Independent review NOT RECORDED.
-- No local tests were run in this connector session.
+- Audited head: `ccde1827d1f8b7d25a7f3ef8d206c8f55cb3fc5b`; associated Python CI run [#45274631218](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45274631218), run 1089, completed SUCCESS.
+- Ubuntu job #138043250570 passed compilation, 338 tests (4.917s), and synthetic MP4/FFprobe validation. Hosted-Windows job #138043250473 passed compilation, the same 338 tests (14.615s), and synthetic MP4/FFprobe validation. These are 338 shared tests on two platforms, not 676 unique tests.
+- Both jobs checked out `refs/remotes/pull/232/merge` at merge SHA `fb4687d94c1019eba0b72138458dcb399c9d4548`, matching PR #232's merge ref. Raw-head-only CI is NOT DEMONSTRATED.
+- Synthetic pattern/tone only; `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`, and mocked `upload_performed=false`.
+- Exact-head check-runs both completed SUCCESS; combined commit status separately returned zero entries and state pending. PR #232 review submissions, inline threads, and conversation comments were empty. Independent review NOT RECORDED.
+- PR #232 remains OPEN / DRAFT / UNMERGED. Local tests were NOT RUN in this connector session. Do not transfer PR #231 CI to PR #232.
 
 ## Status
 - PR #231 exact-head associated merge-ref CI: SUCCESS on run #45274128757.
@@ -46,7 +48,7 @@ Audit PR #231's exact head for its own commit-associated Actions run, combined s
 - Independent review: NOT RECORDED.
 - Owner-device Windows verification: NOT VERIFIED.
 - Authorized real-media acceptance: NOT VERIFIED.
-- PR #232 own CI: PENDING / NOT VERIFIED.
+- PR #232 own merge-ref CI: SUCCESS on run #45274631218; raw-head-only CI NOT DEMONSTRATED; combined status remains pending with zero entries.
 - Local tests in this connector session: NOT RUN.
 
 ## Safety and limitations
@@ -56,4 +58,4 @@ Audit PR #231's exact head for its own commit-associated Actions run, combined s
 - This workstream is documentation-only and draft-only; no merge requested.
 
 ## Follow-up
-Re-fetch PR #232's exact current head and its own associated Actions run after CI appears. Inspect every job/log, checkout refs, combined status, and review state before any closeout. Do not transfer PR #231's CI evidence to PR #232 or claim raw-head-only verification. Preserve the owner-approval gate for Issue #68.
+PR #232's exact-head merge-ref CI is now audited in run #45274631218. Any later head change requires a fresh audit. Independent review remains pending; do not infer raw-head-only, owner-device Windows, or real-media verification. Preserve the owner-approval gate for Issue #68.
