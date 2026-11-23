@@ -2342,3 +2342,9 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - The upstream project is a separate optional storytelling/animation workflow, not a gameplay-capture or video-ingestion source.
 - Keep the GTA 6 engine's authorized-local-media, FFmpeg/FFprobe, rights-review, and explicit upload-approval boundaries unchanged.
 - No automatic publishing, external media scraping, credential storage, upstream code import, or production dependency is introduced by this proposal.
+
+
+### ARO-CHAT-0163 manual storyboard POC draft — 2026-11-24
+- Added `examples/stickman_director/aro_chat_signal_to_clip_review_30s.md`, an original 30-second 16:9 explainer storyboard using abstract chat signals, a local authorized recording, rights/quality checks, and human review.
+- Status: STORYBOARD_DRAFT; not an executed upstream workflow, generated media, or rendered MP4. No paid service, third-party asset, upstream code, dependency, gameplay footage, upload, or publishing was used.
+- Next gate: owner approval of the storyboard and confirmation of any service costs before a low-resolution sample. No adapter or Autopilot integration until the manual proof of concept demonstrates value.
