@@ -160,3 +160,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Preserve PR #145 and its branch as a non-canonical alternate/evidence record. Do not close, delete, merge, or retarget it based solely on this selection; reconsider only if later evidence demonstrates a material advantage.
 - PR #144 pre-update head c74d001f64976ada076e112d3bc71097103f30ea had successful Actions run #45217116584 (run 930): Ubuntu and hosted Windows each passed 334 tests and synthetic MP4/FFprobe validation. Both jobs used refs/remotes/pull/144/merge at 09f71138d28d9b2213027126b462b0be1a83adb7; raw-head-only verification is not demonstrated.
 - This is a canonical-record decision, not merge approval. Keep PR #144 draft/open/unmerged. Re-audit CI for every new head. Keep Issue #68 open/unassigned and public publishing/live uploads disabled; real-media and owner-device Windows acceptance remain outstanding.
+
+
+### ARO-CHAT-0089 PR #144 exact-head CI closeout — 2026-11-23
+
+- Latest registered workstream: ARO-CHAT-0089 / ARO-GTA-P1-89, documentation-only audit of the latest canonical PR #144 head.
+- Branch: `workstream/aro-chat-0089-pr144-ci-closeout-2026-11-23`; base is PR #144 branch `workstream/aro-chat-0088-pr143-exact-head-ci-audit-2026-11-23`; starting/reviewed SHA: `7e259e5f2316c0af3e37411dd3b2cfbd1451d43c`.
+- PR #144 head is associated with Actions run #45227406504 (run 933), SUCCESS. Ubuntu job #137877554821 passed compile, 334 tests, and synthetic MP4/FFprobe validation; hosted Windows job #137877555530 passed compile, 334 tests, and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/144/merge` at `729fc74ee4483b43fe8e25da2e5916f640d1cb0b`; this is merge-ref evidence associated with PR #144's head, not raw-head-only checkout.
+- Synthetic reports state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. This is not real-media acceptance or owner-device Windows verification.
+- PR #144 remains open/draft/unmerged and owner-selected canonical for ARO-GTA-P1-88; preserve PR #145 as non-canonical alternate. PR #146 is an independent open draft targeting `integration/release-candidate`; do not alter it in this workstream.
+- Issue #68 remains OPEN / UNASSIGNED. No uploader/OAuth/public-publishing implementation is authorized until owner assignment and canonical PR/consolidation selection. Keep live uploads and public publishing disabled.
+- Report: `docs/ARO_CHAT_0089_PR144_CI_CLOSEOUT.md`. This follow-up's own exact-head CI is pending. Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
