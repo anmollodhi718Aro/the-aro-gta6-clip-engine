@@ -140,3 +140,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Preserve duplicate ARO-CHAT-0085 records in PRs #139 and #140 until owner reconciliation; do not silently close or merge either. PR #142 audits PR #140 only.
 - Current next step after this audit: inspect this workstream branch's own exact-head CI, then continue only with the next non-duplicate registry task. Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
 - First real GTA 6 clip remains NOT COMPLETE until authorized media, documented scope-specific permission, local intake, approved clip bounds, local render, FFprobe validation, playback, and owner acceptance are all evidenced.
+
+
+### Latest continuation baseline — ARO-CHAT-0088 (2026-11-23)
+- Latest registered workstream before this continuation: ARO-CHAT-0087 / ARO-GTA-P1-87, auditing PR #142. PR #143 is its open draft documentation follow-up.
+- Current workstream: ARO-CHAT-0088 / ARO-GTA-P1-88, audit PR #143's own exact-head CI. Branch: `workstream/aro-chat-0088-pr143-ci-audit-2026-11-23`; starting SHA: `6f9d184eb4447c64544ad93e05f7ad1708431e8e`.
+- PR #143 head `6f9d184eb4447c64544ad93e05f7ad1708431e8e` is associated with Actions run #45205002366. Initial snapshot: hosted Windows job #137798218139 passed setup, checkout, Python, FFmpeg/FFprobe, compilation, unit tests and synthetic MP4/FFprobe; cleanup was still running. Ubuntu job #137798218807 was installing FFmpeg/FFprobe; compile/tests/render had not started.
+- Overall workflow remained IN_PROGRESS at the initial snapshot. Do not claim two-platform CI_VERIFIED or a final conclusion until both jobs finish and their logs/checkout refs are inspected.
+- Audit report: `docs/ARO_CHAT_0088_PR143_CI_AUDIT.md`; registry entry added. Documentation-only; no application/uploader/test/workflow behavior changes.
+- Issue #68 remains OPEN / UNASSIGNED. Keep real uploads and public publishing disabled pending owner assignment and canonical authenticated-uploader PR/consolidation selection. No live OAuth or real upload.
+- Preserve duplicate ARO-CHAT-0085 PRs #139/#140 pending owner reconciliation. Do not merge, close or retarget them without explicit owner authorization.
+- Next action: complete run #45205002366 evidence inspection, then update the audit report and registry with exact job results, test counts, decoded logs, and merge-ref versus raw-head checkout distinction. Do not infer results from earlier runs.
