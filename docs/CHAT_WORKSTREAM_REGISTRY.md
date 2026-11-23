@@ -1434,3 +1434,36 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader security PR selection or an approved consolidation plan.
 - Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0063 PR #114 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0063 |
+| Exact title | ARO-CHAT-0063 | PR #114 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-63 |
+| Role | Exact-head CI evidence auditor + documentation-only contributor |
+| Task | Verify PR #114's exact head using Actions run, job-step, and decoded-log evidence; record the result without changing application behavior. |
+| Branch | `workstream/aro-chat-0063-pr114-exact-head-ci-closeout-2026-11-23` |
+| Base | PR #114 head `d84d59b0b99da4f1d0100e11c2f5e0b2c5b28e49` |
+| Starting SHA | `d84d59b0b99da4f1d0100e11c2f5e0b2c5b28e49` |
+| Status | IN_PROGRESS; Ubuntu CI passed; hosted Windows CI pending |
+| Changed files | docs/ARO_CHAT_0063_PR114_CI_CLOSEOUT.md; docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Preliminary exact-head evidence
+
+- PR #114 exact head `d84d59b0b99da4f1d0100e11c2f5e0b2c5b28e49` triggered Actions run [45105877305](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45105877305).
+- Ubuntu job `137466904644`: compilation passed; `Ran 334 tests in 5.282s; OK`; synthetic MP4 render and FFprobe validation passed.
+- Hosted Windows job `137466905039` was still running FFmpeg/FFprobe installation at the time of this update. Compilation, unit tests, and synthetic render remained pending.
+- Overall exact-head CI remains PENDING until the Windows job completes and its logs are inspected.
+- Synthetic Ubuntu output records `gta6_footage_used=false` and `publishing_enabled=false`. Local tests were not run.
+
+### Safety and owner gates
+
+- PR #114 is a documentation-only draft stacked on PR #113; do not merge independently of its base.
+- PR #113 remains draft/open/unmerged and stacked on PR #112.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader security PR selection or an approved consolidation plan.
+- Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
