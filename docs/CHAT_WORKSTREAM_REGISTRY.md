@@ -1442,7 +1442,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 
 | Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
 |---|---|---|---|---|---|---|
-| ARO-CHAT-0110 | ARO-CHAT-0110 \| PR #172 Exact-Head CI Audit | ARO-GTA-P1-110 | Audit PR #172's own Actions run, Ubuntu/hosted-Windows logs, compile/tests, synthetic MP4/FFprobe output, checkout refs, and review state; documentation-only | `workstream/aro-chat-0110-pr172-exact-head-ci-audit-2026-11-24` / follow-up PR pending | IMPLEMENTED (documentation-only); PR #172 CI_VERIFIED on merge ref; raw-head-only, owner-device Windows, real-media, and independent review remain NOT VERIFIED | Starting SHA `c385c729bfb6ca6d62861ad94f01d83e2d38bbc4`; run `45252856603`; merge SHA `b011481230fa6e93c34d196c8bf78eef65bfa6aa`; Ubuntu/Windows each ran 334 tests |
+| ARO-CHAT-0110 | ARO-CHAT-0110 \| PR #172 Exact-Head CI Audit | ARO-GTA-P1-110 | Audit PR #172's own Actions run, Ubuntu/hosted-Windows logs, compile/tests, synthetic MP4/FFprobe output, checkout refs, and review state; documentation-only | `workstream/aro-chat-0110-pr172-exact-head-ci-audit-2026-11-24` / [PR #177](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/177) | IMPLEMENTED (documentation-only); PR #172 CI_VERIFIED on merge ref; raw-head-only, owner-device Windows, real-media, and independent review remain NOT VERIFIED | Starting SHA `c385c729bfb6ca6d62861ad94f01d83e2d38bbc4`; run `45252856603`; merge SHA `b011481230fa6e93c34d196c8bf78eef65bfa6aa`; Ubuntu/Windows each ran 334 tests |
 
 ### ARO-CHAT-0110 evidence notes
 - PR #172 head `c385c729bfb6ca6d62861ad94f01d83e2d38bbc4` passed run [#45252856603](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45252856603).
@@ -1450,5 +1450,5 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Hosted-Windows job `137966816226`: compile passed; 334 tests in 11.244s; synthetic MP4/FFprobe validation passed.
 - Both jobs used `refs/remotes/pull/172/merge` at `b011481230fa6e93c34d196c8bf78eef65bfa6aa`; raw-head-only checkout is NOT DEMONSTRATED. Same 334-test suite on each platform, not 668 unique tests.
 - Synthetic output confirms no GTA 6/third-party media, publishing disabled, and manual review required. This is not owner-device Windows or real-media acceptance.
-- PR #172 had no review submissions or inline review threads at inspection. This follow-up's own CI remains PENDING.
+- PR #172 had no review submissions or inline review threads at inspection. Follow-up PR #177 own exact-head CI: PENDING; initial lookup returned no associated run.
 - ARO-CHAT-0109 was already reserved by existing branch names and was not reused. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
