@@ -877,3 +877,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Run #45276253445 remains IN_PROGRESS. Hosted Windows job #138048704367 passed compilation, 338 tests (14.744s), and synthetic MP4/FFprobe on merge ref `refs/remotes/pull/235/merge` at `3bca352f23a77a1af2b6fe39b4ca6508c08e3a87`; synthetic-only, 4.0-second output, publishing disabled, mocked upload false.
 - Ubuntu job #138048704068 remains IN_PROGRESS at FFmpeg/FFprobe install; compile/tests/render pending, log unavailable (BlobNotFound). Matrix remains PENDING / NOT VERIFIED.
 - Recheck exact PR #235 head and Ubuntu job after completion. Do not transfer prior PR evidence. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live publishing disabled.
+
+
+### Latest continuation baseline — refreshed 2026-11-24 (ARO-CHAT-0160 closeout)
+- Active workstream: ARO-CHAT-0160 / ARO-GTA-P1-160, documentation-only exact-head CI audit of PR #235. Existing audit PR #236 is OPEN / DRAFT / UNMERGED; reuse it, do not create a duplicate.
+- Audited PR #235 remains OPEN / DRAFT / UNMERGED at head `3bfd0a1120e35f13af06ad28b305d491e1988254`. Its own run [#45276253445](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45276253445), run 1091, completed SUCCESS.
+- Ubuntu job #138048704068 passed compile, 338 tests (3.672s), and synthetic MP4/FFprobe. Hosted-Windows job #138048704367 passed compile, the same 338 tests (14.744s), and synthetic MP4/FFprobe.
+- Both jobs checked out merge ref `refs/remotes/pull/235/merge` at `3bca352f23a77a1af2b6fe39b4ca6508c08e3a87`, merging PR #235 head into base `e38f59c49aad6d1fd2c93137e7690b633ae7def2`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic pattern/tone only; 8-second source, 4-second output; no GTA 6/third-party media; publishing disabled; manual review required; mocked upload false. Same 338 tests on both platforms, not 676 unique tests.
+- Combined status returned zero entries. PR #235 reviews, inline threads, and comments empty; independent review NOT RECORDED. Merge-ref CI_VERIFIED only; owner-device Windows and authorized real-media acceptance NOT VERIFIED. Local tests NOT RUN.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No workflow retry, merge, rebase, retarget, deployment, credentials/OAuth, real media, upload, or destructive action.
