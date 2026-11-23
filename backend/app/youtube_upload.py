@@ -24,10 +24,10 @@ def load_rights_report(path: str | Path) -> dict[str, Any]:
     payload = json.loads(report_path.read_text(encoding="utf-8"))
     if not isinstance(payload, dict):
         raise ValueError("rights report must be a JSON object")
-    if payload.get("platform") != "youtube":
-        raise PermissionError("rights preflight report must target youtube")
     if payload.get("status") != "ready_for_human_review":
         raise PermissionError("rights preflight is not ready for human review")
+    if payload.get("platform") != "youtube":
+        raise PermissionError("rights preflight report must target the youtube platform")
     if payload.get("errors"):
         raise PermissionError("rights preflight contains blocking errors")
     assets = payload.get("assets")
