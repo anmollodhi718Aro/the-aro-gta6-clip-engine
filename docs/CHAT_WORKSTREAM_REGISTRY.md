@@ -1986,3 +1986,32 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 ### Owner and safety gates
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled until owner assignment and explicit selection of one canonical authenticated-uploader implementation or an approved consolidation plan.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0081 PR #133 CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0081 |
+| Exact title | ARO-CHAT-0081 | PR #133 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-81 |
+| Role | CI evidence auditor; documentation-only |
+| Task | Record PR #133's associated Actions run, both platform job steps, decoded test logs, synthetic-media validation, and merge-ref checkout limitation. |
+| Branch | `workstream/aro-chat-0081-pr133-exact-head-ci-closeout-2026-11-23` |
+| Base / starting SHA | PR #133 head `ac60e981869b2a322ae674478b6df2d74de23b15` |
+| Changed files | `docs/ARO_CHAT_0081_PR133_CI_CLOSEOUT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md` |
+| Status | IMPLEMENTED; PR merge-ref CI PASS; raw-head-only execution NOT ESTABLISHED; REAL_MEDIA_VERIFIED NOT VERIFIED |
+| Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive changes. |
+
+### CI evidence
+- PR #133 head `ac60e981869b2a322ae674478b6df2d74de23b15` was associated with successful pull-request Actions run [45188878140](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45188878140).
+- Windows job `137741602652`: setup, checkout, Python 3.11, FFmpeg/FFprobe, compilation, 334 tests, and synthetic MP4/FFprobe all passed. Decoded log: `Ran 334 tests in 15.663s; OK`.
+- Ubuntu job `137741603688`: setup, checkout, Python, FFmpeg/FFprobe, compilation, 334 tests, and synthetic MP4/FFprobe all passed. Decoded log: `Ran 334 tests in 3.650s; OK`.
+- Both jobs checked out merge commit `19db558dbecc0f0a4123db53aca499419e3b6dc9`, with parents base `1b4b07a7d3436674a0815dcbbcd0c7cdc3873700` and PR head `ac60e981869b2a322ae674478b6df2d74de23b15`. This is PR merge-ref CI, not raw-head checkout evidence.
+- Each platform ran the same 334 tests, not 668 unique tests. Both synthetic reports passed and state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`.
+- Local tests were not run. Hosted Windows is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
+
+### Owner and safety gates
+- PR #133 remains OPEN / DRAFT / UNMERGED.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and canonical implementation selection or approved consolidation.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
