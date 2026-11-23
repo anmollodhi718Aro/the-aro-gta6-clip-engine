@@ -28,8 +28,12 @@ class SourceRecord:
     def __post_init__(self) -> None:
         if not self.permission_reference.strip():
             raise ValueError("permission_reference is required")
-        if not self.permitted_uses:
+        normalized_uses = tuple(sorted(set(use.strip() for use in self.permitted_uses if use.strip())))
+        if not normalized_uses:
             raise ValueError("at least one permitted use is required")
+        if not set(normalized_uses).issubset(self.permission.scopes):
+            raise ValueError("permitted uses must be a subset of granted scopes")
+        object.__setattr__(self, "permitted_uses", normalized_uses)
         object.__setattr__(self, "updated_at", parse_datetime(self.updated_at))
 
 
@@ -95,9 +99,11 @@ class SourceRegistry:
         """Register a new source. Existing source IDs cannot be silently replaced."""
         if not actor.strip():
             raise ValueError("actor is required for the audit record")
+        if not permission_reference or not permission_reference.strip():
+            raise ValueError("permission_reference is required")
         record = SourceRecord(
             permission=permission,
-            permission_reference=permission_reference,
+            permission_reference=permission_reference.strip(),
             permitted_uses=tuple(use.strip() for use in permitted_uses if use.strip()),
             updated_at=datetime.now(timezone.utc),
         )
@@ -136,7 +142,7 @@ class SourceRegistry:
         """Return a registered source only when the requested scope is currently valid."""
         record = self.get(source_id)
         check_time = at or datetime.now(timezone.utc)
-        if not record.permission.allows(scope, check_time):
+        if scope not in record.permitted_uses or not record.permission.allows(scope, check_time):
             raise PermissionError("source permission is missing, expired, revoked, or out of scope")
         return record
 
