@@ -370,3 +370,16 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Combined status returned zero entries. PR #242 review submissions, inline threads and comments were empty; independent GitHub reviewer sign-off NOT RECORDED. Local tests NOT RUN in this connector session.
 - Issue #68 remains OPEN. Keep live/public uploads disabled pending separate reviewer sign-off, owner-controlled integration, owner-device verification and authorized real-media acceptance.
 - Report: `docs/ARO_CHAT_0165_PR242_CI_AUDIT.md`. Documentation-only; no OAuth, credentials, real media, upload, publishing, workflow retry, merge, retarget, deployment or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0167 (2026-11-24)
+
+- Current workstream: ARO-CHAT-0167 / ARO-GTA-P1-167 | PR #245 exact-head CI audit.
+- Branch: `workstream/aro-chat-0167-pr245-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #245 current head `d126b4bbb8f31c5b665703d707f89ab8f1e89bc1`.
+- PR #245 current-head run [#45279564114](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45279564114), run 1126, completed SUCCESS. Ubuntu and hosted Windows each passed compilation, the same 340 tests, and synthetic MP4/FFprobe validation.
+- Both jobs checked out merge ref `refs/remotes/pull/245/merge` at `c95a539627951d9ae0842b99c5ac641bbf6d5f86`, merging PR #245 head into base `dfb1e9390490806e44bad93fc661ddff0a551f54`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic pattern/tone only; no GTA 6 or third-party media; publishing disabled; manual review required; mocked approval confirms `upload_performed=false`.
+- Combined status returned zero entries. PR #245 reviews, inline threads, and conversation comments were empty; independent reviewer sign-off NOT RECORDED. PR #245 remains OPEN / DRAFT / UNMERGED.
+- Earlier cancelled run #45279416654 belonged to the prior PR #245 head and is not substituted for current-head evidence.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- Audit report: `docs/ARO_CHAT_0167_PR245_CI_AUDIT.md`. Documentation-only; no credentials/OAuth, real media, upload, publishing, workflow retry, merge, retarget, deployment, or destructive action.
