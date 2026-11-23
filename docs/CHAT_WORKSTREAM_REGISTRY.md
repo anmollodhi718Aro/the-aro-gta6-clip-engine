@@ -1422,14 +1422,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Base / starting SHA | PR #181 head `1a728b4a488ca980bb9704dc55a9e4f713e44af4` |
 | Parent PR | [PR #181](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/181) |
 | Changed files | `docs/ARO_CHAT_0114_PR181_CI_AUDIT.md`, this registry, `docs/ARO_CHAT_STARTUP_PROMPT.md` |
-| Status | IN_PROGRESS; Ubuntu job passed; hosted-Windows job still running at initial audit |
+| Status | IMPLEMENTED; PR #181 merge-ref CI_VERIFIED on Ubuntu and hosted Windows; raw-head-only checkout NOT DEMONSTRATED |
 | Scope boundary | No application, uploader, test, renderer, or workflow behavior changes; no credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
 
 ### Evidence
 - PR #181 head `1a728b4a488ca980bb9704dc55a9e4f713e44af4` is associated with Python CI run [#45254660172](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45254660172), run 1007.
 - Ubuntu job `137973204059` passed compilation, 338 unit tests (5.119s), and synthetic MP4/FFprobe validation.
 - Ubuntu checked out `refs/remotes/pull/181/merge` at merge SHA `6a88e7df9fa079d8cf635bdf90d6c1a90ad0c1d0`, merging PR #181 head into base `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`; raw-head-only checkout is NOT DEMONSTRATED.
-- Hosted-Windows job `137973204383` had completed FFmpeg/FFprobe installation and compilation but was still running unit tests; final test count, conclusion, synthetic-render result, and checkout SHA are PENDING.
+- Hosted-Windows job `137973204383` passed compilation, 338 unit tests (18.123s), and synthetic MP4/FFprobe validation. It checked out the same PR merge ref and SHA as Ubuntu.
 - Ubuntu synthetic report confirms locally generated test pattern/tone, no GTA 6 or third-party media, publishing disabled, and manual review required.
 - PR #181 review submissions and comments were empty at inspection. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
 
