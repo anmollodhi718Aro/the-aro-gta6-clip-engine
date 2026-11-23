@@ -213,3 +213,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #152 remains OPEN / DRAFT / UNMERGED. PR #151 remains OPEN / DRAFT / UNMERGED. PR #153 already reserves ARO-CHAT-0094 for a separate PR #151 audit follow-up; preserve it and do not duplicate it. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled.
 - Report: `docs/ARO_CHAT_0095_PR152_CI_AUDIT.md`; follow-up PR [#154](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/154) is OPEN / DRAFT / UNMERGED. Owner-device Windows and real-media acceptance remain NOT VERIFIED. This workstream's own exact-head CI remains pending until its associated run and logs are inspected.
 - Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
+
+
+## Latest continuation baseline — ARO-CHAT-0096 (2026-11-23)
+
+- Current workstream: ARO-GTA-P1-96 / ARO-CHAT-0096 | exact-head CI audit of PR #154; branch `workstream/aro-chat-0096-pr154-exact-head-ci-audit-2026-11-23`; base PR #154 branch `workstream/aro-chat-0095-pr152-exact-head-ci-audit-2026-11-23`; starting SHA `0139e594ce43d04f17172fdb150f7dadd20f9fae`.
+- PR #154 head is associated with Python CI run #45236020266 (run 957), which was IN_PROGRESS at initial inspection. Ubuntu job #137907942763 and hosted Windows job #137907943009 had completed setup/checkout/Python setup and were installing FFmpeg/FFprobe; compile, tests, and synthetic render had not started.
+- Re-fetch run 957 after completion. Inspect both jobs' decoded logs and checkout refs; do not claim CI_VERIFIED or transfer PR #152's green result to PR #154.
+- PR #154 remains OPEN / DRAFT / UNMERGED. PR #152 and PR #151 remain OPEN / DRAFT / UNMERGED; PR #153 is separate and untouched. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled.
+- Report: `docs/ARO_CHAT_0096_PR154_CI_AUDIT.md`. This workstream is documentation-only. Owner-device Windows and real-media acceptance remain NOT VERIFIED.
+- Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
