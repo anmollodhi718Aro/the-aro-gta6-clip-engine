@@ -1280,3 +1280,34 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Full review note: `docs/ISSUE_68_PR93_SECURITY_REVIEW.md`. This is a bounded static pass, not exhaustive audit, independent security sign-off, legal determination, local test run, owner-device verification, or real-media acceptance.
 - Issue #68 remains OPEN / UNASSIGNED. Preserve overlapping PR histories and require owner assignment plus explicit canonical PR selection or approved consolidation before implementation changes. Keep live uploads/public publishing disabled.
 - No application code/tests changed; no OAuth credentials/tokens, live OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action occurred.
+
+
+## ARO-CHAT-0058 cumulative upload-limit regression — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0058 |
+| Exact title | ARO-CHAT-0058 | Cumulative Upload-Limit Regression Test |
+| Workstream ID | ARO-GTA-P1-58 |
+| Role | Bounded security-test contributor |
+| Task | Add a deterministic regression for the cumulative upload-size ceiling when a source stream returns multiple chunks; do not change uploader behavior. |
+| Branch | workstream/aro-chat-0058-cumulative-upload-limit-regression-2026-11-23 |
+| Base | PR #105 exact head `aed4fd8a03f8bce5aac4cdf0a2e42c91606cd57d` |
+| Starting SHA | `aed4fd8a03f8bce5aac4cdf0a2e42c91606cd57d` |
+| Reviewed implementation | PR #93 uploader implementation `f9834d29235738573ad773f19ebcc9b7c0f4c129` |
+| Status | IMPLEMENTED (test-only); local tests NOT RUN; exact-head CI pending |
+| Changed files | tests/test_youtube_upload.py; docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No uploader/application behavior changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Implementation and duplicate-work check
+- Added a deterministic multi-read stream regression: the first 4-byte chunk is within the configured 4-byte ceiling; a second 1-byte chunk exceeds the cumulative ceiling.
+- The test asserts the first chunk remains in the private snapshot, the over-limit chunk is not written, and the helper stops after the second read.
+- The latest review branch already contains a direct-call oversized-file regression for R2, so this workstream addresses only R1 and does not duplicate R2.
+- No production code changed. The existing `_copy_stream_with_limit()` implementation is unchanged.
+- R3 source-rights re-registration semantics remain an owner/implementation-owner decision; no behavior was changed.
+
+### Verification and safety
+- Local tests: NOT RUN in this connector session.
+- Exact-head CI: PENDING; do not infer verification from parent PR runs.
+- Issue #68 remains OPEN / UNASSIGNED. This test-only change does not select a canonical uploader PR or authorize integration.
+- Keep live uploads/public publishing disabled. No OAuth credential/token access, live OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action occurred.
