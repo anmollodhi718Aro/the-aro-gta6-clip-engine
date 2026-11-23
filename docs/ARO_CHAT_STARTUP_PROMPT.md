@@ -419,3 +419,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Documentation-only audit branch is recorded in draft PR [#198](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/198), OPEN / DRAFT / UNMERGED; head `3609f463d53180368394ce44c516707361ba9647`.
 - PR #198's own exact-head workflow lookup returned zero associated runs and combined status returned zero entries at inspection. Inspect its own CI independently; do not infer a pass from PR #195.
 - PR #195's associated run #45257788515 was IN_PROGRESS at the audit snapshot; both platform jobs were still installing FFmpeg/FFprobe and compile/tests/render had not started. Decoded logs were unavailable (BlobNotFound).
+
+
+### ARO-CHAT-0126 PR #195 CI closeout — 2026-11-24
+- PR #195 exact-head-associated run #45257788515 (run 1024) completed SUCCESS.
+- Ubuntu: compilation, 338 tests (3.477s), and synthetic MP4/FFprobe validation passed. Hosted Windows: compilation, 338 tests (21.670s), and synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/195/merge` at merge SHA `5b77a6ae66485dd9de6be78affd77298ca9946c8`; raw-head-only checkout is NOT DEMONSTRATED. The same 338-test suite ran on each platform.
+- Synthetic media only; no GTA 6 or third-party media, publishing disabled, manual review required. Combined status and PR #195 review records were empty. Independent review is NOT RECORDED.
+- PR #195 is CI_VERIFIED on merge ref only. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- Follow-up draft PR #198 remains OPEN / DRAFT / UNMERGED; its own exact-head CI must be checked separately.
