@@ -52,7 +52,9 @@ Audit the GitHub Actions run associated with PR #143's exact head. Inspect both 
 
 - Parent PR #143 associated CI: **CI_VERIFIED on merge ref** (Ubuntu and hosted Windows, 334 tests each).
 - Raw-head-only CI: **NOT DEMONSTRATED**.
-- This follow-up PR #144's own exact-head CI: **PENDING** until its newly updated head's run and logs are audited.
+- PR #144 head `c74d001f64976ada076e112d3bc71097103f30ea` is associated with Actions run [#45217116584](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45217116584), run 930: Ubuntu job `137841164317` and hosted Windows job `137841164720` both completed successfully; each ran the same 334-test suite (`Ran 334 tests in 4.978s` on Ubuntu and `20.396s` on Windows), and each synthetic MP4/FFprobe validation passed.
+- Both PR #144 jobs checked out `refs/remotes/pull/144/merge` at `09f71138d28d9b2213027126b462b0be1a83adb7`; raw-head-only checkout is **NOT DEMONSTRATED**. Synthetic reports record `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- This evidence is for the pre-documentation-update PR #144 head above. Any new documentation commit receives no inherited exact-head CI claim until its own run is inspected.
 - Owner-device Windows verification: **NOT VERIFIED**.
 - Real-media / first real GTA 6 clip: **NOT VERIFIED**.
 
@@ -60,5 +62,6 @@ Audit the GitHub Actions run associated with PR #143's exact head. Inspect both 
 
 - This workstream is documentation-only; no application/uploader/test/workflow behavior changed.
 - PR #143 and PR #144 remain draft/open/unmerged unless live GitHub state proves otherwise.
+- Owner decision (2026-11-23): PR #144 is the canonical record for workstream `ARO-GTA-P1-88`; PR #145 is retained as a non-canonical alternate/evidence branch. This selection does not authorize merging, closing, deleting, or retargeting either PR.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads and public publishing disabled until the project owner assigns an implementation owner and selects one canonical authenticated-uploader security PR/branch or approves a consolidation plan.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
