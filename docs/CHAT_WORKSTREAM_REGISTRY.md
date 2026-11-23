@@ -1408,3 +1408,31 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #176 and this follow-up remain draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled pending owner-controlled integration and independent review.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
+
+
+## ARO-CHAT-0113 PR #181 exact-head CI closeout — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0113 |
+| Exact title | ARO-CHAT-0113 | PR #181 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-113 |
+| Scope | Independently verify PR #181's commit-associated Actions run and record Ubuntu/hosted-Windows outcomes; documentation-only |
+| Branch | `workstream/aro-chat-0113-pr181-exact-head-ci-closeout-2026-11-24` |
+| Base / starting SHA | PR #181 head `1a728b4a488ca980bb9704dc55a9e4f713e44af4` |
+| Parent PR | #181 |
+| Changed files | `docs/ARO_CHAT_0113_PR181_CI_CLOSEOUT.md`, this registry, `docs/ARO_CHAT_STARTUP_PROMPT.md`, `docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md` |
+| Status | IMPLEMENTED (documentation-only); CI_VERIFIED for PR #181 exact head; this follow-up's own CI PENDING |
+| Report | `docs/ARO_CHAT_0113_PR181_CI_CLOSEOUT.md` |
+
+### Exact-head evidence
+- PR #181 head `1a728b4a488ca980bb9704dc55a9e4f713e44af4` is associated with Python CI run [#45254660172](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45254660172), run 1007, completed SUCCESS.
+- Ubuntu job #137973204059 and hosted-Windows job #137973204383 both completed setup, checkout, Python setup, FFmpeg/FFprobe installation, compilation, unit-test, and synthetic MP4/FFprobe validation steps successfully.
+- The connector exposed step conclusions but not decoded test-log counts; no numeric test count is claimed.
+- Both jobs checked the exact head SHA `1a728b4a488ca980bb9704dc55a9e4f713e44af4`. Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage or real-media acceptance.
+
+### Scope and owner gates
+- PR #181 changes a regression test only; production uploader and approval code are unchanged.
+- PR #181 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+- Keep live uploads/public publishing disabled pending independent security review and owner-controlled integration. Owner must select a device-appropriate `--max-upload-bytes` before any real upload.
+- Documentation-only audit. No application/test/workflow behavior, OAuth, credentials, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
