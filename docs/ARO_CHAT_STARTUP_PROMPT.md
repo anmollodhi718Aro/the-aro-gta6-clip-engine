@@ -552,3 +552,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Compile/tests/synthetic MP4/FFprobe/checkout refs are NOT VERIFIED. No test count or CI outcome is claimed.
 - Local tests were NOT RUN in this connector session. No workflow retry was initiated.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+
+
+## Current repository baseline (refresh 2026-11-24)
+- Latest active documentation audit: ARO-CHAT-0135 / ARO-GTA-P1-135, PR #207 auditing PR #206; branch `workstream/aro-chat-0135-pr206-exact-head-ci-audit-2026-11-24`.
+- PR #206 exact head `c708ab5553b783245b668f55988939ee4bdc202d` has zero associated Actions runs and zero combined status entries. Its test/CI evidence remains NOT VERIFIED.
+- PR #207 exact head `29dd243c8a062f077528c938e617f9324fd6698e` has successful run #45264752822 on PR merge ref `03f4ff2897ea0c04623a185a87ca8984276a4588`; Ubuntu and hosted Windows each passed compileall, 338 tests, and synthetic MP4/FFprobe validation. Raw-head-only checkout is NOT DEMONSTRATED.
+- PR #207 remains draft/open/unmerged; independent review is not recorded. Issue #68 remains open, not implemented, and unassigned. Keep public uploads disabled.
+- Continue documentation-only exact-evidence work unless the project owner explicitly approves a separate implementation task. Never enable upload/publishing or use real media without recorded authorization and approval gates.
