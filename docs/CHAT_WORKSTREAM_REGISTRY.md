@@ -867,7 +867,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Task | Close the residual TOCTOU gap where a staged file could be modified after the final approval hash check but before the YouTube client consumes its open file stream. |
 | Branch | workstream/aro-chat-0044-immutable-upload-payload-2026-11-22 |
 | Base | PR #88 branch workstream/aro-chat-0042-upload-snapshot-toctou-2026-11-22 |
-| Starting SHA | 7a1d9a9a66a7b16ed0632eee10189554f20d2aa6 || Status | IMPLEMENTED; mocked regression added; local tests NOT RUN; exact-head CI PENDING |
+| Starting SHA | 7a1d9a9a66a7b16ed0632eee10189554f20d2aa6 || Status | IMPLEMENTED; mocked regression added; local tests NOT RUN; exact-head CI run #45278418962 (run 1115) QUEUED; matrix PENDING |
 | Changed files | backend/app/youtube_owner_approval.py, backend/app/youtube_upload.py, tests/test_youtube_owner_approval.py, tests/test_youtube_upload.py, this registry, and the startup prompt |
 | Scope boundary | Isolated stacked draft only. No changes to PR #82/#83/#87/#88/#89/#90 branches; no credentials/tokens, live OAuth, real media, live upload, public publishing, merge, retarget, deployment, or destructive action. |
 
