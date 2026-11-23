@@ -42,3 +42,11 @@ Audit PR #166's own commit-associated GitHub Actions run, Ubuntu and hosted-Wind
 - [ ] Record actual checkout refs and distinguish merge-ref from raw-head checkout.
 - [ ] Re-check independent PR reviews and combined status.
 - [ ] Update this report and registry with evidence; do not claim owner-device or real-media verification.
+
+
+## Ubuntu job closeout update
+- Ubuntu job #137934533544 completed SUCCESS. The decoded log confirms Python 3.11.18, source compilation success, and `Ran 334 tests in 4.414s` with the unit-test step successful.
+- The job checked out `refs/remotes/pull/166/merge` at merge SHA `c0830db5375becbc50b8fac9a5eb158a8d13a475`, merging audited PR #166 head `4e2e74805c2e4c21aa246a4765e66c0a97cc7be2` into base `546906fca62ff2493a7ae1955dfdd1b4948233f2`. Raw-head-only checkout is NOT DEMONSTRATED.
+- The synthetic test report states source type is a locally generated synthetic test pattern and tone, `gta6_footage_used=false`, `third_party_media_used=false`, source duration 8.0 seconds, rendered duration 4.0 seconds, `publishing_enabled=false`, and `manual_review_required=true`. The workflow's synthetic render/verification step concluded SUCCESS.
+- Hosted-Windows job #137934534056 remained IN_PROGRESS at this refresh while FFmpeg/FFprobe installation was running; no Windows compile/test/render result is claimed.
+- PR #166 matrix CI remains IN_PROGRESS / NOT VERIFIED until the Windows job completes. Ubuntu's 334 tests are not evidence for Windows. No test count is doubled across platforms.
