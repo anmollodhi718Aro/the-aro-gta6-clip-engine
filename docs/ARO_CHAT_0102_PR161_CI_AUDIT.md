@@ -18,7 +18,7 @@ Audit PR #161's own commit-associated GitHub Actions run, Ubuntu and hosted-Wind
 - Starting SHA: `031708372017a17a65b1ccdcbb4b24145b27858f`
 - Parent PR under audit: #161
 - Duplicate check: PR #161 is the latest existing workstream, ARO-CHAT-0101 / ARO-GTA-P1-101 audits PR #160. This new bounded task audits PR #161's own CI; no ARO-CHAT-0102 branch or PR existed at reservation.
-- Planned changes: this report, `docs/CHAT_WORKSTREAM_REGISTRY.md`, and `docs/ARO_CHAT_STARTUP_PROMPT.md`.
+- Planned changes: this report, `docs/CHAT_WORKSTREAM_REGISTRY.md`, `docs/ARO_CHAT_STARTUP_PROMPT.md`, and `docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md`.
 - Scope: documentation-only; no application, uploader, test, or workflow behavior changes.
 
 ## Initial exact-head snapshot
