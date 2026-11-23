@@ -324,3 +324,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #167's own exact-head CI must be inspected separately; do not transfer parent PR #166's results.
 
 - Follow-up PR #167 head `766d5cc9d2bce6b1ff20640a01d3da36ec2733c8` had no associated workflow run or combined status entry at latest inspection. Its exact-head CI remains PENDING / NOT VERIFIED; inspect it independently after Actions starts.
+
+
+### Latest continuation baseline — ARO-CHAT-0108 (2026-11-24)
+- Current workstream: ARO-GTA-P1-108 / ARO-CHAT-0108, documentation-only CI audit of PR #167; branch `workstream/aro-chat-0108-pr167-exact-head-ci-audit-2026-11-24`; base and starting SHA `ea56bb0f283fe528f8d0c5a4371005baebd13f7b` (PR #167 head).
+- PR #167 head is associated with Python CI run #45244087758 (run 987), SUCCESS. Ubuntu job #137936186035 passed compile, 334 tests (5.070s), and synthetic MP4/FFprobe validation. Hosted-Windows job #137936186699 passed compile, 334 tests (15.369s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/167/merge` at merge SHA `cde5fe4a96bc2702f0c3aa52d5070249c0e245e4`, merging PR #167 head into base `4e2e74805c2e4c21aa246a4765e66c0a97cc7be2`. Raw-head-only checkout is NOT DEMONSTRATED; both platforms ran the same 334-test suite.
+- Synthetic reports confirm no GTA 6/third-party media, publishing disabled, and manual review required. This is not owner-device Windows or real-media acceptance.
+- PR #167 combined status and review submissions/threads returned no entries. No independent security review is recorded.
+- Report: `docs/ARO_CHAT_0108_PR167_CI_AUDIT.md`. Documentation-only; no application, uploader, test, or workflow behavior changes.
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment, independent security review, and owner-controlled integration.
