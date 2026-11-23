@@ -55,3 +55,16 @@ Re-fetch PR #235 metadata and its exact current head before closeout. If the hea
 - Ubuntu job #138048704068 remains IN_PROGRESS: setup, checkout, and Python setup passed; FFmpeg/FFprobe installation is still IN_PROGRESS; compile, tests, and synthetic render remain PENDING. Its log retrieval returned BlobNotFound.
 - Overall matrix remains PENDING / NOT VERIFIED until Ubuntu and the workflow complete. Do not report the Windows result as a full matrix pass. Combined status remains zero entries; no workflow retry initiated.
 - Windows merge-ref evidence is not raw-head-only evidence. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
+
+
+## Final exact-head CI closeout — 2026-11-24
+- Re-fetched PR #235: still OPEN / DRAFT / UNMERGED; exact head remains `3bfd0a1120e35f13af06ad28b305d491e1988254`.
+- Its own commit-associated Python CI run [#45276253445](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45276253445), run 1091, completed SUCCESS. Both jobs completed successfully.
+- Ubuntu job #138048704068: compile passed; 338 tests passed in 3.672s; synthetic MP4/FFprobe passed.
+- Hosted-Windows job #138048704367: compile passed; the same 338 tests passed in 14.744s; synthetic MP4/FFprobe passed. This is the same 338-test suite on two platforms, not 676 unique tests.
+- Both jobs checked out `refs/remotes/pull/235/merge` at merge SHA `3bca352f23a77a1af2b6fe39b4ca6508c08e3a87`, merging audited PR head `3bfd0a1120e35f13af06ad28b305d491e1988254` into base `e38f59c49aad6d1fd2c93137e7690b633ae7def2`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both synthetic reports used locally generated test pattern/tone only, source duration 8.0 seconds and rendered output 4.0 seconds; `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`. Mock approval fixture reported `upload_performed=false`. No real upload or public publishing occurred.
+- Combined commit status returned zero entries; this is not a separate passing status check. PR #235 review submissions, inline review threads, and conversation comments were empty at recheck; independent review NOT RECORDED.
+- Overall CI_VERIFIED applies to the PR merge ref only. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED. Local tests NOT RUN in this connector session.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No workflow retry, merge, rebase, retarget, deployment, credentials/OAuth, real media, or destructive action was performed.
+- Non-blocking runner warning: actions/checkout@v4 and actions/setup-python@v5 emitted Node.js 20 deprecation notice; no CI failure resulted.
