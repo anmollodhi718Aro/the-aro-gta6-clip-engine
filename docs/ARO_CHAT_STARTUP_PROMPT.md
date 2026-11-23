@@ -284,3 +284,8 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #161's own commit-associated Python CI run is #45242621235 (run 970), IN_PROGRESS at reservation. Re-fetch both Ubuntu and hosted-Windows jobs and decoded logs; compile/test/render results and checkout refs remain NOT VERIFIED until observed.
 - This is a separate sequential audit from ARO-CHAT-0101 / PR #160. Do not transfer PR #160 CI evidence.
 - Report: `docs/ARO_CHAT_0102_PR161_CI_AUDIT.md`. Documentation-only. Keep issue #68 owner approval gate, live publishing disabled, and real-media/owner-device acceptance unverified.
+
+
+### ARO-CHAT-0102 CI evidence refresh — 2026-11-24
+- PR #161 head run #45242621235 (run 970) concluded CANCELLED overall. Ubuntu job #137930984235 succeeded through compile, unit-test, and synthetic MP4 validation steps; exact test count/log text and checkout SHA remain unverified. Hosted-Windows job #137930984793 was cancelled during the unit-test step; synthetic render was skipped. PR #161 is not CI_VERIFIED across the matrix.
+- Follow-up PR #162 is documentation-only and its own CI must be inspected independently. Do not transfer PR #161's Ubuntu success or Windows cancellation to the follow-up branch.
