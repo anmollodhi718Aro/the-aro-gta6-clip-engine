@@ -1195,3 +1195,32 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Parent PR #154 merge-ref CI is CI_VERIFIED. PR #156's own CI remains a separate pending check; do not transfer this result to the follow-up PR.
 - Report: `docs/ARO_CHAT_0096_PR154_CI_AUDIT.md`. PR #156 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled.
 - Documentation-only; no application, uploader, test, or workflow behavior changes. No merge, retarget, deployment, upload, publishing, credential/OAuth access, real-media processing, or destructive action was performed.
+
+
+## ARO-CHAT-0097 — PR #156 exact-head CI audit (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0097 |
+| Exact title | ARO-CHAT-0097 | PR #156 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-97 |
+| Scope | Independently audit PR #156's commit-associated Actions run, Ubuntu/Windows job logs, compile/test outcomes, synthetic MP4/FFprobe evidence, and checkout refs; documentation-only |
+| Branch / base | `workstream/aro-chat-0097-pr156-exact-head-ci-audit-2026-11-24` / PR #156 head `0441db3418786b88625cce9cb950e03a4e9aac9f` |
+| Starting SHA | `0441db3418786b88625cce9cb950e03a4e9aac9f` |
+| Status | IMPLEMENTED (documentation-only); audited PR #156 head CI_VERIFIED on merge ref; this follow-up branch's own exact-head CI PENDING |
+| Changed files | `docs/ARO_CHAT_0097_PR156_CI_AUDIT.md`, this registry, `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+
+### Evidence
+
+- PR #156 head `0441db3418786b88625cce9cb950e03a4e9aac9f` is associated with Python CI run [#45236561219](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45236561219), run 962, SUCCESS.
+- Ubuntu job #137909721243: compile passed; 334 tests passed (4.209s); synthetic MP4/FFprobe validation passed.
+- Hosted Windows job #137909720763: compile passed; 334 tests passed (21.227s); synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/156/merge` at `9b5cb765fdb72fa9d1b08e4ed294f54ddad29cfc`, merging PR #156 head into PR #154 head `0139e594ce43d04f17172fdb150f7dadd20f9fae`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both synthetic reports confirm `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. The same 334-test suite ran on each platform, not 668 unique tests.
+- Hosted Windows CI is not owner-device Windows verification; synthetic media is not real GTA 6 footage.
+
+### Owner gates and safety
+
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Do not change uploader/application behavior until the owner assigns an implementation owner and selects one canonical security PR/branch or approves a consolidation plan.
+- Keep live uploads/public publishing disabled. No credentials/tokens, OAuth session, real media, network upload, or public publishing were used.
+- No merge, retarget, deployment, upload, publishing, or destructive action was performed.
