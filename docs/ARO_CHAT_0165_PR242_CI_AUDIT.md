@@ -23,8 +23,9 @@ Documentation-only audit of PR #242's actual current head. Inspect commit-associ
 ## Exact-head CI snapshot
 - Ubuntu job #138058372656: SUCCESS. Checked out `refs/remotes/pull/242/merge` at merge SHA `ad80436817f46f8f36093ae95dc4eeed6cf0ce7e`, combining PR head `dfb1e9390490806e44bad93fc661ddff0a551f54` with base `cdcf7a4bef2728e3299e82bc88d376992ecec39d`. Python 3.11.18; FFmpeg/FFprobe installed; compilation passed; 340 tests passed (4.934s); synthetic MP4/FFprobe passed.
 - Ubuntu synthetic report: locally generated test pattern and tone only; 8-second source, 4-second output; `gta6_footage_used=false`; `third_party_media_used=false`; `publishing_enabled=false`; `manual_review_required=true`.
-- Hosted-Windows job #138058368900: at this snapshot, setup, checkout, Python 3.11, FFmpeg/FFprobe installation, and compilation passed; complete unit-test suite was IN_PROGRESS; synthetic render was PENDING. Windows logs were not yet available (BlobNotFound).
-- Matrix conclusion: PENDING until Windows tests and synthetic MP4/FFprobe finish. Do not claim CI_VERIFIED yet.
+- Hosted-Windows job #138058368900: SUCCESS. It checked out the same PR merge ref at merge SHA `ad80436817f46f8f36093ae95dc4eeed6cf0ce7e`; Python 3.11; FFmpeg/FFprobe installed; compilation passed; 340 tests passed (24.840s); synthetic MP4/FFprobe passed.
+- Windows synthetic report: locally generated test pattern and tone only; 8-second source, 4-second output; `gta6_footage_used=false`; `third_party_media_used=false`; `publishing_enabled=false`; `manual_review_required=true`.
+- Matrix conclusion: SUCCESS / CI_VERIFIED on PR merge ref. Both platforms ran the same 340-test suite, not 680 unique tests. Raw-head-only checkout is NOT DEMONSTRATED.
 - Both jobs are merge-ref checkouts; raw-head-only checkout is NOT DEMONSTRATED.
 - Combined commit status returned zero entries. This is not a passing status check.
 - Earlier cancelled runs on earlier PR heads are not substituted for the current-head run.
@@ -36,6 +37,13 @@ Documentation-only audit of PR #242's actual current head. Inspect commit-associ
 - Regression tests cover both missing-limit boundaries and assert no OAuth/token creation for rejected calls.
 - The configured value is an upload-file-size ceiling, not a measurement of total process RAM; the owner must choose a conservative device-appropriate value.
 - This is a bounded static review, not a separate GitHub reviewer sign-off.
+
+## Final CI closeout
+- Run #45278668116 (run 1118) completed SUCCESS on both Ubuntu and hosted Windows.
+- Ubuntu job #138058372656: compile passed; 340 tests passed (4.934s); synthetic MP4/FFprobe passed.
+- Hosted-Windows job #138058368900: compile passed; the same 340 tests passed (24.840s); synthetic MP4/FFprobe passed.
+- Both jobs checked out `refs/remotes/pull/242/merge` at `ad80436817f46f8f36093ae95dc4eeed6cf0ce7e`, merging audited head `dfb1e9390490806e44bad93fc661ddff0a551f54` into base `cdcf7a4bef2728e3299e82bc88d376992ecec39d`.
+- This verifies the PR merge ref containing the audited head; raw-head-only checkout is not demonstrated. The two platform runs repeat the same 340 tests.
 
 ## Review and safety
 - PR #242 review submissions: none. Inline review threads: none. Conversation comments: none. Independent GitHub review NOT RECORDED.
