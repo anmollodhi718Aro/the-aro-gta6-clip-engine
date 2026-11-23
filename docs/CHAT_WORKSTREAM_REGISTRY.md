@@ -25,7 +25,7 @@
 ## Registry
 
 | Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
-| ARO-CHAT-0091 | ARO-CHAT-0091 \\| PR #147 Exact-Head CI Audit | ARO-GTA-P1-91 | Audit PR #147's exact-head Actions run, Ubuntu/Windows logs, compile/tests, synthetic MP4/FFprobe results, and checkout refs; documentation-only | `workstream/aro-chat-0091-pr147-exact-head-ci-audit-2026-11-23` / pending PR | IN_PROGRESS; parent PR #147 CI_VERIFIED on merge ref; this follow-up exact-head CI pending | Unique ID checked against registry, open PRs, and branches; PR #147 is parent; no existing #0091 reservation |
+| ARO-CHAT-0091 | ARO-CHAT-0091 \\| PR #147 Exact-Head CI Audit | ARO-GTA-P1-91 | Audit PR #147's exact-head Actions run, Ubuntu/Windows logs, compile/tests, synthetic MP4/FFprobe results, and checkout refs; documentation-only | `workstream/aro-chat-0091-pr147-exact-head-ci-audit-2026-11-23` / [PR #150](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/150) | IMPLEMENTED; PR #150 CI_VERIFIED on merge ref (Ubuntu/Windows, 334 tests each); raw-head-only CI NOT DEMONSTRATED | Unique ID ARO-CHAT-0091; parent PR #147; PR #150 exact head `5cb9e675b9b081bc1c45b55eaed1e3f470deddec`; run #45233266948 |
 |---|---|---|---|---|---|---|
 | ARO-CHAT-0015 | ARO-CHAT-0015 \| Windows CI Recovery and First-Clip Readiness Audit | ARO-ZERO-ONE (continuation) | Re-run native Windows CI for the manual clipping path, reconcile exact test evidence, and refresh first-clip readiness | `workstream/aro-zero-one-clipping-first-2026-11-20` / [PR #66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66) | IMPLEMENTED; CI_VERIFIED NOT CLAIMED; WINDOWS_VERIFIED NOT VERIFIED; REAL_MEDIA_VERIFIED BLOCKED | Starting SHA `a9c537fc4ac5a7c437dc2c2f535ac258d24b619e`; branch update `fe4713febb4572f82f9a4386a5cf954e18f3bff9`; existing PR #66 and issue #26 reused; no duplicate branch/PR |
 | ARO-CHAT-0018 | ARO-CHAT-0018 \\| Exact-Head CI and Windows Verification Audit (collision-reconciled historical attribution) | ARO-ZERO-ONE (continuation; task ARO-GTA-P0-18) | Separate the historical exact-head CI evidence audit from the Windows recovery session after duplicate Chat ID/task reservation was detected | `workstream/aro-zero-one-clipping-first-2026-11-20` / [PR #66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66) | HISTORICAL; attribution reconciled; exact historical CI evidence retained; current PR head failure tracked separately | Historical starting SHA `db6ba235335ec9de215916da166416793faea68d`; commit reference `fd7fa41dc75e19235d75b96ffb1791d7e101b9d6`; original duplicate identity `ARO-CHAT-0015` corrected to unique `ARO-CHAT-0018`; no new branch/PR |
@@ -2329,3 +2329,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #144 remains owner-selected canonical for ARO-GTA-P1-88; PR #145 remains preserved as a non-canonical alternate.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0091 follow-up CI closeout — 2026-11-23
+
+- PR #150 head `5cb9e675b9b081bc1c45b55eaed1e3f470deddec` is associated with Actions run [#45233266948](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45233266948), run 948, conclusion SUCCESS.
+- Ubuntu job `137898182465`: compile passed; decoded log reports `Ran 334 tests in 5.037s`; synthetic MP4/FFprobe validation passed.
+- Hosted Windows job `137898183037`: compile passed; decoded log reports `Ran 334 tests in 12.176s`; synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/150/merge` at merge SHA `562731e4781719821418956d10d8cedf51a9cdea`, containing PR #150 head `5cb9e675b9b081bc1c45b55eaed1e3f470deddec`; raw-head-only checkout is not demonstrated.
+- Both synthetic reports state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Both platforms ran the same 334-test suite, not 668 unique tests. Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 media acceptance.
+- PR #150 remains OPEN / DRAFT / UNMERGED. This CI result does not authorize merge or integration.
+- Issue #68 remains OPEN / UNASSIGNED; live uploads/public publishing remain disabled pending explicit owner assignment and canonical authenticated-uploader selection or approved consolidation.
