@@ -339,4 +339,5 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Active workstream: ARO-CHAT-0109 / ARO-GTA-P1-109 on `workstream/aro-chat-0109-local-render-output-race-2026-11-24`, based on PR #169 head `5156eeb07b32a20bba2f60593f9e0b53fca07295`.
 - Scope: fix the local renderer's check-then-cleanup race by rendering and validating in a private same-filesystem temporary directory, then atomically creating the destination with a no-overwrite hard link; add an offline regression that preserves a concurrently created destination.
 - This work is local-file-only. No remote media, OAuth, upload, publishing, merge, retarget, or deployment.
+- Draft follow-up PR: #178, stacked on PR #169; current head `cf75d5189d7818fddb1f2ae1162cf2ac87a2e83f`.
 - Run the follow-up branch's own CI and review its logs before claiming verification. Hosted CI is not owner-device or real-media acceptance.
