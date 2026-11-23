@@ -1338,3 +1338,10 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - No commit-associated workflow runs were returned for the newer SHA. CI remains PENDING / NOT VERIFIED.
 - Compare shows ARO-CHAT-0104's branch is three commits ahead and two behind the moved base, with merge base fa3223c5ac7f46d261cd121911aedfd77c5c498e. PR #163 is not mergeable at this snapshot.
 - Preserve PR #163 and its branch. No rebase, force-push, retarget, or merge was performed or authorized.
+
+
+### ARO-CHAT-0104 collision correction — 2026-11-24
+- A later branch-content inspection found that existing ARO-CHAT-0103 / ARO-GTA-P1-103 already audits PR #162's exact-head workflow/status/review evidence in the same documentation-only scope.
+- The initial ARO-CHAT-0104 duplicate check was incomplete: it detected the ARO-CHAT-0103 branch name but did not inspect its report before allocating a new ID.
+- ARO-CHAT-0104 / PR #163 is marked DUPLICATE-WORKSTREAM / BLOCKED pending owner reconciliation. Stop further implementation.
+- Preserve both branches and PRs without merge, close, deletion, rebase, force-push, or retarget. Do not claim ARO-CHAT-0104 as the canonical PR #162 audit.
