@@ -176,6 +176,9 @@ class YouTubeUploadTests(unittest.TestCase):
 
     def test_upload_copy_growth_after_initial_stat_fails_closed_and_cleans_staging(self):
         self.video.write_bytes(b"1234")
+        report = json.loads(self.report.read_text(encoding="utf-8"))
+        report.update({"clip_id": "clip-1", "source_id": "source-1"})
+        self.report.write_text(json.dumps(report), encoding="utf-8")
         youtube = Mock()
         modules = self._mock_google_modules(youtube)
         created_dirs = []
