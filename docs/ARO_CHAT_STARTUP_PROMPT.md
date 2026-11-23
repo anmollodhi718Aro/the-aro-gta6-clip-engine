@@ -349,3 +349,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #192 review submissions and inline review threads were empty at inspection. Re-fetch its exact-head Actions after a run appears; inspect Ubuntu and hosted-Windows logs independently.
 - Report: `docs/ARO_CHAT_0123_PR192_CI_AUDIT.md`. This workstream is documentation-only; local tests were NOT RUN.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, network upload, merge, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0124 (2026-11-24)
+- Current workstream: ARO-GTA-P1-124 / ARO-CHAT-0124 | documentation-only exact-head CI audit of PR #194.
+- Branch: `workstream/aro-chat-0124-pr194-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #194 head `d6fd5be6c8e9608fc6bb1d4a91e3a4bcb3ce26a8`.
+- PR #194's associated Python CI run is #45257397865 (run 1019). Ubuntu job #137982722529 completed compile, unit-test, and synthetic MP4/FFprobe steps successfully; exact test count/log text was not available. Hosted-Windows job #137982723087 had completed setup, checkout, Python setup, and FFmpeg/FFprobe installation; compilation was in progress at latest inspection.
+- Combined status returned PENDING with zero entries; PR #194 review submissions and inline review threads were empty. Job-log download returned HTTP 404; no detailed logs, test count, or checkout SHA is inferred.
+- Matrix CI_VERIFIED is NOT CLAIMED until Windows completes and both job results are inspected. Local tests NOT RUN.
+- Report: `docs/ARO_CHAT_0124_PR194_CI_AUDIT.md`. Documentation-only; application/uploader/test/workflow behavior unchanged.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic MP4 is not real GTA 6 media acceptance.
+- No credentials, OAuth, real media, network upload, public publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
