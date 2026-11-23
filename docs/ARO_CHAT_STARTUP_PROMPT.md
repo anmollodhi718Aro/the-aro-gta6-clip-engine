@@ -349,3 +349,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Local tests NOT RUN; this branch's own exact-head Ubuntu/hosted-Windows CI is PENDING. Do not transfer PR #238 run #45277658000.
 - No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment or destructive action.
 - Issue #68 remains OPEN. Keep live/public uploads disabled pending exact-head CI, independent security review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
+
+
+## Latest continuation baseline — ARO-CHAT-0166 (2026-11-24)
+
+- Current workstream: ARO-CHAT-0166 / ARO-GTA-P1-166 | PR #242 exact-head CI audit.
+- Branch: `workstream/aro-chat-0166-pr242-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #242 head `414fd4f7da94fdffcdd3261a5ea723b5f03290b3`.
+- PR #242 enforces an explicit positive `--max-upload-bytes` for live uploads and direct uploader calls; dry-run and approval-only retain the 256 MiB fallback.
+- Current-head run #45278355448 was cancelled during FFmpeg setup before compile/tests/render. A targeted Ubuntu rerun is queued; hosted Windows rerun remains pending.
+- Earlier-lineage run #45278418962 failed one CLI fixture because the test invocation lacked the explicit limit; do not transfer it to current head. The current branch-tip fixture includes the explicit flag, pending its own CI.
+- Report: `docs/ARO_CHAT_0166_PR242_CI_AUDIT.md`.
+- Issue #68 remains OPEN; keep live/public uploads disabled pending current-head CI, independent review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
+- Documentation-only audit; no OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
