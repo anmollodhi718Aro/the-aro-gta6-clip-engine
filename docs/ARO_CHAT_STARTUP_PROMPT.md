@@ -267,3 +267,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0100_PR159_CI_AUDIT.md`. Audited PR #159 is CI_VERIFIED on merge ref; this documentation-only follow-up's own exact-head CI remains PENDING until inspected separately.
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled until owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
 - No application/uploader/test/workflow behavior, credentials, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0101 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-101 / ARO-CHAT-0101, exact-head CI audit of PR #160; branch `workstream/aro-chat-0101-pr160-exact-head-ci-audit-2026-11-24`; base and starting SHA `ace5cbfb5b61089bcea8fbe426ce3aa582c109e9`.
+- PR #160 head is associated with Python CI run #45242462842 (run 969), IN_PROGRESS at the initial snapshot. Ubuntu job #137930435896 passed setup, checkout, Python setup, FFmpeg/FFprobe installation, and compilation; unit tests were running and synthetic render was pending. Hosted Windows job #137930435408 passed setup, checkout, and Python 3.11 setup; FFmpeg/FFprobe installation was running, with compile/tests/render pending.
+- Final CI conclusion, test counts, synthetic MP4/FFprobe outcomes, and checkout SHA are NOT VERIFIED at this snapshot. Recheck both jobs and decoded logs before updating status; do not transfer PR #159's results.
+- Report: `docs/ARO_CHAT_0101_PR160_CI_AUDIT.md`. Documentation-only; application, uploader, tests, and workflows are unchanged.
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
+- Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage. No credentials, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
