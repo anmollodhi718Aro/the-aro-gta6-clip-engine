@@ -1424,3 +1424,41 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Legacy combined status returned PENDING with zero status entries, while the commit-associated Actions run and both jobs concluded SUCCESS. PR #191 review submissions and inline review comments were empty.
 - PR #191 is CI_VERIFIED on merge ref; independent review, owner-device Windows, and authorized real-media acceptance remain NOT VERIFIED. Report: `docs/ARO_CHAT_0121_PR191_CI_AUDIT.md`.
 - This audit is documentation-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live/public uploads remain disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0123 PR #192 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0123 |
+| Exact title | ARO-CHAT-0123 | PR #192 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-123 |
+| Scope | Audit PR #192's own exact-head Actions run, Ubuntu/hosted-Windows logs, compilation/tests, synthetic MP4/FFprobe validation, checkout refs, combined status, and review state; documentation-only |
+| Branch | `workstream/aro-chat-0123-pr192-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #192 branch head `0b17b17c295af9412ba74c6674fa3fe961784ab0` |
+| Parent PR | #192 (ARO-CHAT-0121) |
+| Report | `docs/ARO_CHAT_0123_PR192_CI_AUDIT.md` |
+| Status | IN_PROGRESS; zero commit-associated workflow runs and zero combined-status entries at initial audit; CI NOT VERIFIED |
+| Safety | No application/uploader/test/workflow behavior changes; no credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, workflow retry, or destructive action. |
+
+### Initial evidence
+- PR #192 head `0b17b17c295af9412ba74c6674fa3fe961784ab0` had zero associated PR workflow runs at the audit snapshot.
+- Combined commit status returned no entries. No compile/test count, synthetic MP4/FFprobe result, or checkout ref is claimed.
+- PR #192 review submissions and inline review threads were empty.
+- Re-fetch exact-head CI after Actions becomes available; inspect both Ubuntu and hosted-Windows logs independently.
+- PR #192 is documentation-only and remains OPEN / DRAFT / UNMERGED. This follow-up's own CI is a separate pending check.
+
+### Safety and next step
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+- No credentials/tokens, OAuth, real media, network upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
+- Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage or real-media acceptance.
+
+
+### ARO-CHAT-0123 PR #192 exact-head CI audit refresh — 2026-11-24
+- Re-audited parent PR #192 head `0b17b17c295af9412ba74c6674fa3fe961784ab0`: commit-associated PR workflow runs = 0; combined status entries = 0; review submissions = 0; inline review threads = 0. Parent PR #192 compilation, tests, synthetic MP4/FFprobe, and checkout refs remain NOT VERIFIED.
+- Separately inspected this audit branch PR #194 head `d6fd5be6c8e9608fc6bb1d4a91e3a4bcb3ce26a8`: Python CI run [45257397865](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45257397865), run 1019, SUCCESS. Ubuntu job `137982722529` and hosted-Windows job `137982723087` each passed compilation, the same 338-test suite, and synthetic MP4/FFprobe validation.
+- Both PR #194 jobs checked out `refs/remotes/pull/194/merge` at merge SHA `82565a6043f1bb5ba15e7de6aa83925155506caf`, merging audit head into base `0b17b17c295af9412ba74c6674fa3fe961784ab0`. Raw-head-only checkout is NOT DEMONSTRATED. The two platform runs are 338 shared test cases, not 676 unique tests.
+- Synthetic reports explicitly show no GTA 6 footage or third-party media, publishing disabled, and manual review required. PR #194 combined legacy status had zero entries; PR #194 review submissions and inline threads were empty.
+- Status distinction: PR #194 audit branch is CI_VERIFIED on its merge ref; the audited parent PR #192 remains NOT VERIFIED because its own exact-head lookup still has zero runs. Do not transfer CI evidence between PRs.
+- Report: `docs/ARO_CHAT_0123_PR192_CI_AUDIT.md`. Local tests NOT RUN. Hosted Windows is not owner-device verification; synthetic MP4 is not real-media acceptance.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live/public uploads disabled. No credentials/tokens, OAuth, real media, upload, publishing, merge, retarget, deployment, workflow retry, or destructive action occurred.
