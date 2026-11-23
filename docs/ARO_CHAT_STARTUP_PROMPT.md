@@ -299,7 +299,6 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Keep Issue #68 open and all live/public uploads disabled until this branch's exact-head CI and independent review are complete, owner integration is approved, and a device-specific upload limit is chosen.
 - Report: `docs/ARO_CHAT_0106_ISSUE68_SECURITY_CONSOLIDATION.md`. No credentials, live OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action.
 
-
 ## Latest security continuation — ARO-CHAT-0109 (2026-11-24)
 - Current workstream: ARO-GTA-P1-109 / ARO-CHAT-0109 | Issue #68 Pre-OAuth Bounded Upload Staging.
 - Branch: `workstream/aro-chat-0109-issue68-pre-oauth-bounded-copy-2026-11-24`; base and starting SHA: PR #168 head `9ff25d7356d5badc39f448c9f5e939cda4048541`.
@@ -599,7 +598,6 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #209 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
 - Documentation-only; no credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action. Hosted Windows is not owner-device verification; synthetic media is not GTA 6 footage.
 
-
 ### Latest continuation baseline — ARO-CHAT-0139 (2026-11-24)
 - Active workstream: ARO-CHAT-0139 / ARO-GTA-P1-139, documentation-only exact-head CI audit of PR #210.
 - Branch: `workstream/aro-chat-0139-pr210-exact-head-ci-audit-2026-11-24`; base: PR #210 head branch `workstream/aro-chat-0138-pr209-exact-head-ci-audit-2026-11-24`; starting SHA: `a97d8786e0f1cc799d7a3131127d2151e11bf0e2`.
@@ -804,3 +802,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Both jobs checked out `refs/remotes/pull/230/merge`; raw-head-only CI is NOT DEMONSTRATED. Synthetic media only; no GTA 6/third-party media; publishing disabled; manual review required.
 - Combined status returned zero entries; PR reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. Local tests NOT RUN.
 - Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED and live uploads/public publishing disabled. No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+## Latest continuation baseline — ARO-CHAT-0156 (2026-11-24)
+
+- Current workstream: ARO-CHAT-0156 / ARO-GTA-P1-156, documentation-only exact-head CI audit of PR #231.
+- Branch: `workstream/aro-chat-0156-pr231-exact-head-ci-audit-2026-11-24`; base: PR #231 head branch `workstream/aro-chat-0155-pr230-exact-head-ci-audit-2026-11-24`; starting SHA: `558705cad949bb6e187dcb35f2a06fd20fcb0d92`.
+- Parent PR: [#231](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/231). Report: `docs/ARO_CHAT_0156_PR231_CI_AUDIT.md`.
+- PR #231 exact-head run [#45274128757](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45274128757), run 1086, is IN_PROGRESS at this baseline.
+- Ubuntu job #138041361665 passed setup, checkout, Python, FFmpeg/FFprobe, compilation, unit tests, and synthetic MP4/FFprobe steps. Numeric test count/duration and checkout SHA are NOT ASSERTED.
+- Hosted-Windows job #138041362059 passed setup, checkout, Python 3.11, FFmpeg/FFprobe, and compilation; complete unittest suite was IN_PROGRESS and synthetic MP4/FFprobe was pending. Matrix CI is NOT VERIFIED.
+- Combined status returned zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. Local tests NOT RUN; no workflow retry initiated.
+- Recheck this exact head/run after completion. Do not transfer PR #230's CI result. Raw-head-only execution, owner-device Windows, and real-media acceptance are NOT VERIFIED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
