@@ -315,3 +315,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Hosted-Windows job #137934534056 was still installing FFmpeg/FFprobe at the latest refresh; overall matrix CI remains unverified.
 - Synthetic fixture report confirms no GTA 6/third-party media, publishing disabled, and manual review required. Do not claim real-media or owner-device Windows acceptance.
 - Follow-up PR #167 is open/draft; inspect its own exact-head CI independently.
+
+
+### ARO-CHAT-0107 parent PR CI closeout — 2026-11-24
+- PR #166 exact-head-associated run #45243626968 completed SUCCESS on the PR merge ref. Ubuntu: compile passed, 334 tests (4.414s), synthetic MP4/FFprobe passed. Hosted Windows: compile passed, 334 tests (15.827s), synthetic MP4/FFprobe passed.
+- Both jobs checked out `refs/remotes/pull/166/merge` at `c0830db5375becbc50b8fac9a5eb158a8d13a475`; raw-head-only checkout is NOT DEMONSTRATED. Both platforms ran the same 334-test suite, not 668 unique tests.
+- Synthetic report: no GTA 6 or third-party media, publishing disabled, manual review required. This is not owner-device Windows or real-media acceptance.
+- PR #167's own exact-head CI must be inspected separately; do not transfer parent PR #166's results.
