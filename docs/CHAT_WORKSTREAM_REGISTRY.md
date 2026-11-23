@@ -1924,3 +1924,27 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Parent PR #210's separate run #45267261132 concluded CANCELLED on both platforms during FFmpeg/FFprobe installation; compile/tests/render were skipped. This does not establish PR #211 CI.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes. No credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0141 PR #212 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0141 |
+| Exact title | ARO-CHAT-0141 | PR #212 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-141 |
+| Scope | Documentation-only audit of PR #212's own Actions run, Ubuntu/hosted-Windows jobs, compile/tests, synthetic MP4/FFprobe validation, checkout refs, combined status, and review state |
+| Branch | `workstream/aro-chat-0141-pr212-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #212 head `ab045dc715b68e00d6d50eb46ca19e18843fabb0` |
+| Parent PR | [PR #212](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/212) |
+| Report | `docs/ARO_CHAT_0141_PR212_CI_AUDIT.md` |
+| Status | IN_PROGRESS; Ubuntu unit tests running; hosted-Windows FFmpeg/FFprobe installation cancelled and later steps skipped; matrix CI NOT VERIFIED |
+| Safety | Documentation-only; no application/uploader/test/renderer/workflow behavior changes, credentials, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action. |
+
+### Initial evidence
+- PR #212 head `ab045dc715b68e00d6d50eb46ca19e18843fabb0` is associated with Python CI run [#45267652106](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45267652106), run 1047.
+- Ubuntu job #138018721020 passed setup, checkout, Python setup, FFmpeg/FFprobe installation, and compilation; unit tests were IN_PROGRESS. Synthetic render/FFprobe validation was pending.
+- Hosted-Windows job #138018720335 had setup, checkout, and Python setup success; FFmpeg/FFprobe installation was CANCELLED and compile/tests/render were SKIPPED.
+- Final run conclusion, test count, synthetic validation, checkout SHA, and combined status remain NOT VERIFIED. Recheck before closeout; do not transfer predecessor evidence.
+- PR #212 reviews and inline threads were empty. Independent review NOT RECORDED. Local tests NOT RUN in this connector session.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
