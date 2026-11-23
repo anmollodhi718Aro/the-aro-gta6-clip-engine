@@ -50,3 +50,12 @@ Audit PR #166's own commit-associated GitHub Actions run, Ubuntu and hosted-Wind
 - The synthetic test report states source type is a locally generated synthetic test pattern and tone, `gta6_footage_used=false`, `third_party_media_used=false`, source duration 8.0 seconds, rendered duration 4.0 seconds, `publishing_enabled=false`, and `manual_review_required=true`. The workflow's synthetic render/verification step concluded SUCCESS.
 - Hosted-Windows job #137934534056 remained IN_PROGRESS at this refresh while FFmpeg/FFprobe installation was running; no Windows compile/test/render result is claimed.
 - PR #166 matrix CI remains IN_PROGRESS / NOT VERIFIED until the Windows job completes. Ubuntu's 334 tests are not evidence for Windows. No test count is doubled across platforms.
+
+
+## Hosted-Windows job closeout update
+- Hosted-Windows job #137934534056 completed successfully through checkout, Python 3.11 setup, FFmpeg/FFprobe installation, compilation, the full unit-test suite, and synthetic MP4 render/verification.
+- Decoded log reports `Ran 334 tests in 15.827s`; the unit-test step succeeded.
+- The job checked out `refs/remotes/pull/166/merge` at the same merge SHA `c0830db5375becbc50b8fac9a5eb158a8d13a475`, merging PR #166 head `4e2e74805c2e4c21aa246a4765e66c0a97cc7be2` into base `546906fca62ff2493a7ae1955dfdd1b4948233f2`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Windows synthetic report confirms locally generated synthetic pattern/tone only, `gta6_footage_used=false`, `third_party_media_used=false`, source duration 8.0 seconds, rendered duration 4.0 seconds, `publishing_enabled=false`, and `manual_review_required=true`.
+- Both platforms ran the same 334-test suite; this is not 668 unique tests.
+- Run #45243626968 has successful Ubuntu and hosted-Windows jobs. PR #166's required CI matrix is CI_VERIFIED on the PR merge ref, not raw-head-only CI. Hosted Windows is not owner-device verification, and synthetic media is not real GTA 6 footage.
