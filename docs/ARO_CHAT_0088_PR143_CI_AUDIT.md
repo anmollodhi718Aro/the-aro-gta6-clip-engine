@@ -20,10 +20,10 @@ Date: 2026-11-23
 
 ## Actions evidence snapshot
 - PR #143 head `6f9d184eb4447c64544ad93e05f7ad1708431e8e` is associated with Python CI run [45205002366](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45205002366), run number 919.
-- At the initial audit snapshot, the Windows hosted job `137798218139` had completed setup, checkout, Python 3.11 setup, FFmpeg/FFprobe installation, compilation, all unit tests, and synthetic MP4/FFprobe validation successfully; its post-job checkout cleanup was still running.
-- At the same snapshot, the Ubuntu job `137798218807` had completed setup, checkout and Python setup; FFmpeg/FFprobe installation was still in progress. Compile, unit tests and synthetic MP4/FFprobe validation had not started.
-- The overall workflow and both jobs were still IN_PROGRESS. No final workflow conclusion, Ubuntu test count, or two-platform CI pass is claimed in this snapshot.
-- Checkout-ref identity and decoded log contents remain to be confirmed from the completed run.
+- Windows hosted job `137798218139` completed SUCCESS. Its decoded log confirms checkout of `refs/remotes/pull/143/merge` at merge-ref SHA `76dcc56ee7dca3dfa836569e0ec9ead920ce4482`, Python 3.11.9, FFmpeg/FFprobe installation, compilation, `Ran 334 tests in 16.983s`, and successful synthetic MP4/FFprobe validation. The synthetic report states `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Ubuntu job `137798218807` had completed setup, checkout and Python setup; FFmpeg/FFprobe installation was still in progress at the latest status check. Compile, unit tests and synthetic MP4/FFprobe validation had not started.
+- Overall workflow remained IN_PROGRESS. No Ubuntu test count or two-platform CI pass is claimed yet.
+- Windows CI is hosted-runner evidence, not owner-device Windows verification. Synthetic media is not GTA 6 footage or real-media acceptance. Local tests were not run in this connector session.
 
 ## Status
 - Audit branch: RESERVED / IN_PROGRESS.
