@@ -310,3 +310,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Keep PR #168 and this follow-up draft/open/unmerged. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled pending independent review and owner-controlled integration.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action is authorized by this workstream.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage. The owner must choose a device-appropriate upload-memory limit before any real upload.
+
+
+## Latest Issue #68 test-repair continuation — ARO-CHAT-0162 (2026-11-24)
+- Workstream: ARO-GTA-P1-162 / ARO-CHAT-0162 | PR #176 Staged-Payload Mutation Regression Repair.
+- Branch: `workstream/aro-chat-0162-pr176-mutation-test-fix-2026-11-24`; base / starting SHA: PR #176 head `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`.
+- Independent CI-log review found both Ubuntu and hosted-Windows failing the stale test `test_staged_file_mutation_after_final_checks_cannot_change_upload_payload`: it tried to mutate a staging file after the temporary directory had already been removed before OAuth.
+- Corrected the test to mutate the original source after the final approval/rights checks and assert the in-memory upload payload remains the originally approved bytes. Production uploader code is unchanged.
+- Report: `docs/ARO_CHAT_0162_PR176_REGRESSION_REPAIR.md`.
+- Local tests NOT RUN. This branch's own exact-head Ubuntu/Windows CI must pass before TESTED or CI_VERIFIED. Do not transfer PR #168/#176 predecessor results.
+- Keep PR #168 and #176 open/draft pending the follow-up test result and independent security review. Issue #68 remains OPEN; keep live/public uploads disabled. Owner must choose a device-appropriate `--max-upload-bytes` before any real upload.
