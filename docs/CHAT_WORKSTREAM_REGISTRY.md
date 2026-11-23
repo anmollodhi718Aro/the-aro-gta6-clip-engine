@@ -2016,3 +2016,33 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #133 remains OPEN / DRAFT / UNMERGED; this follow-up does not authorize merge or integration.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0082 PR #135 CI evidence closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0082 |
+| Exact title | ARO-CHAT-0082 | PR #135 CI Evidence Closeout |
+| Workstream ID | ARO-GTA-P1-82 |
+| Role | Exact-head CI evidence auditor; documentation-only |
+| Task | Inspect PR #135's associated Actions run, both platform jobs and decoded logs; record test, synthetic-media, and checkout-ref evidence. |
+| Branch | `workstream/aro-chat-0082-pr135-ci-closeout-2026-11-23` |
+| Base / starting SHA | PR #135 head `5c736cecfb4df39788fd9526bf4c87f9b8cabd2a` |
+| Changed files | `docs/ARO_CHAT_0082_PR135_CI_CLOSEOUT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md` |
+| Status | IN_PROGRESS; PR #135 merge-ref CI successful on Ubuntu and hosted Windows; raw-head-only checkout not demonstrated; this follow-up branch's CI pending |
+| Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### CI evidence
+- Actions run [45190659525](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45190659525) completed SUCCESS.
+- Ubuntu job `137747804547`: compilation passed; `Ran 334 tests in 4.937s`; synthetic MP4/FFprobe validation passed.
+- Hosted Windows job `137747803754`: compilation passed; `Ran 334 tests in 17.166s`; synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/135/merge`, containing PR #135 head `5c736cecfb4df39788fd9526bf4c87f9b8cabd2a`; this is merge-ref CI, not a raw-head checkout.
+- Both synthetic reports state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Both platforms ran the same 334-test suite, not 668 unique tests. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
+- Local tests were not run in this connector session.
+
+### Safety and owner gates
+- PR #135 remains OPEN / DRAFT / UNMERGED; this follow-up does not authorize merge or integration.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
