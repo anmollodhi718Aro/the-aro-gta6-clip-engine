@@ -246,3 +246,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0097_PR156_CI_AUDIT.md`. Audited PR #156 head is CI_VERIFIED on merge ref; this follow-up branch's own exact-head CI remains PENDING until its associated run and logs are inspected.
 - Hosted Windows CI is not owner-device verification; synthetic MP4 is not real GTA 6 media acceptance. Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
 - Documentation-only. No application/uploader/test/workflow behavior, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action is authorized or performed by this workstream.
+
+
+## Latest continuation baseline — ARO-CHAT-0099 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-99 / ARO-CHAT-0099, exact-head CI audit of PR #157; branch `workstream/aro-chat-0099-pr157-exact-head-ci-audit-2026-11-24`; base and starting SHA `437eccb023316b2ab86a7906ab6e01e6534c2acb`.
+- Initial commit-associated workflow lookup for PR #157 head `437eccb023316b2ab86a7906ab6e01e6534c2acb` returned no runs. Exact-head CI is PENDING / NOT VERIFIED; do not claim compile, tests, synthetic MP4/FFprobe, or checkout-ref results until observed.
+- Report: `docs/ARO_CHAT_0099_PR157_CI_AUDIT.md`. This workstream is documentation-only; application, uploader, tests, and workflows are unchanged.
+- PR #157's own follow-up CI must be checked on its exact current head after this documentation branch is submitted; do not transfer parent PR #156 evidence.
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled until owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
+- Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage. No credentials, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action is authorized by this documentation-only audit.
