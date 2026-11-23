@@ -2150,3 +2150,18 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Do not transfer PR #221's successful run #45269230348 to PR #223. Local tests NOT RUN; no workflow retry initiated.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Recheck this exact head when an associated Actions run appears. Any new commit changes the head and requires a fresh audit.
+
+
+## Latest continuation — ARO-CHAT-0150 (2026-11-24)
+- Current workstream: ARO-GTA-P1-150 / ARO-CHAT-0150, documentation-only exact-head CI audit of PR #224.
+- Parent PR #224 head audited: `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`; branch base / starting SHA is that exact head.
+- Associated Python CI run #45269803024 (run 1068) completed SUCCESS. Ubuntu job #138026274671 and hosted-Windows job #138026274815 each passed compilation, the same 338-test suite, and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/224/merge` at merge SHA `80a793e6bf472e2534614d6e89a7d19756bcdba6`, merging PR #224 head into base `7b65279f15981f8b15170f87bac34cba7772f6d2`. Raw-head-only checkout is NOT DEMONSTRATED. Count this as 338 shared test cases executed on two platforms, not 676 unique tests.
+- Synthetic media only: locally generated pattern/tone, 8-second source, 4-second output, no GTA 6/third-party media, publishing disabled, manual review required; mocked upload fixture reports `upload_performed=false`.
+- Combined status returned zero entries. PR #224 review submissions, inline threads, and conversation comments were empty; independent review NOT RECORDED.
+- PR #224 CI_VERIFIED on merge ref only. Owner-device Windows and real-media acceptance remain NOT VERIFIED. Local tests NOT RUN.
+- Report: `docs/ARO_CHAT_0150_PR224_CI_AUDIT.md`.
+- PR #223 exact-head CI remains PENDING / NOT VERIFIED; do not transfer PR #224's CI evidence to it.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Branch: `workstream/aro-chat-0150-pr224-exact-head-ci-audit-2026-11-24`; base / starting SHA: `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`.
+- Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
