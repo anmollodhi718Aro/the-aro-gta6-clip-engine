@@ -92,3 +92,9 @@ These services may carry separate costs. The upstream Skill being open source do
 - Proposal only; no upstream source code, assets, dependencies, or runtime behavior have been added.
 - Local tests: NOT RUN; this change is documentation-only.
 - Next step after owner review: run one manual Director Mode storyboard experiment before considering any adapter or Autopilot integration.
+
+
+## Phase 1 manual storyboard draft — 2026-11-24
+- Added `examples/stickman_director/aro_chat_signal_to_clip_review_30s.md`: original 30-second, 16:9 storyboard explaining the chat-signal-to-human-review workflow.
+- This is a storyboard draft only, not an executed Stickman Director run or generated video. No paid generation, external assets, upstream code, dependencies, game footage, upload, or publishing was used.
+- The storyboard keeps authorized local media, rights checks, and explicit human approval visible. Asset generation/rendering remains blocked until the owner approves the storyboard and confirms any service costs.
