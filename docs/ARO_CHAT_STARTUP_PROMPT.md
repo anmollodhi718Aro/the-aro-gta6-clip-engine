@@ -361,3 +361,17 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0166_PR242_CI_AUDIT.md`.
 - Issue #68 remains OPEN; keep live/public uploads disabled pending current-head CI, independent review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
 - Documentation-only audit; no OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0168 (2026-11-24)
+
+- Current workstream: ARO-CHAT-0168 / ARO-GTA-P1-168 | independent exact-head CI audit of PR #246.
+- Branch: `workstream/aro-chat-0168-pr246-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #246 head `902767af13caeedff858f6e6472565bd75246080`.
+- Duplicate-work check: ARO-CHAT-0167 branch `workstream/aro-chat-0167-pr245-exact-head-ci-audit-2026-11-24` already existed and was not reused. This task audits PR #246.
+- PR #246 own commit-associated run #45279477145 (run 1125) passed on Ubuntu and hosted Windows: 340 tests per platform and synthetic MP4/FFprobe on both.
+- Both jobs checked out PR #246 merge ref at `9e5243f6e6cccfa2706a5c2715689c88702bc903`, merging head `902767af13caeedff858f6e6472565bd75246080` into base `dfb1e9390490806e44bad93fc661ddff0a551f54`. Raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic-only: no GTA 6 or third-party media; publishing disabled; manual review required. Combined status had zero entries; independent PR review NOT RECORDED.
+- Report: `docs/ARO_CHAT_0168_PR246_CI_AUDIT.md`. Re-fetch PR #246 and its exact head before relying on this snapshot.
+- This audit branch's own exact-head CI remains pending until observed. Do not transfer PR #246's run to this branch.
+- Issue #68 remains OPEN; keep live uploads/public publishing disabled pending independent review, owner-controlled integration, owner-device verification, owner-selected device-appropriate `--max-upload-bytes`, and authorized real-media acceptance.
+- Documentation-only; no OAuth, credentials/tokens, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
