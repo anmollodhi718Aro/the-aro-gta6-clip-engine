@@ -22,18 +22,19 @@ Audit PR #147's exact current head, associated GitHub Actions run, Ubuntu and ho
 
 - Workflow: **Python CI**
 - Run [#45232862569](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45232862569), run number 945.
-- At the initial inspection, overall status was **IN_PROGRESS**.
-- Ubuntu job `tests`, ID `137896915549`: setup and checkout completed; Python setup completed; FFmpeg/FFprobe installation was IN_PROGRESS; compile, unit tests, and synthetic MP4/FFprobe validation had not started.
-- Hosted Windows job `windows-tests`, ID `137896914783`: setup and checkout completed; Python 3.11 setup completed; FFmpeg/FFprobe installation was IN_PROGRESS; compile, unit tests, and synthetic MP4/FFprobe validation had not started.
-- No test count, CI conclusion, or checkout SHA is claimed at this snapshot. Re-fetch both job steps and decoded logs after run completion.
-- Combined commit status lookup returned no status entries; the workflow-run endpoint is the evidence source for this audit.
+- At the initial inspection, overall status was **IN_PROGRESS**. At the latest recheck, Ubuntu completed successfully while hosted Windows remained in progress.
+- Ubuntu job `tests`, ID `137896915549`: setup, checkout, Python setup, FFmpeg/FFprobe installation, compilation, unit tests, and synthetic MP4/FFprobe validation all completed successfully. Decoded log: `Ran 334 tests in 5.017s`; `OK`.
+- Ubuntu fetched and checked out `refs/remotes/pull/147/merge` at merge SHA `759fe64c4362cd15cdc76b03fc7e85876aa152d4`, which contains PR #147 head `06babec863840afb8cecf0dd6608021bce9067a1`. This is merge-ref CI, not raw-head-only checkout.
+- Ubuntu synthetic report: status `passed`; source was a locally generated synthetic test pattern and tone; `gta6_footage_used=false`; `third_party_media_used=false`; `publishing_enabled=false`; `manual_review_required=true`.
+- Hosted Windows job `windows-tests`, ID `137896914783`: setup, checkout, Python 3.11, FFmpeg/FFprobe installation, and compilation succeeded. The full unittest suite was still IN_PROGRESS at the latest status check; synthetic MP4/FFprobe had not started. No Windows test count or final conclusion is claimed yet.
+- Combined commit status lookup returned no status entries; the workflow-run endpoint and decoded job logs are the evidence sources for this audit.
 
 ## Status at initial snapshot
 
-- PR #147 exact-head CI: **IN_PROGRESS; NOT VERIFIED**.
-- Compilation and unit tests: **PENDING**.
-- Synthetic MP4/FFprobe validation: **PENDING**.
-- Checkout-ref/checkout-SHA evidence: **PENDING**.
+- PR #147 exact-head CI: **IN_PROGRESS; NOT VERIFIED across both platforms**.
+- Ubuntu: **SUCCESS**, compile passed, 334 tests passed, synthetic MP4/FFprobe passed on merge ref `759fe64c4362cd15cdc76b03fc7e85876aa152d4`.
+- Hosted Windows: compile passed; unittest suite still running at latest check; synthetic MP4/FFprobe pending.
+- Checkout-ref evidence: Ubuntu merge-ref checkout established; Windows checkout ref pending.
 - Owner-device Windows verification: **NOT VERIFIED**.
 - Real-media / first real GTA 6 clip: **NOT VERIFIED**.
 - Local tests in this connector session: **NOT RUN**.
