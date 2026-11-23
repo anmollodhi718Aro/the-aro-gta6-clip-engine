@@ -1351,3 +1351,11 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - New permission grants require a new versioned `source_id`; downstream reports and approvals must use that new identifier.
 - Registration audit details include grantor and evidence reference.
 - Regression tests cover duplicate active grant, duplicate revoked grant, new versioned grant, and upload-source growth after initial stat with staging cleanup and no OAuth/API call.
+
+
+### ARO-CHAT-0106 exact-head CI closeout — 2026-11-24
+- PR #168 final head `9ff25d7356d5badc39f448c9f5e939cda4048541` is associated with Python CI run #45245685334, completed SUCCESS.
+- Ubuntu job #137941689306 and hosted-Windows job #137941688716 each passed compilation, 338 unit tests, and synthetic MP4/FFprobe validation. The same 338-test suite ran on each platform, not 676 unique tests.
+- Synthetic reports confirm `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- ARO-CHAT-0106 is IMPLEMENTED and CI_VERIFIED on PR #168's exact head. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 footage.
+- Remaining gates: independent security review, owner-controlled integration approval, owner selection of a device-appropriate `--max-upload-bytes`, and separate real-media acceptance. Issue #68 remains OPEN; keep live/public uploads disabled. No merge, retarget, deployment, credentials, OAuth, real media, network upload, or publishing was performed.
