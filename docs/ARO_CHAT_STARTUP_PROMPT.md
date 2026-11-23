@@ -172,3 +172,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #144 remains open/draft/unmerged and owner-selected canonical for ARO-GTA-P1-88; preserve PR #145 as non-canonical alternate. PR #146 is an independent open draft targeting `integration/release-candidate`; do not alter it in this workstream.
 - Issue #68 remains OPEN / UNASSIGNED. No uploader/OAuth/public-publishing implementation is authorized until owner assignment and canonical PR/consolidation selection. Keep live uploads and public publishing disabled.
 - Report: `docs/ARO_CHAT_0089_PR144_CI_CLOSEOUT.md`; follow-up PR [#147](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/147) is OPEN / DRAFT / UNMERGED. Its own exact-head CI is pending. Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
+
+
+### Latest continuation baseline — ARO-CHAT-0091 (2026-11-23)
+- Current workstream: ARO-GTA-P1-91 / ARO-CHAT-0091 | PR #147 Exact-Head CI Audit; branch `workstream/aro-chat-0091-pr147-exact-head-ci-audit-2026-11-23`; parent PR #147 head `06babec863840afb8cecf0dd6608021bce9067a1`.
+- PR #147 head is associated with Python CI run #45232862569 (run 945), conclusion SUCCESS. Ubuntu job #137896915549 passed compilation, 334 tests (5.017s), and synthetic MP4/FFprobe validation. Hosted Windows job #137896914783 passed compilation, 334 tests (18.305s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/147/merge` at `759fe64c4362cd15cdc76b03fc7e85876aa152d4`; raw-head-only checkout is not demonstrated. Both synthetic reports confirm no GTA 6 or third-party media, publishing disabled, and manual review required. Hosted Windows is not owner-device verification.
+- This workstream records the exact-head evidence for PR #147. Its own documentation-only follow-up CI must be inspected separately; do not transfer the parent run to the follow-up head.
+- PR #146 remains independent and untouched. Issue #68 remains OPEN / UNASSIGNED; live uploads/public publishing stay disabled. No credentials, OAuth, real media, upload, publish, merge, retarget, deployment, or destructive action is authorized.
+- First real GTA 6 clip remains NOT COMPLETE until authorized media and scope-specific permission, local intake, owner-approved clip bounds, local render, FFprobe validation, playback, and owner acceptance are evidenced.
