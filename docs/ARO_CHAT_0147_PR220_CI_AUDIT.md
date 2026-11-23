@@ -38,3 +38,17 @@ Independently inspect PR #220's own commit-associated GitHub Actions run, jobs/l
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Synthetic media is not real GTA 6 footage or real-media acceptance. Hosted Windows is not owner-device verification.
 - No credentials/tokens, OAuth, real media, network upload, public publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+## Final exact-head CI closeout — 2026-11-24 02:54 IST
+
+- PR #220 head `47072a6ac9b42d48d273176dc7e04fe019779fd7` is associated with Python CI run [#45269033752](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45269033752), run 1061; workflow conclusion SUCCESS.
+- Ubuntu job #138023584264 completed SUCCESS. Its log confirms checkout of `refs/remotes/pull/220/merge` at merge SHA `9af7af7864be8ad950f2df49e9fa811c2073e824`, merging audited PR #220 head into base `cdacb24c9d1db25ad0a85f93d51afabb94d6f836`. Python 3.11 compilation passed; 338 unit tests passed (5.142s); synthetic MP4/FFprobe validation passed.
+- Hosted-Windows job #138023585270 completed SUCCESS. Its log confirms the same PR merge ref and merge SHA. Python 3.11 compilation passed; 338 unit tests passed (15.764s); synthetic MP4/FFprobe validation passed.
+- Both platform runs execute the same 338-test suite, not 676 unique tests. The synthetic reports identify locally generated test pattern/tone, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. Mock upload fixture reports `upload_performed=false`.
+- Combined commit status returned zero status entries; this is not a passing status signal. The successful commit-associated Actions run and both successful job conclusions are the CI evidence.
+- PR #220 review submissions and inline review threads returned empty arrays. Independent review NOT RECORDED. Conversation comments were empty at initial inspection.
+- Audit conclusion: CI_VERIFIED on the PR merge ref only. Raw-head-only checkout is NOT DEMONSTRATED. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- Local tests NOT RUN in this connector session. No workflow retry initiated. No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, rebase, retarget, deployment, or destructive action performed.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- This workstream's own PR #221 exact-head CI must be inspected independently; PR #220's successful CI does not transfer to PR #221.
