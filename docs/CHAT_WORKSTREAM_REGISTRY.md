@@ -1462,7 +1462,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Base / starting SHA | PR #242 head `414fd4f7da94fdffcdd3261a5ea723b5f03290b3` |
 | Parent PR | #242 |
 | Report | `docs/ARO_CHAT_0166_PR242_CI_AUDIT.md` |
-| Status | IN_PROGRESS; current-head run #45278355448 was cancelled during FFmpeg setup; targeted rerun queued; prior-lineage run #45278418962 failed one test and is not current-head evidence |
+| Status | CI_VERIFIED on current PR #242 merge ref via run #45278668116 (Ubuntu + hosted Windows, 340 tests each, synthetic MP4/FFprobe); raw-head-only CI NOT DEMONSTRATED; independent review pending |
 
 ### Initial evidence
 - PR #242 current head: `414fd4f7da94fdffcdd3261a5ea723b5f03290b3`.
@@ -1490,3 +1490,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #242 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. Keep live/public uploads disabled pending independent review, owner-controlled integration, owner-device verification, and authorized real-media acceptance.
 - Audit PR #246 run #45279477145 also passed 340 tests and synthetic MP4/FFprobe on both platforms on merge ref `9e5243f6e6cccfa2706a5c2715689c88702bc903`, which combines audit docs with PR #242 head. This is corroborating evidence, not a substitute for PR #242 run #1118.
 - Audit report: `docs/ARO_CHAT_0166_PR242_CI_AUDIT.md`. PR #246 remains draft-only; no merge requested.
+
+
+### ARO-CHAT-0166 current-head CI closeout — 2026-11-24
+- PR #242 current head is `dfb1e9390490806e44bad93fc661ddff0a551f54`, based on `cdcf7a4bef2728e3299e82bc88d376992ecec39d`.
+- Exact-head-associated run [#45278668116](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45278668116) completed SUCCESS on Ubuntu and hosted Windows. Both jobs checked out PR #242 merge ref at `ad80436`, merging the exact current head into its current base; raw-head-only checkout NOT DEMONSTRATED.
+- Ubuntu: compile passed, 340 tests passed (4.934s), synthetic MP4/FFprobe passed. Hosted Windows: compile passed, same 340 tests passed (24.840s), synthetic MP4/FFprobe passed. These are 340 shared tests, not 680 unique tests.
+- Synthetic pattern/tone only; 8s source / 4s output; `gta6_footage_used=false`, `third_party_media_used=false`, publishing disabled, manual review required, mocked `upload_performed=false`.
+- Correction: run #45278355448 did not fail during FFmpeg setup; both platforms installed FFmpeg and compiled, then failed the 340-test suite on `test_cli_passes_exact_clip_and_source_to_upload_boundary`. Current head includes the explicit `--max-upload-bytes` fixture argument and passes in run #45278668116. Earlier-lineage run #45278418962 is separate; Ubuntu failed that fixture and Windows was cancelled during FFmpeg setup.
+- Combined status had zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED.
+- PR #242 remains OPEN / DRAFT / UNMERGED. CI_VERIFIED on merge ref only; raw-head-only CI NOT DEMONSTRATED. Owner-device Windows and authorized real-media acceptance NOT VERIFIED. Local tests NOT RUN in this connector session.
+- Issue #68 remains OPEN and assigned to the project owner. Keep live/public uploads disabled pending independent security review and owner-controlled integration. This documentation-only audit made no application changes, retries, OAuth actions, uploads, publishing, merges, retargets, deployment, or destructive changes.
