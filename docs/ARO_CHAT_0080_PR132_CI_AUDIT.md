@@ -46,3 +46,16 @@ Inspect the Actions workflow associated with PR #132's exact head, then record t
 - No evidence was borrowed from parent PR #129, and no CI result was inferred from an empty response.
 - No workflow rerun, workflow configuration change, application edit, or test execution was performed. Continue waiting for the repository's normal authorized PR workflow; inspect both platform jobs and decoded logs if a run appears.
 - Status remains IN_PROGRESS / exact-head CI NOT VERIFIED.
+
+
+## Final follow-up audit — 2026-11-23 21:18 IST
+
+- Rechecked PR #132 reviewed head `1b4b07a7d3436674a0815dcbbcd0c7cdc3873700` using the PR-triggered workflow-run and combined commit-status lookups. Both returned empty results. No job IDs or logs exist for this SHA; compilation, unit tests, synthetic MP4 generation, and FFprobe validation remain NOT VERIFIED for PR #132.
+- Confirmed PR #133's own head `0c918b36a5400dcdf64493ba0691bc28cf6bbb3b` has Actions run [45206782421](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45206782421), event `pull_request`, conclusion SUCCESS. This run belongs to PR #133, not PR #132.
+- Ubuntu job `137804706270`: compile passed; decoded log reports `Ran 334 tests in 3.760s`; synthetic MP4/FFprobe validation passed.
+- Hosted Windows job `137804707225`: compile passed; decoded log reports `Ran 334 tests in 14.478s`; synthetic MP4/FFprobe validation passed.
+- Both jobs checked out PR #133 merge ref `2a95d3c`, merging PR #133 head `0c918b36a5400dcdf64493ba0691bc28cf6bbb3b` into PR #132 base `1b4b07a7d3436674a0815dcbbcd0c7cdc3873700`. This is not a raw-head checkout.
+- Both synthetic reports state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. The same 334-test suite ran on both platforms, not 668 unique tests.
+- A non-failing Python `ResourceWarning` appeared in the Ubuntu log; the workflow still succeeded. Hosted Windows CI is not owner-device verification, and synthetic media is not GTA 6 footage.
+- Local tests were not run in this connector session. No application, uploader, test, or workflow code was changed. No workflow rerun was initiated.
+- Current status: BLOCKED for the parent audit because PR #132 has no exact-head CI evidence; PR #133's own documentation-branch CI is verified. Continue waiting for the normal authorized PR #132 workflow. Keep Issue #68 OPEN / UNASSIGNED and live uploads/public publishing disabled.
