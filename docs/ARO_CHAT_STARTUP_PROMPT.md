@@ -762,3 +762,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Windows checked out `refs/remotes/pull/225/merge` at merge SHA `cc181eed7c60443ffb2f47bfa7093341d7402c21`; raw-head-only checkout is NOT DEMONSTRATED. Re-fetch Ubuntu job/logs, final run conclusion, combined status, and review state before claiming matrix CI_VERIFIED.
 - Synthetic media only; no GTA 6/third-party media, publishing disabled, manual review required, mocked upload `upload_performed=false`. Do not transfer PR #224's CI result to PR #225.
 - Issue #68 remains OPEN / NOT IMPLEMENTED / UNASSIGNED. Keep live uploads/public publishing disabled. No credentials/OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0151 PR #225 CI closeout — 2026-11-24
+- PR #225 head `894bf28f07b2bb5eccbbb393f63425da5e64c0da` passed run #45270102698 (run 1069): Ubuntu and hosted Windows each passed compilation, the same 338-test suite, and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/225/merge` at merge SHA `cc181eed7c60443ffb2f47bfa7093341d7402c21`; raw-head-only checkout is NOT DEMONSTRATED. Do not count this as 676 unique tests.
+- Synthetic media only; no GTA 6/third-party media, publishing disabled, manual review required, mocked upload `upload_performed=false`. Combined status, reviews, inline threads, and conversation comments were empty.
+- CI_VERIFIED applies to merge ref only. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance. Issue #68 remains OPEN / NOT IMPLEMENTED / UNASSIGNED; keep live uploads/public publishing disabled.
