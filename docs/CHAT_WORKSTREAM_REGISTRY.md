@@ -1390,3 +1390,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Scope is test-only; no uploader behavior or publishing behavior changed.
 - Verification for this branch: local tests NOT RUN in this connector session; exact-head CI PENDING until its own run and logs are inspected. Do not transfer PR #176's failed run or another branch's results.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth credentials, real media, network upload, merge, retarget, deployment, or destructive action was used.
+
+
+## ARO-CHAT-0120 PR #191 exact-head CI closeout — 2026-11-24
+
+- Workstream: ARO-GTA-P1-120; audited PR #191 head `35d77ce48ec6fbd2f86503a3f45f3ba88d325efc`.
+- Exact-head-associated Actions run #45256856022 (run 1015) completed SUCCESS. Ubuntu job #137980832512 passed compilation, 338 tests (4.965s), and synthetic MP4/FFprobe validation. Hosted-Windows job #137980833158 passed compilation, the same 338 tests (14.816s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out PR merge ref `refs/remotes/pull/191/merge` at `811195d53fa14c7a54d892204ae056b8bac286ac`, merging head `35d77ce48ec6fbd2f86503a3f45f3ba88d325efc` into base `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Same 338-test suite ran on both platforms, not 676 unique tests. Synthetic output confirms no GTA 6 footage, publishing disabled, and manual review required.
+- PR #191 remains OPEN / DRAFT / UNMERGED; no submitted reviews or inline review threads were present at inspection. Local tests were NOT RUN in this connector session.
+- This is a documentation-only CI closeout. Hosted Windows CI is not owner-device verification; synthetic media is not real-media acceptance.
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth credentials, tokens, real media, network upload, merge, retarget, deployment, or destructive action was used.
