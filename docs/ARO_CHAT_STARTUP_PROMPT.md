@@ -552,3 +552,18 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Compile/tests/synthetic MP4/FFprobe/checkout refs are NOT VERIFIED. No test count or CI outcome is claimed.
 - Local tests were NOT RUN in this connector session. No workflow retry was initiated.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+
+
+
+
+## Live continuation baseline — refreshed 2026-11-24 (ARO-CHAT-0136)
+
+- Latest registered workstream: ARO-CHAT-0136 / ARO-GTA-P1-136, documentation-only exact-head CI audit of PR #207.
+- Branch: `workstream/aro-chat-0136-pr207-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #207 head `29dd243c8a062f077528c938e617f9324fd6698e`.
+- PR #207 head-associated Python CI run #45264752822 (run 1040) completed SUCCESS. Ubuntu job #138008595866 passed compilation, 338 tests (4.359s), and synthetic MP4/FFprobe validation. Hosted-Windows job #138008595477 passed compilation, 338 tests (16.505s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/207/merge` at merge SHA `03f4ff2897ea0c04623a185a87ca8984276a4588`, merging PR #207 head into base `c708ab5553b783245b668f55988939ee4bdc202d`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both platforms ran the same 338-test suite, not 676 unique tests. Synthetic media only: locally generated pattern/tone, 8.0-second source, 4.0-second output, no GTA 6/third-party media, publishing disabled, manual review required. Mocked upload fixture reported `upload_performed=false`.
+- Combined status returned zero entries. PR #207 reviews, inline threads, and conversation comments were empty. Independent review is NOT RECORDED. Local tests NOT RUN in this connector session.
+- Report: `docs/ARO_CHAT_0136_PR207_CI_AUDIT.md`. This follow-up branch's own exact-head CI must be inspected independently; do not transfer PR #207's CI result.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
