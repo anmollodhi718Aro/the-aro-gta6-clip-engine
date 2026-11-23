@@ -17,31 +17,33 @@ Date: 2026-11-23
 
 ## Exact-head association
 
-- PR #129 reviewed head: 346f1a7f91c2d394a85790b6c682fd593c4d8777
+- PR #129 reviewed head: `346f1a7f91c2d394a85790b6c682fd593c4d8777`
 - Associated GitHub Actions run: [45183249615](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45183249615)
 - Workflow: Python CI
-- Run state at this evidence snapshot: IN_PROGRESS; Windows job SUCCESS; Ubuntu job still running.
-- The hosted Windows job checked out PR merge ref 37d277b1ef12fa7c52325ba3b0faf9d3a1a166b5 (PR #129 head merged into its base), not the raw head SHA. Preserve this distinction when describing the evidence.
-
-## Hosted Windows job evidence
-
-- Job: 137722183707 (windows-tests); conclusion: SUCCESS.
-- Runner setup, checkout, Python 3.11 setup, FFmpeg/FFprobe installation, compilation, complete unit-test suite, and synthetic MP4/FFprobe validation completed successfully.
-- Decoded log: Ran 334 tests in 15.328s; OK.
-- Synthetic first-clip test passed using a locally generated synthetic test pattern and tone. Report states gta6_footage_used=false, third_party_media_used=false, publishing_enabled=false, and manual_review_required=true.
-- Hosted Windows CI is not owner-device Windows verification.
+- Run conclusion: SUCCESS.
+- Both hosted jobs checked out PR merge ref `37d277b1ef12fa7c52325ba3b0faf9d3a1a166b5`, which merges PR #129 head into base `f102c1b5f71c82d7d6d38a2d80343126aa3ab2f5`. This is merge-ref evidence associated with the PR head, not a raw-head checkout.
 
 ## Ubuntu job evidence
 
-- Job: 137722184375 (tests).
-- At this snapshot, setup, checkout, and Python setup passed; FFmpeg/FFprobe installation remained IN_PROGRESS.
-- Compile, unit tests, and synthetic MP4/FFprobe validation had not started.
-- No Ubuntu test count or pass/fail result is claimed in this snapshot. Refresh this section from the final job steps and decoded logs before calling this closeout complete.
+- Job: `137722184375` (`tests`); conclusion: SUCCESS.
+- Runner setup, checkout, Python setup, FFmpeg/FFprobe installation, compilation, unit tests, and synthetic MP4/FFprobe validation all completed successfully.
+- Decoded log: `Ran 334 tests in 3.679s`; `OK`.
+- Synthetic first-clip test passed using a locally generated synthetic test pattern and tone. Report states `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+
+## Hosted Windows job evidence
+
+- Job: `137722183707` (`windows-tests`); conclusion: SUCCESS.
+- Runner setup, checkout, Python 3.11 setup, FFmpeg/FFprobe installation, compilation, complete unit-test suite, and synthetic MP4/FFprobe validation all completed successfully.
+- Decoded log: `Ran 334 tests in 15.328s`; `OK`.
+- Synthetic first-clip test passed using a locally generated synthetic test pattern and tone. Report states `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Hosted Windows CI is not owner-device Windows verification.
 
 ## Verification interpretation
 
-- The Windows job is successful on the PR merge ref associated with PR #129's head; this alone does not establish two-platform CI_VERIFIED.
-- Ubuntu exact-run evidence is pending. Do not transfer the Windows result to Ubuntu.
+- Both Ubuntu and hosted Windows jobs completed successfully on the same PR merge ref associated with PR #129's reviewed head.
+- Each platform ran the same 334-test suite; this is 334 distinct tests, not 668 unique tests.
+- Compilation and synthetic MP4/FFprobe validation passed on both platforms.
+- This supports exact-PR-head-associated two-platform CI verification for PR #129, while preserving the merge-ref versus raw-head distinction.
 - Synthetic fixtures are not GTA 6 footage and do not establish real-media compatibility or first-real-clip acceptance.
 - Local tests were not run in this connector session.
 
