@@ -321,3 +321,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Local tests were not run in this connector session. This branch's exact-head Ubuntu/hosted-Windows CI remains PENDING; do not claim TESTED or CI_VERIFIED until its own run and logs are inspected.
 - Keep PR #176 and this follow-up draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled pending owner-controlled integration and independent review.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0113 (2026-11-24)
+- Active workstream: ARO-GTA-P1-113 / ARO-CHAT-0113 | PR #181 exact-head CI closeout.
+- Branch: `workstream/aro-chat-0113-pr181-exact-head-ci-closeout-2026-11-24`; base and starting SHA: PR #181 head `1a728b4a488ca980bb9704dc55a9e4f713e44af4`.
+- PR #181 Python CI run #45254660172 (run 1007) completed SUCCESS on this exact head.
+- Ubuntu job #137973204059 and hosted-Windows job #137973204383 both passed setup, checkout, runtime setup, FFmpeg/FFprobe installation, compilation, unit-test, and synthetic MP4/FFprobe steps.
+- Test-log counts were not exposed in the connector response; no numeric test count is claimed. Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
+- Report: `docs/ARO_CHAT_0113_PR181_CI_CLOSEOUT.md`. This workstream is documentation-only; its own exact-head CI remains pending.
+- PR #181 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending independent security review and owner-controlled integration.
+- No application/test/workflow behavior changes, OAuth, credentials/tokens, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
