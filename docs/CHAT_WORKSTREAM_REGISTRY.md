@@ -1380,3 +1380,25 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Draft follow-up only. Issue #68 remains OPEN / UNASSIGNED; keep live/public uploads disabled.
 - No credentials/tokens, live OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
 - Owner-device Windows and real-media acceptance remain NOT VERIFIED. Owner must select a device-appropriate `--max-upload-bytes` before any real upload.
+
+
+## ARO-CHAT-0162 PR #176 staged-payload regression repair — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0162 |
+| Exact title | ARO-CHAT-0162 | PR #176 Staged-Payload Mutation Regression Repair |
+| Workstream ID | ARO-GTA-P1-162 |
+| Scope | Repair the stale test contract after PR #176 moved bounded staging and immutable payload capture before OAuth; preserve verification that filesystem mutation cannot alter uploaded bytes |
+| Branch | `workstream/aro-chat-0162-pr176-mutation-test-fix-2026-11-24` |
+| Base / starting SHA | PR #176 head `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69` |
+| Parent PR | #176 (stacked on #168) |
+| Status | RESERVED; test/CI repair not yet committed |
+| Report | `docs/ARO_CHAT_0162_PR176_REGRESSION_REPAIR.md` |
+
+### Initial audit finding
+- PR #168 run #45257591368 and PR #176 run #45253188457 both failed on Ubuntu and hosted Windows at `test_staged_file_mutation_after_final_checks_cannot_change_upload_payload`.
+- The test attempted to mutate the staging file during `insert()`, but PR #176 intentionally deletes the temporary staging directory before OAuth. The observed failure is `FileNotFoundError`; the production flow already holds the exact staged bytes in an immutable in-memory payload.
+- Repair the test to mutate the original source after final approval/rights checks and prove the uploaded payload remains the approved bytes. No production code change is planned unless the corrected test exposes one.
+- Do not transfer earlier green CI to this branch. Run its own exact-head CI and inspect both platform logs.
+- Keep Issue #68 open and live/public uploads disabled. No OAuth, credentials, real media, network upload, publishing, merge, deployment, or destructive action.
