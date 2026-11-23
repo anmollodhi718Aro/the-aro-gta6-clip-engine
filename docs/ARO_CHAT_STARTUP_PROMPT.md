@@ -721,3 +721,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #220 reviews/inline threads empty; independent review NOT RECORDED. Combined status zero entries. This is CI_VERIFIED on merge ref only, not owner-device or real-media acceptance.
 - Update the audit report and registry with evidence only. Inspect PR #221's own exact-head CI independently; do not transfer parent CI results. No workflow retry without owner authorization.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## PR #221 follow-up CI status — ARO-CHAT-0147 (2026-11-24)
+- PR #221 initial head `eee181efc37f040b77e91df416a77983d7c7c687` completed run [#45269230348](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45269230348), run 1062, SUCCESS. Ubuntu job #138024276868 passed compilation, 338 tests (4.303s), and synthetic MP4/FFprobe; hosted-Windows job #138024276330 passed compilation, the same 338 tests (15.093s), and synthetic MP4/FFprobe.
+- Both jobs checked out `refs/remotes/pull/221/merge` at merge SHA `cba11074982e05c4c5c725c5292223a9a129cf6c`, merging initial PR #221 head into base/PR #220 head `47072a6ac9b42d48d273176dc7e04fe019779fd7`. Raw-head-only CI is NOT DEMONSTRATED.
+- After documentation commits, latest observed PR #221 head `0d215e8c868f0df5be5e04026845afc4b1ea6f77` had zero associated runs and zero combined status entries. It remains PENDING / NOT CI_VERIFIED; do not transfer run #45269230348 to it. PR #221 was OPEN / DRAFT / UNMERGED, mergeable=false at inspection, with no reviews, inline threads, or conversation comments. Local tests NOT RUN.
+- PR #220 is CI_VERIFIED on merge ref only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
