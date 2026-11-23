@@ -2217,3 +2217,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0154_PR229_CI_AUDIT.md`. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0155 (2026-11-24)
+- Current workstream: ARO-GTA-P1-155 / ARO-CHAT-0155 | PR #230 Exact-Head CI Audit.
+- Branch: `workstream/aro-chat-0155-pr230-exact-head-ci-audit-2026-11-24`; base branch: `workstream/aro-chat-0154-pr229-exact-head-ci-audit-2026-11-24`; starting SHA: PR #230 head `17451dd789aa2c7e1f18893d9f7f2e6b0d8dc9e1`.
+- Parent PR #230 is OPEN / DRAFT / UNMERGED. Its commit-associated Python CI run #45273696018 (run 1085) completed SUCCESS on merge SHA `363c6f07fda6939d7608edd5ea89422e04869cd0`.
+- Ubuntu job #138039836831 and hosted-Windows job #138039836150 both passed compilation, the same 338-test suite, and synthetic MP4/FFprobe validation. Both checked out `refs/remotes/pull/230/merge`; raw-head-only checkout is NOT DEMONSTRATED. This is 338 shared tests on two platforms, not 676 unique tests.
+- Synthetic reports show locally generated pattern/tone only, 8.0-second source, 4.0-second output, no GTA 6/third-party media, publishing disabled, and manual review required.
+- Combined status for the exact head returned zero entries. PR #230 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. Local tests NOT RUN.
+- Report: `docs/ARO_CHAT_0155_PR230_CI_AUDIT.md`. Documentation-only; do not transfer this run to any later PR head or call it raw-head-only verification.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
+- No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
