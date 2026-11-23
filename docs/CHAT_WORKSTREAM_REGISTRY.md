@@ -1323,3 +1323,39 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Follow-up PR #162 head `098844642622bdf044363a4c84791f5d7313033a` had zero check-runs and combined status PENDING at the time checked; re-fetch after the final documentation commit. No CI evidence is transferred from PR #161.
 
 - Final PR #162 documentation scope includes the bounded permission grant in `docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md`; PR #162 is OPEN / DRAFT / UNMERGED. Latest branch head at this update: `fa3223c5ac7f46d261cd121911aedfd77c5c498e`. Its own check-runs have not yet appeared; do not claim CI verification.
+
+
+## ARO-CHAT-0106 Issue #68 security consolidation and rights-registry hardening — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0106 |
+| Exact title | ARO-CHAT-0106 | Issue #68 Security Consolidation and Rights Registry Hardening |
+| Workstream ID | ARO-GTA-P1-106 |
+| Scope | Audit uploader-security PR lineage; select a canonical candidate; prevent duplicate source-rights registration from clearing revocation; add offline regression tests |
+| Branch | `workstream/aro-chat-0106-issue68-rights-registry-hardening-2026-11-24` |
+| Base / starting SHA | PR #162 head `546906fca62ff2493a7ae1955dfdd1b4948233f2` |
+| Status | IN_PROGRESS; implementation and tests committed when branch updates complete; exact-head CI pending |
+| Report | `docs/ARO_CHAT_0106_ISSUE68_SECURITY_CONSOLIDATION.md` |
+| Safety | No merge, retarget, deployment, live OAuth, credential/token access, real media, network upload, public publishing, or destructive action. |
+
+### Audit disposition
+- Canonical implementation candidate: PR #83 remediation lineage (#87 → #88 → #92 → #93), carried forward on the current continuation branch.
+- PR #82 remains preserved as a parallel reference; do not integrate independently.
+- PRs #106–#109 are overlapping test follow-ups. #106 had the broadest integrated coverage; this branch incorporates the missing upload-copy growth/staging-cleanup regression while retaining the direct-call size guard coverage already present in the selected base.
+- PR #162 current head had no associated workflow run at inspection; no CI result is inferred from it.
+- PR #93 exact-head run #45020379946 passed compile, unit-test, and synthetic MP4/FFprobe steps on Ubuntu and hosted Windows. This is predecessor evidence only.
+
+### Implementation
+- `SourceRightsRegistry.register()` is now append-only. Duplicate `source_id` raises `PermissionError`; it cannot overwrite an existing grant or clear `revoked_at`.
+- New permission grants require a new versioned `source_id`; downstream reports and approvals must use that new identifier.
+- Registration audit details include grantor and evidence reference.
+- Regression tests cover duplicate active grant, duplicate revoked grant, new versioned grant, and upload-source growth after initial stat with staging cleanup and no OAuth/API call.
+
+
+### ARO-CHAT-0106 exact-head CI closeout — 2026-11-24
+- PR #168 final head `9ff25d7356d5badc39f448c9f5e939cda4048541` is associated with Python CI run #45245685334, completed SUCCESS.
+- Ubuntu job #137941689306 and hosted-Windows job #137941688716 each passed compilation, 338 unit tests, and synthetic MP4/FFprobe validation. The same 338-test suite ran on each platform, not 676 unique tests.
+- Synthetic reports confirm `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- ARO-CHAT-0106 is IMPLEMENTED and CI_VERIFIED on PR #168's exact head. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 footage.
+- Remaining gates: independent security review, owner-controlled integration approval, owner selection of a device-appropriate `--max-upload-bytes`, and separate real-media acceptance. Issue #68 remains OPEN; keep live/public uploads disabled. No merge, retarget, deployment, credentials, OAuth, real media, network upload, or publishing was performed.
