@@ -826,3 +826,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Recheck this exact run after completion. Do not transfer CI evidence from PR #231. Raw-head-only checkout, owner-device Windows, and real-media acceptance remain NOT VERIFIED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0157 PR #232 current-head recheck — 2026-11-24
+- PR #232 live head is `ccde1827d1f8b7d25a7f3ef8d206c8f55cb3fc5b`, OPEN / DRAFT / UNMERGED. Its current-head Python CI run #45274631218 (run 1089) is PENDING; the current job lookup returned no jobs. Compile/tests/synthetic MP4/FFprobe and checkout refs are NOT VERIFIED.
+- The earlier reservation-time SHA `35acfb1961b8cd3ff3d3ae2b1a4c9db34f566e73` and run #45274445897 must not be transferred to the newer PR head.
+- PR #232 combined status returned zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. No retry was initiated.
+- Audit report: `docs/ARO_CHAT_0157_PR232_CI_AUDIT.md`; documentation audit PR #233 remains draft-only. Re-fetch exact PR #232 head and run after jobs become available; any head change requires a fresh audit.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No credentials/OAuth, real media, upload, publishing, retry, merge, rebase, retarget, deployment, or destructive action.
