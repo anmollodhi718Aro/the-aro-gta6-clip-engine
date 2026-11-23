@@ -15,7 +15,7 @@ from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
 from backend.app.youtube_upload import (
     _copy_stream_with_limit, build_upload_body, load_rights_report,
-    upload_video, validate_upload,
+    upload_video, validate_upload, _write_private_token,
 )
 
 
@@ -50,6 +50,20 @@ class YouTubeUploadTests(unittest.TestCase):
 
     def tearDown(self):
         self.temp.cleanup()
+
+    def test_oauth_token_is_atomically_written_with_private_permissions(self):
+        token_path = self.root / "private" / "token.json"
+        _write_private_token(token_path, '{"access_token":"synthetic"}')
+        self.assertEqual(
+            json.loads(token_path.read_text(encoding="utf-8")),
+            {"access_token": "synthetic"},
+        )
+        if os.name == "posix":
+            self.assertEqual(token_path.stat().st_mode & 0o777, 0o600)
+        self.assertEqual(
+            [item.name for item in token_path.parent.iterdir()],
+            ["token.json"],
+        )
 
     def test_dry_run_validates_without_owner_or_upload_flags(self):
         video, body = validate_upload(
