@@ -2344,6 +2344,10 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #150 remains OPEN / DRAFT / UNMERGED. This CI result does not authorize merge or integration.
 - Issue #68 remains OPEN / UNASSIGNED; live uploads/public publishing remain disabled pending explicit owner assignment and canonical authenticated-uploader selection or approved consolidation.
 
+## ARO-CHAT-0095 PR #152 exact-head CI audit — 2026-11-23
+
+| ARO-CHAT-0095 | ARO-CHAT-0095 \\| PR #152 Exact-Head CI Audit | ARO-GTA-P1-95 | Audit PR #152 current-head Actions run, Ubuntu/Windows logs, compile/tests, synthetic MP4/FFprobe results, and checkout refs; documentation-only | `workstream/aro-chat-0095-pr152-exact-head-ci-audit-2026-11-23` / [PR pending](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/152) | IMPLEMENTED; PR #152-associated merge-ref CI_VERIFIED on Ubuntu and hosted Windows (334 tests each); raw-head-only CI NOT DEMONSTRATED; this audit branch's own CI pending | Starting SHA `ee57b3f46cc18496db61900bd7153d5dcad2fe4b`; run #45235407935; merge SHA `a6c9b0fc17999da50b32dd3fd7b7e857ad557fe6` |
+
 ## ARO-CHAT-0093 PR #151 exact-head CI audit — 2026-11-23
 
 | Field | Record |
@@ -2376,3 +2380,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #150 remains OPEN / DRAFT / UNMERGED and is not modified by this workstream.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0095 verification evidence
+
+- PR #152 head `ee57b3f46cc18496db61900bd7153d5dcad2fe4b` is associated with Actions run [#45235407935](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45235407935), run 954, conclusion SUCCESS.
+- Ubuntu job `137905682991`: compilation passed; decoded log reports `Ran 334 tests in 5.063s`; synthetic MP4/FFprobe validation passed.
+- Hosted Windows job `137905683575`: compilation passed; decoded log reports `Ran 334 tests in 14.781s`; synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/152/merge` at `a6c9b0fc17999da50b32dd3fd7b7e857ad557fe6`, merging PR #152 head into base `1168348aa5088da5945638ff0ec54e67554f0c1f`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both synthetic reports confirm GTA 6 footage and third-party media were not used, publishing was disabled, and manual review was required. The generated 8-second synthetic pattern/tone source produced a 4-second synthetic MP4.
+- Both platforms ran the same 334-test suite, not 668 unique tests. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance. Local tests were not run in this connector session.
+- PR #152 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled.
+- ARO-CHAT-0094 / PR #153 already reserves a separate PR #151 follow-up and was not modified. This ARO-CHAT-0095 workstream is documentation-only; no credentials, OAuth, real media, upload, publish, merge, retarget, deployment, or destructive action occurred.
