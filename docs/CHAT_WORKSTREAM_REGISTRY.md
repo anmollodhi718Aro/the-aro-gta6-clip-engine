@@ -1294,7 +1294,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Base / starting SHA | PR #160 head `ace5cbfb5b61089bcea8fbe426ce3aa582c109e9` |
 | Parent PR | [PR #160](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/160) |
 | Changed files | `docs/ARO_CHAT_0101_PR160_CI_AUDIT.md`, this registry, `docs/ARO_CHAT_STARTUP_PROMPT.md` |
-| Status | IN_PROGRESS; exact-head Python CI run #45242462842 is in progress; final evidence pending |
+| Status | IMPLEMENTED (documentation-only); audited PR #160 exact-head CI_VERIFIED on merge ref; PR #161 follow-up CI pending |
 | Scope boundary | No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
 
 ### Initial evidence
