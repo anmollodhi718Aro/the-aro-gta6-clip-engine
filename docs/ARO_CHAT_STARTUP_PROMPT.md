@@ -441,3 +441,24 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0127_PR198_CI_AUDIT.md`. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes. No local tests run in this connector session.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment, canonical security implementation selection, independent review, and owner-controlled integration.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
+
+
+## Live continuation baseline — refreshed 2026-11-24 (ARO-CHAT-0128)
+
+- Latest registered workstream: ARO-CHAT-0128 / ARO-GTA-P1-128, documentation-only exact-head CI audit of PR #199.
+- Branch: `workstream/aro-chat-0128-pr199-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #199 head `ef342e3e4bf91a2d9f55ced0983166ab4772f1a7`.
+- PR #199 head-associated Python CI run #45258680568 (run 1032) was IN_PROGRESS at the initial snapshot. Ubuntu job #137987208296 passed compilation, 338 unit tests (5.057s), and synthetic MP4/FFprobe; hosted-Windows job #137987208430 was still installing FFmpeg/FFprobe and had not reached compile/tests/render. Windows decoded logs returned BlobNotFound at inspection.
+- Ubuntu checked out `refs/remotes/pull/199/merge` at merge SHA `514041b30c1bf1eb5cae82513955df1b9885466e`, merging PR #199 head into base `2672ba800c418c0c5915968e44c0eb24a798d993`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Combined status, PR #199 review submissions, and inline review threads were empty. Matrix CI remains PENDING / NOT VERIFIED until hosted Windows completes. Local tests were NOT RUN in this connector session.
+- Report: `docs/ARO_CHAT_0128_PR199_CI_AUDIT.md`. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0128 PR #199 CI closeout — 2026-11-24
+- PR #199 exact-head run #45258680568 (run 1032) completed SUCCESS. Ubuntu and hosted Windows each passed compilation, the same 338-test suite, and synthetic MP4/FFprobe validation.
+- Both jobs checked out PR merge ref `refs/remotes/pull/199/merge` at `514041b30c1bf1eb5cae82513955df1b9885466e`; raw-head-only checkout is NOT DEMONSTRATED.
+- Test runtimes: Ubuntu 5.057s; hosted Windows 30.141s. Synthetic media only; no GTA 6/third-party media, publishing disabled, manual review required.
+- PR #199 has no recorded independent reviews or inline threads. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- Follow-up draft PR #200 is OPEN / DRAFT / UNMERGED and its own exact-head CI run #45258911262 is IN_PROGRESS. Inspect independently; do not transfer PR #199's CI result.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
