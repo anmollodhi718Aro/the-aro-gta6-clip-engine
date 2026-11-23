@@ -153,3 +153,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled until owner assignment and explicit canonical authenticated-uploader PR selection or approved consolidation.
 - No merge, retarget, deploy, upload, publish, credential/OAuth access, real-media processing, or destructive action is authorized by this documentation-only audit.
 - First real GTA 6 clip remains NOT COMPLETE until authorized media, documented permission scope, local intake, approved clip bounds, local render, FFprobe validation, playback, and owner acceptance are evidenced.
+
+
+### ARO-CHAT-0088 owner reconciliation — 2026-11-23
+- Owner-approved canonical workstream record: PR #144 / branch workstream/aro-chat-0088-pr143-exact-head-ci-audit-2026-11-23 for ARO-GTA-P1-88.
+- Preserve PR #145 and its branch as a non-canonical alternate/evidence record. Do not close, delete, merge, or retarget it based solely on this selection; reconsider only if later evidence demonstrates a material advantage.
+- PR #144 pre-update head c74d001f64976ada076e112d3bc71097103f30ea had successful Actions run #45217116584 (run 930): Ubuntu and hosted Windows each passed 334 tests and synthetic MP4/FFprobe validation. Both jobs used refs/remotes/pull/144/merge at 09f71138d28d9b2213027126b462b0be1a83adb7; raw-head-only verification is not demonstrated.
+- This is a canonical-record decision, not merge approval. Keep PR #144 draft/open/unmerged. Re-audit CI for every new head. Keep Issue #68 open/unassigned and public publishing/live uploads disabled; real-media and owner-device Windows acceptance remain outstanding.
