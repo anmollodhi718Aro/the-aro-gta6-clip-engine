@@ -298,3 +298,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #162 head fa3223c5ac7f46d261cd121911aedfd77c5c498e had no commit-associated workflow runs at inspection. Re-fetch exact-head runs and both platform logs before claiming compile/tests/render/checkout evidence.
 - Report: docs/ARO_CHAT_0104_PR162_CI_AUDIT.md. Documentation-only.
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; no merge, retarget, deployment, upload, publishing, credential/OAuth access, or destructive action is authorized by this audit.
+
+
+### ARO-CHAT-0104 follow-up head-drift note — 2026-11-24
+- PR #162's branch advanced from the initially inspected SHA fa3223c5ac7f46d261cd121911aedfd77c5c498e to 546906fca62ff2493a7ae1955dfdd1b4948233f2 after ARO-CHAT-0104 forked.
+- No workflow runs were returned for the newer PR #162 SHA. Keep exact-head CI PENDING / NOT VERIFIED.
+- ARO-CHAT-0104 PR #163 is three commits ahead and two behind its moved base, with merge base fa3223c5ac7f46d261cd121911aedfd77c5c498e; GitHub reported mergeable=false.
+- Preserve the draft PR/branch. Do not rebase, force-push, retarget, or merge without explicit owner direction.
