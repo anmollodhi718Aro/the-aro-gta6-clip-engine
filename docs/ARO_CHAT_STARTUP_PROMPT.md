@@ -711,3 +711,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Combined status returned zero entries. PR #220 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #220 remains OPEN / DRAFT / UNMERGED. CI_VERIFIED applies to merge ref only; hosted Windows is not owner-device verification and synthetic media is not real-media acceptance.
 - PR #221 follow-up branch head at the update was `eee181efc37f040b77e91df416a77983d7c7c687`, associated with run [#45269230348](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45269230348), run 1062, IN_PROGRESS. Re-audit its exact final head and jobs independently after documentation changes.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0147 closeout (2026-11-24)
+
+- Current registered workstream: ARO-GTA-P1-147 / ARO-CHAT-0147; follow-up PR #221 audits PR #220.
+- Parent PR #220 head `47072a6ac9b42d48d273176dc7e04fe019779fd7` passed Python CI run #45269033752 (run 1061): Ubuntu and hosted Windows both passed compilation, 338 tests, and synthetic MP4/FFprobe validation.
+- Both jobs checked out PR #220's merge ref at `9af7af7864be8ad950f2df49e9fa811c2073e824`; raw-head-only checkout is NOT DEMONSTRATED. Synthetic media only, publishing disabled, manual review required, mocked upload false.
+- PR #220 reviews/inline threads empty; independent review NOT RECORDED. Combined status zero entries. This is CI_VERIFIED on merge ref only, not owner-device or real-media acceptance.
+- Update the audit report and registry with evidence only. Inspect PR #221's own exact-head CI independently; do not transfer parent CI results. No workflow retry without owner authorization.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
