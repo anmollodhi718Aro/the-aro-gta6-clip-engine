@@ -2082,6 +2082,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Field | Record |
 |---|---|
 | Chat ID | ARO-CHAT-0084 |
+| ARO-CHAT-0085 | ARO-CHAT-0085 | PR #138 Exact-Head CI Audit | ARO-GTA-P1-85 | Audit PR #138 Actions run, both platform jobs, decoded logs, and merge-ref checkout evidence | `workstream/aro-chat-0085-pr138-exact-head-ci-audit-2026-11-23` / pending PR | IN_PROGRESS | Started from PR #138 head `f3ecc88600015f97c4067d314717f1c6b0adc3b5`; run `45198107955` was still in progress at initial snapshot; documentation-only. |
 | Exact title | ARO-CHAT-0084 | PR #137 CI Evidence Closeout |
 | Workstream ID | ARO-GTA-P1-84 |
 | Role | Exact-head CI evidence auditor; documentation-only |
@@ -2106,4 +2107,31 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 ### Safety and owner gates
 - PR #137 remains OPEN / DRAFT / UNMERGED; this follow-up does not authorize merge or integration.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0085 PR #138 exact-head CI audit — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0085 |
+| Exact title | ARO-CHAT-0085 | PR #138 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-85 |
+| Role | Exact-head CI evidence auditor; documentation-only |
+| Task | Audit PR #138's Actions run, both platform jobs, decoded logs, and checkout-ref evidence. |
+| Branch | `workstream/aro-chat-0085-pr138-exact-head-ci-audit-2026-11-23` |
+| Base / starting SHA | PR #138 head `f3ecc88600015f97c4067d314717f1c6b0adc3b5` |
+| Parent PR | #138 |
+| Changed files | `docs/ARO_CHAT_0085_PR138_CI_AUDIT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md` |
+| Status | IN_PROGRESS; parent PR #138 Actions run `45198107955` was running at initial snapshot; this branch's exact-head CI pending |
+| Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### Initial CI snapshot
+- Ubuntu job `137773900779`: setup, checkout, Python setup passed; FFmpeg/FFprobe installation in progress; compile, unit tests, and synthetic render pending.
+- Hosted Windows job `137773901881`: setup, checkout, Python setup, FFmpeg/FFprobe installation, and compile passed; unit tests in progress; synthetic render pending.
+- No final test counts, conclusions, synthetic reports, decoded logs, or checkout-ref SHA are claimed yet. Refresh this entry only from completed run evidence.
+
+### Safety and owner gates
+- PR #138 remains OPEN / DRAFT / UNMERGED; no merge or integration is authorized.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
