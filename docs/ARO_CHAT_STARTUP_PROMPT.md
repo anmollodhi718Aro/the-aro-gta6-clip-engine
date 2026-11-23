@@ -319,3 +319,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Fix the stale regression expectation: staging is intentionally deleted before OAuth; assert cleanup at API request construction and verify immutable in-memory bytes remain unchanged after the original source is modified.
 - Test-only scope. Run targeted test and full suite where available, then inspect this branch's exact-head Ubuntu/hosted-Windows CI. Never claim verification without logs.
 - Preserve PR #176 and all parallel branches. Do not merge, retarget, deploy, upload, or publish. Issue #68 owner approval gate remains active.
+
+
+## Latest continuation baseline — ARO-CHAT-0121 (2026-11-24)
+- Current workstream: ARO-GTA-P1-121 / ARO-CHAT-0121 | documentation-only exact-head CI audit of PR #191.
+- Branch: `workstream/aro-chat-0121-pr191-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #191 head `35d77ce48ec6fbd2f86503a3f45f3ba88d325efc`.
+- Parent PR #191 tests the ARO-CHAT-0120 test-contract correction for PR #176. Its own run is #45256856022 (run 1015). Ubuntu compile/tests/synthetic render steps succeeded at initial audit; hosted-Windows unit tests were still running. Exact test counts, checkout refs, decoded log details, and matrix conclusion must be rechecked.
+- Do not transfer PR #176's failed CI or any other branch's result. Inspect PR #191's own Ubuntu and hosted-Windows logs, combined status, and review records.
+- Report: `docs/ARO_CHAT_0121_PR191_CI_AUDIT.md`. Documentation-only; do not change uploader/test/workflow behavior in this audit.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live/public uploads disabled; hosted Windows is not owner-device verification and synthetic MP4 is not real GTA 6 media acceptance.
+- No credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action.
