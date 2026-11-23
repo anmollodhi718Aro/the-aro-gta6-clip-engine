@@ -48,7 +48,7 @@ Audit PR #147's exact-head Actions run, both Ubuntu and hosted Windows jobs, dec
 - Raw-head-only CI: **NOT DEMONSTRATED**.
 - Owner-device Windows verification: **NOT VERIFIED**.
 - Real-media / first real GTA 6 clip: **NOT VERIFIED**.
-- This follow-up workstream: **IMPLEMENTED** (documentation-only); its own exact-head CI remains pending until separately inspected.
+- This follow-up workstream: **CI_VERIFIED on PR merge ref** (run #45233266948; Ubuntu and hosted Windows, 334 tests each); raw-head-only CI is **NOT DEMONSTRATED**.
 
 ## Safety and owner gates
 - PR #147 remains OPEN / DRAFT / UNMERGED; this audit does not authorize merge or integration.
@@ -56,3 +56,13 @@ Audit PR #147's exact-head Actions run, both Ubuntu and hosted Windows jobs, dec
 - PR #144 remains the owner-selected canonical record for ARO-GTA-P1-88; PR #145 remains a preserved non-canonical alternate.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## Follow-up PR #150 CI evidence — 2026-11-23
+
+- PR #150 head `5cb9e675b9b081bc1c45b55eaed1e3f470deddec` is associated with Actions run [#45233266948](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45233266948), run 948, conclusion SUCCESS.
+- Ubuntu job `137898182465`: compile passed; decoded log reports `Ran 334 tests in 5.037s`; synthetic MP4/FFprobe validation passed.
+- Hosted Windows job `137898183037`: compile passed; decoded log reports `Ran 334 tests in 12.176s`; synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/150/merge` at merge SHA `562731e4781719821418956d10d8cedf51a9cdea`, containing PR #150 head `5cb9e675b9b081bc1c45b55eaed1e3f470deddec`; raw-head-only checkout is not demonstrated.
+- Both synthetic reports state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Both platforms ran the same 334-test suite, not 668 unique tests. Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 media acceptance.
