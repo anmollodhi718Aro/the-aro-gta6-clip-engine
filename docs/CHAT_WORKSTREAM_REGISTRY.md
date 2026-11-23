@@ -1555,3 +1555,41 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Inspect this audit branch's own exact-head CI independently after PR creation; do not transfer PR #190's CI result to this follow-up.
 - Real-media acceptance, owner-device Windows verification, independent security review, and owner selection of a device-appropriate `--max-upload-bytes` remain outstanding.
 - No credentials/tokens, OAuth, real media, network upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
+
+
+## ARO-CHAT-0124 PR #193 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0124 |
+| Exact title | ARO-CHAT-0124 | PR #193 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-124 |
+| Scope | Audit PR #193's own commit-associated Actions run, Ubuntu/hosted-Windows compile/tests, synthetic MP4/FFprobe evidence, checkout refs, combined status, and review state; documentation-only |
+| Branch | `workstream/aro-chat-0124-pr193-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #193 head `dbe91e01290c9f7aab01c09dff73d21d6c44d1bf` |
+| Parent PR | [PR #193](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/193) |
+| Report | `docs/ARO_CHAT_0124_PR193_CI_AUDIT.md` |
+| Status | IN_PROGRESS; Ubuntu job passed 338 tests and synthetic MP4/FFprobe; hosted-Windows job still installing FFmpeg/FFprobe; matrix CI not verified |
+| Safety | No application/uploader/test/renderer/workflow behavior changes; no credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### Evidence snapshot
+- PR #193 head `dbe91e01290c9f7aab01c09dff73d21d6c44d1bf` is associated with Python CI run [#45257323510](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45257323510), run 1018, IN_PROGRESS.
+- Ubuntu job #137982495041 passed compilation, 338 tests (3.559s), and synthetic MP4/FFprobe validation.
+- Ubuntu checked out `refs/remotes/pull/193/merge` at merge SHA `27e6ca95566ee9b103478867cd434546f4796104`; raw-head-only checkout is NOT DEMONSTRATED.
+- Ubuntu synthetic report: locally generated test pattern/tone, 8.0-second source, 4.0-second output, no GTA 6/third-party media, publishing disabled, manual review required.
+- Hosted-Windows job #137982494501 passed setup, checkout, and Python 3.11 setup; FFmpeg/FFprobe installation was still running, with compile/tests/render pending. Windows job log fetch returned BlobNotFound at this snapshot; no Windows outcome is claimed.
+- Combined commit status returned zero entries; PR #193 review submissions and inline review comments were empty at inspection.
+- Local tests were NOT RUN. This follow-up branch's own exact-head CI must be inspected independently.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+
+
+### ARO-CHAT-0124 CI evidence refresh — 2026-11-24
+- PR #193 head `dbe91e01290c9f7aab01c09dff73d21d6c44d1bf` is associated with run [#45257323510](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45257323510), run 1018, SUCCESS.
+- Ubuntu job #137982495041 passed compilation, 338 tests (3.559s), and synthetic MP4/FFprobe validation.
+- Hosted-Windows job #137982494501 passed compilation, 338 tests (15.841s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/193/merge` at merge SHA `27e6ca95566ee9b103478867cd434546f4796104`; raw-head-only checkout is NOT DEMONSTRATED. The same 338-test suite ran on both platforms, not 676 unique tests.
+- Synthetic reports confirm locally generated test pattern/tone, 8.0-second source, 4.0-second output, no GTA 6 or third-party media, publishing disabled, and manual review required.
+- PR #193 is CI_VERIFIED on the merge ref only. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- PR #193 review submissions and inline comments were empty; combined status returned zero entries. Local tests were NOT RUN in this connector session.
+- Follow-up draft PR #195 is OPEN / DRAFT / UNMERGED. Its own head had zero associated workflow runs at inspection; inspect separately. No CI result transfers from PR #193 to PR #195.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
