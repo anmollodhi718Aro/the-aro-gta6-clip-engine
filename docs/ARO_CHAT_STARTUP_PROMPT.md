@@ -410,3 +410,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #182 remains OPEN / DRAFT / UNMERGED and stacked on PR #180; do not merge it independently of its base. This follow-up branch's own exact-head CI remains PENDING until its own run and logs are inspected.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, network upload, public publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
 - ARO-CHAT-0114 was already reserved on a separate PR #181 audit branch and was not reused.
+
+
+### Latest continuation baseline — ARO-CHAT-0116 (2026-11-24)
+- Current chat: ARO-CHAT-0116 | PR #185 Exact-Head CI Audit.
+- Active workstream: ARO-GTA-P1-116 on `workstream/aro-chat-0116-pr185-exact-head-ci-audit-2026-11-24`, based on PR #185 head `1b9dcb4896df28c59be2f26f57d24b1e2c07fb6c`.
+- PR #185 exact-head Actions lookup initially returned zero runs. Its own CI, compile/tests, synthetic MP4/FFprobe validation, and checkout refs are PENDING / NOT VERIFIED. Re-query by exact SHA before concluding the audit.
+- Do not transfer PR #182 or sibling PR CI evidence. Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL and live uploads/public publishing disabled.
+- Audit report: `docs/ARO_CHAT_0116_PR185_CI_AUDIT.md`. Documentation-only; no application or workflow behavior changes.
