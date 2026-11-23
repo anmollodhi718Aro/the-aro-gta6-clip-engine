@@ -761,3 +761,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Synthetic test pattern/tone only; no GTA 6 or third-party media; publishing disabled; manual review required; mocked approval fixture reports `upload_performed=false`.
 - Combined status and PR reviews/inline threads/comments returned no entries. Independent review NOT RECORDED. Re-fetch this exact run and Ubuntu job before closeout; do not transfer predecessor evidence.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. This audit is documentation-only; no source/uploader/test/renderer/workflow behavior changes, credentials, OAuth, real media, upload, publishing, workflow retry, merge, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0152 PR #225 exact-head CI closeout — 2026-11-24
+- PR #225 head `894bf28f07b2bb5eccbbb393f63425da5e64c0da` completed Python CI run #45270102698 (run 1069), SUCCESS.
+- Ubuntu passed compilation, 338 tests (3.720s), and synthetic MP4/FFprobe validation. Hosted Windows passed compilation, the same 338 tests (14.950s), and synthetic MP4/FFprobe validation. This is 338 shared test cases on two platforms, not 676 unique tests.
+- Both jobs checked out PR merge ref `refs/remotes/pull/225/merge` at merge SHA `cc181eed7c60443ffb2f47bfa7093341d7402c21`, merging head `894bf28f07b2bb5eccbbb393f63425da5e64c0da` into base `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`. Raw-head-only CI is NOT DEMONSTRATED.
+- Synthetic media only; no GTA 6/third-party media; publishing disabled; manual review required; mocked approval fixture reports `upload_performed=false`. This is not real-media acceptance or owner-device Windows verification.
+- Combined status, PR #225 reviews, inline threads, and conversation comments returned no entries. Independent review NOT RECORDED.
+- Report: `docs/ARO_CHAT_0152_PR225_CI_AUDIT.md`. The result applies only to PR #225's audited merge ref and must not be transferred to PR #226.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
