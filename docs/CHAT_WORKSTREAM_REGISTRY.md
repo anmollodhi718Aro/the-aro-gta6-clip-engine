@@ -1380,3 +1380,31 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Draft follow-up only. Issue #68 remains OPEN / UNASSIGNED; keep live/public uploads disabled.
 - No credentials/tokens, live OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
 - Owner-device Windows and real-media acceptance remain NOT VERIFIED. Owner must select a device-appropriate `--max-upload-bytes` before any real upload.
+
+
+## ARO-CHAT-0111 PR #176 immutable-payload regression repair — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0111 |
+| Exact title | ARO-CHAT-0111 | PR #176 Immutable-Payload Regression Repair |
+| Workstream ID | ARO-GTA-P1-111 |
+| Scope | Repair a stale test that mutates a temporary staging path after the implementation has correctly cleaned staging and captured immutable upload bytes |
+| Branch | `workstream/aro-chat-0111-pr176-staging-test-fix-2026-11-24` |
+| Base / starting SHA | PR #176 head `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69` |
+| Parent PR | #176 |
+| Changed files | `tests/test_youtube_upload.py`, `docs/ARO_CHAT_0111_PR176_IMMUTABLE_PAYLOAD_TEST_FIX.md`, this registry, `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+| Status | IMPLEMENTED; local tests NOT RUN; this branch's exact-head CI PENDING |
+| Report | `docs/ARO_CHAT_0111_PR176_IMMUTABLE_PAYLOAD_TEST_FIX.md` |
+
+### Finding and correction
+- PR #176 run #45253188457 (run 998) failed on Ubuntu and hosted Windows in `test_staged_file_mutation_after_final_checks_cannot_change_upload_payload`; both failures were FileNotFoundError for the already-cleaned temporary staging file.
+- The uploader correctly stages and captures immutable bytes before OAuth, then removes the staging directory. The test incorrectly expected that staging path to remain available until the upload API call.
+- Replace the stale test with a source-file mutation at the mocked upload-request boundary. Assert that the captured upload stream still contains the approved immutable bytes and differs from the subsequently mutated source.
+- Production uploader code and approval checks are unchanged.
+
+### Verification and safety
+- The correction is committed; local tests were not run in this connector session. Inspect this branch's own Ubuntu and hosted-Windows CI before claiming TESTED or CI_VERIFIED.
+- PR #176 and this follow-up remain draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled pending owner-controlled integration and independent review.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+- Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
