@@ -1901,7 +1901,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 
 | Field | Record |
 |---|---|
-| Chat ID | ARO-CHAT-0078 |
+| Chat ID | ARO-CHAT-0078 | ARO-CHAT-0078 \\| PR #129 Exact-Head CI Closeout | ARO-GTA-P1-78 | Exact-head CI evidence audit for PR #129; refresh Ubuntu/Windows Actions evidence and record limitations | `workstream/aro-chat-0078-pr129-exact-head-ci-closeout-2026-11-23` / [PR #130](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/130) | TESTED; PR #129 associated two-platform CI passed (334 tests/platform); raw-head checkout not claimed | PR #129 head `346f1a7f91c2d394a85790b6c682fd593c4d8777`; run `45183249615`; final evidence refresh recorded by ARO-CHAT-0079 |
 | Exact title | ARO-CHAT-0078 | PR #129 Exact-Head CI Closeout |
 | Workstream ID | ARO-GTA-P1-78 |
 | Role | Exact-head CI evidence auditor + documentation-only contributor |
@@ -1928,3 +1928,36 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #129 remains OPEN / DRAFT / UNMERGED; this closeout does not authorize merge or integration.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0079 PR #129 CI evidence refresh — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0079 |
+| Exact title | ARO-CHAT-0079 | PR #129 CI Evidence Refresh |
+| Workstream ID | ARO-GTA-P1-79 |
+| Role | Documentation-only CI evidence refresh |
+| Task | Refresh the previously incomplete ARO-CHAT-0078 report after both PR #129 Actions jobs completed; preserve exact merge-ref evidence and limitations. |
+| Branch | `workstream/aro-chat-0079-pr129-ci-evidence-refresh-2026-11-23` |
+| Base / starting SHA | PR #130 head `dced72b7fcff53379c28256f1cd44d29a80d42dc` |
+| Parent context | PR #130 / PR #129 closeout evidence |
+| Changed files | `docs/ARO_CHAT_0078_PR129_CI_CLOSEOUT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md` |
+| Status | IN_PROGRESS (documentation update committed; PR creation and this branch's CI pending) |
+| Scope boundary | Documentation-only. No application, uploader, tests, workflows, credentials, OAuth, media, upload, publishing, merge, retarget, deployment, or destructive changes. |
+
+### Refreshed evidence
+
+- PR #129 reviewed head: `346f1a7f91c2d394a85790b6c682fd593c4d8777`; Actions run [45183249615](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45183249615) completed successfully.
+- Ubuntu job `137722184375`: compilation passed; `Ran 334 tests in 3.679s`; `OK`; synthetic MP4/FFprobe validation passed.
+- Hosted Windows job `137722183707`: compilation passed; `Ran 334 tests in 15.328s`; `OK`; synthetic MP4/FFprobe validation passed.
+- Both jobs checked out merge ref `37d277b1ef12fa7c52325ba3b0faf9d3a1a166b5`, merging PR #129 head into base `f102c1b5f71c82d7d6d38a2d80343126aa3ab2f5`. Do not describe this as a raw-head checkout.
+- Both synthetic reports state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Each platform ran the same 334-test suite, not 668 unique tests. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
+- Local tests were not run in this connector session.
+
+### Owner gates
+
+- PR #129 and its documentation follow-up PR #130 remain open/draft/unmerged; no merge or integration is authorized by this evidence refresh.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled until the project owner assigns an implementation owner and selects one canonical authenticated-uploader PR/branch or approves a consolidation plan.
+- No secrets, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
