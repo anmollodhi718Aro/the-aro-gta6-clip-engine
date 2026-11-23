@@ -187,3 +187,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #150 head `5cb9e675b9b081bc1c45b55eaed1e3f470deddec` is associated with Actions run #45233266948 (run 948), SUCCESS. Ubuntu job #137898182465 passed compilation, 334 tests (5.037s), and synthetic MP4/FFprobe validation; hosted Windows job #137898183037 passed compilation, 334 tests (12.176s), and synthetic MP4/FFprobe validation.
 - Both jobs checked out `refs/remotes/pull/150/merge` at `562731e4781719821418956d10d8cedf51a9cdea`; raw-head-only CI is NOT DEMONSTRATED. Both synthetic reports confirm no GTA 6 or third-party media, publishing disabled, and manual review required. This is not owner-device Windows or real-media acceptance.
 - PR #150 remains draft/open/unmerged. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled. Do not merge, retarget, deploy, upload, or publish without explicit owner approval.
+
+
+### Latest continuation baseline — ARO-CHAT-0092 (2026-11-23)
+- Current workstream: ARO-GTA-P1-92 / ARO-CHAT-0092 | PR #150 exact-head CI audit; branch `workstream/aro-chat-0092-pr150-exact-head-ci-audit-2026-11-23`; base PR #150 head `5fbd066a62ebafdafe30de05a7978a11522003b2`.
+- PR #150 current head is associated with Python CI run #45234590422 (run 952), SUCCESS. Ubuntu job #137902808299 passed compilation, 334 tests (3.793s), and synthetic MP4/FFprobe validation. Hosted Windows job #137902808603 passed compilation, 334 tests (14.229s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/150/merge` at `62850ae392e7555a893f427ff285667f1aabf8fc`, merging PR #150 head into base `06babec863840afb8cecf0dd6608021bce9067a1`; raw-head-only CI is NOT DEMONSTRATED. Both synthetic reports confirm no GTA 6 or third-party media, publishing disabled, and manual review required.
+- PR #150 remains OPEN / DRAFT / UNMERGED. PR #149 remains an independent related draft; PR #146 remains independent and untouched. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled.
+- Report: `docs/ARO_CHAT_0092_PR150_CI_AUDIT.md`. Owner-device Windows and real-media acceptance remain NOT VERIFIED. Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit owner approval.
