@@ -346,6 +346,6 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Issue #68's owner-selected device-appropriate `--max-upload-bytes` gate was not enforced by the CLI: live upload could inherit the 256 MiB default. The follow-up now requires explicit selection for `--upload` and direct `upload_video()` calls.
 - Dry-run and approval-only commands retain the documented default; no default is accepted for a live upload.
 - Added regression tests for missing explicit limits and updated README. Report: `docs/ARO_CHAT_0164_EXPLICIT_UPLOAD_LIMIT.md`.
-- Local tests NOT RUN; this branch's own exact-head Ubuntu/hosted-Windows CI is PENDING (commit-associated lookup returned no run at inspection). Draft PR #242 is open at head `414fd4f7da94fdffcdd3261a5ea723b5f03290b3`. Do not transfer PR #238 run #45277658000.
+- Local tests NOT RUN; this branch's own exact-head Ubuntu/hosted-Windows CI is PENDING (run #45278418962 / run 1115 is QUEUED; jobs not yet available). Draft PR #242 is open at head `414fd4f7da94fdffcdd3261a5ea723b5f03290b3`. Do not transfer PR #238 run #45277658000.
 - No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment or destructive action.
 - Issue #68 remains OPEN. Keep live/public uploads disabled pending exact-head CI, independent security review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
