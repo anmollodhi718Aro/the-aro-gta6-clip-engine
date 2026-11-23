@@ -298,3 +298,9 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Security fix: SourceRightsRegistry registration is append-only. Duplicate source IDs cannot overwrite grants or clear revocation; renewed grants use a new versioned source_id and new evidence.
 - Keep Issue #68 open and all live/public uploads disabled until this branch's exact-head CI and independent review are complete, owner integration is approved, and a device-specific upload limit is chosen.
 - Report: `docs/ARO_CHAT_0106_ISSUE68_SECURITY_CONSOLIDATION.md`. No credentials, live OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0106 verification refresh — 2026-11-24
+- PR #168 exact head `9ff25d7356d5badc39f448c9f5e939cda4048541` passed Python CI run #45245685334: Ubuntu and hosted Windows each passed compile, 338 unit tests, and synthetic MP4/FFprobe validation.
+- This workstream is IMPLEMENTED and CI_VERIFIED on that exact head; it is not independently security-reviewed or owner-approved for integration.
+- Keep Issue #68 open and live/public uploads disabled. Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage. Owner must select a device-appropriate upload byte limit before any real upload.
