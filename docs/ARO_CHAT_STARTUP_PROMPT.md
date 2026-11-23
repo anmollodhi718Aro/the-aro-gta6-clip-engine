@@ -887,3 +887,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0161_PR236_CI_AUDIT.md`. CI_VERIFIED is merge-ref evidence only. Independent review, owner-device Windows, and authorized real-media acceptance remain NOT VERIFIED.
 - Issue #68 remains OPEN; owner assignment and canonical security implementation approval remain unresolved. Keep live uploads/public publishing disabled.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials/OAuth, real media, upload, publishing, retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation — ARO-CHAT-0162 (2026-11-24)
+- Current workstream: ARO-CHAT-0162 / ARO-GTA-P1-162, documentation-only exact-head CI audit of PR #237.
+- Audit branch: `workstream/aro-chat-0162-pr237-exact-head-ci-audit-2026-11-24`; base: `workstream/aro-chat-0161-pr236-exact-head-ci-audit-2026-11-24`; starting SHA: PR #237 head `efd0a9e1f4d275748125e50355f7eeb5f0f845ce`.
+- Parent PR #237 is OPEN / DRAFT / UNMERGED. Run #45277130191 (run 1098) was IN_PROGRESS at inspection.
+- Hosted Windows passed compile, 338 tests (18.434s), and synthetic MP4/FFprobe on merge ref `refs/remotes/pull/237/merge`, merge SHA `7c3f1f978677f5570078058d16bc24fc00fd9bfe`. Ubuntu job remained IN_PROGRESS at FFmpeg/FFprobe installation; compile/tests/render pending; logs unavailable (BlobNotFound). Overall matrix PENDING / NOT VERIFIED.
+- Synthetic media only; no GTA 6/third-party media; publishing disabled; manual review required; mocked approval reported `upload_performed=false`. Raw-head-only checkout NOT DEMONSTRATED; owner-device Windows and authorized real-media acceptance NOT VERIFIED.
+- Combined status had zero entries; reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. Local tests NOT RUN; no retry.
+- Report: `docs/ARO_CHAT_0162_PR237_CI_AUDIT.md`. Re-fetch exact head and run after Ubuntu completion; do not transfer CI evidence across PRs or SHAs.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials/OAuth, real media, upload, publishing, retry, merge, rebase, retarget, deployment, or destructive action.

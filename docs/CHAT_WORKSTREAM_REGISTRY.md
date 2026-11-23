@@ -2323,3 +2323,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0161_PR236_CI_AUDIT.md`. CI_VERIFIED applies only to PR #236's audited merge ref; do not transfer it to another PR or SHA.
 - Issue #68 remains OPEN / awaiting explicit owner assignment and canonical implementation approval. Keep live uploads/public publishing disabled. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials/OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0162 (2026-11-24)
+- Current workstream: ARO-CHAT-0162 / ARO-GTA-P1-162, documentation-only exact-head CI audit of PR #237.
+- Audit branch: `workstream/aro-chat-0162-pr237-exact-head-ci-audit-2026-11-24`; base: `workstream/aro-chat-0161-pr236-exact-head-ci-audit-2026-11-24`; starting SHA: PR #237 head `efd0a9e1f4d275748125e50355f7eeb5f0f845ce`.
+- Parent PR #237 is OPEN / DRAFT / UNMERGED. Its commit-associated Python CI run #45277130191 (run 1098) was IN_PROGRESS at inspection.
+- Hosted-Windows job #138051709376 passed compilation, 338 tests (18.434s), and synthetic MP4/FFprobe on merge ref `refs/remotes/pull/237/merge` at merge SHA `7c3f1f978677f5570078058d16bc24fc00fd9bfe`. Synthetic pattern/tone only; 8-second source, 4-second output; no GTA 6/third-party media; publishing disabled; mocked approval reported `upload_performed=false`.
+- Ubuntu job #138051710056 remained IN_PROGRESS at FFmpeg/FFprobe installation; compile/tests/render were pending and log retrieval returned BlobNotFound. Overall matrix PENDING / NOT VERIFIED. Do not transfer the Windows result to Ubuntu or claim full CI success.
+- Combined status returned zero entries; PR #237 reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. Local tests NOT RUN; no workflow retry.
+- Report: `docs/ARO_CHAT_0162_PR237_CI_AUDIT.md`. Re-fetch exact PR #237 head and run after Ubuntu completion; any head change requires a fresh audit.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled; owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
+- Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
