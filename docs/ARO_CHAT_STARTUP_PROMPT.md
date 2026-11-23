@@ -351,3 +351,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Documentation-only PR [#177](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/177) is OPEN / DRAFT / UNMERGED on `workstream/aro-chat-0110-pr172-exact-head-ci-audit-2026-11-24`.
 - PR #177 head `2f4e51a2f4ee6aac2d1dacf237d9f716233392ab`; initial commit-associated workflow lookup returned no run. Its own exact-head CI is PENDING / NOT VERIFIED; inspect independently when Actions starts.
 - Do not merge this stacked audit PR independently of its base. Issue #68 owner approval gate remains unchanged.
+
+
+
+
+## Latest continuation baseline — ARO-CHAT-0111 (2026-11-24)
+- Active workstream: ARO-GTA-P1-111 / ARO-CHAT-0111, documentation-only exact-head CI audit of PR #177; branch `workstream/aro-chat-0111-pr177-exact-head-ci-audit-2026-11-24`; base PR #177 head `bed4409bb9d43f5be1b5ecb13fb86dacb63f43bd`.
+- PR #177's associated Python CI run is [#45253255815](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45253255815), run 1001. At initial audit, Ubuntu job `137968386479` completed SUCCESS: compile passed, 334 tests in 4.832s, synthetic MP4/FFprobe validation passed. Hosted-Windows job `137968385850` passed compile and unit tests; synthetic render/validation was still in progress.
+- Ubuntu checked out PR merge ref at `cf50b76eb52ba758789043e43c13eefe0b5cc08d`, merging PR #177 head into PR #172 head `c385c729bfb6ca6d62861ad94f01d83e2d38bbc4`. Raw-head-only CI is NOT DEMONSTRATED. Recheck Windows logs and final matrix conclusion before claiming CI_VERIFIED.
+- Report: `docs/ARO_CHAT_0111_PR177_CI_AUDIT.md`. This workstream is documentation-only; application, uploader, tests, renderer, and workflows are unchanged.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; do not duplicate or independently merge the existing parallel uploader branches. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action was performed.
