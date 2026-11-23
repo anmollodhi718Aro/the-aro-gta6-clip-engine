@@ -1280,3 +1280,25 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Full review note: `docs/ISSUE_68_PR93_SECURITY_REVIEW.md`. This is a bounded static pass, not exhaustive audit, independent security sign-off, legal determination, local test run, owner-device verification, or real-media acceptance.
 - Issue #68 remains OPEN / UNASSIGNED. Preserve overlapping PR histories and require owner assignment plus explicit canonical PR selection or approved consolidation before implementation changes. Keep live uploads/public publishing disabled.
 - No application code/tests changed; no OAuth credentials/tokens, live OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action occurred.
+
+
+## ARO-CHAT-0058 upload-limit regression tests — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0058 |
+| Exact title | ARO-CHAT-0058 | Upload Limit Regression Tests |
+| Workstream ID | ARO-GTA-P1-58 |
+| Role | Test-only contributor |
+| Task | Add deterministic synthetic regressions for cumulative multi-chunk upload snapshot limits and the direct-call oversized-file fail-fast guard. |
+| Branch | workstream/aro-chat-0058-upload-limit-regressions-2026-11-23 |
+| Base | PR #105 head aed4fd8a03f8bce5aac4cdf0a2e42c91606cd57d (stacked; do not integrate independently of PR #105) |
+| Starting SHA | aed4fd8a03f8bce5aac4cdf0a2e42c91606cd57d |
+| Status | IN_PROGRESS; test execution and exact-head CI pending |
+| Changed files | tests/test_youtube_upload_limits.py; docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | Test-only additions. No uploader/application behavior changes, OAuth credentials, live OAuth, network upload, real media, publishing, merge, retarget, deployment, or destructive action. |
+
+### Planned verification
+- R1: deterministic reader yields an in-budget first chunk followed by a cumulative-limit-crossing chunk; assert staged bytes never exceed the limit and temporary staging is cleaned up.
+- R2: oversized direct upload_video() call must reject before Google API client construction, media upload object creation, or OAuth authorization.
+- All fixtures are synthetic and offline. Keep live uploads/public publishing disabled; Issue #68 remains OPEN / UNASSIGNED.
