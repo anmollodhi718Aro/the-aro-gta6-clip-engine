@@ -2392,3 +2392,18 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Both platforms ran the same 334-test suite, not 668 unique tests. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance. Local tests were not run in this connector session.
 - PR #152 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled.
 - ARO-CHAT-0094 / PR #153 already reserves a separate PR #151 follow-up and was not modified. This ARO-CHAT-0095 workstream is documentation-only; no credentials, OAuth, real media, upload, publish, merge, retarget, deployment, or destructive action occurred.
+
+
+## ARO-CHAT-0096 — PR #154 exact-head CI audit (2026-11-23)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0096 | ARO-CHAT-0096 \\| PR #154 Exact-Head CI Audit | ARO-GTA-P1-96 | Audit PR #154 exact-head Actions run, Ubuntu/hosted-Windows logs, compile/tests, synthetic MP4/FFprobe results, and checkout refs; documentation-only | `workstream/aro-chat-0096-pr154-exact-head-ci-audit-2026-11-23` / pending PR | IN_PROGRESS; PR #154 run #45236020266 (run 957) was in progress; Ubuntu and Windows jobs were installing FFmpeg/FFprobe; no test or render result claimed | Starting SHA `0139e594ce43d04f17172fdb150f7dadd20f9fae`; parent PR #154; ARO-CHAT-0095 / PR #154 remains parent audit and is not duplicated |
+
+### ARO-CHAT-0096 initial evidence and boundaries
+
+- PR #154 exact head `0139e594ce43d04f17172fdb150f7dadd20f9fae` is associated with Python CI run [#45236020266](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45236020266), run 957.
+- At initial inspection, run 957 was IN_PROGRESS. Ubuntu job `137907942763` and hosted Windows job `137907943009` had completed setup, checkout, and Python setup; both were still installing FFmpeg/FFprobe. Compile, unit tests, synthetic render, and final checkout refs were not yet evidenced.
+- Follow up only after run completion; inspect both job logs and report the exact checkout ref. Do not transfer PR #152's successful CI evidence to PR #154.
+- PR #154 and this follow-up remain draft/open/unmerged. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled.
+- Scope is documentation-only. No credentials, OAuth, real media, upload, publish, merge, retarget, deployment, or destructive action is authorized or performed.
