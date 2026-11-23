@@ -1448,3 +1448,28 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Parent PR #238 run #45277658000 passed Ubuntu and hosted Windows (338 tests per platform plus synthetic MP4/FFprobe); this predecessor evidence is NOT transferred to ARO-CHAT-0164.
 - No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment or destructive action.
 - Keep Issue #68 OPEN and all live/public uploads disabled pending this branch's exact-head CI, independent security review, owner-controlled integration, owner-device verification and separate authorized real-media acceptance.
+
+
+## Latest continuation — ARO-CHAT-0165 (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0165 |
+| Exact title | ARO-CHAT-0165 | PR #242 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-165 |
+| Scope | Independently audit PR #242's actual current head, both platform jobs, logs, checkout refs, compile/tests, synthetic MP4/FFprobe, combined status and review state; documentation-only |
+| Branch | `workstream/aro-chat-0165-pr242-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #242 current head `dfb1e9390490806e44bad93fc661ddff0a551f54` |
+| Parent PR | #242, current head based on PR #238 head `cdcf7a4bef2728e3299e82bc88d376992ecec39d` |
+| Status | IN_PROGRESS; Ubuntu CI passed 340 tests and synthetic MP4/FFprobe; hosted-Windows unit tests IN_PROGRESS at initial audit snapshot; matrix NOT VERIFIED |
+| Report | `docs/ARO_CHAT_0165_PR242_CI_AUDIT.md` |
+
+### Findings and guardrails
+- PR #242 metadata identifies current head `dfb1e9390490806e44bad93fc661ddff0a551f54`; earlier SHA `414fd4f7da94fdffcdd3261a5ea723b5f03290b3` is an ancestor, 7 commits behind. Audit the actual PR head only.
+- Current-head run #45278668116 (run 1118): Ubuntu job #138058372656 passed compile, 340 tests (4.934s), and synthetic MP4/FFprobe. It checked out merge ref `refs/remotes/pull/242/merge` at `ad80436817f46f8f36093ae95dc4eeed6cf0ce7e`.
+- Ubuntu synthetic media is locally generated pattern/tone only (8s source / 4s output); no GTA 6 or third-party footage; publishing disabled; manual review required.
+- Hosted-Windows job #138058368900 passed setup, checkout, Python, FFmpeg/FFprobe installation and compilation; unit tests were still running and synthetic render pending at the snapshot. Matrix remains PENDING; do not transfer parent PR #238's CI.
+- Combined status returned zero entries. PR #242 reviews, inline threads and conversation comments were empty; independent GitHub review NOT RECORDED.
+- The bounded static review confirms the explicit live-upload limit guard is applied at CLI and direct upload boundaries before OAuth. The numeric limit remains owner-selected and must be conservative; it is a file-size ceiling, not a direct process-RAM measurement.
+- Issue #68 remains OPEN. Keep live/public uploads disabled pending full matrix CI, separate reviewer sign-off, owner-controlled integration, owner-device verification and authorized real-media acceptance.
+- Documentation-only. No application/uploader/test/workflow behavior, credentials, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
