@@ -2122,7 +2122,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Base / starting SHA | PR #138 head `f3ecc88600015f97c4067d314717f1c6b0adc3b5` |
 | Parent PR | [PR #138](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/138) |
 | Changed files | `docs/ARO_CHAT_0085_PR138_CI_AUDIT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md` |
-| Status | IN_PROGRESS; hosted Windows job successful; Ubuntu job still installing FFmpeg/FFprobe; final run conclusion and logs pending |
+| Status | IMPLEMENTED; PR #138-associated merge-ref CI successful on Ubuntu and hosted Windows; this follow-up branch's own exact-head CI pending |
 | Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
 
 ### Evidence snapshot
