@@ -144,10 +144,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 
 ## Live continuation baseline — refreshed 2026-11-23 (ARO-CHAT-0088)
 
-- Latest registered workstream: ARO-CHAT-0088 / ARO-GTA-P1-88, auditing the exact-head Actions run for PR #143.
-- Current branch: `workstream/aro-chat-0088-pr143-exact-head-ci-audit-2026-11-23`; base and starting SHA: PR #143 head `6f9d184eb4447c64544ad93e05f7ad1708431e8e`.
-- PR #143 head is associated with Actions run #45205002366 (run 919). At initial inspection, Ubuntu job #137798218807 and hosted Windows job #137798218139 had completed setup, checkout, and Python setup; both were still installing FFmpeg/FFprobe. Compile, tests, synthetic render, final conclusions, and checkout-ref evidence were pending.
-- Refresh the audit report from completed job steps and decoded logs. Do not infer pass/fail or test counts from an in-progress run.
+- Latest registered workstream: ARO-CHAT-0088 / ARO-GTA-P1-88, exact-head CI audit of PR #143. Follow-up PR #144 is OPEN / DRAFT / UNMERGED.
+- Current branch: `workstream/aro-chat-0088-pr143-exact-head-ci-audit-2026-11-23`; base: `workstream/aro-chat-0087-pr142-ci-audit-2026-11-23`; starting SHA: PR #143 head `6f9d184eb4447c64544ad93e05f7ad1708431e8e`.
+- PR #143 Actions run #45205002366 (run 919) completed successfully. Ubuntu job #137798218807 and hosted Windows job #137798218139 each passed compilation, 334 unit tests, and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/143/merge` at `76dcc56ee7dca3dfa836569e0ec9ead920ce4482`; raw-head-only checkout is not demonstrated. Both platforms ran the same 334-test suite, not 668 unique tests.
+- Synthetic reports confirm `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. This is not real-media acceptance or owner-device Windows verification.
+- The audit report is `docs/ARO_CHAT_0088_PR143_CI_AUDIT.md`. PR #144's own exact-head CI is the next evidence check after this documentation update; do not transfer PR #143's green result to PR #144.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled until owner assignment and explicit canonical authenticated-uploader PR selection or approved consolidation.
 - No merge, retarget, deploy, upload, publish, credential/OAuth access, real-media processing, or destructive action is authorized by this documentation-only audit.
 - First real GTA 6 clip remains NOT COMPLETE until authorized media, documented permission scope, local intake, approved clip bounds, local render, FFprobe validation, playback, and owner acceptance are evidenced.
