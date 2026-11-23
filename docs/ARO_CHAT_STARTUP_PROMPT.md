@@ -877,3 +877,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Run #45276253445 remains IN_PROGRESS. Hosted Windows job #138048704367 passed compilation, 338 tests (14.744s), and synthetic MP4/FFprobe on merge ref `refs/remotes/pull/235/merge` at `3bca352f23a77a1af2b6fe39b4ca6508c08e3a87`; synthetic-only, 4.0-second output, publishing disabled, mocked upload false.
 - Ubuntu job #138048704068 remains IN_PROGRESS at FFmpeg/FFprobe install; compile/tests/render pending, log unavailable (BlobNotFound). Matrix remains PENDING / NOT VERIFIED.
 - Recheck exact PR #235 head and Ubuntu job after completion. Do not transfer prior PR evidence. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live publishing disabled.
+
+
+### Latest continuation baseline — ARO-CHAT-0161 (2026-11-24)
+- Current workstream: ARO-CHAT-0161 / ARO-GTA-P1-161 | PR #236 Exact-Head CI Audit.
+- Branch: `workstream/aro-chat-0161-pr236-exact-head-ci-audit-2026-11-24`; base: `workstream/aro-chat-0160-pr235-exact-head-ci-audit-2026-11-24`; starting SHA: PR #236 head `aa9a415e5fd2efe44041f6acc8466cbecdc5e84a`.
+- Parent PR #236 exact-head-associated Python CI run #45276663626 completed SUCCESS on Ubuntu and hosted Windows. Both jobs compiled, passed the same 338 tests, and passed synthetic MP4/FFprobe validation.
+- Both jobs checked out PR merge ref `refs/remotes/pull/236/merge` at merge SHA `212cc29d0ae41d23d77010e52d97f44154426ea6`; raw-head-only checkout is NOT DEMONSTRATED. Synthetic-only pattern/tone; 8-second source, 4-second output; no GTA 6/third-party media; publishing disabled; mocked upload false.
+- Report: `docs/ARO_CHAT_0161_PR236_CI_AUDIT.md`. CI_VERIFIED is merge-ref evidence only. Independent review, owner-device Windows, and authorized real-media acceptance remain NOT VERIFIED.
+- Issue #68 remains OPEN; owner assignment and canonical security implementation approval remain unresolved. Keep live uploads/public publishing disabled.
+- Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials/OAuth, real media, upload, publishing, retry, merge, rebase, retarget, deployment, or destructive action.
