@@ -1452,3 +1452,28 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
 - No credentials/tokens, OAuth, real media, network upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage or real-media acceptance.
+
+
+## ARO-CHAT-0124 — PR #194 exact-head CI audit (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0124 |
+| Exact title | ARO-CHAT-0124 | PR #194 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-124 |
+| Scope | Audit PR #194's own Actions run, Ubuntu/hosted-Windows jobs, compilation/tests, synthetic MP4/FFprobe validation, checkout refs, combined status, and review state; documentation-only |
+| Branch | `workstream/aro-chat-0124-pr194-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #194 head `d6fd5be6c8e9608fc6bb1d4a91e3a4bcb3ce26a8` |
+| Parent PR | #194 (ARO-CHAT-0123) |
+| Report | `docs/ARO_CHAT_0124_PR194_CI_AUDIT.md` |
+| Status | IN_PROGRESS; Ubuntu job SUCCESS; hosted-Windows job still IN_PROGRESS at latest snapshot; matrix CI NOT VERIFIED |
+
+### Initial evidence and boundaries
+- PR #194 head is associated with Python CI run [#45257397865](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45257397865), run 1019.
+- Ubuntu job #137982722529 completed compile, unit-test, and synthetic MP4/FFprobe steps successfully. Exact test count and decoded log details were not available; no test count is claimed.
+- Hosted-Windows job #137982723087 passed setup, checkout, Python 3.11 setup, and FFmpeg/FFprobe installation; compilation was in progress. Unit tests and synthetic MP4/FFprobe remained pending at the latest snapshot.
+- Combined status returned PENDING with zero entries. PR #194 review submissions and inline review threads were empty.
+- Workflow job-log download returned HTTP 404; use observed job-step summaries only. Local tests were NOT RUN in this connector session.
+- Do not transfer PR #192 or any other branch's CI evidence. Re-fetch PR #194's exact-head run and both jobs before finalizing.
+- Documentation-only. No application/uploader/test/workflow behavior, credentials, OAuth, real media, network upload, publishing, merge, retarget, deployment, workflow retry, or destructive action.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
