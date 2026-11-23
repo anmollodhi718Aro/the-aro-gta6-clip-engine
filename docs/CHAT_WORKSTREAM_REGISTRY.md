@@ -1992,3 +1992,8 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Requeried PR #132 reviewed SHA `1b4b07a7d3436674a0815dcbbcd0c7cdc3873700`; no PR-triggered workflow runs were returned.
 - No jobs/logs exist to establish compilation, unit-test, synthetic MP4, or FFprobe outcomes. Exact-head CI remains NOT VERIFIED; parent PR #129 evidence is not transferable.
 - No workflow configuration or application code was changed. Await the normal authorized CI run before making any verification claim.
+
+### Follow-up recheck — 2026-11-23 21:02 IST
+- PR #132 reviewed head `1b4b07a7d3436674a0815dcbbcd0c7cdc3873700` was rechecked through the exact-SHA workflow-run and combined-status endpoints; both returned empty results.
+- Exact-head CI remains NOT VERIFIED; no compile, unit-test, synthetic MP4, or FFprobe result is claimed.
+- ARO-CHAT-0080 remains IN_PROGRESS and documentation-only. The detailed recheck is recorded in `docs/ARO_CHAT_0080_PR132_CI_AUDIT.md`.
