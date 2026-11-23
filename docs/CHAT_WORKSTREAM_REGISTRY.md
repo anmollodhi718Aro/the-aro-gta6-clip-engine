@@ -1422,3 +1422,29 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Static diff: test-only correction in `tests/test_youtube_upload.py`; production `backend/app/youtube_upload.py` unchanged. Corrected test mutates original source after final approval/rights checks and confirms immutable in-memory upload bytes remain unchanged.
 - Combined status returned zero entries; PR #238 reviews, inline comments, and conversation comments empty; independent review NOT RECORDED. Local tests NOT RUN. Owner-device Windows and real-media acceptance NOT VERIFIED.
 - PR #238 remains draft-only pending independent security review and owner-controlled integration. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live/public uploads disabled. Device-appropriate `--max-upload-bytes` owner decision still required. No OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation — ARO-CHAT-0164 (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0164 |
+| Exact title | ARO-CHAT-0164 | Require Explicit Device Upload Memory Limit |
+| Workstream ID | ARO-GTA-P1-164 |
+| Scope | Close Issue #68 owner-limit gate by requiring an explicit device-selected `--max-upload-bytes` for every live YouTube upload, including direct API calls |
+| Branch | `workstream/aro-chat-0164-explicit-upload-memory-limit-2026-11-24` |
+| Base / starting SHA | PR #238 head `cdcf7a4bef2728e3299e82bc88d376992ecec39d` |
+| Parent lineage | PR #83 → #87 → #88 → #92 → #93, consolidated through #168; bounded staging #176; test repair #238 |
+| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI PENDING; draft PR not yet opened |
+| Report | `docs/ARO_CHAT_0164_EXPLICIT_UPLOAD_LIMIT.md` |
+
+### Change and safety
+- Live CLI upload now fails closed when `--max-upload-bytes` is omitted.
+- Direct `upload_video()` calls also require an explicit positive byte limit; no implicit default is accepted for an actual upload.
+- Dry-run and approval-only workflows retain the 256 MiB fallback; it is not a live-upload allowance.
+- Added tests for missing explicit limits at the CLI and direct-call boundaries; mocked upload tests now pass a test-specific explicit limit.
+- README documents the owner-selected device-memory requirement.
+- The existing OAuth owner identity, exact per-clip approval, bounded pre-OAuth immutable staging, live rights rechecks and no-network test boundary remain intact.
+- Parent PR #238 run #45277658000 passed Ubuntu and hosted Windows (338 tests per platform plus synthetic MP4/FFprobe); this predecessor evidence is NOT transferred to ARO-CHAT-0164.
+- No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment or destructive action.
+- Keep Issue #68 OPEN and all live/public uploads disabled pending this branch's exact-head CI, independent security review, owner-controlled integration, owner-device verification and separate authorized real-media acceptance.
