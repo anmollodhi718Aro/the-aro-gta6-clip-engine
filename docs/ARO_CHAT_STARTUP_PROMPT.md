@@ -776,3 +776,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Audit PR [#229](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/229) is OPEN / DRAFT / UNMERGED and targets the PR #226 audit base branch. It contains documentation-only changes and does not modify application or upload behavior.
 - PR #229's own exact-head CI must be inspected independently after its head stabilizes; no CI result is inferred or transferred from PR #226 or PR #225.
 - Keep this audit draft-only. No merge, rebase, retarget, deployment, upload, or publishing.
+
+
+### ARO-CHAT-0153 live recheck — 2026-11-24
+- PR #226 live head is `d8433a2c31dc0634d5fc9a853b82c8e061ced0ab`, base `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`, OPEN / DRAFT / UNMERGED.
+- Commit lookup found successful runs #45270942827 and #45270941723 for this source SHA, but both logs checked out merge commit `d07abf4` (source SHA merged into base `894bf28f07b2bb5eccbbb393f63425da5e64c0da`). That is a different base from PR #226. Do not count these as PR #226's exact merge-ref CI.
+- Both alternate-base runs passed Ubuntu and hosted Windows compilation, the same 338 tests, and synthetic MP4/FFprobe. Synthetic pattern/tone only; no GTA 6/third-party media; publishing disabled; manual review required; mocked approval says `upload_performed=false`.
+- PR #226 exact-base CI remains PENDING / NOT VERIFIED; raw-head-only CI NOT DEMONSTRATED. Combined status, review submissions, inline threads, and conversation comments returned no entries. Independent review NOT RECORDED.
+- PR #229 is the audit PR and remains draft-only. Its pre-update head had zero associated runs; inspect its new head's own CI separately.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No workflow retry, OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
