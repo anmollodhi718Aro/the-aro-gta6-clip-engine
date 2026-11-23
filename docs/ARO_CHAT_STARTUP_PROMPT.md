@@ -78,7 +78,6 @@ Do not label REAL_MEDIA_VERIFIED or COMPLETE before every required step has evid
 4. Obtain the authorized source media and permission evidence.
 5. Run the local first-real-clip workflow, FFprobe validation, playback, and owner acceptance.
 6. Only then prepare release integration. Merge, close, retarget, deploy, upload, publish, or delete only with explicit action-specific owner approval.
-
 ### Reporting format for every continuation
 Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIFIED, WINDOWS_VERIFIED, REAL_MEDIA_VERIFIED, BLOCKED, or COMPLETE. Include exact SHA/run/test counts and distinguish hosted Windows CI from owner-device Windows verification. List unverified work explicitly. Never report a synthetic MP4 as a GTA 6 clip.
 
@@ -157,8 +156,7 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 
 ### ARO-CHAT-0088 owner reconciliation — 2026-11-23
 - Owner-approved canonical workstream record: PR #144 / branch workstream/aro-chat-0088-pr143-exact-head-ci-audit-2026-11-23 for ARO-GTA-P1-88.
-- Preserve PR #145 and its branch as a non-canonical alternate/evidence record. Do not close, delete, merge, or retarget it based solely on this selection; reconsider only if later evidence demonstrates a material advantage.
-- PR #144 pre-update head c74d001f64976ada076e112d3bc71097103f30ea had successful Actions run #45217116584 (run 930): Ubuntu and hosted Windows each passed 334 tests and synthetic MP4/FFprobe validation. Both jobs used refs/remotes/pull/144/merge at 09f71138d28d9b2213027126b462b0be1a83adb7; raw-head-only verification is not demonstrated.
+- Preserve PR #145 and its branch as a non-canonical alternate/evidence record. Do not close, delete, merge, or retarget it based solely on this selection; reconsider only if later evidence demonstrates a material advantage.- PR #144 pre-update head c74d001f64976ada076e112d3bc71097103f30ea had successful Actions run #45217116584 (run 930): Ubuntu and hosted Windows each passed 334 tests and synthetic MP4/FFprobe validation. Both jobs used refs/remotes/pull/144/merge at 09f71138d28d9b2213027126b462b0be1a83adb7; raw-head-only verification is not demonstrated.
 - This is a canonical-record decision, not merge approval. Keep PR #144 draft/open/unmerged. Re-audit CI for every new head. Keep Issue #68 open/unassigned and public publishing/live uploads disabled; real-media and owner-device Windows acceptance remain outstanding.
 
 
@@ -223,3 +221,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #154 remains OPEN / DRAFT / UNMERGED. PR #152 and PR #151 remain OPEN / DRAFT / UNMERGED; PR #153 is separate and untouched. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled.
 - Report: `docs/ARO_CHAT_0096_PR154_CI_AUDIT.md`. This workstream is documentation-only. Owner-device Windows and real-media acceptance remain NOT VERIFIED.
 - Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
+
+## Latest continuation baseline — ARO-CHAT-0096 CI audit closeout (2026-11-23)
+
+- Workstream: ARO-GTA-P1-96 / ARO-CHAT-0096, audit of PR #154; follow-up PR #156 is OPEN / DRAFT / UNMERGED on `workstream/aro-chat-0096-pr154-exact-head-ci-audit-2026-11-23`.
+- Reviewed PR #154 head `0139e594ce43d04f17172fdb150f7dadd20f9fae` is associated with Python CI run #45236020266 (run 957), conclusion SUCCESS.
+- Ubuntu job #137907942763: compilation passed; 334 tests ran (5.103s); synthetic MP4/FFprobe validation passed.
+- Hosted Windows job #137907943009: compilation passed; 334 tests ran (14.489s); synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/154/merge` at merge SHA `8b70848e536963372753e79d012a59e113c966af`, merging reviewed head `0139e594ce43d04f17172fdb150f7dadd20f9fae` into base `ee57b3f46cc18496db61900bd7153d5dcad2fe4b`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic reports: `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`. This is not real-media acceptance or owner-device Windows verification.
+- Audit report: `docs/ARO_CHAT_0096_PR154_CI_AUDIT.md`; registry updated. Parent PR #154 merge-ref CI is CI_VERIFIED; PR #156's own CI must be inspected separately after it runs.
+- PR #154 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED. No merge, retarget, deploy, upload, publish, credential/OAuth access, or destructive action is authorized by this documentation-only audit.
