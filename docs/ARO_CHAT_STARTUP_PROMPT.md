@@ -204,3 +204,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #151 remains OPEN / DRAFT / UNMERGED. PR #150 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled.
 - Report: `docs/ARO_CHAT_0093_PR151_CI_AUDIT.md`. Owner-device Windows and real-media acceptance remain NOT VERIFIED. The next step after this documentation update is to inspect this workstream branch's own exact-head CI before choosing another non-duplicate task.
 - Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
+
+
+## Latest continuation baseline — ARO-CHAT-0095 (2026-11-23)
+- Current workstream: ARO-GTA-P1-95 / ARO-CHAT-0095 | PR #152 exact-head CI audit; branch `workstream/aro-chat-0095-pr152-exact-head-ci-audit-2026-11-23`; base PR #152 head `ee57b3f46cc18496db61900bd7153d5dcad2fe4b`.
+- PR #152 head is associated with Python CI run #45235407935 (run 954), SUCCESS. Ubuntu job #137905682991 passed compilation, 334 tests (5.063s), and synthetic MP4/FFprobe validation. Hosted Windows job #137905683575 passed compilation, 334 tests (14.781s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/152/merge` at merge SHA `a6c9b0fc17999da50b32dd3fd7b7e857ad557fe6`, merging PR #152 head into base `1168348aa5088da5945638ff0ec54e67554f0c1f`; raw-head-only checkout is NOT DEMONSTRATED. Synthetic reports confirm no GTA 6 or third-party media, publishing disabled, and manual review required.
+- PR #152 remains OPEN / DRAFT / UNMERGED. PR #151 remains OPEN / DRAFT / UNMERGED. PR #153 already reserves ARO-CHAT-0094 for a separate PR #151 audit follow-up; preserve it and do not duplicate it. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled.
+- Report: `docs/ARO_CHAT_0095_PR152_CI_AUDIT.md`. Owner-device Windows and real-media acceptance remain NOT VERIFIED. This workstream's own exact-head CI remains pending until its associated run and logs are inspected.
+- Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
