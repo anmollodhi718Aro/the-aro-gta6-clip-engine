@@ -233,3 +233,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Audit report: `docs/ARO_CHAT_0096_PR154_CI_AUDIT.md`; registry updated. Parent PR #154 merge-ref CI is CI_VERIFIED; PR #156's own CI must be inspected separately after it runs.
 - PR #154 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED. No merge, retarget, deploy, upload, publish, credential/OAuth access, or destructive action is authorized by this documentation-only audit.
+
+
+## Latest continuation baseline — ARO-CHAT-0096 CI closeout (2026-11-23)
+
+- Current workstream remains ARO-GTA-P1-96 / ARO-CHAT-0096; PR #156 is the documentation-only follow-up for the PR #154 exact-head CI audit, on branch `workstream/aro-chat-0096-pr154-exact-head-ci-audit-2026-11-23`.
+- PR #156 head `0441db3418786b88625cce9cb950e03a4e9aac9f` is associated with Python CI run #45236561219 (run 962), SUCCESS. Ubuntu job #137909721243 passed compilation, 334 tests (4.209s), and synthetic MP4/FFprobe validation. Hosted Windows job #137909720763 passed compilation, 334 tests (21.227s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/156/merge` at merge SHA `9b5cb765fdb72fa9d1b08e4ed294f54ddad29cfc`, merging PR #156 head into PR #154 head `0139e594ce43d04f17172fdb150f7dadd20f9fae`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both synthetic reports confirm no GTA 6 or third-party media, publishing disabled, and manual review required. Both platforms ran the same 334-test suite, not 668 unique tests. Hosted Windows CI is not owner-device Windows verification.
+- PR #156 merge-ref CI is CI_VERIFIED; PR #156 remains OPEN / DRAFT / UNMERGED. This evidence does not authorize merge. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled.
+- Report: `docs/ARO_CHAT_0096_PR154_CI_AUDIT.md`; registry records this closeout. Real-media acceptance and owner-device Windows verification remain NOT VERIFIED.
+- Next step: inspect the latest registry and live PR graph, then select only the next non-duplicate owner-authorized bounded task. Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
