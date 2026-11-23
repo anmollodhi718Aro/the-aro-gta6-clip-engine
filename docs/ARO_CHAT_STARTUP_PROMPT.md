@@ -509,3 +509,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Do not transfer PR #203 or other branch CI evidence. Local tests were NOT RUN in this connector session; no workflow retry was initiated.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Documentation-only. No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0134 (2026-11-24)
+- Current workstream: ARO-GTA-P1-134 / ARO-CHAT-0134 | PR #205 exact-head CI audit.
+- Branch: `workstream/aro-chat-0134-pr205-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #205 head `6bbc76be287ad96e8d52308db328e2b4bec818d2`.
+- Parent PR: [#205](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/205). Report: `docs/ARO_CHAT_0134_PR205_CI_AUDIT.md`.
+- PR #205 exact-head workflow lookup returned zero runs; direct Actions lookup by head SHA returned zero runs; commit check-runs returned zero entries.
+- Combined commit status returned zero status entries and legacy state `pending`, not success. PR #205 reviews, inline threads, and conversation comments returned empty arrays. Independent review NOT RECORDED.
+- PR #205 remains OPEN / DRAFT / UNMERGED; GitHub reported `mergeable: false`. Compile/tests/synthetic MP4/FFprobe/checkout refs are NOT VERIFIED. Do not transfer PR #204 or earlier CI evidence.
+- Local tests NOT RUN in this connector session. No workflow retry was initiated.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Documentation-only. No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
