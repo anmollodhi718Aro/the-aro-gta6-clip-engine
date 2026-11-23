@@ -2186,3 +2186,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Combined status returned zero entries; PR #225 reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. Hosted Windows is not owner-device Windows verification; synthetic media is not real-media acceptance.
 - Report: `docs/ARO_CHAT_0152_PR225_CI_AUDIT.md`. This CI result applies only to PR #225's audited merge ref; do not transfer it to audit PR #226.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0152 PR #225 exact-head CI closeout — 2026-11-24
+- PR #225 head `894bf28f07b2bb5eccbbb393f63425da5e64c0da` completed commit-associated Python CI run [#45270102698](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45270102698), run 1069, SUCCESS.
+- Ubuntu job #138027336794 passed compilation, 338 tests (3.720s), and synthetic MP4/FFprobe validation. Hosted-Windows job #138027336285 passed compilation, the same 338 tests (14.950s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/225/merge` at merge SHA `cc181eed7c60443ffb2f47bfa7093341d7402c21`, merging PR #225 head into base `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`. Raw-head-only checkout is NOT DEMONSTRATED. The platforms ran the same 338 tests, not 676 unique tests.
+- Synthetic reports used locally generated pattern/tone only, 8-second source and 4-second output, no GTA 6/third-party media, publishing disabled, manual review required; mocked approval fixture reports `upload_performed=false`.
+- Combined commit status returned zero entries. PR #225 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #225 remains OPEN / DRAFT / UNMERGED. Local tests NOT RUN in this connector session.
+- Audit CI_VERIFIED on merge ref only; raw-head-only CI, owner-device Windows, independent review, and real-media acceptance remain NOT VERIFIED.
+- Report: `docs/ARO_CHAT_0152_PR225_CI_AUDIT.md`. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
