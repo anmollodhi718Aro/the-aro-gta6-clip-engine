@@ -1,12 +1,14 @@
 # THE ARO GTA 6 Clip Engine — Project Status
 
-Last reviewed: 2026-11-19
+Last reviewed: 2026-11-23
 
 ## Branch and release state
 
 - Current release-candidate head also includes the Windows one-click manual clipping workflow from PR #48: up to 50 selected moments, Python 3.11 selection, FFprobe media validation, optional full-frame 9:16 output, dry-run first, two explicit render/rights confirmations, and a local review dashboard.
 - PR #48 was stacked directly on this branch and its head was fast-forwarded into this branch; PR #18 is the canonical review target for the combined code.
-- Latest recorded Actions run for the integrated head failed before runner assignment (`runner_id=0`, no steps). This is an infrastructure/account-side blocker until GitHub allocates a runner; it is not evidence that tests passed or that application tests failed.
+- Earlier Actions run #540 initially failed before runner assignment; retry attempt 3 reached the runner and exposed 5 failures plus 2 test-fixture errors in 249 tests. Those findings were repaired on draft PR #146.
+- PR #146 CI run #942 passed on both `ubuntu-latest` and `windows-latest` at exact PR head `856e4d9c1afe299bac55176209a4bd87ce275240`: compile succeeded and all 249 tests passed on each OS. FFmpeg/ffprobe were installed and the synthetic MP4 render test passed on both runners. The Windows CI job also parsed both PowerShell scripts and ran `scripts/check_project.ps1` successfully. Run #942 confirms 249/249 tests and the synthetic MP4 render test passed on each OS.
+- PR #146 remains a draft targeting `integration/release-candidate`; it has not been merged. Owner-side Windows smoke testing with an owner-supplied authorized recording remains required before the first real clip.
 - Owner-side Windows smoke testing with an authorized local recording is still required before the first real clip.
 
 - Integrated candidate branch: `integration/release-candidate`
