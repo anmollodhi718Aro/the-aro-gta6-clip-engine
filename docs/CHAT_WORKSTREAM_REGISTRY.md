@@ -2346,7 +2346,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 
 ## ARO-CHAT-0095 PR #152 exact-head CI audit — 2026-11-23
 
-| ARO-CHAT-0095 | ARO-CHAT-0095 \\| PR #152 Exact-Head CI Audit | ARO-GTA-P1-95 | Audit PR #152 current-head Actions run, Ubuntu/Windows logs, compile/tests, synthetic MP4/FFprobe results, and checkout refs; documentation-only | `workstream/aro-chat-0095-pr152-exact-head-ci-audit-2026-11-23` / [PR pending](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/152) | IMPLEMENTED; PR #152-associated merge-ref CI_VERIFIED on Ubuntu and hosted Windows (334 tests each); raw-head-only CI NOT DEMONSTRATED; this audit branch's own CI pending | Starting SHA `ee57b3f46cc18496db61900bd7153d5dcad2fe4b`; run #45235407935; merge SHA `a6c9b0fc17999da50b32dd3fd7b7e857ad557fe6` |
+| ARO-CHAT-0095 | ARO-CHAT-0095 \\| PR #152 Exact-Head CI Audit | ARO-GTA-P1-95 | Audit PR #152 current-head Actions run, Ubuntu/Windows logs, compile/tests, synthetic MP4/FFprobe results, and checkout refs; documentation-only | `workstream/aro-chat-0095-pr152-exact-head-ci-audit-2026-11-23` / [PR #154](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/154) | IMPLEMENTED; PR #152-associated merge-ref CI_VERIFIED on Ubuntu and hosted Windows (334 tests each); raw-head-only CI NOT DEMONSTRATED; this audit branch's own CI pending | Starting SHA `ee57b3f46cc18496db61900bd7153d5dcad2fe4b`; run #45235407935; merge SHA `a6c9b0fc17999da50b32dd3fd7b7e857ad557fe6` |
 
 ## ARO-CHAT-0093 PR #151 exact-head CI audit — 2026-11-23
 
