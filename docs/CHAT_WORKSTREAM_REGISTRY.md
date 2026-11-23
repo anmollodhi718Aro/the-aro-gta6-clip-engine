@@ -2165,3 +2165,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Branch: `workstream/aro-chat-0150-pr224-exact-head-ci-audit-2026-11-24`; base / starting SHA: `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation — ARO-CHAT-0152 (2026-11-24)
+- Current workstream: ARO-GTA-P1-152 / ARO-CHAT-0152, documentation-only exact-head CI audit of PR #225.
+- Parent PR #225 head: `894bf28f07b2bb5eccbbb393f63425da5e64c0da`; audit branch: `workstream/aro-chat-0152-pr225-exact-head-ci-audit-2026-11-24`; base is PR #225 head.
+- Exact-head-associated Python CI run #45270102698 (run 1069) was IN_PROGRESS at initial inspection. Hosted-Windows job #138027336285 passed compilation, 338 tests (14.950s), and synthetic MP4/FFprobe validation. Ubuntu job #138027336794 was still installing FFmpeg/FFprobe; compile/tests/render pending.
+- Windows job checked out `refs/remotes/pull/225/merge` at merge SHA `cc181eed7c60443ffb2f47bfa7093341d7402c21`, merging PR #225 head into base `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic test pattern/tone only; no GTA 6/third-party media; publishing disabled; manual review required; mocked approval fixture reports `upload_performed=false`.
+- Combined status, review submissions, inline threads, and conversation comments returned no entries. Independent review NOT RECORDED. Local tests NOT RUN.
+- Report: `docs/ARO_CHAT_0152_PR225_CI_AUDIT.md`. Re-fetch the exact run and Ubuntu job before closeout; do not transfer predecessor CI.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow changes, credentials, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
