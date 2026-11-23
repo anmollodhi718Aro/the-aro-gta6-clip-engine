@@ -13,25 +13,28 @@ Date: 2026-11-24
 - Parent PR: [#220](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/220)
 
 ## Task and scope
-Independently inspect PR #220's own commit-associated GitHub Actions runs, check status, available jobs/logs, checkout refs, compilation/tests, synthetic MP4/FFprobe validation, and review state. Record observed evidence only. Documentation-only; no application, uploader, test, renderer, media-ingestion, or workflow behavior changes.
+Independently inspect PR #220's own commit-associated GitHub Actions run, jobs/logs, checkout refs, compilation/tests, synthetic MP4/FFprobe validation, combined status, and review state. Record observed evidence only. Documentation-only; no application, uploader, test, renderer, media-ingestion, or workflow behavior changes.
 
-## Initial exact-head evidence
+## Exact-head CI evidence
 - PR #220 head: `47072a6ac9b42d48d273176dc7e04fe019779fd7`.
-- Commit-associated workflow lookup returned zero workflow runs at inspection.
-- Combined commit status returned zero status entries. This is not a CI pass.
-- No workflow jobs were available. Compilation, unit tests, synthetic MP4/FFprobe validation, and checkout refs are NOT VERIFIED.
-- PR #220 review submissions, inline review threads, and conversation comments returned empty arrays. Independent review is NOT RECORDED.
-- PR #220 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=true.
-- Local tests were NOT RUN in this connector session. No workflow retry was initiated.
-- PR #219 and earlier PR CI evidence is not transferred to PR #220.
+- Commit-associated Python CI run [#45269033752](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45269033752), run 1061, completed SUCCESS.
+- Ubuntu job #138023584264 completed successfully: source compilation passed; the complete unittest suite ran 338 tests in 5.142s and returned OK; synthetic MP4/FFprobe validation passed.
+- Hosted-Windows job #138023585270 completed successfully: source compilation passed; the complete unittest suite ran the same 338 tests in 15.764s and returned OK; synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/220/merge` at merge SHA `9af7af7864be8ad950f2df49e9fa811c2073e824`, merging PR #220 head `47072a6ac9b42d48d273176dc7e04fe019779fd7` into base `cdacb24c9d1db25ad0a85f93d51afabb94d6f836` (PR #219 head). Raw-head-only checkout is NOT DEMONSTRATED.
+- Both platforms ran the same 338-test suite, not 676 unique tests.
+- Both synthetic reports show locally generated test pattern/tone only, 8.0-second source, 4.0-second rendered output, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. Mocked upload evidence reports `upload_performed=false`. No real GTA 6 or third-party media was used; no live upload or publishing was performed.
+- Non-failing Node.js 20 deprecation warnings were emitted for actions/checkout@v4 and actions/setup-python@v5.
+- Combined commit status returned zero status entries. The successful commit-associated Actions run and completed job logs are the CI evidence; an empty combined-status list is not itself a passing check.
 
-## Follow-up
-- Re-fetch this exact PR #220 head for commit-associated workflow runs, combined status, jobs, decoded logs, checkout refs, and reviews.
-- If a workflow appears, audit its exact head and every matrix job before assigning CI_VERIFIED. Do not infer a pass from empty run/status results.
-- This audit branch's own exact-head CI must be inspected independently after PR creation; do not transfer PR #220's results to this documentation branch.
+## Review and status
+- PR #220 review submissions, inline review threads, and conversation comments returned empty arrays. Independent review is NOT RECORDED.
+- PR #220 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=true at inspection.
+- Audit result: CI_VERIFIED on the PR merge ref only. Raw-head-only CI is NOT DEMONSTRATED. Hosted Windows CI is not owner-device verification.
+- Local tests were NOT RUN in this connector session.
+- This audit branch's own exact-head CI is separate: PR #221 head `eee181efc37f040b77e91df416a77983d7c7c687` had Python CI run [#45269230348](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45269230348), run 1062, IN_PROGRESS at this update. Its jobs must be inspected independently after this documentation update; no PR #220 CI result transfers to PR #221.
 
 ## Safety and limitations
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
-- Hosted Windows CI, if later observed, is not owner-device verification. Synthetic media is not real GTA 6 footage or real-media acceptance.
+- Synthetic media is not real GTA 6 footage or real-media acceptance. Hosted Windows is not owner-device verification.
 - No credentials/tokens, OAuth, real media, network upload, public publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
