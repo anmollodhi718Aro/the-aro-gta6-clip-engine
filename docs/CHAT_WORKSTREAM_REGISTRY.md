@@ -597,8 +597,7 @@ The registry and live branch/PR inventory were checked before opening PR #71, an
 | Exact title | ARO-CHAT-0032 | Test ResourceWarning Cleanup |
 | Provider / model | OpenAI / GPT-6 |
 | Project / workstream | THE ARO GTA 6 Clip Engine / ARO-GTA-P2-32 |
-| Role | Contributor / QA-minded maintenance |
-| Scope | Close the CSV reader in the batch-render test and record the isolated test-hygiene change; no application renderer or publishing changes |
+| Role | Contributor / QA-minded maintenance || Scope | Close the CSV reader in the batch-render test and record the isolated test-hygiene change; no application renderer or publishing changes |
 | Branch / PR | `workstream/aro-chat-0032-test-resourcewarning-2026-11-20` / PR pending |
 | Starting SHA | `4787c069d498b51177968546198eea3e1e8ac84a` |
 | Status | IMPLEMENTED; exact-head tests/CI NOT VERIFIED |
@@ -1197,8 +1196,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 ### Issue #68 security-lineage review status
 - Issue #68 remains OPEN. PR #83 identifies itself as the owner-selected primary candidate; PR #87 → #88 → #92 → #93 is a remediation chain that adds OIDC verifier repair, staged upload snapshot, immutable approved payload, and bounded-memory enforcement.
 - PR #82 and PR #91 remain parallel alternatives/reference histories. Preserve all branches; do not independently integrate overlapping implementations or infer permission to merge.
-- Security review and exact ancestry reconciliation remain in progress. Live uploads and public publishing stay disabled. Device-specific `--max-upload-bytes`, creator-authorized media, documented rights, real-media render/FFprobe/playback, and owner acceptance remain separate gates.
-- No OAuth credential/token access, real upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+- Security review and exact ancestry reconciliation remain in progress. Live uploads and public publishing stay disabled. Device-specific `--max-upload-bytes`, creator-authorized media, documented rights, real-media render/FFprobe/playback, and owner acceptance remain separate gates.- No OAuth credential/token access, real upload, public publishing, merge, retarget, deployment, or destructive action was performed.
 
 
 ### ARO-CHAT-0055 preliminary static review of Issue #68 remediation lineage
@@ -1797,8 +1795,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 ## ARO-CHAT-0075 PR #126 exact-head CI cancellation closeout — 2026-11-23
 
 | Field | Record |
-|---|---|
-| Chat ID | ARO-CHAT-0075 |
+|---|---|| Chat ID | ARO-CHAT-0075 |
 | Exact title | ARO-CHAT-0075 | PR #126 Exact-Head CI Cancellation Closeout |
 | Workstream ID | ARO-GTA-P1-75 |
 | Role | Exact-head CI evidence auditor + documentation-only contributor |
@@ -2181,3 +2178,13 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #139 remains an open duplicate ARO-CHAT-0085 submission; preserve both histories pending owner reconciliation.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+### ARO-CHAT-0086 final exact-head CI update — 2026-11-23
+- PR #142 head `807c2472705a7bebfa0c8f1b2b6f756d5c74b0ff` completed Python CI run [45199074333](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45199074333) successfully.
+- Ubuntu job `137777349883`: compilation passed; decoded log reports `Ran 334 tests in 4.903s`; synthetic MP4/FFprobe validation passed.
+- Hosted Windows job `137777350647`: compilation passed; decoded log reports `Ran 334 tests in 18.509s`; synthetic MP4/FFprobe validation passed.
+- Both jobs checked out merge ref `refs/remotes/pull/142/merge` at `09e8a222e51c5da124b0bac71a7309d4e54231fd`, containing PR #142 head `807c2472705a7bebfa0c8f1b2b6f756d5c74b0ff` merged into base `2340917095a3d8a9c275c6659d56a3c18912d8a8`; raw-head-only checkout is not demonstrated.
+- Both synthetic reports state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. The two platforms ran the same 334-test suite, not 668 unique tests.
+- Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance; local tests were not run in this connector session.
+- A Node.js 20 deprecation warning was emitted for actions running under Node.js 24; both jobs succeeded.
+- ARO-CHAT-0086 documentation audit is IMPLEMENTED and its PR-associated merge-ref CI is successful on Ubuntu and hosted Windows. PR #142 remains open/draft/unmerged; Issue #68 remains OPEN / UNASSIGNED. No real media, OAuth session, upload, publishing, merge, retarget, deployment, or destructive action occurred.
