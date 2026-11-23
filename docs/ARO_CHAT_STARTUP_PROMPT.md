@@ -616,3 +616,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Parent PR #210 run #45267261132 was CANCELLED on both Ubuntu and hosted Windows during FFmpeg/FFprobe installation; compilation, tests, and synthetic render were skipped.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Documentation-only; no credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Live continuation baseline — refreshed 2026-11-24 (ARO-CHAT-0141)
+
+- Latest reserved workstream: ARO-CHAT-0141 / ARO-GTA-P1-141, documentation-only exact-head CI audit of PR #212.
+- Branch: `workstream/aro-chat-0141-pr212-exact-head-ci-audit-2026-11-24`; base: `workstream/aro-chat-0140-pr211-exact-head-ci-audit-2026-11-24`; starting SHA: PR #212 head `ab045dc715b68e00d6d50eb46ca19e18843fabb0`.
+- Parent PR: [#212](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/212).
+- PR #212 head-associated Python CI run #45267652106 (run 1047) was IN_PROGRESS at reservation. Ubuntu compilation passed and unit tests were still running; hosted-Windows FFmpeg/FFprobe installation was CANCELLED, so compile/tests/render were skipped. Matrix CI is NOT VERIFIED.
+- Re-fetch the run, both jobs, decoded logs, checkout refs, combined status, and reviews before recording final evidence. Do not transfer PR #211 or predecessor CI results.
+- Report: `docs/ARO_CHAT_0141_PR212_CI_AUDIT.md`. Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
