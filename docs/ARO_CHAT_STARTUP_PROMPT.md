@@ -308,3 +308,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0107_PR168_CI_AUDIT.md`. PR #168 remains OPEN / DRAFT / UNMERGED; no submitted review was present at audit time.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled. Next gates are independent security review, owner-controlled authenticated OAuth channel-owner/per-clip approval integration, and a device-appropriate `--max-upload-bytes` decision before real uploads.
 - No credentials, OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+### Latest continuation baseline — ARO-CHAT-0108 (2026-11-24)
+- Active bounded workstream: ARO-GTA-P1-108 / ARO-CHAT-0108, OAuth token persistence hardening on `workstream/aro-chat-0108-issue68-security-review-2026-11-24`.
+- Base / starting SHA: PR #170 head `647d68a76244e5f951bd4e44cf6ed322834f0d90`; parent PR #170 remains open/draft/unmerged.
+- Finding: OAuth credentials were written directly to the token path before a best-effort chmod(0600); permission errors were ignored. This risked a permissive-umask exposure window or a token file left with broader permissions.
+- Implementation: same-directory mkstemp, private mode before writing, flush/fsync, atomic replace, cleanup on failure; OAuth flow uses the helper. Offline regression checks contents, POSIX mode 0600, and temp cleanup.
+- Report: `docs/ARO_CHAT_0108_ISSUE68_OAUTH_TOKEN_PERSISTENCE.md`.
+- Status: IMPLEMENTED; local tests NOT RUN; exact-head CI PENDING. No CI evidence transfers from parent PRs.
+- This bounded fix does not resolve Issue #68. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled pending owner assignment, canonical security-lineage approval, independent review, and exact-head CI.
+- No live OAuth, credentials/tokens, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
