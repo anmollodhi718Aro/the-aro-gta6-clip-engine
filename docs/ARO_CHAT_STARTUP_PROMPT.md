@@ -349,3 +349,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Local tests NOT RUN; this branch's own exact-head Ubuntu/hosted-Windows CI is PENDING (run #45278418962 / run 1115 is QUEUED; jobs not yet available). Draft PR #242 is open at head `414fd4f7da94fdffcdd3261a5ea723b5f03290b3`. Do not transfer PR #238 run #45277658000.
 - No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment or destructive action.
 - Issue #68 remains OPEN. Keep live/public uploads disabled pending exact-head CI, independent security review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
+
+
+## Latest continuation baseline — ARO-CHAT-0165 (2026-11-24)
+- Active workstream: ARO-CHAT-0165 / ARO-GTA-P1-165 | PR #242 exact-head CI audit; branch `workstream/aro-chat-0165-pr242-exact-head-ci-audit-2026-11-24`.
+- Base / starting SHA: PR #242 actual current head `dfb1e9390490806e44bad93fc661ddff0a551f54`; base `cdcf7a4bef2728e3299e82bc88d376992ecec39d`. Earlier SHA `414fd4f7da94fdffcdd3261a5ea723b5f03290b3` is an ancestor, not the PR head.
+- Current-head CI run #45278668116 (run 1118): Ubuntu passed compilation, 340 tests and synthetic MP4/FFprobe; hosted-Windows had passed setup/checkout/Python/FFmpeg/FFprobe/compilation and was running unit tests at the last inspection. Matrix PENDING until Windows tests and synthetic render finish.
+- Ubuntu synthetic media only; no GTA 6/third-party footage; publishing disabled; manual review required. Both CI jobs use PR merge refs; raw-head-only checkout NOT DEMONSTRATED.
+- PR #242 review submissions, inline threads and comments were empty; independent GitHub reviewer sign-off NOT RECORDED. Local tests NOT RUN in this connector session.
+- Issue #68 remains OPEN. Keep live/public uploads disabled pending complete exact-head CI, separate reviewer sign-off, owner-controlled integration, owner-device verification and authorized real-media acceptance.
+- Audit report: `docs/ARO_CHAT_0165_PR242_CI_AUDIT.md`. Documentation-only; no OAuth, credentials, real media, upload, publishing, workflow retry, merge, retarget, deployment or destructive action.
