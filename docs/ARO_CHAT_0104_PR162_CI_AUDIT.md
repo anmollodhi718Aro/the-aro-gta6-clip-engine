@@ -48,3 +48,10 @@ Audit PR #162's own commit-associated GitHub Actions run, Ubuntu and hosted-Wind
 - Commit-associated workflow lookup for the newer SHA 546906fca62ff2493a7ae1955dfdd1b4948233f2 also returned no runs at the follow-up check.
 - Compare evidence shows this audit branch is three commits ahead and two commits behind the moved base branch, with merge base fa3223c5ac7f46d261cd121911aedfd77c5c498e. The PR is therefore not mergeable at this snapshot.
 - Preserve the audit branch and draft PR as submitted. Do not rebase, force-push, retarget, or merge without explicit owner direction. The report records the initial and follow-up target SHAs separately; CI remains PENDING / NOT VERIFIED.
+
+
+## Duplicate-work collision discovered after reservation
+- A later inspection of the already-existing ARO-CHAT-0103 branch found its report, docs/ARO_CHAT_0103_PR162_CI_AUDIT.md, auditing the same PR #162 head, the same exact-head workflow/status/review evidence, and the same documentation-only scope.
+- This is a direct active-workstream collision. The earlier duplicate check was incomplete because it checked the branch name but did not inspect the branch's contents before allocating ARO-CHAT-0104.
+- Stop implementation here. Do not add further commits, rerun workflows, rebase, force-push, retarget, merge, close, or delete either branch/PR. Preserve ARO-CHAT-0103 and ARO-CHAT-0104 / PR #163 unchanged for explicit owner reconciliation.
+- ARO-CHAT-0104 / PR #163 is therefore marked DUPLICATE-WORKSTREAM / BLOCKED pending owner selection. Its submitted documentation is not a canonical audit record.
