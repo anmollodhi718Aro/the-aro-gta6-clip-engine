@@ -1323,3 +1323,36 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Follow-up PR #162 head `098844642622bdf044363a4c84791f5d7313033a` had zero check-runs and combined status PENDING at the time checked; re-fetch after the final documentation commit. No CI evidence is transferred from PR #161.
 
 - Final PR #162 documentation scope includes the bounded permission grant in `docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md`; PR #162 is OPEN / DRAFT / UNMERGED. Latest branch head at this update: `fa3223c5ac7f46d261cd121911aedfd77c5c498e`. Its own check-runs have not yet appeared; do not claim CI verification.
+
+
+## ARO-CHAT-0103 PR #162 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0103 |
+| Exact title | ARO-CHAT-0103 | PR #162 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-103 |
+| Scope | Audit PR #162's own current-head Actions runs, combined status, and independent review records; documentation-only |
+| Branch | `workstream/aro-chat-0103-pr162-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #162 current head `546906fca62ff2493a7ae1955dfdd1b4948233f2` |
+| Parent PR | [PR #162](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/162) |
+| Changed files | `docs/ARO_CHAT_0103_PR162_CI_AUDIT.md`, this registry, `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+| Status | IMPLEMENTED (documentation-only); PR #162 exact-head CI PENDING / NOT VERIFIED; independent review PENDING / NOT RECORDED; this follow-up branch's own CI pending |
+| Scope boundary | No application, uploader, test, or workflow behavior changes; no credentials, OAuth, media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head evidence
+
+- Live PR #162 head at final audit snapshot: `546906fca62ff2493a7ae1955dfdd1b4948233f2`.
+- Commit-associated pull-request workflow lookup returned zero runs.
+- Combined commit status lookup returned zero status entries.
+- PR #162 review submissions and inline review threads both returned empty lists.
+- Compilation, unit tests, test count, synthetic MP4/FFprobe validation, workflow checkout ref, and independent review are NOT VERIFIED / PENDING. No result is transferred from PR #161 or another commit.
+- PR #162 head advanced during the audit from `00cb943ef04a28aca71e5ed27572b0d71d89c117` to the current SHA above. The audit branch was reset with an expected-head lease to the latest observed parent head before documentation was recreated.
+- PR #161 run #45242621235 was CANCELLED overall; Ubuntu completed compile/test/render workflow steps while hosted Windows was cancelled during unit tests. Exact test count and checkout SHA were unavailable. This does not establish PR #162 CI.
+- No workflow rerun was initiated. Report: `docs/ARO_CHAT_0103_PR162_CI_AUDIT.md`.
+
+### Safety and owner gates
+
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
+- Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
