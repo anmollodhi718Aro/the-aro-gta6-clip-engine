@@ -310,3 +310,23 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Keep PR #168 and this follow-up draft/open/unmerged. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled pending independent review and owner-controlled integration.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action is authorized by this workstream.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage. The owner must choose a device-appropriate upload-memory limit before any real upload.
+
+
+## Current continuation — ARO-CHAT-0120
+- Exact title: ARO-CHAT-0120 | PR #176 CI Test-Contract Fix.
+- Workstream: ARO-GTA-P1-120. Branch: `workstream/aro-chat-0120-pr176-ci-test-contract-fix-2026-11-24`.
+- Base/start SHA: PR #176 head `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`.
+- Fix the stale regression expectation: staging is intentionally deleted before OAuth; assert cleanup at API request construction and verify immutable in-memory bytes remain unchanged after the original source is modified.
+- Test-only scope. Run targeted test and full suite where available, then inspect this branch's exact-head Ubuntu/hosted-Windows CI. Never claim verification without logs.
+- Preserve PR #176 and all parallel branches. Do not merge, retarget, deploy, upload, or publish. Issue #68 owner approval gate remains active.
+
+
+## Latest live continuation — ARO-CHAT-0120 CI closeout (2026-11-24)
+
+- Latest workstream: ARO-CHAT-0120 / ARO-GTA-P1-120; PR #191 remains OPEN / DRAFT / UNMERGED.
+- PR #191 exact head `35d77ce48ec6fbd2f86503a3f45f3ba88d325efc` passed Actions run #45256856022 (run 1015): Ubuntu and hosted Windows each passed compilation, 338 tests, and synthetic MP4/FFprobe validation.
+- Both jobs checked out merge ref `refs/remotes/pull/191/merge` at `811195d53fa14c7a54d892204ae056b8bac286ac`; raw-head-only checkout is NOT DEMONSTRATED. Same suite on each platform, not 676 unique tests.
+- Synthetic-only; no GTA 6 footage, publishing disabled, manual review required. Local tests were not run in this connector session.
+- Audit report: `docs/ARO_CHAT_0120_PR191_CI_CLOSEOUT.md`.
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No merge, retarget, deployment, OAuth, credentials, real media, network upload, or destructive action without explicit action-specific owner approval.
+- Hosted Windows CI is not owner-device verification; first real clip remains NOT COMPLETE until authorized media, permission evidence, local render, FFprobe, playback, and owner acceptance are evidenced.
