@@ -332,3 +332,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0113_PR181_CI_CLOSEOUT.md`. This workstream is documentation-only; its own exact-head CI remains pending.
 - PR #181 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending independent security review and owner-controlled integration.
 - No application/test/workflow behavior changes, OAuth, credentials/tokens, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0116 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-116 / ARO-CHAT-0116 | PR #184 exact-head CI audit.
+- Branch: `workstream/aro-chat-0116-pr184-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #184 head `fd4069d5df7e8f43ac635e012bcbc9c968de40bb`.
+- PR #184 exact-head Python CI run #45255082787 (run 1010) was IN_PROGRESS at audit snapshot. Hosted-Windows job #137974657919 completed successfully: compilation, 338 unit tests, and synthetic MP4/FFprobe validation passed. It checked out PR merge ref `refs/remotes/pull/184/merge` at `12a5ce68edb3ee6107f86b27ed411186e4f32b01`; raw-head-only checkout is NOT DEMONSTRATED.
+- Ubuntu job #137974658474 was still installing FFmpeg/FFprobe; compile/tests/render had not started. Ubuntu exact-head result remains PENDING / NOT VERIFIED. Overall PR #184 cross-platform CI is NOT VERIFIED at this snapshot.
+- Report: `docs/ARO_CHAT_0116_PR184_CI_AUDIT.md`. Documentation-only; no application, uploader, test, renderer, or workflow behavior changes. This audit branch's own exact-head CI must be inspected separately.
+- PR #184 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
+- No credentials/tokens, OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
