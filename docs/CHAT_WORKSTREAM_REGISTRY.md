@@ -1509,3 +1509,11 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0113_PR180_CI_AUDIT.md`. Documentation-only; no application, uploader, tests, renderer, media-ingestion, or workflow behavior changes.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. PR #180 is stacked on PR #179; do not merge independently of its base.
 - No credentials/OAuth, real media, upload, publishing, merge, retarget, deployment, retry, or destructive action was performed.
+
+
+### ARO-CHAT-0113 follow-up CI evidence refresh — 2026-11-24
+- Existing documentation-only follow-up PR [#182](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/182), head `b8cc64f9c3a7c037c2e3b491294e55d67f703f47`, passed its associated Python CI run [#45254816759](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45254816759), run 1008.
+- Ubuntu job `137973737851` and hosted-Windows job `137973737378` completed setup, checkout, Python setup, FFmpeg/FFprobe installation, compilation, full unittest step, and synthetic MP4/FFprobe validation successfully.
+- Numeric test count and checkout SHA were not exposed in the job summary; do not claim them. Raw-head-only checkout is NOT DEMONSTRATED. Hosted Windows CI is not owner-device verification.
+- This verifies PR #182's head only. PR #180 target SHA `1d2a5cd35b871b496880084cfc5a4d926661109b` still has zero associated workflow runs and remains PENDING / NOT VERIFIED. No CI evidence transfers between these commits.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No merge, retarget, deployment, upload, publishing, OAuth, real-media processing, retry, or destructive action was performed.
