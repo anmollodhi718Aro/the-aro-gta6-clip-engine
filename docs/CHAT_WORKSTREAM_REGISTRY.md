@@ -2109,3 +2109,13 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Synthetic output used local test pattern/tone only; no GTA 6 or third-party media; publishing disabled; manual review required; mocked approval output says `upload_performed=false`.
 - Hosted-Windows job #138024276330 had passed setup, checkout, Python, FFmpeg/FFprobe installation, and compilation; unit tests were still running. Overall CI remains IN_PROGRESS; do not claim matrix success yet.
 - Combined status returned zero entries; independent review NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED.
+
+
+### ARO-CHAT-0148 PR #221 CI closeout — 2026-11-24
+- PR #221 head `eee181efc37f040b77e91df416a77983d7c7c687` completed Python CI run [#45269230348](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45269230348), run 1062, SUCCESS.
+- Ubuntu job #138024276868 passed compilation, 338 tests (4.303s), and synthetic MP4/FFprobe validation. Hosted-Windows job #138024276330 passed compilation, the same 338 tests (15.093s), and synthetic MP4/FFprobe validation. This is 338 test cases run on both platforms, not 676 unique tests.
+- Both jobs checked out `refs/remotes/pull/221/merge` at merge SHA `cba11074982e05c4c5c725c5292223a9a129cf6c`, merging PR #221 head into base `47072a6ac9b42d48d273176dc7e04fe019779fd7`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic fixtures only: no GTA 6 or third-party media, publishing disabled, manual review required; mocked upload/approval fixture reports `upload_performed=false`.
+- Combined status returned zero entries; both workflow jobs and overall run concluded SUCCESS. Reviews/inline threads/comments were empty; independent review NOT RECORDED.
+- PR #221 remains OPEN / DRAFT / UNMERGED; GitHub reported `mergeable=false`. Audit CI_VERIFIED on merge ref only; WINDOWS_VERIFIED and REAL_MEDIA_VERIFIED remain NOT VERIFIED. Local tests NOT RUN.
+- Report: `docs/ARO_CHAT_0148_PR221_CI_AUDIT.md`. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
