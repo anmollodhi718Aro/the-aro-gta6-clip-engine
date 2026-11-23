@@ -1536,3 +1536,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real-media acceptance.
 - ARO-CHAT-0114 was already reserved on a separate PR #181 audit branch and was not reused. This branch is the distinct ARO-CHAT-0115 / PR #182 audit.
+
+
+## Latest continuation baseline — ARO-CHAT-0116 (2026-11-24)
+
+- Active workstream: ARO-GTA-P1-116 / ARO-CHAT-0116, documentation-only exact-head CI audit of PR #185.
+- Branch: `workstream/aro-chat-0116-pr185-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #185 head `1b9dcb4896df28c59be2f26f57d24b1e2c07fb6c`.
+- Initial Actions lookup for the exact PR #185 head returned zero associated workflow runs. PR #185 exact-head CI, compilation, tests, synthetic MP4/FFprobe validation, and checkout refs are PENDING / NOT VERIFIED.
+- Do not transfer PR #182 or sibling-branch CI evidence to PR #185 or this follow-up.
+- Report: `docs/ARO_CHAT_0116_PR185_CI_AUDIT.md`. Documentation-only; no application, uploader, tests, renderer, media-ingestion, or workflow behavior changes.
+- PR #185 remains OPEN / DRAFT / UNMERGED. This follow-up branch has not yet been submitted as a PR; its own CI is therefore not applicable yet.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
