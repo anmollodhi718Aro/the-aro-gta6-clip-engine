@@ -1606,8 +1606,8 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Branch | `workstream/aro-chat-0126-pr195-exact-head-ci-audit-2026-11-24` |
 | Base / starting SHA | PR #195 head `0141f32fcc584e05af5828f461f873667bd7c8d9` |
 | Parent PR | [PR #195](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/195) |
-| Report | `docs/ARO_CHAT_0126_PR195_CI_AUDIT.md` |
-| Status | IN_PROGRESS; run #45257788515 pending; both jobs at FFmpeg/FFprobe installation; compile/tests/render not started; exact-head matrix CI NOT VERIFIED |
+| Report | `docs/ARO_CHAT_0126_PR195_CI_AUDIT.md`; follow-up draft [PR #198](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/198) |
+| Status | IMPLEMENTED (initial audit snapshot); PR #195 exact-head matrix CI PENDING / NOT VERIFIED; follow-up PR #198 OPEN / DRAFT; PR #198's own exact-head CI PENDING |
 | Safety | Documentation-only; no application/uploader/test/renderer/workflow behavior changes; no credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
 
 ### Evidence snapshot
