@@ -2262,3 +2262,11 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Do not transfer older run #45274445897 from reservation SHA `35acfb1961b8cd3ff3d3ae2b1a4c9db34f566e73` to current head `ccde1827d1f8b7d25a7f3ef8d206c8f55cb3fc5b`.
 - Report: `docs/ARO_CHAT_0157_PR232_CI_AUDIT.md`; audit PR #233 remains draft-only. PR #233's own CI is a separate gate.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No credentials/OAuth, real media, upload, publishing, retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0157 PR #232 CI matrix progress — 2026-11-24
+- Current PR #232 head `ccde1827d1f8b7d25a7f3ef8d206c8f55cb3fc5b` is associated with Python CI run #45274631218 (run 1089), now IN_PROGRESS.
+- Ubuntu job #138043250570 completed SUCCESS through compilation, unit tests, and synthetic MP4/FFprobe validation. Numeric test count/duration and checkout SHA/ref are NOT ASSERTED; job logs were not available.
+- Hosted-Windows job #138043250473 is IN_PROGRESS: setup, checkout, Python 3.11, FFmpeg/FFprobe installation, and compilation passed; unittest suite remains IN_PROGRESS and synthetic MP4/FFprobe is PENDING. A log retrieval attempt returned BlobNotFound.
+- Combined status remains zero entries. Matrix CI remains PENDING / NOT VERIFIED; do not close out until Windows and overall run complete. No workflow retry.
+- Report: `docs/ARO_CHAT_0157_PR232_CI_AUDIT.md`; PR #233 remains draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
