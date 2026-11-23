@@ -50,3 +50,13 @@ Audit PR #195's own commit-associated Actions run, Ubuntu and hosted-Windows job
 - This audit is recorded in draft follow-up PR [#198](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/198), OPEN / DRAFT / UNMERGED.
 - PR #198 head: `3609f463d53180368394ce44c516707361ba9647`.
 - At the post-creation check, PR #198's head had zero associated workflow runs and zero combined status entries. Its own exact-head CI remains PENDING / NOT VERIFIED and must be inspected separately.
+
+
+## Final PR #195 CI closeout — 2026-11-24
+- Run [#45257788515](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45257788515), run 1024, completed SUCCESS for PR #195 head `0141f32fcc584e05af5828f461f873667bd7c8d9`.
+- Ubuntu job #137984067440 passed compilation, 338 unit tests (3.477s), and synthetic MP4/FFprobe validation.
+- Hosted-Windows job #137984066970 passed compilation, 338 unit tests (21.670s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/195/merge` at merge SHA `5b77a6ae66485dd9de6be78affd77298ca9946c8`, merging audited head `0141f32fcc584e05af5828f461f873667bd7c8d9` into base `dbe91e01290c9f7aab01c09dff73d21d6c44d1bf`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both synthetic reports identify locally generated test pattern/tone, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. The same 338-test suite ran on both platforms, not 676 unique tests.
+- Combined commit status returned zero entries. PR #195 review submissions and inline review threads were empty. Independent review is NOT RECORDED.
+- PR #195 is CI_VERIFIED on its merge ref only. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 footage or real-media acceptance.
