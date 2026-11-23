@@ -267,3 +267,22 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0100_PR159_CI_AUDIT.md`. Audited PR #159 is CI_VERIFIED on merge ref; this documentation-only follow-up's own exact-head CI remains PENDING until inspected separately.
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled until owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
 - No application/uploader/test/workflow behavior, credentials, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0101 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-101 / ARO-CHAT-0101, exact-head CI audit of PR #160; branch `workstream/aro-chat-0101-pr160-exact-head-ci-audit-2026-11-24`; base and starting SHA `ace5cbfb5b61089bcea8fbe426ce3aa582c109e9`.
+- PR #160 head is associated with Python CI run #45242462842 (run 969), SUCCESS. Ubuntu job #137930435896 passed compilation, 334 tests (4.920s), and synthetic MP4/FFprobe validation. Hosted Windows job #137930435408 passed compilation, 334 tests (22.523s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/160/merge` at merge SHA `51046d127bfc1d6c502efead783e0c61a3b908d3`, merging PR #160 head into base `548558208245f0a769e7296b24a6b2a07e28a9ac`; raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic reports confirm `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`; source duration 8.0 seconds and rendered duration 4.0 seconds. The same 334-test suite ran on both platforms, not 668 unique tests.
+- Report: `docs/ARO_CHAT_0101_PR160_CI_AUDIT.md`. Audited PR #160 is CI_VERIFIED on merge ref. Existing follow-up PR #161's own exact-head CI must be checked independently; run #45242621235 currently has Ubuntu successful while hosted Windows remains in progress. Do not transfer PR #160's CI result to PR #161.
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
+- Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage. No credentials, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0101 PR #160 CI closeout — 2026-11-24
+- ARO-GTA-P1-101 / ARO-CHAT-0101 audited PR #160 head `ace5cbfb5b61089bcea8fbe426ce3aa582c109e9` using commit-associated Python CI run [#45242462842](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45242462842), run 969, SUCCESS.
+- Ubuntu job `137930435896`: compilation passed; 334 tests ran (4.920s); synthetic MP4/FFprobe validation passed. Hosted Windows job `137930435408`: compilation passed; 334 tests ran (22.523s); synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/160/merge` at merge SHA `51046d127bfc1d6c502efead783e0c61a3b908d3`, merging PR #160 head into base `548558208245f0a769e7296b24a6b2a07e28a9ac`; raw-head-only checkout is NOT DEMONSTRATED. Same 334-test suite on both platforms, not 668 unique tests.
+- Synthetic reports confirm locally generated test pattern/tone only, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`. Hosted Windows is not owner-device verification; synthetic media is not GTA 6 footage.
+- PR #161 follow-up documentation branch's own exact-head CI remains pending. Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No uploader changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action occurred.

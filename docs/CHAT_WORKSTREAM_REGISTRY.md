@@ -1280,3 +1280,33 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 ### Owner gates and safety
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled until owner assignment and canonical authenticated-uploader PR selection or explicitly approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0101 PR #160 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0101 |
+| Exact title | ARO-CHAT-0101 | PR #160 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-101 |
+| Scope | Audit PR #160's own Actions run, Ubuntu/hosted-Windows logs, compile/tests, synthetic MP4/FFprobe validation, and checkout refs; documentation-only |
+| Branch | `workstream/aro-chat-0101-pr160-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #160 head `ace5cbfb5b61089bcea8fbe426ce3aa582c109e9` |
+| Parent PR | [PR #160](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/160) |
+| Follow-up PR | [PR #161](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/161) |
+| Changed files | `docs/ARO_CHAT_0101_PR160_CI_AUDIT.md`, this registry, `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+| Status | IMPLEMENTED (documentation-only); audited PR #160 CI_VERIFIED on merge ref; PR #161 follow-up exact-head CI pending independent verification |
+| Scope boundary | No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### Final evidence
+- PR #160 head `ace5cbfb5b61089bcea8fbe426ce3aa582c109e9` is associated with Python CI run [#45242462842](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45242462842), run 969, SUCCESS.
+- Ubuntu job `137930435896`: compilation passed; 334 tests passed (4.920s); synthetic MP4/FFprobe validation passed.
+- Hosted Windows job `137930435408`: compilation passed; 334 tests passed (22.523s); synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/160/merge` at merge SHA `51046d127bfc1d6c502efead783e0c61a3b908d3`, merging the audited head into base `548558208245f0a769e7296b24a6b2a07e28a9ac`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both synthetic reports: `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`; source duration 8.0 seconds, rendered duration 4.0 seconds. The same 334-test suite ran on each platform, not 668 unique tests.
+- A non-failing Node.js 20 deprecation warning was observed under Node.js 24; workflow configuration was not changed.
+- Do not transfer PR #160's result to PR #161. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 footage.
+
+### Safety and owner gates
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR selection or explicitly approved consolidation.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
