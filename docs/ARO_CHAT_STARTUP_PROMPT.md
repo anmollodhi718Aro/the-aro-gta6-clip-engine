@@ -322,3 +322,5 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Both jobs checked out `refs/remotes/pull/166/merge` at `c0830db5375becbc50b8fac9a5eb158a8d13a475`; raw-head-only checkout is NOT DEMONSTRATED. Both platforms ran the same 334-test suite, not 668 unique tests.
 - Synthetic report: no GTA 6 or third-party media, publishing disabled, manual review required. This is not owner-device Windows or real-media acceptance.
 - PR #167's own exact-head CI must be inspected separately; do not transfer parent PR #166's results.
+
+- Follow-up PR #167 head `766d5cc9d2bce6b1ff20640a01d3da36ec2733c8` had no associated workflow run or combined status entry at latest inspection. Its exact-head CI remains PENDING / NOT VERIFIED; inspect it independently after Actions starts.
