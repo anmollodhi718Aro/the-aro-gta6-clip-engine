@@ -1356,3 +1356,32 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0107 — PR #166 exact-head CI audit (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0107 |
+| Exact title | ARO-CHAT-0107 | PR #166 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-107 |
+| Scope | Audit PR #166's own Actions run, Ubuntu/hosted-Windows jobs, compile/tests, synthetic MP4/FFprobe validation, checkout refs, and review state; documentation-only |
+| Branch | `workstream/aro-chat-0107-pr166-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #166 head `4e2e74805c2e4c21aa246a4765e66c0a97cc7be2` |
+| Parent PR | [PR #166](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/166) |
+| Changed files | `docs/ARO_CHAT_0107_PR166_CI_AUDIT.md`, this registry, `docs/ARO_CHAT_STARTUP_PROMPT.md`, `docs/ARO_PERMISSION_AND_APPROVAL_LEDGER.md` |
+| Status | IN_PROGRESS; exact-head Python CI run #45243626968 is in progress; final evidence pending |
+| Scope boundary | No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### Initial evidence
+- PR #166 head `4e2e74805c2e4c21aa246a4765e66c0a97cc7be2` is associated with Python CI run [#45243626968](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45243626968), run 977, IN_PROGRESS.
+- Ubuntu job `137934533544`: setup, checkout, and Python setup passed; FFmpeg/FFprobe installation was in progress; compile/tests/render were pending.
+- Hosted-Windows job `137934534056`: setup passed; checkout was in progress; all later steps were pending.
+- No final test count, CI conclusion, synthetic render result, or checkout SHA is claimed. Re-fetch both jobs and decoded logs after completion.
+- Combined status and PR review submissions/threads returned no entries at inspection.
+- Do not transfer PR #162's pending CI or PR #161's cancelled Windows result to PR #166.
+
+### Safety and owner gates
+- Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader PR selection or approved consolidation.
+- Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
