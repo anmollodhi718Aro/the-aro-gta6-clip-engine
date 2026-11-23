@@ -1,4 +1,5 @@
 import unittest
+from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 
 from backend.app.creator_watchlist import (
@@ -79,7 +80,7 @@ class CreatorWatchlistTests(unittest.TestCase):
         ):
             with self.subTest(field=field, value=value):
                 with self.assertRaisesRegex(ValueError, "non-negative integer"):
-                    metric("mythpat", 10, **{field: value}).validate()
+                    replace(metric("mythpat", 10), **{field: value}).validate()
 
     def test_rejects_non_finite_or_boolean_average_viewers(self):
         for value in (True, float("nan"), float("inf"), -float("inf"), -0.1):
