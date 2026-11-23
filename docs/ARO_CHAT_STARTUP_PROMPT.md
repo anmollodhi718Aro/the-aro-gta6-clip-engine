@@ -343,3 +343,17 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0116_PR184_CI_AUDIT.md`. Documentation-only; no application, uploader, test, renderer, or workflow behavior changes. This audit branch's own exact-head CI must be inspected separately.
 - PR #184 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
 - No credentials/tokens, OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0118 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-118 / ARO-CHAT-0118 | PR #186 exact-head CI audit.
+- Branch: `workstream/aro-chat-0118-pr186-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #186 head `caac882e29b67db4d2667463c27218f8f9224fbb`.
+- PR #186 exact-head Python CI run #45255428541 (run 1012) completed SUCCESS. Ubuntu job #137975873905 passed compilation, 338 tests (5.057s), and synthetic MP4/FFprobe validation. Hosted-Windows job #137975873656 passed compilation, 338 tests (14.090s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/186/merge` at merge SHA `351bf380746d8d880d5b02ca83547e868b61da10`, merging PR #186 head into base `fd4069d5df7e8f43ac635e012bcbc9c968de40bb`. Raw-head-only checkout is NOT DEMONSTRATED; both platforms ran the same 338-test suite.
+- Synthetic reports confirm no GTA 6 or third-party media, publishing disabled, and manual review required. Hosted Windows CI is not owner-device verification; synthetic media is not real-media acceptance.
+- Report: `docs/ARO_CHAT_0118_PR186_CI_AUDIT.md`. Documentation-only; no application/uploader/test/workflow behavior changes. Local tests were NOT RUN in this connector session.
+- PR #186 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- ARO-CHAT-0117 is separately reserved on a branch auditing PR #187; do not reuse or modify that branch.
+- This follow-up branch's own exact-head CI must be inspected independently after PR creation. Do not transfer PR #186's successful CI result.
+- No credentials/tokens, OAuth, real media, network upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
