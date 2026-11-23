@@ -1393,7 +1393,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Base / starting SHA | PR #170 head `647d68a76244e5f951bd4e44cf6ed322834f0d90` |
 | Parent PR | [PR #170](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/170) |
 | Changed files | `backend/app/youtube_upload.py`, `tests/test_youtube_upload.py`, `docs/ARO_CHAT_0108_ISSUE68_OAUTH_TOKEN_PERSISTENCE.md`, this registry |
-| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI IN_PROGRESS (run #45253092552) |
+| Status | IMPLEMENTED; local tests NOT RUN; final-head exact CI PENDING |
 | Scope boundary | No live credentials/OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
 
 ### Finding and implementation
@@ -1403,7 +1403,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0108_ISSUE68_OAUTH_TOKEN_PERSISTENCE.md`.
 
 ### Verification and owner gates
-- Code and test changes are committed on this isolated branch; no local test execution is claimed. Exact-head run #45253092552 is IN_PROGRESS on head `8dd8649002e3ce1fc7c7ff34fbe9ff4299547d94` (Windows job running; Ubuntu test job queued).
+- Code and test changes are committed on this isolated branch; no local test execution is claimed. An intermediate-head workflow was observed, but later documentation commits advanced the branch; the final head had no associated check-runs at latest inspection. Exact-final-head CI is PENDING.
 - This bounded fix does not constitute independent approval of the complete uploader or resolve Issue #68.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment, canonical security-lineage approval, independent review, and exact-head CI.
 - Owner must choose a device-appropriate `--max-upload-bytes` before any real upload. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 footage.
