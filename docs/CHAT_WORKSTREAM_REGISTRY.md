@@ -919,3 +919,393 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - The connector exposed successful step conclusions but not test-log counts; no numeric test count is asserted here. This is hosted Windows CI, not owner-device Windows verification.
 - The CI run validates implementation head `5cf8cc7e823f7ce9e8f319704d72c5f0da00d496`. Any later documentation-only commit is a different branch tip and does not inherit exact-head CI status automatically.
 - PR #93 remains OPEN / DRAFT / UNMERGED. No real media, live OAuth, network upload, public publishing, merge, retarget, deployment, or destructive action occurred. Owner review must still choose a device-appropriate memory limit before any real upload.
+
+
+## ARO-CHAT-0046 exact-head CI reconciliation — 2026-11-22
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0046 |
+| Exact title | ARO-CHAT-0046 | PR #93 Exact-Head CI Closeout and Next-Task Audit |
+| Workstream ID | ARO-GTA-P1-46 |
+| Role | Independent CI evidence auditor + documentation contributor |
+| Task | Reconcile PR #93's documentation-only branch tip against live Actions evidence, then identify the remaining owner-gated work without changing uploader behavior. |
+| Branch | workstream/aro-chat-0046-exact-head-ci-closeout-2026-11-22 |
+| Base | PR #93 branch workstream/aro-chat-0045-bounded-upload-memory-2026-11-22 |
+| Starting point | PR #93 documentation-only branch tip f9834d29235738573ad773f19ebcc9b7c0f4c129 |
+| Status | IMPLEMENTED (documentation-only); CI_VERIFIED for the audited PR #93 branch tip; owner/device and real-media verification remain blocked |
+| Scope boundary | No uploader source/test changes, credentials/tokens, OAuth, real media, live upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### Evidence and correction
+- Live Actions lookup for commit f9834d29235738573ad773f19ebcc9b7c0f4c129 returned successful run [45020379946](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45020379946).
+- Ubuntu job 137201721141 and hosted Windows job 137201721314 both completed setup, checkout, Python setup, FFmpeg/FFprobe installation, compilation, full unit-test steps, and synthetic MP4 render/FFprobe validation successfully.
+- This is exact-branch-tip CI evidence and supersedes the earlier statement that the documentation-only tip had no associated run. No numeric test count is asserted because the connector returned step conclusions, not test logs.
+- Hosted Windows CI is not owner-device Windows verification. The CI fixture is synthetic and is not GTA 6 footage or real-media acceptance.
+- PR #93 remains draft/open/unmerged. Its uploader implementation still uses the configured size ceiling and immutable payload. The 256 MiB default is not a device-specific RAM guarantee.
+
+### Latest pending owner gates
+- Owner must select a conservative --max-upload-bytes value using actual available device memory and expected clip sizes before any real upload.
+- Issue #68 still requires independent security review and owner-controlled canonical integration of the parallel uploader approval work. Do not independently merge competing PRs.
+- First real clip remains blocked pending creator-authorized source media, documented permission scope, local render, FFprobe validation, playback, and owner acceptance.
+
+
+## ARO-CHAT-0047 independent YouTube uploader security audit — 2026-11-22
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0047 |
+| Exact title | ARO-CHAT-0047 | Independent YouTube Uploader Security Audit |
+| Workstream ID | ARO-GTA-P1-47 |
+| Role | Independent static security reviewer |
+| Task | Compare PR #82 and the PR #83 remediation lineage for Issue #68; record security gaps and owner-gated next steps without changing uploader behavior. |
+| Branch | `workstream/aro-chat-0047-independent-uploader-security-audit-2026-11-22` |
+| Base | `workstream/aro-chat-0046-exact-head-ci-closeout-2026-11-22` (PR #94 head) |
+| Starting SHA | `93ca44365b111fb9ce5a6dd0be8bd7aa6ab0bf50` |
+| Status | IMPLEMENTED (documentation-only static audit); dynamic tests NOT RUN; owner selection and integration remain BLOCKED |
+| Changed files | `docs/ARO_UPLOAD_SECURITY_AUDIT_2026-11-22.md`; this registry |
+| Scope boundary | No uploader source/test changes, credentials/tokens, OAuth, real media, live upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Audit conclusion
+- PR #82's reviewed approval model binds clip/source and a channel-level reviewer identity, but does not bind a stable Google OIDC subject, exact file digest, privacy level, or expiry. It is not equivalent to the PR #83 security design.
+- PR #83's reviewed head contains a recursive `_verify_google_id_token()` helper and path-based upload/hash TOCTOU exposure. PR #87 addresses the helper defect; PR #88 and PR #92 remediate the upload-byte integrity issue; PR #93 adds a configurable size ceiling and incremental copy-time enforcement.
+- The PR #93 stack is the stronger candidate for owner review, but no canonical PR selection or integration is inferred. PR #82/#83/#87/#91 histories remain preserved.
+- Owner must choose a device-appropriate `--max-upload-bytes` value before any real upload.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No real upload or public publishing is authorized.
+
+### Verification
+- Static source review completed for PR #82 head `f0f1976eab6db2d428152eba220078e5a4893a9b`, PR #83 head `f66f6406a496d08e3e85972010f1f52d831298ab`, and PR #93 head `f9834d29235738573ad773f19ebcc9b7c0f4c129`.
+- Local tests and dynamic security tests NOT RUN.
+- New documentation branch CI NOT RUN.
+- Registry records PR #93 exact-head run `45020379946`; that evidence does not transfer to this branch.
+- Owner-device and real-media verification NOT VERIFIED.
+
+
+## ARO-CHAT-0048 direct uploader size-guard regression — 2026-11-22
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0048 |
+| Exact title | ARO-CHAT-0048 | Direct Upload Size-Guard Regression Test |
+| Workstream ID | ARO-GTA-P1-48 |
+| Role | Bounded QA contributor |
+| Task | Add a regression proving direct callers of upload_video() are rejected by the configured size ceiling before OAuth authorization or API initialization. |
+| Branch | workstream/aro-chat-0048-direct-upload-size-guard-test-2026-11-22 |
+| Base | PR #95 exact head f29fd9d5ce5db4b10e0e2fd8c14d83b4bdd1e061 |
+| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI pending; PR #96 draft/open/unmerged |
+| Changed files | tests/test_youtube_upload.py; docs/CHAT_WORKSTREAM_REGISTRY.md. |
+| Commits | 63b9f9cb6c6d3b8442ac3ee4c8e27bd90d1d297f (reservation); 83606d3357f9c487543799aadae955fdecca9cdf (regression test). |
+| Scope | Test-only change proving oversized direct upload_video() calls fail before OAuth; no uploader behavior changes. |
+| Safety boundary | Synthetic local bytes and mocks only. No credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+
+## ARO-CHAT-0049 PR #96 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0049 |
+| Exact title | ARO-CHAT-0049 | PR #96 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-49 |
+| Role | CI evidence auditor + documentation contributor |
+| Task | Reconcile PR #96's direct upload-size-guard regression against live exact-head GitHub Actions evidence and record the verified result without changing uploader behavior. |
+| Branch | workstream/aro-chat-0049-pr96-ci-closeout-2026-11-23 |
+| Base | PR #96 exact head 1ef93e7964afe13533fc25c0b9b6f0244462f343 |
+| Status | IMPLEMENTED (documentation-only); CI_VERIFIED for the audited PR #96 exact head; owner review and Issue #68 canonical integration remain pending |
+| Changed files | docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No uploader source/test changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head evidence
+- Live commit workflow lookup for PR #96 head 1ef93e7964afe13533fc25c0b9b6f0244462f343 returned successful Python CI run 45055224315.
+- Ubuntu job 137308884581 and hosted Windows job 137308884348 both completed checkout, Python setup, FFmpeg/FFprobe installation, compilation, full unit-test steps, and synthetic MP4 render/FFprobe verification successfully.
+- The PR #96 patch adds a mocked regression proving direct upload_video() callers reject an over-limit file before OAuth authorization and do not create a token file.
+- This is exact-head hosted CI evidence. It does not establish owner-device Windows verification, real-media verification, or live-upload readiness. Synthetic MP4 output is not GTA 6 footage.
+- PR #96 remains draft/open/unmerged. Issue #68 remains open pending owner-controlled selection and integration of the canonical authenticated uploader approval implementation. Do not merge competing security branches independently.
+
+
+## ARO-CHAT-0050 PR #97 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0050 |
+| Exact title | ARO-CHAT-0050 | PR #97 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-50 |
+| Role | CI evidence auditor + bounded documentation contributor |
+| Task | Verify the exact head of PR #97 using live Actions job and log evidence, record the result, and refresh the owner-gated next-action status without changing uploader behavior. |
+| Branch | workstream/aro-chat-0050-pr97-exact-head-ci-closeout-2026-11-23 |
+| Base | PR #97 exact head `54a0a175af0abf495b6d2d66df0e138691c6b695` |
+| Starting SHA | `54a0a175af0abf495b6d2d66df0e138691c6b695` |
+| Status | IMPLEMENTED (documentation-only); CI_VERIFIED for audited PR #97 exact head; this follow-up branch's own CI remains pending |
+| Changed files | docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No uploader source/test changes, credentials/tokens, OAuth, real media, live upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head evidence
+- PR #97 exact head `54a0a175af0abf495b6d2d66df0e138691c6b695` has successful Python CI run [45055732006](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45055732006).
+- Ubuntu job `137310410353` and hosted Windows job `137310410636` both completed setup, checkout, Python setup, FFmpeg/FFprobe installation, compilation, full unit-test steps, and synthetic MP4 render/FFprobe validation successfully.
+- Both synthetic render reports explicitly identify locally generated test pattern/tone; `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- The connector log excerpt did not establish numeric unittest counts; no count is claimed. Hosted Windows CI is not owner-device Windows verification. Synthetic media is not GTA 6 footage or real-media acceptance.
+- This run validates PR #97's exact head only. It does not validate this new documentation follow-up branch.
+
+### Latest pending owner gates
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. The project owner must assign the implementation owner and select one canonical authenticated-uploader security PR/branch or explicitly approve a consolidation plan. Do not integrate overlapping security branches independently.
+- Keep live upload and public publishing disabled until OAuth-authenticated channel identity, exact per-clip approval, immutable approved bytes, current source-rights checks, and expiry/revocation handling are independently reviewed and enforced.
+- The first real GTA 6 clip remains BLOCKED pending creator-authorized source media, documented permission scope, local render, FFprobe validation, playback, and owner acceptance.
+- No merge, retarget, deployment, upload, public publishing, or destructive operation was performed by this workstream.
+
+
+## ARO-CHAT-0051 PR #98 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0051 |
+| Exact title | ARO-CHAT-0051 | PR #98 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-51 |
+| Role | CI evidence auditor + bounded documentation contributor |
+| Task | Verify the exact head of PR #98 using live Actions job and log evidence, record the result, and refresh the owner-gated next-action status without changing application behavior. |
+| Branch | workstream/aro-chat-0051-pr98-ci-closeout-2026-11-23 |
+| Base | PR #98 exact head `4fd09e00122e526c2a320715cf1ff904faf4341d` |
+| Starting SHA | `4fd09e00122e526c2a320715cf1ff904faf4341d` |
+| Status | RESERVED → IMPLEMENTED (documentation-only); CI_VERIFIED for the audited PR #98 starting head; this follow-up branch's own CI is pending |
+| Changed files | docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No uploader source/test changes, credentials/tokens, OAuth, real media, live upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head evidence
+- Exact commit workflow lookup for `4fd09e00122e526c2a320715cf1ff904faf4341d` returned successful Python CI run [45056338002](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45056338002).
+- Ubuntu job `137312304088` and hosted Windows job `137312304391` both passed compile, full unit-test, and synthetic MP4/FFprobe steps.
+- Ubuntu log: `Ran 332 tests in 5.198s; OK`. Hosted Windows log: `Ran 332 tests in 12.884s; OK`. These are 332 distinct tests executed independently on each platform, not 664 unique tests.
+- Both synthetic render reports identify locally generated test pattern/tone; `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. This is not GTA 6 real-media verification.
+- The CI run validates PR #98's exact starting head only. It does not validate this documentation follow-up branch's new commit. Hosted Windows CI is not owner-device Windows verification.
+
+### Latest pending owner gates
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. The project owner must assign the implementation owner and select one canonical authenticated-uploader security PR/branch or explicitly approve a consolidation plan. Do not integrate overlapping security branches independently.
+- Keep live upload and public publishing disabled until OAuth-authenticated channel identity, exact per-clip approval, immutable approved bytes, current source-rights checks, and expiry/revocation handling are independently reviewed and enforced.
+- The first real GTA 6 clip remains BLOCKED pending creator-authorized source media, documented permission scope, local render, FFprobe validation, playback, and owner acceptance.
+- No merge, retarget, deployment, upload, public publishing, or destructive operation was performed by this workstream.
+
+
+## ARO-CHAT-0052 PR #99 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0052 |
+| Exact title | ARO-CHAT-0052 \\| PR #99 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-52 |
+| Role | Exact-head CI evidence auditor + bounded documentation contributor |
+| Task | Verify PR #99's exact branch head against live GitHub Actions job and log evidence, then record the result and refresh owner-gated next actions without changing application behavior. |
+| Branch | workstream/aro-chat-0052-pr99-exact-head-ci-closeout-2026-11-23 |
+| Base | PR #99 exact head `05d99f3ba3657d7878a2d5890abd302b2ed74d4e` |
+| Starting SHA | `05d99f3ba3657d7878a2d5890abd302b2ed74d4e` |
+| Status | RESERVED → IMPLEMENTED (documentation-only); CI_VERIFIED for audited PR #99 exact head; this follow-up branch's own CI is pending |
+| Changed files | docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No uploader source/test changes, credentials/tokens, OAuth, real media, live upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head evidence
+- Live commit workflow lookup for `05d99f3ba3657d7878a2d5890abd302b2ed74d4e` returned successful Python CI run [45058733108](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45058733108).
+- Ubuntu job `137319655958` and hosted Windows job `137319655684` both completed setup, checkout, Python setup, FFmpeg/FFprobe installation, compilation, full unittest steps, and synthetic MP4 render/FFprobe validation successfully.
+- Ubuntu log: `Ran 332 tests in 4.969s; OK`. Hosted Windows log: `Ran 332 tests in 13.877s; OK`. These are 332 distinct tests executed independently on each platform, not 664 unique tests.
+- Both synthetic render reports identify locally generated test pattern/tone; `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. This is not GTA 6 real-media verification.
+- The run validates PR #99's exact head `05d99f3ba3657d7878a2d5890abd302b2ed74d4e`; it does not validate this new documentation follow-up branch. Hosted Windows CI is not owner-device Windows verification. Local tests were not run in this connector session.
+
+### Latest pending owner gates
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. The project owner must assign the implementation owner and select one canonical authenticated-uploader security PR/branch or explicitly approve a consolidation plan. Do not integrate overlapping security branches independently.
+- Keep live uploads and public publishing disabled until OAuth-authenticated channel identity, exact per-clip approval, immutable approved bytes, current source-rights checks, and expiry/revocation handling are independently reviewed and enforced.
+- Before any real upload, owner must select a conservative `--max-upload-bytes` value based on actual device memory and expected clip sizes.
+- The first real GTA 6 clip remains BLOCKED pending creator-authorized source media, documented permission scope, local render, FFprobe validation, playback, and owner acceptance.
+- No merge, retarget, deployment, upload, public publishing, or destructive operation was performed by this workstream.
+
+
+## ARO-CHAT-0053 PR #100 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0053 |
+| Exact title | ARO-CHAT-0053 | PR #100 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-53 |
+| Role | Exact-head CI evidence auditor + bounded documentation contributor |
+| Task | Verify PR #100's exact branch head against live GitHub Actions job evidence, record the result, and refresh owner-gated next actions without changing application behavior. |
+| Branch | workstream/aro-chat-0053-pr100-exact-head-ci-closeout-2026-11-23 |
+| Base | PR #100 exact head `2a82ee5c407fc64b7582741bb69b389e75a79be2` |
+| Starting SHA | `2a82ee5c407fc64b7582741bb69b389e75a79be2` |
+| Status | RESERVED → IMPLEMENTED (documentation-only); CI_VERIFIED for audited PR #100 exact head; this follow-up branch's own CI remains pending |
+| Changed files | docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No uploader source/test changes, credentials/tokens, OAuth, real media, live upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head evidence
+- Live commit workflow lookup for PR #100 exact head `2a82ee5c407fc64b7582741bb69b389e75a79be2` returned successful Python CI run [45059358666](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45059358666).
+- Ubuntu job `137321566750` and hosted Windows job `137321566989` both completed setup, checkout, Python setup, FFmpeg/FFprobe installation, compilation, full unit-test steps, and synthetic MP4 render/FFprobe validation successfully.
+- The connector exposed successful step conclusions but not test-log counts; no numeric unittest count is claimed. Hosted Windows CI is not owner-device Windows verification. Synthetic media is not GTA 6 footage.
+- This run validates PR #100 exact head `2a82ee5c407fc64b7582741bb69b389e75a79be2`; it does not validate this new documentation follow-up branch. Local tests were not run in this connector session.
+
+### Latest pending owner gates
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. The project owner must assign the implementation owner and select one canonical authenticated-uploader security PR/branch or explicitly approve a consolidation plan. Do not integrate overlapping security branches independently.
+- Keep live uploads and public publishing disabled until OAuth-authenticated channel identity, exact per-clip approval, immutable approved bytes, current source-rights checks, and expiry/revocation handling are independently reviewed and enforced.
+- Before any real upload, owner must select a conservative `--max-upload-bytes` value based on actual device memory and expected clip sizes.
+- The first real GTA 6 clip remains BLOCKED pending creator-authorized source media, documented permission scope, local render, FFprobe validation, playback, and owner acceptance.
+- No merge, retarget, deployment, upload, public publishing, or destructive operation was performed by this workstream.
+
+
+## ARO-CHAT-0054 PR #101 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0054 |
+| Exact title | ARO-CHAT-0054 | PR #101 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-54 |
+| Role | Exact-head CI evidence auditor + bounded documentation contributor |
+| Task | Verify PR #101's exact branch head against live GitHub Actions job evidence, record the result, and refresh owner-gated next actions without changing application behavior. |
+| Branch | workstream/aro-chat-0054-pr101-exact-head-ci-closeout-2026-11-23 |
+| Base | PR #101 exact head `a5bce0136543ee4f404d1fa2b8788f1b8558f190` |
+| Starting SHA | `a5bce0136543ee4f404d1fa2b8788f1b8558f190` |
+| Status | RESERVED → IMPLEMENTED (documentation-only); CI_VERIFIED for audited PR #101 exact head; this follow-up branch's own CI remains pending |
+| Changed files | docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No uploader source/test changes, credentials/tokens, OAuth, real media, live upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head evidence
+- Live commit workflow lookup for PR #101 exact head `a5bce0136543ee4f404d1fa2b8788f1b8558f190` returned successful Python CI run [45059975718](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45059975718).
+- Ubuntu job `137323495381` and hosted Windows job `137323495243` both completed setup, checkout, Python setup, FFmpeg/FFprobe installation, compilation, full unit-test steps, and synthetic MP4 render/FFprobe validation successfully.
+- The connector exposed successful step conclusions but not test-log counts; no numeric unittest count is claimed. Hosted Windows CI is not owner-device Windows verification. Synthetic media is not GTA 6 footage.
+- This run validates PR #101 exact head `a5bce0136543ee4f404d1fa2b8788f1b8558f190`; it does not validate this new documentation follow-up branch. Local tests were not run in this connector session.
+
+### Latest pending owner gates
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. The project owner must assign the implementation owner and select one canonical authenticated-uploader security PR/branch or explicitly approve a consolidation plan. Do not integrate overlapping security branches independently.
+- Keep live uploads and public publishing disabled until OAuth-authenticated channel identity, exact per-clip approval, immutable approved bytes, current source-rights checks, and expiry/revocation handling are independently reviewed and enforced.
+- Before any real upload, owner must select a conservative `--max-upload-bytes` value based on actual device memory and expected clip sizes.
+- The first real GTA 6 clip remains BLOCKED pending creator-authorized source media, documented permission scope, local render, FFprobe validation, playback, and owner acceptance.
+- No merge, retarget, deployment, upload, public publishing, or destructive operation was performed by this workstream.
+
+
+## ARO-CHAT-0055 PR #102 exact-head CI closeout — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0055 |
+| Exact title | ARO-CHAT-0055 | Authenticated Uploader Security Review |
+| Workstream ID | ARO-GTA-P1-55 |
+| Role | Exact-head CI auditor + security-lineage reviewer |
+| Task | Verify PR #102's own exact head against live Actions evidence and begin a read-only reconciliation of the Issue #68 authenticated-uploader security candidate lineage. |
+| Branch | workstream/aro-chat-0055-pr102-exact-head-ci-closeout-2026-11-23 |
+| Base | PR #102 exact head `5f570066ca3d473aaa2c6bea277b750e47ddba0e` |
+| Starting SHA | `5f570066ca3d473aaa2c6bea277b750e47ddba0e` |
+| Status | IMPLEMENTED (documentation-only); CI_VERIFIED for PR #102 exact head; PR #103 follow-up branch CI pending |
+| Changed files | docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No uploader source changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Exact-head CI evidence
+- Live workflow lookup for PR #102 exact head `5f570066ca3d473aaa2c6bea277b750e47ddba0e` returned successful Python CI run [45080755277](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45080755277).
+- Ubuntu job `137388177755` and hosted Windows job `137388177515` both completed setup, checkout, Python setup, FFmpeg/FFprobe installation, compilation, complete unit-test steps, and synthetic MP4 render/FFprobe validation successfully.
+- The connector exposed successful step conclusions but not test-log counts; no numeric test count is claimed. Hosted Windows CI is not owner-device Windows verification. Synthetic media is not GTA 6 footage.
+- This evidence validates PR #102's exact head only. It does not validate this documentation follow-up branch. Local tests were not run in this connector session.
+
+### Issue #68 security-lineage review status
+- Issue #68 remains OPEN. PR #83 identifies itself as the owner-selected primary candidate; PR #87 → #88 → #92 → #93 is a remediation chain that adds OIDC verifier repair, staged upload snapshot, immutable approved payload, and bounded-memory enforcement.
+- PR #82 and PR #91 remain parallel alternatives/reference histories. Preserve all branches; do not independently integrate overlapping implementations or infer permission to merge.
+- Security review and exact ancestry reconciliation remain in progress. Live uploads and public publishing stay disabled. Device-specific `--max-upload-bytes`, creator-authorized media, documented rights, real-media render/FFprobe/playback, and owner acceptance remain separate gates.
+- No OAuth credential/token access, real upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0055 preliminary static review of Issue #68 remediation lineage
+- Reviewed PR #83's final tree relationship to the PR #87 starting point: PR #83's final head `f66f6406a496d08e3e85972010f1f52d831298ab` is three commits ahead of `9f3107e9fc520ce93a0487c7311b17d1b5b1a67a`, but the compare response reports zero files changed and the final tree matches the starting tree. PR #87 therefore repairs the recursive OIDC helper from the same effective source tree; PR #91 is a parallel repair based on the later PR #83 commit chain.
+- Reviewed the PR #93 exact-head source at `f9834d29235738573ad773f19ebcc9b7c0f4c129`: Google OIDC signature/audience verification, issuer/subject/authorized-party checks, OAuth-backed `channels.list(mine=True)` channel match, durable exact clip/source/privacy/hash approval, expiry checks, current source publish grants, immutable upload bytes, and incremental `--max-upload-bytes` enforcement.
+- The reviewed upload path stages the local file, copies under the configured byte ceiling, hashes the exact immutable `bytes` payload, matches the durable approval to that digest, repeats identity/approval/rights checks immediately before constructing the API request, and streams those same bytes through `BytesIO`.
+- No new bypass was established in this bounded static pass. This is NOT an independent security sign-off, exhaustive audit, local test run, or proof against a compromised local account/process.
+- PR #93 exact head passed Actions run [45020379946](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45020379946): Ubuntu job `137201721141` and hosted Windows job `137201721314` passed compilation, unit-test steps, and synthetic MP4/FFprobe validation. Numeric test counts are not claimed from the available job metadata.
+- Remaining review notes: the SQLite registry records operator-supplied evidence metadata and does not authenticate grantors or determine legal sufficiency; the 256 MiB default is not a device-specific RAM guarantee; local approval files are not a defense against a hostile process already controlling the same user account. Keep live upload/public publishing disabled pending independent review, owner-device verification, authorized media and permission evidence, and owner acceptance.
+
+
+### ARO-CHAT-0055 PR #103 exact-head CI closeout — 2026-11-23
+- PR #103 exact head `d810006953ea8acc8fa4803b32dd86a6a00429f6` passed GitHub Actions run [45081139786](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45081139786).
+- Ubuntu job `137389348565` and hosted Windows job `137389348700` both passed setup, checkout, Python setup, FFmpeg/FFprobe installation, compilation, complete unit-test execution, and synthetic MP4 render/FFprobe validation.
+- Ubuntu log: `Ran 332 tests in 5.003s; OK`. Hosted Windows log: `Ran 332 tests in 11.933s; OK`. These are 332 distinct tests executed independently on each platform, not 664 unique tests.
+- This verifies PR #103's exact documentation-only head. The PR remains draft/open/unmerged. Hosted Windows CI is not owner-device Windows verification; synthetic media is not GTA 6 footage. No local tests were run in this connector session.
+- Issue #68 remains OPEN / unassigned. The next safe task is continued bounded, read-only security review of the PR #93 remediation/test lineage and documentation of concrete findings. Do not infer canonical integration approval from broad task approval; no overlapping security branch may be merged or consolidated without the explicit owner selection recorded in Issue #68.
+- No application code, credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0056 PR #103 merge reconciliation and Issue #68 rights-registry review — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0056 |
+| Exact title | ARO-CHAT-0056 | Registry Reconciliation & Issue #68 Security Review |
+| Workstream ID | ARO-GTA-P1-56 |
+| Role | Exact-head CI auditor + bounded security reviewer |
+| Task | Reconcile the live merge state of PR #103 into the PR #102 workstream branch, verify PR #102's resulting exact-head CI, and document a bounded source-rights registry review finding without changing uploader behavior. |
+| Branch | workstream/aro-chat-0056-registry-issue68-review-2026-11-23 |
+| Base | PR #102 exact head after PR #103 merge: `c0c6f4644aa76f8b68dcedb23456ee224b749da2` |
+| Starting SHA | `c0c6f4644aa76f8b68dcedb23456ee224b749da2` |
+| Status | IN_PROGRESS → IMPLEMENTED (documentation-only); PR #102 exact head CI_VERIFIED; this follow-up's CI pending |
+| Changed files | docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No uploader/application/test code changes, credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### PR #103 / PR #102 live-state correction
+- Live GitHub PR metadata shows PR #103 is CLOSED and MERGED at merge commit `c0c6f4644aa76f8b68dcedb23456ee224b749da2`; its base was PR #102's branch `workstream/aro-chat-0054-pr101-exact-head-ci-closeout-2026-11-23`. Therefore PR #103 is not an open/pending PR and its changes are present in PR #102's branch tip. This does NOT mean PR #103 or PR #102 was merged to `main`.
+- PR #102 remains OPEN / DRAFT / UNMERGED. Its exact current head is `c0c6f4644aa76f8b68dcedb23456ee224b749da2`, base `a5bce0136543ee4f404d1fa2b8788f1b8558f190`.
+- PR #102 exact head passed Actions run [45083016688](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45083016688). Ubuntu job `137395190535`: `Ran 332 tests in 5.581s; OK`. Hosted Windows job `137395190751`: `Ran 332 tests in 21.781s; OK`. Both jobs concluded success. These are 332 tests independently executed per platform, not 664 unique tests.
+- Hosted Windows CI is not owner-device Windows verification. Synthetic MP4/FFprobe CI is not real GTA 6 media acceptance. No local tests were run in this workstream.
+
+### Additional bounded Issue #68 review: source-rights re-registration semantics
+- Re-read PR #93 exact head `f9834d29235738573ad773f19ebcc9b7c0f4c129`, file `backend/app/rights_registry.py` (blob `edf1f74f2baf0aef9c354061b53220bc04965f25`).
+- In `SourceRightsRegistry.register()`, the `INSERT ... ON CONFLICT(source_id) DO UPDATE` path resets `revoked_at=NULL` when an existing source ID is registered again. The audit table records the event as `registered`, even when it replaces a previously revoked row.
+- Security interpretation: this is a potential rights-reinstatement ambiguity, not a proven unauthorized-publication bypass. A caller able to write the local registry can reactivate the source ID with replacement grant metadata; the current schema does not distinguish an initial registration from an explicit, separately evidenced re-grant event. The registry's own module documentation already states that grantor/evidence metadata is operator-supplied and not authenticated.
+- Recommended review/test before any security implementation change: add an explicit reauthorization operation or require a new grant/version identity with durable evidence; preserve the prior revocation event; record a distinct audit action (for example, `reinstated`) and test that ordinary duplicate registration cannot silently clear revocation. Confirm intended renewal semantics with the implementation owner first.
+- No application code or tests were changed for this finding. It is a bounded static observation, not independent security sign-off or legal rights determination.
+
+### Current owner gates
+- Issue #68 is still OPEN and unassigned; its current issue body explicitly requires project-owner assignment and selection of one canonical authenticated-uploader PR/branch or an approved consolidation plan.
+- PR #82/#83 and related OIDC/upload-payload remediation branches remain draft histories. Preserve their lineage; do not independently merge or consolidate overlapping implementations.
+- Keep live uploads/public publishing disabled pending owner selection, independent security review, owner-device verification, creator-authorized source media/permission evidence, device-appropriate `--max-upload-bytes`, real-media FFprobe/playback, and owner acceptance.
+- No OAuth credentials/tokens, live OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive operation was performed.
+
+
+## ARO-CHAT-0057 bounded Issue #68 PR #93 security review — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0057 |
+| Exact title | ARO-CHAT-0057 | Issue #68 Independent Security Review |
+| Workstream ID | ARO-GTA-P1-57 |
+| Role | Bounded static security reviewer + test-coverage auditor |
+| Task | Continue the read-only review of PR #93's uploader-memory remediation and tests; record concrete, bounded findings without changing uploader behavior. |
+| Branch | workstream/aro-chat-0057-issue68-pr93-independent-review-2026-11-23 |
+| Base | PR #104 head 2ac31b1fa8ee69fc66df574ba6ccf94cd53d92ae |
+| Reviewed code head | PR #93 head f9834d29235738573ad773f19ebcc9b7c0f4c129 |
+| Status | IMPLEMENTED (documentation-only review note); local tests NOT RUN; this review branch exact-head CI pending |
+| Changed files | docs/ISSUE_68_PR93_SECURITY_REVIEW.md; docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | No application/test code changes, credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Review evidence and findings
+- Revalidated PR #93 as OPEN / DRAFT / UNMERGED at exact head `f9834d29235738573ad773f19ebcc9b7c0f4c129`. Exact-head Actions run [45020379946](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45020379946) concluded success; Ubuntu job `137201721141` and hosted-Windows job `137201721314` completed compilation, unit-test steps, and synthetic MP4/FFprobe validation. No numeric test count is asserted.
+- Positive controls observed: incremental copy-time size enforcement, immutable in-memory payload hashing and upload, OAuth subject/channel verification, exact clip/source/privacy/hash approval, and current publish-rights checks.
+- R1: existing copy-limit test rejects an oversized first read; it does not exercise an in-budget first read followed by a later chunk that crosses the cumulative limit. Recommend a deterministic multi-read stream regression.
+- R2: `upload_video()` has an independent direct-call size guard, but current new tests do not appear to assert that an oversized direct call stops before OAuth/API setup. Recommend a mocked fail-before-client regression.
+- R3: source-rights re-registration clearing `revoked_at` remains the previously recorded ARO-CHAT-0056 semantics ambiguity; no new implementation defect or unauthorized-publication bypass is established here.
+- Full review note: `docs/ISSUE_68_PR93_SECURITY_REVIEW.md`. This is a bounded static pass, not exhaustive audit, independent security sign-off, legal determination, local test run, owner-device verification, or real-media acceptance.
+- Issue #68 remains OPEN / UNASSIGNED. Preserve overlapping PR histories and require owner assignment plus explicit canonical PR selection or approved consolidation before implementation changes. Keep live uploads/public publishing disabled.
+- No application code/tests changed; no OAuth credentials/tokens, live OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action occurred.
+
+
+## ARO-CHAT-0058 PR #93 multi-chunk upload-limit regression — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0058 |
+| Exact title | ARO-CHAT-0058 | PR #93 Multi-Chunk Upload-Limit Regression |
+| Workstream ID | ARO-GTA-P1-58 |
+| Role | Bounded QA contributor |
+| Task | Add a deterministic synthetic regression proving the bounded snapshot copier accepts an in-budget first chunk and rejects a later chunk that would exceed the cumulative byte limit. |
+| Branch | workstream/aro-chat-0058-pr93-multichunk-limit-regression-2026-11-23 |
+| Base | PR #93 exact head `f9834d29235738573ad773f19ebcc9b7c0f4c129` |
+| Starting SHA | f9834d29235738573ad773f19ebcc9b7c0f4c129 |
+| Status | IMPLEMENTED (test-only); local tests NOT RUN in this connector session; exact-head CI pending |
+| Changed files | tests/test_youtube_upload.py; docs/CHAT_WORKSTREAM_REGISTRY.md |
+| Scope boundary | Test-only. No uploader behavior changes, OAuth credentials/tokens, live OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Implementation and verification
+- Added `test_snapshot_copy_rejects_later_chunk_that_exceeds_cumulative_limit` using a deterministic mocked reader.
+- The regression verifies that a four-byte first chunk is written under a four-byte limit, then a one-byte second chunk raises the configured-limit error without being written; it also asserts exactly two reads.
+- Local tests: NOT RUN in this connector session. Exact-head GitHub Actions: PENDING.
+
+### Planned regression
+- Use a deterministic reader that yields one chunk within the configured limit and a second chunk that crosses the cumulative limit.
+- Assert the first chunk remains the only content written to the snapshot and the second chunk is rejected before writing.
+- Use synthetic in-memory bytes only; no network or upload API calls.
+- PR #105's R2 recommendation is already covered by separate PR #96's direct-call size-guard regression; this workstream deliberately avoids duplicating that test.
+- Issue #68 remains OPEN / UNASSIGNED. This test does not select or integrate a canonical uploader implementation.
