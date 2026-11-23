@@ -599,3 +599,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0138_PR209_CI_AUDIT.md`. Re-fetch the exact PR #209 head and Ubuntu job after completion; do not transfer predecessor CI evidence or claim matrix success prematurely.
 - PR #209 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
 - Documentation-only; no credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action. Hosted Windows is not owner-device verification; synthetic media is not GTA 6 footage.
+
+
+### Latest continuation baseline — ARO-CHAT-0139 (2026-11-24)
+- Active workstream: ARO-CHAT-0139 / ARO-GTA-P1-139, documentation-only exact-head CI audit of PR #210.
+- Branch: `workstream/aro-chat-0139-pr210-exact-head-ci-audit-2026-11-24`; base: PR #210 head branch `workstream/aro-chat-0138-pr209-exact-head-ci-audit-2026-11-24`; starting SHA: `a97d8786e0f1cc799d7a3131127d2151e11bf0e2`.
+- PR #210's exact-head Actions lookup returned zero runs and combined commit status returned zero entries. CI is NOT VERIFIED; compilation, tests, synthetic MP4/FFprobe validation, and checkout refs are NOT VERIFIED. Reviews and inline threads are empty.
+- Report: `docs/ARO_CHAT_0139_PR210_CI_AUDIT.md`. Keep the PR draft-only; do not transfer predecessor CI results or retry workflows without authorization.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- This workstream is documentation-only. No application/uploader/test/renderer/workflow changes, credentials, OAuth, real media, uploads, publishing, merge, rebase, retarget, deployment, or destructive action.
