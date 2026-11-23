@@ -1393,7 +1393,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Branch | `workstream/aro-chat-0162-pr176-mutation-test-fix-2026-11-24` |
 | Base / starting SHA | PR #176 head `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69` |
 | Parent PR | #176 (stacked on #168) |
-| Status | RESERVED; test/CI repair not yet committed |
+| Status | IMPLEMENTED; test-fix commit `2a35e73351880d255177599cdbd2631741748033` CI_VERIFIED on PR merge ref via run `45277330824` (338 tests on Ubuntu and hosted Windows); raw-head-only CI NOT DEMONSTRATED |
 | Report | `docs/ARO_CHAT_0162_PR176_REGRESSION_REPAIR.md` |
 
 ### Initial audit finding
@@ -1402,3 +1402,13 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Repair the test to mutate the original source after final approval/rights checks and prove the uploaded payload remains the approved bytes. No production code change is planned unless the corrected test exposes one.
 - Do not transfer earlier green CI to this branch. Run its own exact-head CI and inspect both platform logs.
 - Keep Issue #68 open and live/public uploads disabled. No OAuth, credentials, real media, network upload, publishing, merge, deployment, or destructive action.
+
+
+### ARO-CHAT-0162 verification closeout — 2026-11-24
+- PR #238 head `e2620b00c1ff383cc3b0d76be7da614d1ad5556a` passed run #45277330824 on Ubuntu and hosted Windows.
+- Ubuntu: compile passed, 338 tests passed (4.902s), synthetic MP4/FFprobe passed.
+- Hosted Windows: compile passed, same 338 tests passed (15.648s), synthetic MP4/FFprobe passed.
+- Both jobs checked out PR merge ref `refs/remotes/pull/238/merge` at `829d1fe11bc27456143f0119de4e4db734679f63`. Raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic-only; no GTA 6 or third-party media, publishing disabled, manual review required, mocked upload false.
+- Corrected source-mutation regression passed on both platforms. Local tests NOT RUN in this connector session.
+- PR #238 remains draft/open/unmerged. Issue #68 remains open and assigned to the project owner; keep live/public uploads disabled pending independent review and owner-controlled integration.
