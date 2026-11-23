@@ -1477,3 +1477,32 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Keep live uploads/public publishing disabled pending current-head CI, independent security review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
 - Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 footage.
 - Documentation-only. No OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, workflow configuration change, or destructive action.
+
+
+## ARO-CHAT-0168 PR #246 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0168 |
+| Exact title | ARO-CHAT-0168 | PR #246 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-168 |
+| Scope | Documentation-only independent audit of PR #246's own commit-associated CI, Ubuntu/hosted-Windows jobs and logs, checkout refs, compile/tests, synthetic MP4/FFprobe, combined status, and review state |
+| Branch | `workstream/aro-chat-0168-pr246-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #246 head `902767af13caeedff858f6e6472565bd75246080` |
+| Parent PR | #246 |
+| Report | `docs/ARO_CHAT_0168_PR246_CI_AUDIT.md` |
+| Status | AUDIT RECORDED; PR #246 exact-head workflow run #45279477145 passed on Ubuntu and hosted Windows; this audit branch's own CI is PENDING |
+
+### Exact-head evidence
+- PR #246 head `902767af13caeedff858f6e6472565bd75246080` is associated with Python CI run #45279477145 (run 1125), completed SUCCESS.
+- Ubuntu job #138059829667 passed setup, checkout, FFmpeg/FFprobe installation, compilation, 340 tests (5.053s), and synthetic MP4/FFprobe validation.
+- Hosted-Windows job #138059829394 passed the same steps and the same 340 tests (14.434s).
+- Both jobs checked out `refs/remotes/pull/246/merge` at merge SHA `9e5243f6e6cccfa2706a5c2715689c88702bc903`, merging audited head `902767af13caeedff858f6e6472565bd75246080` into base `dfb1e9390490806e44bad93fc661ddff0a551f54`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Same 340-test suite on both platforms, not 680 unique tests. Synthetic locally generated pattern/tone only, 8s source / 4s output; no GTA 6 or third-party media; publishing disabled; manual review required.
+- Combined status returned zero entries. PR #246 reviews and conversation comments were empty; independent review NOT RECORDED. Local tests NOT RUN in this connector session.
+- PR #246 remains OPEN / DRAFT / UNMERGED. Do not transfer its CI result to this audit branch's own head.
+
+### Duplicate-work and safety
+- ARO-CHAT-0167's branch `workstream/aro-chat-0167-pr245-exact-head-ci-audit-2026-11-24` already existed at reservation and was treated as occupied. This workstream audits PR #246, not PR #245.
+- Issue #68 remains OPEN. Keep live uploads/public publishing disabled pending independent security review, owner-controlled integration, owner-device verification, an owner-selected device-appropriate `--max-upload-bytes`, and separately authorized real-media acceptance.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
