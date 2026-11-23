@@ -651,3 +651,16 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #216 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=false. Do not transfer predecessor CI evidence.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials, OAuth, real media, uploads, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0145 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-145 / ARO-CHAT-0145 | PR #218 exact-head CI audit.
+- Branch: `workstream/aro-chat-0145-pr218-exact-head-ci-audit-2026-11-24`; base branch: `workstream/aro-chat-0144-pr216-exact-head-ci-audit-2026-11-24`; starting SHA: PR #218 head `da6a25275037a52f3ec35ff36451712dfeac3db2`.
+- Parent PR audited: [PR #218](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/218). Report: `docs/ARO_CHAT_0145_PR218_CI_AUDIT.md`.
+- PR #218 head is associated with Python CI run #45268328596 (run 1057), IN_PROGRESS at initial inspection. Ubuntu job #138021111433 and hosted-Windows job #138021110557 completed setup, checkout, and Python setup; both were installing FFmpeg/FFprobe. Compilation, tests, and synthetic MP4/FFprobe validation had not started.
+- Checkout refs, checked-out merge SHA, final test results, synthetic render results, and final combined status remain NOT VERIFIED. Re-fetch this exact run and logs after completion; do not transfer predecessor CI evidence or initiate a workflow retry.
+- PR #218 reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. PR #218 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=true.
+- PR #218 body duplicates ARO-CHAT-0144 / ARO-GTA-P1-144, already used by the PR #216 audit. Preserve the historical PR body; this follow-up uses fresh identity ARO-CHAT-0145 / ARO-GTA-P1-145 and documents the collision.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
