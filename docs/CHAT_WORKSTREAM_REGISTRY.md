@@ -2077,3 +2077,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Local tests NOT RUN in this connector session. No workflow retry initiated. No predecessor CI evidence transferred.
 - Follow-up: re-fetch the exact PR #220 head and inspect any newly associated workflow run, all jobs/logs, checkout refs, combined status, and review state before assigning CI_VERIFIED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0147 PR #220 exact-head CI audit closeout — 2026-11-24
+- PR #220 head `47072a6ac9b42d48d273176dc7e04fe019779fd7` completed Python CI run [#45269033752](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45269033752), run 1061, SUCCESS.
+- Ubuntu job #138023584264 passed compilation, 338 tests (5.142s), and synthetic MP4/FFprobe validation. Hosted-Windows job #138023585270 passed compilation, the same 338 tests (15.764s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/220/merge` at merge SHA `9af7af7864be8ad950f2df49e9fa811c2073e824`, merging PR #220 head into base/PR #219 head `cdacb24c9d1db25ad0a85f93d51afabb94d6f836`. Raw-head-only checkout is NOT DEMONSTRATED; the two platforms ran the same 338-test suite, not 676 unique tests.
+- Synthetic reports used locally generated pattern/tone only, 8.0-second source and 4.0-second output, no GTA 6 or third-party media, publishing disabled, and manual review required. Mocked upload reported `upload_performed=false`.
+- Combined status returned zero entries. PR #220 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #220 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=true. CI_VERIFIED applies to the merge ref only; WINDOWS_VERIFIED and REAL_MEDIA_VERIFIED remain NOT VERIFIED.
+- Local tests NOT RUN. This audit did not retry workflows or perform uploads/publishing. Non-failing Node.js 20 deprecation warnings were observed for actions/checkout@v4 and actions/setup-python@v5.
+- PR #221 is the follow-up audit branch. Its head at this update, `eee181efc37f040b77e91df416a77983d7c7c687`, had run [#45269230348](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45269230348), run 1062, IN_PROGRESS. Re-audit PR #221's own final exact head independently; do not transfer PR #220 CI evidence.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
