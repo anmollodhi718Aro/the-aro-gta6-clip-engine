@@ -1448,3 +1448,25 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Parent PR #238 run #45277658000 passed Ubuntu and hosted Windows (338 tests per platform plus synthetic MP4/FFprobe); this predecessor evidence is NOT transferred to ARO-CHAT-0164.
 - No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment or destructive action.
 - Keep Issue #68 OPEN and all live/public uploads disabled pending this branch's exact-head CI, independent security review, owner-controlled integration, owner-device verification and separate authorized real-media acceptance.
+
+
+## Latest continuation — ARO-CHAT-0165 (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0165 |
+| Exact title | ARO-CHAT-0165 | PR #242 Windows CI Failure Audit |
+| Workstream ID | ARO-GTA-P1-165 |
+| Scope | Documentation-only exact-head audit of PR #242's Windows CI failure; recover evidence before proposing any workflow change |
+| Branch | `workstream/aro-chat-0165-pr242-windows-ci-failure-audit-2026-11-24` |
+| Base / starting SHA | PR #242 head `dfb1e9390490806e44bad93fc661ddff0a551f54` |
+| Status | IMPLEMENTED (audit report); raw Windows installer diagnostic NOT VERIFIED; no workflow rerun; draft PR pending |
+| Report | `docs/ARO_CHAT_0165_PR242_WINDOWS_CI_AUDIT.md` |
+
+### Evidence and safety
+- PR #242 exact-head Actions run #45278668116 reports FAILURE on head `dfb1e9390490806e44bad93fc661ddff0a551f54`.
+- Ubuntu compile, unit tests and synthetic MP4/FFprobe passed.
+- Available Windows step summary reports failure at FFmpeg/FFprobe installation and skipped later validation steps; a subsequent jobs lookup returned null Windows conclusion/no steps, so the raw installer error remains NOT VERIFIED.
+- Existing workflow already retries Chocolatey installation four times. No workflow behavior change or retry is justified without the raw log.
+- PR #242 remains OPEN / DRAFT / UNMERGED; independent review NOT RECORDED. Issue #68 remains OPEN; keep live/public uploads disabled.
+- Documentation-only. No credentials, OAuth, real media, network upload, publishing, merge, rebase, retarget, deployment or destructive action.
