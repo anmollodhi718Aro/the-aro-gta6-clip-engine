@@ -1412,3 +1412,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Hosted-Windows job #137980833158 passed setup, checkout, Python setup, FFmpeg/FFprobe installation, and compilation; unit tests were in progress and synthetic render had not started at the snapshot.
 - Do not transfer PR #176's failure or other branch CI evidence to PR #191. Re-fetch the run, both job logs, combined status, and review records before finalizing.
 - Documentation-only. No uploader behavior, credentials, OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action. Issue #68 owner approval gate remains active; live/public uploads stay disabled.
+
+
+### ARO-CHAT-0121 PR #191 exact-head CI closeout — 2026-11-24
+- Audited PR #191 head `35d77ce48ec6fbd2f86503a3f45f3ba88d325efc` is associated with Python CI run [#45256856022](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45256856022), run 1015, SUCCESS.
+- Ubuntu job #137980832512: compilation passed; 338 tests passed (4.965s); synthetic MP4/FFprobe validation passed.
+- Hosted-Windows job #137980833158: compilation passed; 338 tests passed (14.816s); synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/191/merge` at merge SHA `811195d53fa14c7a54d892204ae056b8bac286ac`, merging PR #191 head into base `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`. Raw-head-only checkout is NOT DEMONSTRATED. Same 338-test suite on each platform, not 676 unique tests.
+- Synthetic reports confirm locally generated test pattern/tone, 8.0-second source, 4.0-second render, no GTA 6 or third-party media, publishing disabled, and manual review required.
+- Logs contain non-failing Node.js 20 deprecation warnings for checkout/setup actions under Node.js 24. No workflow change was made.
+- Legacy combined status returned PENDING with zero status entries, while the commit-associated Actions run and both jobs concluded SUCCESS. PR #191 review submissions and inline review comments were empty.
+- PR #191 is CI_VERIFIED on merge ref; independent review, owner-device Windows, and authorized real-media acceptance remain NOT VERIFIED. Report: `docs/ARO_CHAT_0121_PR191_CI_AUDIT.md`.
+- This audit is documentation-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live/public uploads remain disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action was performed.
