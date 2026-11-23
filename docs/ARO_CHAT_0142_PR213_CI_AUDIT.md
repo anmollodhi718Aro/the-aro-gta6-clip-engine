@@ -61,3 +61,25 @@ Independently inspect PR #213's current exact head for commit-associated Actions
 - Independent review: NOT RECORDED.
 - Owner-device Windows verification: NOT VERIFIED.
 - Real-media verification: NOT VERIFIED.
+
+
+## Final exact-head CI closeout — 2026-11-24
+
+- PR #213 exact head `71a7eb16997dad90b65c1fcaa62d8ed9a072d5cd` completed Python CI run [#45267871069](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45267871069), run 1053, with overall conclusion SUCCESS.
+- Ubuntu job #138019575576 completed SUCCESS: setup, checkout, Python, FFmpeg/FFprobe installation, source compilation, all 338 unit tests (5.067s), and synthetic MP4/FFprobe validation passed.
+- Hosted-Windows job #138019576300 completed SUCCESS: setup, checkout, Python 3.11, FFmpeg/FFprobe installation, source/test compilation, all 338 unit tests (17.747s), and synthetic MP4/FFprobe validation passed.
+- Both jobs fetched and checked out `refs/remotes/pull/213/merge` at merge SHA `7f1cd20f7e2afec9297f810211a63ff425275417`, merging PR #213 head into base `4fc9e6f4373e55f9b5fa2e33ab10566b7eaa42c3`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Each platform ran the same 338-test suite; do not describe this as 676 unique tests.
+- Both synthetic reports passed and identify locally generated test pattern/tone only: 8.0-second source, 4.0-second rendered output, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. No GTA 6 or third-party media was used.
+- Test logs include a mocked YouTube result at `youtube.invalid` and explicitly report `upload_performed=false`; this is not a live upload or publishing test.
+- Exact-head check-runs `tests` and `windows-tests` both concluded SUCCESS. Combined commit status returned `state: pending` with zero status entries; it is not used as a passing signal.
+- PR #213 review submissions, inline review threads, and conversation comments were empty. Independent review is NOT RECORDED. PR #213 remains OPEN / DRAFT / UNMERGED.
+- Local tests were NOT RUN in this connector session. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- No workflow retry, credentials/tokens, OAuth, real media, network upload, public publishing, merge, rebase, retarget, deployment, or destructive action was performed.
+
+## Status
+- Audit report: IMPLEMENTED.
+- PR #213 exact-head CI: CI_VERIFIED on the PR merge ref only.
+- Raw-head-only execution: NOT DEMONSTRATED.
+- Independent review: NOT RECORDED.
+- Real-media / owner-device acceptance: NOT VERIFIED.
