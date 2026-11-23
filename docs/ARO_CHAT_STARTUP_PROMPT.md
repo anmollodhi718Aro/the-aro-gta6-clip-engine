@@ -316,6 +316,6 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Finding: OAuth credentials were written directly to the token path before a best-effort chmod(0600); permission errors were ignored. This risked a permissive-umask exposure window or a token file left with broader permissions.
 - Implementation: same-directory mkstemp, private mode before writing, flush/fsync, atomic replace, cleanup on failure; OAuth flow uses the helper. Offline regression checks contents, POSIX mode 0600, and temp cleanup.
 - Report: `docs/ARO_CHAT_0108_ISSUE68_OAUTH_TOKEN_PERSISTENCE.md`.
-- Status: IMPLEMENTED; local tests NOT RUN; exact-head Actions run #45253092552 IN_PROGRESS on head `8dd8649002e3ce1fc7c7ff34fbe9ff4299547d94`. No CI evidence transfers from parent PRs.
+- Status: IMPLEMENTED; local tests NOT RUN; an intermediate-head workflow was observed, but subsequent documentation commits advanced the branch. Final-head exact CI is PENDING; no CI evidence transfers from parent PRs.
 - This bounded fix does not resolve Issue #68. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled pending owner assignment, canonical security-lineage approval, independent review, and exact-head CI.
 - No live OAuth, credentials/tokens, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
