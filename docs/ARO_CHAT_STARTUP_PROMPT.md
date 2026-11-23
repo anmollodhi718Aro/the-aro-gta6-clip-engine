@@ -842,3 +842,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Hosted-Windows job #138043250473 remains IN_PROGRESS: setup, checkout, Python 3.11, FFmpeg/FFprobe, and compile passed; tests are running and synthetic validation is pending. Log retrieval returned BlobNotFound.
 - Overall matrix remains PENDING / NOT VERIFIED; no retry. Re-fetch run/jobs/logs after completion and do not transfer earlier SHA evidence.
 - Report: `docs/ARO_CHAT_0157_PR232_CI_AUDIT.md`; audit PR #233 remains draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
+
+
+## Latest continuation baseline — ARO-CHAT-0158 (2026-11-24)
+- Current workstream: ARO-CHAT-0158 / ARO-GTA-P1-158 | PR #233 Exact-Head CI Audit.
+- Branch: `workstream/aro-chat-0158-pr233-exact-head-ci-audit-2026-11-24`; base: `workstream/aro-chat-0157-pr232-exact-head-ci-audit-2026-11-24`; starting SHA: PR #233 head `d67abeed45628a935a6747a8da03fd26878236c8`.
+- Parent PR #233 is OPEN / DRAFT / UNMERGED. Exact-head Actions lookup returned zero runs; combined status returned zero entries. No jobs/logs exist to verify compilation, tests, synthetic MP4/FFprobe, or checkout refs.
+- Report: `docs/ARO_CHAT_0158_PR233_CI_AUDIT.md`. Documentation-only; do not transfer CI evidence from PR #232 or earlier PRs.
+- Reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. Local tests NOT RUN; no workflow retry.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
