@@ -329,3 +329,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0121_PR191_CI_AUDIT.md`. Documentation-only; do not change uploader/test/workflow behavior in this audit.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live/public uploads disabled; hosted Windows is not owner-device verification and synthetic MP4 is not real GTA 6 media acceptance.
 - No credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0121 (2026-11-24)
+- Current workstream: ARO-GTA-P1-121 / ARO-CHAT-0121 | documentation-only exact-head CI audit of PR #191.
+- Branch: `workstream/aro-chat-0121-pr191-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #191 head `35d77ce48ec6fbd2f86503a3f45f3ba88d325efc`.
+- PR #191's own Actions run #45256856022 (run 1015) completed SUCCESS. Ubuntu job #137980832512 passed compile, 338 tests (4.965s), and synthetic MP4/FFprobe validation. Hosted-Windows job #137980833158 passed compile, 338 tests (14.816s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out PR merge ref `refs/remotes/pull/191/merge` at `811195d53fa14c7a54d892204ae056b8bac286ac`, merging audited head into base `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`; raw-head-only checkout is NOT DEMONSTRATED. Same 338-test suite on each platform, not 676 unique tests.
+- Synthetic reports show no GTA 6/third-party media, publishing disabled, and manual review required. Legacy combined status returned PENDING with zero entries despite successful Actions run/jobs; PR #191 review submissions and inline comments were empty.
+- Report: `docs/ARO_CHAT_0121_PR191_CI_AUDIT.md`. Audited PR #191 is CI_VERIFIED on merge ref; independent review remains pending. Hosted Windows is not owner-device verification; synthetic MP4 is not real-media acceptance.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live/public uploads disabled. No credentials/tokens, OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action.
