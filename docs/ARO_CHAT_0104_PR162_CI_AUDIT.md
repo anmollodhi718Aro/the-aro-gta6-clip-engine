@@ -41,3 +41,10 @@ Audit PR #162's own commit-associated GitHub Actions run, Ubuntu and hosted-Wind
 ## Status
 - Audit work: IN_PROGRESS; exact-head CI: PENDING / NOT VERIFIED.
 - Next evidence action: inspect PR #162's exact-head workflow run and both platform job logs when available, then update this report and registry with observed results only.
+
+
+## Follow-up head-drift check
+- After this audit branch was created, its base branch (the PR #162 workstream branch) advanced from the initially observed SHA fa3223c5ac7f46d261cd121911aedfd77c5c498e to 546906fca62ff2493a7ae1955dfdd1b4948233f2.
+- Commit-associated workflow lookup for the newer SHA 546906fca62ff2493a7ae1955dfdd1b4948233f2 also returned no runs at the follow-up check.
+- Compare evidence shows this audit branch is three commits ahead and two commits behind the moved base branch, with merge base fa3223c5ac7f46d261cd121911aedfd77c5c498e. The PR is therefore not mergeable at this snapshot.
+- Preserve the audit branch and draft PR as submitted. Do not rebase, force-push, retarget, or merge without explicit owner direction. The report records the initial and follow-up target SHAs separately; CI remains PENDING / NOT VERIFIED.
