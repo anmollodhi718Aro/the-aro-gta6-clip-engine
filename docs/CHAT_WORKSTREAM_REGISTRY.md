@@ -2107,3 +2107,32 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #137 remains OPEN / DRAFT / UNMERGED; this follow-up does not authorize merge or integration.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0085 PR #138 exact-head CI audit — 2026-11-23
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0085 |
+| Exact title | ARO-CHAT-0085 | PR #138 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-85 |
+| Role | Exact-head CI evidence auditor; documentation-only |
+| Task | Audit PR #138's associated Actions run, both platform jobs and decoded logs; record compile, tests, synthetic-media validation, and checkout-ref evidence. |
+| Branch | `workstream/aro-chat-0085-pr138-ci-audit-2026-11-23` |
+| Base / starting SHA | PR #138 head `f3ecc88600015f97c4067d314717f1c6b0adc3b5` |
+| Parent PR | [PR #138](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/138) |
+| Changed files | `docs/ARO_CHAT_0085_PR138_CI_AUDIT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md` |
+| Status | IN_PROGRESS; hosted Windows job successful; Ubuntu job still installing FFmpeg/FFprobe; final run conclusion and logs pending |
+| Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### Evidence snapshot
+- PR #138 head `f3ecc88600015f97c4067d314717f1c6b0adc3b5` is associated with Actions run [45198107955](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45198107955), run number 910.
+- Hosted Windows job `137773901881`: setup, checkout, Python 3.11, FFmpeg/FFprobe installation, compilation, full unittest, and synthetic MP4/FFprobe validation succeeded.
+- Ubuntu job `137773900779`: setup, checkout, and Python setup succeeded; FFmpeg/FFprobe installation was IN_PROGRESS at this snapshot; compile, tests, and synthetic render remain pending.
+- No Ubuntu test result or final run conclusion is claimed. Exact checkout ref, decoded logs, test counts, and synthetic report flags remain to be captured after completion.
+- Local tests were not run in this connector session.
+
+### Safety and owner gates
+- PR #138 remains OPEN / DRAFT / UNMERGED; this follow-up does not authorize merge or integration.
+- Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and explicit canonical authenticated-uploader implementation selection or approved consolidation.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
