@@ -231,7 +231,8 @@ class YouTubeUploadTests(unittest.TestCase):
                                         max_upload_bytes=4,
                                     )
 
-        authorize.assert_called_once()
+        authorize.assert_not_called()
+        modules["googleapiclient.discovery"].build.assert_not_called()
         youtube.videos.return_value.insert.assert_not_called()
         self.assertEqual(len(created_dirs), 1)
         self.assertFalse(created_dirs[0].exists())
