@@ -298,3 +298,8 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0105_PR162_CI_AUDIT.md`. Documentation-only; no application, uploader, test, or workflow behavior changes.
 - Re-query this exact SHA after checks appear. Do not transfer PR #161 or predecessor CI evidence, and do not rerun a workflow that does not exist.
 - Issue #68 remains OPEN / UNASSIGNED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage.
+
+
+### ARO-CHAT-0105 submission note
+- Documentation-only draft PR #165 is OPEN / DRAFT / UNMERGED, based on PR #162 head `546906fca62ff2493a7ae1955dfdd1b4948233f2`.
+- Submitted head: `ae2d41e17f31282c61cbbf551467ae201b296ae4`. Its own CI requires separate exact-head verification; do not inherit PR #162's missing CI evidence.
