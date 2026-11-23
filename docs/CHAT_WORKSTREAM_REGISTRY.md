@@ -1547,3 +1547,28 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0116_PR185_CI_AUDIT.md`. Documentation-only; no application, uploader, tests, renderer, media-ingestion, or workflow behavior changes.
 - PR #185 remains OPEN / DRAFT / UNMERGED. This follow-up branch has not yet been submitted as a PR; its own CI is therefore not applicable yet.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
+
+
+## ARO-CHAT-0117 PR #187 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0117 |
+| Exact title | ARO-CHAT-0117 | PR #187 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-117 |
+| Scope | Audit PR #187's own commit-associated Actions run, combined status, Ubuntu/hosted-Windows jobs, and review state; documentation-only |
+| Branch | `workstream/aro-chat-0117-pr187-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #187 head `b39394b2cd9e5c5234e287b92ece48dbaa67ddf0` |
+| Parent PR | [PR #187](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/187) |
+| Changed files | `docs/ARO_CHAT_0117_PR187_CI_AUDIT.md`, this registry, `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+| Status | IMPLEMENTED (documentation-only); audited PR #187 exact-head CI PENDING / NOT VERIFIED; this follow-up's own CI PENDING |
+| Scope boundary | No application/uploader/test/renderer/workflow behavior changes; no credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, retry, or destructive action. |
+
+### Evidence
+- PR #187 head `b39394b2cd9e5c5234e287b92ece48dbaa67ddf0` returned zero commit-associated workflow runs and zero combined-status entries.
+- PR #187 is OPEN / DRAFT / UNMERGED; GitHub reported `mergeable=false` at inspection. No rebase, force-push, or retarget was attempted.
+- Review submissions, inline review threads, and PR conversation comments returned no entries.
+- Compile, tests, synthetic MP4/FFprobe validation, and checkout refs are NOT VERIFIED. No numeric test count or CI result is claimed; no workflow retry was initiated.
+- Do not transfer CI evidence from PR #185, PR #182, or sibling branches.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
+- Report: `docs/ARO_CHAT_0117_PR187_CI_AUDIT.md`.
