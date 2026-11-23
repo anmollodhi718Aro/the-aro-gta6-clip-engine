@@ -2177,3 +2177,12 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #225 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. Combined status and final matrix outcome remain pending refresh. Do not transfer PR #224 CI evidence.
 - Issue #68 remains OPEN / NOT IMPLEMENTED / UNASSIGNED. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0151 PR #225 CI closeout — 2026-11-24
+- PR #225 head `894bf28f07b2bb5eccbbb393f63425da5e64c0da` passed associated Python CI run [#45270102698](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45270102698), run 1069.
+- Ubuntu job #138027336794 passed compilation, 338 tests (3.720s), and synthetic MP4/FFprobe validation. Hosted-Windows job #138027336285 passed compilation, the same 338 tests (14.950s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/225/merge` at merge SHA `cc181eed7c60443ffb2f47bfa7093341d7402c21`, merging PR #225 head into base `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`. Raw-head-only checkout is NOT DEMONSTRATED; count 338 shared tests on two platforms, not 676 unique tests.
+- Synthetic fixtures only; no GTA 6/third-party media, publishing disabled, manual review required, mocked approval `upload_performed=false`. Combined status empty; reviews, inline threads, and conversation comments empty; independent review NOT RECORDED.
+- PR #225 CI_VERIFIED on merge ref only. Owner-device Windows and real-media acceptance remain NOT VERIFIED. Local tests NOT RUN. Issue #68 remains OPEN / NOT IMPLEMENTED / UNASSIGNED; keep live uploads/public publishing disabled.
+- Report: `docs/ARO_CHAT_0151_PR225_CI_AUDIT.md`. This audit branch remains documentation-only; no merge requested.
