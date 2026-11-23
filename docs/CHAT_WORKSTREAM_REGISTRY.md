@@ -1380,3 +1380,13 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Draft follow-up only. Issue #68 remains OPEN / UNASSIGNED; keep live/public uploads disabled.
 - No credentials/tokens, live OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
 - Owner-device Windows and real-media acceptance remain NOT VERIFIED. Owner must select a device-appropriate `--max-upload-bytes` before any real upload.
+
+
+## Latest CI remediation — ARO-CHAT-0120 (2026-11-24)
+- Workstream: ARO-GTA-P1-120 / ARO-CHAT-0120 | PR #176 staging-cleanup test contract fix.
+- Branch: `workstream/aro-chat-0120-pr176-ci-test-contract-fix-2026-11-24`; base/start SHA: PR #176 head `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`.
+- Finding: PR #176 run #45253188457 failed on Ubuntu and hosted Windows because `test_staged_file_mutation_after_final_checks_cannot_change_upload_payload` attempted to reopen a temporary snapshot after the implementation had correctly removed its temporary directory before OAuth/API use.
+- Change: rename/reframe the regression to assert staging directory and file are absent at upload-request construction, mutate the original source after staging, and verify the upload stream still contains the exact captured bytes.
+- Scope is test-only; no uploader behavior or publishing behavior changed.
+- Verification for this branch: local tests NOT RUN in this connector session; exact-head CI PENDING until its own run and logs are inspected. Do not transfer PR #176's failed run or another branch's results.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth credentials, real media, network upload, merge, retarget, deployment, or destructive action was used.
