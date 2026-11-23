@@ -1403,3 +1403,5 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Both synthetic reports confirm `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`; source duration 8.0 seconds and rendered duration 4.0 seconds.
 - PR #166 is CI_VERIFIED on merge ref. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 media acceptance.
 - PR #167's own exact-head CI remains a separate pending check; no CI evidence is transferred from PR #166.
+
+- Follow-up PR #167 head `766d5cc9d2bce6b1ff20640a01d3da36ec2733c8` has no associated workflow run or combined status entry at latest inspection; its own exact-head CI remains PENDING / NOT VERIFIED.
