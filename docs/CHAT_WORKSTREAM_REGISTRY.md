@@ -1294,9 +1294,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Branch | workstream/aro-chat-0058-pr93-multichunk-limit-regression-2026-11-23 |
 | Base | PR #93 exact head `f9834d29235738573ad773f19ebcc9b7c0f4c129` |
 | Starting SHA | f9834d29235738573ad773f19ebcc9b7c0f4c129 |
-| Status | RESERVED; test implementation and local execution pending |
+| Status | IMPLEMENTED (test-only); local tests NOT RUN in this connector session; exact-head CI pending |
 | Changed files | tests/test_youtube_upload.py; docs/CHAT_WORKSTREAM_REGISTRY.md |
 | Scope boundary | Test-only. No uploader behavior changes, OAuth credentials/tokens, live OAuth, real media, network upload, public publishing, merge, retarget, deployment, or destructive action. |
+
+### Implementation and verification
+- Added `test_snapshot_copy_rejects_later_chunk_that_exceeds_cumulative_limit` using a deterministic mocked reader.
+- The regression verifies that a four-byte first chunk is written under a four-byte limit, then a one-byte second chunk raises the configured-limit error without being written; it also asserts exactly two reads.
+- Local tests: NOT RUN in this connector session. Exact-head GitHub Actions: PENDING.
 
 ### Planned regression
 - Use a deterministic reader that yields one chunk within the configured limit and a second chunk that crosses the cumulative limit.
