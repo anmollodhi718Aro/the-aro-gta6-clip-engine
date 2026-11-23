@@ -2082,7 +2082,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Field | Record |
 |---|---|
 | Chat ID | ARO-CHAT-0084 |
-| ARO-CHAT-0085 | ARO-CHAT-0085 \| PR #138 Exact-Head CI Audit | ARO-GTA-P1-85 | Audit PR #138 Actions run, platform jobs, decoded logs, and merge-ref checkout evidence | `workstream/aro-chat-0085-pr138-exact-head-ci-audit-2026-11-23` / pending PR | IMPLEMENTED; parent PR #138 merge-ref CI successful | Starting SHA `f3ecc88600015f97c4067d314717f1c6b0adc3b5`; run `45198107955` passed both platforms (334 tests each); raw-head checkout not demonstrated; follow-up CI pending. |
+| ARO-CHAT-0085 | ARO-CHAT-0085 \| PR #138 Exact-Head CI Audit | ARO-GTA-P1-85 | Audit PR #138 Actions run, platform jobs, decoded logs, and merge-ref checkout evidence | `workstream/aro-chat-0085-pr138-exact-head-ci-audit-2026-11-23` / [PR #141](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/141) | IMPLEMENTED; parent PR #138 merge-ref CI successful | Starting SHA `f3ecc88600015f97c4067d314717f1c6b0adc3b5`; run `45198107955` passed both platforms (334 tests each); raw-head checkout not demonstrated; follow-up CI pending. |
 | Exact title | ARO-CHAT-0084 | PR #137 CI Evidence Closeout |
 | Workstream ID | ARO-GTA-P1-84 |
 | Role | Exact-head CI evidence auditor; documentation-only |
