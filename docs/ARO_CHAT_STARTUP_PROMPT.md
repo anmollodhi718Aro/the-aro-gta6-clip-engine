@@ -310,3 +310,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Keep PR #168 and this follow-up draft/open/unmerged. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled pending independent review and owner-controlled integration.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action is authorized by this workstream.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage. The owner must choose a device-appropriate upload-memory limit before any real upload.
+
+
+## Latest continuation baseline — ARO-CHAT-0111 (2026-11-24)
+- Active workstream: ARO-GTA-P1-111 / ARO-CHAT-0111 | PR #176 Immutable-Payload Regression Repair.
+- Branch: `workstream/aro-chat-0111-pr176-staging-test-fix-2026-11-24`; base and starting SHA: PR #176 head `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`.
+- PR #176 run #45253188457 (run 998) failed on both Ubuntu and hosted Windows because a regression test attempted to mutate a temporary staging file after the implementation had cleaned that directory and captured immutable upload bytes.
+- Test-only correction: mutate the original source file at the mocked upload-request boundary and assert the immutable upload stream still contains the originally approved bytes. Production uploader and approval logic are unchanged.
+- Report: `docs/ARO_CHAT_0111_PR176_IMMUTABLE_PAYLOAD_TEST_FIX.md`.
+- Local tests were not run in this connector session. This branch's exact-head Ubuntu/hosted-Windows CI remains PENDING; do not claim TESTED or CI_VERIFIED until its own run and logs are inspected.
+- Keep PR #176 and this follow-up draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled pending owner-controlled integration and independent review.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action was performed.
