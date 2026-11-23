@@ -2026,3 +2026,36 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Logs contain a non-failing Node.js 20 deprecation warning for actions/checkout@v4 and actions/setup-python@v5.
 - Attribution collision preserved: PR #218 body duplicates ARO-CHAT-0144 / ARO-GTA-P1-144 already registered for PR #216. This audit uses ARO-CHAT-0145 / ARO-GTA-P1-145; neither historical PR body was rewritten.
 - Report: `docs/ARO_CHAT_0145_PR218_CI_AUDIT.md`. Local tests NOT RUN; no workflow retry initiated. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0146 PR #219 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0146 |
+| Exact title | ARO-CHAT-0146 | PR #219 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-146 |
+| Scope | Documentation-only audit of PR #219's own Actions run/jobs/logs, checkout refs, compile/tests, synthetic MP4/FFprobe validation, combined status, and review state |
+| Branch | `workstream/aro-chat-0146-pr219-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #219 head `cdacb24c9d1db25ad0a85f93d51afabb94d6f836` |
+| Parent PR | [#219](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/219) |
+| Report | `docs/ARO_CHAT_0146_PR219_CI_AUDIT.md` |
+| Status | IN PROGRESS; Python CI run #45268686766 / run 1060 IN_PROGRESS; Ubuntu install pending completion and Windows synthetic validation running; independent review NOT RECORDED |
+| Safety | Documentation-only; no application/uploader/test/renderer/workflow behavior changes, credentials, OAuth, real media, upload, publishing, workflow retry, merge, retarget, deployment, or destructive action. |
+
+### Initial evidence
+- PR #219 head is associated with Python CI run #45268686766 (run 1060), IN_PROGRESS.
+- Ubuntu job #138022360674 completed setup, checkout, and Python setup; FFmpeg/FFprobe installation was IN_PROGRESS. Compile, unit tests, and synthetic MP4/FFprobe validation were PENDING.
+- Hosted-Windows job #138022361285 passed setup, checkout, Python 3.11, FFmpeg/FFprobe installation, compilation, and the complete unittest suite; synthetic MP4/FFprobe validation was IN_PROGRESS.
+- Checkout refs/SHAs, final workflow conclusion, Ubuntu test results, and synthetic validation remain NOT VERIFIED. Combined commit status returned zero entries.
+- PR #219 reviews and inline review threads were empty; independent review NOT RECORDED. Local tests NOT RUN. No workflow retry initiated.
+- Do not transfer PR #218's CI result. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
+- Documentation-only; no credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0146 PR #219 CI evidence refresh — 2026-11-24 02:52 IST
+- Re-fetched run #45268686766 (run 1060); it remains IN_PROGRESS. Hosted-Windows job #138022361285 completed SUCCESS on merge ref `refs/remotes/pull/219/merge`, merge SHA `5a51ba34bfbe734487c164a1b86dceec0e641ce1`, merging PR #219 head `cdacb24c9d1db25ad0a85f93d51afabb94d6f836` into base `da6a25275037a52f3ec35ff36451712dfeac3db2`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Windows passed compilation, 338 tests (28.916s), and synthetic MP4/FFprobe validation. Synthetic input was locally generated pattern/tone only; no GTA 6 or third-party media; publishing disabled; manual review required; mocked upload reports `upload_performed=false`.
+- Ubuntu job #138022360674 remains IN_PROGRESS during FFmpeg/FFprobe installation; compile/tests/render are PENDING. Decoded log fetch returned BlobNotFound. Matrix CI remains NOT VERIFIED until Ubuntu completes and is inspected.
+- Combined status returned zero entries; no passing status inferred. Local tests NOT RUN; no workflow retry. This records PR #219 only and does not transfer evidence to PR #220's own CI.
+- Documentation-only; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action.

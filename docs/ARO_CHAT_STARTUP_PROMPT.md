@@ -675,3 +675,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #218 remains OPEN / DRAFT / UNMERGED. Audit CI_VERIFIED on merge ref only; WINDOWS_VERIFIED and REAL_MEDIA_VERIFIED remain NOT VERIFIED.
 - PR #218 reuses ARO-CHAT-0144 / ARO-GTA-P1-144 already used for PR #216. Preserve that historical collision; this follow-up is ARO-CHAT-0145 / ARO-GTA-P1-145.
 - Report: `docs/ARO_CHAT_0145_PR218_CI_AUDIT.md`. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+
+
+## Latest continuation baseline — ARO-CHAT-0146 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-146 / ARO-CHAT-0146, documentation-only exact-head CI audit of PR #219.
+- Branch: `workstream/aro-chat-0146-pr219-exact-head-ci-audit-2026-11-24`; base: `workstream/aro-chat-0145-pr218-exact-head-ci-audit-2026-11-24`; starting SHA: PR #219 head `cdacb24c9d1db25ad0a85f93d51afabb94d6f836`.
+- Parent PR audited: [PR #219](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/219). Report: `docs/ARO_CHAT_0146_PR219_CI_AUDIT.md`.
+- PR #219 head-associated Python CI run #45268686766 (run 1060) was IN_PROGRESS at inspection. Ubuntu job #138022360674 was still installing FFmpeg/FFprobe; compile/tests/synthetic render pending. Hosted-Windows job #138022361285 passed setup, checkout, Python 3.11, FFmpeg/FFprobe installation, compilation, and complete unittest suite; synthetic render was IN_PROGRESS.
+- Checkout refs/SHAs, final conclusion, Ubuntu tests, and synthetic validation remain NOT VERIFIED. Combined status had zero entries. Re-fetch exact run, jobs, decoded logs, checkout refs, combined status, and review state after completion. Do not transfer PR #218 evidence or retry workflows.
+- PR #219 reviews and inline threads were empty; independent review NOT RECORDED. Local tests NOT RUN. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
+- Documentation-only. No credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
