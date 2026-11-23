@@ -2125,11 +2125,13 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Status | IMPLEMENTED; PR #138-associated merge-ref CI successful on Ubuntu and hosted Windows; this follow-up branch's own exact-head CI pending |
 | Scope boundary | Documentation-only. No application/uploader/test/workflow behavior changes, credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
 
-### Evidence snapshot
+### Final CI evidence
 - PR #138 head `f3ecc88600015f97c4067d314717f1c6b0adc3b5` is associated with Actions run [45198107955](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45198107955), run number 910.
-- Hosted Windows job `137773901881`: setup, checkout, Python 3.11, FFmpeg/FFprobe installation, compilation, full unittest, and synthetic MP4/FFprobe validation succeeded.
-- Ubuntu job `137773900779`: setup, checkout, and Python setup succeeded; FFmpeg/FFprobe installation was IN_PROGRESS at this snapshot; compile, tests, and synthetic render remain pending.
-- No Ubuntu test result or final run conclusion is claimed. Exact checkout ref, decoded logs, test counts, and synthetic report flags remain to be captured after completion.
+- Ubuntu job `137773900779`: compilation passed; `Ran 334 tests in 4.815s`; `OK`; synthetic MP4/FFprobe validation passed.
+- Hosted Windows job `137773901881`: compilation passed; `Ran 334 tests in 13.152s`; `OK`; synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/138/merge` at merge commit `ff624bfa50bb576c9b62a7f6543a3f9a1cdd595e`, containing PR #138 head merged into base; this is merge-ref evidence, not a raw-head checkout.
+- Both synthetic reports state `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Both platforms ran the same 334-test suite, not 668 unique tests. Hosted Windows CI is not owner-device verification; synthetic media is not GTA 6 real-media acceptance.
 - Local tests were not run in this connector session.
 
 ### Safety and owner gates
