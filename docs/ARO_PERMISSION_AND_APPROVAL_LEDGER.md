@@ -239,3 +239,16 @@ The active scoped grant includes tests and documentation for verified Google OID
 - Keep public upload disabled until exact-head CI, independent security review, and owner-controlled integration are complete.
 - Before any real upload, the owner must choose a device-appropriate `--max-upload-bytes` value.
 - Synthetic tests and hosted Windows CI are not real-media or owner-device acceptance.
+
+
+## ARO-CHAT-0113 bounded CI audit grant — 2026-11-24
+
+| Identity | Chat ID | Workstream / parent | Role | Granted scope | Evidence | Status |
+|---|---|---|---|---|---|---|
+| OpenAI / GPT-6 session | ARO-CHAT-0113 | ARO-GTA-P1-113 / PR #181 | QA auditor + documentation contributor | Inspect PR #181's exact-head Actions run and job steps; record observed Ubuntu/hosted-Windows evidence in a dedicated audit report, registry, startup prompt, and this ledger; open a draft documentation-only follow-up PR. | User's current request to read the Master Script and Chat Workstream Registry, identify the latest pending task, and safely continue; live registry/open-PR audit identified PR #181 exact-head CI closeout as the next bounded task. | ACTIVE FOR BOUNDED AUDIT AND DOCUMENTATION ONLY |
+
+### Restrictions retained
+- No application, uploader, test, workflow, or renderer code changes.
+- No merge, retarget, deployment, upload, public publishing, credential/OAuth access, destructive action, collaborator permission change, permission escalation, or owner-only approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 media acceptance.
