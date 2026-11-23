@@ -1218,3 +1218,16 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #156 merge-ref CI is CI_VERIFIED. PR #156 remains OPEN / DRAFT / UNMERGED; do not infer merge approval from CI.
 - Issue #68 remains OPEN / UNASSIGNED. Keep live uploads/public publishing disabled pending owner assignment and canonical authenticated-uploader implementation selection or approved consolidation.
 - This closes the exact-head CI evidence check for PR #156's reviewed head. Any subsequent commit requires a fresh exact-head CI audit. No credentials/OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+## Latest continuation baseline — ARO-CHAT-0098 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-98 / ARO-CHAT-0098 | exact-head CI audit of PR #156; branch `workstream/aro-chat-0098-pr156-exact-head-ci-audit-2026-11-24`; base PR #156 head `567a31d32c2743718c1cd8f15947c14cf9098123`.
+- ID collision check found the expected ARO-CHAT-0097 branch name already exists; it was not modified. ARO-CHAT-0098 was allocated and used.
+- PR #156 current head `567a31d32c2743718c1cd8f15947c14cf9098123` is associated with Python CI run #45237099906 (run 966), SUCCESS.
+- Ubuntu job #137911717586 passed compilation, 334 tests (5.060s), and synthetic MP4/FFprobe validation. Hosted Windows job #137911717193 passed compilation, 334 tests (17.448s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/156/merge` at merge SHA `b330ed06c8cefa98767a6252227d5d16ef4e575c`, merging reviewed head `567a31d32c2743718c1cd8f15947c14cf9098123` into base `0139e594ce43d04f17172fdb150f7dadd20f9fae`; raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic reports confirm no GTA 6 or third-party media, publishing disabled, and manual review required. This is not real-media acceptance or owner-device Windows verification.
+- Report: `docs/ARO_CHAT_0098_PR156_CI_AUDIT.md`. Documentation-only; no application, uploader, test, or workflow behavior changes.
+- PR #156 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled. Real-media acceptance and owner-device Windows verification remain NOT VERIFIED.
+- Next step: inspect the current PR graph and registry for the next non-duplicate, owner-authorized bounded task. Do not merge, retarget, deploy, upload, publish, or perform destructive actions without explicit action-specific owner approval.
