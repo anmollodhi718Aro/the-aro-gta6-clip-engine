@@ -608,3 +608,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0139_PR210_CI_AUDIT.md`. Keep the PR draft-only; do not transfer predecessor CI results or retry workflows without authorization.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - This workstream is documentation-only. No application/uploader/test/renderer/workflow changes, credentials, OAuth, real media, uploads, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0141 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-141 / ARO-CHAT-0141, documentation-only exact-head CI audit of PR #211.
+- Branch: `workstream/aro-chat-0141-pr211-exact-head-ci-audit-2026-11-24`; base: `workstream/aro-chat-0139-pr210-exact-head-ci-audit-2026-11-24`; starting SHA: PR #211 head `197336f21775941e917cacbf06753b10f2f10982`.
+- Parent PR audited: [PR #211](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/211). Report: `docs/ARO_CHAT_0141_PR211_CI_AUDIT.md`.
+- PR #211's commit-associated Actions lookup returned zero runs and combined commit status returned zero entries. CI is NOT VERIFIED; no jobs were available, so compilation, tests, synthetic MP4/FFprobe validation, and checkout refs remain NOT VERIFIED.
+- PR #211 reviews, inline review threads, and conversation comments were empty. Independent review is NOT RECORDED. PR #211 remains OPEN / DRAFT / UNMERGED; GitHub reported `mergeable=false`.
+- Local tests NOT RUN in this connector session. No workflow retry was initiated. Do not transfer PR #210 or predecessor CI evidence.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED per its latest recorded status. Keep live uploads/public publishing disabled.
+- Documentation-only. No application/uploader/test/renderer/workflow changes, credentials, OAuth, real media, uploads, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
