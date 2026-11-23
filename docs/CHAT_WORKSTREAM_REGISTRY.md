@@ -2303,3 +2303,10 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0160_PR235_CI_AUDIT.md`. Do not transfer PR #234 or earlier CI evidence to PR #235.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0160 live matrix progress refresh — 2026-11-24
+- PR #235 exact head remains `3bfd0a1120e35f13af06ad28b305d491e1988254`; run #45276253445 (run 1091) remains IN_PROGRESS.
+- Hosted-Windows job #138048704367 completed SUCCESS on merge ref `refs/remotes/pull/235/merge`, merge SHA `3bca352f23a77a1af2b6fe39b4ca6508c08e3a87`. It passed compile, 338 tests (14.744s), and synthetic MP4/FFprobe; generated pattern/tone only, 4.0-second output, `gta6_footage_used=false`, `publishing_enabled=false`, `upload_performed=false`.
+- Ubuntu job #138048704068 remains IN_PROGRESS at FFmpeg/FFprobe installation; compile/tests/render pending. Log retrieval returned BlobNotFound. Overall matrix remains PENDING / NOT VERIFIED; no retry.
+- Combined status has zero entries; independent review NOT RECORDED. Do not transfer this partial result or predecessor evidence. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED; keep live uploads/public publishing disabled.
