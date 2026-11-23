@@ -310,3 +310,30 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Keep PR #168 and this follow-up draft/open/unmerged. Issue #68 remains OPEN / UNASSIGNED; keep live uploads/public publishing disabled pending independent review and owner-controlled integration.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, retarget, deployment, or destructive action is authorized by this workstream.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage. The owner must choose a device-appropriate upload-memory limit before any real upload.
+
+
+## Latest Issue #68 test-repair continuation — ARO-CHAT-0162 (2026-11-24)
+- Workstream: ARO-GTA-P1-162 / ARO-CHAT-0162 | PR #176 Staged-Payload Mutation Regression Repair.
+- Branch: `workstream/aro-chat-0162-pr176-mutation-test-fix-2026-11-24`; base / starting SHA: PR #176 head `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`.
+- Independent CI-log review found both Ubuntu and hosted-Windows failing the stale test `test_staged_file_mutation_after_final_checks_cannot_change_upload_payload`: it tried to mutate a staging file after the temporary directory had already been removed before OAuth.
+- Corrected the test to mutate the original source after the final approval/rights checks and assert the in-memory upload payload remains the originally approved bytes. Production uploader code is unchanged.
+- Report: `docs/ARO_CHAT_0162_PR176_REGRESSION_REPAIR.md`.
+- Local tests NOT RUN. This branch's own exact-head Ubuntu/Windows CI must pass before TESTED or CI_VERIFIED. Do not transfer PR #168/#176 predecessor results.
+- Keep PR #168 and #176 open/draft pending the follow-up test result and independent security review. Issue #68 remains OPEN; keep live/public uploads disabled. Owner must choose a device-appropriate `--max-upload-bytes` before any real upload.
+
+
+### ARO-CHAT-0162 exact-head CI closeout — 2026-11-24
+- PR #238 test-fix head `e2620b00c1ff383cc3b0d76be7da614d1ad5556a` passed run #45277330824 on Ubuntu and hosted Windows: compile passed; the same 338 tests passed on each platform; synthetic MP4/FFprobe passed.
+- Both jobs checked out `refs/remotes/pull/238/merge` at merge SHA `829d1fe11bc27456143f0119de4e4db734679f63`. Raw-head-only CI is NOT DEMONSTRATED.
+- Synthetic media only; no GTA 6/third-party footage; publishing disabled; manual review required; mocked upload false.
+- Corrected source-file mutation regression passed. Later documentation-only commits record this evidence; inspect the latest branch-tip CI separately before claiming the new tip CI_VERIFIED.
+- Issue #68 remains OPEN and assigned to the project owner. Keep public uploads disabled pending independent review, owner-controlled integration, and the owner-selected device-appropriate upload limit.
+
+
+## Latest continuation baseline — ARO-CHAT-0162 CI closeout (2026-11-24)
+- Active workstream: ARO-CHAT-0162 / ARO-GTA-P1-162 | PR #176 staged-payload mutation regression repair. PR #238 is OPEN / DRAFT / UNMERGED at head `e2620b00c1ff383cc3b0d76be7da614d1ad5556a`, based on PR #176 head `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`.
+- Own CI run #45277330824 (run 1101) completed SUCCESS. Ubuntu job #138052406607 passed compile, 338 tests (4.902s), and synthetic MP4/FFprobe. Hosted-Windows job #138052406300 passed compile, the same 338 tests (15.648s), and synthetic MP4/FFprobe.
+- Both jobs checked out PR #238 merge ref at merge SHA `829d1fe11bc27456143f0119de4e4db734679f63`; raw-head-only CI NOT DEMONSTRATED. Synthetic test pattern/tone only, 8s source / 4s output, no GTA 6/third-party media, publishing disabled, manual review required, mocked upload false.
+- Static diff changed the regression test only; production uploader module unchanged. The test mutates the original source at the mocked insert boundary and confirms immutable captured bytes are uploaded.
+- PR #238 reviews/comments empty; independent review NOT RECORDED. Local tests NOT RUN in this connector session. Owner-device Windows and authorized real-media acceptance NOT VERIFIED.
+- Keep PR #238 draft/open/unmerged pending independent security review and owner-controlled integration. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live/public uploads disabled. Owner-selected device-appropriate `--max-upload-bytes` still required before any real upload. No OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
