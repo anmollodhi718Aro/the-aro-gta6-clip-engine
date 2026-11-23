@@ -1494,3 +1494,33 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #186 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 - Hosted Windows CI is not owner-device verification; synthetic media is not real-media acceptance.
 - ARO-CHAT-0117 has a separate active branch for PR #187's audit; this workstream does not modify it.
+
+
+## ARO-CHAT-0119 PR #189 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0119 |
+| Exact title | ARO-CHAT-0119 | PR #189 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-119 |
+| Scope | Audit PR #189's own Actions run, Ubuntu/hosted-Windows compile/tests, synthetic MP4/FFprobe evidence, checkout refs, and review state; documentation-only |
+| Branch | `workstream/aro-chat-0119-pr189-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #189 head `d15fcfbcf02883c26a2b61710576f5f6ce369ed1` |
+| Parent PR | [PR #189](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/189) |
+| Report | `docs/ARO_CHAT_0119_PR189_CI_AUDIT.md` |
+| Status | IMPLEMENTED (initial audit snapshot); hosted-Windows CI passed; Ubuntu CI PENDING; overall exact-head CI NOT VERIFIED |
+| Safety | No application/uploader/test/workflow behavior changes; no credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action. |
+
+### Observed evidence
+- PR #189 head `d15fcfbcf02883c26a2b61710576f5f6ce369ed1` is associated with Python CI run [#45255826453](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45255826453), run 1013; overall status was IN_PROGRESS at inspection.
+- Hosted-Windows job `137977243890` passed compilation, 338 unit tests (13.428s), and synthetic MP4/FFprobe validation.
+- Windows synthetic report used a locally generated test pattern/tone, 8.0-second source, 4.0-second output, no GTA 6 or third-party media, publishing disabled, and manual review required.
+- Ubuntu job `137977243580` was still installing FFmpeg/FFprobe; compile/tests/render remained pending. Overall matrix CI is NOT VERIFIED.
+- PR #189 review submissions and inline review threads were empty at inspection. Checkout refs were not established in this snapshot; raw-head-only checkout is NOT DEMONSTRATED.
+- Local tests were NOT RUN in this connector session. Do not transfer PR #186's CI evidence to PR #189 or this follow-up branch.
+
+### Safety and next step
+- PR #189 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- Re-fetch run #45255826453 and inspect Ubuntu job `137977243580` after completion, including decoded logs and checkout refs. Inspect this follow-up branch's own exact-head CI separately.
+- Hosted Windows CI is not owner-device verification; synthetic media is not real GTA 6 footage or real-media acceptance.
+- No credentials/tokens, OAuth, real media, network upload, publishing, merge, retarget, deployment, workflow retry, or destructive action was performed.
