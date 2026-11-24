@@ -52,3 +52,12 @@ Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploa
 - Production commit: 0380133cb38d5067b6d6016d41c42b72071babbd.
 - Test commit: a94b6e6fae9d9789e11f74fa2233a347d0a46701.
 - Local tests NOT RUN; final-head CI and independent review remain pending.
+
+
+## URL validation regression-test correction — 2026-11-25
+
+- Static inspection of the exact PR #371 head found a test assertion mismatch: whitespace/control/backslash inputs correctly raise the dedicated message `source_url must not contain...`, while the test incorrectly required the different `source_url must be a valid...` message.
+- Test-only correction commit: `4a010129a1822e7a6658491981f28725e2be12fe`; the malformed URL cases now assert the required `ValueError` type without coupling to one of the valid fail-closed messages.
+- Exact-head workflow lookup for this correction returned no associated run at inspection. Local tests NOT RUN; Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED.
+- The prior run `45486979384` failed on both jobs, but both exposed zero steps and no logs. That run does not establish the failure cause; the assertion mismatch is a separately confirmed static test defect.
+- Draft PR #371 remains open and unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
