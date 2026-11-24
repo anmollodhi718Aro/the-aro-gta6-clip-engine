@@ -183,3 +183,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Regression test mutates the original source immediately before the mocked insert and asserts the media body still references the original approved bytes.
 - Branch: workstream/aro-chat-0215-verified-upload-byte-snapshot-2026-11-24; based on PR #311 head 67e6d4290fee795fb8ba6fd0e926107ea7f0eb81. Code commits 1fefe87ef47dd4be723cab8ba9424b31156e46c1 and f14f00758fad5cd400f4a1efeacb9e04256a279d; test commit 7d8fd5c85f4171e702cada1d0e6c9fcece2a494b.
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. No OAuth, real media, upload, merge, deployment or publishing. Keep Issue #68 open and public publishing disabled.
+
+
+## ARO-CHAT-0216 — close resumable media handle before snapshot cleanup (2026-11-24)
+- Independent review of PR #328 found that the Google `MediaFileUpload` object retains an open file handle while the temporary approved-byte snapshot is cleaned up.
+- On Windows, deleting a file/directory while that handle remains open can fail after the upload request, masking the verified result and leaving temporary media behind.
+- Close the media object's retained stream before cleaning the private snapshot directory; keep cleanup in a nested `finally` so it still runs if closing raises.
+- Add a regression test whose mocked media client holds a real open file handle and asserts it is closed before the upload function returns.
+- Branch `workstream/aro-chat-0216-close-upload-media-handle-2026-11-24`, based on PR #328 head `114e5bfc4b154e0da272ed36408ab156cfdc5ab9`. Draft-only; exact-head CI and local tests pending. No OAuth, real media, upload, merge, deployment, or publishing.
