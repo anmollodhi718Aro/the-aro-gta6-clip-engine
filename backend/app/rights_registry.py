@@ -23,6 +23,12 @@ def _time(value: str | datetime) -> datetime:
         raise ValueError("timestamps must include a timezone")
     return parsed
 
+def _required_text(value: Any, field: str) -> str:
+    """Validate and normalize a required text argument at the public boundary."""
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{field} is required")
+    return value.strip()
+
 
 class SourceRightsRegistry:
     """Persist source grants and fail closed when scope/platform is missing."""
@@ -71,6 +77,8 @@ class SourceRightsRegistry:
             """)
 
     def register(self, record: dict[str, Any], *, actor: str = "operator") -> None:
+        if not isinstance(record, dict):
+            raise ValueError("record must be a mapping")
         required = ("source_id", "source_url", "grantor", "evidence_ref",
                     "allowed_uses", "platforms", "valid_from")
         missing = [key for key in required if not record.get(key)]
@@ -94,19 +102,19 @@ class SourceRightsRegistry:
         platforms = sorted({item.strip().lower() for item in raw_platforms})
         if not platforms:
             raise ValueError("at least one permitted platform is required")
-        source_url = str(record["source_url"]).strip()
+        source_id = _required_text(record["source_id"], "source_id")
+        source_url = _required_text(record["source_url"], "source_url")
+        grantor = _required_text(record["grantor"], "grantor")
+        evidence_ref = _required_text(record["evidence_ref"], "evidence_ref")
         if not source_url.startswith(("https://", "http://")):
             raise ValueError("source_url must be an http(s) URL")
         values = (
-            str(record["source_id"]).strip(), source_url, str(record["grantor"]).strip(),
-            str(record["evidence_ref"]).strip(), json.dumps(sorted(uses)),
+            source_id, source_url, grantor, evidence_ref, json.dumps(sorted(uses)),
             json.dumps(platforms), str(record.get("attribution", "")).strip(),
             str(record.get("disclosure", "")).strip(), _time(record["valid_from"]).isoformat(),
             _time(record["expires_at"]).isoformat() if record.get("expires_at") else None,
             None,
         )
-        if not all(values[:4]):
-            raise ValueError("source_id, grantor, and evidence_ref must be non-empty")
         if values[9] and _time(values[9]) <= _time(values[8]):
             raise ValueError("expires_at must be later than valid_from")
         with self._connect() as db:
@@ -138,10 +146,11 @@ class SourceRightsRegistry:
     def authorize(self, source_id: str, use: str, platform: str,
                   *, at: datetime | None = None) -> dict[str, Any]:
         """Return the grant metadata or raise PermissionError; unknown is blocked."""
+        source_id = _required_text(source_id, "source_id")
+        use = _required_text(use, "use").lower()
+        platform = _required_text(platform, "platform").lower()
         if use not in ALLOWED_USES:
             raise ValueError(f"unsupported use: {use}")
-        if not source_id.strip() or not platform.strip():
-            raise ValueError("source_id and platform are required")
         with self._connect() as db:
             row = db.execute("SELECT * FROM source_rights WHERE source_id=?",
                              (source_id,)).fetchone()
@@ -156,7 +165,7 @@ class SourceRightsRegistry:
             raise PermissionError(f"rights expired for source {source_id}")
         if use not in json.loads(row["allowed_uses_json"]):
             raise PermissionError(f"{use} is outside the recorded permission scope")
-        if platform.lower() not in json.loads(row["platforms_json"]):
+        if platform not in json.loads(row["platforms_json"]):
             raise PermissionError(f"{platform} is outside the permitted platforms")
         return {
             "source_id": row["source_id"], "source_url": row["source_url"],
@@ -166,8 +175,8 @@ class SourceRightsRegistry:
 
     def revoke(self, source_id: str, *, actor: str,
                at: datetime | None = None) -> bool:
-        if not source_id.strip() or not actor.strip():
-            raise ValueError("source_id and actor are required")
+        source_id = _required_text(source_id, "source_id")
+        actor = _required_text(actor, "actor")
         when = _time(at or datetime.now(timezone.utc)).isoformat()
         with self._connect() as db:
             cur = db.execute("UPDATE source_rights SET revoked_at=? "
@@ -181,6 +190,7 @@ class SourceRightsRegistry:
             return cur.rowcount == 1
 
     def audit_events(self, source_id: str) -> list[dict[str, str]]:
+        source_id = _required_text(source_id, "source_id")
         with self._connect() as db:
             rows = db.execute("""
                 SELECT action, actor, occurred_at, details_json
