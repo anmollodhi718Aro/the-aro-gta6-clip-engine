@@ -8,6 +8,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import tempfile
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -108,6 +109,7 @@ def write_owner_approval_record(
     clip_id: str,
     source_id: str,
     video_path: str | Path,
+    video_sha256: str | None = None,
     owner: AuthenticatedChannelOwner,
     privacy: str,
     confirmed: bool,
@@ -135,7 +137,7 @@ def write_owner_approval_record(
         "clip_id": clip_id.strip(),
         "source_id": source_id.strip(),
         "privacy": privacy,
-        "source_sha256": sha256_file(video_path),
+        "source_sha256": staged_hash,
         "reviewer_google_subject": owner.google_subject,
         "reviewer_channel_id": owner.channel_id,
         "destination_channel_id": owner.channel_id,
@@ -182,6 +184,9 @@ def require_current_owner_approval(
         raise PermissionError("durable owner approval record is missing or unreadable") from exc
     if not isinstance(record, dict) or record.get("schema_version") != 1:
         raise PermissionError("owner approval record has an unsupported schema")
+    staged_hash = video_sha256 if video_sha256 is not None else sha256_file(video_path)
+    if not isinstance(staged_hash, str) or not re.fullmatch(r"[0-9a-f]{64}", staged_hash):
+        raise PermissionError("approved video SHA-256 must be a valid lowercase 64-character digest")
     expected = {
         "decision": "approved",
         "clip_id": clip_id,
