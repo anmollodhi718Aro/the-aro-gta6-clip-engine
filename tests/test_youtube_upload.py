@@ -512,6 +512,17 @@ class OAuthTokenPersistenceTests(unittest.TestCase):
             _persist_oauth_token(target, '{"access_token":"replace"}')
         self.assertEqual(external.read_text(encoding="utf-8"), '{"access_token":"keep"}')
 
+    def test_failed_atomic_replace_preserves_existing_token_and_cleans_temp_file(self):
+        target = self.root / "tokens" / "profile.json"
+        target.parent.mkdir()
+        target.write_text('{"access_token":"old"}', encoding="utf-8")
+        with patch("backend.app.youtube_upload.os.replace", side_effect=OSError("simulated replace failure")):
+            with self.assertRaisesRegex(OSError, "simulated replace failure"):
+                _persist_oauth_token(target, '{"access_token":"new"}')
+        self.assertEqual(target.read_text(encoding="utf-8"), '{"access_token":"old"}')
+        self.assertEqual(list(target.parent.iterdir()), [target])
+
+
 class YouTubeDestinationProfileTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
