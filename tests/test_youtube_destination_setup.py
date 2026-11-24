@@ -6,6 +6,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
+from backend.app.youtube_upload import load_destination_profile, resolve_destination_identity
 from scripts.setup_youtube_destination import _atomic_private_json, setup_destination
 
 
@@ -58,6 +59,40 @@ class YouTubeDestinationSetupTests(unittest.TestCase):
         })
         self.assertEqual(result["channel_id"], "UC1234567890abcdef")
         youtube.channels.return_value.list.assert_called_once_with(part="id", mine=True)
+
+    def test_created_profile_is_consumed_by_private_uploader_destination_resolver(self):
+        credentials, _, google_api = self._mocks()
+        with (
+            patch("backend.app.youtube_upload._authorize_google", return_value=credentials),
+            patch("backend.app.youtube_upload._oauth_client_id", return_value="test-client"),
+            patch("backend.app.youtube_owner_approval._verify_google_id_token", return_value={
+                "sub": "verified-google-subject",
+                "iss": "https://accounts.google.com",
+                "azp": "test-client",
+            }),
+            patch.dict("sys.modules", {
+                "googleapiclient": SimpleNamespace(discovery=SimpleNamespace(build=google_api)),
+                "googleapiclient.discovery": SimpleNamespace(build=google_api),
+            }),
+        ):
+            result = setup_destination(
+                repository_root=self.root, client_secrets=self.client,
+                profile_name="aroanmol7",
+            )
+
+        config_path = Path(result["config_path"])
+        loaded = load_destination_profile(
+            config_path, "aroanmol7", repository_root=self.root,
+        )
+        subject, channel_id, token_path = resolve_destination_identity(
+            config_path=config_path, profile_name="aroanmol7",
+            token_override=None, repository_root=self.root,
+        )
+
+        self.assertEqual(subject, "verified-google-subject")
+        self.assertEqual(channel_id, "UC1234567890abcdef")
+        self.assertEqual(token_path, loaded["token_path"])
+        self.assertEqual(token_path, self.root / ".secrets" / "tokens" / "aroanmol7.json")
 
     def test_requires_explicit_channel_when_account_has_multiple_channels(self):
         credentials, _, google_api = self._mocks(("UC1234567890abcdef", "UCabcdef1234567890"))
