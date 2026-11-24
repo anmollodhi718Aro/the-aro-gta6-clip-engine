@@ -1683,3 +1683,13 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #256 head `6ee3c01fd0395a134d69411dbe412c64499d8f67` separately returned zero associated runs and zero combined status entries; own CI remains PENDING / NOT VERIFIED.
 - No workflow retry or local test execution. Do not transfer CI between PRs or SHAs. Documentation-only closeout; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL and live/public uploads remain disabled.
 
+
+
+### ARO-CHAT-0175 live exact-head CI correction — 2026-11-24 13:17 IST
+- PR #255 current head: `7121a0db7598889f7d7ae18381f0472a21e94840`; base: `5069449aa775b2b8378c3e3ca36c6ec87b479f66`; OPEN / DRAFT / UNMERGED.
+- Exact-head-associated run #45316166410 (run 1154) completed SUCCESS on exact PR #255 merge ref `4acde6737fd8eedafc1b232a0a010eb786de9cc7`.
+- Ubuntu job #138183473688 and hosted-Windows job #138183473267 passed compile, the same 340-test suite, and synthetic MP4/FFprobe validation. Count 340 shared test cases executed on two platforms, not 680 unique tests.
+- Synthetic pattern/tone only; 8-second source, 4-second output, no GTA 6/third-party media, publishing disabled, manual review required; mocked approval reports `upload_performed=false`.
+- PR #255 CI_VERIFIED on merge ref only; raw-head-only CI NOT DEMONSTRATED. Independent review NOT RECORDED; owner-device Windows and real-media acceptance NOT VERIFIED.
+- Audit PR #256 current head `d09f8147c7227cfec80d9e37a57a6463082da2cd` has zero associated workflow runs/status entries and no reviews/threads/comments. Its own CI remains PENDING / NOT VERIFIED; never transfer PR #255's result.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live/public uploads disabled. Documentation-only evidence update; no retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
