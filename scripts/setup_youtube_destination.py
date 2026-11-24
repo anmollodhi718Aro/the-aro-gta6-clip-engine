@@ -72,7 +72,7 @@ def setup_destination(
         raise ValueError("a destination profile with this name already exists")
 
     from backend.app.youtube_upload import (
-        IDENTITY_SCOPES, _authorize_google, _oauth_client_id,
+        IDENTITY_SCOPES, _authorize_google, _oauth_client_id, _persist_oauth_token,
     )
     from backend.app.youtube_owner_approval import _verify_google_id_token
 
@@ -90,7 +90,12 @@ def setup_destination(
     # Validate the OAuth client configuration before opening a browser or
     # creating a refreshable local credential.
     client_id = _oauth_client_id(client_secrets.expanduser())
-    credentials = _authorize_google(client_secrets.expanduser(), token_path)
+    # Defer token persistence until identity, scopes and channel ownership have
+    # all been verified. A failed setup must not leave a newly authorized token
+    # behind under a profile name that was never safely bound to its channel.
+    credentials = _authorize_google(
+        client_secrets.expanduser(), token_path, persist_token=False
+    )
     claims = _verify_google_id_token(credentials, client_id)
     subject = claims.get("sub")
     issuer = claims.get("iss")
@@ -129,6 +134,10 @@ def setup_destination(
         for item in profiles.values()
     ):
         raise ValueError("this YouTube channel is already assigned to another destination profile")
+    # Persist both fresh and refreshed credentials only after every identity
+    # and destination check succeeds. The token is local-only and never enters
+    # the destination profile JSON or Git history.
+    _persist_oauth_token(token_path, credentials.to_json())
     profiles[profile_name] = {
         "google_subject": subject,
         "channel_id": selected_channel_id,
