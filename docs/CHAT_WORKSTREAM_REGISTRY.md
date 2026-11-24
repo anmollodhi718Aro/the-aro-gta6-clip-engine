@@ -1199,3 +1199,15 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #356 and #357 remain unchanged draft branches. Their divergence from the latest PR #355 head is the reason this continuation was based on PR #355's latest observed head rather than rebasing either draft.
 - The production change preserves PR #355's SQLite primary-key/unique-only error translation. No CI result is transferred from PR #355, #356, or #357.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, network upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+## ARO-CHAT-0230 — Windows SQLite test cleanup regression (2026-11-25)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0230 | ARO-CHAT-0230 | Windows SQLite Test Cleanup Regression | ARO-GTA-P1-230 | Close the SQLite test connection before Windows temporary-directory teardown; test-only portability fix | `workstream/aro-chat-0230-windows-sqlite-test-cleanup-2026-11-25` / [PR #362](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/362) | IMPLEMENTED; exact-head CI_VERIFIED on Ubuntu and hosted Windows; independent review NOT RECORDED | Base PR #361 head `3a8bc14207e9957e3920caf430935b144bfd559b`; test fix `cdd2eb320527b32ccaabe4e4e0f82fa541b94351`; report `5709bf02a1ba57b1021520bb4678243fb94abb11` |
+
+- Parent PR #361 run #45464698463 failed on hosted Windows with WinError 32 because SQLite's connection context manager did not close the handle. The fixture now uses `contextlib.closing(sqlite3.connect(...))`.
+- Follow-up exact-head run #45465232908 completed SUCCESS: Ubuntu and hosted Windows both compiled, passed the complete unit-test step, and rendered/validated a synthetic MP4 with FFprobe. This does not establish real-media acceptance. Exact test counts were not exposed in the available job summary.
+- Local tests NOT RUN in the connector session; independent review NOT RECORDED. PR #362 remains draft/open/unmerged.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
