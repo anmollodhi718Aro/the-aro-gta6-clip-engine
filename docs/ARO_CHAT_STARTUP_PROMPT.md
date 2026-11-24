@@ -794,3 +794,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #229 review submissions, inline review threads, and conversation comments returned empty arrays. Independent review NOT RECORDED.
 - This is an observation-only documentation closeout. No workflow retry, source-code change, credential/OAuth action, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
 - Next action: wait for a naturally associated run on the current head, then independently inspect its jobs/logs and checkout refs. Any new head requires a fresh audit.
+
+### ARO-CHAT-0153 exact-base CI correction and current pending gate — 2026-11-24
+
+- Corrected PR #226 audit: run #45270941723 (run 1080) checked out the exact PR #226 merge ref at `025c577ecd3f0663cb96c225affe9a971f587da9`, merging source head `d8433a2c31dc0634d5fc9a853b82c8e061ced0ab` into base `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`.
+- Ubuntu job #138030347655 and hosted-Windows job #138030348239 both passed compileall, the same 338 tests, and synthetic MP4/FFprobe validation. CI_VERIFIED applies to this merge ref only; raw-head-only CI NOT DEMONSTRATED.
+- Run #45270942827 was for PR #228's merge ref into PR #225's base and is not PR #226 evidence.
+- Synthetic fixtures only; no GTA 6/third-party media; publishing disabled; manual review required; mocked approval reported `upload_performed=false`. Owner-device Windows and real-media acceptance remain NOT VERIFIED.
+- PR #226 combined status had zero entries; reviews, inline threads, and comments were empty; independent review NOT RECORDED.
+- Current audit PR #229 head before this documentation correction was `5fe98ad1f56052bef6c20ca2c340cc3bd1d4f4f2`; its own workflow lookup and combined status returned zero entries. PR #229 CI is PENDING / NOT VERIFIED. Wait for a naturally associated run and inspect that PR's own jobs/logs; never transfer PR #226's CI.
+- Keep PR #229 draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
+- Documentation-only correction. No workflow retry, credentials, OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
