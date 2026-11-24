@@ -186,3 +186,9 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 
 
 - FIFO follow-up: the snapshot source open now includes O_NONBLOCK where supported, so a source pathname swapped to a FIFO after lstat cannot hang the uploader. A platform-aware regression test covers the race; fresh exact-head CI is pending.
+
+
+### ARO-CHAT-0215 CI closeout — 2026-11-24
+- Code/test head `1c380a2e311abbd5b818a398d0f0a70011f547d4` passed Actions run #45427291297 on merge ref `938dd9ef262b848fbc5f236601f8466171d77b9a`: Ubuntu 342 passed; hosted Windows 342 executed, 341 passed and FIFO-specific test skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed on both.
+- Regression for changing the original source before mocked insert passed on both platforms. FIFO-race regression passed on Ubuntu and was skipped only on hosted Windows due to platform capability.
+- No GTA 6/third-party media, OAuth, network upload, or publishing. Raw-head-only CI NOT DEMONSTRATED. This docs closeout changes the head and needs fresh exact-head CI.
