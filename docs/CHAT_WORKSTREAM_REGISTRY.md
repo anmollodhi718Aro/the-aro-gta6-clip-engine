@@ -1774,7 +1774,7 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Task: add a deterministic offline regression test proving the local renderer cannot overwrite a destination created concurrently after FFmpeg completes.
 - Implementation: `tests/test_render.py`, commit `c0235d490e4ca6ba912c358fc805ef45f2732dfb`; report: `docs/ARO_CHAT_0182_RENDERER_NO_OVERWRITE_RACE_TEST.md`.
 - The regression simulates a concurrent destination creator at the atomic `os.link` promotion boundary, verifies the concurrent file's contents survive, verifies the renderer fails closed, and verifies its temporary output is removed.
-- Status: IMPLEMENTED; local tests NOT RUN in this connector session; exact-head CI PENDING until this branch's PR checks complete.
-- Parent PR #263 head `065daab77624ce1adb65f61c61eee1dbcadd8303` passed Ubuntu and hosted-Windows CI run #45372348715. This result is parent-only evidence and is not transferred to this follow-up.
+- Status: IMPLEMENTED; CI_VERIFIED on PR #265 head `cad30dd59b8d03305ffc0077cf587734a43e86e8`, run #45373306320. Ubuntu job #138372817334 and hosted-Windows job #138372817771 each compiled, passed 17 tests, and passed synthetic MP4/FFprobe validation. Both jobs ran the same suite, not 34 unique tests; merge-ref checkout only, raw-head-only checkout NOT DEMONSTRATED.
+- Local tests NOT RUN in this connector session. Parent PR #263 head `065daab77624ce1adb65f61c61eee1dbcadd8303` passed its separate run #45372348715.
 - No production behavior changes, real media, OAuth, credentials, upload, publishing, merge, retarget, deployment, or destructive action. Owner-device Windows and real-media acceptance remain unverified.
 - Issue #68 remains open; keep live uploads/public publishing disabled until all authenticated-owner approval and rights gates are independently verified.
