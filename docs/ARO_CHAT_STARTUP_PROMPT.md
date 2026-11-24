@@ -321,3 +321,6 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Regression: mocked descriptor metadata mutation during read must fail closed.
 - Parent PR #353 exact-head workflow lookup returned zero runs; no CI pass is inferred. New branch CI pending; local tests not run; independent review not recorded.
 - Preserve draft ancestry. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+- ARO-CHAT-0225 fixture follow-up: baseline fstat now uses a context-managed test file handle; the fixture descriptor is closed before the mocked read. New exact-head CI remains pending.
