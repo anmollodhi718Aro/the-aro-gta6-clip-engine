@@ -1101,3 +1101,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Synthetic logs: `gta6_footage_used=false`, `third_party_media_used=false`, `upload_performed=false`, `publishing_enabled=false`, `manual_review_required=true`. No OAuth/network upload/real-media acceptance.
 - PR #339 remains OPEN/DRAFT/UNMERGED. Issue #68 remains OPEN. Independent security review of the full consolidated uploader/approval lineage NOT RECORDED. Parent PR #328 remains non-mergeable; dependency ancestry reconciliation required.
 - Next task: independent full-lineage uploader/approval review plus exact PR #311 → #328 → #339 ancestry map. No merge/rebase/retarget/OAuth/real-media upload/deployment/publishing. Keep live/public upload gates disabled.
+
+
+### CI scope clarification after documentation updates
+- Run #45434843065 validates the functional/code-and-test head `a08a69cfa687479c58ce72a322b1357761a92723` only.
+- The subsequent commits in this workstream update documentation only (this report, startup handoff, and registry); no application code or tests changed after the validated functional head.
+- The resulting documentation-only branch tip has no separately associated CI run returned and is therefore NOT independently CI-VERIFIED. Do not transfer the functional-head green result to the later documentation-only tip.
