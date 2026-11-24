@@ -968,3 +968,15 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 ### Safety and continuation
 - Draft PR only. Preserve PR #300 for history; do not close, merge, rebase, or retarget it automatically.
 - Issue #68 remains OPEN. Live uploads/public publishing remain disabled pending exact-head CI, independent security review, owner-controlled integration, device-specific upload limit, and separately authorized real-media acceptance.
+
+
+### ARO-CHAT-0198 / PR #301 exact-head CI closeout — 2026-11-24
+- Audited PR head: `4dce542aa59023a7dc0ca9c61badecf4f0734f59`; base SHA: `97250fbb3bf1fd8d9e5e03dfc6ac6a9267b643b5`.
+- Actions run [#45399961380](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45399961380) completed SUCCESS.
+- Ubuntu job #138465638360 and hosted-Windows job #138465637811 both passed compilation, the same 346-test unittest suite, and synthetic MP4/FFprobe validation.
+- Ubuntu: 346 tests in 3.652s. Windows: 346 tests in 12.782s.
+- Both jobs checked out merge SHA `d961d60d45337ba58dbcc566b661545c673a5ce7`, merging the audited head into base `97250fbb3bf1fd8d9e5e03dfc6ac6a9267b643b5`. Raw-head-only checkout NOT DEMONSTRATED.
+- Logs confirm `upload_performed=false`, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- PR #301 remains OPEN / DRAFT / UNMERGED. No reviews, inline threads, or conversation comments were recorded; independent security review NOT RECORDED.
+- Audit report: `docs/ARO_CHAT_0198_PR301_CI_AUDIT.md`.
+- Issue #68 remains OPEN. Live uploads/public publishing remain disabled. This CI result does not authorize merge, OAuth, real-media acceptance, upload, or publishing.
