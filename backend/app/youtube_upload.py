@@ -349,7 +349,7 @@ def _create_verified_upload_snapshot(video_path: str | Path) -> tuple[Path, Any]
         path_before = source.lstat()
         if not stat.S_ISREG(path_before.st_mode):
             raise PermissionError("upload source must be a regular file")
-        flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
+        flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0)
         descriptor = os.open(source, flags)
     except PermissionError:
         raise
@@ -367,7 +367,6 @@ def _create_verified_upload_snapshot(video_path: str | Path) -> tuple[Path, Any]
         staging = tempfile.TemporaryDirectory(prefix="aro-youtube-upload-")
         snapshot = Path(staging.name) / f"approved-upload{source.suffix}"
         output_fd = os.open(snapshot, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-        digest = hashlib.sha256()
         copied = 0
         with os.fdopen(os.dup(descriptor), "rb") as source_stream, os.fdopen(output_fd, "wb") as output_stream:
             while True:
@@ -375,7 +374,6 @@ def _create_verified_upload_snapshot(video_path: str | Path) -> tuple[Path, Any]
                 if not chunk:
                     break
                 output_stream.write(chunk)
-                digest.update(chunk)
                 copied += len(chunk)
             output_stream.flush()
             os.fsync(output_stream.fileno())
