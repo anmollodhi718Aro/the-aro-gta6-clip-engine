@@ -14,8 +14,8 @@ from unittest.mock import Mock, patch
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
 from backend.app.youtube_upload import (
-    _copy_stream_with_limit, build_upload_body, load_rights_report,
-    upload_video, validate_upload,
+    DEFAULT_MAX_UPLOAD_BYTES, _copy_stream_with_limit, build_upload_body,
+    load_rights_report, upload_video, validate_upload,
 )
 
 
@@ -65,6 +65,7 @@ class YouTubeUploadTests(unittest.TestCase):
             validate_upload(
                 self.video, self.report, title="Approved title",
                 made_for_kids=False, rights_confirmed=True, upload_requested=True,
+                    max_upload_bytes=DEFAULT_MAX_UPLOAD_BYTES,
             )
         with self.assertRaisesRegex(PermissionError, "confirm-rights"):
             validate_upload(
@@ -76,6 +77,7 @@ class YouTubeUploadTests(unittest.TestCase):
         video, body = validate_upload(
             self.video, self.report, title="Approved title",
             made_for_kids=True, owner_approved=True, rights_confirmed=True,
+                max_upload_bytes=DEFAULT_MAX_UPLOAD_BYTES,
             upload_requested=True, privacy="unlisted",
         )
         self.assertEqual(video, self.video)
@@ -153,6 +155,25 @@ class YouTubeUploadTests(unittest.TestCase):
                         self.video, self.report, title="Short", made_for_kids=False,
                         max_upload_bytes=invalid,
                     )
+
+    def test_upload_video_requires_explicit_device_limit_before_oauth(self):
+        with patch("backend.app.youtube_upload._authorize_google") as authorize:
+            with self.assertRaisesRegex(PermissionError, "explicit device-selected"):
+                upload_video(
+                    self.video,
+                    {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                    client_secrets=self.client_secrets,
+                    token_path=self.root / "token.json",
+                    rights_report_path=self.report,
+                    approval_record_path=self.root / "approval.json",
+                    rights_db_path=self.root / "source_rights.sqlite3",
+                    clip_id="clip-1",
+                    source_id="source-1",
+                    owner_approved=True,
+                    rights_confirmed=True,
+                )
+        authorize.assert_not_called()
+        self.assertFalse((self.root / "token.json").exists())
 
     def test_upload_video_direct_call_rejects_oversized_file_before_oauth(self):
         with patch("backend.app.youtube_upload._authorize_google") as authorize:
@@ -292,6 +313,7 @@ class YouTubeUploadTests(unittest.TestCase):
                         rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                         rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
                         owner_approved=True, rights_confirmed=True,
+                            max_upload_bytes=DEFAULT_MAX_UPLOAD_BYTES,
                     )
         self.assertEqual(result["video_id"], "video-123")
         self.assertEqual(verify_owner.call_count, 2)
@@ -339,6 +361,7 @@ class YouTubeUploadTests(unittest.TestCase):
                         rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                         rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
                         owner_approved=True, rights_confirmed=True,
+                            max_upload_bytes=DEFAULT_MAX_UPLOAD_BYTES,
                     )
 
         self.assertEqual(result["video_id"], "snapshot-video")
@@ -394,6 +417,7 @@ class YouTubeUploadTests(unittest.TestCase):
                         rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                         rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
                         owner_approved=True, rights_confirmed=True,
+                            max_upload_bytes=DEFAULT_MAX_UPLOAD_BYTES,
                     )
 
         self.assertEqual(result["video_id"], "immutable-snapshot-video")
@@ -420,6 +444,7 @@ class YouTubeUploadTests(unittest.TestCase):
                             rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                             rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
                             owner_approved=True, rights_confirmed=True,
+                                max_upload_bytes=DEFAULT_MAX_UPLOAD_BYTES,
                         )
         youtube.videos.return_value.insert.assert_not_called()
 
@@ -440,8 +465,24 @@ class YouTubeUploadTests(unittest.TestCase):
                             rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                             rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
                             owner_approved=True, rights_confirmed=True,
+                                max_upload_bytes=DEFAULT_MAX_UPLOAD_BYTES,
                         )
         youtube.videos.return_value.insert.assert_not_called()
+
+    def test_cli_live_upload_requires_explicit_device_limit_before_oauth(self):
+        args = [
+            "youtube_upload.py", str(self.video), "--rights-report", str(self.report),
+            "--title", "THE ARO test", "--not-made-for-kids", "--upload",
+            "--owner-approved", "--confirm-rights",
+            "--approval-record", str(self.root / "approval.json"),
+            "--clip-id", "clip-1", "--source-id", "source-1",
+        ]
+        with patch.object(sys, "argv", args):
+            with patch("backend.app.youtube_upload._authorize_google") as authorize:
+                from backend.app.youtube_upload import main
+                self.assertEqual(main(), 2)
+        authorize.assert_not_called()
+        self.assertFalse((self.root / "token.json").exists())
 
     def test_cli_requires_typed_per_clip_confirmation_to_record_approval(self):
         db_path = self.root / "source_rights.sqlite3"
@@ -550,6 +591,7 @@ class YouTubeUploadTests(unittest.TestCase):
                             source_id="source-1",
                             owner_approved=True,
                             rights_confirmed=True,
+                                max_upload_bytes=DEFAULT_MAX_UPLOAD_BYTES,
                         )
         id_token.verify_oauth2_token.assert_called_once_with(
             "mock-token", unittest.mock.ANY, audience="client-id"
@@ -571,6 +613,7 @@ class YouTubeUploadTests(unittest.TestCase):
                             rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                             rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
                             owner_approved=True, rights_confirmed=True,
+                                max_upload_bytes=DEFAULT_MAX_UPLOAD_BYTES,
                         )
         youtube.videos.return_value.insert.assert_not_called()
 
@@ -591,6 +634,7 @@ class YouTubeUploadTests(unittest.TestCase):
                             rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                             rights_db_path=db_path, clip_id="other-clip", source_id="source-1",
                             owner_approved=True, rights_confirmed=True,
+                                max_upload_bytes=DEFAULT_MAX_UPLOAD_BYTES,
                         )
         youtube.videos.return_value.insert.assert_not_called()
 
@@ -604,6 +648,7 @@ class YouTubeUploadTests(unittest.TestCase):
             "--owner-approved", "--confirm-rights", "--clip-id", "clip-1",
             "--source-id", "source-1", "--approval-record", str(approval_path),
             "--rights-db", str(db_path),
+            "--max-upload-bytes", str(DEFAULT_MAX_UPLOAD_BYTES),
         ]
         with patch.object(sys, "argv", args):
             with patch("backend.app.youtube_upload.upload_video", return_value={"video_id": "mock-id", "url": "https://youtube.invalid/mock-id"}) as upload:
@@ -613,6 +658,7 @@ class YouTubeUploadTests(unittest.TestCase):
         self.assertEqual(upload.call_args.kwargs["source_id"], "source-1")
         self.assertTrue(upload.call_args.kwargs["owner_approved"])
         self.assertTrue(upload.call_args.kwargs["rights_confirmed"])
+        self.assertEqual(upload.call_args.kwargs["max_upload_bytes"], DEFAULT_MAX_UPLOAD_BYTES)
 
 
 if __name__ == "__main__":

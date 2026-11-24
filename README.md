@@ -175,6 +175,8 @@ After OAuth channel verification and a current publish-scope check, the CLI asks
 
 A separate upload invocation still requires the same clip/source IDs and approved privacy level, the approval record, `--upload --owner-approved --confirm-rights`, and a fresh check of channel identity, approval and the SQLite publish grant immediately before the YouTube API request. The default privacy is `private`. A client-supplied flag is never treated as channel authentication. Unit tests use mocked API clients; they do not perform uploads. A real upload remains a separate owner-approved acceptance test.
 
+Every actual upload must also supply `--max-upload-bytes` explicitly, with a positive limit selected for the device's available memory. The 256 MiB fallback is used only for dry-run and approval-only commands; it is not accepted as an implicit live-upload budget.
+
 ## Seven-day creator activity watchlist
 
 Supply evidence-backed metrics; the tool does not scrape creators or download media.
