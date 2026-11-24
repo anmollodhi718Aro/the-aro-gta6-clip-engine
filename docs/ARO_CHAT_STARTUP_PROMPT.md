@@ -392,3 +392,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Test fix commit: `cdd2eb320527b32ccaabe4e4e0f82fa541b94351`; report commit: `5709bf02a1ba57b1021520bb4678243fb94abb11`.
 - Commit-associated Actions run #45465232908 completed SUCCESS: Ubuntu and hosted Windows each compiled, ran the same 365 tests, and passed synthetic MP4/FFprobe validation; Windows skipped 4 platform-unavailable tests. This does not establish owner-device Windows or real-media acceptance.
 - Independent review NOT RECORDED. PR #362 remains draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## Latest continuation — ARO-CHAT-0232 (2026-11-25)
+- Chat title: `ARO-CHAT-0232 | Validate Public Rights Registry Inputs`; workstream ARO-GTA-P1-232.
+- Branch: `workstream/aro-chat-0232-rights-registry-public-input-validation-2026-11-25`; base / starting SHA: PR #362 live head `a39fd8ed3db36e8aae98cfc902c10f7fe36e7054`.
+- Hardened public input boundaries in `SourceRightsRegistry`: reject non-mapping records and non-text identity fields; validate and normalize source ID, use, platform, actor and audit lookup IDs before use.
+- Production commit `94067f2974f7c6ebcea6415ccfae72b66d521255`; test commit `ec18f4f45ec8e1a5c0ff8be64e8c2cff1f83ec49`.
+- Local tests NOT RUN; this branch's exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED.
+- No change to grant semantics or uploader/publishing behavior. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+- No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
