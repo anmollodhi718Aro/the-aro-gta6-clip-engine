@@ -11,7 +11,7 @@ from unittest.mock import Mock, patch
 
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
-from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_destination_approval_path, validate_upload)
+from backend.app.youtube_upload import (MAX_RIGHTS_REPORT_BYTES, build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_destination_approval_path, validate_upload)
 
 
 class YouTubeUploadTests(unittest.TestCase):
@@ -98,6 +98,12 @@ class YouTubeUploadTests(unittest.TestCase):
             load_rights_report(blocked)
         with self.assertRaises(FileNotFoundError):
             load_rights_report(self.root / "missing.json")
+
+    def test_rights_report_rejects_oversized_file_before_reading(self):
+        oversized = self.root / "oversized-rights-report.json"
+        oversized.write_bytes(b" " * (MAX_RIGHTS_REPORT_BYTES + 1))
+        with self.assertRaisesRegex(PermissionError, "maximum size"):
+            load_rights_report(oversized)
 
     def test_rights_report_rejects_symlinks(self):
         linked = self.root / "linked-rights-report.json"
