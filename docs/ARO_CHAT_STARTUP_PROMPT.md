@@ -183,3 +183,6 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Regression test mutates the original source immediately before the mocked insert and asserts the media body still references the original approved bytes.
 - Branch: workstream/aro-chat-0215-verified-upload-byte-snapshot-2026-11-24; based on PR #311 head 67e6d4290fee795fb8ba6fd0e926107ea7f0eb81. Code commits 1fefe87ef47dd4be723cab8ba9424b31156e46c1 and f14f00758fad5cd400f4a1efeacb9e04256a279d; test commit 7d8fd5c85f4171e702cada1d0e6c9fcece2a494b.
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. No OAuth, real media, upload, merge, deployment or publishing. Keep Issue #68 open and public publishing disabled.
+
+
+- FIFO follow-up: the snapshot source open now includes O_NONBLOCK where supported, so a source pathname swapped to a FIFO after lstat cannot hang the uploader. A platform-aware regression test covers the race; fresh exact-head CI is pending.
