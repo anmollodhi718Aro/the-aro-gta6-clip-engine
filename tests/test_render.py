@@ -66,7 +66,8 @@ class RenderUnitTests(unittest.TestCase):
         self.assertEqual(result, self.output)
         command = run.call_args.args[0]
         self.assertIsInstance(command, list)
-        self.assertIn("-y", command)\n        self.assertTrue(Path(command[-1]).name.startswith(".clip."))
+        self.assertIn("-y", command)
+        self.assertTrue(Path(command[-1]).name.startswith(".clip."))
         self.assertFalse(run.call_args.kwargs["shell"])
         self.assertIn("-map", command)
         self.assertEqual(run.call_args.kwargs["timeout"], 300)
