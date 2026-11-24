@@ -1049,3 +1049,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - This workstream ports the cleanup fix and both regressions directly onto the current PR #328 head. Existing PR #333 and #335 branches remain untouched; no rebase, retarget, merge, or close was performed.
 - The tests use temporary local files and mocked API modules only. No live upload or real media is used.
 - Issue #68 remains OPEN. Keep live uploads/public publishing disabled pending exact-head CI, independent security review, and owner-controlled acceptance.
+
+
+### ARO-CHAT-0218 close-failure cleanup regression — 2026-11-24
+- On the current PR #339 branch, added `test_upload_removes_snapshot_when_media_stream_close_raises` to prove nested snapshot cleanup still runs when the retained media stream's `close()` raises after closing its underlying file.
+- Test commit: `a07cf1d0e1023f6291cf69bb6998c4f43c972fdf`. It asserts exception propagation, closed stream, removed snapshot, and exactly one mocked insert.
+- Exact-head CI PENDING; local tests NOT RUN in this connector session. Keep PR #339 draft/open/unmerged. Issue #68 remains OPEN; no OAuth, real media, live upload, merge, deployment or publishing.
