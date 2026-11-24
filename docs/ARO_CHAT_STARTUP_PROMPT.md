@@ -386,3 +386,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Exact-head run #45465232908 completed SUCCESS. Ubuntu and hosted Windows both compiled, passed the unit-test step, and rendered/validated synthetic MP4 with FFprobe. Test counts were not exposed in the job summary. Synthetic output is not GTA 6 footage.
 - Local tests NOT RUN in this connector session; independent review NOT RECORDED. Keep PR #362 draft/open/unmerged pending review. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
 - No OAuth, credentials, real media, network upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0232 — PR #362 SQLite cleanup fix review (2026-11-25)
+- Workstream: ARO-GTA-P1-232; branch `workstream/aro-chat-0232-pr362-independent-test-fix-review-2026-11-25`; base PR #363 handoff-sync head `332be0ef6063392388a98608c179a046f4d381be`.
+- Bounded static review of PR #362's test-only correction found no defect in the reviewed change. The test now closes its auxiliary SQLite trigger-creation connection via `contextlib.closing` before temporary-directory teardown; the production registry's separate connection helper already closes in `finally`.
+- The trigger regression still verifies propagation of the non-duplicate `sqlite3.IntegrityError` and absence of an audit event. A neighboring comment was removed, but its assertions remain.
+- PR #362 associated run #45465232908 passed on merge ref `6ca5d4d4572fc566ef0a7281a1e79c06a90d4297`: Ubuntu 365 tests passed; hosted Windows ran 365, 361 passed and 4 skipped; both passed synthetic MP4/FFprobe. Raw-head-only checkout NOT DEMONSTRATED; local tests NOT RUN. This is not independent external review or owner-device Windows/real-media verification.
+- PR #363 docs-only handoff branch head `332be0ef6063392388a98608c179a046f4d381be` has no associated workflow run or combined status checks at this audit. Do not transfer PR #362's CI result.
+- Keep PRs #362 and #363 draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled. No OAuth, credentials, real media, network upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
