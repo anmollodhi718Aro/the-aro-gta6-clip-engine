@@ -174,3 +174,11 @@ For the current first-test upload priority:
 - Code commit: `72f72e26c2a58ce01066275f56b4c4f649ed6bf2`; test commit: `da3d774a14565b3d3bc99d61b8335e92aaf96cff`.
 - Current follow-up head: `36f9ac70f841715255d917183d24d3b2df2bfc49`. Status: IMPLEMENTED; local tests NOT RUN; exact-head CI PENDING. Do not transfer PR #305 CI to this new branch.
 - Keep PR #311 and this follow-up draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; no real media or live upload. Keep public publishing disabled.
+
+
+## Latest live continuation — ARO-CHAT-0209 (2026-11-24)
+- Current code follow-up: Draft PR #317, branch `workstream/aro-chat-0209-restore-approval-record-open-race-2026-11-24`.
+- Code head audited by Actions: `8e9bd5ef546c28b2cb2633e7e99373725b1fc053`; run [#45422909011](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45422909011) completed SUCCESS.
+- Ubuntu and hosted Windows both passed compile, 342 tests, and synthetic MP4/FFprobe validation; Windows reported 2 skipped tests. Both jobs used PR merge ref, so raw-head-only CI is NOT DEMONSTRATED.
+- Independent review NOT RECORDED; local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED. Do not transfer this run to any later PR head.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled; no OAuth, live upload, merge, deployment, or public publishing without separate explicit owner approval.
