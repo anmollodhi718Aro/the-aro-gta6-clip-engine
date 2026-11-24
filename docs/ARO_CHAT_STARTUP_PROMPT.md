@@ -536,3 +536,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Both jobs used merge ref `refs/remotes/pull/261/merge` at `cdc118dc6e625a6e3e9969f1249b806f3eb29907`; raw-head-only checkout is NOT DEMONSTRATED.
 - This is CI evidence for PR #261 only. The audited PR #257 head `cb12b8a1509d00ff9ec0a7ebce5dc25977bcba58` still has no associated run/checks/status and remains PENDING / NOT VERIFIED.
 - Keep PR #261 draft-only. No workflow retry, merge, rebase, retarget, deployment, credentials/OAuth, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live/public upload stays disabled.
+
+
+## Latest continuation baseline — refreshed 2026-11-24 (ARO-CHAT-0180)
+
+- Current chat title: `ARO-CHAT-0180 | PR #261 Latest Exact-Head CI Audit`; workstream ARO-GTA-P1-180.
+- Current branch: `workstream/aro-chat-0180-pr261-live-head-ci-audit-2026-11-24`; base / starting SHA: PR #261 live head `c75d3ae385e017a6e889a9ead636868179c25ff4`.
+- Latest task: exact-head audit of PR #261. Run #45351979138 (run 1157) is CANCELLED overall. Hosted-Windows job #138300402554 passed compilation, complete unittest step, and synthetic MP4/FFprobe; Ubuntu job #138300403021 was cancelled during FFmpeg/FFprobe installation, so compile/tests/render were skipped.
+- Combined status is PENDING with zero entries. Numeric test count and checkout commit refs are NOT VERIFIED. Independent review NOT RECORDED. Do not transfer the earlier PR #261 head's CI success.
+- Report: `docs/ARO_CHAT_0180_PR261_LIVE_HEAD_CI_AUDIT.md`. Audit branch CI must be inspected separately after its final documentation commit.
+- Documentation-only; no workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 implementation authorization does not enable live uploads/public publishing; retain all security and owner-acceptance gates.
