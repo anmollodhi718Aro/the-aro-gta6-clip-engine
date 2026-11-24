@@ -265,3 +265,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - The base branch advanced from starting SHA `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722` to `6204a3979b8753919e3f983ce42a3777b3215d87` by 12 documentation-only commits. Compare reports PR #344 head 6 commits ahead and 12 behind the current base, with merge base at the starting SHA; status DIVERGED.
 - Preserve PR #344 as DRAFT / OPEN / UNMERGED. No automatic rebase or retarget. Reconcile the documentation-only parent advancement with owner approval before ancestry changes.
 - Local tests NOT RUN. Independent security review NOT RECORDED. Issue #68 remains OPEN. Keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0221 continuation — PR #344 exact-head CI audit (2026-11-24)
+- Chat ID: ARO-CHAT-0221; Workstream: ARO-GTA-P1-221; audit branch: `workstream/aro-chat-0221-pr344-exact-head-ci-audit-2026-11-24`.
+- Audited PR #344 head `d2e057734517c1dfb3be994eb7268580f1f173a4`. Its commit-associated workflow lookup returned zero runs and combined status returned zero entries; exact-head Ubuntu/hosted-Windows CI is PENDING / NOT VERIFIED. Local tests NOT RUN.
+- PR #344 base/head comparison is DIVERGED (9 ahead / 12 behind; merge base `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722`). Preserve draft; no automatic rebase, retarget, or merge.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, network upload, workflow retry, merge, deployment, or publishing.
+- Report: `docs/ARO_CHAT_0221_PR344_CI_AUDIT.md`.

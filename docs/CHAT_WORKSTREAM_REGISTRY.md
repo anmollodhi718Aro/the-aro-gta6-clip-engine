@@ -1088,3 +1088,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Current-head workflow lookup: zero associated runs; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED.
 - Base advanced 12 documentation-only commits after starting SHA `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722`; compare reports DIVERGED (6 ahead / 12 behind), merge base remains starting SHA. Preserve draft; do not rebase/retarget automatically.
 - Local tests NOT RUN; independent security review NOT RECORDED. Issue #68 OPEN; public publishing disabled.
+
+
+## ARO-CHAT-0221 — PR #344 exact-head CI audit (2026-11-24)
+- Workstream: ARO-GTA-P1-221; documentation-only audit branch `workstream/aro-chat-0221-pr344-exact-head-ci-audit-2026-11-24`.
+- Audited PR #344 exact head `d2e057734517c1dfb3be994eb7268580f1f173a4`; commit-associated workflow lookup returned zero runs and combined status returned zero entries. Exact-head Ubuntu/hosted-Windows CI is PENDING / NOT VERIFIED; local tests NOT RUN.
+- PR #344 remains OPEN / DRAFT / UNMERGED. Its recorded base-to-head comparison is DIVERGED (9 ahead / 12 behind; merge base `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722`). Do not rebase or retarget automatically.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, network upload, workflow retry, merge, rebase, retarget, deployment, or publishing.
+- Report: `docs/ARO_CHAT_0221_PR344_CI_AUDIT.md`.
