@@ -273,3 +273,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - PR #346 run #45441375437 exposed the same test-only assertion mismatch on Ubuntu and hosted Windows: actual rejection is `no recorded rights for source source-2`; stale test expected `no recorded rights for source-2`.
 - Corrected the test expectation only; production uploader and fail-closed rights behavior are unchanged. Commit `9e349ae9fa6d66832b8d030e2ffe3bef55cdf35d`.
 - Next: verify exact-head Ubuntu and hosted-Windows CI for this branch, then independently review the complete rights/uploader security lineage. Local tests NOT RUN. No OAuth, credentials, real media, upload, merge, rebase, retarget, deployment, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0224 continuation — source-rights registry immutability (2026-11-24)
+- Workstream ARO-GTA-P1-224; branch `workstream/aro-chat-0224-rights-registry-immutability-2026-11-24`, based on PR #350 exact green head `b6d712a6438a132c3d8ca245b0a804bf8b929550`.
+- Security finding: `SourceRightsRegistry.register()` used an UPSERT that replaced existing grant evidence/scope and set `revoked_at=NULL`; a duplicate source ID could overwrite or reactivate a revoked grant.
+- Changed registration to INSERT-only; duplicate source IDs fail closed with PermissionError. A new grant must use a new source ID; no reinstatement workflow is introduced.
+- Added regressions for duplicate active grant overwrite and revoked-ID reactivation.
+- Production commit `87294298cd6f486d906f8964d4c9d590cf09dd9e`; tests commit `5a9ef569c64b77151e60063f2b86cf967e60edd2`.
+- Exact-head CI PENDING / NOT VERIFIED; local tests NOT RUN. Parent PR #350 head `b6d712a6438a132c3d8ca245b0a804bf8b929550` passed run #45442036637, but that result does not validate this new branch.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, network upload, publishing, merge, deployment, or workflow retry/dispatch. Keep live/public upload gates disabled.
