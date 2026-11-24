@@ -54,3 +54,12 @@ Draft only. No OAuth, credentials/tokens, real media, upload, publishing, workfl
 - The test verifies the independent byte-count guard rejects the incomplete payload before UTF-8 decoding or JSON parsing.
 - Test commit: `8143da93904b5ed8d6ba8a18a8fb02ebdf471bbb`.
 - Local tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI must be checked for the new branch head. No test result is inferred.
+
+
+## Post-read pathname binding follow-up — 2026-11-24
+- Review found that the descriptor could remain stable while the pathname was replaced after the pre-read identity check. The uploader would parse the original descriptor even though the rights-report path no longer named it.
+- After the bounded read and descriptor metadata comparison, re-check that the pathname still resolves to the same regular-file device/inode as the opened descriptor. Reject missing, non-regular, or replaced paths before JSON parsing.
+- Added regression `test_rights_report_rejects_path_replacement_during_read`, which simulates a different inode at the final path check and asserts fail-closed rejection.
+- Production commit: `8a4aa7591063f003f95e57e7ff1f4d7286fa416e`; test commit: `600cb7773c8ec9c6cf6288cbe15402444aa2cf46`.
+- Local tests NOT RUN in this connector session. Latest exact-head Ubuntu/hosted-Windows CI has no associated run yet; CI PENDING. Independent security review NOT RECORDED.
+- PR #354 remains DRAFT / OPEN / UNMERGED. No OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
