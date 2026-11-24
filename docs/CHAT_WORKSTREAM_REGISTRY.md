@@ -1027,3 +1027,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Chat ID: ARO-CHAT-0218; Workstream ID: ARO-GTA-P1-218.
 - Branch: `workstream/aro-chat-0218-cleanup-after-stream-close-error-2026-11-24`; base: `workstream/aro-chat-0216-close-upload-media-handle-2026-11-24` (PR #333 branch).
 - Production code unchanged. Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. No OAuth, real media, network upload, merge, deployment, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### ARO-CHAT-0218 CI failure and test-placement correction — 2026-11-24
+- Exact-head run `45428635076` failed on Ubuntu and hosted Windows (`342 tests`, one error on each platform). The new cleanup regression was nested under `YouTubeDestinationProfileTests` but called `_write_upload_rights`, a helper on `YouTubeUploadTests`.
+- Moved the regression into `YouTubeUploadTests`; production code unchanged. Fix commit: `9bc1e8b8541a8379a67ee8424efdde246f13c8f0`.
+- Follow-up exact-head run `45428933635` is pending. Current status: IMPLEMENTED; CI PENDING. Do not reuse the failed run as passing evidence.
