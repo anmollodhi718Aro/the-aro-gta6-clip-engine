@@ -1,11 +1,11 @@
-# ARO-CHAT-0182 | Renderer concurrent-output no-overwrite regression
+# ARO-CHAT-0183 | Renderer concurrent-output no-overwrite regression
 
 Date: 2026-11-24
 
 ## Attribution
-- Chat ID: ARO-CHAT-0182
-- Chat title: ARO-CHAT-0182 | Renderer Concurrent-Output No-Overwrite Regression
-- Workstream ID: ARO-GTA-P1-182
+- Chat ID: ARO-CHAT-0183
+- Chat title: ARO-CHAT-0183 | Renderer Concurrent-Output No-Overwrite Regression
+- Workstream ID: ARO-GTA-P1-183
 - Repository: anmollodhi718Aro/the-aro-gta6-clip-engine
 - Branch: `workstream/aro-chat-0182-renderer-no-overwrite-race-test-2026-11-24`
 - Base branch: `feature/local-authorized-ffmpeg-renderer`
