@@ -192,3 +192,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Code commit: `9d397a0aacb1687d64acd780d321c54fbf6647ff`; test commit: `ec46588884806c5b173340bfadcaccd47057997a`; report: `docs/ARO_CHAT_0216_NONBLOCKING_UPLOAD_SNAPSHOT_OPEN.md`.
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING until a PR is opened. Do not transfer PR #328 CI to this follow-up head.
 - Draft-only. No OAuth, credentials/tokens, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0216 PR/CI reconciliation — 2026-11-24
+- Draft PR #331 is OPEN / DRAFT / UNMERGED at head `15fd23d486794e02a7ae1b3076a7fe4f0c473eca`, based on PR #328 branch `workstream/aro-chat-0215-verified-upload-byte-snapshot-2026-11-24` at `1c380a2e311abbd5b818a398d0f0a70011f547d4`.
+- PR #331 implements the non-blocking FIFO race hardening and includes its regression test, workstream report, registry and startup updates.
+- Exact-head Actions lookup returned zero workflow runs; combined commit status is PENDING with zero statuses/checks. Ubuntu and hosted-Windows CI are NOT RUN / NOT VERIFIED for this exact head. Do not transfer PR #328 or earlier-head CI results.
+- Independent review of the complete PR #331 diff has not been recorded. The focused change adds `O_NONBLOCK` alongside `O_NOFOLLOW` and tests a FIFO substituted between `lstat()` and `open()`; this is a code inspection only, not execution evidence.
+- Next action: determine why the repository workflow did not start for PR #331, then obtain exact-head Ubuntu and hosted-Windows CI and independent review. Keep PR #331 and its parent draft chain unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials/tokens, real media, upload, publishing, merge, rebase, retarget or deployment. Keep live uploads and public publishing disabled.
