@@ -1021,3 +1021,5 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #324 review submissions empty; independent review NOT RECORDED. Local tests NOT RUN; owner-device Windows NOT VERIFIED; real-media acceptance NOT VERIFIED.
 - PR #324 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
 - No application/test/workflow behavior changes, OAuth, credentials, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+- Audit follow-up PR #327 head `fa64b10bb455430080e5df301d04a39bd7c34509` has no associated Actions run or combined status entries; its exact-head CI is PENDING / NOT VERIFIED. Reviews empty; independent review NOT RECORDED. Do not transfer PR #324's CI evidence to PR #327.
