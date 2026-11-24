@@ -963,3 +963,26 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #311 exact-head CI for `a95d1cbc22fd2d0653ba8c7b09ea227e76b29edb` was not yet visible at the initial post-creation lookup. Do not claim it passed until the final head's Actions jobs are inspected.
 - Issue #68 implementation is present in the base ancestry and its OIDC verifier is non-recursive there; the older PR #83 head still contains the historical recursive helper and must not be treated as the current implementation.
 - Issue #68 remains OPEN pending independent review and owner-device OAuth/channel verification. No real YouTube upload has occurred. Public publishing remains disabled.
+
+
+## ARO-CHAT-0209 approval-record race regression restoration — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0209 |
+| Exact chat title | ARO-CHAT-0209 | Restore Approval-Record Open-Race Protection in Consolidated Uploader |
+| Workstream ID | ARO-GTA-P1-209 |
+| Scope | Restore approval-record symlink/non-regular-file rejection and pre-open/post-open file-identity checks that were lost when PR #311 consolidated from PR #295 without PR #305's path-race hardening. |
+| Branch / PR | `workstream/aro-chat-0209-restore-approval-record-open-race-2026-11-24` / draft PR pending |
+| Base / starting SHA | PR #311 head `c3d767fd055c80dbd395c5c8821a335ad9b3b258` |
+| Report | `docs/ARO_CHAT_0209_APPROVAL_RECORD_RACE_REGRESSION.md` |
+| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI PENDING; no merge/upload/publishing |
+
+### Implementation
+- Restored symlink and regular-file checks using `is_symlink()` and `lstat()`.
+- Opens with `O_NOFOLLOW` and `O_NONBLOCK` where supported.
+- Compares pre-open `lstat()` device/inode with opened-descriptor `fstat()`; rejects replacement during open.
+- Restored tests for symlink, regular-file replacement, directory, FIFO, and FIFO replacement between check/open.
+- Code commit: `72f72e26c2a58ce01066275f56b4c4f649ed6bf2`; test commit: `da3d774a14565b3d3bc99d61b8335e92aaf96cff`.
+- No local test result or CI pass is claimed. CI must run on this follow-up PR's exact head.
+- PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
