@@ -47,3 +47,17 @@ No additional confirmed defect was established by this bounded inspection. This 
 - PR #344 remains draft/open/unmerged; no ancestry changes are authorized.
 - No workflow retry/dispatch, OAuth session, credential access, real media, network upload, merge, rebase, retarget, deployment, or publishing was performed.
 - Keep live uploads and public publishing disabled.
+
+
+## Additional security finding: approval is not bound to the reviewed rights-report manifest
+
+A deeper review of the approval path found a gap not covered by the existing “new unregistered source” regression:
+
+- `write_owner_approval_record()` persists the clip ID, source ID, privacy, video SHA-256, reviewer Google subject, channel IDs, and timestamps. It does not persist a digest or immutable representation of the rights report or its asset manifest.
+- The `--approve-clip` path loads the rights report and checks current publish grants, but the confirmation prompt displays only the authenticated channel and the clip/source approval phrase. It does not present the asset manifest or bind it into the approval record.
+- At upload time, `require_current_owner_approval()` verifies the approval record against the clip/source/video/owner/privacy fields. Separately, `load_rights_report()` and `require_report_publish_permissions()` re-check the current report and grants.
+- Consequently, if the rights report is changed after approval to add a source-bound asset whose source already has an active YouTube publish grant, the final rights check can pass while the durable owner approval still matches. The added asset was not necessarily part of the report the owner reviewed. The current regression covers an unregistered added source, which fails closed, but does not cover an already-registered added source.
+
+**Disposition: P1 security finding; implementation remains blocked.** The approval must be bound to a canonical digest of the exact rights-report/asset manifest reviewed, and the upload path must compare that binding against the final report before the API insert. The approval prompt should expose the exact asset/source manifest being approved. Add a mocked regression that changes the report after approval by adding a separately registered, publish-authorized source and asserts that approval fails before YouTube insert.
+
+This is a static-review finding, not an implemented fix or an independent external security review. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Do not change uploader/approval behavior until the owner explicitly authorizes this security remediation. Keep live uploads and public publishing disabled.
