@@ -5,6 +5,7 @@ authenticate the grantor or determine whether permission is legally sufficient.
 """
 from __future__ import annotations
 
+import ipaddress
 import json
 import sqlite3
 from contextlib import contextmanager
@@ -14,6 +15,34 @@ from typing import Any
 from urllib.parse import urlsplit
 
 ALLOWED_USES = frozenset({"analyze", "edit", "publish"})
+
+
+def _valid_hostname(hostname: str) -> bool:
+    """Accept DNS/IDNA names and IPv6 literals; reject malformed host labels."""
+    if ":" in hostname:
+        try:
+            ipaddress.IPv6Address(hostname)
+            return True
+        except ValueError:
+            return False
+    try:
+        ascii_hostname = hostname.encode("idna").decode("ascii")
+    except UnicodeError:
+        return False
+    # A single terminal dot is the conventional fully-qualified DNS form.
+    if ascii_hostname.endswith("."):
+        ascii_hostname = ascii_hostname[:-1]
+    if not ascii_hostname or len(ascii_hostname) > 253:
+        return False
+    labels = ascii_hostname.split(".")
+    return all(
+        label
+        and len(label) <= 63
+        and label[0].isalnum()
+        and label[-1].isalnum()
+        and all(character.isalnum() or character == "-" for character in label)
+        for label in labels
+    )
 
 
 def _time(value: str | datetime) -> datetime:
@@ -130,7 +159,7 @@ class SourceRightsRegistry:
             parsed_source_url.scheme.lower() not in ("http", "https")
             or not parsed_source_url.netloc
             or not hostname
-            or any(character.isspace() for character in hostname)
+            or not _valid_hostname(hostname)
             or parsed_source_url.username is not None
             or parsed_source_url.password is not None
         ):
