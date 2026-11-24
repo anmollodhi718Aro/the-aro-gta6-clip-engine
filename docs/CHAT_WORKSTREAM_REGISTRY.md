@@ -986,7 +986,7 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 | Code commits | 1fefe87ef47dd4be723cab8ba9424b31156e46c1; f14f00758fad5cd400f4a1efeacb9e04256a279d; cc5b800686c0754536b59660f08516e2323a4f5e; 80e420cb14bac3d845419de1b5ec3e1b316870fc |
 | Test commit | 7d8fd5c85f4171e702cada1d0e6c9fcece2a494b; 3ac85e2b2f6c4f3912e0164077f72ea8f41e08b2 |
 | Report | docs/ARO_CHAT_0215_VERIFIED_UPLOAD_BYTE_SNAPSHOT.md |
-| Status | IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; no upload |
+| Status | IMPLEMENTED; code/test head `1c380a2e311abbd5b818a398d0f0a70011f547d4` CI_VERIFIED on merge ref via run `45427291297`; documentation closeout requires its own fresh CI; no upload |
 
 ### Implementation
 - Open the source once as a regular file with no-follow and nonblocking semantics where available; bind the opened descriptor to the pre-open path identity.
@@ -998,3 +998,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 ### Validation and safety
 - Local tests NOT RUN in this connector session. Exact-head CI PENDING. No OAuth credentials, real media, network upload, merge, deployment, or publishing used.
 - PR #311 remains the parent draft. Issue #68 remains OPEN pending independent review and owner-controlled acceptance. Public publishing remains disabled.
+
+
+### ARO-CHAT-0215 CI evidence — 2026-11-24
+- Code/test head `1c380a2e311abbd5b818a398d0f0a70011f547d4` passed Actions run #45427291297 on merge ref `938dd9ef262b848fbc5f236601f8466171d77b9a`.
+- Ubuntu: compile, 342 tests, synthetic MP4/FFprobe passed. Hosted Windows: compile, same 342-test suite with 1 FIFO-specific skip because `os.mkfifo` is unavailable, synthetic MP4/FFprobe passed.
+- The regression for original-source mutation passed on both platforms. The FIFO race test passed on Ubuntu and skipped on hosted Windows solely because FIFO creation is unavailable.
+- Both jobs ran the same 342 tests, not 684 unique tests. Raw-head-only CI NOT DEMONSTRATED. No real media, OAuth, upload or publishing. Owner-device and real-media PRIVATE acceptance remain NOT VERIFIED.
+- The current documentation-only closeout commit advances the PR head; inspect its own exact-head CI before claiming current-head CI_VERIFIED.
