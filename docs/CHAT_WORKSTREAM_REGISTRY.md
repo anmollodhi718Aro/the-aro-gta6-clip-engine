@@ -946,3 +946,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Exact-head workflow lookup returned zero runs; Ubuntu and hosted-Windows CI are PENDING / NOT VERIFIED. Local tests were NOT RUN in this connector session.
 - GitHub reports PR #300 `mergeable=false` / `dirty`; base-to-head comparison is 23 commits ahead and 5 behind, merge base `758ae2d44e04b9a875a2a85aa153f0407a209766`. Do not rebase, retarget, or merge automatically.
 - PR #300 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, public publishing, deployment, or destructive action occurred.
+
+
+### ARO-CHAT-0197 scope and review note — 2026-11-24
+- The live PR #300 diff contains four files, including production changes in `backend/app/youtube_upload.py`; it is not test-only. The production diff adds repository-bound destination-profile validation, token-directory symlink checks, atomic OAuth-token persistence, and stricter validation of rights-report source assets.
+- These changes require independent security review and tests covering token persistence, file/directory symlink boundaries, and malformed rights-report inputs. Do not describe the PR as a test-only change.
+- PR #300 remains dirty/non-mergeable and exact-head CI is absent. Preserve the stack; do not rebase or retarget without explicit owner approval.
