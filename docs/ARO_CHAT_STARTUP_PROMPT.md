@@ -420,3 +420,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #251 remains open/draft/unmerged, mergeable=false, with no independent review recorded. Owner-device Windows and real-media acceptance remain unverified.
 - Audit PR #252's own head `eba4fe0f9bed2a0a01507ab62414cd61ecdb7010` has no associated workflow run; its CI is pending. Do not transfer parent PR #251's run.
 - Keep Issue #68 open and live/public uploads disabled pending owner approval, independent security review, owner-controlled integration, owner-device verification, device-appropriate upload limit, and authorized real-media acceptance.
+
+
+## Latest continuation baseline — ARO-CHAT-0171 (2026-11-24)
+- Current workstream: ARO-CHAT-0171 / ARO-GTA-P1-171; documentation-only exact-head CI audit of PR #251, recorded in draft PR #252.
+- PR #251 head `1316c12f4f66305b190f671330682eb535e41ba0` passed run #45314761904 on Ubuntu and hosted Windows: 340 tests per platform and synthetic MP4/FFprobe. Both jobs used PR #251 merge ref; raw-head-only checkout NOT DEMONSTRATED.
+- PR #252 audit head `c5ce5fe3557b89e12b52ac8df3b8b518dad37e63` passed its own run #45314960254: compile, the same 340 tests on Ubuntu/hosted Windows, and synthetic MP4/FFprobe. Both jobs checked out merge SHA `93f8ed47ab657902a173030b548d91412a4a76cb`; raw-head-only checkout NOT DEMONSTRATED.
+- PR #252 remains OPEN / DRAFT / UNMERGED. Independent review NOT RECORDED; owner-device Windows and authorized real-media acceptance NOT VERIFIED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Do not enable live/public uploads. No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment, or workflow retry.
