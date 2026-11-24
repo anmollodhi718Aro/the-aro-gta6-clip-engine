@@ -996,17 +996,17 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 | Exact chat title | ARO-CHAT-0211 | Post-Open Approval-Path Identity Verification |
 | Workstream ID | ARO-GTA-P1-211 |
 | Scope | Recheck approval-record pathname identity after opening, closing the no-O_NOFOLLOW same-inode symlink substitution gap. |
-| Branch / PR | `workstream/aro-chat-0211-post-open-approval-path-identity-2026-11-24` / draft PR pending |
+| Branch / PR | `workstream/aro-chat-0211-post-open-approval-path-identity-2026-11-24` / [Draft PR #320](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/320) |
 | Base / starting SHA | PR #317 head `36f9ac70f841715255d917183d24d3b2df2bfc49` |
 | Parent | PR #317 |
-| Status | IMPLEMENTED; exact-head Ubuntu/hosted-Windows CI PENDING; local tests NOT RUN |
+| Status | IMPLEMENTED; PR #320 OPEN / DRAFT / UNMERGED; exact-head CI PENDING; local tests NOT RUN |
 
 ### Implementation and evidence
 - Source commit: `07fc209ff4d68b7cc5236c834bcea42de95728f3`; test commit: `b37b3d694c4e6dc7f3c291a242f925dabdd0bc3e`.
 - Portability follow-up: `d37681e6af75b6ff81da2c47c67cf2001fb55049` skips the symlink-specific regression only where symlink creation is unavailable.
 - The reader performs a post-open `lstat()`, requires a regular file, and compares pathname device/inode with the opened descriptor.
 - Regression coverage simulates the no-`O_NOFOLLOW` fallback and same-inode symlink substitution.
-- Commit-associated workflow lookup for source and test commits returned no runs. Exact final-head CI remains PENDING; no test pass is claimed.
+- PR #320 current head: `d33e1a22390f66cffdbab7a5ec776180585df512`. Commit-associated workflow lookup returned no runs; exact-head Ubuntu/hosted-Windows CI remains PENDING. No test pass is claimed.
 - Owner-device Windows and real-media acceptance remain NOT VERIFIED.
 
 ### Identity collision correction
