@@ -995,3 +995,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Both jobs checked out the PR merge ref `refs/remotes/pull/317/merge`; raw-head-only CI NOT DEMONSTRATED. These are 342 tests on each platform, not 684 unique tests.
 - Synthetic media only; no GTA 6/third-party media, no upload, publishing disabled, manual review required. Local tests NOT RUN. Independent review NOT RECORDED. Owner-device Windows and real-media acceptance NOT VERIFIED.
 - PR #317 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. The CI result applies to head `8e9bd5e...`; any subsequent commit requires fresh validation.
+
+
+## ARO-CHAT-0210 continuation — destination profile isolation regression (2026-11-24)
+- On the existing PR #317 follow-up branch, restored case-insensitive uniqueness for destination profile names. Profile keys are now constrained to 1-64 ASCII letters, digits, underscores, or hyphens and collisions under `casefold()` fail closed before token-path selection.
+- Added regression test `test_case_colliding_profile_names_fail_closed`, reproducing `aroanmol7` / `AROANMOL7` token-path collision on case-insensitive filesystems.
+- Code commit: `2de1798d1f8bf284e54a07d3538ac42dbf76066e`; test commit: `869c315d72cbe7bff5f04b0cc813fcb9aed3a7f3`.
+- Current branch head: `869c315d72cbe7bff5f04b0cc813fcb9aed3a7f3`. Exact-head CI has not yet been observed; no test pass is claimed. Local tests NOT RUN in this connector session.
+- PR #317 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, merge, or deployment was performed. Keep live uploads and public publishing disabled.
