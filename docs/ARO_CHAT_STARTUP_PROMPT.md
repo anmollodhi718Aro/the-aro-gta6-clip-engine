@@ -141,3 +141,9 @@ For the current first-test upload priority:
 ## PR #299 source-rights integration status
 - The append-only `SourceRightsRegistry.register()` behavior and regression tests are now implemented directly on PR #299, so this branch no longer depends on PR #168 ancestry for that behavior.
 - Earlier ancestry warning remains relevant to the separate #68 stack until that stack is independently reconciled. PR #299 still needs latest-head CI and independent review; no merge or upload authorization is implied.
+
+
+## OAuth token persistence hardening on PR #299
+- Token persistence uses a same-directory temporary file, flush/fsync, atomic replacement, and `0600` permissions where supported.
+- Existing token-file symlinks and profile token-directory symlinks fail closed. Tests cover symlink rejection and restricted file permissions.
+- CI run `45395149052` exposed a missing `tempfile` import; corrected in commit `92368c71a6cae96f364cdac1066cdf9e93fe3c43`. Fresh CI is required before treating this code as validated.
