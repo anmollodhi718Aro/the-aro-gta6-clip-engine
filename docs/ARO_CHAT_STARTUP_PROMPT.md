@@ -282,3 +282,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Run #45434843065 validates the functional/code-and-test head `a08a69cfa687479c58ce72a322b1357761a92723` only.
 - The subsequent commits in this workstream update documentation only (this report, startup handoff, and registry); no application code or tests changed after the validated functional head.
 - The resulting documentation-only branch tip has no separately associated CI run returned and is therefore NOT independently CI-VERIFIED. Do not transfer the functional-head green result to the later documentation-only tip.
+
+
+## Current continuation — ARO-CHAT-0219 (2026-11-24)
+- PR #342: `workstream/aro-chat-0219-oauth-token-no-follow-2026-11-24`, based on PR #339 branch.
+- Finding: `_authorize_google` checked whether the token path was a symlink, then delegated to `Credentials.from_authorized_user_file(path)`, which reopened the path and left a check/open race.
+- Added verified descriptor-based JSON loading with no-follow/nonblocking flags, regular-file checks, and pre/open/post device-inode identity checks; credentials are constructed from the parsed object without reopening the path.
+- Production commit `d5f764f49645608b42dffad354bc75575fb4f0b3`; tests commit `a26951f486bce4710d7a3b8a85440076870d305d`; report `docs/ARO_CHAT_0219_OAUTH_TOKEN_NOFOLLOW.md`.
+- Local tests NOT RUN. PR #342 exact-head Ubuntu/hosted-Windows CI PENDING / NOT YET RETURNED. Tests use synthetic token JSON only; no real OAuth token or client secret was accessed.
+- Keep PR #342 draft/open/unmerged. Issue #68 remains OPEN. No OAuth login, credential access, real media, network upload, merge, deployment, or publishing. Keep live/public upload gates disabled.
