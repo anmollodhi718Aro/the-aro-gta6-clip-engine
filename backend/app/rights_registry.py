@@ -25,6 +25,15 @@ def _valid_hostname(hostname: str) -> bool:
             return True
         except ValueError:
             return False
+    # Numeric-only hosts are ambiguous across URL and resolver parsers:
+    # forms such as 127.1 or 2130706433 may be treated as shorthand IPv4.
+    # Accept only canonical four-octet IPv4 literals in this namespace.
+    if all(character.isdigit() or character == "." for character in hostname):
+        try:
+            ipaddress.IPv4Address(hostname)
+            return True
+        except ValueError:
+            return False
     try:
         ascii_hostname = hostname.encode("idna").decode("ascii")
     except UnicodeError:
