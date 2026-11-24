@@ -7,7 +7,6 @@ are optional and are imported only when an upload is requested.
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import mimetypes
 import os
