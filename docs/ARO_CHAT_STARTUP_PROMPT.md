@@ -501,3 +501,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - No jobs/logs exist to inspect. Checkout refs, compilation, unit tests, and synthetic MP4/FFprobe are NOT VERIFIED / NOT RUN. Re-fetch PR #257's exact head before closeout; never assign TESTED or CI_VERIFIED without observed evidence.
 - Report: `docs/ARO_CHAT_0177_PR257_CI_AUDIT.md`.
 - Keep Issue #68 open and live/public uploads disabled. No workflow retry, credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0177 live recheck (2026-11-24 13:18 IST)
+
+- Current workstream: ARO-GTA-P1-177 / ARO-CHAT-0177; audit PR [#258](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/258).
+- Audited PR #257 is OPEN / DRAFT / UNMERGED, current head `da6c3e4102c1befb63a188d7d94a0b06aca95eb9`; exact-head workflow runs: 0; check-runs: 0; combined status entries: 0. CI PENDING / NOT VERIFIED. No reviews, inline threads, or conversation comments; independent review NOT RECORDED.
+- No jobs/logs are available. Checkout refs, compilation, tests, and synthetic MP4/FFprobe are NOT VERIFIED / NOT RUN. Do not transfer CI from any other PR or SHA.
+- Audit report: `docs/ARO_CHAT_0177_PR257_CI_AUDIT.md`. Audit PR #258 own head `fdea8dd8cf6fe47e189607a0d5f8f0e63b6f0f89` also has zero associated runs/check-runs/status entries at recheck; do not transfer parent PR evidence. Its base remains the earlier PR #257 head; no retarget.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live/public uploads disabled. No workflow retry, credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+- Next: wait for a naturally associated run on the current PR #257 head, then inspect its jobs/logs/checkouts; re-fetch exact head before any closeout.
