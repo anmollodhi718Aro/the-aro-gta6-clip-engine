@@ -307,6 +307,38 @@ class OwnerApprovalTests(unittest.TestCase):
                 self.gate()
         self.assertTrue(target.is_file())
 
+    def test_path_replaced_after_open_with_same_inode_symlink_is_rejected(self):
+        import backend.app.youtube_owner_approval as approval_module
+
+        target = self.root / "approval-opened-target.json"
+        original_open = approval_module.os.open
+
+        def open_then_replace_path(path, flags, *args, **kwargs):
+            if Path(path) != self.record:
+                return original_open(path, flags, *args, **kwargs)
+            # Open the original regular file first, then replace only its
+            # pathname with a symlink to the same inode before returning.
+            descriptor = original_open(
+                path, flags & ~getattr(os, "O_NOFOLLOW", 0), *args, **kwargs
+            )
+            os.replace(self.record, target)
+            try:
+                self.record.symlink_to(target)
+            except (OSError, NotImplementedError):
+                os.replace(target, self.record)
+                os.close(descriptor)
+                self.skipTest("symlink creation is unavailable on this platform")
+            return descriptor
+
+        with patch(
+            "backend.app.youtube_owner_approval.os.open",
+            side_effect=open_then_replace_path,
+        ):
+            with self.assertRaisesRegex(PermissionError, "must be a regular file"):
+                self.gate()
+        self.assertTrue(target.is_file())
+        self.assertTrue(self.record.is_symlink())
+
     def test_directory_approval_path_is_rejected(self):
         directory_path = self.root / "approval-directory"
         directory_path.mkdir()
