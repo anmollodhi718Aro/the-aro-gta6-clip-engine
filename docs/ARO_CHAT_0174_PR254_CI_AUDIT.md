@@ -33,8 +33,9 @@ Date: 2026-11-24
 ## Audit branch / PR #255
 - Audit branch: `workstream/aro-chat-0174-pr254-exact-head-ci-audit-2026-11-24`.
 - Draft PR [#255](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/255) was opened against PR #254's audit branch.
-- PR #255 head at creation: `0edc8a9a66c1529adea298cd5aef660b0a886842`.
-- At initial check, no commit-associated workflow run and no combined status entries were returned for PR #255's head. Its own CI is PENDING / NOT VERIFIED; do not transfer PR #254's run.
+- PR #255 latest inspected head: `f9698ee9bd5a144cd8f95874919fbc9f7fe18418`.
+- Latest exact-head workflow lookup returned zero runs and combined status returned zero entries. Reviews, inline threads, and conversation comments also returned empty arrays. PR #255's own CI is PENDING / NOT VERIFIED; do not transfer PR #254's run.
+- The branch's CI workflow includes pull_request events without a base-branch filter, but no run is currently associated with this latest head. No retry was initiated.
 - PR #255 remains OPEN / DRAFT / UNMERGED. No merge requested.
 
 ## Status
