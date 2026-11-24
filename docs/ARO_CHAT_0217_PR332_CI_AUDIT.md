@@ -69,3 +69,21 @@ Date: 2026-11-24
 - Combined legacy commit status returned zero entries. The successful commit-associated Actions run and completed job steps are the available CI evidence.
 - PR #332 review submissions, inline review threads, and conversation comments remained empty at inspection; independent review NOT RECORDED. PR #332 remains OPEN / DRAFT / UNMERGED.
 - PR #336 is the documentation-only follow-up for this audit. Its latest observed head before this closeout refresh was `0048f822ccacb1e5ae17402136166c5b934b38ac`; exact-head workflow lookup returned zero runs and combined status returned zero entries. Its CI remains PENDING / NOT VERIFIED.
+
+
+## Follow-up PR #336 exact-head CI closeout — 2026-11-24
+- Live PR #336 head at this audit: `3d537f9df3830728f63fda4ee6a8133166475dec`; PR remains OPEN / DRAFT / UNMERGED.
+- Commit-associated Python CI run [#45428154454](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45428154454), run 1384, completed SUCCESS for this head.
+- Ubuntu job #138565888401: setup, checkout, Python, FFmpeg/FFprobe, compile, complete unittest suite, and synthetic MP4/FFprobe stages all completed SUCCESS. Log: 344 tests passed.
+- Hosted-Windows job #138565887725: the same stages completed SUCCESS. Log: 344 tests ran, 2 skipped.
+- Both synthetic reports identify locally generated test pattern/tone media, no GTA 6 footage, no third-party media, publishing disabled, and manual review required. The upload workflow's test interactions are mocked; this is not a live upload or owner acceptance.
+- PR #336 review submissions and inline review threads returned zero; independent review NOT RECORDED. Local tests in this connector session NOT RUN.
+- This CI evidence applies only to PR #336 head `3d537f9df3830728f63fda4ee6a8133166475dec`; it does not replace PR #332's own run #45427815827 or establish the raw-head-only checkout SHA.
+
+## Related PR #335 test-only follow-up CI — 2026-11-24
+- PR #335 head: `2779aee7b752433b72753ea77419f8ce3d1ae806`; commit-associated Python CI run [#45428127882](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45428127882) completed SUCCESS.
+- Ubuntu job #138565727306: compile, 342 tests, and synthetic MP4/FFprobe passed.
+- Hosted-Windows job #138565727802: compile, 342 tests with 2 skipped, and synthetic MP4/FFprobe passed.
+- PR #335 changes tests and documentation only; its CI result is scoped to its own head and is not transferred to PR #328 or another branch.
+- PR #335 review submissions and inline review threads returned zero; independent review NOT RECORDED. PR remains OPEN / DRAFT / UNMERGED.
+- These synthetic/mocked checks do not constitute real GTA 6 media acceptance, owner-device Windows verification, or a live YouTube upload.
