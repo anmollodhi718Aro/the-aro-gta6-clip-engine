@@ -55,6 +55,48 @@ class SourceRightsRegistryTests(unittest.TestCase):
         self.assertEqual([e["action"] for e in self.registry.audit_events("creator-video-1")],
                          ["registered", "revoked"])
 
+    def test_register_rejects_duplicate_source_id_without_overwriting_grant(self):
+        self.registry.register(self.record)
+        replacement = dict(
+            self.record,
+            source_url="https://example.com/replacement",
+            evidence_ref="replacement-permission",
+            allowed_uses=["publish"],
+        )
+        with self.assertRaisesRegex(PermissionError, "rights already exist"):
+            self.registry.register(replacement)
+
+        # The original narrower grant remains unchanged.
+        with self.assertRaises(PermissionError):
+            self.registry.authorize("creator-video-1", "publish", "youtube", at=self.now)
+        self.registry.authorize("creator-video-1", "analyze", "youtube", at=self.now)
+        self.assertEqual(
+            [event["action"] for event in self.registry.audit_events("creator-video-1")],
+            ["registered"],
+        )
+
+    def test_register_cannot_reactivate_revoked_source_id(self):
+        self.registry.register(self.record)
+        self.assertTrue(self.registry.revoke("creator-video-1", actor="owner", at=self.now))
+
+        replacement = dict(
+            self.record,
+            evidence_ref="new-permission-after-revocation",
+            valid_from=self.now + timedelta(days=1),
+        )
+        with self.assertRaisesRegex(PermissionError, "rights already exist"):
+            self.registry.register(replacement)
+
+        with self.assertRaisesRegex(PermissionError, "rights revoked"):
+            self.registry.authorize(
+                "creator-video-1", "publish", "youtube",
+                at=self.now + timedelta(minutes=1),
+            )
+        self.assertEqual(
+            [event["action"] for event in self.registry.audit_events("creator-video-1")],
+            ["registered", "revoked"],
+        )
+
     def test_rejects_missing_evidence_and_unknown_scope(self):
         invalid = dict(self.record, evidence_ref="")
         with self.assertRaises(ValueError):
