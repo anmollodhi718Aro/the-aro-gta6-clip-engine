@@ -1039,3 +1039,24 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - The test asserts exception propagation, stream closure, snapshot-path removal, and exactly one insert attempt.
 - Synthetic local file and mocked API only; no OAuth, real media, network upload, merge, deployment, or publishing.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0218 — verify snapshot cleanup when media close fails (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0218 |
+| Exact title | ARO-CHAT-0218 | Verify Snapshot Cleanup When Media Close Fails |
+| Workstream ID | ARO-GTA-P1-218 |
+| Scope | Test-only regression for temporary snapshot cleanup when the retained media stream's close method raises. |
+| Branch | `workstream/aro-chat-0218-media-close-failure-cleanup-2026-11-24` |
+| Base / starting SHA | PR #335 head `2779aee7b752433b72753ea77419f8ce3d1ae806` |
+| Test commit | `9c5a7578dfd441fa72ea542b8487371f5826a83c` |
+| Report | `docs/ARO_CHAT_0218_MEDIA_CLOSE_FAILURE_CLEANUP.md` |
+| Status | IMPLEMENTED; production code unchanged; local tests NOT RUN; exact-head CI PENDING |
+
+### Coverage and safety
+- Mocked media stream closes its underlying file handle and then raises a deterministic exception.
+- Test asserts exception propagation, stream closure, exactly one snapshot cleanup call, snapshot removal, and exactly one mocked API insert attempt.
+- Synthetic local snapshot and mocked API only. No OAuth credentials/tokens, real media, network upload, or publishing.
+- Issue #68 remains OPEN. Keep live uploads/public publishing disabled pending exact-head CI, independent security review, owner-controlled integration, owner-device verification, and authorized real-media PRIVATE acceptance.
