@@ -128,3 +128,10 @@ For the current first-test upload priority:
 ### ARO-CHAT-0197 follow-up — 2026-11-24
 - Test-only continuation commit `8269505c423e50c7460335f5ca776f250b695aa0` now asserts canonical token paths for both configured destination profiles, using the resolved `.secrets` parent. Production path enforcement is unchanged.
 - Registry/startup documentation update follows in commit `7dad8ec0bf0140dd522369de846e10efe7436bb6`; exact-head Ubuntu and hosted-Windows CI remains pending.
+
+
+## ARO-CHAT-0197 PR #300 current continuation — 2026-11-24
+- Draft PR #300 is OPEN / UNMERGED. Current head before this documentation refresh: `02b5e7c16077d31e9cee1950cc5c379339c5baff`.
+- Test-only path assertion compares both profile token paths against the strictly resolved `.secrets` parent. Production path validation is unchanged.
+- No commit-associated CI run was found for that head; exact-head Ubuntu and hosted-Windows CI remains PENDING. No local tests run in this connector session.
+- PR #300 review submissions and inline review threads are empty; independent review NOT RECORDED. Do not merge or retarget. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads and public publishing remain disabled.
