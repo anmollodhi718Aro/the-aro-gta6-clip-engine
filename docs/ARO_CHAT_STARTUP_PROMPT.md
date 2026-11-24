@@ -489,3 +489,14 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Test commit: 079d9213ab53142c6d085dbfc28597df745a5a2b; current PR #371 head at handoff: same SHA.
 - Local tests NOT RUN in this connector session. Commit-associated workflow lookup returned no run at inspection; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent security review NOT RECORDED.
 - PR #371 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+## ARO-CHAT-0236 strict source URL hostname validation — 2026-11-25
+
+- Continue from PR #371 current head `2032ccbc1c115426e3731415915656841c2633ad` on a separate draft-only branch.
+- Added conservative DNS/IDNA hostname label checks and standard-library IPv6 literal validation to the source-rights URL boundary. A single trailing DNS dot remains valid.
+- Regression tests cover malformed DNS labels, percent-encoded host text, valid IPv6 literals, IDNA names, and fully-qualified DNS names.
+- Production commit `a58e30cd21f55cdabc0ff90103fc7a01e6b4e6b8`; test commit `4b6eabc429196e449e91e3119535a575eb2392f3`.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED.
+- Parent PR #371 run #45494763114 failed with zero exposed steps and BlobNotFound logs; cause NOT VERIFIED. Do not attribute it to application code.
+- Keep this follow-up DRAFT / OPEN / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
