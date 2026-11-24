@@ -508,3 +508,8 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Next action after this documentation-only branch: open a draft PR against the exact audited base, then independently inspect this audit PR's own head CI. Never transfer CI between PRs or SHAs.
 - Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL / NOT IMPLEMENTED. Live uploads/public publishing remain disabled.
 - Safety: no credentials/OAuth, real footage, uploads, publishing, workflow retries, merge, rebase, retarget, deployment, or destructive actions. Documentation-only changes.
+
+
+### ARO-CHAT-0178 audit publication — 2026-11-24
+- Draft PR #259 records the live-head refresh of PR #257. Audit PR #259's own current head CI independently; do not transfer PR #257's empty CI observation.
+- Keep the PR draft-only and all Issue #68 live-upload/publication gates closed.
