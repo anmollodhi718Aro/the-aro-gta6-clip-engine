@@ -53,3 +53,15 @@ Date: 2026-11-24
 ## Closeout
 - ARO-CHAT-0171 is IMPLEMENTED (documentation audit) and TESTED only in the sense that the audited parent PR's CI is verified on its merge ref; this audit branch's own CI remains NOT VERIFIED.
 - No workflow retry, merge, rebase, retarget, deploy, upload, publishing, credentials/OAuth, real media, or destructive action was performed.
+
+
+## ARO-CHAT-0171 audit-branch exact-head CI closeout — 2026-11-24
+- PR #252 head at verification: `c5ce5fe3557b89e12b52ac8df3b8b518dad37e63`.
+- Its own Python CI run #45314960254 (run 1145) completed SUCCESS.
+- Ubuntu job #138179488732 and hosted-Windows job #138179488417 both completed successfully. Each compiled the source, ran the same 340-test suite (Ubuntu 5.143s; Windows 15.690s), and passed the synthetic MP4/FFprobe validation step.
+- Both jobs checked out `refs/remotes/pull/252/merge` at merge SHA `93f8ed47ab657902a173030b548d91412a4a76cb`, merging audit head `c5ce5fe3557b89e12b52ac8df3b8b518dad37e63` into base `1316c12f4f66305b190f671330682eb535e41ba0`. CI_VERIFIED applies to this merge ref; raw-head-only checkout is NOT DEMONSTRATED.
+- Both logs show the repaired CLI upload-boundary test passed. Synthetic test used locally generated pattern/tone only; `gta6_footage_used=false`, `manual_review_required=true`, and `upload_performed=false`. No GTA 6/third-party footage or network upload was used.
+- Combined commit status returned zero entries. PR #252 reviews, inline threads, and conversation comments were empty at inspection; independent review NOT RECORDED.
+- PR #252 remains OPEN / DRAFT / UNMERGED. This audit branch's exact-head CI is verified on its merge ref only; owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
+- No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or destructive action was performed.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live/public uploads disabled until owner approval, canonical security implementation selection, independent security review, owner-controlled integration, owner-device verification, and separately authorized real-media acceptance are complete.
