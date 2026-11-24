@@ -815,3 +815,24 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Evidence | PR #280 run #45385315409 failed both Ubuntu and hosted Windows in test_upload_rejects_unlisted_visibility_before_oauth_or_api: optional googleapiclient import occurred before PRIVATE-only guard. This change moves the guard ahead of optional imports. |
 
 No OAuth, credentials, network upload, merge, deployment, or public publishing was performed. Issue #68 remains open; this fix does not satisfy the authenticated owner/channel approval gate by itself.
+
+
+## ARO-CHAT-0194 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0194 |
+| Exact chat title | ARO-CHAT-0194 | PR #289 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-194 |
+| Scope | Independently audit PR #289's own commit-associated CI, Ubuntu/hosted-Windows jobs and logs, checkout refs, compilation/tests, synthetic MP4/FFprobe, combined status, and review state. Documentation-only. |
+| Branch / PR | workstream/aro-chat-0194-pr289-exact-head-ci-audit-2026-11-24 / draft follow-up PR |
+| Base / starting SHA | PR #289 head 4e01f16e97b2239c74a2f96c4262b04b57a4ae73 |
+| Status | IMPLEMENTED; CI_VERIFIED for PR-associated merge-ref jobs; raw-head-only checkout NOT DEMONSTRATED; independent review NOT RECORDED |
+| Evidence | Run #45386732186 succeeded. Ubuntu job #138419476509 and hosted-Windows job #138419476953 each compiled and passed the same 323-test suite, then rendered and FFprobe-validated synthetic MP4. Both checked out PR #289 merge ref c1980d7c5aea879e86a17b1b8b51a7de101bfc28. Combined status had zero entries. |
+
+Report: `docs/ARO_CHAT_0194_PR289_CI_AUDIT.md`. PR #289 remains OPEN / DRAFT / UNMERGED. Hosted Windows is not owner-device verification; synthetic media is not real GTA 6 footage. Issue #68 remains OPEN; keep live uploads and public publishing disabled.
+
+### Chat ID collision reconciliation
+ARO-CHAT-0193 was already used by the PR #288 audit branch. Preserve that earlier attribution and use ARO-CHAT-0194 for the PR #289 audit. The superseded PR #289 branch carrying the colliding ARO-CHAT-0193 label is not the canonical audit branch. No merge, retarget, workflow retry, OAuth, credentials, real media, upload, publishing, deployment, or destructive action was performed.
+
+- Follow-up PR #292 is OPEN / DRAFT / UNMERGED. Its first inspected head `3f2b6eb66661dbe451989f366f3346c51a7f8386` had zero associated workflow runs and zero combined status entries; its own CI is PENDING / NOT VERIFIED. Do not transfer PR #289's run to PR #292.
