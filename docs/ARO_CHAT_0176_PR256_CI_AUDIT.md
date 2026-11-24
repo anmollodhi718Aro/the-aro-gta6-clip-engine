@@ -58,3 +58,13 @@ Date: 2026-11-24
 - The earlier report's check-runs observation (zero entries) remains the recorded check-runs evidence; this recheck did not expose a separate check-runs endpoint in the available connector actions.
 - No CI evidence from PR #255, PR #257, or another SHA was transferred. Local tests NOT RUN in this connector session.
 - Scope remains documentation-only. No source code, workflow configuration, upload behavior, OAuth, credentials, real media, publishing, merge, rebase, retarget, deployment, or destructive operation was performed.
+
+
+### Current-head recheck — 2026-11-24 13:18 IST (supersedes the earlier SHA snapshot)
+- A fresh pull-request read shows PR #256's current head is `ada0a73025933a77ec7bd96f64b17dc64a26ebef`. The earlier audited SHA `d09f8147c7227cfec80d9e37a57a6463082da2cd` is no longer the PR's current head and must not be treated as current-head evidence.
+- Re-ran the commit-associated Actions lookup against current head `ada0a73025933a77ec7bd96f64b17dc64a26ebef`: zero workflow runs.
+- Current-head check-runs: `total_count: 0`, empty list. Combined status: `pending`, zero entries.
+- PR #256 remains OPEN / DRAFT / UNMERGED; GitHub reports `mergeable=false`. Reviews, inline review comments, and conversation comments remain empty; independent review NOT RECORDED.
+- No jobs/logs are available. Checkout refs, compile, unit tests, and synthetic MP4/FFprobe remain NOT VERIFIED / NOT RUN. Local tests NOT RUN in this connector session. No workflow retry initiated.
+- This current-head observation supersedes the older SHA-only recheck above. No CI result from PR #255, PR #257, or any other SHA was transferred.
+- Scope remains documentation-only. No application/workflow behavior, credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
