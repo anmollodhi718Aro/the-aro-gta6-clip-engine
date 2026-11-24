@@ -172,3 +172,11 @@ For the current first-test upload priority:
 - Security finding: case-only profile names can collide on case-insensitive filesystems because token paths are derived from profile names. The fix restores `casefold()` uniqueness validation and adds `test_case_colliding_profile_names_fail_closed`.
 - Report: `docs/ARO_CHAT_0207_CASEFOLD_PROFILE_COLLISION_FIX.md`. Local tests NOT RUN; this branch's exact-head Ubuntu/Windows CI PENDING. Do not transfer prior PR #311 CI.
 - PR #311 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0208 continuation — 2026-11-24
+- Current task: close out PR #314's exact-head CI evidence for the case-insensitive destination-profile collision fix.
+- PR #314 head `13b7a41c68e2a52757854fc6c7cd692535c6cd67`; run #45421632805 completed SUCCESS. Ubuntu and hosted Windows each passed compileall, 338 tests, and synthetic MP4/FFprobe validation. Both checked out merge ref `a9f9253bf15d431761179586d886a3b0365abb79`; raw-head-only CI NOT DEMONSTRATED.
+- Report: `docs/ARO_CHAT_0208_PR314_CI_CLOSEOUT.md`. Independent review NOT RECORDED; owner-device Windows and real-media acceptance NOT VERIFIED. Synthetic fixtures are not GTA 6 footage.
+- Audit branch: `workstream/aro-chat-0208-pr314-ci-closeout-2026-11-24`, based on PR #314 head. Documentation-only; no workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
