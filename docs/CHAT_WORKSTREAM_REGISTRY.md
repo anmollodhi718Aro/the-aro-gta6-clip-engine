@@ -1625,3 +1625,13 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending all recorded security and owner-acceptance gates, including explicit owner approval, independent security review, owner-controlled integration, owner-device verification, owner-selected device-appropriate `--max-upload-bytes`, and authorized real-media acceptance.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0173 (2026-11-24)
+
+- Current workstream: ARO-CHAT-0173 / ARO-GTA-P1-173, documentation-only exact-head CI audit of PR #253.
+- Branch: `workstream/aro-chat-0173-pr253-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #253 head `c8d91a0317e4874a9ac2b0690546be2cb5d140a9`.
+- PR #253's own commit-associated workflow lookup returned zero runs; combined status returned zero entries. Its exact-head CI is PENDING / NOT VERIFIED. No compile, unit-test, or synthetic-render result is claimed.
+- PR #253 reviews, inline threads, and conversation comments returned empty arrays; independent review NOT RECORDED. GitHub reported PR #253 OPEN / DRAFT / UNMERGED and mergeable=false at inspection.
+- Report: `docs/ARO_CHAT_0173_PR253_CI_AUDIT.md`. Re-fetch the exact current head and inspect its own run/jobs/logs before any verification claim. Do not transfer PR #252 or predecessor CI evidence.
+- Documentation-only; no workflow retry, application behavior changes, OAuth, credentials/tokens, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Keep Issue #68 open and live/public uploads disabled pending all security and owner-acceptance gates.
