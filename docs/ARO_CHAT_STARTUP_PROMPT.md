@@ -153,3 +153,11 @@ For the current first-test upload priority:
 - Added a regression test that simulates `os.replace` failure and verifies the existing OAuth token remains unchanged and the temporary file is cleaned up.
 - Test commit: `bcdd2355a23ca4a653c76857bc5ff4650f6e1d79`.
 - CI success on the immediately preceding head does not validate this new test; require fresh Ubuntu and Windows checks for the latest PR head.
+
+
+## Latest verified CI state: PR #299 atomic-write failure-path guard
+- Test commit: `bcdd2355a23ca4a653c76857bc5ff4650f6e1d79`; associated run #45395778292 completed SUCCESS.
+- Ubuntu and hosted Windows both passed compilation, 342 unit tests, and synthetic MP4/FFprobe validation. Test runtimes: 5.130s Ubuntu and 17.488s Windows.
+- Both jobs used merge SHA `a6de7b8` (PR head merged into base `cf731cabda8a045d39457f0eef800dbdb051e75e`); raw-head-only checkout NOT DEMONSTRATED.
+- Both logs confirm no upload was performed, no GTA 6 or third-party media was used, publishing stayed disabled, and manual review remained required.
+- Do not transfer this CI result to later documentation commits or other PRs. PR #299 remains open/draft/unmerged; independent security review is not recorded. Issue #68 remains open/waiting for owner approval. Live uploads and public publishing remain disabled.
