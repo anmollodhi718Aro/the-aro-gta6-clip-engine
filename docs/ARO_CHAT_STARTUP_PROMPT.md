@@ -164,3 +164,14 @@ For the current first-test upload priority:
 - It consolidates PR #299's YouTube PRIVATE response verification and PR #300's destination-profile path/symlink hardening and Windows canonical-path tests, avoiding the stale diverged #299 → #300 branch ancestry.
 - Issue #68's corrected authenticated OIDC/channel-owner gate, exact clip/source/hash approval, and source-rights checks are present in the PR #295 base ancestry. Do not use historical PR #83 head `f66f6406a496d08e3e85972010f1f52d831298ab` as current code; that historical snapshot contains a recursive verifier defect.
 - PR #311 exact-head CI must pass on both Ubuntu and Windows before acceptance. Issue #68 stays OPEN until independent security review and owner-device OAuth/channel verification. No live upload or public publishing without separate explicit owner action.
+
+
+## ARO-CHAT-0207 PR #313 case-collision regression — 2026-11-24
+
+- PR #313 adds regression coverage for profile keys `aroanmol7` and `AROANMOL7` mapping to different channel IDs. The loader's case-folded uniqueness check rejects the collision before selecting a profile.
+- Implementation commit: `97ab5468a425d8d5fa490561ad4b0755198f74c4`.
+- Actions run #45421425678 passed on Ubuntu and hosted Windows: compilation, the same 338 tests on each platform, and synthetic MP4/FFprobe validation.
+- Both jobs used PR #313 merge ref `ec2c2da451ee766bc080be7fbafc51604964c05c`, merging the implementation commit into base `c3d767fd055c80dbd395c5c8821a335ad9b3b258`. Raw-head-only CI is NOT DEMONSTRATED; do not count the two platform runs as 676 unique tests.
+- No GTA 6 or third-party media was used. Publishing remained disabled and manual review required. Independent review is NOT RECORDED; local tests were NOT RUN in this connector session.
+- Preserve PR #313 as draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+- Audit report: `docs/ARO_CHAT_0207_PR313_CI_AUDIT.md`.
