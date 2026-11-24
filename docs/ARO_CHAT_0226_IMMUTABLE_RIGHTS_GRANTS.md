@@ -42,3 +42,13 @@ No OAuth login, credentials/tokens, real media, network upload, publishing, work
 - The test now asserts that the original stored grant metadata remains unchanged after the duplicate attempt.
 - Test-only commit: `33743ca5ecaab1d69cab999968e8da8dc7f030ae`.
 - Local tests NOT RUN in this connector session. The prior CI run applies to the earlier head only; verify the new exact head separately.
+
+
+## Platform/use-scope regression follow-up — 2026-11-25
+
+- Added explicit assertions that a duplicate source-ID registration cannot add the `tiktok` platform or broaden the original `analyze`-only grant to `edit`.
+- Test-only commit: `5befa5058e3d018dca999a98b6ab564edc8c3f30`; production code unchanged.
+- The updated PR #355 head is `5befa5058e3d018dca999a98b6ab564edc8c3f30`.
+- Commit-associated workflow lookup returned no runs. Exact-head Ubuntu/hosted-Windows CI remains PENDING / NOT VERIFIED; local tests were NOT RUN in this connector session.
+- PR #355 remains OPEN / DRAFT / UNMERGED. Its base PR #354 advanced independently; comparison reports DIVERGED (10 commits ahead / 2 behind; merge base `1d9d478fcfd03e36f6389acca682b3ede57c17fd`). No rebase, retarget, or merge was performed.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled. No OAuth, credentials, real media, upload, workflow dispatch/retry, deployment, or publishing occurred.
