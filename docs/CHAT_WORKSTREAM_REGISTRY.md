@@ -1172,3 +1172,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Expanded duplicate-source-ID coverage to prove grant metadata and permission scope cannot be replaced by a repeated registration.
 - Test-only commit: `33743ca5ecaab1d69cab999968e8da8dc7f030ae`; production code unchanged.
 - Local tests NOT RUN; fresh exact-head Ubuntu/hosted-Windows CI must be checked.
+
+
+## ARO-CHAT-0227 concurrent rights registration regression — 2026-11-25
+- Workstream: ARO-GTA-P1-227; PR #357; branch `workstream/aro-chat-0227-atomic-rights-grant-concurrency-2026-11-25`; test-only change to `tests/test_rights_registry.py` plus report `docs/ARO_CHAT_0227_CONCURRENT_RIGHTS_GRANT_TEST.md`.
+- Regression synchronizes two workers attempting the same source ID and asserts exactly one registration succeeds, the other fails with `PermissionError`, and exactly one registration audit event is written.
+- PR-head-associated run #45462145169 completed SUCCESS: Ubuntu `tests` and hosted-Windows `windows-tests` jobs both completed compile, unit-test and synthetic MP4/FFprobe steps. Numeric test totals and checked-out merge/head SHA were not exposed; raw-head-only checkout NOT DEMONSTRATED. Do not claim owner-device Windows or real-media verification.
+- Current PR #357 branch tip at audit: `5e8dc2baeb822a988fc527d1cba3f35fc4bc5e1f`. Compare against PR #355 current recorded head `4ceba80e02f28c52946d3d143cbb7fa4e31d611e`: DIVERGED, 3 ahead / 10 behind; merge base `f2bd2982216280852f5b823796dc3700c16f2e7d`. Preserve draft ancestry; no rebase, retarget, or merge.
+- PR #357 remains DRAFT / OPEN / UNMERGED. Independent security review NOT RECORDED; local tests NOT RUN. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; no OAuth, credentials, real media, network upload, workflow retry/dispatch, deployment, or publishing.
