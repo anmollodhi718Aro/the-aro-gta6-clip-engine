@@ -384,3 +384,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Local tests NOT RUN in this connector session; independent review NOT RECORDED. Keep PR #362 DRAFT / OPEN / UNMERGED.
 - Next: preserve PR #362; continue with the next bounded, evidence-backed test/security task only after checking the latest registry and open PRs. Do not infer a security/owner approval from green CI.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+## ARO-CHAT-0230 latest continuation — Windows SQLite test cleanup (2026-11-25)
+- Workstream: ARO-GTA-P1-230; branch `workstream/aro-chat-0230-windows-sqlite-test-cleanup-2026-11-25`; based on PR #361 head `3a8bc14207e9957e3920caf430935b144bfd559b`.
+- Fixed the trigger-regression fixture's Windows teardown failure by using `contextlib.closing(sqlite3.connect(...))`; production behavior is unchanged.
+- Test fix commit: `cdd2eb320527b32ccaabe4e4e0f82fa541b94351`; report commit: `5709bf02a1ba57b1021520bb4678243fb94abb11`.
+- Commit-associated Actions run #45465232908 completed SUCCESS: Ubuntu and hosted Windows each compiled, ran the same 365 tests, and passed synthetic MP4/FFprobe validation; Windows skipped 4 platform-unavailable tests. This does not establish owner-device Windows or real-media acceptance.
+- Independent review NOT RECORDED. PR #362 remains draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
