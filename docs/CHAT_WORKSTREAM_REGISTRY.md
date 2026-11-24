@@ -1857,3 +1857,11 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Combined status returned zero entries. PR #283 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #283 remains OPEN / DRAFT / UNMERGED.
 - Report: `docs/ARO_CHAT_0191_PR283_CI_AUDIT.md`. Do not transfer CI evidence to another PR or SHA.
 - Documentation-only; no application/workflow behavior changes, workflow retry, OAuth, credentials, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0191 live-head correction — 2026-11-24
+- Refresh the existing PR #283 audit; do not create a duplicate workstream. PR #283 advanced from the previously audited SHA `4436861af51d1f371b0fe3a0f1ea6277ce139a5c` to current head `8c5a46d3e09daef7dbc53a51fd826af2bfd4718a`.
+- The previous head's successful run #45385467671 is historical evidence only. Current PR #283 head has zero associated workflow runs, zero check-runs, and combined status `pending` with zero entries. Current-head CI is PENDING / NOT VERIFIED; no test or media validation is inferred.
+- Current PR #283 reviews, inline comments, and conversation comments are empty; independent review NOT RECORDED. PR remains OPEN / DRAFT / UNMERGED.
+- Existing audit PR #286 at head `df310a41d1e54daafef191f671a5949ae4be4c2a` also has zero workflow runs/check-runs, pending empty combined status, and no recorded reviews/comments. Its own CI remains PENDING / NOT VERIFIED.
+- Continue only this bounded documentation audit. Do not transfer CI across PRs or SHAs. Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL and live uploads/public publishing disabled. No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
