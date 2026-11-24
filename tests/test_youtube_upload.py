@@ -973,6 +973,20 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
                 self.root / "local_approvals" / "shared" / "clip-001.json", "aroanmol7"
             )
 
+    def test_profile_approval_record_directory_symlink_is_rejected(self):
+        external_parent = self.root / "external" / "aroanmol7"
+        external_parent.mkdir(parents=True)
+        linked_parent = self.root / "local_approvals" / "aroanmol7"
+        linked_parent.parent.mkdir()
+        try:
+            linked_parent.symlink_to(external_parent, target_is_directory=True)
+        except (NotImplementedError, OSError) as exc:
+            self.skipTest(f"directory symlinks are unavailable on this runner: {exc}")
+        with self.assertRaisesRegex(PermissionError, "must not be a symbolic link"):
+            validate_destination_approval_path(
+                linked_parent / "clip-001.json", "aroanmol7"
+            )
+
     def test_profile_approval_record_path_is_required(self):
         with self.assertRaisesRegex(PermissionError, "profile-specific --approval-record"):
             validate_destination_approval_path(None, "aroanmol7")
