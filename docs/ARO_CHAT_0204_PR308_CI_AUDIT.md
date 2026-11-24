@@ -8,35 +8,31 @@
 - Repository: anmollodhi718Aro/the-aro-gta6-clip-engine
 
 ## Scope
-Independently audit PR #308's own commit-associated GitHub Actions run, Ubuntu and hosted-Windows jobs/logs, checkout refs, compilation/tests, synthetic MP4/FFprobe validation, combined status, and review state. Record evidence only. Do not transfer CI results from PR #307 or any other branch.
+Independently audit PR #308's own commit-associated Actions run, Ubuntu and hosted-Windows jobs/logs, checkout refs, compilation/tests, synthetic MP4/FFprobe validation, combined status, and review state. Record evidence only. Do not transfer CI results from PR #307 or any other branch.
 
 ## Branch and ancestry
 - Branch: `workstream/aro-chat-0204-pr308-exact-head-ci-audit-2026-11-24`
 - Base / starting SHA: PR #308 head `3eb2add67c339e543a46035ec6a29e2485a424f7`
 - Audited PR: [PR #308](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/308)
-- Associated run observed at task start: [Actions run #45402472225](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45402472225)
+- Associated run: [Actions run #45402472225](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45402472225)
 - Report: `docs/ARO_CHAT_0204_PR308_CI_AUDIT.md`
 
-## Initial evidence (2026-11-24)
-- PR #308 is OPEN / DRAFT / UNMERGED.
-- Run #45402472225 was IN_PROGRESS when inspected.
-- Ubuntu job #138474367033: checkout and Python setup completed; FFmpeg/FFprobe installation was IN_PROGRESS; compile, unit tests, and synthetic MP4 validation had not started.
-- Hosted-Windows job #138474366488: checkout and Python 3.11 setup completed; FFmpeg/FFprobe installation was IN_PROGRESS; compile, unit tests, and synthetic MP4 validation had not started.
-- Therefore no compile, test, media-validation, or pass/fail conclusion is claimed at this stage.
-- PR #308 reviews and inline review threads were empty at the initial inspection. Recheck before finalizing; conversation comments and combined status also require verification.
-- Local tests NOT RUN in this connector session.
+## Findings (2026-11-24)
+- PR #308-associated Python CI run #45402472225 completed SUCCESS. Both jobs completed successfully.
+- Ubuntu job #138474367033: compilation passed; 346 tests passed in 3.653s; synthetic first-clip test passed and produced a locally generated 4-second MP4 from an 8-second synthetic pattern/tone.
+- Hosted-Windows job #138474366488: compilation passed; the same 346 tests passed in 17.981s; synthetic first-clip test passed and produced a locally generated 4-second MP4 from an 8-second synthetic pattern/tone.
+- Both jobs checked out `refs/remotes/pull/308/merge` at merge SHA `7671de9a2f7751d8b376c0db6cb960a677c5c7cf`, merging audited PR head `3eb2add67c339e543a46035ec6a29e2485a424f7` into base `f31f1c5d9bbd31cba6450052ff398616995019a9`. Raw-head-only CI is NOT DEMONSTRATED.
+- Both platforms ran the same 346-test suite, not 692 unique tests.
+- Synthetic test logs explicitly report `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. Upload dry-run output reports `upload_performed=false`; mocked uploader tests use a mock ID and do not establish a network upload.
+- Combined commit status for merge SHA and PR head returned zero legacy status entries. PR reviews: empty. Inline review threads: empty. Conversation comments: zero. Independent review NOT RECORDED.
+- Local tests NOT RUN in this connector session. Hosted Windows CI is not owner-device verification. Synthetic media is not authorized real-media acceptance.
 
-## Required audit steps
-1. Re-fetch run #45402472225 and both jobs after completion.
-2. Inspect each job's logs and record exact checkout ref/SHA, compile result, test count/runtime, and synthetic MP4/FFprobe result.
-3. Confirm the two platforms' test counts are the same suite, not additive unique tests.
-4. Verify safety flags: no GTA 6/third-party media, no upload, publishing disabled, manual review required.
-5. Check combined commit status, PR reviews, inline threads, and conversation comments.
-6. Update this report, registry, and startup prompt with only observed evidence. If jobs remain in progress or fail before tests, report that honestly and do not retry workflows.
+## Interpretation
+PR #308's own merge-ref Actions CI is verified on Ubuntu and hosted Windows for compilation, the same 346-test suite, and synthetic MP4/FFprobe validation. The evidence does not prove raw-head-only CI, independent security review, live OAuth, owner-device behavior, creator/source rights, real GTA 6 media compatibility, or permission to upload/publish.
 
-## Safety boundary
+## Safety
 Documentation-only. No application/uploader/test/workflow behavior changes, OAuth, credentials/tokens, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
 Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending independent security review, owner-controlled integration, owner-device verification, and separately authorized real-media PRIVATE acceptance.
 
-## Current status
-IN_PROGRESS: the associated Actions run was still running at initial inspection. This report is not a CI pass and must be updated only after the run's own evidence is available.
+## Status
+CI_VERIFIED for PR #308's merge-ref workflow only. Raw-head-only CI NOT DEMONSTRATED. Independent review NOT RECORDED. REAL_MEDIA_VERIFIED and COMPLETE NOT CLAIMED.
