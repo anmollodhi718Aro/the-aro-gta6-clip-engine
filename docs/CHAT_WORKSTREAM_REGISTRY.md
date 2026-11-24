@@ -1404,3 +1404,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Local repository tests NOT RUN in this connector session. No compile or test count is claimed. Exact-head CI is FAILED / NOT VERIFIED. Independent security review NOT RECORDED; PR #376 review submissions and inline threads were empty at inspection.
 - No workflow retry/dispatch was initiated. PR #376 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 - No source code, test behavior, uploader, OAuth, media, workflow configuration, merge, rebase, retarget, deployment, upload, or publishing behavior was changed during this audit.
+
+
+### Scoped IPv6 zone-identifier rejection follow-up — 2026-11-25
+
+- Static comparison with the current strict-hostname policy found this branch still accepted scoped IPv6 URL hostnames because Python's `ipaddress.IPv6Address` accepts zone identifiers.
+- Production change: `_valid_hostname()` now rejects any percent sign in the parsed hostname before IPv6 parsing. Scoped IPv6 zone identifiers are unsupported at this registry boundary; ordinary IPv6 literals remain accepted.
+- Added negative regressions for URI-encoded `%25` and raw `%` zone delimiters.
+- Production commit: `7306d114dc50bbfe79d5ef2699b3df907f871e04`; test commit: `475a55732d710332a2751c0012c780b75f081ed3`.
+- Local repository tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT YET CHECKED for this code/test head. Independent security review NOT RECORDED.
+- This is a fail-closed source-rights URL validation change only; no DNS resolution, destination-IP policy, uploader, OAuth, media, workflow configuration, or publishing behavior changed.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Do not retry/dispatch workflows without owner direction; keep live uploads/public publishing disabled.
