@@ -49,9 +49,14 @@ def load_destination_profile(
     if not isinstance(profiles, dict) or not profiles:
         raise PermissionError("destination configuration must contain a non-empty profiles object")
     seen_channels: set[str] = set()
+    seen_profile_names: set[str] = set()
     for name, item in profiles.items():
         if not isinstance(name, str) or not isinstance(item, dict):
             raise PermissionError("destination profile entries must be named JSON objects")
+        normalized_name = name.casefold()
+        if normalized_name in seen_profile_names:
+            raise PermissionError("destination profile names must be unique without regard to case")
+        seen_profile_names.add(normalized_name)
         channel_id = item.get("channel_id")
         subject = item.get("google_subject")
         if not isinstance(channel_id, str) or not channel_id.startswith("UC") or len(channel_id) < 10:

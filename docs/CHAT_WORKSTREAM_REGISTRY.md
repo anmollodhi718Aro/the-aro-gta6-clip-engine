@@ -963,3 +963,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #311 exact-head CI for `a95d1cbc22fd2d0653ba8c7b09ea227e76b29edb` was not yet visible at the initial post-creation lookup. Do not claim it passed until the final head's Actions jobs are inspected.
 - Issue #68 implementation is present in the base ancestry and its OIDC verifier is non-recursive there; the older PR #83 head still contains the historical recursive helper and must not be treated as the current implementation.
 - Issue #68 remains OPEN pending independent review and owner-device OAuth/channel verification. No real YouTube upload has occurred. Public publishing remains disabled.
+
+
+## ARO-CHAT-0207 | Case-insensitive destination-profile isolation fix — 2026-11-24
+
+- Follow-up branch: `workstream/aro-chat-0207-casefold-profile-isolation-fix-2026-11-24`, based on PR #311 head `c3d767fd055c80dbd395c5c8821a335ad9b3b258`.
+- Restore casefold-based uniqueness validation for destination-profile names. This prevents case-only profile-name collisions from mapping separate JSON entries to the same OAuth token filename on case-insensitive filesystems.
+- Add regression test `test_case_colliding_profile_names_fail_closed`.
+- Implementation report: `docs/ARO_CHAT_0207_CASEFOLD_PROFILE_COLLISION_FIX.md`; CI closeout: `docs/ARO_CHAT_0207_PR314_CI_CLOSEOUT.md`.
+- Local tests NOT RUN in this connector session. PR #314 Actions run #45421632805 completed SUCCESS: Ubuntu job #138542406428 and hosted-Windows job #138542405807 both passed compile, unit tests, and synthetic MP4/FFprobe validation. Checks are attached to head `13b7a41c68e2a52757854fc6c7cd692535c6cd67`; no raw-head-only checkout or independent review is claimed. PR #313 is a duplicate implementation with its own successful run #45421752370. Both remain draft/open/unmerged pending selection of one canonical PR.
+- PR #311 remains draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, merge, rebase, retarget, deployment, or destructive action.

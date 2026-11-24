@@ -164,3 +164,18 @@ For the current first-test upload priority:
 - It consolidates PR #299's YouTube PRIVATE response verification and PR #300's destination-profile path/symlink hardening and Windows canonical-path tests, avoiding the stale diverged #299 → #300 branch ancestry.
 - Issue #68's corrected authenticated OIDC/channel-owner gate, exact clip/source/hash approval, and source-rights checks are present in the PR #295 base ancestry. Do not use historical PR #83 head `f66f6406a496d08e3e85972010f1f52d831298ab` as current code; that historical snapshot contains a recursive verifier defect.
 - PR #311 exact-head CI must pass on both Ubuntu and Windows before acceptance. Issue #68 stays OPEN until independent security review and owner-device OAuth/channel verification. No live upload or public publishing without separate explicit owner action.
+
+
+## ARO-CHAT-0207 continuation — 2026-11-24
+- Current P1 follow-up: restore case-insensitive uniqueness for destination-profile names on consolidated private-upload PR #311.
+- Branch: `workstream/aro-chat-0207-casefold-profile-isolation-fix-2026-11-24`; base is PR #311 head `c3d767fd055c80dbd395c5c8821a335ad9b3b258`.
+- Security finding: case-only profile names can collide on case-insensitive filesystems because token paths are derived from profile names. The fix restores `casefold()` uniqueness validation and adds `test_case_colliding_profile_names_fail_closed`.
+- Report: `docs/ARO_CHAT_0207_CASEFOLD_PROFILE_COLLISION_FIX.md`. Local tests NOT RUN; this branch's exact-head Ubuntu/Windows CI PENDING. Do not transfer prior PR #311 CI.
+- PR #311 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0207 CI closeout — 2026-11-24
+- PR #314 head `13b7a41c68e2a52757854fc6c7cd692535c6cd67` has successful Ubuntu and hosted-Windows checks in Actions run #45421632805 (jobs #138542406428 and #138542405807).
+- Both jobs passed compile, unit tests, and synthetic MP4/FFprobe validation. This is CI evidence attached to the PR head SHA; do not claim raw-head-only checkout or independent review.
+- PR #313 duplicates the same casefold guard/test and also has successful CI run #45421752370. Keep both draft/open/unmerged until one canonical PR is selected; do not close or merge either automatically.
+- CI closeout: `docs/ARO_CHAT_0207_PR314_CI_CLOSEOUT.md`. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No real-media upload or public publishing.

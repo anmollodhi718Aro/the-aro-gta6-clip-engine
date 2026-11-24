@@ -590,6 +590,15 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
         with self.assertRaisesRegex(PermissionError, "unknown destination profile"):
             load_destination_profile(self.config, "not-a-channel", repository_root=self.root)
 
+    def test_case_colliding_profile_names_fail_closed(self):
+        payload = json.loads(self.config.read_text(encoding="utf-8"))
+        payload["profiles"]["AROANMOL7"] = dict(payload["profiles"]["aroanmol7"])
+        self.config.write_text(json.dumps(payload), encoding="utf-8")
+        with self.assertRaisesRegex(
+            PermissionError, "unique without regard to case"
+        ):
+            load_destination_profile(self.config, "aroanmol7", repository_root=self.root)
+
     def test_duplicate_channel_mapping_fails_closed(self):
         payload = json.loads(self.config.read_text(encoding="utf-8"))
         payload["profiles"]["the_arro07"]["channel_id"] = payload["profiles"]["aroanmol7"]["channel_id"]
