@@ -100,3 +100,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. PR #295 does not resolve the authenticated owner-approval gate. Keep live uploads and public publishing disabled.
 - The canonical product plan is `docs/MASTER_PLAN.md`; the durable chat governance documents are `docs/CHAT_WORKSTREAM_REGISTRY.md` and `docs/ARO_CHAT_STARTUP_PROMPT.md`. No standalone `MASTER_SCRIPT.md` was found at the inspected repository paths.
 - No OAuth flow, credential/token access, real media, network upload, public publishing, merge, retarget, deployment, or destructive action is authorized by this test-only workstream.
+
+
+## ARO-CHAT-0196 CI closeout — 2026-11-24
+- PR #296 exact head `43f6ac4240577a6be22ff1c5b1e3592b168f874a` passed Actions run #45390172214 on hosted Ubuntu and Windows: both compiled, passed the same 332 tests, and passed synthetic MP4/FFprobe validation.
+- Both jobs used merge SHA `c7f9af515708b84f0b628a47a18cb0c9084aed13` (PR #296 head merged into PR #295 base `cf731cabda8a045d39457f0eef800dbdb051e75e`); raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic-only: no GTA 6 footage or third-party media; publishing disabled; manual review required. PR #296 remains draft/open/unmerged; independent review NOT RECORDED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Real-media and owner-device acceptance remain NOT VERIFIED.
