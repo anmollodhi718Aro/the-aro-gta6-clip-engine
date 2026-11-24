@@ -186,3 +186,11 @@ For the current first-test upload priority:
 - PR #317 remains the parent draft; no merge, rebase, retarget, OAuth, credentials, media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 
 - Cross-platform test follow-up commit: `d37681e6af75b6ff81da2c47c67cf2001fb55049` skips the symlink-specific case only on filesystems where symlink creation is unavailable; CI for the resulting head remains independently pending.
+
+
+## ARO-CHAT-0212 continuation — PR #319 exact-head CI audit (2026-11-24)
+
+- Audit branch: `workstream/aro-chat-0212-pr319-exact-head-ci-audit-2026-11-24`, based on audited PR #319 head `4f5ae5d3115449809feeb109be2134e59ce31959`.
+- PR #319 commit-associated workflow lookup returned zero runs; combined legacy statuses returned zero entries; review submissions were empty. Exact-head Ubuntu and hosted-Windows CI remain PENDING / NOT VERIFIED. Local tests NOT RUN; independent review NOT RECORDED.
+- Report: `docs/ARO_CHAT_0212_PR319_CI_AUDIT.md`. This is documentation-only; do not transfer CI from PR #317 or another SHA, and do not retry/dispatch workflows without owner authorization.
+- Keep PR #319 and its parent chain draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; no OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, or deployment.
