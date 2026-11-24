@@ -219,6 +219,38 @@ class YouTubeUploadTests(unittest.TestCase):
                         )
         youtube.videos.return_value.insert.assert_called_once()
 
+    def test_upload_does_not_report_success_when_response_omits_visibility(self):
+        db_path = self.root / "source_rights.sqlite3"
+        self._write_upload_rights(db_path)
+        youtube = Mock()
+        youtube.videos.return_value.insert.return_value.execute.return_value = {
+            "id": "video-789",
+        }
+        with patch.dict(sys.modules, self._mock_google_modules(youtube)):
+            with patch.dict(os.environ, {
+                "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
+                "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
+            }):
+                with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch(
+                    "backend.app.youtube_owner_approval.verify_authenticated_channel_owner",
+                    return_value=self.owner,
+                ):
+                    with self.assertRaisesRegex(RuntimeError, "did not confirm PRIVATE visibility"):
+                        upload_video(
+                            self.video,
+                            {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                            client_secrets=self.client_secrets,
+                            token_path=self.root / "token.json",
+                            rights_report_path=self.report,
+                            approval_record_path=self.root / "approval.json",
+                            rights_db_path=db_path,
+                            clip_id="clip-1",
+                            source_id="source-1",
+                            owner_approved=True,
+                            rights_confirmed=True,
+                        )
+        youtube.videos.return_value.insert.assert_called_once()
+
     def test_revoked_permission_blocks_before_any_upload_api_request(self):
         db_path = self.root / "source_rights.sqlite3"
         registry, _, _ = self._write_upload_rights(db_path)
