@@ -564,3 +564,30 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Build only the local authorized Phase 1 workflow: source registry, permission-gated event intake, deterministic candidates, human review ledger, and registered-scope local renderer.
 - Keep live platform ingestion, OAuth, upload, publishing, deployment, and public release outside this MVP until separate security and owner-acceptance gates are met.
 - Do not reuse third-party watermarked footage. Use synthetic moving patterns for CI and owner-authorized media for real-media acceptance.
+
+
+## CURRENT PROJECT BASELINE — refreshed 2026-11-24 (ARO-CHAT-0184)
+
+- Latest audit workstream: ARO-CHAT-0184 / ARO-GTA-P1-184, branch `workstream/aro-chat-0184-pr266-exact-head-review-readiness-audit-2026-11-24`, based on PR #266 implementation head `25aeede30d0e28296af6e7b6d507e1f6ba96e566`.
+- PR #266 exact-head Python CI run #45373702165 (run 1178) succeeded on Ubuntu and hosted Windows; compile and unit/synthetic-media integration steps passed. PR description records 27 tests per platform; same suite on both platforms. Connector summaries do not expose numeric test output or checkout refs, so raw-head-only checkout is NOT DEMONSTRATED.
+- PR #266 remains OPEN / DRAFT / UNMERGED; review submissions and inline threads were empty at audit. Independent review is PENDING / NOT RECORDED.
+- Real-media acceptance and owner-device Windows acceptance remain NOT VERIFIED. Synthetic generated animation is not real GTA 6 footage.
+- Issue #68 remains a separate security gate. Keep live uploads and public publishing disabled until authenticated channel-owner identity, exact per-clip/source approval, current rights recheck, independent security review, and owner-controlled acceptance are complete.
+- This audit is documentation-only. Do not transfer CI evidence across PRs/SHAs or merge, retarget, deploy, retry workflows, upload, or publish without the required explicit owner approvals.
+
+
+### ARO-CHAT-0184 closeout — 2026-11-24
+
+- PR #267 audit branch head `587e6909d99c8db34ade24ca0c0f2392167e5df7` passed its own Actions run #45380522506 (run 1179) on Ubuntu and hosted Windows. Both compiled and passed unit/synthetic-media integration-test steps.
+- Numeric test count and checkout commit refs were not exposed by the connector; do not infer counts or claim raw-head-only checkout.
+- PR #267 remains OPEN / DRAFT / UNMERGED. Independent review remains NOT RECORDED; no real-media or owner-device Windows acceptance is claimed.
+- The next continuation must re-read the live registry and open PRs, then select the next unreserved workstream. Do not duplicate ARO-CHAT-0184.
+- Keep Issue #68 and all authenticated-owner/live-publishing gates closed. No merge, retarget, deploy, workflow retry, credentials/OAuth, real-media processing, upload, or publishing without the separate required approvals.
+
+
+## Latest continuation baseline — ARO-CHAT-0184 (refreshed 2026-11-24)
+- Workstream: ARO-GTA-P1-184; branch: `workstream/aro-chat-0184-pr266-exact-head-review-readiness-audit-2026-11-24`; audit PR #267.
+- Audited implementation PR #266 exact head `25aeede30d0e28296af6e7b6d507e1f6ba96e566`: run #45373702165 succeeded on Ubuntu and hosted Windows; 27 tests per platform are PR-recorded, numeric output/checkout refs not exposed; independent review pending.
+- Audit PR #267 latest head `0b79f174e2f1935c5db842b2f59223dfd598fdbe`: exact-head run #45380690338 (run 1180) succeeded on Ubuntu and hosted Windows. Numeric test count and checkout refs not exposed; raw-head-only checkout not demonstrated.
+- PR #267 remains OPEN / DRAFT / UNMERGED; review submissions, inline threads, and conversation comments are empty. Independent review pending.
+- Continue documentation-only closeout/review readiness. No source behavior changes, workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, uploads, or publishing. Issue #68 remains a separate open security gate; live uploads/public publishing stay disabled.
