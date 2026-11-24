@@ -461,3 +461,9 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Local tests NOT RUN in this connector session. Exact-head CI status: FAILED / NOT VERIFIED. No test count or compile result is claimed.
 - No workflow retry/dispatch was initiated. PR #371 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 - No source, test, uploader, OAuth, media, or workflow behavior was changed in this audit. No credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0235 empty-port URL validation follow-up — 2026-11-25
+- Static review found an explicitly empty URL port such as `https://example.com:/video` is parsed with `.port is None` rather than raising. Added rejection for authority strings ending in `:` and regression tests for DNS and IPv6 authorities.
+- Production commit `15f68da1e3416ee2b785b5d4a47c140a11e43917`; test commit `41d42e89eeb3adc9e7dd2607e4f7b638214d8982`.
+- Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI and independent security review NOT VERIFIED. PR #371 remains DRAFT / OPEN / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
