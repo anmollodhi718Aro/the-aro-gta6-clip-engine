@@ -1144,3 +1144,6 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Regression: mocked fstat metadata mutation during read must fail closed.
 - Parent PR #353 exact-head CI: no associated workflow run returned; NOT VERIFIED. This branch CI pending; local tests NOT RUN; independent review NOT RECORDED.
 - Draft only; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
+
+
+- ARO-CHAT-0225 fixture follow-up: baseline fstat now uses a context-managed test file handle; fixture descriptor is closed before the mocked read. Production behavior unchanged; exact-head CI pending.
