@@ -417,3 +417,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - PR #369 head `8185687919138671deff872f6a7f35f86eafc27c` had associated run #45485759897 completed FAILURE. Job-step/log detail was unavailable; cause NOT VERIFIED. Do not claim this continuation fixes the parent failure.
 - Local tests NOT RUN. This branch's exact-head Ubuntu and hosted-Windows CI PENDING. Independent security review NOT RECORDED.
 - Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No OAuth, credentials, real media, network upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+### ARO-CHAT-0235 source URL validation follow-up — 2026-11-25
+
+- Continued existing PR #371 / ARO-GTA-P1-235; no duplicate branch or PR created.
+- Added URL authority validation to the rights registry: require HTTP(S), a non-empty whitespace-free hostname, a valid port, and no embedded URL credentials.
+- Added malformed URL and valid HTTP/HTTPS regression tests.
+- Local tests NOT RUN. Fresh exact-head Ubuntu and hosted-Windows CI PENDING; inspect actual run results before claiming verification.
+- Keep PR #371 draft/open/unmerged and preserve its stacked ancestry. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
