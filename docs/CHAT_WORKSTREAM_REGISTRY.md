@@ -1723,3 +1723,10 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Its own workflow lookup and check-runs returned zero entries; combined status is empty. PR #259 CI PENDING / NOT VERIFIED; do not transfer PR #257's CI.
 - PR #259 remains OPEN / DRAFT / UNMERGED; mergeable=false. Reviews, inline threads, and comments are empty; independent review NOT RECORDED.
 - Audit PR #259 changes only documentation. No workflow retry, merge, or retarget.
+
+
+### ARO-CHAT-0178 latest live-head refresh — 2026-11-24 13:18 IST
+- PR #257 current exact head: `cb12b8a1509d00ff9ec0a7ebce5dc25977bcba58` (supersedes prior recorded `ee3b80ba9032a20cf6386a050e966535811fbd50`).
+- Current-head workflow runs: 0; combined status entries: 0; reviews: 0; inline threads: 0; conversation comments: 0.
+- Exact-head CI remains PENDING / NOT VERIFIED. No jobs/logs, compile, tests, or synthetic render are available. No CI result is transferred from another SHA.
+- PR #257 remains OPEN / DRAFT / UNMERGED; keep Issue #68's live-upload/publication gate closed.
