@@ -371,3 +371,10 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Added a test-only regression with two synchronized revocation attempts against one source ID. Expected result: one `True`, one `False`, and one revocation audit event.
 - Production code unchanged. Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED.
 - Preserve draft-only boundaries. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action. Keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0229 continuation — atomic rights-revocation audit rollback (2026-11-25)
+- Suggested chat title: `ARO-CHAT-0229 | Verify Atomic Rights-Revocation Audit Rollback`.
+- Workstream ARO-GTA-P1-229; branch `workstream/aro-chat-0229-atomic-revocation-audit-rollback-2026-11-25`; base is PR #359 branch `workstream/aro-chat-0228-atomic-rights-revocation-2026-11-25`.
+- Test-only regression rejects a revocation audit insert through a temporary SQLite trigger, then verifies the failed audit write rolls back the rights update and preserves the registration-only audit history.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED. Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL and live uploads/public publishing disabled.
