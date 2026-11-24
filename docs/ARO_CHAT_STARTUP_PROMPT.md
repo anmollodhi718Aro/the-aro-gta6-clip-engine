@@ -260,3 +260,10 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Scoped review of this PR's own delta found no defect in media-handle cleanup or PRIVATE-only restrictions. This is not independent security approval of the inherited uploader/approval lineage; PR #339 has no recorded review submissions or inline review threads.
 - PR #339 remains OPEN/DRAFT/UNMERGED. Parent PR #328 ancestry is separately non-mergeable; do not merge/rebase/retarget automatically. Issue #68 remains OPEN and owner-assigned, not approved for live use.
 - Next: obtain independent security review of the full consolidated uploader/approval lineage and reconcile the stacked PR ancestry. Keep live uploads/public publishing disabled; no OAuth, credentials, real media, network upload, merge, deployment, or publishing.
+
+
+### Documentation follow-up head distinction
+
+- The green run above validates the functional PR head `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722` via its merge-ref checkout.
+- Subsequent commits in this work session update only the three documentation files (workstream report, startup handoff, and registry). The latest documentation-only branch tip has no associated Actions run returned; therefore latest-tip CI is NOT VERIFIED.
+- No application code or tests changed after the green functional head. Do not describe the current documentation-only tip as independently CI-verified.
