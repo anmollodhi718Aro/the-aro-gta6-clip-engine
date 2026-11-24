@@ -963,3 +963,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #311 exact-head CI for `a95d1cbc22fd2d0653ba8c7b09ea227e76b29edb` was not yet visible at the initial post-creation lookup. Do not claim it passed until the final head's Actions jobs are inspected.
 - Issue #68 implementation is present in the base ancestry and its OIDC verifier is non-recursive there; the older PR #83 head still contains the historical recursive helper and must not be treated as the current implementation.
 - Issue #68 remains OPEN pending independent review and owner-device OAuth/channel verification. No real YouTube upload has occurred. Public publishing remains disabled.
+
+
+### ARO-CHAT-0201 independent security review correction — 2026-11-24
+- Review of the first CI-green PR #311 head found two regressions relative to its PR #295 base: case-insensitive profile-name uniqueness had been removed, allowing names such as `aroanmol7` and `AROANMOL7` to collide on case-insensitive filesystems and share a token path; and profile-specific approval-record directory validation had been removed from the CLI.
+- Restored `casefold()` uniqueness validation and restored `validate_destination_approval_path()` enforcement before approval/upload work.
+- Added regression tests for case-insensitive profile-name collisions, valid profile-specific approval directories, mismatched/shared approval directories, and missing approval-record paths.
+- Code commits: `30229510555805bb9c723c66403bb5695ffa726f` (production guards) and `566e19440add291fd0ceedc48aee662e314cf697` (regression tests).
+- The earlier PR #311 CI run #45418114502 passed Ubuntu and hosted Windows on the PRE-FIX head only; it does NOT validate these new commits. Re-run/inspect exact-head CI after the documentation updates.
+- PR #311 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN. No OAuth, credentials, real media, upload, public publishing, merge, or deployment was performed.
