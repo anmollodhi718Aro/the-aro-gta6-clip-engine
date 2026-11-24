@@ -19,6 +19,10 @@ ALLOWED_USES = frozenset({"analyze", "edit", "publish"})
 
 def _valid_hostname(hostname: str) -> bool:
     """Accept DNS/IDNA names and IPv6 literals; reject malformed host labels."""
+    # Scoped IPv6 zone identifiers are host-interface-specific and are not
+    # valid portable source hosts. Reject percent escapes before IP parsing.
+    if "%" in hostname:
+        return False
     if ":" in hostname:
         try:
             ipaddress.IPv6Address(hostname)
