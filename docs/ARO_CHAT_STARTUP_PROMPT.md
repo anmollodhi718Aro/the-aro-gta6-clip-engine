@@ -259,3 +259,11 @@ For the current first-test upload priority:
 - PR #332 exact head `b97b6272356f4ee07d6708ced8fbd37354864194` completed associated run #45427815827 SUCCESS. Ubuntu job #138564697043 and hosted-Windows job #138564696271 both completed compile, full unittest and synthetic MP4/FFprobe steps successfully.
 - Numeric test counts/durations, checkout SHA and synthetic report payload are not exposed. Raw-head-only checkout NOT DEMONSTRATED. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
 - PR #332 remains OPEN / DRAFT / UNMERGED with no recorded independent review. PR #336 follow-up own CI is PENDING / NOT VERIFIED at its latest observed head; inspect the final head independently.
+
+
+### ARO-CHAT-0217 CI evidence refresh — 2026-11-24
+- PR #332 head `b97b6272356f4ee07d6708ced8fbd37354864194` completed its own run #45427815827 successfully on Ubuntu and hosted Windows for compile, full unittest, and synthetic MP4/FFprobe stages. Numeric counts and raw checkout SHA were not exposed.
+- Follow-up PR #336 head `3d537f9df3830728f63fda4ee6a8133166475dec` completed its own run #45428154454 successfully: Ubuntu 344 tests passed; hosted Windows 344 tests ran with 2 skipped. Both platforms passed compile and synthetic MP4/FFprobe.
+- Related PR #335 test-only head `2779aee7b752433b72753ea77419f8ce3d1ae806` completed run #45428127882 successfully: Ubuntu 342 tests passed; hosted Windows 342 tests ran with 2 skipped. Both platforms passed compile and synthetic MP4/FFprobe.
+- These are separate head-scoped CI results. Hosted Windows is not owner-device verification; synthetic media is not GTA 6 real-media acceptance. No independent review is recorded for PRs #335 or #336.
+- Preserve all draft/open/unmerged PRs. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, OAuth, credentials, real media, live upload, merge, rebase, retarget, deployment, or destructive action.
