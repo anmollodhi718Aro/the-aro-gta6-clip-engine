@@ -599,3 +599,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Latest current-head run #45380924403 (run 1187) passed on Ubuntu and hosted Windows; both compiled and passed unit/synthetic-media integration-test steps. Numeric test output and checkout refs were not exposed; do not infer test count or raw-head-only checkout.
 - PR #267 remains OPEN / DRAFT / UNMERGED; reviews, inline threads, and conversation comments are empty; independent review not recorded. Keep Issue #68/live publishing gates closed.
 - Documentation-only; no workflow retry, merge, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### ARO-CHAT-0185 publication follow-up (2026-11-24)
+- Audit PR: #270, branch `workstream/aro-chat-0185-pr267-live-head-ci-audit-refresh-2026-11-24`, based on PR #267 live head `25ebb3731c9aaf159e67f744c4ae33047a013f7a`.
+- PR #267 exact-head run #45380924403 passed Ubuntu and hosted Windows. This evidence applies only to PR #267's audited SHA.
+- PR #270 head `16e8b75feddb4552bddd14db1482bad833c7f7e3` had zero associated workflow runs at initial post-creation inspection; audit PR CI PENDING / NOT VERIFIED. Re-fetch exact head and inspect its own jobs; never transfer CI.
+- Keep PR #270 draft-only, with no merge/retarget/retry. Issue #68 and live publishing gates remain closed.
