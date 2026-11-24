@@ -206,9 +206,14 @@ class YouTubeUploadTests(unittest.TestCase):
 
         youtube.videos.return_value.insert.side_effect = insert_with_source_replacement
         modules = self._mock_google_modules(youtube)
-        modules["googleapiclient.http"].MediaFileUpload.side_effect = (
-            lambda filename, **kwargs: types.SimpleNamespace(filename=filename)
-        )
+        media_streams = []
+
+        def media_file_upload(filename, **kwargs):
+            stream = open(filename, "rb")
+            media_streams.append(stream)
+            return types.SimpleNamespace(filename=filename, _fd=stream)
+
+        modules["googleapiclient.http"].MediaFileUpload.side_effect = media_file_upload
         with patch.dict(sys.modules, modules):
             with patch.dict(os.environ, {
                 "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
@@ -232,6 +237,8 @@ class YouTubeUploadTests(unittest.TestCase):
                         rights_confirmed=True,
                     )
         self.assertEqual(result["video_id"], "video-snapshot")
+        self.assertEqual(len(media_streams), 1)
+        self.assertTrue(media_streams[0].closed)
         youtube.videos.return_value.insert.assert_called_once()
 
     def test_upload_does_not_report_success_without_private_visibility_confirmation(self):
