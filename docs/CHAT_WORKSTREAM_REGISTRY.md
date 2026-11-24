@@ -1775,3 +1775,16 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Parent renderer PR: #263. This is a stacked implementation PR, not a duplicate renderer PR.
 - Safety: no platform scraping, live ingestion, OAuth, uploads, public publishing, deployment, merge, or destructive actions. The uploaded watermarked sample is not project footage; CI uses synthetic generated animation.
 - Status: IMPLEMENTED; CI_VERIFIED on exact implementation head d125e58e937b1b50b22b6ba0f5f0435f250156a1. Actions run #45373360816 (run 1175) passed Ubuntu and hosted Windows; each platform ran the same 27-test suite, compile passed, and synthetic moving MP4/FFprobe validation passed. Run #45373184825 (run 1173) exposed one fixture timestamp mismatch; test fixture was corrected before the verified head. PR #266 remains OPEN / DRAFT / UNMERGED; independent review NOT RECORDED. REAL_MEDIA_VERIFIED NOT VERIFIED.
+
+
+## Latest continuation — ARO-CHAT-0184 (2026-11-24)
+
+- Chat title: `ARO-CHAT-0184 | PR #266 Exact-Head CI Audit`; workstream: ARO-GTA-P1-184.
+- Scope: documentation-only independent audit of PR #266's exact current head, commit-associated Actions run, Ubuntu/hosted-Windows jobs and logs, compile/tests, synthetic MP4/FFprobe, combined status, and review state.
+- Branch: `workstream/aro-chat-0184-pr266-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #266 head `25aeede30d0e28296af6e7b6d507e1f6ba96e566`.
+- PR #266 remains OPEN / DRAFT / UNMERGED. Its exact-head run #45373702165 (run 1178) passed on Ubuntu and hosted Windows; both platforms compiled, passed the same 27-test suite, and passed synthetic animation MP4/FFprobe validation.
+- Two exact-head check-runs are SUCCESS. Combined commit status is PENDING with zero entries; report both facts separately. Raw-head-only checkout is NOT DEMONSTRATED.
+- Reviews, inline review comments, and conversation comments were empty; independent review NOT RECORDED. Local tests NOT RUN in this connector session.
+- Report: `docs/ARO_CHAT_0184_PR266_CI_AUDIT.md`. Never transfer this CI result to another PR or SHA.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live/public uploads disabled. Hosted Windows is not owner-device verification; real-media acceptance remains NOT VERIFIED.
+- Documentation-only. No OAuth, credentials, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.

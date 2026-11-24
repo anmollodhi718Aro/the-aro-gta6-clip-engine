@@ -564,3 +564,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Build only the local authorized Phase 1 workflow: source registry, permission-gated event intake, deterministic candidates, human review ledger, and registered-scope local renderer.
 - Keep live platform ingestion, OAuth, upload, publishing, deployment, and public release outside this MVP until separate security and owner-acceptance gates are met.
 - Do not reuse third-party watermarked footage. Use synthetic moving patterns for CI and owner-authorized media for real-media acceptance.
+
+
+## Latest continuation baseline — ARO-CHAT-0184 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0184 | PR #266 Exact-Head CI Audit`; workstream ARO-GTA-P1-184.
+- Audit branch: `workstream/aro-chat-0184-pr266-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #266 exact head `25aeede30d0e28296af6e7b6d507e1f6ba96e566`.
+- PR #266 exact-head Actions run #45373702165 (run 1178) passed on Ubuntu and hosted Windows. Each platform passed compile, the same 27-test suite, and synthetic animation MP4/FFprobe validation.
+- Two check-runs are SUCCESS; combined commit status is PENDING with zero entries. Raw-head-only checkout NOT DEMONSTRATED. Reviews and comments are empty; independent review NOT RECORDED.
+- Report: `docs/ARO_CHAT_0184_PR266_CI_AUDIT.md`. Do not transfer CI evidence to another PR/SHA.
+- PR #266 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live/public uploads disabled. Owner-device Windows and real-media acceptance are NOT VERIFIED.
+- Documentation-only continuation. No OAuth, credentials, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
