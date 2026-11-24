@@ -40,3 +40,15 @@ PR #295 adds local destination profiles with distinct Google OIDC subjects, YouT
 ## Status
 
 IN_PROGRESS. Ubuntu exact-head job passed; hosted-Windows exact-head job pending at initial inspection. Final closeout requires re-fetching the run, both jobs/logs, checkout refs, combined status, and review/comment collections.
+
+
+## Exact-head CI closeout — 2026-11-24
+
+- PR #295 exact head `cf731cabda8a045d39457f0eef800dbdb051e75e` completed run [#45390003956](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45390003956) (run 1233) with conclusion SUCCESS.
+- Ubuntu job #138430897019 and hosted-Windows job #138430897645 both passed source compilation, the same 331-test unittest suite, and synthetic MP4 render/FFprobe validation. Test durations were 4.967s Ubuntu and 13.868s Windows. This is 331 shared tests on two hosted platforms, not 662 unique tests.
+- Both jobs checked out PR #295 merge ref at merge SHA `0568fdb4b4453f97bbd51e639343dd0f1d9aea5d`, merging audited head `cf731cabda8a045d39457f0eef800dbdb051e75e` into base `4e01f16e97b2239c74a2f96c4262b04b57a4ae73`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic evidence only: logs report `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`, and mocked `upload_performed=false`.
+- Combined status remains `pending` with zero legacy status entries. The Actions run is green, but no separate legacy status context was reported.
+- PR #295 review submissions, inline review comments, and conversation comments were empty at inspection; independent review NOT RECORDED. PR #295 remains OPEN / DRAFT / UNMERGED.
+- Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED. No workflow retry, OAuth, credentials, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action occurred.
+- Final audit status: CI_VERIFIED for PR #295's exact-head-associated merge-ref run on hosted Ubuntu and Windows; independent review NOT RECORDED.
