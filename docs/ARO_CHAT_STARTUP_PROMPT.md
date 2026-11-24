@@ -171,3 +171,9 @@ For the current first-test upload priority:
 - PR #300's live diff includes `backend/app/youtube_upload.py` in addition to the test and two docs. The production changes add repository-bound profile validation, symlink checks for token storage, atomic token persistence, and stricter rights-report validation. Treat this as production/security code, not a test-only patch.
 - Independent security review and tests for the production changes remain required. Exact-head CI has not been observed; no local tests are claimed.
 - GitHub reports PR #300 dirty/non-mergeable and 5 commits behind its recorded base. Do not rebase, retarget, or merge without explicit owner approval.
+
+
+### ARO-CHAT-0197 security regression test continuation — 2026-11-24
+- Added six regression tests for OAuth token persistence/symlink rejection and fail-closed rights-report asset validation/source authorization. Test commit: `eb50a7d493d244eaea459dcc6256ae81b4a83192`.
+- Exact-head Ubuntu and hosted-Windows CI is pending; no local test run is claimed. PR #300 remains draft/open/unmerged and its base branch is diverged. Do not rebase, retarget, or merge without explicit owner approval.
+- No OAuth, credentials, real media, API upload, publishing, deployment, or destructive action occurred. Issue #68 remains open / WAITING_FOR_OWNER_APPROVAL.
