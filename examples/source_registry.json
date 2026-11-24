@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "sources": [{
+    "source_id": "synthetic-demo-stream",
+    "creator_name": "Synthetic Demo Creator",
+    "owner_contact": "",
+    "permission_evidence_ref": "synthetic-fixture-only",
+    "permitted_platforms": ["local-review"],
+    "attribution": "Synthetic test data only; not authorization for real media.",
+    "permission": {
+      "source_id": "synthetic-demo-stream",
+      "granted_by": "synthetic-fixture",
+      "scopes": ["analyze_chat", "edit_media"],
+      "granted_at": "2026-01-01T00:00:00+00:00",
+      "expires_at": null,
+      "revoked_at": null
+    }
+  }]
+}

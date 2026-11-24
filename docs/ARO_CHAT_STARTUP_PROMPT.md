@@ -556,3 +556,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #264 exact head `c00f0b4070bc8941619b219897b609fa9368510c` passed run #45371891963: Ubuntu and hosted Windows each compiled, passed 16 tests, and passed synthetic MP4/FFprobe integration. Both jobs used PR merge ref `1186fdf`; raw-head-only checkout is NOT DEMONSTRATED.
 - PR #264 was squash-merged into the feature branch as `0c7d3226e903560a01e8335172f73088d5876ac1`. PR #263 remains open/draft/unmerged against main. Its post-merge head and subsequent documentation updates require their own exact-head CI; do not transfer PR #264's run.
 - No real-media verification, OAuth, upload, or publishing. Hosted Windows CI does not replace owner-device Windows acceptance. Issue #68 security and owner-acceptance gates remain closed.
+
+
+## Latest continuation — ARO-CHAT-0182
+
+- Current local MVP core workstream: ARO-CHAT-0182 / ARO-GTA-P1-182, branch feature/authorized-mvp-core-0182, based on renderer branch head 065daab77624ce1adb65f61c61eee1dbcadd8303.
+- Build only the local authorized Phase 1 workflow: source registry, permission-gated event intake, deterministic candidates, human review ledger, and registered-scope local renderer.
+- Keep live platform ingestion, OAuth, upload, publishing, deployment, and public release outside this MVP until separate security and owner-acceptance gates are met.
+- Do not reuse third-party watermarked footage. Use synthetic moving patterns for CI and owner-authorized media for real-media acceptance.

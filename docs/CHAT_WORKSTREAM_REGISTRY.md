@@ -1764,3 +1764,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Parent feature PR: [#263](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/263).
 - Status: IMPLEMENTED; CI_VERIFIED on Ubuntu + hosted Windows for PR #264 exact head (run #45371891963; 16 tests per platform); PR #264 merged into feature branch; PR #263 post-merge head CI pending; independent review NOT RECORDED.
 - Safety: synthetic test media only; no real GTA 6 footage, credentials, network upload, publishing, merge, retarget, or deployment. Hosted Windows CI is not owner-device Windows verification.
+
+
+## Latest authorized MVP core workstream — ARO-CHAT-0182 (2026-11-24)
+
+- Exact chat title: ARO-CHAT-0182 | Complete the Local Authorized MVP Core.
+- Workstream ID: ARO-GTA-P1-182.
+- Scope: durable local source registry, permission-gated event normalization/deduplication, stable candidate IDs, append-only human-review ledger/CLI, and render-time enforcement of registered edit_media scope.
+- Branch: feature/authorized-mvp-core-0182; base: feature/local-authorized-ffmpeg-renderer; starting SHA: 065daab77624ce1adb65f61c61eee1dbcadd8303.
+- Parent renderer PR: #263. This is a stacked implementation PR, not a duplicate renderer PR.
+- Safety: no platform scraping, live ingestion, OAuth, uploads, public publishing, deployment, merge, or destructive actions. The uploaded watermarked sample is not project footage; CI uses synthetic generated animation.
+- Initial status: IN_PROGRESS pending exact-head tests and CI.
