@@ -21,9 +21,10 @@ PR #355 changes source-rights registration to a single INSERT and rejects duplic
 
 - GitHub branch/file writes completed.
 - Local tests: NOT RUN in this connector session.
-- Exact-head Ubuntu and hosted-Windows CI: PENDING until PR workflow reports.
+- PR-head-associated Actions run #45462145169 completed SUCCESS on 2026-11-25. Both `tests` (Ubuntu) and `windows-tests` jobs completed compile, unit-test, and synthetic MP4/FFprobe steps successfully. The connector did not expose numeric test totals or the checked-out merge/head SHA, so raw-head-only execution and exact checkout identity are NOT VERIFIED.
 - Independent security review: NOT RECORDED.
-- No test result is inferred from parent PR #355 or its earlier CI.
+- Do not transfer parent PR #355 CI evidence to this branch. This run is associated with PR #357's then-current branch tip `5e8dc2baeb822a988fc527d1cba3f35fc4bc5e1f`; checkout identity is not independently exposed.
+- Ancestry check against PR #355's recorded current head `4ceba80e02f28c52946d3d143cbb7fa4e31d611e` reports DIVERGED: 3 commits ahead / 10 behind; merge base `f2bd2982216280852f5b823796dc3700c16f2e7d`. Parent branch advanced after this branch's starting point. Preserve the draft; no rebase, retarget, or merge.
 
 ## Safety
 
