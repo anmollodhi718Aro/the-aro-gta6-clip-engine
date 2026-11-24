@@ -253,5 +253,32 @@ class SourceRightsRegistryTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.registry.revoke("creator-video-1", actor="owner", at=0)
 
+
+    def test_register_rejects_blank_required_text_fields(self):
+        for field in ("source_id", "source_url", "grantor", "evidence_ref"):
+            for invalid in ("", "   "):
+                with self.subTest(field=field, value=repr(invalid)):
+                    with self.assertRaises(ValueError):
+                        self.registry.register(dict(self.record, **{field: invalid}))
+
+    def test_register_rejects_falsey_explicit_timestamps(self):
+        for field in ("valid_from", "expires_at"):
+            for invalid in ("", False, 0):
+                with self.subTest(field=field, value=repr(invalid)):
+                    with self.assertRaises(ValueError):
+                        self.registry.register(dict(self.record, **{field: invalid}))
+
+    def test_authorize_and_revoke_reject_all_falsey_explicit_timestamps(self):
+        self.registry.register(self.record)
+        for invalid in ("", False, 0):
+            with self.subTest(operation="authorize", value=repr(invalid)):
+                with self.assertRaises(ValueError):
+                    self.registry.authorize(
+                        "creator-video-1", "publish", "youtube", at=invalid
+                    )
+            with self.subTest(operation="revoke", value=repr(invalid)):
+                with self.assertRaises(ValueError):
+                    self.registry.revoke("creator-video-1", actor="owner", at=invalid)
+
 if __name__ == "__main__":
     unittest.main()
