@@ -489,3 +489,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #256 is OPEN / DRAFT / UNMERGED and GitHub reports `mergeable=false`; reviews and comments are empty. Independent review NOT RECORDED.
 - Report: `docs/ARO_CHAT_0176_PR256_CI_AUDIT.md`. Re-fetch the exact PR head before closeout; never assign TESTED or CI_VERIFIED without observed evidence.
 - Documentation-only. Keep Issue #68 open and live/public uploads disabled. No workflow retry, credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0177 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0177 | PR #257 Exact-Head CI Audit`.
+- Active workstream: ARO-GTA-P1-177; branch `workstream/aro-chat-0177-pr257-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #257 exact head `8e8f92f102955fdb3a2c69090d3787a8d97a8dc9`.
+- Audit PR #257's own exact-head Actions run/check-runs, combined status, reviews, inline threads, and conversation comments. If a run appears, inspect Ubuntu and hosted-Windows jobs/logs, checkout refs, compilation/tests, and synthetic MP4/FFprobe.
+- Initial exact-head workflow-run lookup returned zero runs; combined status returned an empty status list. CI is PENDING / NOT VERIFIED; no passing result is inferred.
+- PR #257 is OPEN / DRAFT / UNMERGED; GitHub reports `mergeable=false`; reviews, inline threads, and conversation comments are empty. Independent review NOT RECORDED.
+- No jobs/logs exist to inspect. Checkout refs, compilation, unit tests, and synthetic MP4/FFprobe are NOT VERIFIED / NOT RUN. Re-fetch PR #257's exact head before closeout; never assign TESTED or CI_VERIFIED without observed evidence.
+- Report: `docs/ARO_CHAT_0177_PR257_CI_AUDIT.md`.
+- Keep Issue #68 open and live/public uploads disabled. No workflow retry, credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
