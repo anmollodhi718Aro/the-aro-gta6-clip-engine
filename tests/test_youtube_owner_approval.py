@@ -294,6 +294,22 @@ class OwnerApprovalTests(unittest.TestCase):
         with self.assertRaisesRegex(PermissionError, "invalid review time"):
             self.gate(at=NOW - timedelta(minutes=1))
 
+    def test_approval_path_replacement_between_stat_and_open_is_rejected(self):
+        import backend.app.youtube_owner_approval as approval_module
+
+        replacement = self.root / "replacement-approval.json"
+        replacement.write_text(self.record.read_text(encoding="utf-8"), encoding="utf-8")
+        original_open = approval_module.os.open
+
+        def replace_then_open(path, flags, *args, **kwargs):
+            if Path(path) == self.record:
+                os.replace(replacement, self.record)
+            return original_open(path, flags, *args, **kwargs)
+
+        with patch("backend.app.youtube_owner_approval.os.open", side_effect=replace_then_open):
+            with self.assertRaisesRegex(PermissionError, "changed while opening"):
+                self.gate()
+
     def test_directory_approval_path_is_rejected(self):
         directory_path = self.root / "approval-directory"
         directory_path.mkdir()
