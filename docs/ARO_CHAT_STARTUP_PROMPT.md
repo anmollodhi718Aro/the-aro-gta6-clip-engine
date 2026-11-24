@@ -501,3 +501,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - No jobs/logs exist to inspect. Checkout refs, compilation, unit tests, and synthetic MP4/FFprobe are NOT VERIFIED / NOT RUN. Re-fetch PR #257's exact head before closeout; never assign TESTED or CI_VERIFIED without observed evidence.
 - Report: `docs/ARO_CHAT_0177_PR257_CI_AUDIT.md`.
 - Keep Issue #68 open and live/public uploads disabled. No workflow retry, credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — refreshed 2026-11-24 (ARO-CHAT-0178)
+
+- Latest reserved workstream: ARO-CHAT-0178 / ARO-GTA-P1-178, documentation-only exact-head CI audit of PR #258.
+- Branch: `workstream/aro-chat-0178-pr258-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #258 exact head `fdea8dd8cf6fe47e189607a0d5f8f0e63b6f0f89`.
+- PR #258 was OPEN / DRAFT / UNMERGED at inspection. Its latest-100-run search had no matching run; commit check-runs were empty and combined status was pending with zero entries. Reviews, inline comments, and conversation comments were empty.
+- No compile, unit-test, synthetic MP4/FFprobe, or checkout-ref evidence exists for PR #258 at this inspection. Do not transfer another PR's CI.
+- Next step: re-fetch PR #258's current head and its own exact-head checks before closing the audit. Keep the task documentation-only.
+- Issue #68 remains OPEN / NOT IMPLEMENTED with owner-approval/security gates unresolved. Keep live uploads/public publishing disabled.
+- No workflow retry, OAuth, credentials/tokens, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
