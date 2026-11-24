@@ -195,5 +195,90 @@ class SourceRightsRegistryTests(unittest.TestCase):
         self.assertEqual(self.registry.audit_events("creator-video-1"), [])
 
 
+
+    def test_register_rejects_malformed_source_urls(self):
+        invalid_urls = (
+            "https://",
+            "http://",
+            "https:///video",
+            "ftp://example.com/video",
+            "https://example.com:bad/video",
+            "https://example.com:/video",
+            "https://[::1]:/video",
+            "https://example.com:70000/video",
+            "https://user:password@example.com/video",
+            "https://exa mple.com/video",
+            "https://exa\nmple.com/video",
+            "https://exa\tmple.com/video",
+            "https://example.com\\\\@evil.example/video",
+        )
+        for source_url in invalid_urls:
+            with self.subTest(source_url=source_url):
+                with self.assertRaises(ValueError):
+                    self.registry.register(dict(self.record, source_url=source_url))
+
+    def test_register_accepts_http_and_https_source_urls(self):
+        for index, source_url in enumerate(("http://example.com/video", "https://example.com/video")):
+            with self.subTest(source_url=source_url):
+                record = dict(self.record, source_id=f"url-source-{index}", source_url=source_url)
+                self.registry.register(record)
+                self.assertEqual(
+                    self.registry.authorize(
+                        record["source_id"], "publish", "youtube", at=self.now
+                    )["source_url"],
+                    source_url,
+                )
+    def test_register_rejects_non_string_rights_metadata(self):
+        for field in ("source_id", "source_url", "grantor", "evidence_ref"):
+            with self.subTest(field=field):
+                with self.assertRaises(ValueError):
+                    self.registry.register(dict(self.record, **{field: 7}))
+        for field in ("attribution", "disclosure"):
+            for invalid in (None, 7, []):
+                with self.subTest(field=field, value=invalid):
+                    with self.assertRaises(ValueError):
+                        self.registry.register(dict(self.record, **{field: invalid}))
+
+    def test_register_rejects_non_datetime_timestamp_values(self):
+        for field in ("valid_from", "expires_at"):
+            for invalid in (7, [], object()):
+                with self.subTest(field=field, value_type=type(invalid).__name__):
+                    with self.assertRaises(ValueError):
+                        self.registry.register(dict(self.record, **{field: invalid}))
+
+    def test_authorize_and_revoke_reject_invalid_explicit_timestamps(self):
+        self.registry.register(self.record)
+        with self.assertRaises(ValueError):
+            self.registry.authorize("creator-video-1", "publish", "youtube", at=0)
+        with self.assertRaises(ValueError):
+            self.registry.revoke("creator-video-1", actor="owner", at=0)
+
+
+    def test_register_rejects_blank_required_text_fields(self):
+        for field in ("source_id", "source_url", "grantor", "evidence_ref"):
+            for invalid in ("", "   "):
+                with self.subTest(field=field, value=repr(invalid)):
+                    with self.assertRaises(ValueError):
+                        self.registry.register(dict(self.record, **{field: invalid}))
+
+    def test_register_rejects_falsey_explicit_timestamps(self):
+        for field in ("valid_from", "expires_at"):
+            for invalid in ("", False, 0):
+                with self.subTest(field=field, value=repr(invalid)):
+                    with self.assertRaises(ValueError):
+                        self.registry.register(dict(self.record, **{field: invalid}))
+
+    def test_authorize_and_revoke_reject_all_falsey_explicit_timestamps(self):
+        self.registry.register(self.record)
+        for invalid in ("", False, 0):
+            with self.subTest(operation="authorize", value=repr(invalid)):
+                with self.assertRaises(ValueError):
+                    self.registry.authorize(
+                        "creator-video-1", "publish", "youtube", at=invalid
+                    )
+            with self.subTest(operation="revoke", value=repr(invalid)):
+                with self.assertRaises(ValueError):
+                    self.registry.revoke("creator-video-1", actor="owner", at=invalid)
+
 if __name__ == "__main__":
     unittest.main()

@@ -1231,3 +1231,108 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Production commits `6f401febec441d6ca8511a14fbe2f51c1fa6a0d2` and `267d298a03c21a3a8bea38d6e7f10be1a25633f9` (actor normalization); test commit `73a5a7495b82bb45417b3f10af562f7fea839370`.
 - Local tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI PENDING until observed. Independent security review NOT RECORDED.
 - PR is draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+## ARO-CHAT-0235 — strict rights metadata and timestamp validation (2026-11-25)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0235 | ARO-CHAT-0235 \| Strict Rights Metadata and Timestamp Validation | ARO-GTA-P1-235 | Reject coerced source-rights metadata and malformed timestamps at the public registry boundary | `workstream/aro-chat-0235-rights-registry-strict-text-timestamps-2026-11-25` / [PR #371](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/371) | IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED | Base PR #369 head `8185687919138671deff872f6a7f35f86eafc27c`; production `42011adcb725a171d30ee496b37df47f00b01678`; tests `5f305f66e2e47582fe651886ff3ca8b53843bcc9`; report `f894fd5e10ec240e0e36e1a17af76f6a0b8bdc67` |
+
+- PR #369's exact current head had associated Python CI run #45485759897, completed FAILURE. Connector job-step/log inspection returned no steps and log retrieval was unavailable; failure cause remains NOT VERIFIED. This continuation does not claim the parent failure was fixed.
+- New branch requires its own Ubuntu and hosted-Windows CI evidence. No results are transferred from PR #369 or other parent branches.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+### ARO-CHAT-0235 source URL validation follow-up — 2026-11-25
+
+- Static review found the source-rights registry accepted strings such as `https://` because it checked only the URL prefix.
+- Added parsed-authority validation: HTTP(S) scheme, non-empty hostname, whitespace-free hostname, valid port syntax/range, and no embedded URL credentials.
+- Regression tests cover malformed authorities/schemes/ports/credentials/hostnames and valid HTTP/HTTPS URLs.
+- This is a continuation of existing PR #371 / ARO-GTA-P1-235, not a new workstream. Local tests NOT RUN; fresh exact-head Ubuntu/hosted-Windows CI PENDING. No CI evidence is transferred from prior commits.
+- Draft-only; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
+
+
+- Additional URL parser hardening on the same PR #371 branch: reject any raw URL whitespace (including embedded CR/LF/tab), ASCII control characters, DEL, and backslashes before parsing. Regression inputs include newline, tab, and backslash authority ambiguity.
+- Production commit 0380133cb38d5067b6d6016d41c42b72071babbd; tests commit a94b6e6fae9d9789e11f74fa2233a347d0a46701.
+- Local tests NOT RUN. Earlier run #45486119308 completed FAILURE but both jobs exposed zero steps and no logs; failure cause NOT VERIFIED. Recheck CI on the final synchronized head; do not infer a code failure or claim success.
+
+
+### ARO-CHAT-0235 test-fixture correction — 2026-11-25
+
+- Static review found the source-URL tests used escaped backslash-plus-letter sequences where the handoff described literal newline and tab characters.
+- Test-only commit `77adf4b3541792b1151159bc5a2f02ec93a2369c` changes those two inputs to actual newline and tab characters, exercising the existing fail-closed whitespace/control-character guard.
+- No production behavior changed. Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI must be inspected on the final synchronized branch head; earlier run #45486979384 failed with both jobs exposing zero steps and no logs, cause NOT VERIFIED.
+- PR #371 remains draft/open/unmerged; independent review NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+### ARO-CHAT-0235 source URL test correction — 2026-11-25
+
+- Exact-head static review found the malformed URL test coupled all invalid inputs to one error-message phrase, although whitespace/control/backslash rejection intentionally raises a distinct, more specific `ValueError` message.
+- Test-only correction: `4a010129a1822e7a6658491981f28725e2be12fe`; report update: `fc6cd623e2aa022437b3a257079be46efad10691`.
+- The exact-head workflow lookup returned no run for the test correction at inspection. Local tests NOT RUN; Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED.
+- Earlier run `45486979384` failed on Ubuntu and hosted Windows with zero exposed steps and no logs. Failure cause remains NOT VERIFIED; do not attribute it solely to this static finding.
+- Preserve PR #371 as DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+### ARO-CHAT-0235 exact-head CI follow-up — 2026-11-25
+
+- Inspected PR #371 exact head `a192100be0d25d910f9da5cb05d9723f4741104a`.
+- Associated Python CI run #45487261841 completed FAILURE. Both `tests` and `windows-tests` jobs report failure with zero exposed steps; job-log retrieval returned BlobNotFound. Combined commit status returned no status checks.
+- Failure cause is NOT VERIFIED. The available evidence does not show whether jobs failed during runner/workflow initialization or before steps; do not attribute the failure to the code or tests.
+- Local tests NOT RUN in this connector session. Exact-head CI is NOT VERIFIED / FAILED. Independent security review NOT RECORDED.
+- Static inspection of the current rights-registry implementation and regression tests found the intended fail-closed text, timestamp, URL-authority and raw-URL-character checks present; this is not a substitute for execution or independent review.
+- Keep PR #371 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload or publishing.
+
+
+## Exact-head CI audit — 2026-11-25
+
+- Audited PR #371 current head `bfa64a2953a6b046ff4cf2a23d8d9ba81b1a7346` on branch `workstream/aro-chat-0235-rights-registry-strict-text-timestamps-2026-11-25`.
+- Commit-associated Python CI run [#45491714696](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45491714696) completed FAILURE.
+- Ubuntu job `138791506600` and hosted-Windows job `138791505874` both report completed FAILURE. The connector exposed zero steps for both jobs; log retrieval for both returned `BlobNotFound`.
+- Combined commit status returned zero status entries. PR #371 review submissions and inline review threads were empty at inspection. Independent review NOT RECORDED.
+- The available evidence does not establish whether failure occurred during runner/workflow initialization or before the first step. Root cause NOT VERIFIED; do not attribute the failure to application code or tests.
+- Local tests NOT RUN in this connector session. Exact-head CI status: FAILED / NOT VERIFIED. No test count or compile result is claimed.
+- No workflow retry/dispatch was initiated. PR #371 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- No source, test, uploader, OAuth, media, or workflow behavior was changed in this audit. No credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0235 empty-port URL validation follow-up — 2026-11-25
+
+- Static review found Python URL parsing treats an explicitly empty port (`https://example.com:/video`) as `port=None`, so the existing `.port` access did not reject it.
+- Added a fail-closed rejection for an authority ending in `:` and regression cases for DNS and bracketed IPv6 hosts.
+- Production commit `15f68da1e3416ee2b785b5d4a47c140a11e43917`; test commit `41d42e89eeb3adc9e7dd2607e4f7b638214d8982`.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI and independent review remain NOT VERIFIED. Keep PR #371 draft/open/unmerged and Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL. No uploads or public publishing.
+
+
+### ARO-CHAT-0235 post-empty-port exact-head CI audit — 2026-11-25
+
+- Audited the branch head `5a3b781f58c18b72d422bd7dcdf83a67664da5c0` after the empty-port URL validation production/test commits.
+- Associated Python CI run [#45494619613](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45494619613) completed FAILURE.
+- Ubuntu job `138801679783` and hosted-Windows job `138801678838` both completed FAILURE and exposed zero workflow steps. Both job-log requests returned `BlobNotFound`.
+- Failure cause remains NOT VERIFIED. Available evidence does not establish whether the failure occurred during runner/workflow initialization or before the first step; it is not attributed to application code or tests.
+- Local tests NOT RUN in this connector session. Exact-head CI: FAILED / NOT VERIFIED. No test counts or compile results are claimed. Independent security review NOT RECORDED.
+- Static inspection confirms the empty-port guard and DNS/IPv6 regression cases are present, alongside the existing URL whitespace/control/backslash and authority checks. Static inspection is not execution evidence.
+- No workflow retry/dispatch was initiated. Keep PR #371 DRAFT / OPEN / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+- No source code, tests, uploader, OAuth, media, or workflow behavior was changed in this audit. No credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action occurred.
+
+
+### Blank-text and falsey-timestamp regression follow-up — 2026-11-25
+
+- Test-only follow-up on the existing ARO-CHAT-0235 branch; no new branch or PR.
+- Added regression cases proving whitespace-only required rights text is rejected for source ID, source URL, grantor, and evidence reference.
+- Added explicit falsey timestamp cases (empty string, False, and 0) for registration valid_from/expires_at and authorize/revoke at parameters. Only None remains the sentinel for selecting the current time in the latter methods.
+- Test commit: 079d9213ab53142c6d085dbfc28597df745a5a2b; current PR #371 head at handoff: same SHA.
+- Local tests NOT RUN in this connector session. Commit-associated workflow lookup returned no run at inspection; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent security review NOT RECORDED.
+- PR #371 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+### ARO-CHAT-0235 current exact-head CI recheck — 2026-11-25
+
+- PR #371 exact head: `2032ccbc1c115426e3731415915656841c2633ad`; base: `8185687919138671deff872f6a7f35f86eafc27c`; OPEN / DRAFT / UNMERGED.
+- Exact-head Python CI run [#45494763114](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45494763114) completed FAILURE.
+- Ubuntu job `138802196403` and hosted-Windows job `138802196129` both completed FAILURE. Jobs returned `steps: null`; dedicated step lookups returned empty arrays; both job-log requests returned `BlobNotFound`.
+- Failure cause NOT VERIFIED. No evidence identifies a failed command or establishes an application/test defect. Combined status returned zero entries; independent review NOT RECORDED.
+- Local tests NOT RUN in this connector session; no test count or compile result claimed. CI FAILED / NOT VERIFIED.
+- No workflow retry/dispatch, source-code or workflow change, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+- Next: preserve draft status; investigate runner/workflow initialization through an authorized owner-side Actions/account check, then run validation only on a naturally triggered exact-head workflow. Do not transfer parent CI.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
