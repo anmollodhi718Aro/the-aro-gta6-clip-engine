@@ -120,3 +120,13 @@ For the current first-test upload priority:
 ## Mandatory source-rights lineage check
 - Before any live upload, verify that the integrated uploader branch actually contains the append-only `SourceRightsRegistry.register()` fix from PR #168. Its current head must be an ancestor of the selected security integration head; PR title/issue references alone do not prove ancestry.
 - Current snapshot: PR #168 head `03ac14cb1d74296870541b68839580c12ed2a84b` is not the base shown for PR #176 (`9ff25d7356d5badc39f448c9f5e939cda4048541`), while #238/#241/#242 are stacked on #176/#238. Treat this as an unresolved integration blocker. Do not rebase/retarget/merge without explicit owner control.
+
+
+## ARO-CHAT-0198 current continuation — 2026-11-24
+
+- Active task: port append-only SourceRightsRegistry registration into the current PR #299 upload stack. The inspected PR #299 head still used ON CONFLICT(source_id) DO UPDATE and reset revoked_at=NULL; PR #168 contains the prior fix but is not an ancestor of PR #299.
+- Duplicate source_id registration must fail closed. Renewed grants require a new versioned source_id and new permission evidence. Do not treat actor metadata as authenticated grantor identity.
+- Regression tests must prove active-grant overwrite rejection, revoked-grant reactivation rejection, and acceptance of a separate versioned grant.
+- PR #168's earlier CI result is predecessor evidence only; verify this branch's exact-head Ubuntu and hosted-Windows CI independently.
+- ARO-CHAT-0197 / PR #300 was based on an older PR #299 head and is stale after PR #299 advanced its profile path validation. Do not rebase, retarget, or merge it without owner-controlled resolution.
+- Issue #68 remains OPEN; no live upload/public publishing until the complete security chain, source-rights evidence, exact per-clip approval, OAuth/channel verification, explicit device upload limit, independent review, and real-media acceptance are complete.
