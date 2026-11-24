@@ -1702,3 +1702,11 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Reviews, inline threads, and conversation comments: empty; independent review NOT RECORDED. No workflow retry; local tests NOT RUN.
 - No evidence transferred from PR #255 or any other PR/SHA. The report is `docs/ARO_CHAT_0176_PR256_CI_AUDIT.md`.
 - ARO-CHAT-0176 remains documentation-only. Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL and live/public uploads disabled; no OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0176 current-head correction — 2026-11-24 13:18 IST
+- Live PR refresh corrected the audited parent SHA: PR #256 current head is `ada0a73025933a77ec7bd96f64b17dc64a26ebef`; the earlier reservation SHA `d09f8147c7227cfec80d9e37a57a6463082da2cd` is superseded and is not current-head evidence.
+- Exact current-head Actions runs: zero; check-runs: zero; combined status: `pending` with zero entries.
+- PR #256 remains OPEN / DRAFT / UNMERGED with `mergeable=false`; reviews, inline threads, and conversation comments are empty. Independent review NOT RECORDED.
+- No jobs/logs exist; checkout refs, compile, unit tests, and synthetic MP4/FFprobe are NOT VERIFIED / NOT RUN. Local tests NOT RUN; no workflow retry.
+- Report: `docs/ARO_CHAT_0176_PR256_CI_AUDIT.md`. Do not transfer CI from PR #255, PR #257, or another SHA. Keep this workstream documentation-only and preserve all Issue #68/live-publishing gates.
