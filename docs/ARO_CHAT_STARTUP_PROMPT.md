@@ -90,3 +90,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - The uploader must verify the Google OIDC subject and destination channel from the same OAuth session, require a durable per-clip approval bound to the exact video hash, Google subject and channel, and re-check live publish permission immediately before the upload API call.
 - A client-supplied reviewer string or legacy boolean is never identity authentication. Fail closed on missing/mismatched channel, clip, source, file hash, approval, permission, expiry or revocation.
 - Use mocked API clients in tests; no test may perform a network upload. Keep public publishing disabled unless every authenticated owner, per-clip approval and source-rights gate passes.
+
+## Latest continuation baseline — ARO-CHAT-0191 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0191 | Fix PR #280 PRIVATE Gate Ordering`; workstream ARO-GTA-P1-191.
+- Branch: `workstream/aro-chat-0191-pr280-private-gate-order-2026-11-24`; base / starting SHA: PR #280 head `20427e0cad2e682076c627343e14b0f6f2f4f4a8`.
+- PR #280's exact-head run #45385315409 failed on Ubuntu and hosted Windows: compile passed, then 323 tests ran with one error on each platform. The unlisted-privacy regression test failed because optional `googleapiclient` imports happened before the PRIVATE-only rejection; synthetic MP4/FFprobe was skipped.
+- Follow-up moves explicit intent and PRIVATE-only checks before optional dependency imports and adds a regression assertion that rejected unlisted requests do not import `googleapiclient`.
+- Report: `docs/ARO_CHAT_0191_PR280_GATE_ORDER_FIX.md`.
+- Local tests NOT RUN in this connector session. Inspect this follow-up branch's own exact-head CI before claiming TESTED or CI_VERIFIED. Never transfer PR #280's failed run or another SHA's result.
+- Keep PR #280 draft-only and Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, public publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action. Preserve all owner-identity, exact per-clip approval, current rights, independent review, and owner-acceptance gates.

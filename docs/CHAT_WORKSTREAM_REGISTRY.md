@@ -799,3 +799,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Public visibility requires the distinct typed confirmation PUBLISH PUBLIC CLIP_ID.
 - Current publish grants are rechecked for the clip source and each source-bound asset immediately before the upload API request.
 - CI evidence must be refreshed on the latest PR head before the workstream can be marked verified.
+
+## Latest continuation — ARO-CHAT-0191 (2026-11-24)
+
+- Exact chat title: `ARO-CHAT-0191 | Fix PR #280 PRIVATE Gate Ordering`.
+- Workstream: ARO-GTA-P1-191.
+- Scope: fail-closed ordering fix for PR #280's PRIVATE-only uploader gate. Reject non-PRIVATE intent before importing optional YouTube upload dependencies or entering OAuth/API setup; strengthen the regression test to forbid the optional dependency import on rejected intent.
+- Branch: `workstream/aro-chat-0191-pr280-private-gate-order-2026-11-24`; base / starting SHA: PR #280 head `20427e0cad2e682076c627343e14b0f6f2f4f4a8`.
+- Parent PR #280 run #45385315409 (run 1212) failed on Ubuntu and hosted Windows. Both jobs compiled successfully, then the same test `test_upload_rejects_unlisted_visibility_before_oauth_or_api` errored because `googleapiclient` was imported before the PRIVATE-only guard. Each platform ran 323 tests with one error; synthetic MP4/FFprobe was skipped.
+- Both jobs checked out PR #280 merge ref at `86b4481ab61eddac2556bf3b6364d23594c67771`, merging head `20427e0cad2e682076c627343e14b0f6f2f4f4a8` into base `f66f6406a496d08e3e85972010f1f52d831298ab`.
+- Changes: `backend/app/youtube_upload.py`, `tests/test_youtube_upload.py`, and `docs/ARO_CHAT_0191_PR280_GATE_ORDER_FIX.md`; registry and startup prompt updated in this workstream.
+- Status: IMPLEMENTED; local tests NOT RUN in this connector session; this branch's exact-head CI PENDING. Do not transfer PR #280's failed run or any other PR/SHA result.
+- PR #280 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
