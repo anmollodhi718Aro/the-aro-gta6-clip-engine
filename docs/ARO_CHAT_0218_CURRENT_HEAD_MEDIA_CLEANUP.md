@@ -63,3 +63,29 @@ Date: 2026-11-24
 - First private-only hardening CI run #45433336438 exposed one stale test expectation: the test still expected the generic word `privacy`, while the stricter code now emits the intentional PRIVATE-only policy error. The implementation behavior was correct; 350 tests passed and one assertion failed on Ubuntu. Hosted Windows was cancelled before test execution.
 - Updated the test assertion to expect the PRIVATE-only policy message in commit `52c168d4a389ab7a99bff5f660708382d00079df`.
 - Follow-up CI run #45433572590 is now running on that exact head; both Ubuntu and hosted Windows jobs are in progress. Do not mark CI green until both complete.
+
+
+## Exact-head CI closeout and scoped review — 2026-11-24
+
+- PR #339 head: `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722`.
+- Commit-associated Actions run: [45433728254](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45433728254), completed SUCCESS.
+- Both jobs checked out merge ref `5f5bf9f`, merging the audited PR head into base `5ef44f391720966138b2eec1815dd223fb345dbd`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Ubuntu job `138585890652`: compile passed; 351 tests passed; synthetic MP4/FFprobe step passed.
+- Hosted-Windows job `138585891624`: compile passed; the same 351-test suite ran, 3 FIFO-only tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe step passed.
+- Both jobs ran the same 351 tests, not 702 unique tests. Synthetic logs identify locally generated test pattern/tone; `upload_performed=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- This is hosted CI evidence only. Owner-device Windows, real-media acceptance, OAuth, a YouTube network upload, and independent security review remain NOT VERIFIED / NOT RECORDED.
+
+### Scoped code-review pass of this PR's own delta
+
+- Reviewed the uploader change and associated tests for media-handle cleanup and visibility restrictions.
+- Cleanup initializes the media handle before the guarded upload block, attempts the retained media stream close before snapshot cleanup, and nests snapshot cleanup so it is attempted even if close raises.
+- Tests cover close-on-success, request-failure cleanup, close-error propagation with exactly one close attempt, snapshot removal, and exactly one mocked insert.
+- PRIVATE-only metadata validation and CLI choices reject UNLISTED/PUBLIC; regression tests exercise both values.
+- No defect was identified in this bounded PR #339 delta. This is a scoped assistant review, NOT an independent reviewer approval of the inherited uploader/approval security lineage.
+- PR #339 review submissions and inline review threads remain empty. Full independent review of the consolidated uploader/approval implementation is still required.
+
+### Current disposition
+
+- PR #339 remains OPEN / DRAFT / UNMERGED. Parent PR #328 has a separate non-mergeable ancestry concern; do not merge, rebase, or retarget automatically.
+- Issue #68 remains OPEN and assigned to the repository owner; assignment is not approval to enable live uploads.
+- Keep live uploads and public publishing disabled. No OAuth credentials, real media, network upload, merge, deployment, or publishing were used in this audit.
