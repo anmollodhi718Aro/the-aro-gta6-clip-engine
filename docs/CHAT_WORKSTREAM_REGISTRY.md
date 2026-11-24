@@ -895,3 +895,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 ### Source-rights ancestry concern superseded for PR #299
 - Earlier notes correctly flagged that the append-only fix from the separate PR #168 lineage was not proven to be an ancestor of PR #299's base. To remove that dependency from this branch, the same fail-closed behavior and regression coverage have now been implemented directly on PR #299 in commits `e2cb08feaf5273c2595cf78045b2a47acb26d7f8` and `7b1b120a17fb4ad1dc2228d4571228af9d04d320`.
 - Therefore PR #299 no longer relies on PR #168 ancestry for append-only source-rights behavior. The broader Issue #68 integration/review gates remain open and still require independent review and verified CI.
+
+
+### OAuth token storage hardening (PR #299)
+- OAuth token writes now use a same-directory temporary file, flush/fsync, and atomic replacement; restrictive `0600` permissions are applied where supported.
+- Existing token-file symlinks and a symlinked profile token directory are rejected. Regression tests cover symlink rejection and token-file permissions.
+- First CI run exposed a missing `tempfile` import in the new writer. Fixed in commit `92368c71a6cae96f364cdac1066cdf9e93fe3c43`. The fix is awaiting a fresh CI run; earlier run `45395149052` failed and must not be counted as passing.
