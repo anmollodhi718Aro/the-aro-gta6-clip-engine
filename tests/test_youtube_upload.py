@@ -389,12 +389,17 @@ class YouTubeUploadTests(unittest.TestCase):
             "--source-id", "source-1", "--approval-record", str(approval_path),
             "--rights-db", str(db_path),
         ]
-        with patch.object(sys, "argv", args):
+        with patch.object(sys, "argv", args), patch.dict(os.environ, {
+            "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
+            "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
+        }):
             with patch("backend.app.youtube_upload.upload_video", return_value={"video_id": "mock-id", "url": "https://youtube.invalid/mock-id"}) as upload:
                 from backend.app.youtube_upload import main
                 self.assertEqual(main(), 0)
         self.assertEqual(upload.call_args.kwargs["clip_id"], "clip-1")
         self.assertEqual(upload.call_args.kwargs["source_id"], "source-1")
+        self.assertEqual(upload.call_args.kwargs["expected_google_subject"], "google-subject-123")
+        self.assertEqual(upload.call_args.kwargs["expected_channel_id"], "youtube-channel-456")
         self.assertTrue(upload.call_args.kwargs["owner_approved"])
         self.assertTrue(upload.call_args.kwargs["rights_confirmed"])
 
