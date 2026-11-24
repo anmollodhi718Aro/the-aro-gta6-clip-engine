@@ -145,6 +145,32 @@ class SourceRightsRegistryTests(unittest.TestCase):
             self.registry.register(self.record)
         self.assertEqual(self.registry.audit_events("creator-video-1"), [])
 
+    def test_revocation_and_audit_are_atomic_when_audit_insert_fails(self):
+        self.registry.register(self.record)
+        with sqlite3.connect(self.registry.database_path) as db:
+            db.execute("""
+                CREATE TRIGGER reject_revocation_audit
+                BEFORE INSERT ON source_rights_audit
+                WHEN NEW.action = 'revoked'
+                BEGIN
+                    SELECT RAISE(ABORT, 'synthetic audit failure');
+                END
+            """)
+
+        with self.assertRaisesRegex(sqlite3.IntegrityError, "synthetic audit failure"):
+            self.registry.revoke("creator-video-1", actor="owner", at=self.now)
+
+        # The failed audit write must roll back the preceding rights update.
+        grant = self.registry.authorize(
+            "creator-video-1", "publish", "youtube",
+            at=self.now + timedelta(minutes=1),
+        )
+        self.assertEqual(grant["source_id"], "creator-video-1")
+        self.assertEqual(
+            [event["action"] for event in self.registry.audit_events("creator-video-1")],
+            ["registered"],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
