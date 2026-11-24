@@ -925,3 +925,8 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Current PR diff remains limited to `tests/test_youtube_upload.py`, `docs/CHAT_WORKSTREAM_REGISTRY.md`, and `docs/ARO_CHAT_STARTUP_PROMPT.md`. The test asserts both profile token paths against the resolved `.secrets` parent; production uploader path enforcement is unchanged.
 - Review submissions and inline review threads are empty; independent review NOT RECORDED. Local tests NOT RUN in this connector session.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, API upload, publishing, merge, rebase, retarget, deployment, or destructive action. Keep live uploads and public publishing disabled.
+
+
+### ARO-CHAT-0197 security-regression coverage — 2026-11-24
+- Added `test_profile_config_symlink_cannot_escape_secrets_directory`NaN`cf14e2adad58699c7fc76f075923b3c7d0021349`.
+- Exact-head Ubuntu and Windows CI remain pending; do not mark the workstream verified until both report results for the latest PR head.
