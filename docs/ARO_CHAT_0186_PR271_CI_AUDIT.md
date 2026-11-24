@@ -43,3 +43,11 @@ Audit PR #271's own exact-head Actions run, Ubuntu and hosted-Windows jobs/logs,
 ## Result
 
 PR #271 exact-head CI is VERIFIED on the PR merge ref for Ubuntu and hosted Windows (28 tests per platform plus synthetic MP4/FFprobe). Raw-head-only checkout, independent review, owner-device Windows, and authorized real-media acceptance remain unverified. This audit branch's own exact-head CI must be inspected separately; PR #271's run must not be transferred to this branch.
+
+
+## Publication and audit-branch status
+
+- Draft PR [#273](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/273) was opened against the ARO-CHAT-0185 branch.
+- PR #273 head: `5511b6da088e51a92bf3297569e4c7c3d6404a58`; state OPEN / DRAFT / UNMERGED; GitHub reported mergeable=true at inspection.
+- PR #273's own commit-associated workflow lookup returned zero runs and combined status returned zero entries at post-creation inspection. Its CI is PENDING / NOT VERIFIED. Do not transfer PR #271's successful run.
+- Changed files are documentation-only: this report, `docs/CHAT_WORKSTREAM_REGISTRY.md`, and `docs/ARO_CHAT_STARTUP_PROMPT.md`.
