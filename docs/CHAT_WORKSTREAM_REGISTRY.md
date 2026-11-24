@@ -916,3 +916,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Both jobs checked out merge SHA `a6de7b8`, merging the audited PR head into base `cf731cabda8a045d39457f0eef800dbdb051e75e`; raw-head-only checkout is NOT DEMONSTRATED.
 - Logs confirm `upload_performed=false`, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true` on both platforms.
 - This validates the PR merge-ref CI path, not a real GTA 6 media run, OAuth session, or live upload. PR #299 remains OPEN / DRAFT / UNMERGED; independent security review is NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
+
+
+### Rights-report source-bound asset validation (24 Nov 2026)
+- `require_report_publish_permissions` now rejects non-list `assets`, non-object asset entries, and missing/null/non-string/blank `source_id` values on `scope_match_metadata_only` assets.
+- Each valid source-bound asset is independently authorized for `publish` on YouTube, in addition to the primary clip source.
+- Regression tests cover multi-source authorization and malformed report structures. Commits: `fe9af3139d301773102b6c44d0e8a92bd5f08a8f`, `cc4eb2421c4779e7a76391e401d238652a34c75e`.
+- Fresh CI is required for this code and tests; the previous head passed Ubuntu and Windows, but that result does not cover these commits.
