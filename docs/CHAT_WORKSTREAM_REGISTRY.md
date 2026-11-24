@@ -1594,3 +1594,34 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Audit PR #252 head `eba4fe0f9bed2a0a01507ab62414cd61ecdb7010` has no associated CI run and zero combined-status entries at recheck; its own CI remains PENDING / NOT VERIFIED. Do not transfer PR #251's result.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending all security and owner-acceptance gates.
 - No workflow retry, merge, rebase, retarget, deployment, credentials/OAuth, real media, upload, publishing, or destructive action.
+
+
+
+## ARO-CHAT-0172 PR #252 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0172 |
+| Exact title | ARO-CHAT-0172 | PR #252 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-172 |
+| Scope | Documentation-only independent audit of PR #252's own commit-associated CI, Ubuntu/hosted-Windows logs, checkout refs, compile/tests, synthetic MP4/FFprobe, combined status, and review state |
+| Branch | `workstream/aro-chat-0172-pr252-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #252 head `c5ce5fe3557b89e12b52ac8df3b8b518dad37e63` |
+| Parent PR audited | #252 |
+| Report | `docs/ARO_CHAT_0172_PR252_CI_AUDIT.md` |
+| Status | IMPLEMENTED (audit documentation); PR #252 exact-head CI_VERIFIED on merge ref; this audit branch's own CI PENDING / NOT VERIFIED |
+
+### Exact-head evidence
+- PR #252 head `c5ce5fe3557b89e12b52ac8df3b8b518dad37e63` passed Python CI run #45314960254 (run 1145).
+- Ubuntu job #138179488732 passed compilation, 340 tests (5.143s), and synthetic MP4/FFprobe validation.
+- Hosted-Windows job #138179488417 passed compilation, the same 340 tests (15.690s), and synthetic MP4/FFprobe validation. Same suite on two platforms, not 680 unique tests.
+- Both jobs checked out PR #252 merge ref `93f8ed47ab657902a173030b548d91412a4a76cb`, merging head `c5ce5fe3557b89e12b52ac8df3b8b518dad37e63` into base `1316c12f4f66305b190f671330682eb535e41ba0`. Raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic pattern/tone only; 8-second source / 4-second output; no GTA 6 or third-party footage; publishing disabled; manual review required. This does not satisfy real-media acceptance.
+- Combined status contained 0 entries; reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED.
+- PR #252 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=true. Local tests NOT RUN in this connector session.
+- Do not transfer PR #252's run to this audit branch. Inspect this branch's own exact-head CI independently.
+
+### Safety
+- Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending all recorded security and owner-acceptance gates, including explicit owner approval, independent security review, owner-controlled integration, owner-device verification, owner-selected device-appropriate `--max-upload-bytes`, and authorized real-media acceptance.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
