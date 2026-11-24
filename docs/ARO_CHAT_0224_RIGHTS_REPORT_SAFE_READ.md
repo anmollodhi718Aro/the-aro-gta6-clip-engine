@@ -42,3 +42,12 @@ No credentials or tokens, OAuth session, real media, upload, publishing, merge, 
 - Updated the same-inode symlink-substitution regression to simulate the post-open pathname result via a mocked `Path.lstat()`, matching the established approval-record regression pattern and avoiding a physical rename of an open file on Windows.
 - Test-only correction commit: `6829261261175dd2f4693b0d8c62685f69fb6298`. Production code unchanged.
 - The correction is a portability fix hypothesis pending new exact-head Ubuntu/hosted-Windows CI. Do not claim the previous run passed overall.
+
+## Windows failure log diagnosis — 2026-11-24
+- Retrieved the complete Windows job log for run #45443443832 (job 138620636802).
+- The failing test was test_rights_report_rejects_same_inode_symlink_substitution_after_open.
+- The test attempted to rename preflight.json while its descriptor was open. Windows rejected that operation with PermissionError: [WinError 32] (sharing violation). The resulting mocked open path also produced an expected-message mismatch: the test expected 'regular file', but observed 'rights report changed or became unreadable while opening'.
+- This establishes the old test's portability failure; it does not establish a production uploader defect.
+- The already-committed correction 6829261261175dd2f4693b0d8c62685f69fb6298 replaces physical rename with a mocked post-open Path.lstat() result. This avoids the Windows open-file rename and tests the post-open symlink rejection branch.
+- Corrected-head CI is still NOT VERIFIED: commit-associated workflow lookup for PR #353 head 03071572e8b59bf3f150617e26ea7fd49ca57212 returned zero PR-triggered runs. Do not infer that the correction passed.
+- PR #353 review submissions and conversation comments were empty at inspection time. Independent review remains NOT RECORDED.
