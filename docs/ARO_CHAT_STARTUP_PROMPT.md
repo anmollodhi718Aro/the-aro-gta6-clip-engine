@@ -214,3 +214,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Ubuntu: compile, 348 tests, synthetic MP4/FFprobe passed. Hosted Windows: compile, same 348 tests, 345 passed and 3 FIFO-only tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed.
 - Both regression paths passed: original source mutation at insert time, and same-inode approval symlink substitution after open. FIFO race test passed on Ubuntu and skipped on Windows due to unavailable FIFO creation.
 - Both jobs ran the same suite, not 696 unique tests. Raw-head-only checkout NOT DEMONSTRATED. Synthetic-only; no OAuth/upload/publishing. Independent review NOT RECORDED; owner-device and real-media PRIVATE acceptance NOT VERIFIED.
+
+
+## Current continuation — ARO-CHAT-0218 (2026-11-24)
+- Workstream: ARO-GTA-P1-218; restore approved-upload media-handle cleanup on the latest PR #328 head.
+- Branch: `workstream/aro-chat-0218-current-head-media-cleanup-2026-11-24`; base / starting SHA: `5ef44f391720966138b2eec1815dd223fb345dbd`.
+- Finding: latest PR #328 head had removed the Windows-safe `MediaFileUpload._fd` close-before-snapshot-cleanup sequence present in stale PR #333; PR #335's request-failure test was stacked on that stale branch.
+- Changes: restore stream close in a nested `finally` before snapshot-directory cleanup; extend the approved-source-mutation test and add a mocked request-failure cleanup regression.
+- Local tests NOT RUN. New-head Ubuntu/hosted-Windows CI must be inspected independently. No OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN; keep live uploads/public publishing disabled.
