@@ -90,3 +90,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - The uploader must verify the Google OIDC subject and destination channel from the same OAuth session, require a durable per-clip approval bound to the exact video hash, Google subject and channel, and re-check live publish permission immediately before the upload API call.
 - A client-supplied reviewer string or legacy boolean is never identity authentication. Fail closed on missing/mismatched channel, clip, source, file hash, approval, permission, expiry or revocation.
 - Use mocked API clients in tests; no test may perform a network upload. Keep public publishing disabled unless every authenticated owner, per-clip approval and source-rights gate passes.
+
+
+## Current continuation — ARO-CHAT-0195 (2026-11-24)
+- Suggested chat title: `ARO-CHAT-0195 | PR #295 Exact-Head CI Audit`.
+- Active workstream: ARO-GTA-P1-195; documentation-only audit of PR #295.
+- Audited PR #295 exact head: `cf731cabda8a045d39457f0eef800dbdb051e75e`; base: `4e01f16e97b2239c74a2f96c4262b04b57a4ae73`.
+- Audit branch: `workstream/aro-chat-0195-pr295-exact-head-ci-audit-2026-11-24`; starting SHA is the audited PR #295 head.
+- Exact-head run #45390003956 (run 1233): Ubuntu job #138430897019 passed compilation, tests and synthetic MP4/FFprobe; hosted-Windows job #138430897645 was still running tests at initial inspection. Re-fetch before closeout.
+- Do not transfer earlier failed run #45388115805 from merge SHA `c767f8110049abfaebce62950c293d2afb0fe8b9` to PR #295's actual head.
+- Do not modify the implementation under audit. No workflow retries, OAuth, credentials, real media, uploads, publishing, merge, retarget, deployment or destructive actions.
+- Issue #68 remains open and owner approval remains a blocker; keep live uploads/public publishing disabled.
