@@ -72,13 +72,14 @@ def load_destination_profile(
 def resolve_destination_identity(
     *, config_path: Path | None, profile_name: str | None,
     token_override: Path | None,
+    repository_root: str | Path | None = None,
 ) -> tuple[str, str, Path]:
     if bool(config_path) != bool(profile_name):
         raise PermissionError("--destination-config and --destination-profile must be supplied together")
     if config_path and profile_name:
         if token_override is not None:
             raise PermissionError("--token cannot override a destination profile's isolated token path")
-        profile = load_destination_profile(config_path, profile_name)
+        profile = load_destination_profile(config_path, profile_name, repository_root=repository_root)
         return profile["google_subject"], profile["channel_id"], profile["token_path"]
     subject = os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "").strip()
     channel = os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "").strip()
