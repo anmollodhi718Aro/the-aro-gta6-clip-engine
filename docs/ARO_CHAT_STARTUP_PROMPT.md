@@ -509,3 +509,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Test commit: `83f970b608af3f49e6bf6c496d6de6918dc24bf7`.
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. This commit does not change production behavior.
 - PR #373 remains draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### Current handoff — ARO-CHAT-0236 scoped IPv6 hardening (2026-11-25)
+- Continue on PR #373 branch `workstream/aro-chat-0236-strict-source-url-hostname-validation-2026-11-25`.
+- Closed a hostname-validation gap: Python accepts scoped IPv6 zone IDs, so `_valid_hostname()` now rejects percent signs before IPv6/IDNA checks. Regression coverage rejects raw and percent-encoded zone identifiers.
+- Production commit `213ad9f2a23c93943b67536c96590cf60af7baf6`; test commit `4786b5a316b39f8b840674b1d8c47c20f8a1ab8a`.
+- Latest exact-head CI lookup had zero runs/checks; CI PENDING / NOT VERIFIED. Local tests NOT RUN; independent review NOT RECORDED.
+- Keep PR draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No workflow retry/dispatch, merge, OAuth, credentials, real media, upload, deployment, or publishing.
