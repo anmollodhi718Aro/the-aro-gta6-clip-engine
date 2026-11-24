@@ -295,6 +295,23 @@ class OwnerApprovalTests(unittest.TestCase):
         with self.assertRaisesRegex(PermissionError, "must be a regular file"):
             self.gate(approval_path=fifo_path)
 
+    def test_fifo_replacement_between_stat_and_open_is_rejected_without_blocking(self):
+        if not hasattr(os, "mkfifo"):
+            self.skipTest("FIFO creation is unavailable on this platform")
+        import backend.app.youtube_owner_approval as approval_module
+
+        original_open = approval_module.os.open
+
+        def replace_with_fifo_then_open(path, flags, *args, **kwargs):
+            if Path(path) == self.record:
+                self.record.unlink()
+                os.mkfifo(self.record)
+            return original_open(path, flags, *args, **kwargs)
+
+        with patch("backend.app.youtube_owner_approval.os.open", side_effect=replace_with_fifo_then_open):
+            with self.assertRaisesRegex(PermissionError, "must be a regular file"):
+                self.gate()
+
     def test_missing_or_malformed_record_fails_closed(self):
         with self.assertRaisesRegex(PermissionError, "missing or unreadable"):
             self.gate(approval_path=self.root / "missing.json")
