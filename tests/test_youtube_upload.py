@@ -11,7 +11,7 @@ from unittest.mock import Mock, patch
 
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
-from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_upload)
+from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_upload, _persist_oauth_token)
 
 
 class YouTubeUploadTests(unittest.TestCase):
@@ -483,6 +483,34 @@ class YouTubeUploadTests(unittest.TestCase):
                 )
         authorize.assert_not_called()
 
+
+class OAuthTokenPersistenceTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp.name)
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def test_token_is_written_atomically_with_restricted_permissions(self):
+        target = self.root / "tokens" / "profile.json"
+        _persist_oauth_token(target, '{"access_token":"test"}')
+        self.assertEqual(json.loads(target.read_text(encoding="utf-8")), {"access_token": "test"})
+        if os.name == "posix":
+            self.assertEqual(target.stat().st_mode & 0o777, 0o600)
+
+    def test_token_symlink_is_rejected_without_modifying_target(self):
+        external = self.root / "external-token.json"
+        external.write_text('{"access_token":"keep"}', encoding="utf-8")
+        target = self.root / "tokens" / "profile.json"
+        target.parent.mkdir()
+        try:
+            target.symlink_to(external)
+        except (OSError, NotImplementedError):
+            self.skipTest("symbolic links are unavailable in this environment")
+        with self.assertRaisesRegex(PermissionError, "symbolic link"):
+            _persist_oauth_token(target, '{"access_token":"replace"}')
+        self.assertEqual(external.read_text(encoding="utf-8"), '{"access_token":"keep"}')
 
 class YouTubeDestinationProfileTests(unittest.TestCase):
     def setUp(self):
