@@ -69,3 +69,15 @@ Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploa
 - Test-only commit `77adf4b3541792b1151159bc5a2f02ec93a2369c` corrects those inputs so the tests exercise literal newline and tab rejection by the existing raw-URL guard.
 - No production behavior changed. Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI must be inspected on the final synchronized branch head. Earlier run #45486979384 failed with both jobs exposing zero steps and no logs; cause NOT VERIFIED.
 - PR #371 remains draft/open/unmerged; independent review NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## Exact-head CI audit — 2026-11-25
+
+- Audited PR #371 current head `bfa64a2953a6b046ff4cf2a23d8d9ba81b1a7346` on branch `workstream/aro-chat-0235-rights-registry-strict-text-timestamps-2026-11-25`.
+- Commit-associated Python CI run [#45491714696](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45491714696) completed FAILURE.
+- Ubuntu job `138791506600` and hosted-Windows job `138791505874` both report completed FAILURE. The connector exposed zero steps for both jobs; log retrieval for both returned `BlobNotFound`.
+- Combined commit status returned zero status entries. PR #371 review submissions and inline review threads were empty at inspection. Independent review NOT RECORDED.
+- The available evidence does not establish whether failure occurred during runner/workflow initialization or before the first step. Root cause NOT VERIFIED; do not attribute the failure to application code or tests.
+- Local tests NOT RUN in this connector session. Exact-head CI status: FAILED / NOT VERIFIED. No test count or compile result is claimed.
+- No workflow retry/dispatch was initiated. PR #371 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- No source, test, uploader, OAuth, media, or workflow behavior was changed in this audit. No credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
