@@ -1095,3 +1095,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #346 run #45441375437 failed identically on Ubuntu and hosted Windows: 352 tests, one assertion failure on each platform (Windows also skipped 3 FIFO-only tests). The rights check correctly raised `no recorded rights for source source-2`; the test expected a stale string missing the second `source`.
 - Test-only fix updates the expected substring; production uploader behavior is unchanged. Commit `9e349ae9fa6d66832b8d030e2ffe3bef55cdf35d`.
 - This follow-up's exact-head CI is PENDING / NOT VERIFIED; local tests NOT RUN. No result is transferred from PR #346. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0223 exact-head CI closeout — 2026-11-24
+- PR #350 final audited head: `b6d712a6438a132c3d8ca245b0a804bf8b929550`; follow-up run [#45442036637](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45442036637) completed SUCCESS.
+- Actions checked out merge ref `74dbc1c`, merging PR head `b6d712a6438a132c3d8ca245b0a804bf8b929550` into base `d2e057734517c1dfb3e994eb7268580f1f173a4`; raw-head-only checkout NOT DEMONSTRATED.
+- Ubuntu job `138615535069`: compile passed; 352 tests passed; synthetic MP4/FFprobe passed.
+- Hosted Windows job `138615534290`: compile passed; 352 tests executed, 349 passed and 3 FIFO-only tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed.
+- Same 352-test suite on both platforms, not 704 unique tests. Synthetic logs report `upload_performed=false`, `publishing_enabled=false`, `manual_review_required=true`.
+- PR #350 remains DRAFT / OPEN / UNMERGED. Local tests NOT RUN; owner-device Windows and authorized real-media acceptance NOT VERIFIED. Independent full uploader/approval/rights security review NOT RECORDED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; no merge, rebase, retarget, deployment, OAuth or live upload.
