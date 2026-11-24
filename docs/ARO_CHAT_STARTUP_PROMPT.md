@@ -434,3 +434,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0172_PR252_CI_AUDIT.md`.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live/public uploads disabled pending explicit owner approval, independent security review, owner-controlled integration, owner-device verification, owner-selected device-appropriate upload limit, and authorized real-media acceptance.
 - Documentation-only. No OAuth, credentials/tokens, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0173 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0173 | PR #253 Exact-Head CI Audit`.
+- Workstream: ARO-GTA-P1-173; branch: `workstream/aro-chat-0173-pr253-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #253 head `c8d91a0317e4874a9ac2b0690546be2cb5d140a9`.
+- Task: documentation-only independent audit of PR #253's own exact-head Actions run, combined status, review submissions, inline threads, conversation comments, and (if a run appears) both platform jobs/logs, checkout refs, compile/tests, and synthetic MP4/FFprobe.
+- Initial exact-head workflow lookup returned zero runs and combined status returned zero entries. PR #253 CI is PENDING / NOT VERIFIED; no passing result is inferred.
+- Report: `docs/ARO_CHAT_0173_PR253_CI_AUDIT.md`. Re-fetch PR #253's current exact head and inspect its own run before assigning TESTED or CI_VERIFIED. Never transfer another PR/SHA's CI.
+- Documentation-only; keep Issue #68 open and live/public uploads disabled. No workflow retry, OAuth, credentials/tokens, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
