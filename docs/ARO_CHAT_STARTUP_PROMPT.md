@@ -186,5 +186,5 @@ For the current first-test upload priority:
 - Latest audited PR: #315, head `0bd547b74414da289cf6ae74e39dd26007935aa2`. Commit-associated workflow lookup returned zero PR-triggered runs; PR #315 exact-head Ubuntu/hosted-Windows CI is PENDING / NOT VERIFIED.
 - PR #315 review submissions and inline review threads were empty; independent review NOT RECORDED. Local tests NOT RUN.
 - Do not transfer PR #314 run #45421632805 to PR #315. PR #314's run used merge ref `a9f9253bf15d431761179586d886a3b0365abb79`; raw-head-only CI NOT DEMONSTRATED. Synthetic media only.
-- Documentation-only audit report: `docs/ARO_CHAT_0209_PR315_CI_PENDING_AUDIT.md`; draft PR #316 is the intended review vehicle once opened.
+- Documentation-only audit report: `docs/ARO_CHAT_0209_PR315_CI_PENDING_AUDIT.md`; draft PR [#316](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/316) is OPEN / DRAFT / UNMERGED for this audit; its own exact-head CI remains pending.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
