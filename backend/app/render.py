@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import os
 import shutil
 import subprocess
+import tempfile
 from pathlib import Path
 
 
@@ -51,12 +53,20 @@ def render_clip(
     if executable is None:
         raise RenderError(f"FFmpeg executable not found: {ffmpeg}")
 
+    # Reserve a unique temporary filename in the destination filesystem.
+    # Publish it to the requested path only after FFmpeg succeeds.
+    handle = tempfile.NamedTemporaryFile(
+        prefix=f".{target.stem}.", suffix=".mp4", dir=target.parent, delete=False
+    )
+    temporary = Path(handle.name)
+    handle.close()
+
     command = [
         executable,
         "-hide_banner",
         "-loglevel", "error",
         "-nostdin",
-        "-n",
+        "-y",
         "-ss", str(start_seconds),
         "-i", str(source),
         "-t", str(duration_seconds),
@@ -67,7 +77,7 @@ def render_clip(
         "-crf", "23",
         "-c:a", "aac",
         "-movflags", "+faststart",
-        str(target),
+        str(temporary),
     ]
 
     try:
@@ -79,18 +89,19 @@ def render_clip(
             timeout=timeout_seconds,
             shell=False,
         )
-    except subprocess.TimeoutExpired as exc:
-        target.unlink(missing_ok=True)
-        raise RenderError("FFmpeg timed out; partial output was removed") from exc
-    except OSError as exc:
-        target.unlink(missing_ok=True)
-        raise RenderError(f"FFmpeg could not be started: {exc}") from exc
+        if completed.returncode != 0:
+            detail = (completed.stderr or "no FFmpeg error details").strip()
+            raise RenderError(f"FFmpeg failed: {detail[-1000:]}")
+        if not temporary.is_file() or temporary.stat().st_size == 0:
+            raise RenderError("FFmpeg reported success but produced no usable output")
 
-    if completed.returncode != 0:
-        target.unlink(missing_ok=True)
-        detail = (completed.stderr or "no FFmpeg error details").strip()
-        raise RenderError(f"FFmpeg failed: {detail[-1000:]}")
-    if not target.is_file() or target.stat().st_size == 0:
-        target.unlink(missing_ok=True)
-        raise RenderError("FFmpeg reported success but produced no usable output")
-    return target
+        # os.link is atomic and fails rather than overwriting a path created
+        # concurrently by another process.
+        os.link(temporary, target)
+        return target
+    except subprocess.TimeoutExpired as exc:
+        raise RenderError("FFmpeg timed out; temporary output was removed") from exc
+    except OSError as exc:
+        raise RenderError(f"FFmpeg could not complete the render: {exc}") from exc
+    finally:
+        temporary.unlink(missing_ok=True)
