@@ -214,3 +214,22 @@ For the current first-test upload priority:
 - PR #327 independent review NOT RECORDED; local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED. Do not transfer its CI result to another PR/head.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Owner assignment is not implementation approval; canonical security lineage selection and independent review remain pending. Keep live uploads/public publishing disabled.
 - Preserve all draft/open/unmerged stacks. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Current continuation — ARO-CHAT-0216 (2026-11-24)
+- Latest audited P1 follow-up: PR #328 exact-head CI audit; branch `workstream/aro-chat-0216-pr328-ci-audit-2026-11-24`, based on PR #329 head `4e29f0f87479af3a1848db249cc8bc5c425f9097`.
+- PR #328 head `114e5bfc4b154e0da272ed36408ab156cfdc5ab9`; associated Actions run #45426822957 completed SUCCESS. Ubuntu and hosted Windows compile, complete unittest-suite, and synthetic MP4/FFprobe steps succeeded.
+- Available job summaries do not expose test counts or checked-out SHA. Raw-head-only checkout NOT DEMONSTRATED; no count is inferred.
+- PR #328 review submissions, inline threads and conversation comments empty; independent review NOT RECORDED. Local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED.
+- The scoped patch inspection is not an independent security review. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; canonical security lineage selection, independent review and owner-controlled acceptance remain pending. Keep live uploads/public publishing disabled.
+- Preserve all draft/open/unmerged stacks. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment or destructive action.
+
+
+## Live-head reconciliation (2026-11-24)
+- PR #328 subsequently advanced to head `1c380a2e311abbd5b818a398d0f0a70011f547d4`, including the FIFO/nonblocking source-open hardening.
+- The earlier run #45426822957 validates only the earlier head `114e5bfc4b154e0da272ed36408ab156cfdc5ab9`; it is not transferred to later commits.
+- A separate commit-associated run #45427291297 is associated with current head `1c380a2e311abbd5b818a398d0f0a70011f547d4` and completed SUCCESS. Ubuntu and hosted-Windows jobs both completed compile, unittest-suite, and synthetic MP4/FFprobe steps successfully. Job summaries do not expose test counts or checkout SHA; raw-head-only checkout NOT DEMONSTRATED.
+- A parallel draft PR #331 also proposes the O_NONBLOCK/FIFO regression follow-up, based on the earlier PR #328 head. Its head `15fd23d486794e02a7ae1b3076a7fe4f0c473eca` has no associated workflow run at this lookup. Avoid merging or consolidating duplicate branches automatically; reconcile exact ancestry and diff first.
+- PR #330 is a separate draft upload-snapshot branch with CI run #45427507267 QUEUED at this lookup. Do not infer its result.
+- PR #332 (this documentation audit) has no associated workflow run or combined status entries at this lookup; its own CI is PENDING / NOT VERIFIED.
+- PR #328 remains OPEN / DRAFT / UNMERGED. Independent review remains NOT RECORDED; local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
