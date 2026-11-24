@@ -135,3 +135,9 @@ For the current first-test upload priority:
 - Test-only path assertion compares both profile token paths against the strictly resolved `.secrets` parent. Production path validation is unchanged.
 - No commit-associated CI run was found for that head; exact-head Ubuntu and hosted-Windows CI remains PENDING. No local tests run in this connector session.
 - PR #300 review submissions and inline review threads are empty; independent review NOT RECORDED. Do not merge or retarget. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads and public publishing remain disabled.
+
+
+### ARO-CHAT-0197 live-head reconciliation — 2026-11-24
+- Live PR #300 metadata reports branch `workstream/aro-chat-0197-pr299-windows-path-regression-fix-2026-11-24`, head `83445d763ebce065140a0f7a19ac75c42a761d48`, and base SHA `152de0e3cecbfe2be2569c46db14e5c9c67506a2`. Earlier notes naming `02b5e7c16077d31e9cee1950cc5c379339c5baff` describe the preceding docs commit, not the current head.
+- Exact-live-head workflow lookup and combined status returned no checks for `83445d763ebce065140a0f7a19ac75c42a761d48`; Ubuntu and hosted-Windows CI remain PENDING. Do not claim the older PR #299 run validates PR #300.
+- Keep PR #300 draft/open/unmerged. No local tests, OAuth, credentials, real-media processing, upload, publishing, merge, retarget, or deployment occurred. Issue #68 remains open and unresolved; live uploads/public publishing stay disabled.
