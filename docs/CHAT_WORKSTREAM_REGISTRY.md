@@ -1166,3 +1166,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Commits: production `a9716c4e5d39b79103dfed2ee000cd817db71b0b`; tests `8cc3155cf39c75b5a9e28b1f9a17a44a13264530`; report added in this workstream.
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED.
 - Draft only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment or destructive action. Keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0226 metadata immutability regression — 2026-11-24
+- Expanded duplicate-source-ID coverage to prove grant metadata and permission scope cannot be replaced by a repeated registration.
+- Test-only commit: `33743ca5ecaab1d69cab999968e8da8dc7f030ae`; production code unchanged.
+- Local tests NOT RUN; fresh exact-head Ubuntu/hosted-Windows CI must be checked.
