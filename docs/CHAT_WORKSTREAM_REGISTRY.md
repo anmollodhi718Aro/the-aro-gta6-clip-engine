@@ -1006,3 +1006,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - The regression for original-source mutation passed on both platforms. The FIFO race test passed on Ubuntu and skipped on hosted Windows solely because FIFO creation is unavailable.
 - Both jobs ran the same 342 tests, not 684 unique tests. Raw-head-only CI NOT DEMONSTRATED. No real media, OAuth, upload or publishing. Owner-device and real-media PRIVATE acceptance remain NOT VERIFIED.
 - The current documentation-only closeout commit advances the PR head; inspect its own exact-head CI before claiming current-head CI_VERIFIED.
+
+
+### ARO-CHAT-0215 approval-record read hardening — 2026-11-24
+- Independent review found the consolidated PR #311 base still read the durable approval JSON with `Path.read_text()`, allowing symlink following and leaving a stat/open path-substitution window. The same guard had existed on a parallel PR #317 line but was not present in this base.
+- On the existing PR #328 draft branch, approval-record reads now reject symlinks and non-regular files, open with `O_NOFOLLOW | O_NONBLOCK` where available, compare pre-open path identity with descriptor identity, and parse JSON from the verified descriptor.
+- Added tests for symlink records, replacement between stat/open, directory records, FIFO records, and FIFO replacement races.
+- Production commit: `e20445398a69e2bffb3d58401f3f5a7b322bf10d`; test commit: `8f6577db86580d4ea90c55736e619262d02302bc`; report: `docs/ARO_CHAT_0215_APPROVAL_RECORD_READ_HARDENING.md`.
+- Earlier PR #328 run #45426822957 passed 341 tests on Ubuntu and hosted Windows on merge ref `fc5b36ab4e395a8f86c5fced36262b1575338790`, but it predates this fix. New-head CI is PENDING; do not transfer prior CI evidence.
+- No local tests, OAuth, credentials, real media, upload, merge, deployment or publishing. Issue #68 remains OPEN; public publishing remains disabled.
