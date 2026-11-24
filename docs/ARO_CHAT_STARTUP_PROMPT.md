@@ -812,3 +812,9 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Both jobs checked out `refs/remotes/pull/230/merge` at merge SHA `363c6f07fda6939d7608edd5ea89422e04869cd0`; raw-head-only checkout NOT DEMONSTRATED. Synthetic pattern/tone only, no GTA 6/third-party media, publishing disabled, manual review required, mocked upload false.
 - Combined status had zero entries; PR reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. Owner-device Windows and authorized real-media acceptance NOT VERIFIED.
 - Audit report: `docs/ARO_CHAT_0155_PR230_CI_AUDIT.md`. Keep PR #231 draft-only and live publishing disabled. No workflow retry, OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+
+### ARO-CHAT-0155 audit-branch follow-up — 2026-11-24
+- PR #231 then-current documentation head `6eed424a7fe6bea1259c1c7aa8b22aba60cc1645` had zero associated workflow runs and zero combined-status entries; reviews, inline threads, and conversation comments were empty.
+- This does not alter parent PR #230's successful merge-ref CI. PR #231 remains draft-only; do not transfer parent CI to the audit PR or claim the new documentation head is verified. Recheck any subsequent head independently.
