@@ -24,7 +24,10 @@ def _ends_in_ipv4_number(label: str) -> bool:
         digits = lowered[2:]
         return not digits or all(character in "0123456789abcdef" for character in digits)
     if len(lowered) > 1 and lowered.startswith("0"):
-        return all(character in "01234567" for character in lowered[1:])
+        # Reject every all-decimal leading-zero suffix, including forms such
+        # as 09 that some parsers reject as octal but other consumers may
+        # normalize differently.
+        return lowered.isascii() and lowered.isdigit()
     return lowered.isascii() and lowered.isdigit()
 
 
