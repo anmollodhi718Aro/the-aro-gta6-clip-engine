@@ -25,3 +25,10 @@ Independent review of the snapshot branch found that `require_current_owner_appr
 
 ## Safety
 Draft-only. No OAuth, credentials, real media, network upload, merge, deployment, or publishing. Issue #68 remains OPEN; public publishing remains disabled. Owner-device verification and real-media PRIVATE acceptance remain NOT VERIFIED.
+
+
+## Combined branch CI closeout — 2026-11-24
+- PR #328 head `e1dd08c12d81e3a5c56eef65784955f0e55d4021` passed run #45428060156 on merge ref `b4adb085f8976e79bb70356b4314dbd450b23416`.
+- Ubuntu: compile, 348 tests and synthetic MP4/FFprobe passed. Hosted Windows: compile, same 348-test suite, 345 passed and 3 FIFO-only tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed.
+- Same-inode symlink substitution after open passed on both platforms. FIFO-specific tests passed on Ubuntu and skipped on Windows only because FIFO creation is unavailable.
+- Both jobs used the same 348 tests, not 696 unique tests. Raw-head-only checkout NOT DEMONSTRATED. No real media, OAuth, upload or publishing. Independent review NOT RECORDED.
