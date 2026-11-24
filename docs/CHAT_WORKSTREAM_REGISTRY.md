@@ -1107,3 +1107,21 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Run #45434843065 validates the functional/code-and-test head `a08a69cfa687479c58ce72a322b1357761a92723` only.
 - The subsequent commits in this workstream update documentation only (this report, startup handoff, and registry); no application code or tests changed after the validated functional head.
 - The resulting documentation-only branch tip has no separately associated CI run returned and is therefore NOT independently CI-VERIFIED. Do not transfer the functional-head green result to the later documentation-only tip.
+
+
+## ARO-CHAT-0221 — PR #342 / PR #344 security lineage audit (2026-11-24)
+- Workstream: ARO-GTA-P1-221; branch `workstream/aro-chat-0221-pr342-pr344-lineage-audit-2026-11-24`; base / starting SHA `6204a3979b8753919e3f983ce42a3777b3215d87` (PR #339 current head).
+- Duplicate attribution: PR #342 and PR #344 both claim ARO-CHAT-0219 / ARO-GTA-P1-219. Preserve both histories and request owner-directed attribution/integration decision; no automatic consolidation.
+- PR #342 current docs tip `aeb22ca2c2735659ea284be7de68b6c4fc379900`; validated code/test head `08a351a88ade454c5de89098dd1a9e29cdfc818c`, run #45437884661 SUCCESS. Ubuntu: compile + 356 tests + synthetic MP4/FFprobe. Hosted Windows: compile + same 356 tests, 3 FIFO-only tests skipped + synthetic MP4/FFprobe. Both checked out merge ref `4f1ffa8`; raw-head-only checkout NOT DEMONSTRATED. Later docs-only tip has no associated run.
+- PR #344 current head `d2e057734517c1dfb3be994eb7268580f1f173a4`; associated workflow lookup returned zero runs and combined status returned no checks. Exact-head Ubuntu/Windows CI PENDING / NOT VERIFIED. Base/head comparison DIVERGED: 9 ahead / 12 behind; merge base `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722`.
+- PR #342 is OPEN/DRAFT/UNMERGED and reported mergeable=true; PR #344 is OPEN/DRAFT/UNMERGED and reported mergeable=false. Neither has recorded PR conversation comments or independent security review.
+- Report: `docs/ARO_CHAT_0221_PR342_PR344_LINEAGE_AUDIT.md`.
+- Status: DOCUMENTED; no application code/tests changed; no local tests run. Issue #68 OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Live uploads/public publishing remain disabled.
+- No OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Next: resolve duplicate attribution, obtain PR #344 exact-head CI, and arrange independent security review of the consolidated uploader/approval lineage.
+
+
+### ARO-CHAT-0221 PR #345 self-audit
+- Draft PR #345: `workstream/aro-chat-0221-pr342-pr344-lineage-audit-2026-11-24` → PR #339 current head `6204a3979b8753919e3f983ce42a3777b3215d87`.
+- Initial head `ce784ce442a25b3ab463192124d92cb5d3b0680f`; 3 commits ahead / 0 behind. Documentation-only: audit report, startup prompt, registry.
+- Exact-head workflow lookup returned zero runs; combined status returned no checks. CI PENDING / NOT VERIFIED; no application code/tests changed.
+- PR #345 remains OPEN/DRAFT/UNMERGED. No CI result is transferred from predecessor branches.

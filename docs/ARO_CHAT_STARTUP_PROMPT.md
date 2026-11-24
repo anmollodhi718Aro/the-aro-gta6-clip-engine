@@ -282,3 +282,22 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Run #45434843065 validates the functional/code-and-test head `a08a69cfa687479c58ce72a322b1357761a92723` only.
 - The subsequent commits in this workstream update documentation only (this report, startup handoff, and registry); no application code or tests changed after the validated functional head.
 - The resulting documentation-only branch tip has no separately associated CI run returned and is therefore NOT independently CI-VERIFIED. Do not transfer the functional-head green result to the later documentation-only tip.
+
+
+## Current continuation — ARO-CHAT-0221 (2026-11-24)
+- Task: document the live ancestry, CI evidence, and duplicate attribution for security follow-ups PR #342 and PR #344.
+- Branch: `workstream/aro-chat-0221-pr342-pr344-lineage-audit-2026-11-24`; base / starting SHA: `6204a3979b8753919e3f983ce42a3777b3215d87` (PR #339 current head).
+- Both PRs claim ARO-CHAT-0219 / ARO-GTA-P1-219. Preserve both branches; do not silently merge, rebase, retarget, close, or consolidate them.
+- PR #342 current docs tip `aeb22ca2c2735659ea284be7de68b6c4fc379900`; its code/test head `08a351a88ade454c5de89098dd1a9e29cdfc818c` passed run #45437884661: Ubuntu 356 tests; hosted Windows same suite with 3 FIFO-only skips; synthetic MP4/FFprobe passed. Both jobs used merge ref `4f1ffa8`; raw-head-only checkout NOT DEMONSTRATED. The later docs-only tip has no associated run.
+- PR #344 current head `d2e057734517c1dfb3be994eb7268580f1f173a4` has no associated workflow run or combined statuses. Exact-head Ubuntu/Windows CI PENDING / NOT VERIFIED. Its base comparison is DIVERGED (9 ahead / 12 behind; merge base `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722`).
+- Neither PR has recorded conversation comments or independent security review. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL.
+- Report: `docs/ARO_CHAT_0221_PR342_PR344_LINEAGE_AUDIT.md`.
+- Documentation-only audit. No application code/tests, workflow config, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, or deployment.
+- Next: owner resolves duplicate workstream attribution; obtain exact-head CI for PR #344 and independent review of the consolidated uploader/approval lineage. Keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0221 PR #345 self-audit
+- Draft PR #345 opened from `workstream/aro-chat-0221-pr342-pr344-lineage-audit-2026-11-24` against PR #339 current head `6204a3979b8753919e3f983ce42a3777b3215d87`.
+- Initial PR head `ce784ce442a25b3ab463192124d92cb5d3b0680f` is 3 commits ahead / 0 behind its base; changed files are documentation-only.
+- Exact-head workflow lookup and combined status returned no checks. PR #345 CI PENDING / NOT VERIFIED; do not transfer predecessor CI.
+- Keep PR #345 draft/open/unmerged. Issue #68 remains OPEN; public/live uploads remain disabled.
