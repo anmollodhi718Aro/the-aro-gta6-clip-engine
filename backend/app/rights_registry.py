@@ -109,7 +109,14 @@ class SourceRightsRegistry:
         platforms = sorted({item.strip().lower() for item in raw_platforms})
         if not platforms:
             raise ValueError("at least one permitted platform is required")
-        source_url = record["source_url"].strip()
+        raw_source_url = record["source_url"]
+        if any(
+            character.isspace() or ord(character) < 0x20
+            or ord(character) == 0x7F or character == chr(92)
+            for character in raw_source_url
+        ):
+            raise ValueError("source_url must not contain whitespace, control characters, or backslashes")
+        source_url = raw_source_url.strip()
         try:
             parsed_source_url = urlsplit(source_url)
             # Accessing .port validates its numeric syntax and range.
