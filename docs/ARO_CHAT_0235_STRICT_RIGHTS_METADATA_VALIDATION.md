@@ -100,3 +100,14 @@ Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploa
 - Test commit: 079d9213ab53142c6d085dbfc28597df745a5a2b; current PR #371 head at handoff: same SHA.
 - Local tests NOT RUN in this connector session. Commit-associated workflow lookup returned no run at inspection; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent security review NOT RECORDED.
 - PR #371 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+## Current exact-head CI recheck — 2026-11-25
+
+- Re-fetched PR #371 metadata: OPEN / DRAFT / UNMERGED; exact head `2032ccbc1c115426e3731415915656841c2633ad`; base `8185687919138671deff872f6a7f35f86eafc27c`.
+- Commit-associated workflow lookup returned Python CI run [#45494763114](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45494763114), run 1524, completed FAILURE.
+- Ubuntu job `138802196403` and hosted-Windows job `138802196129` both completed FAILURE. The jobs endpoint exposed `steps: null`; the dedicated step lookup returned empty arrays for both jobs.
+- Both job-log requests returned `BlobNotFound`. The available evidence does not identify a failing command, runner initialization cause, or application/test defect. Root cause NOT VERIFIED.
+- Combined commit status returned zero status entries. PR #371 review submissions and inline review threads were empty at inspection; independent review NOT RECORDED.
+- Local tests NOT RUN in this connector session. No compile result or test count is claimed. Exact-head CI: FAILED / NOT VERIFIED.
+- No workflow retry/dispatch was initiated. Keep PR #371 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+- No code, workflow, OAuth, credential, media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed in this audit.
