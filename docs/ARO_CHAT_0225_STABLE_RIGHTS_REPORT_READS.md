@@ -33,3 +33,8 @@ PR #353 verifies that the rights-report path and opened descriptor identify the 
 
 ## Safety
 Draft only. No OAuth, credentials/tokens, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
+
+
+## Test-fixture cleanup — 2026-11-24
+- Corrected the regression fixture to obtain its baseline stat through a context-managed file handle, ensuring the fixture descriptor is closed before the test patches fstat.
+- Production behavior is unchanged by this test-only correction.
