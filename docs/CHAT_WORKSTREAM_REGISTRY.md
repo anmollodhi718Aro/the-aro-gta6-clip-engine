@@ -834,3 +834,5 @@ Report: `docs/ARO_CHAT_0194_PR289_CI_AUDIT.md`. PR #289 remains OPEN / DRAFT / U
 
 ### Chat ID collision reconciliation
 ARO-CHAT-0193 was already used by the PR #288 audit branch. Preserve that earlier attribution and use ARO-CHAT-0194 for the PR #289 audit. The superseded PR #289 branch carrying the colliding ARO-CHAT-0193 label is not the canonical audit branch. No merge, retarget, workflow retry, OAuth, credentials, real media, upload, publishing, deployment, or destructive action was performed.
+
+- Follow-up PR #292 is OPEN / DRAFT / UNMERGED. Its first inspected head `3f2b6eb66661dbe451989f366f3346c51a7f8386` had zero associated workflow runs and zero combined status entries; its own CI is PENDING / NOT VERIFIED. Do not transfer PR #289's run to PR #292.
