@@ -6,6 +6,7 @@ authenticate the grantor or determine whether permission is legally sufficient.
 from __future__ import annotations
 
 import ipaddress
+import re
 import json
 import sqlite3
 from contextlib import contextmanager
@@ -20,8 +21,21 @@ ALLOWED_USES = frozenset({"analyze", "edit", "publish"})
 def _valid_hostname(hostname: str) -> bool:
     """Accept DNS/IDNA names and IPv6 literals; reject malformed host labels."""
     if ":" in hostname:
+        address = hostname
+        if "%" in hostname:
+            address, separator, zone = hostname.partition("%")
+            # RFC 6874 requires the zone delimiter to be percent-encoded as
+            # "%25" in a URI. Validate the remaining ZoneID as unreserved
+            # characters or well-formed percent-encoded octets.
+            if (
+                not separator
+                or not zone.startswith("25")
+                or not zone[2:]
+                or re.fullmatch(r"(?:[A-Za-z0-9._~-]|%[0-9A-Fa-f]{2})+", zone[2:]) is None
+            ):
+                return False
         try:
-            ipaddress.IPv6Address(hostname)
+            ipaddress.IPv6Address(address)
             return True
         except ValueError:
             return False
