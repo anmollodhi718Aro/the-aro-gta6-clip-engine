@@ -595,3 +595,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Files: backend/app/ingestion.py, tests/test_ingestion.py, docs/ARO_CHAT_0186_EVENT_INTAKE_MEMORY_GUARD.md, docs/CHAT_WORKSTREAM_REGISTRY.md, and this startup prompt.
 - Local tests NOT RUN in this connector session. Inspect this branch's own exact-head CI after PR creation; do not transfer CI from PR #269 or PR #272.
 - Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL and live uploads/public publishing disabled. No credentials/OAuth, real media, uploads, publishing, merge, retarget, deployment, or destructive actions.
+
+## Current live continuation baseline — 2026-11-24
+
+- Latest registered engineering task: ARO-CHAT-0186 / ARO-GTA-P1-186, bounded event iterable intake (PR #274).
+- PR #274 head `ab64dbfe566fa6d8f5ed1debeacd93cbf5b27eaf` has successful merge-ref CI: run #45382081002; Ubuntu and hosted Windows each passed the same 29-test suite. Both checked out PR #274 merge ref at `73eb5508ce0690e0c50e49b555b7b5aec924fb0e`; raw-head-only checkout NOT DEMONSTRATED.
+- The independent audit is ARO-CHAT-0187 / ARO-GTA-P1-187, report `docs/ARO_CHAT_0187_PR274_CI_AUDIT.md`.
+- Keep PR #274 draft-only until owner review. Do not infer independent approval, owner-device Windows acceptance, or real-media verification from hosted CI.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled until authenticated channel-owner binding, exact per-clip approval, current rights/scope checks, independent security review, and owner acceptance are all evidenced.
+- No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real-media upload, or public publishing is authorized by this baseline.
