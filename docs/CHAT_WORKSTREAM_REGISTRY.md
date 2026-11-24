@@ -1448,3 +1448,13 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Parent PR #238 run #45277658000 passed Ubuntu and hosted Windows (338 tests per platform plus synthetic MP4/FFprobe); this predecessor evidence is NOT transferred to ARO-CHAT-0164.
 - No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment or destructive action.
 - Keep Issue #68 OPEN and all live/public uploads disabled pending this branch's exact-head CI, independent security review, owner-controlled integration, owner-device verification and separate authorized real-media acceptance.
+
+
+## Latest continuation baseline — ARO-CHAT-0165 (2026-11-24)
+- Current workstream: ARO-GTA-P1-165 / ARO-CHAT-0165 | PR #242 exact-head CI cancellation audit.
+- Audit branch: `workstream/aro-chat-0165-pr242-ci-cancellation-audit-2026-11-24`; base: PR #242 branch `workstream/aro-chat-0164-explicit-upload-memory-limit-2026-11-24`; starting/reviewed SHA: `414fd4f7da94fdffcdd3261a5ea723b5f03290b3`.
+- PR #242 commit-associated Python CI run #45278355448 (run 1113) completed CANCELLED. Ubuntu job #138055938916 and hosted-Windows job #138055938471 both passed setup, checkout and Python setup, then were cancelled during FFmpeg/FFprobe installation. Compile, unit tests and synthetic MP4/FFprobe steps were skipped.
+- Checkout refs/SHAs, test counts, compilation and render validation are NOT VERIFIED. Combined status returned zero entries. Reviews, inline threads and conversation comments were empty; independent review NOT RECORDED. No retry was initiated.
+- Report: `docs/ARO_CHAT_0165_PR242_CI_AUDIT.md`. Documentation-only; no runtime, uploader, tests or workflow behavior changed. Local tests NOT RUN.
+- Keep PR #242 draft/open/unmerged. Issue #68 remains OPEN; live/public uploads remain disabled. No credentials/OAuth, real media, network upload, publishing, merge, rebase, retarget, deployment or destructive action.
+- Next action: recheck PR #242's exact current head and its own CI after an owner-authorized workflow run. Do not transfer PR #238 CI evidence or retry workflows without explicit approval.
