@@ -879,3 +879,8 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Run #45393615753: Ubuntu passed 334 tests and synthetic MP4 validation; Windows failed one assertion because the implementation resolves the config path (normalizing Windows 8.3 short paths) while the test expected an unresolved temporary path. This was a test-path comparison failure, not a media or upload failure.
 - The same review tightened the prior `.secrets` check: the config must now resolve specifically to this repository's `<repo>/.secrets` directory, not merely any directory named `.secrets`. A separate external `.secrets` regression test covers that case. The repository root is injectable only for deterministic tests; production defaults to the repository root derived from the module path.
 - Follow-up commits: `14e7adc5e4510218955710c6983b52cf7334743a`, `8254e9b2e04c306d1d96aa19fa324e48cf029537`, `152de0e3cecbfe2be2569c46db14e5c9c67506a2`, `763d3fc3ee73f93802eacfc97fbb03abc970c74c`. CI for latest code is pending.
+
+
+### Final profile-path gate ordering
+- The loader now validates the resolved config path against this repository's `.secrets/` directory before reading the JSON file. Regression tests patch `Path.read_text` to prove external configs are rejected without being read.
+- Follow-up commits: `716424791e971a27e05b6f0a49a54a5c5008c059`, `15973b3f6d156b7ea51f64c9192020d7607d809c`. CI for this code/test head pending.
