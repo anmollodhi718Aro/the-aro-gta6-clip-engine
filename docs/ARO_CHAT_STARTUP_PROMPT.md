@@ -90,3 +90,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - The uploader must verify the Google OIDC subject and destination channel from the same OAuth session, require a durable per-clip approval bound to the exact video hash, Google subject and channel, and re-check live publish permission immediately before the upload API call.
 - A client-supplied reviewer string or legacy boolean is never identity authentication. Fail closed on missing/mismatched channel, clip, source, file hash, approval, permission, expiry or revocation.
 - Use mocked API clients in tests; no test may perform a network upload. Keep public publishing disabled unless every authenticated owner, per-clip approval and source-rights gate passes.
+
+
+## LIVE REPOSITORY UPDATE — 2026-11-24 (ARO-CHAT-0196)
+
+- The current multi-channel private-profile implementation candidate is draft PR #295 / ARO-CHAT-0133, head `c767f8110049abfaebce62950c293d2afb0fe8b9`, stacked on PR #289. Its implementation and profile tests are committed, but its tests and exact-head CI were not yet verified at the inspected snapshot.
+- A separate test-only continuation, ARO-CHAT-0196 / ARO-GTA-P1-196, starts from that exact PR #295 head and adds a mocked CLI regression proving selected profile identity and token-path routing reaches the upload boundary. It does not modify production uploader behavior.
+- The ARO-CHAT-0196 regression test and its own branch CI remain pending execution; never describe them as passing until logs are inspected.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. PR #295 does not resolve the authenticated owner-approval gate. Keep live uploads and public publishing disabled.
+- The canonical product plan is `docs/MASTER_PLAN.md`; the durable chat governance documents are `docs/CHAT_WORKSTREAM_REGISTRY.md` and `docs/ARO_CHAT_STARTUP_PROMPT.md`. No standalone `MASTER_SCRIPT.md` was found at the inspected repository paths.
+- No OAuth flow, credential/token access, real media, network upload, public publishing, merge, retarget, deployment, or destructive action is authorized by this test-only workstream.
