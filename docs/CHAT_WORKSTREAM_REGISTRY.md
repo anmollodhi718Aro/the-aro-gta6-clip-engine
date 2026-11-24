@@ -1384,3 +1384,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Production commit `8d9812d8c88ad4549e5677a4a3a175b4e75bdd26`; test commit/current branch head `f6bb501eccf77445509f85e24ec69babbd61e41a`.
 - Current-head associated workflow lookup returned zero runs. Exact-head CI PENDING / NOT VERIFIED; local tests NOT RUN; independent review NOT RECORDED.
 - PR #376 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### ARO-CHAT-0238 test-only continuation — 2026-11-25
+
+- Continued existing PR #376 and branch; no duplicate workstream or PR.
+- Added trailing-dot numeric-host regressions: reject numeric-like DNS suffixes ending in a dot and accept canonical IPv4 with a trailing dot.
+- Test commit: `4cde1bb1b12ab95fd9779171f95d93f78621760e`.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT YET CHECKED; independent review NOT RECORDED.
+- Keep PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
