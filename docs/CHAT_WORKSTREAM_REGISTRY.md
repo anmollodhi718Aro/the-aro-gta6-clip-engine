@@ -1107,3 +1107,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Run #45434843065 validates the functional/code-and-test head `a08a69cfa687479c58ce72a322b1357761a92723` only.
 - The subsequent commits in this workstream update documentation only (this report, startup handoff, and registry); no application code or tests changed after the validated functional head.
 - The resulting documentation-only branch tip has no separately associated CI run returned and is therefore NOT independently CI-VERIFIED. Do not transfer the functional-head green result to the later documentation-only tip.
+
+
+## ARO-CHAT-0219 — uploader security and ancestry audit (2026-11-24)
+- Workstream: ARO-GTA-P1-219; branch `workstream/aro-chat-0219-security-ancestry-audit-2026-11-24`; documentation-only follow-up based on the current ARO-CHAT-0218 branch.
+- Added `docs/ARO_CHAT_0219_SECURITY_ANCESTRY_AUDIT.md`.
+- Verified PR #339 functional head `a08a69cfa687479c58ce72a322b1357761a92723` has associated run #45434843065 SUCCESS on Ubuntu and hosted Windows; same test suite on both, three FIFO-only skips on Windows, synthetic MP4/FFprobe passed. Later documentation-only tip is not covered by this run.
+- Scoped source inspection covered uploader PRIVATE-only guard, OIDC/channel verification, durable exact-clip/source/hash approval, approval-record descriptor/path checks, current rights checks, approved-byte snapshot, media-handle cleanup, and PRIVATE response verification. No new defect was confirmed in this scoped inspection; this is NOT an independent external security review.
+- Ancestry compare: PR #311 current head `29984e540355d86b6024f8aea37742759637a9b3` is one docs-only commit ahead of PR #328's recorded base `67e6d4290fee795fb8ba6fd0e926107ea7f0eb81`; PR #328 line `5ef44f391720966138b2eec1815dd223fb345dbd` is 31 ahead / 1 behind PR #311 current head, merge base `67e6d4290fee795fb8ba6fd0e926107ea7f0eb81`.
+- PRs #311/#328/#339 remain open drafts; no merge/rebase/retarget/close/force-push. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, real media, upload, deployment, publishing, or destructive action.
+- Next: owner-approved canonical dependency sequence plus independent security review of the complete lineage; then rerun exact-head CI after any integration change.
