@@ -1,67 +1,67 @@
 # YouTube OAuth Upload Adapter
 
-This is an optional, explicit-approval upload path for a local video file. It uses the official YouTube Data API v3 and a loopback desktop OAuth flow. It does not access other creators' video bytes or download streams.
+This optional adapter can stage one locally supplied, authorized video through the official YouTube Data API v3. It uses a loopback desktop OAuth flow. It does not download livestreams, extract other creators' video bytes, or automatically publish content.
+
+**Current live-upload boundary: PRIVATE only.** The implementation rejects unlisted and public upload requests before OAuth/API work. A successful API request is not treated as success unless YouTube's response explicitly confirms PRIVATE visibility.
 
 ## 1. Set up Google OAuth locally
 
-1. Create or select a Google Cloud project owned/authorized by the channel owner.
-2. Enable **YouTube Data API v3** for that project.
-3. Configure the OAuth consent screen and add the appropriate test users if the app is in testing mode.
-4. Create an OAuth client with application type **Desktop app**.
-5. Download the client JSON and save it locally as `client_secret.json` in the repository root, or pass another path using `--client-secrets`.
-6. Do not commit this file. The repository ignores `client_secret*.json`, `token.json`, and local state.
+1. Create or select a Google Cloud project controlled by or authorized for the destination channel owner.
+2. Enable **YouTube Data API v3**.
+3. Configure the OAuth consent screen and add test users if the app is in testing mode.
+4. Create a **Desktop app** OAuth client.
+5. Save the downloaded client JSON locally, for example at `.secrets/client_secret.json`, and pass it with `--client-secrets` if it is not at the CLI default path.
+6. Never commit the client JSON, OAuth tokens, destination profile file, or approval records.
 
-Install the optional uploader dependencies:
+Install the optional dependencies:
 
 ```bash
 pip install -e ".[youtube-upload]"
 ```
 
-The uploader requests `youtube.upload`, `youtube.readonly`, `openid`, and `email` scopes. The read-only scope is used to resolve the authenticated channel through `channels.list(mine=true)`; the configured channel ID must match. Existing token files without the required scopes must be re-authorized. On first use, it opens a loopback browser flow at 127.0.0.1 and stores a local token file with restricted permissions where supported.
+The current OAuth flow requests these scopes:
 
-Set `ARO_YOUTUBE_CHANNEL_ID` locally to the exact destination channel ID. Do not put OAuth secrets, tokens, or this configuration in Git.
+- `openid`
+- `https://www.googleapis.com/auth/youtube.readonly`
+- `https://www.googleapis.com/auth/youtube.upload`
 
-## Multi-channel destination profiles
+The read-only scope is used to resolve the authenticated channel with `channels.list(mine=true)`. Existing token files without the required scopes must be re-authorized. Token persistence uses a same-directory temporary file and atomic replacement, with restrictive permissions where supported; symlink token paths are rejected.
 
-For separate destinations, create a local file at `.secrets/youtube_destination_profiles.json`. This file is ignored by Git because it is stored under `.secrets/`. It contains channel identity mapping only, never OAuth tokens or client secrets:
+## 2. Configure a destination profile
+
+For multiple destinations, create `.secrets/youtube_destination_profiles.json`. This file contains identity mappings only, not tokens or client secrets:
 
 ```json
 {
   "profiles": {
-    "aroanmol7": {
-      "google_subject": "OWNER_ONE_GOOGLE_OIDC_SUB",
-      "channel_id": "UC_CHANNEL_ID_FOR_AROANMOL7"
+    "channel_one": {
+      "google_subject": "VERIFIED_GOOGLE_OIDC_SUBJECT",
+      "channel_id": "UC_EXACT_VERIFIED_CHANNEL_ID"
     },
-    "the_arro07": {
-      "google_subject": "OWNER_TWO_GOOGLE_OIDC_SUB",
-      "channel_id": "UC_CHANNEL_ID_FOR_THE_ARRO07"
+    "channel_two": {
+      "google_subject": "SECOND_VERIFIED_GOOGLE_OIDC_SUBJECT",
+      "channel_id": "UC_SECOND_EXACT_CHANNEL_ID"
     }
   }
 }
 ```
 
-Replace every placeholder only after checking the exact channel ID and Google account identity in that channel's own authorized OAuth session. Do not infer a channel ID from its public handle. Profile names must be unique and every profile must map to a distinct YouTube channel ID. Each profile gets its own token file under `.secrets/tokens/<profile>.json`; the CLI refuses a shared-token override when a profile is selected.
+Replace placeholders only after each destination owner has authenticated through that destination's own OAuth session and the exact channel ID has been confirmed through YouTube's `channels.list(mine=true)` response. Never infer channel IDs from public handles.
 
-Use one profile per approval and upload invocation:
+Security boundaries:
 
-```bash
-python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
-  --rights-report output/preflight_report.json \
-  --title "THE ARO GTA 6 Highlight" \
-  --not-made-for-kids \
-  --destination-config .secrets/youtube_destination_profiles.json \
-  --destination-profile aroanmol7 \
-  --clip-id clip-001 --source-id source-001 \
-  --approval-record local_approvals/aroanmol7/clip-001.json \
-  --rights-db aro_studio_data/source_rights.sqlite3 \
-  --approve-clip
-```
+- The profile file must resolve directly inside this checkout's `.secrets/` directory. A similarly named directory elsewhere is not accepted.
+- Profile names must be 1–64 letters, numbers, underscores or hyphens.
+- Every profile must map to a distinct YouTube channel ID.
+- Each profile receives its own token path: `.secrets/tokens/<profile>.json`.
+- A caller cannot override a selected profile's token path with `--token`.
+- Keep profile data and token files out of Git.
 
-Repeat with `--destination-profile the_arro07` and a different approval-record path only after that destination's owner identity and rights are independently verified. The approval record itself binds the authenticated channel ID and exact video hash, so one profile's approval cannot authorize the other profile. The profile mechanism does not itself prove control of a handle; OAuth verification remains mandatory.
+For a single destination without a profile file, the legacy local environment variables `ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT` and `ARO_YOUTUBE_CHANNEL_ID` may be used. Do not paste OAuth secrets, ID tokens, refresh tokens, or private configuration into chat or issue comments.
 
-## 2. Create a rights preflight report
+## 3. Prepare and validate a rights report
 
-Use a structured content pack and the same local rights database used by THE ARO Studio:
+Use the local content pack and rights registry:
 
 ```bash
 python -m backend.app.content_preflight output/gta6_short.json \
@@ -70,79 +70,86 @@ python -m backend.app.content_preflight output/gta6_short.json \
   --output output/preflight_report.json
 ```
 
-A report must be `ready_for_human_review` and contain no blocking errors. This checks stored permission metadata only; the channel owner must still verify the underlying evidence and all embedded rights.
+The report must be `ready_for_human_review`, target YouTube, contain no blocking errors, and identify the exact `clip_id` and `source_id` used in the approval and upload commands. Metadata in the registry is not legal verification. A human must inspect the underlying permission evidence and all included game, music, visual, guest and other third-party rights. Permission to process a file does not automatically grant permission to publish or monetize it.
 
-## 3. Dry-run upload metadata (default)
+## 4. Dry-run metadata (no upload)
 
 ```bash
-python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
+python -m backend.app.youtube_upload /path/to/authorized-clip.mp4 \
   --rights-report output/preflight_report.json \
-  --title "THE ARO GTA 6 Highlight" \
-  --description "Original THE ARO commentary and analysis." \
-  --tags "GTA6,GTAVI,THEARO" \
-  --privacy private \
-  --not-made-for-kids
+  --title "THE ARO clip" \
+  --not-made-for-kids \
+  --privacy private
 ```
 
-No API upload occurs unless `--upload` is supplied. The uploader requires an explicit audience declaration using exactly one of `--made-for-kids` or `--not-made-for-kids`.
+The CLI requires exactly one audience declaration: `--made-for-kids` or `--not-made-for-kids`. Without `--upload`, the command validates local input and metadata only. A dry-run is not an owner approval and does not upload anything.
 
-## 4. Record authenticated owner approval for the exact clip
+## 5. Record authenticated PRIVATE approval for one exact clip
 
-First ensure the source has an active YouTube `publish` grant in the SQLite rights database. The rights report must include the exact `clip_id` and `source_id`. Authenticate as the configured channel owner and explicitly approve the exact local file in a separate, non-uploading invocation:
+First confirm that the primary source and every source-bound asset have current YouTube `publish` grants in the SQLite rights registry. Then authenticate as the correct destination owner and create an approval in a separate, non-uploading invocation:
 
 ```bash
-python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
+python -m backend.app.youtube_upload /path/to/authorized-clip.mp4 \
   --rights-report output/preflight_report.json \
-  --title "THE ARO GTA 6 Highlight" \
+  --title "THE ARO clip" \
   --not-made-for-kids \
-  --clip-id clip-001 --source-id source-001 \
+  --privacy private \
+  --destination-config .secrets/youtube_destination_profiles.json \
+  --destination-profile channel_one \
+  --clip-id CLIP_ID --source-id SOURCE_ID \
   --rights-db aro_studio_data/source_rights.sqlite3 \
-  --approval-record local_approvals/clip-001.json \
+  --approval-record .secrets/approvals/channel_one/CLIP_ID.json \
   --approve-clip
 ```
 
-Set `ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT` to the expected Google OIDC `sub` and `ARO_YOUTUBE_CHANNEL_ID` to the destination channel ID in local environment configuration. This step verifies the signed Google ID token's issuer and OAuth-client audience, matches the OIDC subject to the configured owner subject, verifies the same OAuth session's channel through `channels.list(mine=true)`, and checks current source publish permission. For private approval, type `APPROVE PRIVATE <clip_id>`; for unlisted approval, type `APPROVE UNLISTED <clip_id>`; public approval requires the distinct phrase `PUBLISH PUBLIC <clip_id>`. The 24-hour record binds the Google subject, channel ID, clip/source IDs, requested privacy level and exact file SHA-256. It does not upload. Existing approval files are never overwritten.
+If using the legacy single-destination configuration, omit the two destination-profile arguments and configure the expected Google subject and channel ID locally.
 
-## 5. Perform the separately requested upload
+The approval flow:
 
-Only after reviewing the exact finished file, all source permissions, attribution/disclosures, title, description and audience declaration:
+1. Authenticates through the loopback OAuth flow.
+2. Verifies the signed Google ID token against the OAuth client ID and accepted Google issuer.
+3. Requires the token's stable `sub` to match the configured destination owner.
+4. Resolves the destination channel through the same OAuth session's `channels.list(mine=true)` result and requires an exact channel-ID match.
+5. Checks the current YouTube `publish` grant for the clip source and each source-bound rights-report asset.
+6. Asks the owner to type `APPROVE PRIVATE <clip_id>`.
+
+The durable approval record cannot overwrite an existing record at the same path. It expires after 24 hours by default and binds the Google subject, reviewer/destination channel, clip ID, source ID, PRIVATE visibility, review time, expiry, and SHA-256 of the exact local video bytes. It does not upload.
+
+## 6. Perform a separately approved PRIVATE upload
+
+Only after reviewing the exact finished file, permission evidence, attribution/disclosures, title, description and audience declaration, run a separate command:
 
 ```bash
-python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
+python -m backend.app.youtube_upload /path/to/authorized-clip.mp4 \
   --rights-report output/preflight_report.json \
-  --title "THE ARO GTA 6 Highlight" \
+  --title "THE ARO clip" \
   --description "Original THE ARO commentary and analysis." \
   --tags "GTA6,GTAVI,THEARO" \
-  --privacy private \
   --not-made-for-kids \
-  --clip-id clip-001 --source-id source-001 \
+  --privacy private \
+  --destination-config .secrets/youtube_destination_profiles.json \
+  --destination-profile channel_one \
+  --clip-id CLIP_ID --source-id SOURCE_ID \
   --rights-db aro_studio_data/source_rights.sqlite3 \
-  --approval-record local_approvals/clip-001.json \
+  --approval-record .secrets/approvals/channel_one/CLIP_ID.json \
   --upload --owner-approved --confirm-rights
 ```
 
-Immediately before `videos.insert`, the uploader re-verifies the Google OIDC subject and authenticated channel, the exact account/channel/clip/source/file/privacy approval and current publish permissions for every source-bound asset. The default privacy setting is private. Public or unlisted uploads still require every gate to pass. The `--owner-approved` flag is only an additional operator acknowledgement, never identity authentication or a substitute for the durable record. The flags do not guarantee legal clearance, platform acceptance, copyright safety, or monetization.
+Immediately before `videos.insert`, the uploader re-verifies the OAuth owner/channel identity, the exact approval binding, and current publish permissions for the primary source and all source-bound assets. The `--owner-approved` and `--confirm-rights` flags are additional operator acknowledgements only. Neither flag authenticates identity or replaces the durable approval record.
 
-## Limits
+The CLI reports success only if YouTube's response includes a video ID and explicitly returns `status.privacyStatus == "private"`. If the response omits the status or reports another visibility, the upload state is **UNVERIFIED**. Inspect YouTube Studio before taking any further action.
 
-- The source file must already exist locally and be authorized for this use.
-- The adapter never downloads or extracts YouTube or Kick livestream video.
+**Unlisted and public live uploads are not supported by this uploader.** The current approval writer and upload boundary fail closed unless the requested privacy is PRIVATE. Do not interpret a dry-run or an approval record as permission for public publishing.
+
+## Limits and acceptance gates
+
+- The video must already exist locally and be authorized for the intended use.
+- The adapter does not download or extract YouTube/Kick livestream video.
 - A YouTube API key is not a substitute for the OAuth upload scope.
-- OAuth client secrets and refresh tokens must remain local and out of Git.
-- No scheduling or automatic posting is implemented; each upload is a deliberate CLI action.
-- The owner must supply the correct made-for-kids declaration. Do not guess.
+- OAuth client secrets, refresh tokens, profile maps and approval records must remain local and out of Git.
+- The owner must provide the correct made-for-kids declaration; do not guess.
+- There is no scheduling or automatic posting.
+- Unit tests use synthetic files and mocked Google/YouTube clients. They do not perform network uploads.
+- Owner-side OAuth configuration, independent security review, owner-controlled integration, owner-device verification and a separately authorized real-media PRIVATE acceptance test remain outstanding. Hosted CI and synthetic MP4 checks do not satisfy those gates.
+- Public publishing remains a separate owner-controlled decision and is not enabled by this uploader.
 
-
-## Approval binding and privacy rules
-
-- The OAuth ID token is verified against the configured OAuth client ID; its stable Google subject must equal ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT.
-- The same OAuth session must resolve the configured destination channel through YouTube channels.list(mine=True).
-- Approval records bind both the Google subject and YouTube channel, plus clip ID, source ID, exact local file SHA-256, privacy, review time and expiry.
-- A private or unlisted approval cannot authorize a public upload. Public approval requires the distinct phrase PUBLISH PUBLIC CLIP_ID.
-- Immediately before videos.insert, the uploader rechecks the current publish grant for the clip source and every source-bound asset in the rights report.
-- Tests use synthetic files and mocked YouTube/OAuth clients only. They never perform a real upload.
-
-
-## Post-upload PRIVATE response verification
-
-The upload CLI reports success only when the official `videos.insert(part="snippet,status")` response contains a video ID and `status.privacyStatus == "private"`. If the response omits the status or reports any other visibility, the command exits as unverified and instructs the operator to inspect YouTube Studio. A request body asking for PRIVATE is not, by itself, evidence that YouTube accepted that visibility. Unit tests cover both confirmed-private and unexpected-visibility responses; tests do not upload to YouTube.
