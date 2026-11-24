@@ -294,6 +294,24 @@ class OwnerApprovalTests(unittest.TestCase):
         with self.assertRaisesRegex(PermissionError, "invalid review time"):
             self.gate(at=NOW - timedelta(minutes=1))
 
+    def test_directory_approval_path_is_rejected(self):
+        directory_path = self.root / "approval-directory"
+        directory_path.mkdir()
+        with self.assertRaisesRegex(PermissionError, "must be a regular file"):
+            self.gate(approval_path=directory_path)
+
+    def test_symlinked_approval_record_is_rejected_without_reading_target(self):
+        target = self.root / "external-approval.json"
+        target.write_text(self.record.read_text(encoding="utf-8"), encoding="utf-8")
+        link = self.root / "approval-link.json"
+        try:
+            link.symlink_to(target)
+        except (OSError, NotImplementedError):
+            self.skipTest("symlink creation is unavailable on this platform")
+        with self.assertRaisesRegex(PermissionError, "must not be a symlink"):
+            self.gate(approval_path=link)
+        self.assertEqual(json.loads(target.read_text(encoding="utf-8"))["decision"], "approved")
+
     def test_fifo_approval_path_is_rejected_without_blocking(self):
         if not hasattr(os, "mkfifo"):
             self.skipTest("FIFO creation is unavailable on this platform")
