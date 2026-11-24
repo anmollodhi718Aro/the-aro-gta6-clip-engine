@@ -606,3 +606,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #267 exact-head run #45380924403 passed Ubuntu and hosted Windows. This evidence applies only to PR #267's audited SHA.
 - PR #270 head `16e8b75feddb4552bddd14db1482bad833c7f7e3` had zero associated workflow runs at initial post-creation inspection; audit PR CI PENDING / NOT VERIFIED. Re-fetch exact head and inspect its own jobs; never transfer CI.
 - Keep PR #270 draft-only, with no merge/retarget/retry. Issue #68 and live publishing gates remain closed.
+
+
+
+### ARO-CHAT-0185 exact-head audit closeout — 2026-11-24
+
+- Audited PR #267 final live head `25ebb3731c9aaf159e67f744c4ae33047a013f7a`; run #45380924403 passed on Ubuntu and hosted Windows. Both platforms compiled and passed the same 27 unit/synthetic-media integration tests. Raw test output and checkout refs were not exposed in the audited PR summaries; raw-head-only checkout NOT DEMONSTRATED.
+- PR #267 combined status had zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. PR #267 remains OPEN / DRAFT / UNMERGED.
+- Audit PR #270 head `34d1196757b5d6922391b0f908425a902d2bf455` passed its own run #45381311414. Ubuntu and hosted Windows checked out PR #270 merge ref at `3bc6672e68d036fc304b527c3513bb415b8d9708`, compiled, passed all 27 tests, and passed synthetic animation render/FFprobe. This verifies merge-ref CI only; raw-head-only checkout NOT DEMONSTRATED.
+- PR #270 remains OPEN / DRAFT / UNMERGED; combined status, reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED.
+- Report: `docs/ARO_CHAT_0185_PR267_CI_AUDIT.md`; registry updated. Do not transfer CI evidence across PRs or SHAs.
+- Synthetic media is not GTA 6 footage or real-media acceptance. Owner-device Windows and real-media acceptance remain NOT VERIFIED.
+- Issue #68 remains OPEN. Keep live uploads/public publishing disabled. No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or destructive action.
