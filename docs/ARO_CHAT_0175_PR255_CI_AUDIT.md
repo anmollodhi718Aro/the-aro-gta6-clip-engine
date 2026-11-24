@@ -59,3 +59,19 @@ Date: 2026-11-24
 - PR #256 current recorded head `6ee3c01fd0395a134d69411dbe412c64499d8f67` was rechecked separately: associated workflow runs zero; combined status entries zero. PR #256 own CI remains PENDING / NOT VERIFIED.
 - This update is documentation-only. Do not transfer PR #254's successful CI to PR #255 or PR #256.
 
+
+
+### ARO-CHAT-0175 exact-head CI correction — 2026-11-24 13:17 IST
+
+This live recheck supersedes the earlier CANCELLED-only disposition for PR #255.
+
+- Re-fetched PR #255: OPEN / DRAFT / UNMERGED; head branch `workstream/aro-chat-0174-pr254-exact-head-ci-audit-2026-11-24`; current head `7121a0db7598889f7d7ae18381f0472a21e94840`; base SHA `5069449aa775b2b8378c3e3ca36c6ec87b479f66`.
+- New exact-head-associated Python CI run [#45316166410](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45316166410) (run 1154) completed SUCCESS.
+- Ubuntu job #138183473688 (`tests`) and hosted-Windows job #138183473267 (`windows-tests`) both completed successfully. FFmpeg/FFprobe installation and compile steps passed; each platform ran the full suite: **340 tests, OK** (Ubuntu 4.983s; Windows 21.895s).
+- Both job logs confirm checkout of `refs/remotes/pull/255/merge` at merge SHA `4acde6737fd8eedafc1b232a0a010eb786de9cc7`, merging PR #255 head `7121a0db7598889f7d7ae18381f0472a21e94840` into base `5069449aa775b2b8378c3e3ca36c6ec87b479f66`. This verifies the PR merge-ref CI, not raw-head-only execution.
+- Both synthetic first-clip checks passed using locally generated pattern/tone only: 8.0-second source, 4.0-second rendered MP4, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. The mocked approval fixture reports `upload_performed=false`; no live upload occurred.
+- PR #255 combined commit status returned zero entries. Review submissions, inline review threads, and conversation comments were empty; independent review NOT RECORDED.
+- **Corrected disposition:** PR #255 CI_VERIFIED on its exact PR merge ref (Ubuntu and hosted Windows). Raw-head-only CI NOT DEMONSTRATED. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED. The earlier run #45316121389 cancellation remains historical evidence for the older PR #255 head `f9698ee9bd5a144cd8f95874919fbc9f7fe18418`; it is superseded by the newer-head run above.
+- Audit PR #256 remains OPEN / DRAFT / UNMERGED at head `d09f8147c7227cfec80d9e37a57a6463082da2cd`. Its own commit-associated workflow lookup returned zero runs and combined status returned zero entries. PR #256 reviews, inline threads, and conversation comments were empty. Its CI remains PENDING / NOT VERIFIED; do not transfer PR #255's successful CI.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No workflow retry, local test execution, OAuth/credential action, real-media use, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
+
