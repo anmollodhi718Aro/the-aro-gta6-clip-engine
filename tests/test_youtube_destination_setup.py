@@ -1,5 +1,7 @@
 """Tests for the local OAuth destination-profile bootstrap."""
 import json
+import os
+import stat
 import tempfile
 import unittest
 from pathlib import Path
@@ -7,7 +9,7 @@ from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 from backend.app.youtube_upload import load_destination_profile, resolve_destination_identity
-from scripts.setup_youtube_destination import _atomic_private_json, setup_destination
+from scripts.setup_youtube_destination import _atomic_private_json, _ensure_private_directory, setup_destination
 
 
 class YouTubeDestinationSetupTests(unittest.TestCase):
@@ -32,6 +34,20 @@ class YouTubeDestinationSetupTests(unittest.TestCase):
         }
         google_api = Mock(return_value=youtube)
         return credentials, youtube, google_api
+
+    @unittest.skipUnless(os.name == "posix", "POSIX directory mode bits are unavailable")
+    def test_existing_secret_directories_are_restricted_to_current_user(self):
+        secrets_dir = self.root / ".secrets"
+        token_dir = secrets_dir / "tokens"
+        token_dir.mkdir(parents=True)
+        os.chmod(secrets_dir, 0o755)
+        os.chmod(token_dir, 0o755)
+
+        _ensure_private_directory(secrets_dir, ".secrets")
+        _ensure_private_directory(token_dir, "OAuth token directory")
+
+        self.assertEqual(stat.S_IMODE(secrets_dir.stat().st_mode), 0o700)
+        self.assertEqual(stat.S_IMODE(token_dir.stat().st_mode), 0o700)
 
     def test_creates_profile_from_verified_google_identity_and_channel(self):
         credentials, youtube, google_api = self._mocks()
