@@ -1,4 +1,5 @@
 """Tests for gated YouTube upload without making network requests."""
+import builtins
 import json
 import os
 import sys
@@ -402,16 +403,24 @@ class YouTubeUploadTests(unittest.TestCase):
     def test_upload_rejects_unlisted_visibility_before_oauth_or_api(self):
         db_path = self.root / "source_rights.sqlite3"
         self._write_upload_rights(db_path)
-        with patch("backend.app.youtube_upload._authorize_google") as authorize:
-            with self.assertRaisesRegex(PermissionError, "only permits PRIVATE"):
-                upload_video(
-                    self.video, {"snippet": {"title": "Test"}, "status": {"privacyStatus": "unlisted"}},
-                    client_secrets=self.client_secrets, token_path=self.root / "token.json",
-                    rights_report_path=self.report, approval_record_path=self.root / "approval.json",
-                    rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
-                    owner_approved=True, rights_confirmed=True,
-                )
-        authorize.assert_not_called()
+        original_import = builtins.__import__
+
+        def reject_optional_upload_import(name, *args, **kwargs):
+            if name == "googleapiclient" or name.startswith("googleapiclient."):
+                raise AssertionError("optional upload dependency imported before privacy gate")
+            return original_import(name, *args, **kwargs)
+
+        with patch("builtins.__import__", side_effect=reject_optional_upload_import):
+            with patch("backend.app.youtube_upload._authorize_google") as authorize:
+                with self.assertRaisesRegex(PermissionError, "only permits PRIVATE"):
+                    upload_video(
+                        self.video, {"snippet": {"title": "Test"}, "status": {"privacyStatus": "unlisted"}},
+                        client_secrets=self.client_secrets, token_path=self.root / "token.json",
+                        rights_report_path=self.report, approval_record_path=self.root / "approval.json",
+                        rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
+                        owner_approved=True, rights_confirmed=True,
+                    )
+            authorize.assert_not_called()
 
 
 if __name__ == "__main__":
