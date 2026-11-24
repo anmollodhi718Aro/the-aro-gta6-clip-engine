@@ -38,3 +38,12 @@ The approval record binds consent to a SHA-256 hash of the selected video. The Y
 ## Safety
 
 Draft-only follow-up. PR #311 and its dependency chain remain unmerged. Issue #68 remains open pending complete independent review and owner-controlled acceptance. Public publishing remains disabled.
+
+## Combined branch CI closeout — 2026-11-24
+- PR #328 head `e1dd08c12d81e3a5c56eef65784955f0e55d4021` passed run #45428060156 on merge ref `b4adb085f8976e79bb70356b4314dbd450b23416` (PR head merged into base `67e6d4290fee795fb8ba6fd0e926107ea7f0eb81`).
+- Ubuntu: compile passed, 348 tests passed, synthetic MP4/FFprobe passed.
+- Hosted Windows: compile passed, 348 tests executed, 345 passed and 3 FIFO-only tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed.
+- Both platforms ran the same 348-test suite, not 696 unique tests. Raw-head-only checkout NOT DEMONSTRATED.
+- The original-source mutation regression and same-inode approval-record symlink regression passed on both platforms. The FIFO race regression passed on Ubuntu; the three FIFO tests were skipped on Windows due to platform capability.
+- Synthetic logs confirm no GTA 6 footage or third-party media, `upload_performed=false`, `publishing_enabled=false`, and `manual_review_required=true`. No OAuth or network upload.
+- PR #328 review submissions remain empty; independent review NOT RECORDED. Owner-device and real-media PRIVATE acceptance NOT VERIFIED.
