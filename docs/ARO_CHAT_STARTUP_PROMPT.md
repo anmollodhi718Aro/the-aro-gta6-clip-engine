@@ -252,3 +252,14 @@ For the current first-test upload priority:
 - Synthetic logs confirm no GTA 6/third-party media, no upload, publishing disabled, and manual review required. Combined status had zero legacy entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. Local tests NOT RUN.
 - Report: `docs/ARO_CHAT_0204_PR308_CI_AUDIT.md`. PR #308 remains OPEN / DRAFT / UNMERGED. Do not transfer this evidence to PR #309.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. This does not establish owner-device verification, real-media acceptance, or upload permission.
+
+
+## ARO-CHAT-0204 CI closeout — refreshed 2026-11-24
+- The initial handoff note that PR #308 run #45402472225 was still in progress is superseded: run 1315 completed SUCCESS.
+- Exact audited PR head: `3eb2add67c339e543a46035ec6a29e2485a424f7`. Ubuntu job #138474367033 passed compilation, 346 tests in 3.653s, and synthetic MP4/FFprobe. Hosted-Windows job #138474366488 passed compilation, the same 346 tests in 17.981s, and synthetic MP4/FFprobe.
+- Both logs checked out `refs/remotes/pull/308/merge` at `7671de9a2f7751d8b376c0db6cb960a677c5c7cf`, merging the audited head into base `f31f1c5d9bbd31cba6450052ff398616995019a9`. Raw-head-only checkout NOT DEMONSTRATED; same 346 tests ran on both platforms.
+- Synthetic logs: locally generated pattern/tone, no GTA 6 or third-party media, no upload performed, publishing disabled, manual review required. Mock uploader output is not a network upload.
+- Combined legacy status entries: zero on head and merge SHA. PR #308 reviews, inline threads and conversation comments: none. Independent review NOT RECORDED. Local tests NOT RUN in this connector session.
+- Report `docs/ARO_CHAT_0204_PR308_CI_AUDIT.md` records the completed evidence. PR #308 merge-ref CI_VERIFIED only; owner-device Windows and authorized real-media acceptance remain NOT VERIFIED; COMPLETE NOT CLAIMED.
+- PR #309's own exact-head CI remains a separate check and must not inherit PR #308's CI result.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
