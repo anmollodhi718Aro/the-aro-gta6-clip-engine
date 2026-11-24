@@ -90,3 +90,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - The uploader must verify the Google OIDC subject and destination channel from the same OAuth session, require a durable per-clip approval bound to the exact video hash, Google subject and channel, and re-check live publish permission immediately before the upload API call.
 - A client-supplied reviewer string or legacy boolean is never identity authentication. Fail closed on missing/mismatched channel, clip, source, file hash, approval, permission, expiry or revocation.
 - Use mocked API clients in tests; no test may perform a network upload. Keep public publishing disabled unless every authenticated owner, per-clip approval and source-rights gate passes.
+
+
+## PRIVATE upload completion gate — refreshed 2026-11-24
+
+For the current first-test upload priority:
+- PR #289 (PRIVATE-only guard ordering) and PR #295 (isolated destination profiles) have recorded Ubuntu and hosted Windows CI success on their exact heads; verify current live heads/runs before relying on that evidence.
+- PR #295 is stacked on PR #289, which is stacked on PR #280 and the authenticated uploader workstream. Do not merge these stacked PRs independently or bypass their ancestry.
+- Each destination must use its own locally authorized OAuth session, verified Google OIDC subject, exact channel ID returned by YouTube channels.list(mine=true), token file, and separate approval record bound to the exact MP4 SHA-256. Never infer channel IDs from public handles.
+- The upload request must be PRIVATE-only. A successful request is not enough: require YouTube's response to include a video ID and status.privacyStatus == "private"; otherwise report upload state as UNVERIFIED and direct the owner to inspect YouTube Studio.
+- Do not commit OAuth files, tokens, channel IDs, private approvals, or media. Never ask the owner to paste secrets into chat.
+- Automated tests must mock OAuth and YouTube API clients. No test may perform a live upload.
+- Distinguish code/CI completion from environment setup and live acceptance. Real upload still requires local OAuth configuration, verified source publish rights, exact per-channel approval, and an actual private-visibility confirmation. Public publishing remains a separate owner action.
