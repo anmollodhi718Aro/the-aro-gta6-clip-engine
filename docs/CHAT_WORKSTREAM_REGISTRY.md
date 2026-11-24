@@ -907,3 +907,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Commit-associated workflow lookup for current head returned no runs. Exact-head Ubuntu/hosted-Windows CI is PENDING; do not transfer PR #299's earlier green Ubuntu result or failing Windows result as validation of PR #300.
 - PR #300 reviews and inline review threads are empty; independent review NOT RECORDED. No local tests run in this connector session.
 - Keep PR #300 draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; no OAuth, credentials, real media, API upload, publishing, merge, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0197 live-head reconciliation — 2026-11-24
+- Re-fetched live Draft PR #300 metadata: branch `workstream/aro-chat-0197-pr299-windows-path-regression-fix-2026-11-24`, current head `83445d763ebce065140a0f7a19ac75c42a761d48`, base branch `workstream/aro-chat-0134-private-upload-response-verification-2026-11-24`, recorded base SHA `152de0e3cecbfe2be2569c46db14e5c9c67506a2`.
+- The prior `02b5e7c16077d31e9cee1950cc5c379339c5baff` value is an earlier documentation commit, not the live PR head. Commit `83445d763ebce065140a0f7a19ac75c42a761d48` only refreshes `docs/ARO_CHAT_STARTUP_PROMPT.md`.
+- Changed PR files remain `tests/test_youtube_upload.py`, `docs/CHAT_WORKSTREAM_REGISTRY.md`, and `docs/ARO_CHAT_STARTUP_PROMPT.md`; test assertion compares both profile token paths against the strictly resolved `.secrets` parent. Production code is unchanged by this workstream.
+- Exact-live-head workflow lookup and combined status for `83445d763ebce065140a0f7a19ac75c42a761d48` returned no runs/status checks. CI is PENDING, not passed. No local test execution is claimed.
+- PR #300 remains OPEN / DRAFT / UNMERGED; independent review is not recorded. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Keep uploads and public publishing disabled; do not merge, retarget, or deploy.
