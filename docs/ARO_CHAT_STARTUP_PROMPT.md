@@ -500,3 +500,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED.
 - Parent PR #371 run #45494763114 failed with zero exposed steps and BlobNotFound logs; cause NOT VERIFIED. Do not attribute it to application code.
 - Keep this follow-up DRAFT / OPEN / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0237 canonical IPv4 URL host validation — 2026-11-25
+
+- Active bounded workstream: ARO-CHAT-0237 / ARO-GTA-P1-237 on branch `workstream/aro-chat-0237-canonical-ipv4-host-validation-2026-11-25`.
+- Parent: PR #373 / ARO-CHAT-0236; base and starting SHA: `ecd35c1c4170f038b57ece0d5df976b80de5c276`.
+- Static review found ambiguous numeric URL-host forms admitted by the prior DNS-label validator. Numeric final labels now require a canonical dotted-decimal IPv4 parse; shorthand, octal, hexadecimal, invalid dotted-decimal, and numeric-ending DNS forms fail closed.
+- Production commit `bcaed58a8f118b685aec0049e99827726e1da690`; test commit `54de8745d1bd6ef5ef137b4894cbb3fcf16f2520`.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED. Do not transfer CI evidence from PR #373 or PR #371.
+- Keep draft-only. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
