@@ -550,3 +550,14 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Latest test-only commit: `4cde1bb1b12ab95fd9779171f95d93f78621760e`. It covers rejection of numeric-like DNS suffixes with trailing dots and acceptance of canonical IPv4 with a trailing dot.
 - Production code unchanged. Local tests NOT RUN; exact-head CI NOT YET CHECKED; independent review NOT RECORDED.
 - Preserve draft/open/unmerged state. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Keep live uploads/public publishing disabled.
+
+
+## Exact-head CI recheck — 2026-11-25
+
+- Audited commit `4cde1bb1b12ab95fd9779171f95d93f78621760e`, the trailing-dot regression test commit.
+- Associated Python CI run [#45506152240](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45506152240) completed FAILURE.
+- Ubuntu job `138841778044` and hosted-Windows job `138841778291` both completed FAILURE and exposed zero workflow steps. Both job-log downloads returned `BlobNotFound`.
+- Failure phase/root cause NOT VERIFIED. The available evidence does not establish whether the jobs failed during runner/workflow initialization or before the first step. Do not attribute the failure to application code or tests.
+- Local repository tests NOT RUN in this connector session. No compile or test count is claimed. Exact-head CI is FAILED / NOT VERIFIED. Independent security review NOT RECORDED; PR #376 review submissions and inline threads were empty at inspection.
+- No workflow retry/dispatch was initiated. PR #376 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- No source code, test behavior, uploader, OAuth, media, workflow configuration, merge, rebase, retarget, deployment, upload, or publishing behavior was changed during this audit.
