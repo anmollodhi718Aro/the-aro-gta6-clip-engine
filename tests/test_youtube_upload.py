@@ -538,6 +538,20 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
         with self.assertRaisesRegex(PermissionError, "must resolve inside"):
             load_destination_profile(linked, "aroanmol7")
 
+    def test_secrets_directory_symlink_cannot_escape_repository_secrets_directory(self):
+        external_secrets = self.root / "external" / ".secrets"
+        external_secrets.mkdir(parents=True)
+        external_config = external_secrets / "destination_profiles.json"
+        external_config.write_text(self.config.read_text(encoding="utf-8"), encoding="utf-8")
+        self.config.unlink()
+        self.config.parent.rmdir()
+        try:
+            self.config.parent.symlink_to(external_secrets, target_is_directory=True)
+        except (NotImplementedError, OSError) as exc:
+            self.skipTest(f"directory symlinks are unavailable on this runner: {exc}")
+        with self.assertRaisesRegex(PermissionError, "directory must not be a symlink"):
+            load_destination_profile(self.config, "aroanmol7")
+
     def test_metadata_dry_run_does_not_require_oauth_profile(self):
         args = [
             "youtube_upload.py", str(self.root / "sample.mp4"),
