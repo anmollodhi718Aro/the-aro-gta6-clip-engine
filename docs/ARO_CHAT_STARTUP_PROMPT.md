@@ -615,3 +615,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Both jobs checked out PR merge ref at `6695c711dd1c317565ae12f9f01deafe4e63d260`, merging audited head `e425fbb9b789db9ba8746a0cb1a568dca28ba88a` into base `ab64dbfe566fa6d8f5ed1debeacd93cbf5b27eaf`. Raw-head-only checkout NOT DEMONSTRATED.
 - Combined status, reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #276 remains OPEN / DRAFT / UNMERGED. This new audit branch needs its own CI evidence.
 - Documentation-only; no runtime behavior, credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## Current continuation baseline — refreshed 2026-11-24 (ARO-CHAT-0189)
+
+- Latest registered task: ARO-CHAT-0189 / ARO-GTA-P1-189, independent exact-head CI audit of PR #278.
+- PR #278 audited head: `1026367d06109eff908d56e62260bd453528af3a`; exact-head-associated run #45385215158 (run 1208) passed Ubuntu and hosted Windows. Both ran compileall, the same 29 tests, and synthetic animation MP4/FFprobe validation.
+- Both CI jobs checked out PR #278 merge ref `25e3cf03b9cf53b88b943b6823779006fc9b87f7`, not a demonstrated raw-head-only checkout. Combined status had zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. PR #278 remains OPEN / DRAFT / UNMERGED.
+- Audit report: `docs/ARO_CHAT_0189_PR278_CI_AUDIT.md`. CI evidence applies only to the audited PR #278 head. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- A separate source-permission implementation PR #279 is OPEN / DRAFT / UNMERGED and its own CI/review must be checked independently. Do not conflate it with this audit.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, uploads, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action without the relevant explicit gate.
