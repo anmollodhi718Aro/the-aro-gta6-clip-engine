@@ -351,7 +351,7 @@ class OwnerApprovalTests(unittest.TestCase):
             self.gate()
 
     def test_invalid_utf8_approval_record_fails_closed(self):
-        self.record.write_bytes(b"\\xff\\xfe\\x80")
+        self.record.write_bytes(b"\xff\xfe\x80")
         with self.assertRaisesRegex(PermissionError, "missing or unreadable"):
             self.gate()
 
