@@ -292,3 +292,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Next: preserve both draft PRs; do not rebase/retarget or merge. Continue with narrowly scoped static review and test/evidence gaps only. Keep all OAuth/live-upload/public-publishing and real-media acceptance gates closed until owner-controlled acceptance and independent security review.
 - Report: `docs/ARO_CHAT_0223_CI_AND_SCOPED_UPLOADER_REVIEW.md`.
 - No local tests, workflow retry/dispatch, OAuth, credentials, real media, network upload, deployment, or publishing were performed in this session.
+
+
+### ARO-CHAT-0223 review finding handoff — 2026-11-24
+- Static review identified a P1 gap: the durable approval record does not bind the rights-report/asset-manifest digest that was reviewed. If the report later adds a source-bound asset that already has an active YouTube publish grant, the final rights checks may pass although the owner approval was created against the earlier manifest.
+- The approval CLI does not display the full asset/source manifest. The existing regression only proves rejection for an added unregistered source.
+- Finding documented in `docs/ARO_CHAT_0223_CI_AND_SCOPED_UPLOADER_REVIEW.md`; registry updated. No uploader/approval code changed.
+- Required remediation: canonical manifest digest bound into the durable approval, visible manifest at approval time, final digest equality check, and a mocked regression for an added already-authorized source.
+- Status: BLOCKED / WAITING_FOR_OWNER_APPROVAL under Issue #68. Do not implement the security change until explicit owner authorization. Keep live uploads/public publishing disabled.
+- CI note: PR #350's prior successful run #45442036637 covered merge-ref commit `b6d712a6438a132c3d8ca245b0a804bf8b929550`. Later commits are documentation-only; run #45442905387 on intermediate SHA `d80aa80288cc13bc8c223b2c6f50bdc7cb3c7ee3` was cancelled before compile/tests. The latest PR head must receive its own CI evidence; do not transfer the earlier pass.
