@@ -497,3 +497,15 @@ Build toward an end-to-end pipeline: authorized intake → analysis/highlight de
 Initial owner-supplied channel handles: `@aroanmol7` and `@the_arro07`. Handles are not proof of channel ownership; bind each to an authenticated channel ID. Private upload requires separate per-channel/per-clip approval and verified OAuth owner identity. Public visibility is a separate final owner action and must never be automatic. Do not enable live uploads while Issue #68 is OPEN / WAITING_FOR_OWNER_APPROVAL. Never ask for passwords or commit/log OAuth tokens.
 
 For four-device coordination: one unique Chat ID/workstream/branch per session; check active PRs and branches before work; serialize shared-file changes; do not edit the same branch/file concurrently; record exact evidence and blockers; do not transfer CI results between heads. If blocked, report the next safe task rather than bypassing gates.
+
+
+## Latest continuation baseline — ARO-CHAT-0187 (2026-11-24)
+- Current chat title: ARO-CHAT-0187 | PR #275 Exact-Head CI Audit; workstream ARO-GTA-P1-187.
+- Branch: `workstream/aro-chat-0187-pr275-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #275 head `ad943301c1dcc004244a28ed97732c2d84351430`.
+- Audited PR #275 exact head using its own Python CI run [#45384220211](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45384220211), run 1204, SUCCESS. Ubuntu job #138410820312 passed compileall, 338 tests (3.885s), and synthetic MP4/FFprobe. Hosted-Windows job #138410819943 passed compileall, 338 tests (15.632s), and synthetic MP4/FFprobe.
+- Both jobs checked out PR merge ref `refs/remotes/pull/275/merge` at merge SHA `8db8399d2f285f19f6dfcc3bea20ae509212aaff`; raw-head-only checkout NOT DEMONSTRATED. Same 338-test suite on both platforms, not 676 unique tests.
+- Synthetic-only validation: locally generated pattern/tone, 8.0-second source, 4.0-second output, no GTA 6/third-party media, publishing disabled, manual review required. Mock approval fixture reports `upload_performed=false`; no real upload occurred.
+- Combined status had zero entries. PR #275 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #275 remains OPEN / DRAFT / UNMERGED.
+- Report: `docs/ARO_CHAT_0187_PR275_CI_AUDIT.md`. PR #277 is OPEN / DRAFT / UNMERGED at head `940528c02d9e5875c654fed210353f0c72e3e62a`; its own run #45385193300 (run 1207) is PENDING; Ubuntu job #138414244530 is QUEUED and hosted-Windows job #138414245083 is IN_PROGRESS at checkout. Its own exact-head CI is PENDING / NOT VERIFIED. Independent review remains NOT RECORDED. Never transfer CI between PRs or SHAs.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- Documentation-only. No application behavior, workflow retry, OAuth, credentials, real media, network upload, publishing, merge, retarget, deployment, or destructive action. Local tests NOT RUN in this connector session.

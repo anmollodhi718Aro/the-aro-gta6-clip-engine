@@ -1763,3 +1763,30 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live upload is NOT enabled or implemented by this planning change. Public publishing remains disabled. PRIVATE upload must not be enabled until authenticated channel-owner binding, exact-asset approval, permission rechecks, idempotency, audit records and independent review are implemented and accepted. Public visibility requires a separate final owner action.
 - This workstream changes planning documentation only; no application code, OAuth, secrets, YouTube API call, upload, publishing, merge, deployment or destructive action. Tests are not applicable to documentation text; the branch's own CI and independent review must be checked separately.
 - Next actionable project work remains the Issue #68 canonical security-lineage review/selection and authenticated private-upload gate, not live uploading. Do not bypass owner assignment/review requirements or assume any earlier CI applies to this branch.
+
+
+## Latest continuation baseline — ARO-CHAT-0187 (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0187 |
+| Exact title | ARO-CHAT-0187 | PR #275 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-187 |
+| Scope | Independent exact-head audit of PR #275's Actions run, Ubuntu/hosted-Windows logs, compile/tests, synthetic MP4/FFprobe, checkout refs, combined status, and review state; documentation-only |
+| Branch | `workstream/aro-chat-0187-pr275-exact-head-ci-audit-2026-11-24` / [PR #277](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/277) |
+| Base / starting SHA | PR #275 head `ad943301c1dcc004244a28ed97732c2d84351430` |
+| Audited PR | [PR #275](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/275) |
+| Report | `docs/ARO_CHAT_0187_PR275_CI_AUDIT.md` |
+| Status | IMPLEMENTED (audit report); PR #275 CI_VERIFIED on merge ref only; raw-head-only checkout NOT DEMONSTRATED; independent review NOT RECORDED; PR #277 exact-head CI PENDING (no associated run returned yet); independent review NOT RECORDED |
+| Safety | Documentation-only; no application behavior, OAuth, credentials, real media, upload, publishing, workflow retry, merge, retarget, deployment, or destructive action. |
+
+### ARO-CHAT-0187 PR #275 exact-head CI findings
+- PR #275 head `ad943301c1dcc004244a28ed97732c2d84351430` completed Python CI run [#45384220211](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45384220211), run 1204, SUCCESS.
+- Ubuntu job #138410820312 passed compileall, 338 tests (3.885s), and synthetic MP4/FFprobe validation. Hosted-Windows job #138410819943 passed compileall, 338 tests (15.632s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/275/merge` at merge SHA `8db8399d2f285f19f6dfcc3bea20ae509212aaff`, merging PR #275 head into base `b955d2a6a7414fed46bb752d5b763fbb02b67b48`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both platforms ran the same 338-test suite, not 676 unique tests. Synthetic media only: locally generated pattern/tone, 8.0-second source, 4.0-second output, no GTA 6/third-party media, publishing disabled, manual review required. Mock approval fixture explicitly reports `upload_performed=false`; no real upload/publishing occurred.
+- Combined commit status returned zero entries. PR #275 review submissions, inline review threads, and conversation comments were empty; independent review NOT RECORDED. PR #275 remains OPEN / DRAFT / UNMERGED.
+- Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance. Local tests were NOT RUN in this connector session.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+- Report: `docs/ARO_CHAT_0187_PR275_CI_AUDIT.md`. PR #277 was created OPEN / DRAFT / UNMERGED at head `940528c02d9e5875c654fed210353f0c72e3e62a`. Its commit-associated workflow lookup returned zero runs at inspection; exact-head CI is PENDING / NOT VERIFIED. Independent review is NOT RECORDED. Do not transfer PR #275's CI result to PR #277.
+- No workflow retry, OAuth, credentials/tokens, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
