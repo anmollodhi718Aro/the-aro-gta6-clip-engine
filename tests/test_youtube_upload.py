@@ -172,6 +172,27 @@ class YouTubeUploadTests(unittest.TestCase):
             with self.assertRaisesRegex(PermissionError, "changed while reading"):
                 load_rights_report(self.report)
 
+    def test_rights_report_rejects_path_replacement_during_read(self):
+        replacement = self.root / "replacement-during-read.json"
+        replacement.write_text(self.report.read_text(encoding="utf-8"), encoding="utf-8")
+        replacement_stat = replacement.lstat()
+        original_lstat = Path.lstat
+        lstat_calls = 0
+
+        def replace_on_final_check(path):
+            nonlocal lstat_calls
+            result = original_lstat(path)
+            if Path(path) == self.report:
+                lstat_calls += 1
+                if lstat_calls == 3:
+                    return replacement_stat
+            return result
+
+        with patch.object(Path, "lstat", replace_on_final_check):
+            with self.assertRaisesRegex(PermissionError, "path changed while reading"):
+                load_rights_report(self.report)
+        self.assertEqual(lstat_calls, 3)
+
     def test_rights_report_rejects_same_inode_symlink_substitution_after_open(self):
         import stat
         import backend.app.youtube_upload as upload_module
