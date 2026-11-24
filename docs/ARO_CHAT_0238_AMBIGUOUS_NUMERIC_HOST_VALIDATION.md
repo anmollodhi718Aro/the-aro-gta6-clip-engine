@@ -40,3 +40,11 @@ Draft-only. No workflow retry/dispatch, merge, rebase, retarget, deployment, cre
 - Production commit: `8d9812d8c88ad4549e5677a4a3a175b4e75bdd26`; test commit / current branch head: `f6bb501eccf77445509f85e24ec69babbd61e41a`.
 - Commit-associated workflow lookup for the current head returned zero runs. Exact-head CI: PENDING / NOT VERIFIED. Local tests NOT RUN. Independent review NOT RECORDED.
 - PR #376 remains draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+
+### Trailing-dot numeric-host regression follow-up — 2026-11-25
+
+- Test-only commit `4cde1bb1b12ab95fd9779171f95d93f78621760e` adds rejection cases for numeric-like DNS suffixes with a trailing dot (`example.123.`, `example.0x2.`, `example.09.`) and a positive canonical IPv4 trailing-dot case (`192.0.2.1.`).
+- Production behavior is unchanged. The existing validator strips one terminal DNS dot before applying the numeric-suffix/canonical-IPv4 rule.
+- Local tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT YET CHECKED for the new commit. Independent security review NOT RECORDED.
+- PR #376 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
