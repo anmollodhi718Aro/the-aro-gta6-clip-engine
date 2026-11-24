@@ -523,3 +523,8 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Next action: publish this documentation-only audit as a draft PR and inspect that audit PR's own exact-head CI. Never transfer CI between PRs or SHAs.
 - Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL / NOT IMPLEMENTED. Live uploads/public publishing remain disabled.
 - Safety: no credentials/OAuth, real footage, uploads, publishing, workflow retries, merge, rebase, retarget, deployment, or destructive actions.
+
+
+### ARO-CHAT-0179 publication — 2026-11-24
+- Draft PR #261 records the audit of PR #257's current live head. Independently inspect PR #261's own latest head CI; never transfer PR #257's result.
+- Keep PR #261 draft-only and Issue #68's live upload/publication gates closed.
