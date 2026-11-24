@@ -172,6 +172,7 @@ def require_current_owner_approval(
     clip_id: str,
     source_id: str,
     video_path: str | Path,
+    video_sha256: str | None = None,
     owner: AuthenticatedChannelOwner,
     privacy: str,
     rights_registry: SourceRightsRegistry,
