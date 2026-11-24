@@ -2,8 +2,10 @@
 import sqlite3
 import tempfile
 import unittest
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from threading import Barrier
 
 from backend.app.rights_registry import SourceRightsRegistry
 
@@ -55,6 +57,23 @@ class SourceRightsRegistryTests(unittest.TestCase):
                                     at=self.now + timedelta(minutes=1))
         self.assertEqual([e["action"] for e in self.registry.audit_events("creator-video-1")],
                          ["registered", "revoked"])
+
+    def test_concurrent_revoke_records_exactly_one_revocation(self):
+        self.registry.register(self.record)
+        barrier = Barrier(2)
+
+        def attempt_revoke(actor):
+            barrier.wait(timeout=5)
+            return self.registry.revoke("creator-video-1", actor=actor, at=self.now)
+
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            outcomes = list(pool.map(attempt_revoke, ("worker-a", "worker-b")))
+
+        self.assertCountEqual(outcomes, [True, False])
+        events = self.registry.audit_events("creator-video-1")
+        self.assertEqual([event["action"] for event in events],
+                         ["registered", "revoked"])
+        self.assertIn(events[1]["actor"], ("worker-a", "worker-b"))
 
     def test_rejects_missing_evidence_and_unknown_scope(self):
         invalid = dict(self.record, evidence_ref="")
