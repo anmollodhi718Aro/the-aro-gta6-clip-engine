@@ -27,6 +27,21 @@ class RenderUnitTests(unittest.TestCase):
   self.assertEqual(self.output.read_bytes(),b"keep")
   with self.assertRaises(ValueError):
    render_clip(self.source,self.source,start_seconds=0,duration_seconds=5,rights_confirmed=True,permission=self.permission)
+ @patch("backend.app.render.os.link")
+ @patch("backend.app.render.shutil.which",return_value="/usr/bin/ffmpeg")
+ @patch("backend.app.render.subprocess.run")
+ def test_concurrent_destination_creation_is_never_overwritten(self,run,_which,link):
+  def fake_run(command,**kwargs):
+   Path(command[-1]).write_bytes(b"rendered review clip")
+   return subprocess.CompletedProcess(command,0,"","")
+  def concurrent_creator(_source,destination):
+   Path(destination).write_bytes(b"concurrent owner file")
+   raise FileExistsError("destination was created concurrently")
+  run.side_effect=fake_run
+  link.side_effect=concurrent_creator
+  with self.assertRaises(RenderError): self.render()
+  self.assertEqual(self.output.read_bytes(),b"concurrent owner file")
+  self.assertEqual(list(self.folder.glob(".clip.*.mp4")),[])
  @patch("backend.app.render.shutil.which",return_value="/usr/bin/ffmpeg")
  @patch("backend.app.render.subprocess.run")
  def test_safe_argument_list_and_atomic_output(self,run,_which):
