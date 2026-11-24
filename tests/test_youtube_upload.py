@@ -543,6 +543,70 @@ class YouTubeUploadTests(unittest.TestCase):
         authorize.assert_not_called()
 
 
+    def test_upload_attempts_snapshot_cleanup_when_media_stream_close_fails(self):
+        db_path = self.root / "source_rights.sqlite3"
+        self._write_upload_rights(db_path)
+        youtube = Mock()
+        youtube.videos.return_value.insert.return_value.execute.return_value = {
+            "id": "video-close-error",
+            "status": {"privacyStatus": "private"},
+        }
+        modules = self._mock_google_modules(youtube)
+        media_handle = Mock()
+        media_handle.close.side_effect = OSError("synthetic media close failure")
+        media_object = types.SimpleNamespace(_fd=media_handle)
+        modules["googleapiclient.http"].MediaFileUpload.return_value = media_object
+
+        real_staging = tempfile.TemporaryDirectory()
+        self.addCleanup(real_staging.cleanup)
+        snapshot_paths = []
+        cleanup = Mock(side_effect=real_staging.cleanup)
+        staging = types.SimpleNamespace(name=real_staging.name, cleanup=cleanup)
+
+        def capture_snapshot(filename, **kwargs):
+            snapshot_paths.append(Path(filename))
+            return media_object
+
+        modules["googleapiclient.http"].MediaFileUpload.side_effect = capture_snapshot
+        with patch.dict(sys.modules, modules):
+            with patch.dict(os.environ, {
+                "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
+                "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
+            }):
+                with patch(
+                    "backend.app.youtube_upload.tempfile.TemporaryDirectory",
+                    return_value=staging,
+                ), patch(
+                    "backend.app.youtube_upload._authorize_google",
+                    return_value=object(),
+                ), patch(
+                    "backend.app.youtube_owner_approval.verify_authenticated_channel_owner",
+                    return_value=self.owner,
+                ):
+                    with self.assertRaisesRegex(OSError, "synthetic media close failure"):
+                        upload_video(
+                            self.video,
+                            {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                            client_secrets=self.client_secrets,
+                            token_path=self.root / "token.json",
+                            rights_report_path=self.report,
+                            approval_record_path=self.root / "approval.json",
+                            rights_db_path=db_path,
+                            clip_id="clip-1",
+                            source_id="source-1",
+                            owner_approved=True,
+                            rights_confirmed=True,
+                        )
+
+        self.assertEqual(len(snapshot_paths), 1)
+        self.assertTrue(cleanup.called)
+        cleanup.assert_called_once()
+        self.assertFalse(snapshot_paths[0].exists())
+        media_handle.close.assert_called_once()
+        youtube.videos.return_value.insert.assert_called_once()
+
+
+
 class YouTubeDestinationProfileTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -705,67 +769,6 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
         self.assertNotEqual(first[2], second[2])
 
 
-    def test_upload_attempts_snapshot_cleanup_when_media_stream_close_fails(self):
-        db_path = self.root / "source_rights.sqlite3"
-        self._write_upload_rights(db_path)
-        youtube = Mock()
-        youtube.videos.return_value.insert.return_value.execute.return_value = {
-            "id": "video-close-error",
-            "status": {"privacyStatus": "private"},
-        }
-        modules = self._mock_google_modules(youtube)
-        media_handle = Mock()
-        media_handle.close.side_effect = OSError("synthetic media close failure")
-        media_object = types.SimpleNamespace(_fd=media_handle)
-        modules["googleapiclient.http"].MediaFileUpload.return_value = media_object
-
-        real_staging = tempfile.TemporaryDirectory()
-        self.addCleanup(real_staging.cleanup)
-        snapshot_paths = []
-        cleanup = Mock(side_effect=real_staging.cleanup)
-        staging = types.SimpleNamespace(name=real_staging.name, cleanup=cleanup)
-
-        def capture_snapshot(filename, **kwargs):
-            snapshot_paths.append(Path(filename))
-            return media_object
-
-        modules["googleapiclient.http"].MediaFileUpload.side_effect = capture_snapshot
-        with patch.dict(sys.modules, modules):
-            with patch.dict(os.environ, {
-                "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
-                "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
-            }):
-                with patch(
-                    "backend.app.youtube_upload.tempfile.TemporaryDirectory",
-                    return_value=staging,
-                ), patch(
-                    "backend.app.youtube_upload._authorize_google",
-                    return_value=object(),
-                ), patch(
-                    "backend.app.youtube_owner_approval.verify_authenticated_channel_owner",
-                    return_value=self.owner,
-                ):
-                    with self.assertRaisesRegex(OSError, "synthetic media close failure"):
-                        upload_video(
-                            self.video,
-                            {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
-                            client_secrets=self.client_secrets,
-                            token_path=self.root / "token.json",
-                            rights_report_path=self.report,
-                            approval_record_path=self.root / "approval.json",
-                            rights_db_path=db_path,
-                            clip_id="clip-1",
-                            source_id="source-1",
-                            owner_approved=True,
-                            rights_confirmed=True,
-                        )
-
-        self.assertEqual(len(snapshot_paths), 1)
-        self.assertTrue(cleanup.called)
-        cleanup.assert_called_once()
-        self.assertFalse(snapshot_paths[0].exists())
-        media_handle.close.assert_called_once()
-        youtube.videos.return_value.insert.assert_called_once()
 
 
 
