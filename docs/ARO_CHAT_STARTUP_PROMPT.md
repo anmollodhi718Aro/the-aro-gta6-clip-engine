@@ -528,3 +528,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 ### ARO-CHAT-0179 publication — 2026-11-24
 - Draft PR #261 records the audit of PR #257's current live head. Independently inspect PR #261's own latest head CI; never transfer PR #257's result.
 - Keep PR #261 draft-only and Issue #68's live upload/publication gates closed.
+
+
+## ARO-CHAT-0179 audit CI closeout — 2026-11-24
+- Existing workstream: ARO-GTA-P1-179, PR #261, branch `workstream/aro-chat-0179-pr257-live-head-audit-2026-11-24`. Do not create a duplicate workstream for this closeout.
+- PR #261 exact head `86dc5b5bb5bb0966b930c9d64e819b41978bbafa` passed run #45351424601: Ubuntu and hosted Windows each compiled, passed 340 tests, and passed synthetic MP4 render/verification.
+- Both jobs used merge ref `refs/remotes/pull/261/merge` at `cdc118dc6e625a6e3e9969f1249b806f3eb29907`; raw-head-only checkout is NOT DEMONSTRATED.
+- This is CI evidence for PR #261 only. The audited PR #257 head `cb12b8a1509d00ff9ec0a7ebce5dc25977bcba58` still has no associated run/checks/status and remains PENDING / NOT VERIFIED.
+- Keep PR #261 draft-only. No workflow retry, merge, rebase, retarget, deployment, credentials/OAuth, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live/public upload stays disabled.
