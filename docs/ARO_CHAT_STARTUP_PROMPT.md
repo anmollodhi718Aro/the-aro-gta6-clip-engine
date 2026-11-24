@@ -214,3 +214,71 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Ubuntu: compile, 348 tests, synthetic MP4/FFprobe passed. Hosted Windows: compile, same 348 tests, 345 passed and 3 FIFO-only tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed.
 - Both regression paths passed: original source mutation at insert time, and same-inode approval symlink substitution after open. FIFO race test passed on Ubuntu and skipped on Windows due to unavailable FIFO creation.
 - Both jobs ran the same suite, not 696 unique tests. Raw-head-only checkout NOT DEMONSTRATED. Synthetic-only; no OAuth/upload/publishing. Independent review NOT RECORDED; owner-device and real-media PRIVATE acceptance NOT VERIFIED.
+
+
+## Current continuation — ARO-CHAT-0218 (2026-11-24)
+- Workstream: ARO-GTA-P1-218; restore approved-upload media-handle cleanup on the latest PR #328 head.
+- Branch: `workstream/aro-chat-0218-current-head-media-cleanup-2026-11-24`; base / starting SHA: `5ef44f391720966138b2eec1815dd223fb345dbd`.
+- Finding: latest PR #328 head had removed the Windows-safe `MediaFileUpload._fd` close-before-snapshot-cleanup sequence present in stale PR #333; PR #335's request-failure test was stacked on that stale branch.
+- Changes: restore stream close in a nested `finally` before snapshot-directory cleanup; extend the approved-source-mutation test and add a mocked request-failure cleanup regression.
+- Local tests NOT RUN. New-head Ubuntu/hosted-Windows CI must be inspected independently. No OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN; keep live uploads/public publishing disabled.
+
+
+### Current continuation handoff — ARO-CHAT-0218
+- Continue from PR #339 branch `workstream/aro-chat-0218-current-head-media-cleanup-2026-11-24`.
+- Latest test commit: `a07cf1d0e1023f6291cf69bb6998c4f43c972fdf`. Added a mocked close-failure regression proving the nested `finally` removes the approved-byte snapshot even when media stream closure raises.
+- Inspect exact-head Ubuntu and hosted-Windows CI before marking CI_VERIFIED. Local tests, owner-device Windows, OAuth, real-media PRIVATE acceptance, and independent security review are NOT VERIFIED.
+- Do not merge, deploy, access credentials, perform live uploads, or enable public publishing. Issue #68 remains OPEN.
+
+
+### ARO-CHAT-0218 latest code/test handoff
+- PR #339 latest test commit: `cc4dca770655a7bd69d767f9cb164d133e00eafd`.
+- Close-failure regression asserts exactly one close attempt, propagation of the synthetic close error, closed underlying stream, removal of the approved-byte snapshot, and exactly one mocked insert.
+- Exact-head Ubuntu/hosted-Windows CI is NOT VERIFIED (no associated run/status returned); local tests and independent review are NOT RECORDED. Keep PR #339 draft/open/unmerged; no OAuth, real media, upload, deployment, or publishing. Issue #68 remains OPEN.
+
+
+### Current ARO-CHAT-0218 handoff — PRIVATE-only guard
+- PR #339 branch: `workstream/aro-chat-0218-current-head-media-cleanup-2026-11-24`.
+- Uploader now rejects UNLISTED/PUBLIC in both metadata validation and CLI; PRIVATE is the only supported upload visibility. Tests cover rejection. Documentation corrected to remove obsolete public/unlisted approval instructions.
+- Code commit `e21f377583df944f5489e7d6a359bb5d2d1e6438`; test commit `598c9c488c34143c6cb8c0a9d86208e3e7ef74b1`; docs commit `51dbcdf38c59c6f74d239014fbb92019b6d50201`.
+- CI run #45433283842 cancelled before compile/tests; run #45433336438 pending. Exact-head CI NOT VERIFIED. PR #339 draft/open/unmerged; parent PR #328 currently non-mergeable. Independent review NOT RECORDED; issue #68 OPEN.
+- Do not merge, rebase, retarget, access OAuth credentials, upload real media, deploy, or publish. Continue code/tests and evidence collection only.
+
+
+### Latest CI handoff — ARO-CHAT-0218
+- Private-only uploader guard remains in place. Run #45433336438 exposed a stale error-message assertion; updated it in commit `52c168d4a389ab7a99bff5f660708382d00079df`.
+- Exact-head run #45433572590 is in progress on Ubuntu and hosted Windows. Verify both jobs before claiming success. PR #339 remains draft/open/unmerged; no live uploads or publishing.
+
+
+### ARO-CHAT-0218 exact-head CI closeout — 2026-11-24
+
+- PR #339 head `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722` passed its own associated Actions run #45433728254.
+- Ubuntu: compile passed; 351 tests passed; synthetic MP4/FFprobe passed.
+- Hosted Windows: compile passed; the same 351 tests ran, 3 FIFO-only tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed.
+- Both jobs checked out merge ref `5f5bf9f` (PR head merged into base `5ef44f391720966138b2eec1815dd223fb345dbd`); raw-head-only checkout NOT DEMONSTRATED. These are not 702 unique tests.
+- Synthetic logs confirm `upload_performed=false`, `publishing_enabled=false`, and `manual_review_required=true`. No GTA 6/third-party footage, OAuth, or network upload was used.
+- Scoped review of this PR's own delta found no defect in media-handle cleanup or PRIVATE-only restrictions. This is not independent security approval of the inherited uploader/approval lineage; PR #339 has no recorded review submissions or inline review threads.
+- PR #339 remains OPEN/DRAFT/UNMERGED. Parent PR #328 ancestry is separately non-mergeable; do not merge/rebase/retarget automatically. Issue #68 remains OPEN and owner-assigned, not approved for live use.
+- Next: obtain independent security review of the full consolidated uploader/approval lineage and reconcile the stacked PR ancestry. Keep live uploads/public publishing disabled; no OAuth, credentials, real media, network upload, merge, deployment, or publishing.
+
+
+### Documentation follow-up head distinction
+
+- The green run above validates the functional PR head `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722` via its merge-ref checkout.
+- Subsequent commits in this work session update only the three documentation files (workstream report, startup handoff, and registry). The latest documentation-only branch tip has no associated Actions run returned; therefore latest-tip CI is NOT VERIFIED.
+- No application code or tests changed after the green functional head. Do not describe the current documentation-only tip as independently CI-verified.
+
+
+
+### ARO-CHAT-0218 current branch-tip CI closeout — 2026-11-24
+- PR #339 exact head `a08a69cfa687479c58ce72a322b1357761a92723` has its own associated run [#45434843065](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45434843065), completed SUCCESS.
+- Ubuntu and hosted Windows both passed compilation, the same 351-test suite, and synthetic MP4/FFprobe. Windows lacks `os.mkfifo`, so the three FIFO-only tests are skipped there; Ubuntu ran them. This is 351 tests per platform, not 702 unique tests.
+- Synthetic evidence: no GTA 6 or third-party media; `upload_performed=false`, `publishing_enabled=false`, `manual_review_required=true`. No OAuth, network upload, owner-device acceptance, or real-media acceptance.
+- PR #339 remains draft/open/unmerged. Independent security review of the full uploader/approval lineage is still NOT RECORDED. Parent PR #328 remains non-mergeable; reconcile ancestry before integration.
+- Next: independently review the consolidated uploader/approval lineage and map exact PR #311 → #328 → #339 ancestry. Keep Issue #68 open and live/public uploads disabled. No merge, rebase, retarget, OAuth, real media, upload, deployment, or publishing.
+
+
+### CI scope clarification after documentation updates
+- Run #45434843065 validates the functional/code-and-test head `a08a69cfa687479c58ce72a322b1357761a92723` only.
+- The subsequent commits in this workstream update documentation only (this report, startup handoff, and registry); no application code or tests changed after the validated functional head.
+- The resulting documentation-only branch tip has no separately associated CI run returned and is therefore NOT independently CI-VERIFIED. Do not transfer the functional-head green result to the later documentation-only tip.

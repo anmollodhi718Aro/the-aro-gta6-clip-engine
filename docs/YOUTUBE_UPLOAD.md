@@ -101,7 +101,7 @@ python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
   --approve-clip
 ```
 
-Set `ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT` to the expected Google OIDC `sub` and `ARO_YOUTUBE_CHANNEL_ID` to the destination channel ID in local environment configuration. This step verifies the signed Google ID token's issuer and OAuth-client audience, matches the OIDC subject to the configured owner subject, verifies the same OAuth session's channel through `channels.list(mine=true)`, and checks current source publish permission. For private approval, type `APPROVE PRIVATE <clip_id>`; for unlisted approval, type `APPROVE UNLISTED <clip_id>`; public approval requires the distinct phrase `PUBLISH PUBLIC <clip_id>`. The 24-hour record binds the Google subject, channel ID, clip/source IDs, requested privacy level and exact file SHA-256. It does not upload. Existing approval files are never overwritten.
+Set `ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT` to the expected Google OIDC `sub` and `ARO_YOUTUBE_CHANNEL_ID` to the destination channel ID in local environment configuration. This step verifies the signed Google ID token's issuer and OAuth-client audience, matches the OIDC subject to the configured owner subject, verifies the same OAuth session's channel through `channels.list(mine=true)`, and checks current source publish permission. The only supported approval phrase is `APPROVE PRIVATE <clip_id>`. The 24-hour record binds the Google subject, channel ID, clip/source IDs, PRIVATE visibility and exact file SHA-256. It does not upload. Existing approval files are never overwritten. UNLISTED and PUBLIC approvals are not supported.
 
 ## 5. Perform the separately requested upload
 
@@ -121,7 +121,7 @@ python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
   --upload --owner-approved --confirm-rights
 ```
 
-Immediately before `videos.insert`, the uploader re-verifies the Google OIDC subject and authenticated channel, the exact account/channel/clip/source/file/privacy approval and current publish permissions for every source-bound asset. The default privacy setting is private. Public or unlisted uploads still require every gate to pass. The `--owner-approved` flag is only an additional operator acknowledgement, never identity authentication or a substitute for the durable record. The flags do not guarantee legal clearance, platform acceptance, copyright safety, or monetization.
+Immediately before `videos.insert`, the uploader re-verifies the Google OIDC subject and authenticated channel, the exact account/channel/clip/source/file/PRIVATE approval and current publish permissions for every source-bound asset. The CLI and upload adapter reject UNLISTED and PUBLIC visibility. Public publishing is not implemented and remains a separate future capability requiring its own explicit owner approval and security review. The `--owner-approved` flag is only an additional operator acknowledgement, never identity authentication or a substitute for the durable record. The flags do not guarantee legal clearance, platform acceptance, copyright safety, or monetization.
 
 ## Limits
 
@@ -138,7 +138,7 @@ Immediately before `videos.insert`, the uploader re-verifies the Google OIDC sub
 - The OAuth ID token is verified against the configured OAuth client ID; its stable Google subject must equal ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT.
 - The same OAuth session must resolve the configured destination channel through YouTube channels.list(mine=True).
 - Approval records bind both the Google subject and YouTube channel, plus clip ID, source ID, exact local file SHA-256, privacy, review time and expiry.
-- A private or unlisted approval cannot authorize a public upload. Public approval requires the distinct phrase PUBLISH PUBLIC CLIP_ID.
+- Only PRIVATE approvals can be created or consumed by this uploader. UNLISTED and PUBLIC upload/approval paths are deliberately unsupported; there is no public-publishing command.
 - Immediately before videos.insert, the uploader rechecks the current publish grant for the clip source and every source-bound asset in the rights report.
 - Tests use synthetic files and mocked YouTube/OAuth clients only. They never perform a real upload.
 

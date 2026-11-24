@@ -1029,3 +1029,81 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Ubuntu: compile, 348 tests, synthetic MP4/FFprobe passed. Hosted Windows: compile, same 348 tests, 345 passed and 3 FIFO-only tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed.
 - Both regression paths passed: original source mutation at insert time, and same-inode approval symlink substitution after open. FIFO race test passed on Ubuntu and skipped on Windows due to unavailable FIFO creation.
 - Both jobs ran the same suite, not 696 unique tests. Raw-head-only checkout NOT DEMONSTRATED. Synthetic-only; no OAuth/upload/publishing. Independent review NOT RECORDED; owner-device and real-media PRIVATE acceptance NOT VERIFIED.
+
+
+## ARO-CHAT-0218 — restore current-head upload media-handle cleanup (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0218 |
+| Workstream ID | ARO-GTA-P1-218 |
+| Scope | Restore close-before-cleanup for the resumable MediaFileUpload file handle on the current PR #328 head; add success and request-failure regressions |
+| Branch | `workstream/aro-chat-0218-current-head-media-cleanup-2026-11-24` |
+| Base / starting SHA | PR #328 head `5ef44f391720966138b2eec1815dd223fb345dbd` |
+| Report | `docs/ARO_CHAT_0218_CURRENT_HEAD_MEDIA_CLEANUP.md` |
+| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI PENDING |
+
+### Finding and disposition
+- PR #333 contained a close-before-snapshot-cleanup fix and PR #335 added a mocked request-failure regression, but their branch stack was stale and diverged from the latest PR #328 head.
+- The latest PR #328 head had only `snapshot_dir.cleanup()` in its upload `finally`, so the retained `MediaFileUpload._fd` handle could remain open during cleanup on Windows.
+- This workstream ports the cleanup fix and both regressions directly onto the current PR #328 head. Existing PR #333 and #335 branches remain untouched; no rebase, retarget, merge, or close was performed.
+- The tests use temporary local files and mocked API modules only. No live upload or real media is used.
+- Issue #68 remains OPEN. Keep live uploads/public publishing disabled pending exact-head CI, independent security review, and owner-controlled acceptance.
+
+
+### ARO-CHAT-0218 close-failure cleanup regression — 2026-11-24
+- On the current PR #339 branch, added `test_upload_removes_snapshot_when_media_stream_close_raises` to prove nested snapshot cleanup still runs when the retained media stream's `close()` raises after closing its underlying file.
+- Test commit: `a07cf1d0e1023f6291cf69bb6998c4f43c972fdf`. It asserts exception propagation, closed stream, removed snapshot, and exactly one mocked insert.
+- Exact-head CI PENDING; local tests NOT RUN in this connector session. Keep PR #339 draft/open/unmerged. Issue #68 remains OPEN; no OAuth, real media, live upload, merge, deployment or publishing.
+
+
+### ARO-CHAT-0218 exact-once media close assertion — 2026-11-24
+- Test commit `cc4dca770655a7bd69d767f9cb164d133e00eafd` makes the close-failure mock count close calls and asserts exactly one attempt, while preserving assertions for exception propagation, closed stream, removed snapshot, and one mocked insert.
+- Exact-head CI NOT VERIFIED; local tests NOT RUN; independent review NOT RECORDED. Keep PR #339 draft/open/unmerged and all live/public upload gates disabled.
+
+
+### ARO-CHAT-0218 PRIVATE-only upload visibility guard — 2026-11-24
+- Hardened `backend/app/youtube_upload.py`: upload metadata validation and CLI now accept PRIVATE only; UNLISTED/PUBLIC are rejected. Test commit `598c9c488c34143c6cb8c0a9d86208e3e7ef74b1` covers both rejection paths.
+- Corrected `docs/YOUTUBE_UPLOAD.md` so it no longer describes unsupported UNLISTED/PUBLIC approval paths. Public publishing remains unimplemented and disabled.
+- CI run #45433283842 was cancelled before compile/tests on both platforms; run #45433336438 pending at docs head. Exact-head CI NOT VERIFIED. PR #339 remains draft/open/unmerged; parent PR #328 is currently non-mergeable. Independent review NOT RECORDED; issue #68 OPEN.
+
+
+### ARO-CHAT-0218 CI correction
+- Run #45433336438 found one stale assertion string only: implementation correctly rejected unlisted/public, but test expected error text containing `privacy`. Updated assertion in commit `52c168d4a389ab7a99bff5f660708382d00079df`.
+- Exact-head follow-up run #45433572590 is running on Ubuntu and hosted Windows. CI remains PENDING until both jobs complete.
+
+
+
+
+### ARO-CHAT-0218 exact-head CI closeout and scoped review — 2026-11-24
+
+- PR #339 head `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722` passed associated run #45433728254.
+- Ubuntu: compile + 351 tests + synthetic MP4/FFprobe passed. Hosted Windows: compile + the same 351 tests, with 3 FIFO-only tests skipped because `os.mkfifo` is unavailable, + synthetic MP4/FFprobe passed.
+- Both jobs checked out merge ref `5f5bf9f` (PR head merged into base `5ef44f391720966138b2eec1815dd223fb345dbd`); raw-head-only checkout NOT DEMONSTRATED. Count is 351 tests per platform, not 702 unique tests.
+- Synthetic logs confirm `upload_performed=false`, `publishing_enabled=false`, `manual_review_required=true`; no GTA 6/third-party media, OAuth, or network upload.
+- Scoped assistant review of PR #339's own cleanup and PRIVATE-only delta found no defect. This is NOT an independent security review of the inherited uploader/approval lineage; PR #339 review submissions and inline threads are empty.
+- PR #339 remains OPEN/DRAFT/UNMERGED; parent PR #328 has a separate non-mergeable ancestry concern. Issue #68 remains OPEN and owner-assigned, not approved for live use. Keep live uploads/public publishing disabled.
+- Next authorized work: independent security review of the full consolidated uploader/approval lineage and evidence-based reconciliation of stacked PR ancestry. No merge, rebase, retarget, OAuth, credentials, real media, network upload, deployment, or publishing.
+
+
+### Documentation follow-up head distinction
+
+- The green run above validates the functional PR head `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722` via its merge-ref checkout.
+- Subsequent commits in this work session update only the three documentation files (workstream report, startup handoff, and registry). The latest documentation-only branch tip has no associated Actions run returned; therefore latest-tip CI is NOT VERIFIED.
+- No application code or tests changed after the green functional head. Do not describe the current documentation-only tip as independently CI-verified.
+
+
+
+### ARO-CHAT-0218 — current branch-tip CI closeout (2026-11-24)
+- PR #339 current head: `a08a69cfa687479c58ce72a322b1357761a92723`.
+- Exact commit-associated run [#45434843065](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45434843065): SUCCESS on Ubuntu and hosted Windows.
+- Both platforms: compile passed, same 351-test suite passed, synthetic MP4/FFprobe passed. Windows skips 3 FIFO-only tests because `os.mkfifo` is unavailable; Ubuntu executes them. 351 tests per platform, not 702 unique tests.
+- Synthetic logs: `gta6_footage_used=false`, `third_party_media_used=false`, `upload_performed=false`, `publishing_enabled=false`, `manual_review_required=true`. No OAuth/network upload/real-media acceptance.
+- PR #339 remains OPEN/DRAFT/UNMERGED. Issue #68 remains OPEN. Independent security review of the full consolidated uploader/approval lineage NOT RECORDED. Parent PR #328 remains non-mergeable; dependency ancestry reconciliation required.
+- Next task: independent full-lineage uploader/approval review plus exact PR #311 → #328 → #339 ancestry map. No merge/rebase/retarget/OAuth/real-media upload/deployment/publishing. Keep live/public upload gates disabled.
+
+
+### CI scope clarification after documentation updates
+- Run #45434843065 validates the functional/code-and-test head `a08a69cfa687479c58ce72a322b1357761a92723` only.
+- The subsequent commits in this workstream update documentation only (this report, startup handoff, and registry); no application code or tests changed after the validated functional head.
+- The resulting documentation-only branch tip has no separately associated CI run returned and is therefore NOT independently CI-VERIFIED. Do not transfer the functional-head green result to the later documentation-only tip.
