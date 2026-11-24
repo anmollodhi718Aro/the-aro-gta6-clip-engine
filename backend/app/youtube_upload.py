@@ -21,6 +21,7 @@ from typing import Any
 UPLOAD_SCOPE = "https://www.googleapis.com/auth/youtube.upload"
 IDENTITY_SCOPES = ["openid", "https://www.googleapis.com/auth/youtube.readonly", UPLOAD_SCOPE]
 DEFAULT_CATEGORY_ID = "20"  # Gaming
+MAX_RIGHTS_REPORT_BYTES = 1024 * 1024
 
 
 
@@ -148,6 +149,8 @@ def load_rights_report(path: str | Path) -> dict[str, Any]:
             raise PermissionError("rights report must be a regular file")
         if (path_stat.st_dev, path_stat.st_ino) != (opened_stat.st_dev, opened_stat.st_ino):
             raise PermissionError("rights report changed while opening")
+        if opened_stat.st_size > MAX_RIGHTS_REPORT_BYTES:
+            raise PermissionError("rights report exceeds maximum size")
         try:
             current_path_stat = report_path.lstat()
         except OSError as exc:
@@ -167,7 +170,7 @@ def load_rights_report(path: str | Path) -> dict[str, Any]:
         )
         with os.fdopen(descriptor, "rb") as stream:
             descriptor = -1
-            report_bytes = stream.read()
+            report_bytes = stream.read(MAX_RIGHTS_REPORT_BYTES + 1)
             after_read_stat = os.fstat(stream.fileno())
         after_read_signature = (
             after_read_stat.st_dev,
