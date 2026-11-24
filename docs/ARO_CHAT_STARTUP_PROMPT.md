@@ -426,3 +426,8 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Added malformed URL and valid HTTP/HTTPS regression tests.
 - Local tests NOT RUN. Fresh exact-head Ubuntu and hosted-Windows CI PENDING; inspect actual run results before claiming verification.
 - Keep PR #371 draft/open/unmerged and preserve its stacked ancestry. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+
+- Additional parser-hardening review: reject whitespace (including embedded CR/LF/tab), ASCII control characters, DEL, and backslashes anywhere in the raw source URL before URL parsing; these characters can be normalized or interpreted inconsistently by parsers and downstream clients.
+- Follow-up production commit: 0380133cb38d5067b6d6016d41c42b72071babbd; regression test commit: a94b6e6fae9d9789e11f74fa2233a347d0a46701.
+- Local tests NOT RUN. CI must be checked against the final documentation-synchronized branch head; prior run #45486119308 failed with both jobs exposing zero steps and no logs, so the cause is NOT VERIFIED and is not attributed to source changes.
