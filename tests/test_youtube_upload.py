@@ -515,6 +515,7 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
         self.assertNotEqual(first["google_subject"], second["google_subject"])
         self.assertNotEqual(first["token_path"], second["token_path"])
         self.assertEqual(first["token_path"], self.config.resolve(strict=True).parent / "tokens" / "aroanmol7.json")
+        self.assertEqual(second["token_path"], self.config.resolve(strict=True).parent / "tokens" / "the_arro07.json")
 
     def test_profile_name_cannot_escape_token_directory(self):
         with self.assertRaisesRegex(ValueError, "letters, numbers"):
