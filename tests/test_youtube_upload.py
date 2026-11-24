@@ -143,6 +143,29 @@ class YouTubeUploadTests(unittest.TestCase):
             with self.assertRaisesRegex(PermissionError, "regular file"):
                 load_rights_report(self.report)
 
+    def test_rights_report_rejects_in_place_mutation_during_read(self):
+        import backend.app.youtube_upload as upload_module
+
+        original_fstat = upload_module.os.fstat
+        with self.report.open("rb") as fixture_stream:
+            opened_stat = original_fstat(fixture_stream.fileno())
+        changed_stat = types.SimpleNamespace(
+            st_mode=opened_stat.st_mode,
+            st_dev=opened_stat.st_dev,
+            st_ino=opened_stat.st_ino,
+            st_size=opened_stat.st_size,
+            st_mtime=opened_stat.st_mtime,
+            st_ctime=opened_stat.st_ctime,
+            st_mtime_ns=opened_stat.st_mtime_ns + 1,
+            st_ctime_ns=opened_stat.st_ctime_ns + 1,
+        )
+        with patch(
+            "backend.app.youtube_upload.os.fstat",
+            side_effect=[opened_stat, changed_stat],
+        ):
+            with self.assertRaisesRegex(PermissionError, "changed while reading"):
+                load_rights_report(self.report)
+
     def test_rights_report_rejects_same_inode_symlink_substitution_after_open(self):
         import stat
         import backend.app.youtube_upload as upload_module

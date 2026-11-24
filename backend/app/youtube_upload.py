@@ -158,9 +158,27 @@ def load_rights_report(path: str | Path) -> dict[str, Any]:
             opened_stat.st_dev, opened_stat.st_ino
         ):
             raise PermissionError("rights report path changed while opening")
-        with os.fdopen(descriptor, "r", encoding="utf-8") as stream:
+        before_read_signature = (
+            opened_stat.st_dev,
+            opened_stat.st_ino,
+            opened_stat.st_size,
+            getattr(opened_stat, "st_mtime_ns", int(opened_stat.st_mtime * 1_000_000_000)),
+            getattr(opened_stat, "st_ctime_ns", int(opened_stat.st_ctime * 1_000_000_000)),
+        )
+        with os.fdopen(descriptor, "rb") as stream:
             descriptor = -1
-            payload = json.load(stream)
+            report_bytes = stream.read()
+            after_read_stat = os.fstat(stream.fileno())
+        after_read_signature = (
+            after_read_stat.st_dev,
+            after_read_stat.st_ino,
+            after_read_stat.st_size,
+            getattr(after_read_stat, "st_mtime_ns", int(after_read_stat.st_mtime * 1_000_000_000)),
+            getattr(after_read_stat, "st_ctime_ns", int(after_read_stat.st_ctime * 1_000_000_000)),
+        )
+        if after_read_signature != before_read_signature or len(report_bytes) != opened_stat.st_size:
+            raise PermissionError("rights report changed while reading")
+        payload = json.loads(report_bytes.decode("utf-8"))
     finally:
         if descriptor >= 0:
             os.close(descriptor)
