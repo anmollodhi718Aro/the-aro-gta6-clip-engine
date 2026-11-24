@@ -404,3 +404,16 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Regression coverage added in `tests/test_rights_registry.py`. Production commits `6f401febec441d6ca8511a14fbe2f51c1fa6a0d2` and `267d298a03c21a3a8bea38d6e7f10be1a25633f9` (actor normalization); test commit `73a5a7495b82bb45417b3f10af562f7fea839370`.
 - Local tests NOT RUN in this connector session. Verify exact-head Ubuntu and hosted-Windows CI; do not transfer older parent CI. Independent review NOT RECORDED.
 - Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+## Current continuation — ARO-CHAT-0235 strict rights metadata and timestamp validation (2026-11-25)
+
+- Chat title: `ARO-CHAT-0235 | Strict Rights Metadata and Timestamp Validation`; workstream: ARO-GTA-P1-235.
+- Branch: `workstream/aro-chat-0235-rights-registry-strict-text-timestamps-2026-11-25`; based on PR #369 current head `8185687919138671deff872f6a7f35f86eafc27c`.
+- Finding: the preceding validation code still coerced source ID, URL, grantor, evidence reference and optional metadata with `str(...)`; timestamp parsing could also fail incidentally on non-string values, and falsey explicit `at` values could be silently replaced by the current time.
+- Production commit `42011adcb725a171d30ee496b37df47f00b01678`: require non-empty text identity fields, reject non-string optional attribution/disclosure, accept only timezone-aware datetime or non-empty ISO timestamp strings, and validate explicit timestamps even when falsey.
+- Test commit `5f305f66e2e47582fe651886ff3ca8b53843bcc9`: cover malformed identity/optional text, invalid valid_from/expires_at types, and invalid explicit authorize/revoke timestamps.
+- Report: `docs/ARO_CHAT_0235_STRICT_RIGHTS_METADATA_VALIDATION.md`; registry updated in commit `db7fa2f244e5af1d5567c13bb9c9f19c51f56142`.
+- PR #369 head `8185687919138671deff872f6a7f35f86eafc27c` had associated run #45485759897 completed FAILURE. Job-step/log detail was unavailable; cause NOT VERIFIED. Do not claim this continuation fixes the parent failure.
+- Local tests NOT RUN. This branch's exact-head Ubuntu and hosted-Windows CI PENDING. Independent security review NOT RECORDED.
+- Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No OAuth, credentials, real media, network upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
