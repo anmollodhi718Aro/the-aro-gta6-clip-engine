@@ -187,3 +187,15 @@ For the current first-test upload priority:
 - Code commit: `6031b6dbbaf0745fad8cbc3e74085ab9ac105a23`. Documentation/registry update follows. Exact-head Ubuntu and hosted-Windows CI is pending; no local tests run in this connector session.
 - PR #300 / ARO-CHAT-0197 remains preserved as OPEN/DRAFT/UNMERGED. It diverged from the current PR #299 head (12 ahead / 43 behind); do not rebase or retarget it. This clean successor is based on current PR #299 instead.
 - No production code changed. No OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains open; live uploads/public publishing stay disabled.
+
+
+
+
+## ARO-CHAT-0199 live continuation — 2026-11-24
+
+- Current workstream: ARO-CHAT-0199 / ARO-GTA-P1-199, CI evidence closeout for PR #301. Branch `workstream/aro-chat-0199-pr301-ci-closeout-2026-11-24`, based on PR #301 head `4dce542aa59023a7dc0ca9c61badecf4f0734f59`.
+- PR #301-associated Actions run #45399961380 completed SUCCESS. Ubuntu job #138465638360 and hosted Windows job #138465637811 each passed compilation, the same 346-test suite, and synthetic MP4/FFprobe validation. The second destination-profile token-path regression passed in both.
+- Both jobs checked out merge ref `refs/remotes/pull/301/merge` at `d961d60d45337ba58dbcc566b661545c673a5ce7`; raw-head-only checkout is NOT demonstrated. Two platforms ran the same 346 tests, not 692 unique tests.
+- Logs confirm no upload, no GTA 6 or third-party media, publishing disabled, and manual review required. This is not owner-device verification or real-media acceptance.
+- Audit report: `docs/ARO_CHAT_0199_PR301_CI_CLOSEOUT.md`. PR #301 and parent PR #299 remain OPEN/DRAFT/UNMERGED. Issue #68 remains OPEN/WAITING_FOR_OWNER_APPROVAL. Live uploads/public publishing stay disabled.
+- Next action: identify the next registered non-duplicate task after ARO-CHAT-0199; do not infer permission to merge, rebase, retarget, deploy, upload, or publish.
