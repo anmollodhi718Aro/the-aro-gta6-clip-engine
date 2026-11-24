@@ -169,8 +169,8 @@ For the current first-test upload priority:
 ## ARO-CHAT-0209 — approval-record race regression restoration (2026-11-24)
 
 - New consolidated branch review found PR #311 had reverted `require_current_owner_approval()` to `Path.read_text()`, omitting the symlink/non-regular-file and pre-open/post-open file-identity protections implemented on PR #305.
-- Follow-up: `workstream/aro-chat-0209-restore-approval-record-open-race-2026-11-24`, based on PR #311 head `c3d767fd055c80dbd395c5c8821a335ad9b3b258`.
+- Follow-up: [Draft PR #317](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/317) on `workstream/aro-chat-0209-restore-approval-record-open-race-2026-11-24`, based on PR #311 head `c3d767fd055c80dbd395c5c8821a335ad9b3b258`.
 - Restored `lstat()` regular-file checks, `O_NOFOLLOW`/`O_NONBLOCK` where supported, and `lstat()`/ `fstat()` device+inode comparison. Regression tests cover symlink, regular replacement, directory, FIFO, and FIFO replacement at open.
 - Code commit: `72f72e26c2a58ce01066275f56b4c4f649ed6bf2`; test commit: `da3d774a14565b3d3bc99d61b8335e92aaf96cff`.
-- Current follow-up status: IMPLEMENTED; local tests NOT RUN; exact-head CI PENDING. Do not transfer PR #305 CI to this new branch.
+- Current follow-up head: `36f9ac70f841715255d917183d24d3b2df2bfc49`. Status: IMPLEMENTED; local tests NOT RUN; exact-head CI PENDING. Do not transfer PR #305 CI to this new branch.
 - Keep PR #311 and this follow-up draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; no real media or live upload. Keep public publishing disabled.
