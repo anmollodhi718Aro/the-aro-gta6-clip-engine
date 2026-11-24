@@ -488,3 +488,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Continue with documentation-only verification of PR #256's own current-head CI and independent review. Never retry a workflow, merge, retarget, rebase, or deploy without explicit authorization.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live/public uploads disabled; no credentials/OAuth, real media, network upload, or publishing.
 
+
+
+### ARO-CHAT-0175 live handoff correction — 2026-11-24 13:17 IST
+- Latest active workstream remains ARO-CHAT-0175 / ARO-GTA-P1-175, auditing PR #255; audit PR #256 remains OPEN / DRAFT / UNMERGED.
+- PR #255's current head is `7121a0db7598889f7d7ae18381f0472a21e94840`. Exact PR merge-ref run #45316166410 succeeded: Ubuntu and hosted Windows each passed compile, the same 340 tests, and synthetic MP4/FFprobe validation; merge SHA `4acde6737fd8eedafc1b232a0a010eb786de9cc7` merges that head into base `5069449aa775b2b8378c3e3ca36c6ec87b479f66`.
+- Synthetic-only evidence: no GTA 6/third-party media; publishing disabled; manual review required; mocked upload reports `upload_performed=false`. Raw-head-only CI, owner-device Windows, and authorized real-media acceptance remain NOT VERIFIED.
+- PR #256 current head `d09f8147c7227cfec80d9e37a57a6463082da2cd` has no associated workflow run/status entries and no reviews/inline threads/comments; its own CI remains PENDING / NOT VERIFIED. Inspect only its own future run; do not transfer parent CI.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live/public uploads disabled. No workflow retry, OAuth/credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
