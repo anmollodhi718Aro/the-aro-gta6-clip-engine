@@ -71,6 +71,8 @@ class SourceRightsRegistry:
             """)
 
     def register(self, record: dict[str, Any], *, actor: str = "operator") -> None:
+        if not isinstance(record, dict):
+            raise ValueError("record must be a mapping")
         required = ("source_id", "source_url", "grantor", "evidence_ref",
                     "allowed_uses", "platforms", "valid_from")
         missing = [key for key in required if not record.get(key)]
@@ -138,10 +140,11 @@ class SourceRightsRegistry:
     def authorize(self, source_id: str, use: str, platform: str,
                   *, at: datetime | None = None) -> dict[str, Any]:
         """Return the grant metadata or raise PermissionError; unknown is blocked."""
-        if use not in ALLOWED_USES:
+        if not isinstance(use, str) or use not in ALLOWED_USES:
             raise ValueError(f"unsupported use: {use}")
-        if not source_id.strip() or not platform.strip():
-            raise ValueError("source_id and platform are required")
+        if (not isinstance(source_id, str) or not source_id.strip()
+                or not isinstance(platform, str) or not platform.strip()):
+            raise ValueError("source_id and platform are required strings")
         with self._connect() as db:
             row = db.execute("SELECT * FROM source_rights WHERE source_id=?",
                              (source_id,)).fetchone()
@@ -166,8 +169,9 @@ class SourceRightsRegistry:
 
     def revoke(self, source_id: str, *, actor: str,
                at: datetime | None = None) -> bool:
-        if not source_id.strip() or not actor.strip():
-            raise ValueError("source_id and actor are required")
+        if (not isinstance(source_id, str) or not source_id.strip()
+                or not isinstance(actor, str) or not actor.strip()):
+            raise ValueError("source_id and actor are required strings")
         when = _time(at or datetime.now(timezone.utc)).isoformat()
         with self._connect() as db:
             cur = db.execute("UPDATE source_rights SET revoked_at=? "
