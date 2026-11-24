@@ -26,6 +26,10 @@ Date: 2026-11-25
 - Production validation: `318970c09c53e239bdbf89a52e6f154cba1b3745`
 - Regression tests: `15f2d7cd0820e68409898cffe095a872ff4a6f37`
 
+## Pull request
+- Draft PR: [#361](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/361).
+- The PR is stacked directly on PR #355's latest observed head; the compare reports 5 commits ahead / 0 behind, with merge base exactly `4ceba80e02f28c52946d3d143cbb7fa4e31d611e`.
+
 ## Validation status
 - Local tests: NOT RUN in this connector session.
 - Exact-head Ubuntu/hosted-Windows CI: PENDING / NOT VERIFIED for the final branch head.
