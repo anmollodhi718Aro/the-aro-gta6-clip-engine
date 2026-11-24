@@ -181,6 +181,14 @@ def load_rights_report(path: str | Path) -> dict[str, Any]:
         )
         if after_read_signature != before_read_signature or len(report_bytes) != opened_stat.st_size:
             raise PermissionError("rights report changed while reading")
+        try:
+            final_path_stat = report_path.lstat()
+        except OSError as exc:
+            raise PermissionError("rights report path changed while reading") from exc
+        if not stat.S_ISREG(final_path_stat.st_mode) or (
+            final_path_stat.st_dev, final_path_stat.st_ino
+        ) != (opened_stat.st_dev, opened_stat.st_ino):
+            raise PermissionError("rights report path changed while reading")
         payload = json.loads(report_bytes.decode("utf-8"))
     finally:
         if descriptor >= 0:
