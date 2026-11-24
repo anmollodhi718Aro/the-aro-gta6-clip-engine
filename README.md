@@ -1,62 +1,40 @@
 # THE ARO GTA 6 Clip Engine
 
-A creator-first workflow for finding and preparing short highlights from **authorized** GTA 6 livestreams and recordings.
+Creator-first tooling for preparing short highlights from media and event data the operator owns or is explicitly authorized to process.
 
-> This repository is the separate GTA 6 project. It is not the ARO History Engine.
+## Local MVP core
 
-## Current status
+- Durable local source registry with permission evidence references, separate scopes, expiry, and revocation.
+- Permission-gated event normalization to UTC, bounded batch/text sizes, and duplicate-event handling.
+- Deterministic chat-spike candidates with stable IDs, evidence, scores, and review status.
+- Append-only human review decisions.
+- Local FFmpeg rendering guarded by active source-registry edit_media permission and explicit rights confirmation.
+- Synthetic moving-video render and FFprobe checks in Ubuntu/Windows CI.
 
-**Stage:** Project foundation and architecture  
-**Not yet implemented:** live monitoring, AI highlight detection, video cutting, dashboard, publishing, or mobile app.
+This MVP does not connect to live platform APIs, scrape streams, call AI providers, upload, or publish. Dashboard, Android client, live ingestion, OAuth upload, and hosted services are separate future phases.
 
-The first milestone is a small, testable MVP that can analyze permitted chat/event data, rank candidate moments, and produce a reviewable clip plan. Video processing will only use footage the operator owns or is authorized to use.
+## Quick start
 
-## MVP goals
+With Python 3.11+:
 
-1. Register a source and record its permission status.
-2. Ingest supported metadata and chat events through permitted interfaces.
-3. Detect unusual chat activity and score candidate timestamps.
-4. Produce a clip decision list for human review.
-5. Validate an authorized media asset before any local clip rendering.
-6. Keep publishing manual and owner-approved.
+    python -m unittest discover -s tests -v
+    python -m backend.app.cli examples/sample_events.json --registry examples/source_registry.json --source-id synthetic-demo-stream --output clip_plan.json
+    python -m backend.app.review_cli clip_plan.json --candidate-id CANDIDATE_ID --decision approved --reviewer local-reviewer
 
-## Non-goals for the first MVP
+The included registry is synthetic test data only. Replace it with a record backed by real permission evidence before processing real creator data.
 
-- No scraping, stream ripping, or bypassing platform controls.
-- No automatic public uploads.
-- No promise of virality, monetization, or unlimited free AI/API usage.
-- No always-on cloud service until cost, quotas, security, and reliability are understood.
+## Render a local review clip
 
-## Safety and rights
+    python -m backend.app.render_cli input_video.mp4 review_clip.mp4 --start 12.5 --duration 35 --registry my_sources.json --source-id my-source --confirm-rights
 
-Only use footage and data that you own or have permission to process. Platform APIs and creator permission do not automatically clear music, game footage, or third-party rights. See [Copyright and Permissions](docs/COPYRIGHT_POLICY.md).
+The renderer refuses unregistered or inactive edit_media permission, requires explicit rights confirmation, limits clips to 180 seconds, and never downloads or uploads media.
 
-## Repository map
+## Rights and safety
 
-- `docs/`: project plan, architecture, security, testing, rights, and deployment notes.
-- `backend/`: backend implementation (planned).
-- `tests/`: automated tests (planned).
+- analyze_chat permission does not imply edit_media permission.
+- Creator permission does not automatically clear game, music, guest, or platform rights.
+- Local review approval is not upload or publishing approval.
+- Public uploads remain disabled until authenticated channel-owner identity, exact clip/source approval, and current rights checks are implemented and independently verified.
+- Never store credentials, OAuth tokens, or passwords in the registry.
 
-## Development principles
-
-- GitHub is the source of truth.
-- Build in small, reviewable commits.
-- Keep secrets out of Git; use environment variables and a secrets manager.
-- Test with synthetic data or authorized sample assets first.
-- Automatic recovery may retry bounded, reversible operations. Code changes and production deployment require owner review.
-- Publishing requires an explicit human approval step.
-
-## Getting started
-
-The implementation dependencies and local run instructions will be added with the first executable backend milestone. Start with [the master plan](docs/MASTER_PLAN.md) and [system architecture](docs/SYSTEM_ARCHITECTURE.md).
-
-## Try the synthetic MVP demo
-
-With Python 3.11 or newer, from the repository root:
-
-```bash
-python -m backend.app.cli examples/sample_events.json --output clip_plan.json
-python -m unittest discover -s tests -v
-```
-
-The sample contains synthetic timestamps and events only. It should produce one candidate marked `needs_review`; it cannot publish anything. See [MVP usage](docs/MVP_USAGE.md).
+See docs/MASTER_PLAN.md, docs/COPYRIGHT_POLICY.md, docs/MVP_USAGE.md, and docs/TESTING_PLAN.md.

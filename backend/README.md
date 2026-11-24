@@ -1,13 +1,13 @@
 # Backend
 
-Backend implementation has not started yet.
+The local Phase 1 core runs without network access or provider credentials.
 
-Planned first module sequence:
-1. typed data models for sources, permissions, and events
-2. permission validation service
-3. timestamp normalization
-4. deterministic chat-spike detector
-5. clip decision-list serializer
-6. tests for each module
+- models.py: timezone-aware permission, event, and candidate models.
+- registry.py: atomic local JSON source registry with scope and revocation checks.
+- ingestion.py: permission-gated UTC normalization, size limits, and deduplication.
+- detection.py: deterministic rolling chat-rate spike detector.
+- cli.py: candidate-plan generation, optionally using the authoritative source registry.
+- review.py and review_cli.py: append-only human review ledger and CLI.
+- render.py and render_cli.py: local FFmpeg rendering guarded by registered edit_media permission.
 
-Keep provider adapters separate from the core detection logic. The core should be testable without network access or API credentials.
+Live platform adapters, AI services, dashboards, OAuth upload, and public publishing are not part of this local MVP.
