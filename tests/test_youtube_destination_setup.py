@@ -139,6 +139,16 @@ class YouTubeDestinationSetupTests(unittest.TestCase):
                 )
         authorize.assert_not_called()
 
+    def test_invalid_oauth_client_config_is_rejected_before_authorization(self):
+        self.client.write_text('{"installed": {}}', encoding="utf-8")
+        with patch("backend.app.youtube_upload._authorize_google") as authorize:
+            with self.assertRaisesRegex(PermissionError, "client ID is missing"):
+                setup_destination(
+                    repository_root=self.root, client_secrets=self.client,
+                    profile_name="aroanmol7",
+                )
+        authorize.assert_not_called()
+
     def test_invalid_profile_name_is_rejected_before_oauth(self):
         with patch("backend.app.youtube_upload._authorize_google") as authorize:
             with self.assertRaisesRegex(ValueError, "profile name"):
