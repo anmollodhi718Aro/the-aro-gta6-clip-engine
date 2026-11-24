@@ -175,3 +175,14 @@ For the current first-test upload priority:
 
 ### Next authorized task
 Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/approval diff. Fix any newly evidenced defects on the same draft branch, update this prompt and the workstream registry, and do not merge, deploy, run OAuth, or upload media.
+
+### ARO-CHAT-0201 exact-head closeout and next gate — 2026-11-25
+- Live PR #311 head: `4aa3c524560c42c42d2b46a50e477ad778286910`; base PR #295 head: `9f6cdc10bc77e99d6a9399f3c8a1505e18a87ab0`. PR remains OPEN / DRAFT / UNMERGED.
+- Exact-head-associated run #45465185543 passed Ubuntu and hosted Windows on merge SHA `909d685311ab40972861ee9239e40b0eb50bb491`; each platform compiled, passed the same 340 tests, and passed synthetic MP4/FFprobe. Synthetic media only; upload not performed; publishing disabled.
+- Bounded static review found no new direct auth/approval/rights/public-visibility bypass in the changed paths, but is not independent human sign-off.
+- Windows token ACL caveat remains: `os.chmod(0o600)` is not a Windows owner-only ACL guarantee. Verify the owner-device `.secrets/tokens` ACL or implement separately reviewed Windows ACL enforcement before OAuth/token storage.
+- PR #311 does not include PR #242's explicit `--max-upload-bytes` gate; do not infer a safe total upload limit from its 8 MiB chunk size.
+- GitHub review submissions/threads are empty. Independent human security sign-off, owner-device OAuth/channel verification, Windows ACL verification, owner-selected upload byte limit, and authorized real-media/private-upload acceptance remain pending. Keep live uploads/public publishing disabled.
+- Full review report: `docs/ARO_CHAT_0201_PR311_SECURITY_REVIEW.md`.
+- Next task: obtain separate human security review and resolve the Windows token ACL caveat plus owner-selected upload-size gate on an owner-approved continuation. Keep this PR draft-only; no OAuth, real media, upload, merge, or deployment.
+
