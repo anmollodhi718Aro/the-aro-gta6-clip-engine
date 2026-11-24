@@ -32,7 +32,12 @@ def _ends_in_ipv4_number(label: str) -> bool:
 
 
 def _valid_hostname(hostname: str) -> bool:
-    """Accept DNS/IDNA names and IP literals without ambiguous IPv4 forms."""
+    """Accept DNS/IDNA names and IP literals without ambiguous forms."""
+    # Scoped IPv6 literals are deliberately unsupported at this registry
+    # boundary. Different URL consumers handle encoded/raw zone identifiers
+    # inconsistently, so reject percent signs before invoking the IP parser.
+    if "%" in hostname:
+        return False
     if ":" in hostname:
         try:
             ipaddress.IPv6Address(hostname)
