@@ -901,3 +901,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - OAuth token writes now use a same-directory temporary file, flush/fsync, and atomic replacement; restrictive `0600` permissions are applied where supported.
 - Existing token-file symlinks and a symlinked profile token directory are rejected. Regression tests cover symlink rejection and token-file permissions.
 - First CI run exposed a missing `tempfile` import in the new writer. Fixed in commit `92368c71a6cae96f364cdac1066cdf9e93fe3c43`. The fix is awaiting a fresh CI run; earlier run `45395149052` failed and must not be counted as passing.
+
+
+### OAuth atomic-write failure-path guard (24 Nov 2026)
+- Added regression test proving a failed atomic replace leaves the previous token intact and removes the temporary file.
+- Test commit: `bcdd2355a23ca4a653c76857bc5ff4650f6e1d79`.
+- Fresh CI is required for this exact head; the preceding head `2f801ce8043906829e352733644a01ef01ffc3b1` passed Ubuntu and Windows suites plus synthetic MP4/FFprobe.
