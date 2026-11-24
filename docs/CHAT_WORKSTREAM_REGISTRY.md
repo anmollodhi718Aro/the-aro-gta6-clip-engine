@@ -1092,3 +1092,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #335 and #336 review submissions/inline threads returned zero; independent review NOT RECORDED. All three PRs remain draft/open/unmerged at the observed snapshots.
 - Keep each CI result scoped to its exact commit. Synthetic fixtures and mocked upload interactions do not establish real-media acceptance or a live upload. Hosted Windows is not owner-device verification.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No canonical security-lineage selection or live publishing authorization is inferred. No merge, rebase, retarget, deployment, upload, publishing, workflow retry/dispatch, OAuth, or credential access.
+
+
+### ARO-CHAT-0217 final-head reconciliation — 2026-11-24
+- PR #336 predecessor `3d537f9df3830728f63fda4ee6a8133166475dec` passed run #45428154454 (Ubuntu 344 passed; hosted Windows 344 ran, 2 skipped). Three subsequent commits changed only audit/startup/registry documentation. Current head `bd15caca886356fd2850dea653dee0f63699d90d` has no associated run or combined status; final-head CI PENDING / NOT VERIFIED.
+- PR #335 predecessor code/test head `2779aee7b752433b72753ea77419f8ce3d1ae806` passed run #45428127882 (Ubuntu 342 passed; hosted Windows 342 ran, 2 skipped). Three subsequent commits changed only documentation; current head `6d06bf9d4386506420d8e1028018016191fc1fde` has no exact-head run in the current lookup. Earlier CI remains scoped to the predecessor code/test SHA.
+- ARO-CHAT-0218 / ARO-GTA-P1-218 is already reserved by PR #337 for a test-only cleanup regression when media-handle close raises. Do not duplicate or overwrite that active workstream.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. All PRs remain draft/open/unmerged; no merge, rebase, retarget, upload, publishing, or deployment.
