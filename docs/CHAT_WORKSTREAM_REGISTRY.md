@@ -1067,3 +1067,7 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Report: `docs/ARO_CHAT_0217_PR332_CI_AUDIT.md`. Do not transfer PR #328 run #45427291297 to PR #332 or this follow-up.
 - Issue #68 remains OPEN; current issue snapshot lists the repository owner as assignee. Assignment is not implementation/canonical-lineage approval. Keep live uploads/public publishing disabled.
 - Documentation-only; local tests NOT RUN. No workflow retry/dispatch, OAuth, credentials/tokens, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0217 run progress refresh
+- Rechecked PR #332 head `b97b6272356f4ee07d6708ced8fbd37354864194`; run #45427815827 remains IN_PROGRESS. Ubuntu is running the unittest step after compile succeeded; hosted Windows is still installing FFmpeg/FFprobe. Synthetic render has not started on either platform. Exact-head CI remains PENDING / NOT VERIFIED.
