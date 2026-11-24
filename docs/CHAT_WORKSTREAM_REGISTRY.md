@@ -1688,3 +1688,16 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0176_PR256_CI_AUDIT.md`. Do not transfer PR #255's cancelled run or any other PR/SHA's CI evidence.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending explicit owner approval, canonical security implementation, independent security review, owner-controlled integration, owner-device verification, owner-selected device-appropriate `--max-upload-bytes`, and authorized real-media acceptance.
 - Documentation-only. No OAuth, credentials/tokens, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0177 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0177 | PR #257 Exact-Head CI Audit`.
+- Workstream: ARO-GTA-P1-177; branch: `workstream/aro-chat-0177-pr257-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #257 exact head `8e8f92f102955fdb3a2c69090d3787a8d97a8dc9`.
+- Task: documentation-only independent audit of PR #257's own exact-head Actions runs/check-runs, combined status, review submissions, inline threads, conversation comments, and (if a run appears) Ubuntu/hosted-Windows jobs/logs, checkout refs, compilation/tests, and synthetic MP4/FFprobe.
+- Initial exact-head workflow-run lookup returned zero runs; combined commit status returned an empty status list. No passing result is inferred; PR #257 CI is PENDING / NOT VERIFIED.
+- PR #257 is OPEN / DRAFT / UNMERGED; GitHub reports `mergeable=false`. Reviews, inline threads, and conversation comments are empty; independent review NOT RECORDED.
+- No jobs/logs exist to inspect. Checkout refs, compilation, unit tests, and synthetic MP4/FFprobe are NOT VERIFIED / NOT RUN. Local tests NOT RUN; no workflow retry initiated.
+- Report: `docs/ARO_CHAT_0177_PR257_CI_AUDIT.md`. Do not transfer PR #256's absent CI or any other PR/SHA's CI evidence.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending explicit owner approval, canonical security implementation, independent security review, owner-controlled integration, owner-device verification, owner-selected device-appropriate `--max-upload-bytes`, and authorized real-media acceptance.
+- Documentation-only. No OAuth, credentials/tokens, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
