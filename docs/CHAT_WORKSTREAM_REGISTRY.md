@@ -837,3 +837,37 @@ No OAuth, credentials, network upload, merge, deployment, or public publishing w
 - Combined status returned zero entries; this is not a separate green status context. PR #289 review/comment timeline was empty; independent review NOT RECORDED.
 - PR #289 remains OPEN / DRAFT / UNMERGED. This audit did not merge, retarget, rebase, deploy, retry workflows, use OAuth/credentials, access real media, upload, or publish.
 - Issue #68 remains OPEN. The PRIVATE-only gate-order fix does not complete canonical authenticated channel-owner approval integration or owner acceptance. Keep live uploads and public publishing disabled pending explicit owner approval and independent security review.
+
+
+## ARO-CHAT-0194 | PR #291 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0194 |
+| Workstream ID | ARO-GTA-P1-194 |
+| Scope | Independently audit PR #291's own exact-head Actions run, both hosted jobs, checkout refs, compile/tests, synthetic MP4/FFprobe, combined status, and review state. Documentation-only. |
+| Audited PR / head | [PR #291](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/291) / `c99e3027c196ea057001f5e785195b8a974dd5eb` |
+| Audit branch | `workstream/aro-chat-0194-pr291-exact-head-ci-audit-2026-11-24` |
+| Report | `docs/ARO_CHAT_0194_PR291_CI_AUDIT.md` |
+| Status | CI_VERIFIED on PR #291 merge ref; independent review NOT RECORDED |
+| CI evidence | Run [#45387645247](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45387645247), run 1223; Ubuntu job #138422673647 and hosted-Windows job #138422674151 succeeded. Each compiled, passed the same 323 tests, and passed synthetic MP4/FFprobe. |
+
+### Findings and boundaries
+- Both jobs checked out PR #291 merge ref `5a2a576bc2fb8f5daad2fba83c2a6f8c40a48dea`, merging audited head `c99e3027c196ea057001f5e785195b8a974dd5eb` into base `4e01f16e97b2239c74a2f96c4262b04b57a4ae73`. Raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic evidence only: no GTA 6 or third-party media; publishing disabled; manual review required; mocked approval reports no upload performed.
+- Combined status had zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED.
+- PR #291 remains OPEN / DRAFT / UNMERGED. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
+- Issue #68 remains OPEN. Keep live uploads/public publishing disabled pending independent security review and owner-controlled integration.
+- No workflow retry, OAuth, credentials, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0194 | PR #294 exact-head CI closeout — 2026-11-24
+
+- Audit PR: [#294](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/294), head `b048589231975e20839654e6fdff46eab34539ca`; audited PR #291 head remains `c99e3027c196ea057001f5e785195b8a974dd5eb`.
+- PR #294's own commit-associated run [#45388055676](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45388055676), run 1228, completed SUCCESS.
+- Ubuntu job #138424089845 and hosted-Windows job #138424090425 each passed compile, the same 323-test suite (4.261s Ubuntu; 13.725s Windows), and synthetic MP4/FFprobe validation.
+- Both jobs checked out PR #294 merge ref `e30fd38ce8a224a3def3cfa989fcd00c6083641d`, merging PR #294 head into base `c99e3027c196ea057001f5e785195b8a974dd5eb`. Raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic-only: no GTA 6 footage or third-party media; publishing disabled; manual review required; mocked approval reported `upload_performed=false`. Same 323 tests ran on both platforms, not 646 unique tests.
+- PR #294 reviews, inline threads, and conversation comments were empty at inspection; independent review NOT RECORDED. PR remains OPEN / DRAFT / UNMERGED.
+- Report: `docs/ARO_CHAT_0194_PR294_CI_AUDIT.md`. This evidence applies only to PR #294's audited head/merge ref. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
+- Documentation-only closeout; no workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN; keep live uploads/public publishing disabled.
