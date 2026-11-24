@@ -31,16 +31,16 @@ def load_destination_profile(
     path = Path(config_path).expanduser()
     try:
         path = path.resolve(strict=True)
-        payload = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise PermissionError("destination profile configuration is missing or unreadable") from exc
-    try:
         root = Path(repository_root).resolve(strict=True) if repository_root is not None else Path(__file__).resolve().parents[2]
         expected_secrets_dir = root / ".secrets"
     except OSError as exc:
-        raise PermissionError("repository root is missing or unreadable") from exc
+        raise PermissionError("destination profile configuration or repository root is missing or unreadable") from exc
     if path.parent != expected_secrets_dir:
         raise PermissionError("destination profile configuration must resolve inside this repository .secrets directory")
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PermissionError("destination profile configuration is missing or unreadable") from exc
     profiles = payload.get("profiles") if isinstance(payload, dict) else None
     if not isinstance(profiles, dict) or not profiles:
         raise PermissionError("destination configuration must contain a non-empty profiles object")
