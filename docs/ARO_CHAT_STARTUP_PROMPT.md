@@ -626,3 +626,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Job-log contents were unavailable in this audit; exact test count/duration, detailed synthetic MP4/FFprobe output, and actual checkout ref/SHA remain NOT VERIFIED. Combined commit status is PENDING with zero status entries; independent review is NOT RECORDED. PR #278 remains OPEN / DRAFT / UNMERGED.
 - Report: `docs/ARO_CHAT_0190_PR278_CI_AUDIT.md`. Do not transfer CI evidence to this audit PR's own head.
 - Documentation-only. No application/workflow behavior changes, workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0190 audit PR #283 current-head status — 2026-11-24
+- PR #283 current head at inspection: `39ad8c630d3a6f235c7e7d0385c8ab55943a5b69`; OPEN / DRAFT / UNMERGED.
+- Exact-head workflow-run lookup returned zero runs; combined status returned zero entries. CI PENDING / NOT VERIFIED; no jobs/logs. Reviews, inline threads, and conversation comments are empty; independent review NOT RECORDED.
+- Do not transfer PR #278's run to PR #283. Re-fetch PR #283's live head before each subsequent audit; every documentation commit changes the head and requires a fresh check.
+- No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
