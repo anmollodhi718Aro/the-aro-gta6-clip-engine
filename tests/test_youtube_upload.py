@@ -1097,3 +1097,65 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class YouTubeOAuthPersistenceTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp.name)
+        self.client = self.root / "oauth-client.json"
+        self.client.write_text("{}", encoding="utf-8")
+        self.token = self.root / "token.json"
+        self.credentials = types.SimpleNamespace(
+            valid=True, id_token="mock-id-token", to_json=Mock(return_value='{"token":"mock"}')
+        )
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def _google_oauth_modules(self):
+        google = types.ModuleType("google")
+        auth = types.ModuleType("google.auth")
+        transport = types.ModuleType("google.auth.transport")
+        requests = types.ModuleType("google.auth.transport.requests")
+        oauth2 = types.ModuleType("google.oauth2")
+        credentials_module = types.ModuleType("google.oauth2.credentials")
+        oauthlib = types.ModuleType("google_auth_oauthlib")
+        flow_module = types.ModuleType("google_auth_oauthlib.flow")
+        requests.Request = Mock()
+        credentials_module.Credentials = Mock()
+        flow = Mock()
+        flow.run_local_server.return_value = self.credentials
+        flow_module.InstalledAppFlow.from_client_secrets_file.return_value = flow
+        google.auth = auth
+        auth.transport = transport
+        transport.requests = requests
+        google.oauth2 = oauth2
+        oauth2.credentials = credentials_module
+        oauthlib.flow = flow_module
+        return {
+            "google": google, "google.auth": auth,
+            "google.auth.transport": transport,
+            "google.auth.transport.requests": requests,
+            "google.oauth2": oauth2,
+            "google.oauth2.credentials": credentials_module,
+            "google_auth_oauthlib": oauthlib,
+            "google_auth_oauthlib.flow": flow_module,
+        }
+
+    def test_authorize_can_defer_token_persistence_until_destination_verification(self):
+        from backend.app.youtube_upload import _persist_oauth_token
+        with patch.dict(sys.modules, self._google_oauth_modules()):
+            with patch("backend.app.youtube_upload._persist_oauth_token") as persist:
+                from backend.app.youtube_upload import _authorize_google
+                result = _authorize_google(self.client, self.token, persist_token=False)
+        self.assertIs(result, self.credentials)
+        persist.assert_not_called()
+        self.assertFalse(self.token.exists())
+
+    def test_authorize_preserves_default_token_persistence_behavior(self):
+        with patch.dict(sys.modules, self._google_oauth_modules()):
+            with patch("backend.app.youtube_upload._persist_oauth_token") as persist:
+                from backend.app.youtube_upload import _authorize_google
+                result = _authorize_google(self.client, self.token)
+        self.assertIs(result, self.credentials)
+        persist.assert_called_once_with(self.token, self.credentials.to_json.return_value)
