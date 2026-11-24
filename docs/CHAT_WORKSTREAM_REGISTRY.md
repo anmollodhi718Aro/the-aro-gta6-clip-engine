@@ -825,7 +825,7 @@ No OAuth, credentials, network upload, merge, deployment, or public publishing w
 | Exact chat title | ARO-CHAT-0133 | Isolated Multi-Channel Private Upload Profiles |
 | Workstream ID | ARO-GTA-P1-133 |
 | Priority | P1; support the owner's two separately authorized YouTube destinations without sharing OAuth tokens or approval records |
-| Branch / PR | workstream/aro-chat-0133-multichannel-private-profiles-2026-11-24 / follow-up Draft PR pending |
+| Branch / PR | workstream/aro-chat-0133-multichannel-private-profiles-2026-11-24 / [Draft PR #295](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/295) |
 | Starting SHA | 4e01f16e97b2239c74a2f96c4262b04b57a4ae73 (PR #289 exact head) |
 | Scope | Add local named destination profiles mapping a verified Google OIDC subject and exact YouTube channel ID to a profile-specific OAuth token path; require explicit profile selection for each approval/upload; document local-only config. |
 | Status | IMPLEMENTED; tests and exact-head CI pending; no OAuth, upload, merge or publish performed |
