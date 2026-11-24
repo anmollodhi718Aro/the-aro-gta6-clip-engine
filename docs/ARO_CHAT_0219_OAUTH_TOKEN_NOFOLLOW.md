@@ -34,3 +34,11 @@ The OAuth loader rejected a token path that was already a symlink, but then call
 - No merge, rebase, retarget, workflow retry/dispatch, OAuth login, credential access, real media, YouTube network upload, deployment, or publishing.
 - Issue #68 remains OPEN. Keep live uploads and public publishing disabled.
 - Next: inspect PR #342's own Ubuntu and hosted-Windows CI, then review the full consolidated OAuth/approval lineage and exact PR ancestry before any integration.
+
+
+## Follow-up hardening — preserve token-path PermissionError (2026-11-24)
+- Review found that `_read_oauth_token_info` raises `PermissionError` for path-integrity failures, but the first version of `_authorize_google` caught it through the broader `OSError` handler and could fall through to an interactive OAuth login.
+- Added an explicit `except PermissionError: raise` before the generic corrupt/unreadable-credential fallback. A mocked regression proves a token-integrity error is propagated and `InstalledAppFlow.from_client_secrets_file` is not called.
+- Follow-up production commit: `f7a38f535049dbf951d852caa95ad40c1aadbf62`; follow-up test commit: `08a351a88ade454c5de89098dd1a9e29cdfc818c`.
+- Current code/test head: `08a351a88ade454c5de89098dd1a9e29cdfc818c`. Exact-head run #45437884661 is IN PROGRESS; the prior run #45437477812 was cancelled during branch updates and is not validation.
+- No real OAuth token/client secret, login, media, network upload, or publishing was used. PR #342 remains draft/open/unmerged; Issue #68 remains OPEN.
