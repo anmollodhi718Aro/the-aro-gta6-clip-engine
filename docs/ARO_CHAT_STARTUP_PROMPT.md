@@ -235,3 +235,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - PR #339 latest test commit: `cc4dca770655a7bd69d767f9cb164d133e00eafd`.
 - Close-failure regression asserts exactly one close attempt, propagation of the synthetic close error, closed underlying stream, removal of the approved-byte snapshot, and exactly one mocked insert.
 - Exact-head Ubuntu/hosted-Windows CI is NOT VERIFIED (no associated run/status returned); local tests and independent review are NOT RECORDED. Keep PR #339 draft/open/unmerged; no OAuth, real media, upload, deployment, or publishing. Issue #68 remains OPEN.
+
+
+### Current ARO-CHAT-0218 handoff — PRIVATE-only guard
+- PR #339 branch: `workstream/aro-chat-0218-current-head-media-cleanup-2026-11-24`.
+- Uploader now rejects UNLISTED/PUBLIC in both metadata validation and CLI; PRIVATE is the only supported upload visibility. Tests cover rejection. Documentation corrected to remove obsolete public/unlisted approval instructions.
+- Code commit `e21f377583df944f5489e7d6a359bb5d2d1e6438`; test commit `598c9c488c34143c6cb8c0a9d86208e3e7ef74b1`; docs commit `51dbcdf38c59c6f74d239014fbb92019b6d50201`.
+- CI run #45433283842 cancelled before compile/tests; run #45433336438 pending. Exact-head CI NOT VERIFIED. PR #339 draft/open/unmerged; parent PR #328 currently non-mergeable. Independent review NOT RECORDED; issue #68 OPEN.
+- Do not merge, rebase, retarget, access OAuth credentials, upload real media, deploy, or publish. Continue code/tests and evidence collection only.
