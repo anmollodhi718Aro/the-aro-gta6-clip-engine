@@ -170,6 +170,7 @@ python -m backend.app.youtube_upload /path/to/authorized-clip.mp4 \\
   --title "THE ARO clip" --not-made-for-kids --privacy private \\
   --destination-config .secrets/youtube_destination_profiles.json \\
   --destination-profile PROFILE_NAME \\
+  --client-secrets .secrets/client_secret.json \\
   --approve-clip --clip-id CLIP_ID --source-id SOURCE_ID \\
   --approval-record .secrets/approvals/PROFILE_NAME/CLIP_ID.json \\
   --rights-db aro_studio_data/source_rights.sqlite3
@@ -178,6 +179,21 @@ python -m backend.app.youtube_upload /path/to/authorized-clip.mp4 \\
 The owner must authenticate through the loopback OAuth flow. The signed Google ID token is checked against the OAuth client ID, issuer and configured subject; the same OAuth session must resolve to the configured channel through `channels.list(mine=True)`. The command rechecks current YouTube publish permission and asks for `APPROVE PRIVATE <clip_id>`. The non-overwritable approval expires after 24 hours by default and binds the Google subject, channel, clip/source IDs, PRIVATE visibility and exact local video SHA-256.
 
 A separate, deliberate upload invocation requires the same destination profile, exact clip/source IDs, approval record, `--privacy private`, `--upload --owner-approved --confirm-rights`, and fresh identity, approval and rights checks immediately before `videos.insert`. The API response must contain a video ID and explicitly confirm `status.privacyStatus == "private"`; otherwise the result is UNVERIFIED and must be inspected in YouTube Studio. The two boolean flags are additional acknowledgements, never identity authentication.
+
+A separate upload invocation uses the same profile and approval record:
+
+```bash
+python -m backend.app.youtube_upload /path/to/authorized-clip.mp4 \
+  --rights-report output/preflight_report.json \
+  --title "THE ARO clip" --not-made-for-kids --privacy private \
+  --destination-config .secrets/youtube_destination_profiles.json \
+  --destination-profile PROFILE_NAME \
+  --client-secrets .secrets/client_secret.json \
+  --clip-id CLIP_ID --source-id SOURCE_ID \
+  --approval-record .secrets/approvals/PROFILE_NAME/CLIP_ID.json \
+  --rights-db aro_studio_data/source_rights.sqlite3 \
+  --upload --owner-approved --confirm-rights
+```
 
 **Unlisted and public live uploads are rejected by the current uploader.** Do not use an unlisted/public approval phrase or treat a dry-run metadata validation as upload permission. Unit tests use mocked OAuth/YouTube clients and never perform a network upload. See [YouTube Upload Adapter](docs/YOUTUBE_UPLOAD.md) for the current detailed procedure and limits.
 
