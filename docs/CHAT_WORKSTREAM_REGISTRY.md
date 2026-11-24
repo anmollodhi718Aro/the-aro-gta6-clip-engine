@@ -972,3 +972,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Code commits: `30229510555805bb9c723c66403bb5695ffa726f` (production guards) and `566e19440add291fd0ceedc48aee662e314cf697` (regression tests).
 - The earlier PR #311 CI run #45418114502 passed Ubuntu and hosted Windows on the PRE-FIX head only; it does NOT validate these new commits. Re-run/inspect exact-head CI after the documentation updates.
 - PR #311 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN. No OAuth, credentials, real media, upload, public publishing, merge, or deployment was performed.
+
+
+### ARO-CHAT-0201 exact-head CI closeout — 2026-11-24
+- Re-fetched live PR #311 metadata after the security corrections: OPEN / DRAFT / UNMERGED; branch `workstream/aro-chat-0201-consolidated-private-upload-security-2026-11-24`; exact implementation head `67e6d4290fee795fb8ba6fd0e926107ea7f0eb81`; base PR #295 head `9f6cdc10bc77e99d6a9399f3c8a1505e18a87ab0`.
+- Commit-associated GitHub Actions run [#45425734650](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45425734650) is SUCCESS for that exact implementation head. Ubuntu job `138557269851` and hosted Windows job `138557269281` both completed checkout, Python setup, FFmpeg/FFprobe setup, source compilation, full unittest suite, and synthetic MP4 render/FFprobe verification.
+- Both platforms report `Ran 340 tests`; Ubuntu completed in 3.702s and hosted Windows in 15.788s. The case-insensitive profile-name regression and profile-specific approval-record path tests passed on both platforms.
+- CI evidence is exact-head for the code SHA above. It is hosted Windows CI, not owner-device Windows verification. The MP4 is locally generated synthetic test media, not GTA 6 footage and not real-media acceptance.
+- The latest independent security comment's case-collision and approval-path findings were addressed in commits `30229510555805bb9c723c66403bb5695ffa726f` and `566e19440add291fd0ceedc48aee662e314cf697`; this exact-head CI includes those corrections.
+- PR #311 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN; independent security review and owner-device OAuth/channel verification are not established by CI. No OAuth session, credential access, real media, network upload, merge, deployment, or publishing occurred. Keep live uploads and public publishing disabled.
