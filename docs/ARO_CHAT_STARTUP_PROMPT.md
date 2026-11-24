@@ -253,3 +253,11 @@ For the current first-test upload priority:
 - Synthetic-only validation; no GTA 6/third-party media, upload, or publishing. Manual review required. Combined status had zero legacy entries; no PR reviews, inline threads, or conversation comments. Independent review NOT RECORDED.
 - PR #307 remains OPEN / DRAFT / UNMERGED. Local tests NOT RUN; owner-device Windows and authorized real-media acceptance NOT VERIFIED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 - Audit report: `docs/ARO_CHAT_0203_PR307_CI_AUDIT.md`. This workstream's own PR #308 is separate and must have its own exact-head CI/review audit.
+
+
+## PR #307 current-head CI recheck — 2026-11-24
+- PR #307 current head `f31f1c5d9bbd31cba6450052ff398616995019a9` passed its own associated Python CI run #45402452822 (run 1314).
+- Ubuntu and hosted Windows each passed compilation, the same 346 tests (3.687s / 19.179s), and synthetic MP4/FFprobe validation. Both checked out PR #307 merge ref at merge SHA prefix `247af12`, merging into base `df66631ff1b8afc7c08f1f15a59067f251f68a5d`. Raw-head-only CI NOT DEMONSTRATED.
+- Synthetic media only; no GTA 6/third-party media, no upload, publishing disabled, manual review required. Combined status pending with zero entries; reviews, inline threads and comments empty; independent review NOT RECORDED.
+- This later-head CI does not apply to PR #308. PR #308's latest docs update must receive its own exact-head CI; do not transfer earlier run #45402472225 after the audit branch changes.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
