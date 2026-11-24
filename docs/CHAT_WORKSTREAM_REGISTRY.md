@@ -986,3 +986,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Code commit: `72f72e26c2a58ce01066275f56b4c4f649ed6bf2`; test commit: `da3d774a14565b3d3bc99d61b8335e92aaf96cff`.
 - No local test result or CI pass is claimed. CI must run on this follow-up PR's exact head.
 - PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
+
+
+## ARO-CHAT-0210 — post-open approval-path identity verification (2026-11-24)
+
+- Follow-up to PR #317 / ARO-CHAT-0209. The reader now performs a second pathname `lstat()` after opening the approval record and requires the pathname to remain a regular file whose device/inode matches the opened descriptor.
+- This closes the fallback gap on platforms without `O_NOFOLLOW`: a path replaced with a symlink to the same inode between the pre-open check and open would otherwise pass the descriptor identity check.
+- Regression test simulates the no-`O_NOFOLLOW` fallback and a same-inode symlink substitution.
+- New branch: `workstream/aro-chat-0210-post-open-path-identity-check-2026-11-24`, based on PR #317 head `36f9ac70f841715255d917183d24d3b2df2bfc49`.
+- Source commit: `07fc209ff4d68b7cc5236c834bcea42de95728f3`; test commit: `b37b3d694c4e6dc7f3c291a242f925dabdd0bc3e`; report: `docs/ARO_CHAT_0210_POST_OPEN_PATH_IDENTITY.md`.
+- Status: IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. No test pass is claimed.
+- Draft-only; do not merge/rebase/retarget. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, or deployment. Keep live uploads/public publishing disabled.
