@@ -884,3 +884,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 ### Final profile-path gate ordering
 - The loader now validates the resolved config path against this repository's `.secrets/` directory before reading the JSON file. Regression tests patch `Path.read_text` to prove external configs are rejected without being read.
 - Follow-up commits: `716424791e971a27e05b6f0a49a54a5c5008c059`, `15973b3f6d156b7ea51f64c9192020d7607d809c`. CI for this code/test head pending.
+
+
+### Source-rights append-only fix integrated into PR #299
+- The PR #299 branch now directly contains the append-only `SourceRightsRegistry.register()` behavior: duplicate `source_id` inserts are rejected instead of overwriting grant metadata or resetting `revoked_at`.
+- Audit events now retain grantor and evidence reference. Added regressions for duplicate active grants, duplicate registration after revocation, and a separate versioned source ID for a new grant.
+- Commits: `e2cb08feaf5273c2595cf78045b2a47acb26d7f8`, `7b1b120a17fb4ad1dc2228d4571228af9d04d320`. CI pending; no real media or upload used.
