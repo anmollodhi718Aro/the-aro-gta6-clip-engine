@@ -71,6 +71,7 @@ class SourceRightsRegistry:
             """)
 
     def register(self, record: dict[str, Any], *, actor: str = "operator") -> None:
+        """Append one grant; source_id is a unique, versioned grant identifier."""
         required = ("source_id", "source_url", "grantor", "evidence_ref",
                     "allowed_uses", "platforms", "valid_from")
         missing = [key for key in required if not record.get(key)]
@@ -100,20 +101,32 @@ class SourceRightsRegistry:
         if values[9] and _time(values[9]) <= _time(values[8]):
             raise ValueError("expires_at must be later than valid_from")
         with self._connect() as db:
-            db.execute("""
-                INSERT INTO source_rights VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ON CONFLICT(source_id) DO UPDATE SET
-                    source_url=excluded.source_url, grantor=excluded.grantor,
-                    evidence_ref=excluded.evidence_ref, allowed_uses_json=excluded.allowed_uses_json,
-                    platforms_json=excluded.platforms_json, attribution=excluded.attribution,
-                    disclosure=excluded.disclosure, valid_from=excluded.valid_from,
-                    expires_at=excluded.expires_at, revoked_at=NULL
-            """, values)
+            try:
+                db.execute(
+                    "INSERT INTO source_rights VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    values,
+                )
+            except sqlite3.IntegrityError as exc:
+                # Only the source_id primary-key collision is an append-only
+                # duplicate. Preserve unrelated integrity errors for diagnosis.
+                if "source_rights.source_id" not in str(exc):
+                    raise
+                # A duplicate source_id must never overwrite a grant or clear
+                # revoked_at. A renewed grant receives a new versioned ID.
+                raise PermissionError(
+                    f"rights record already exists for source_id {values[0]!r}; "
+                    "registration is append-only, use a new versioned source_id for a new grant"
+                ) from exc
             db.execute("""
                 INSERT INTO source_rights_audit(source_id, action, actor, occurred_at, details_json)
                 VALUES (?, 'registered', ?, ?, ?)
             """, (values[0], actor, datetime.now(timezone.utc).isoformat(),
-                  json.dumps({"uses": sorted(uses), "platforms": platforms})))
+                  json.dumps({
+                      "grantor": values[2],
+                      "evidence_ref": values[3],
+                      "uses": sorted(uses),
+                      "platforms": platforms,
+                  })))
 
     def authorize(self, source_id: str, use: str, platform: str,
                   *, at: datetime | None = None) -> dict[str, Any]:
