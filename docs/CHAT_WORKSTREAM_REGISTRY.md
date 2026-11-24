@@ -2253,3 +2253,12 @@ This correction supersedes the earlier ARO-CHAT-0153 note that treated both succ
 - Separate run #45270942827 checked out PR #228's merge ref and is excluded from PR #226 evidence. PR #226 raw-head-only CI, owner-device Windows verification, and authorized real-media acceptance remain NOT VERIFIED.
 - Current PR #229 head `58255a61fdf20eba115bead51d8fada72b74d1bd` has zero associated workflow runs; its CI is PENDING / NOT VERIFIED. No evidence transfers between PRs.
 - Documentation-only. No retry/dispatch, merge, deployment, OAuth, upload, or publishing.
+
+
+### Latest continuation — ARO-CHAT-0153 (live audit refresh, 2026-11-24)
+- Workstream: ARO-GTA-P1-153; documentation-only audit of PR #226; audit PR [#229](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/229) remains OPEN / DRAFT / UNMERGED.
+- PR #226 source head `d8433a2c31dc0634d5fc9a853b82c8e061ced0ab` into base `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd` is CI_VERIFIED on exact merge ref `025c577ecd3f0663cb96c225affe9a971f587da9`, run #45270941723: Ubuntu and hosted Windows each passed compilation, 338 tests, and synthetic MP4/FFprobe validation. Raw-head-only CI is NOT DEMONSTRATED.
+- Separate run #45270942827 used PR #228's merge ref and is excluded from PR #226 evidence.
+- PR #229 current head at refresh: `2f4849e3b3ffd6b86ae3919fab9376d02497167e`; its own commit-associated workflow lookup returned zero runs and combined status zero entries. PR #229 CI PENDING / NOT VERIFIED; reviews, inline threads, and comments empty; independent review NOT RECORDED.
+- Next: wait for PR #229's natural exact-head Actions run, then inspect both jobs/logs and checkout refs. Do not retry/dispatch workflows or transfer PR #226 CI.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
