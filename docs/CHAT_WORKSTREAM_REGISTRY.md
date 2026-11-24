@@ -1103,3 +1103,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Current PR #307 merge-ref CI is CI_VERIFIED; local tests NOT RUN; owner-device Windows and authorized real-media acceptance NOT VERIFIED. Earlier run #45402036793 is predecessor-head evidence only.
 - PR #307 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Report: `docs/ARO_CHAT_0203_PR307_CI_AUDIT.md`.
 - Documentation-only; no application/uploader/test/workflow behavior changed. No OAuth, credentials, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0203 PR #307 later-head CI re-audit — 2026-11-24
+- PR #307 advanced to head `f31f1c5d9bbd31cba6450052ff398616995019a9`; its own associated Python CI run #45402452822 (run 1314) completed SUCCESS.
+- Ubuntu job #138474408926 and hosted-Windows job #138474409883 each passed compilation, the same 346 tests (3.687s Ubuntu; 19.179s Windows), and synthetic MP4/FFprobe validation.
+- Both jobs checked out PR #307 merge ref at SHA prefix `247af12`, merging the audited head into base `df66631ff1b8afc7c08f1f15a59067f251f68a5d`. Raw-head-only CI NOT DEMONSTRATED.
+- Synthetic pattern/tone only; 8.0-second source and 4.0-second output; no GTA 6/third-party media; no upload; publishing disabled; manual review required. Same 346 tests on two platforms, not 692 unique tests.
+- Combined status returned zero entries and state pending. PR #307 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #307 remains OPEN / DRAFT / UNMERGED.
+- Do not transfer the earlier PR #307 CI run or this later-head run to PR #308. Issue #68 remains OPEN; keep live uploads/public publishing disabled.
