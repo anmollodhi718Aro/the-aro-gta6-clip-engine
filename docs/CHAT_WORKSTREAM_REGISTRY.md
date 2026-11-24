@@ -1015,7 +1015,7 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - `MediaFileUpload` retains its opened media stream for resumable reads. PR #328's `finally` removed the snapshot directory without first closing that stream.
 - This can prevent temporary-file deletion on Windows and can mask a successful PRIVATE response with a cleanup error.
 - Close the retained stream before snapshot cleanup, with nested `finally` ensuring cleanup is attempted even if close fails.
-- Add a regression test using a real open file object in the mocked media upload and assert that it is closed after the upload flow.
+- Add a regression test using a real open file object in the mocked media upload and assert that it is closed and the snapshot file is removed after the upload flow.
 
 ### Safety
 - Draft-only follow-up to PR #328. No OAuth credentials, real GTA 6 media, network upload, merge, deployment, or publishing. Issue #68 remains OPEN; live uploads/public publishing remain disabled pending the established owner/security gates.
