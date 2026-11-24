@@ -257,3 +257,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Fix and regression committed: `56685d4edf88af8d15b2390283752792984427a5`, `70b86a1ead7f3f4c6c466dc79684041aac08ea18`, and assertion correction `0e3d54632d142d64d609aef6641ba6d295615941`.
 - Local tests NOT RUN; this branch's exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED.
 - Next: inspect this branch's own exact-head CI and review the full uploader/approval lineage. Keep PR draft/unmerged; Issue #68 OPEN; no OAuth, credentials, real media, network upload, merge, deployment, or publishing. Public publishing remains disabled.
+
+
+### PR #344 current-head and ancestry audit — 2026-11-24
+- Draft PR #344 created against PR #339's branch; PR #344 head at audit: `f9688ebce4c1b8da646f1cf8289a92b1936a03c8`.
+- PR #344 head-associated workflow lookup returned zero runs; exact-head Ubuntu/hosted-Windows CI is PENDING / NOT VERIFIED.
+- The base branch advanced from starting SHA `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722` to `6204a3979b8753919e3f983ce42a3777b3215d87` by 12 documentation-only commits. Compare reports PR #344 head 6 commits ahead and 12 behind the current base, with merge base at the starting SHA; status DIVERGED.
+- Preserve PR #344 as DRAFT / OPEN / UNMERGED. No automatic rebase or retarget. Reconcile the documentation-only parent advancement with owner approval before ancestry changes.
+- Local tests NOT RUN. Independent security review NOT RECORDED. Issue #68 remains OPEN. Keep live uploads/public publishing disabled.
