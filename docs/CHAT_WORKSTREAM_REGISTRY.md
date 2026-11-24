@@ -828,7 +828,7 @@ No OAuth, credentials, network upload, merge, deployment, or public publishing w
 | Branch / PR | workstream/aro-chat-0133-multichannel-private-profiles-2026-11-24 / [Draft PR #295](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/295) |
 | Starting SHA | 4e01f16e97b2239c74a2f96c4262b04b57a4ae73 (PR #289 exact head) |
 | Scope | Add local named destination profiles mapping a verified Google OIDC subject and exact YouTube channel ID to a profile-specific OAuth token path; require explicit profile selection for each approval/upload; document local-only config. |
-| Status | IMPLEMENTED; TESTED (331 tests per platform); CI_VERIFIED on exact PR head `cf731cabda8a045d39457f0eef800dbdb051e75e` via run `45390003956`; hosted Windows CI passed; no OAuth, upload, merge or publish performed |
+| Status | IMPLEMENTED; TESTED (331 tests per platform); CI_VERIFIED on implementation SHA `cf731cabda8a045d39457f0eef800dbdb051e75e` via run `45390003956`; current docs-only PR tip `461bf01df87923378c6ebf6b3b8d460391c80737` has no associated run and is NOT exact-head CI_VERIFIED; hosted Windows CI passed on implementation SHA; no OAuth, upload, merge or publish performed |
 | Security behavior | Profile file is intended under ignored .secrets; no OAuth tokens or client secrets are stored in the profile map; profile channel IDs must be unique; per-profile token files are isolated; profile token override is rejected; existing exact channel and file-hash approval checks remain in force. |
 
 Both target handles must still be verified against exact channel IDs and Google OIDC subjects through their respective authorized OAuth sessions. Never infer IDs from handles. This workstream does not perform either OAuth flow or any upload. Public publishing remains disabled.
@@ -836,7 +836,9 @@ Both target handles must still be verified against exact channel IDs and Google 
 
 ### ARO-CHAT-0133 exact-head CI verification — 2026-11-24
 
-- PR [#295](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/295) exact head `cf731cabda8a045d39457f0eef800dbdb051e75e` was associated with GitHub Actions run [45390003956](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45390003956), workflow `Python CI`.
+- PR [#295](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/295) implementation head at run time `cf731cabda8a045d39457f0eef800dbdb051e75e` was associated with GitHub Actions run [45390003956](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45390003956), workflow `Python CI`.
 - Ubuntu job `138430897019` and hosted Windows job `138430897645` both completed successfully. Each compiled source/tests, ran the complete 331-test unittest suite (`Ran 331 tests`; success), and generated/verified a locally generated synthetic MP4 with FFmpeg/FFprobe.
 - This is CI_VERIFIED on the exact implementation SHA, including hosted Windows CI. It is not owner-device Windows verification and the synthetic media is not GTA 6 footage or real-media acceptance.
 - PR #295 remains OPEN / DRAFT / UNMERGED and independent review is pending. No OAuth, credential/token access, YouTube API upload, merge, deployment, or public publishing occurred. Public visibility remains prohibited.
+
+- Registry-only follow-up commit `461bf01df87923378c6ebf6b3b8d460391c80737` is the current branch tip at this audit. No PR-triggered workflow run is associated with that docs-only SHA; retain the distinction between implementation CI evidence and current-tip CI status.
