@@ -1550,3 +1550,24 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #249's own commit-associated workflow lookup returned zero runs and combined status returned zero entries; its CI is PENDING / NOT VERIFIED. Local tests NOT RUN.
 - GitHub currently reports PR #249 mergeable=true; it remains draft-only. No merge requested.
 - Do not transfer PR #248's empty CI observation or any other PR's CI to PR #249. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled.
+
+## ARO-CHAT-0170 PR #249 CLI upload-limit test fixture repair — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0170 |
+| Exact title | ARO-CHAT-0170 | PR #249 CLI Upload-Limit Test Fixture Repair |
+| Workstream ID | ARO-GTA-P1-170 |
+| Scope | Narrow test-only repair for the stale live-upload CLI fixture that omitted required --max-upload-bytes |
+| Branch | `workstream/aro-chat-0170-pr249-cli-upload-limit-test-fix-2026-11-24` |
+| Base / starting SHA | PR #249 head `75854f6cbead27c42d723a72f883eb7f804665f9` |
+| Parent PR | #249 |
+| Report | `docs/ARO_CHAT_0170_PR249_TEST_FIX.md` |
+| Status | IN_PROGRESS; fix committed, local tests NOT RUN, follow-up exact-head CI PENDING |
+
+### Evidence and safety
+- PR #249 run #45314464029 (run 1135) failed on Ubuntu and hosted Windows after compile passed; each platform ran 340 tests with one failure.
+- Both failures were `test_cli_passes_exact_clip_and_source_to_upload_boundary`: the fixture omitted the required `--max-upload-bytes`, so the CLI correctly returned exit code 2 before reaching the mocked upload boundary.
+- This follow-up adds the explicit limit and asserts it is forwarded. Production uploader code and workflow configuration are unchanged.
+- Do not transfer PR #249's failed run to this branch. Inspect this branch's own exact-head CI before claiming TESTED or CI_VERIFIED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live/public uploads disabled; no credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action.

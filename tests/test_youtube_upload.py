@@ -647,7 +647,8 @@ class YouTubeUploadTests(unittest.TestCase):
             "--title", "THE ARO test", "--not-made-for-kids", "--upload",
             "--owner-approved", "--confirm-rights", "--clip-id", "clip-1",
             "--source-id", "source-1", "--approval-record", str(approval_path),
-            "--rights-db", str(db_path),
+            "--rights-db", str(db_path), "--max-upload-bytes",
+            str(DEFAULT_MAX_UPLOAD_BYTES),
         ]
         with patch.object(sys, "argv", args):
             with patch("backend.app.youtube_upload.upload_video", return_value={"video_id": "mock-id", "url": "https://youtube.invalid/mock-id"}) as upload:
@@ -657,6 +658,9 @@ class YouTubeUploadTests(unittest.TestCase):
         self.assertEqual(upload.call_args.kwargs["source_id"], "source-1")
         self.assertTrue(upload.call_args.kwargs["owner_approved"])
         self.assertTrue(upload.call_args.kwargs["rights_confirmed"])
+        self.assertEqual(
+            upload.call_args.kwargs["max_upload_bytes"], DEFAULT_MAX_UPLOAD_BYTES
+        )
 
 
 if __name__ == "__main__":
