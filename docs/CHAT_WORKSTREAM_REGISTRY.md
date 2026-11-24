@@ -1055,3 +1055,31 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Documentation-only. No application/uploader/OAuth/test/workflow behavior changed.
 - Issue #68 remains OPEN. Keep live uploads/public publishing disabled pending independent security review, owner-controlled integration, owner-device verification and separately authorized real-media PRIVATE acceptance.
 - No OAuth, credentials/tokens, real media, upload, publishing, merge, rebase, retarget, deployment, workflow retry or destructive action.
+
+
+## ARO-CHAT-0203 PR #307 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0203 |
+| Exact title | ARO-CHAT-0203 | PR #307 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P2-203 |
+| Scope | Independent documentation-only audit of PR #307's associated Actions run, Ubuntu/hosted-Windows logs, checkout refs, compilation/tests, synthetic MP4/FFprobe validation, combined status, and review state |
+| Branch | `workstream/aro-chat-0203-pr307-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #307 head `8671f4708d0d1a8b74dd690d4055a6337805649c` |
+| Audited PR | [#307](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/307) |
+| Report | `docs/ARO_CHAT_0203_PR307_CI_AUDIT.md` |
+| Status | IMPLEMENTED (audit documentation); PR #307 exact merge-ref CI_VERIFIED; raw-head-only CI NOT DEMONSTRATED; independent review NOT RECORDED |
+
+### Evidence
+- Exact-head-associated Python CI run [#45402036793](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45402036793), run 1308, completed SUCCESS.
+- Ubuntu job #138472851473 passed compilation, 346 tests (3.787s), and synthetic MP4/FFprobe validation.
+- Hosted-Windows job #138472851990 passed compilation, the same 346 tests (15.575s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/307/merge` at merge SHA `3abebb5c3b36cd677dae2f608116183c896ba5e4`, merging audited head `8671f4708d0d1a8b74dd690d4055a6337805649c` into base `df66631ff1b8afc7c08f1f15a59067f251f68a5d`. Raw-head-only CI NOT DEMONSTRATED.
+- Both platforms ran the same 346 tests, not 692 unique tests. Logs confirm synthetic pattern/tone only, `gta6_footage_used=false`, `third_party_media_used=false`, `upload_performed=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Combined commit status returned zero legacy status entries. PR reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. Local tests NOT RUN in this connector session.
+- PR #307 remains OPEN / DRAFT / UNMERGED. Hosted Windows is not owner-device verification; synthetic media is not authorized real-media acceptance. Do not transfer this result to another PR.
+
+### Safety
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending independent security review, owner-controlled integration, owner-device verification, and separately authorized real-media PRIVATE acceptance.
+- Documentation-only. No application/uploader/test/workflow behavior changes, OAuth, credentials/tokens, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
