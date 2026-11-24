@@ -239,6 +239,35 @@ class SourceRightsRegistryTests(unittest.TestCase):
                     )["source_url"],
                     source_url,
                 )
+    def test_register_rejects_ambiguous_noncanonical_ipv4_hosts(self):
+        invalid_hosts = (
+            "999.999.999.999",
+            "127.1",
+            "0177.0.0.1",
+            "0x7f.0.0.1",
+            "2130706433",
+            "example.123",
+            "example.0x2",
+            "example.012",
+        )
+        for host in invalid_hosts:
+            with self.subTest(host=host):
+                with self.assertRaisesRegex(ValueError, "valid http\\(s\\) URL"):
+                    self.registry.register(
+                        dict(self.record, source_url=f"https://{host}/video")
+                    )
+
+    def test_register_accepts_canonical_ipv4_host(self):
+        source_url = "https://192.0.2.10/video"
+        record = dict(self.record, source_id="url-source-ipv4", source_url=source_url)
+        self.registry.register(record)
+        self.assertEqual(
+            self.registry.authorize(
+                record["source_id"], "publish", "youtube", at=self.now
+            )["source_url"],
+            source_url,
+        )
+
     def test_register_rejects_non_string_rights_metadata(self):
         for field in ("source_id", "source_url", "grantor", "evidence_ref"):
             with self.subTest(field=field):
