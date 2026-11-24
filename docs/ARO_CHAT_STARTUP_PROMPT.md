@@ -189,5 +189,5 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Independent review of PR #328 found that the Google `MediaFileUpload` object retains an open file handle while the temporary approved-byte snapshot is cleaned up.
 - On Windows, deleting a file/directory while that handle remains open can fail after the upload request, masking the verified result and leaving temporary media behind.
 - Close the media object's retained stream before cleaning the private snapshot directory; keep cleanup in a nested `finally` so it still runs if closing raises.
-- Add a regression test whose mocked media client holds a real open file handle and asserts it is closed before the upload function returns.
+- Add a regression test whose mocked media client holds a real open file handle and asserts it is closed and the approved snapshot file is removed before the upload function returns.
 - Branch `workstream/aro-chat-0216-close-upload-media-handle-2026-11-24`, based on PR #328 head `114e5bfc4b154e0da272ed36408ab156cfdc5ab9`. Draft-only; exact-head CI and local tests pending. No OAuth, real media, upload, merge, deployment, or publishing.
