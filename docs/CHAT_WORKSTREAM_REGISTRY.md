@@ -1228,6 +1228,6 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Workstream: ARO-GTA-P1-233; branch `workstream/aro-chat-0233-rights-registry-input-validation-2026-11-25`; starting SHA `26b596483197151453121f953061ce6439b78751` (PR #364 head).
 - Hardened `SourceRightsRegistry` public methods against malformed caller values: `register` rejects non-object records; `authorize` validates source/use/platform as non-empty strings before normalization; `revoke` validates source/actor; `audit_events` validates source ID. Invalid values now fail with deliberate `ValueError`, not incidental `AttributeError`.
 - Added regression tests for None, scalar, non-string, and whitespace-only inputs.
-- Production commit `6f401febec441d6ca8511a14fbe2f51c1fa6a0d2`; test commit `73a5a7495b82bb45417b3f10af562f7fea839370`.
+- Production commits `6f401febec441d6ca8511a14fbe2f51c1fa6a0d2` and `267d298a03c21a3a8bea38d6e7f10be1a25633f9` (actor normalization); test commit `73a5a7495b82bb45417b3f10af562f7fea839370`.
 - Local tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI PENDING until observed. Independent security review NOT RECORDED.
 - PR is draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
