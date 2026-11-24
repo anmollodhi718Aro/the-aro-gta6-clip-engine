@@ -1172,3 +1172,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Expanded duplicate-source-ID coverage to prove grant metadata and permission scope cannot be replaced by a repeated registration.
 - Test-only commit: `33743ca5ecaab1d69cab999968e8da8dc7f030ae`; production code unchanged.
 - Local tests NOT RUN; fresh exact-head Ubuntu/hosted-Windows CI must be checked.
+
+
+### ARO-CHAT-0226 platform/use-scope regression follow-up — 2026-11-25
+- Test-only commit `5befa5058e3d018dca999a98b6ab564edc8c3f30` adds explicit assertions that duplicate source-ID registration cannot add the `tiktok` platform or broaden an `analyze`-only grant to `edit`; production code unchanged.
+- PR #355 latest previously recorded head before this documentation sync: `f2bd2982216280852f5b823796dc3700c16f2e7d`.
+- Exact-head workflow lookup returned no runs and combined status returned no checks. CI PENDING / NOT VERIFIED; local tests NOT RUN; independent security review NOT RECORDED.
+- PR #355 remains DRAFT / OPEN / UNMERGED. Its base PR #354 advanced independently; ancestry is DIVERGED (10 ahead / 2 behind; merge base `1d9d478fcfd03e36f6389acca682b3ede57c17fd`). No rebase, retarget, or merge.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, deployment, or publishing.
