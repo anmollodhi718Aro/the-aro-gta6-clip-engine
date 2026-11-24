@@ -895,3 +895,22 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 ### Source-rights ancestry concern superseded for PR #299
 - Earlier notes correctly flagged that the append-only fix from the separate PR #168 lineage was not proven to be an ancestor of PR #299's base. To remove that dependency from this branch, the same fail-closed behavior and regression coverage have now been implemented directly on PR #299 in commits `e2cb08feaf5273c2595cf78045b2a47acb26d7f8` and `7b1b120a17fb4ad1dc2228d4571228af9d04d320`.
 - Therefore PR #299 no longer relies on PR #168 ancestry for append-only source-rights behavior. The broader Issue #68 integration/review gates remain open and still require independent review and verified CI.
+
+
+## ARO-CHAT-0135 atomic OAuth token-save import fix — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0135 |
+| Workstream ID | ARO-GTA-P1-135 |
+| Scope | Fix the exact-head PR #299 Ubuntu regression caused by `youtube_upload.py` calling `tempfile.mkstemp()` without importing `tempfile`. |
+| Branch | workstream/aro-chat-0135-oauth-token-tempfile-import-fix-2026-11-24 |
+| Base | PR #299 current head `ca243f3b619ce76096d58b4fc1162d1a6e74315d` |
+| Status | Import fix implemented; exact-head CI pending; local tests not run in this session. |
+| Changed files | `backend/app/youtube_upload.py`; `docs/CHAT_WORKSTREAM_REGISTRY.md`; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+
+### Evidence and safety
+
+- PR #299 exact-head Actions run #45395149052: Ubuntu test job failed one test among 341. Job log #138449136472 shows the atomic OAuth token-save path raises `NameError` because `tempfile` is not imported.
+- The fix adds only the missing Python standard-library import. It does not change token handling, OAuth scopes, approval gates, upload behavior, or visibility enforcement.
+- Exact-head Ubuntu and hosted-Windows CI must both pass before this change is treated as validated. No OAuth, credentials, live API request, upload, merge, deployment, or public publishing was performed.
