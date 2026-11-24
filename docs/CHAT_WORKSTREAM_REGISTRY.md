@@ -1335,3 +1335,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Report: `docs/ARO_CHAT_0236_STRICT_SOURCE_URL_HOSTNAME_VALIDATION.md`.
 - Exact-head CI and local tests remain NOT VERIFIED until actual execution evidence is available. Parent PR #371's latest workflow failed before exposing steps; root cause remains NOT VERIFIED.
 - Draft-only; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+
+### DNS hostname length boundary follow-up — 2026-11-25
+
+- Added test-only regressions for a 64-character DNS label, a 254-character hostname, and a valid 253-character hostname composed of maximum-length labels.
+- Also reject multiple terminal dots explicitly.
+- Test commit: `83f970b608af3f49e6bf6c496d6de6918dc24bf7`.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. This commit does not change production behavior.
+- PR #373 remains draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
