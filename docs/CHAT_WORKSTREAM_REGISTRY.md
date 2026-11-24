@@ -1809,3 +1809,49 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Reviews, inline threads, and conversation comments are empty; independent review NOT RECORDED. PR #267 remains OPEN / DRAFT / UNMERGED.
 - ARO-CHAT-0184 documentation audit is IMPLEMENTED; audit PR exact-head hosted CI is successful. Independent review, owner-device Windows acceptance, and authorized real-media acceptance remain NOT VERIFIED.
 - No source/test/workflow behavior changes, retries, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or destructive actions. Issue #68 remains OPEN; live/public publishing disabled.
+
+
+## Latest continuation baseline — ARO-CHAT-0185 (2026-11-24)
+
+- Exact chat title: `ARO-CHAT-0185 | PR #267 Live-Head CI Audit`; workstream: ARO-GTA-P1-185.
+- Current branch: `workstream/aro-chat-0185-pr267-live-head-ci-audit-refresh-2026-11-24`; base / starting SHA: PR #267 live head `25ebb3731c9aaf159e67f744c4ae33047a013f7a`. An initial branch forked from earlier head `7045b16da92211c8e625eb4a343af303be013916` was superseded after PR #267 advanced; this refresh branch is based on the final audited live head.
+- Task: documentation-only audit of PR #267's current exact head. Earlier ARO-CHAT-0184 closeout CI on `587e6909d99c8db34ade24ca0c0f2392167e5df7` and intermediate run #45380743968 on `7045b16da92211c8e625eb4a343af303be013916` are not evidence for the final SHA.
+- Latest head `25ebb3731c9aaf159e67f744c4ae33047a013f7a` passed Python CI run #45380924403 (run 1187). Ubuntu job #138399418585 and hosted-Windows job #138399418505 both passed setup, checkout, FFmpeg/FFprobe installation, Python setup, compile, and unit/synthetic-media integration-test steps.
+- Numeric unittest output and checkout commit refs were not exposed. Numeric test count NOT VERIFIED; raw-head-only checkout NOT DEMONSTRATED. Combined status returned zero entries.
+- PR #267 remains OPEN / DRAFT / UNMERGED. Review submissions, inline threads, and conversation comments were empty; independent review NOT RECORDED.
+- Documentation-only; no workflow retry, merge, rebase, retarget, deploy, OAuth, credentials, real media, upload, publishing, or destructive action. Keep Issue #68 and live/public publishing gates closed.
+
+
+### ARO-CHAT-0185 publication — 2026-11-24
+- Draft PR [#270](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/270) publishes the documentation-only audit of PR #267 current live head `25ebb3731c9aaf159e67f744c4ae33047a013f7a`.
+- PR #267 current-head run #45380924403 (run 1187) passed on Ubuntu and hosted Windows, including compile and unit/synthetic-media integration steps. Numeric test output and checkout refs were not exposed; raw-head-only checkout NOT DEMONSTRATED.
+- PR #270 head `16e8b75feddb4552bddd14db1482bad833c7f7e3` had no associated workflow run at initial post-creation inspection; its own CI is PENDING / NOT VERIFIED. Do not transfer PR #267's run.
+- PR #270 remains OPEN / DRAFT / UNMERGED; reviews, inline threads, and conversation comments are empty. Independent review NOT RECORDED.
+
+
+
+### ARO-CHAT-0185 exact-head audit closeout — 2026-11-24
+
+- Audited PR #267 final live head `25ebb3731c9aaf159e67f744c4ae33047a013f7a`; exact-head run #45380924403 (run 1187) passed on Ubuntu job #138399418585 and hosted-Windows job #138399418505.
+- Both platforms passed setup, checkout, FFmpeg/FFprobe installation, Python setup, compilation, and the same 27 unit/synthetic-media integration tests. This is 27 shared test cases executed on two platforms, not 54 unique tests. Raw test output/checkout refs were not exposed in that PR's summaries; raw-head-only checkout NOT DEMONSTRATED.
+- Combined status returned zero entries. PR #267 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #267 remains OPEN / DRAFT / UNMERGED.
+- Audit PR #270 head `34d1196757b5d6922391b0f908425a902d2bf455`, base SHA `25ebb3731c9aaf159e67f744c4ae33047a013f7a), passed its own run #45381311414 (run 1191).
+- Ubuntu job #138400743044 and hosted-Windows job #138400742544 both checked out `refs/remotes/pull/270/merge` at merge SHA `3bc6672e68d036fc304b527c3513bb415b8d9708`, compiled successfully, passed all 27 tests, and passed synthetic animation render/FFprobe validation.
+- PR #270 CI verifies its merge ref only; raw-head-only checkout NOT DEMONSTRATED. Its combined status, review submissions, inline threads, and conversation comments returned zero entries. Independent review NOT RECORDED. PR #270 remains OPEN / DRAFT / UNMERGED.
+- Report: `docs/ARO_CHAT_0185_PR267_CI_AUDIT.md`. Do not transfer CI between PRs or SHAs.
+- Workstream status: documentation audit IMPLEMENTED; PR #267 exact-head CI_VERIFIED; PR #270 audit-branch merge-ref CI_VERIFIED. Independent review, owner-device Windows, and real-media acceptance remain NOT VERIFIED.
+- Issue #68 remains OPEN. Keep live uploads/public publishing disabled. No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, network upload, publishing, or destructive action.
+
+
+
+### ARO-CHAT-0185 exact-head audit closeout — 2026-11-24
+
+- Audited PR #267 final live head `25ebb3731c9aaf159e67f744c4ae33047a013f7a`; run #45380924403 (run 1187) passed on Ubuntu job #138399418585 and hosted-Windows job #138399418505.
+- Both platforms checked out `refs/remotes/pull/267/merge` at merge SHA `86a4cb1f23f70dde31a01b9cdbbfe4a9d6fdacd4`, merging the audited head into base `25aeede30d0e28296af6e7b6d507e1f6ba96e566`. Both compiled and passed the same 27 unit/synthetic-media integration tests (Ubuntu 0.421s; Windows 0.464s), including synthetic animation render/FFprobe. This is 27 shared tests, not 54 unique tests.
+- PR #267 combined status returned zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. Raw-head-only checkout NOT DEMONSTRATED. PR #267 remains OPEN / DRAFT / UNMERGED.
+- Audit PR #270 head `34d1196757b5d6922391b0f908425a902d2bf455` passed run #45381311414 (run 1191). Ubuntu job #138400743044 and hosted-Windows job #138400742544 checked out `refs/remotes/pull/270/merge` at merge SHA `3bc6672e68d036fc304b527c3513bb415b8d9708`, compiled, passed all 27 tests, and passed synthetic animation render/FFprobe.
+- PR #270 CI verifies that merge ref/head only. Later documentation-only closeout commits advanced the audit branch; the latest head's workflow lookup returned zero runs. Current latest-head CI is PENDING / NOT VERIFIED until a naturally associated run appears. Do not transfer run #45381311414 to later heads.
+- PR #270 combined status, reviews, inline threads, and conversation comments returned zero entries at the inspected head; independent review NOT RECORDED. PR #270 remains OPEN / DRAFT / UNMERGED.
+- Report: `docs/ARO_CHAT_0185_PR267_CI_AUDIT.md`. Do not transfer CI between PRs or SHAs.
+- Workstream status: documentation audit IMPLEMENTED; PR #267 exact merge-ref CI_VERIFIED; PR #270 historical audit-head merge-ref CI_VERIFIED; latest PR #270 documentation head CI PENDING. Independent review, owner-device Windows, and real-media acceptance remain NOT VERIFIED.
+- Issue #68 remains OPEN. Keep live uploads/public publishing disabled. No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, network upload, publishing, or destructive action.

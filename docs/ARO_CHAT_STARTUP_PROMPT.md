@@ -591,3 +591,43 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Audit PR #267 latest head `0b79f174e2f1935c5db842b2f59223dfd598fdbe`: exact-head run #45380690338 (run 1180) succeeded on Ubuntu and hosted Windows. Numeric test count and checkout refs not exposed; raw-head-only checkout not demonstrated.
 - PR #267 remains OPEN / DRAFT / UNMERGED; review submissions, inline threads, and conversation comments are empty. Independent review pending.
 - Continue documentation-only closeout/review readiness. No source behavior changes, workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, uploads, or publishing. Issue #68 remains a separate open security gate; live uploads/public publishing stay disabled.
+
+
+## Latest repository continuation — ARO-CHAT-0185 (2026-11-24)
+- Current title: `ARO-CHAT-0185 | PR #267 Live-Head CI Audit`; workstream ARO-GTA-P1-185.
+- Current branch: `workstream/aro-chat-0185-pr267-live-head-ci-audit-refresh-2026-11-24`; base / starting SHA: PR #267 live head `25ebb3731c9aaf159e67f744c4ae33047a013f7a`. The initial fork from `7045b16da92211c8e625eb4a343af303be013916` was superseded after the parent PR advanced.
+- Latest current-head run #45380924403 (run 1187) passed on Ubuntu and hosted Windows; both compiled and passed unit/synthetic-media integration-test steps. Numeric test output and checkout refs were not exposed; do not infer test count or raw-head-only checkout.
+- PR #267 remains OPEN / DRAFT / UNMERGED; reviews, inline threads, and conversation comments are empty; independent review not recorded. Keep Issue #68/live publishing gates closed.
+- Documentation-only; no workflow retry, merge, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### ARO-CHAT-0185 publication follow-up (2026-11-24)
+- Audit PR: #270, branch `workstream/aro-chat-0185-pr267-live-head-ci-audit-refresh-2026-11-24`, based on PR #267 live head `25ebb3731c9aaf159e67f744c4ae33047a013f7a`.
+- PR #267 exact-head run #45380924403 passed Ubuntu and hosted Windows. This evidence applies only to PR #267's audited SHA.
+- PR #270 head `16e8b75feddb4552bddd14db1482bad833c7f7e3` had zero associated workflow runs at initial post-creation inspection; audit PR CI PENDING / NOT VERIFIED. Re-fetch exact head and inspect its own jobs; never transfer CI.
+- Keep PR #270 draft-only, with no merge/retarget/retry. Issue #68 and live publishing gates remain closed.
+
+
+
+### ARO-CHAT-0185 exact-head audit closeout — 2026-11-24
+
+- Audited PR #267 final live head `25ebb3731c9aaf159e67f744c4ae33047a013f7a`; run #45380924403 passed on Ubuntu and hosted Windows. Both platforms compiled and passed the same 27 unit/synthetic-media integration tests. Raw test output and checkout refs were not exposed in the audited PR summaries; raw-head-only checkout NOT DEMONSTRATED.
+- PR #267 combined status had zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. PR #267 remains OPEN / DRAFT / UNMERGED.
+- Audit PR #270 head `34d1196757b5d6922391b0f908425a902d2bf455` passed its own run #45381311414. Ubuntu and hosted Windows checked out PR #270 merge ref at `3bc6672e68d036fc304b527c3513bb415b8d9708`, compiled, passed all 27 tests, and passed synthetic animation render/FFprobe. This verifies merge-ref CI only; raw-head-only checkout NOT DEMONSTRATED.
+- PR #270 remains OPEN / DRAFT / UNMERGED; combined status, reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED.
+- Report: `docs/ARO_CHAT_0185_PR267_CI_AUDIT.md`; registry updated. Do not transfer CI evidence across PRs or SHAs.
+- Synthetic media is not GTA 6 footage or real-media acceptance. Owner-device Windows and real-media acceptance remain NOT VERIFIED.
+- Issue #68 remains OPEN. Keep live uploads/public publishing disabled. No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or destructive action.
+
+
+
+### ARO-CHAT-0185 exact-head audit closeout — 2026-11-24
+
+- Audited PR #267 head `25ebb3731c9aaf159e67f744c4ae33047a013f7a`: run #45380924403 passed Ubuntu and hosted Windows. Both checked out merge SHA `86a4cb1f23f70dde31a01b9cdbbfe4a9d6fdacd4`, compiled, and passed the same 27 tests (0.421s Ubuntu; 0.464s Windows), including synthetic animation render/FFprobe. This verifies the merge ref, not raw-head-only execution.
+- PR #267 combined status, reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #267 remains OPEN / DRAFT / UNMERGED.
+- Audit PR #270 head `34d1196757b5d6922391b0f908425a902d2bf455` passed its own run #45381311414. Ubuntu and hosted Windows checked out merge SHA `3bc6672e68d036fc304b527c3513bb415b8d9708`, compiled, passed all 27 tests, and passed synthetic animation render/FFprobe. This verifies that merge ref/head only.
+- Subsequent documentation-only closeout commits advanced PR #270's branch. The latest head's workflow lookup returned zero runs; latest-head CI is PENDING / NOT VERIFIED. Do not transfer the earlier run to the new head.
+- PR #270 remains OPEN / DRAFT / UNMERGED; combined status, reviews, inline threads, and conversation comments were empty at the inspected head. Independent review NOT RECORDED.
+- Report: `docs/ARO_CHAT_0185_PR267_CI_AUDIT.md`; registry updated. Do not transfer CI evidence across PRs or SHAs.
+- Synthetic media is not GTA 6 footage or real-media acceptance. Owner-device Windows and real-media acceptance remain NOT VERIFIED.
+- Issue #68 remains OPEN. Keep live uploads/public publishing disabled. No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or destructive action.
