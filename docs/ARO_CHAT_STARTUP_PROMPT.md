@@ -161,3 +161,10 @@ For the current first-test upload priority:
 - Both jobs used merge SHA `a6de7b8` (PR head merged into base `cf731cabda8a045d39457f0eef800dbdb051e75e`); raw-head-only checkout NOT DEMONSTRATED.
 - Both logs confirm no upload was performed, no GTA 6 or third-party media was used, publishing stayed disabled, and manual review remained required.
 - Do not transfer this CI result to later documentation commits or other PRs. PR #299 remains open/draft/unmerged; independent security review is not recorded. Issue #68 remains open/waiting for owner approval. Live uploads and public publishing remain disabled.
+
+
+## Rights-report source-bound asset validation
+- Rights publish preflight now validates the `assets` collection and rejects malformed entries or missing, null, non-string, or blank source IDs on source-bound assets.
+- Every valid source-bound asset is independently checked for a current YouTube publish grant alongside the primary clip source.
+- Regression tests cover multi-source authorization and malformed report structures. Commits: `fe9af3139d301773102b6c44d0e8a92bd5f08a8f`, `cc4eb2421c4779e7a76391e401d238652a34c75e`.
+- Require fresh Ubuntu and Windows CI for the new commits before treating the guard as validated.
