@@ -952,3 +952,8 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - The live PR #300 diff contains four files, including production changes in `backend/app/youtube_upload.py`; it is not test-only. The production diff adds repository-bound destination-profile validation, token-directory symlink checks, atomic OAuth-token persistence, and stricter validation of rights-report source assets.
 - These changes require independent security review and tests covering token persistence, file/directory symlink boundaries, and malformed rights-report inputs. Do not describe the PR as a test-only change.
 - PR #300 remains dirty/non-mergeable and exact-head CI is absent. Preserve the stack; do not rebase or retarget without explicit owner approval.
+### ARO-CHAT-0197 security regression test continuation — 2026-11-24
+- Added six mocked/local regression tests covering atomic OAuth-token persistence (including POSIX owner-only mode), rejection of a symlink token target, malformed rights-report asset containers/entries, missing source IDs on scoped assets, and authorization of the clip source plus each source-bound asset.
+- Test commit: `eb50a7d493d244eaea459dcc6256ae81b4a83192`.
+- These tests do not perform OAuth, read real credentials, contact YouTube, or upload media. Exact-head Ubuntu/hosted-Windows CI has not yet been observed; test execution is NOT CLAIMED.
+- PR #300 remains OPEN / DRAFT / UNMERGED. Preserve its diverged stack; do not rebase, retarget, or merge automatically. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Public publishing and live uploads remain disabled.
