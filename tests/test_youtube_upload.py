@@ -597,6 +597,16 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
         with self.assertRaisesRegex(PermissionError, "unique YouTube channel ID"):
             load_destination_profile(self.config, "aroanmol7", repository_root=self.root)
 
+    def test_case_colliding_profile_names_fail_closed(self):
+        payload = json.loads(self.config.read_text(encoding="utf-8"))
+        payload["profiles"]["AROANMOL7"] = {
+            "google_subject": "google-subject-three",
+            "channel_id": "UCfedcba0987654321",
+        }
+        self.config.write_text(json.dumps(payload), encoding="utf-8")
+        with self.assertRaisesRegex(PermissionError, "unique without regard to case"):
+            load_destination_profile(self.config, "aroanmol7", repository_root=self.root)
+
     def test_profile_requires_config_and_name_together(self):
         with self.assertRaisesRegex(PermissionError, "must be supplied together"):
             resolve_destination_identity(
