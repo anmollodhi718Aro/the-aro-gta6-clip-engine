@@ -1095,3 +1095,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #346 run #45441375437 failed identically on Ubuntu and hosted Windows: 352 tests, one assertion failure on each platform (Windows also skipped 3 FIFO-only tests). The rights check correctly raised `no recorded rights for source source-2`; the test expected a stale string missing the second `source`.
 - Test-only fix updates the expected substring; production uploader behavior is unchanged. Commit `9e349ae9fa6d66832b8d030e2ffe3bef55cdf35d`.
 - This follow-up's exact-head CI is PENDING / NOT VERIFIED; local tests NOT RUN. No result is transferred from PR #346. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0224 — source-rights registry immutability (2026-11-24)
+- Workstream ARO-GTA-P1-224; branch `workstream/aro-chat-0224-rights-registry-immutability-2026-11-24`; base PR #350 branch at starting SHA `b6d712a6438a132c3d8ca245b0a804bf8b929550`.
+- Finding: `SourceRightsRegistry.register()` used `ON CONFLICT(source_id) DO UPDATE` and reset `revoked_at=NULL`, allowing an existing grant to be overwritten or a revoked source ID to be reactivated by registration.
+- Fix: plain INSERT; duplicate source IDs fail closed with PermissionError. New grants require a new source ID. No reinstatement workflow is provided.
+- Tests: duplicate registration cannot broaden/replace the active grant; revoked source ID cannot be re-registered and its audit history remains unchanged.
+- Production commit `87294298cd6f486d906f8964d4c9d590cf09dd9e`; test commit `5a9ef569c64b77151e60063f2b86cf967e60edd2`; report `docs/ARO_CHAT_0224_RIGHTS_REGISTRY_IMMUTABILITY.md`.
+- Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; local tests NOT RUN. Parent PR #350 exact-head run #45442036637 does not validate this branch.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, merge, deployment, or workflow retry/dispatch. Keep live/public upload gates disabled.
