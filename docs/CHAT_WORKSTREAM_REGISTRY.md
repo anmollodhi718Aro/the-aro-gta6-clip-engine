@@ -930,3 +930,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added a regression test proving a symlinked approval path is rejected while the external target remains unchanged. Symlink test skips only when the platform cannot create symlinks.
 - Commits: `47b5fbeb9dc405d0c8643de7630b51631f1c4a29`, `a8c3b46a735ed8053d7f913beb6ace3194eaa29b`, `ec12e3ecbae4f34f6a9bd3543d16a58d83fb274b`.
 - Fresh CI is required; earlier successful run `45396612256` predates these changes.
+### Latest-head CI closeout: source-bound rights validation (24 Nov 2026)
+- Current PR #299 head `c57f22a986fa7be64c52849e3d6bc6cfbb8364ce` is associated with Python CI run #45396612256, which completed SUCCESS.
+- Ubuntu job #138453983364 passed compilation, 345 tests in 5.217s, and synthetic MP4/FFprobe validation. Hosted Windows job #138453982906 passed compilation, the same 345 tests in 14.130s, and synthetic MP4/FFprobe validation.
+- Both jobs checked out merge SHA `d12bfbd`, merging the audited head into base `cf731cabda8a045d39457f0eef800dbdb051e75e`; raw-head-only checkout is NOT DEMONSTRATED.
+- Both logs report `upload_performed=false`, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- This closes the latest-head CI requirement for the current PR #299 code/docs snapshot. It does not establish live OAuth, owner-device acceptance, actual creator/source rights, a real GTA 6 media test, independent security review, or permission to upload. PR #299 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
