@@ -1021,3 +1021,5 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #324 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
 
 - Live follow-up PR: [#326](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/326), OPEN / DRAFT / UNMERGED; head `38e11dfc525ee7c3e8bdbf94268174de3c802170`. Its commit-associated workflow lookup returned zero runs; PR #326 exact-head CI is PENDING / NOT VERIFIED. Do not transfer PR #324's successful run to PR #326.
+
+- Reconciliation: after the two documentation handoff commits, PR #326 latest head is `b99afc0dd50f82be191b928c878ff040599b17e6`; associated run #45426146051 (run 1355) is PENDING. This supersedes the earlier zero-run lookup for the prior head `38e11dfc525ee7c3e8bdbf94268174de3c802170`. Inspect both jobs/logs for the latest head before recording a result.
