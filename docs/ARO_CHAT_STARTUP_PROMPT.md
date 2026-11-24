@@ -149,5 +149,11 @@ For the current first-test upload priority:
 - No commit-associated workflow run was returned for the current head. Exact-head Ubuntu and hosted-Windows CI are PENDING / NOT VERIFIED. Local tests were NOT RUN in this connector session.
 - The current diff remains limited to the profile-path regression test and the registry/startup documentation. Both expected token paths use the strictly resolved `.secrets` parent; production uploader enforcement is unchanged.
 - Independent review is NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, API upload, publishing, merge, rebase, retarget, deployment, or destructive action.
-NaN`cf14e2adad58699c7fc76f075923b3c7d0021349`; registry update: `dd223d8f016ec24709f54133759b124b4cb0979b`.
-- Latest branch head is expected to advance with this documentation update. Exact-head Ubuntu and hosted-Windows CI must be checked after all commits; no local test execution is claimed.
+
+
+## ARO-CHAT-0197 path-boundary hardening continuation — 2026-11-24
+- The destination-profile loader now rejects a symlinked `.secrets` parent before resolving the config file. It preserves the base branch's exact repository-root/.secrets containment check and OAuth token-directory symlink guard.
+- The loader was aligned with the current PR #299 base implementation; profile fixture tests now provide their isolated `repository_root`.
+- Added tests for config-file, `.secrets` directory, and OAuth `tokens/` directory symlink escapes.
+- Commits: `6c21c0977a6a9ec7643306f14fe7edf26f81d592`, `848cdb1447743257e9a00ac7fa84da22c58a9acf`, `e10070cc0a9ff167922649ce2293bb6a5a3ab3ae`, `a1c785ad7a54121732d3d59289054090ee892d96`.
+- Exact-head Ubuntu/Windows CI is PENDING and local tests are NOT RUN. PR #300 is still DRAFT / OPEN / UNMERGED and currently reported non-mergeable. Do not merge, rebase, or retarget automatically. Issue #68 remains open; keep uploads and public publishing disabled.
