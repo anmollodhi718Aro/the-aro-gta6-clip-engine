@@ -1181,3 +1181,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Commits: production `ed13ef9d49a8829c87d6cb28b750c6cfe854bc13`; tests `14e0c8ab9a3c2069aa2e7301222731460b77e6b9`.
 - Tests: added malformed scalar/member/empty collection and invalid actor regressions. Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED.
 - Draft only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment or destructive action. Keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0228 — preserve unrelated rights-registry integrity errors (2026-11-25)
+- Workstream: ARO-GTA-P1-228; branch `workstream/aro-chat-0228-rights-registry-integrity-errors-2026-11-25`; based on PR #356's rights-registry input-validation branch.
+- Finding: PR #356 translated every `sqlite3.IntegrityError` from grant insertion into a duplicate-grant `PermissionError`, masking unrelated database integrity failures.
+- Change: translate only primary-key/unique-key collisions; re-raise other integrity failures unchanged. Add a trigger-based regression asserting `SQLITE_CONSTRAINT_TRIGGER` propagates and no audit event is written.
+- Production and test changes are in progress; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED.
+- Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.

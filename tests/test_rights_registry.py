@@ -1,4 +1,5 @@
 """Tests for source-specific rights registration and export authorization."""
+import sqlite3
 import tempfile
 import unittest
 from datetime import datetime, timedelta, timezone
@@ -121,6 +122,26 @@ class SourceRightsRegistryTests(unittest.TestCase):
         self.assertEqual([e["action"] for e in self.registry.audit_events("creator-video-1")],
                          ["registered", "revoked"])
 
+
+
+    def test_unrelated_integrity_error_is_not_misreported_as_duplicate(self):
+        with self.registry._connect() as db:
+            db.execute("""
+                CREATE TRIGGER reject_selected_source
+                BEFORE INSERT ON source_rights
+                WHEN NEW.source_id = 'triggered-source'
+                BEGIN
+                    SELECT RAISE(ABORT, 'forced integrity failure');
+                END
+            """)
+        invalid = dict(self.record, source_id="triggered-source")
+        with self.assertRaises(sqlite3.IntegrityError) as raised:
+            self.registry.register(invalid)
+        self.assertEqual(
+            raised.exception.sqlite_errorcode,
+            sqlite3.SQLITE_CONSTRAINT_TRIGGER,
+        )
+        self.assertEqual(self.registry.audit_events("triggered-source"), [])
 
 if __name__ == "__main__":
     unittest.main()

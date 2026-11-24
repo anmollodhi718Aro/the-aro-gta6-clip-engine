@@ -355,3 +355,10 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Hardened `SourceRightsRegistry.register()` input validation: scope/platform values must be collections of non-empty strings; scalar strings, empty collections, malformed members, and non-string actors fail with ValueError.
 - Production commit: `ed13ef9d49a8829c87d6cb28b750c6cfe854bc13`; regression tests: `14e0c8ab9a3c2069aa2e7301222731460b77e6b9`.
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED. Preserve draft-only status. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads and public publishing remain disabled.
+
+
+## ARO-CHAT-0228 — preserve unrelated rights-registry integrity errors (2026-11-25)
+- Active follow-up branch: `workstream/aro-chat-0228-rights-registry-integrity-errors-2026-11-25`; Workstream ARO-GTA-P1-228; based on PR #356's input-validation branch.
+- PR #356's broad `sqlite3.IntegrityError` handler could mislabel unrelated constraint failures as duplicate source grants. This follow-up limits translation to primary-key/unique-key collisions and adds a trigger regression proving unrelated integrity errors propagate unchanged with no audit event.
+- Local tests NOT RUN in this connector session. Verify exact-head Ubuntu and hosted-Windows CI before claiming CI_VERIFIED. Keep PR draft/open/unmerged; do not rebase, retarget, or merge automatically.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, network upload, publishing, deployment, or destructive action. Keep live uploads/public publishing disabled.
