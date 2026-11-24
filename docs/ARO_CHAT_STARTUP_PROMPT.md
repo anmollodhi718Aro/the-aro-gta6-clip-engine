@@ -413,7 +413,7 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Finding: the preceding validation code still coerced source ID, URL, grantor, evidence reference and optional metadata with `str(...)`; timestamp parsing could also fail incidentally on non-string values, and falsey explicit `at` values could be silently replaced by the current time.
 - Production commit `42011adcb725a171d30ee496b37df47f00b01678`: require non-empty text identity fields, reject non-string optional attribution/disclosure, accept only timezone-aware datetime or non-empty ISO timestamp strings, and validate explicit timestamps even when falsey.
 - Test commit `5f305f66e2e47582fe651886ff3ca8b53843bcc9`: cover malformed identity/optional text, invalid valid_from/expires_at types, and invalid explicit authorize/revoke timestamps.
-- Report: `docs/ARO_CHAT_0235_STRICT_RIGHTS_METADATA_VALIDATION.md`; registry updated in commit `db7fa2f244e5af1d5567c13bb9c9f19c51f56142`.
+- Report: `docs/ARO_CHAT_0235_STRICT_RIGHTS_METADATA_VALIDATION.md`; draft PR [#371](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/371) is open against PR #369's branch.
 - PR #369 head `8185687919138671deff872f6a7f35f86eafc27c` had associated run #45485759897 completed FAILURE. Job-step/log detail was unavailable; cause NOT VERIFIED. Do not claim this continuation fixes the parent failure.
 - Local tests NOT RUN. This branch's exact-head Ubuntu and hosted-Windows CI PENDING. Independent security review NOT RECORDED.
 - Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No OAuth, credentials, real media, network upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
