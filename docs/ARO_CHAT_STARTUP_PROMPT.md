@@ -376,3 +376,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Draft PR: [#361](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/361), based on PR #355's latest observed head. Commits: production `318970c09c53e239bdbf89a52e6f154cba1b3745`; tests `15f2d7cd0820e684098cffe095a872ff4a6f37`; report `da5daac9ad2529c0585066bd38e2c171a062e5e8`.
 - Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent security review NOT RECORDED. Do not transfer CI from PRs #355, #356, or #357.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+## ARO-CHAT-0230 — Windows SQLite test cleanup regression (2026-11-25)
+- Chat title: `ARO-CHAT-0230 | Windows SQLite Test Cleanup Regression`; workstream: ARO-GTA-P1-230.
+- PR #362: `workstream/aro-chat-0230-windows-sqlite-test-cleanup-2026-11-25`, based on PR #361 head `3a8bc14207e9957e3920caf430935b144bfd559b`.
+- Root cause: SQLite connection context management did not close the connection, leaving the Windows file handle open during TemporaryDirectory cleanup (WinError 32). Test-only fix uses `contextlib.closing(sqlite3.connect(...))`; no production behavior changed.
+- Test fix commit: `cdd2eb320527b32ccaabe4e4e0f82fa541b94351`; report commit: `5709bf02a1ba57b1021520bb4678243fb94abb11`.
+- Exact-head run #45465232908 completed SUCCESS. Ubuntu and hosted Windows both compiled, passed the unit-test step, and rendered/validated synthetic MP4 with FFprobe. Test counts were not exposed in the job summary. Synthetic output is not GTA 6 footage.
+- Local tests NOT RUN in this connector session; independent review NOT RECORDED. Keep PR #362 draft/open/unmerged pending review. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+- No OAuth, credentials, real media, network upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
