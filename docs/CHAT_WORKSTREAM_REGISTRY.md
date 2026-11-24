@@ -963,3 +963,43 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #311 exact-head CI for `a95d1cbc22fd2d0653ba8c7b09ea227e76b29edb` was not yet visible at the initial post-creation lookup. Do not claim it passed until the final head's Actions jobs are inspected.
 - Issue #68 implementation is present in the base ancestry and its OIDC verifier is non-recursive there; the older PR #83 head still contains the historical recursive helper and must not be treated as the current implementation.
 - Issue #68 remains OPEN pending independent review and owner-device OAuth/channel verification. No real YouTube upload has occurred. Public publishing remains disabled.
+
+
+## ARO-CHAT-0209 approval-record race regression restoration — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0209 |
+| Exact chat title | ARO-CHAT-0209 | Restore Approval-Record Open-Race Protection in Consolidated Uploader |
+| Workstream ID | ARO-GTA-P1-209 |
+| Scope | Restore approval-record symlink/non-regular-file rejection and pre-open/post-open file-identity checks that were lost when PR #311 consolidated from PR #295 without PR #305's path-race hardening. |
+| Branch / PR | `workstream/aro-chat-0209-restore-approval-record-open-race-2026-11-24` / [Draft PR #317](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/317) |
+| Base / starting SHA | PR #311 head `c3d767fd055c80dbd395c5c8821a335ad9b3b258`; current follow-up head `36f9ac70f841715255d917183d24d3b2df2bfc49` |
+| Report | `docs/ARO_CHAT_0209_APPROVAL_RECORD_RACE_REGRESSION.md` |
+| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI PENDING; no merge/upload/publishing |
+
+### Implementation
+- Restored symlink and regular-file checks using `is_symlink()` and `lstat()`.
+- Opens with `O_NOFOLLOW` and `O_NONBLOCK` where supported.
+- Compares pre-open `lstat()` device/inode with opened-descriptor `fstat()`; rejects replacement during open.
+- Restored tests for symlink, regular-file replacement, directory, FIFO, and FIFO replacement between check/open.
+- Code commit: `72f72e26c2a58ce01066275f56b4c4f649ed6bf2`; test commit: `da3d774a14565b3d3bc99d61b8335e92aaf96cff`.
+- No local test result or CI pass is claimed. CI must run on this follow-up PR's exact head.
+- PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
+
+
+### ARO-CHAT-0209 live CI reconciliation — 2026-11-24
+- Live PR #317 current head is `8e9bd5ef546c28b2cb2633e7e99373725b1fc053`; the earlier registry entry naming `36f9ac70f841715255d917183d24d3b2df2bfc49` is stale and superseded.
+- Actions run [#45422909011](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45422909011) completed SUCCESS for PR #317 head `8e9bd5ef546c28b2cb2633e7e99373725b1fc053`.
+- Ubuntu: compile passed, 342 tests passed, synthetic MP4/FFprobe passed. Hosted Windows: compile passed, same 342 tests with 2 skipped, synthetic MP4/FFprobe passed.
+- Both jobs checked out the PR merge ref `refs/remotes/pull/317/merge`; raw-head-only CI NOT DEMONSTRATED. These are 342 tests on each platform, not 684 unique tests.
+- Synthetic media only; no GTA 6/third-party media, no upload, publishing disabled, manual review required. Local tests NOT RUN. Independent review NOT RECORDED. Owner-device Windows and real-media acceptance NOT VERIFIED.
+- PR #317 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. The CI result applies to head `8e9bd5e...`; any subsequent commit requires fresh validation.
+
+
+## ARO-CHAT-0210 continuation — destination profile isolation regression (2026-11-24)
+- On the existing PR #317 follow-up branch, restored case-insensitive uniqueness for destination profile names. Profile keys are now constrained to 1-64 ASCII letters, digits, underscores, or hyphens and collisions under `casefold()` fail closed before token-path selection.
+- Added regression test `test_case_colliding_profile_names_fail_closed`, reproducing `aroanmol7` / `AROANMOL7` token-path collision on case-insensitive filesystems.
+- Code commit: `2de1798d1f8bf284e54a07d3538ac42dbf76066e`; test commit: `869c315d72cbe7bff5f04b0cc813fcb9aed3a7f3`.
+- Current branch head: `869c315d72cbe7bff5f04b0cc813fcb9aed3a7f3`. Exact-head CI has not yet been observed; no test pass is claimed. Local tests NOT RUN in this connector session.
+- PR #317 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, merge, or deployment was performed. Keep live uploads and public publishing disabled.
