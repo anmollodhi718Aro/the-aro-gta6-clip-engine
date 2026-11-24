@@ -1071,3 +1071,16 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 ### ARO-CHAT-0218 CI correction
 - Run #45433336438 found one stale assertion string only: implementation correctly rejected unlisted/public, but test expected error text containing `privacy`. Updated assertion in commit `52c168d4a389ab7a99bff5f660708382d00079df`.
 - Exact-head follow-up run #45433572590 is running on Ubuntu and hosted Windows. CI remains PENDING until both jobs complete.
+
+
+
+
+### ARO-CHAT-0218 exact-head CI closeout and scoped review — 2026-11-24
+
+- PR #339 head `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722` passed associated run #45433728254.
+- Ubuntu: compile + 351 tests + synthetic MP4/FFprobe passed. Hosted Windows: compile + the same 351 tests, with 3 FIFO-only tests skipped because `os.mkfifo` is unavailable, + synthetic MP4/FFprobe passed.
+- Both jobs checked out merge ref `5f5bf9f` (PR head merged into base `5ef44f391720966138b2eec1815dd223fb345dbd`); raw-head-only checkout NOT DEMONSTRATED. Count is 351 tests per platform, not 702 unique tests.
+- Synthetic logs confirm `upload_performed=false`, `publishing_enabled=false`, `manual_review_required=true`; no GTA 6/third-party media, OAuth, or network upload.
+- Scoped assistant review of PR #339's own cleanup and PRIVATE-only delta found no defect. This is NOT an independent security review of the inherited uploader/approval lineage; PR #339 review submissions and inline threads are empty.
+- PR #339 remains OPEN/DRAFT/UNMERGED; parent PR #328 has a separate non-mergeable ancestry concern. Issue #68 remains OPEN and owner-assigned, not approved for live use. Keep live uploads/public publishing disabled.
+- Next authorized work: independent security review of the full consolidated uploader/approval lineage and evidence-based reconciliation of stacked PR ancestry. No merge, rebase, retarget, OAuth, credentials, real media, network upload, deployment, or publishing.
