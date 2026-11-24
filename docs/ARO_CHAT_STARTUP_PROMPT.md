@@ -157,3 +157,10 @@ For the current first-test upload priority:
 - Added tests for config-file, `.secrets` directory, and OAuth `tokens/` directory symlink escapes.
 - Commits: `6c21c0977a6a9ec7643306f14fe7edf26f81d592`, `848cdb1447743257e9a00ac7fa84da22c58a9acf`, `e10070cc0a9ff167922649ce2293bb6a5a3ab3ae`, `a1c785ad7a54121732d3d59289054090ee892d96`.
 - Exact-head Ubuntu/Windows CI is PENDING and local tests are NOT RUN. PR #300 is still DRAFT / OPEN / UNMERGED and currently reported non-mergeable. Do not merge, rebase, or retarget automatically. Issue #68 remains open; keep uploads and public publishing disabled.
+
+
+## ARO-CHAT-0201 continuation — 2026-11-24
+- Current consolidated private-upload hardening is Draft PR #311 on `workstream/aro-chat-0201-consolidated-private-upload-security-2026-11-24`, based directly on PR #295 head `9f6cdc10bc77e99d6a9399f3c8a1505e18a87ab0`.
+- It consolidates PR #299's YouTube PRIVATE response verification and PR #300's destination-profile path/symlink hardening and Windows canonical-path tests, avoiding the stale diverged #299 → #300 branch ancestry.
+- Issue #68's corrected authenticated OIDC/channel-owner gate, exact clip/source/hash approval, and source-rights checks are present in the PR #295 base ancestry. Do not use historical PR #83 head `f66f6406a496d08e3e85972010f1f52d831298ab` as current code; that historical snapshot contains a recursive verifier defect.
+- PR #311 exact-head CI must pass on both Ubuntu and Windows before acceptance. Issue #68 stays OPEN until independent security review and owner-device OAuth/channel verification. No live upload or public publishing without separate explicit owner action.
