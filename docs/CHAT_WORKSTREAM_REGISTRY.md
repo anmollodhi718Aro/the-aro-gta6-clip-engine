@@ -1303,3 +1303,15 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added a fail-closed rejection for an authority ending in `:` and regression cases for DNS and bracketed IPv6 hosts.
 - Production commit `15f68da1e3416ee2b785b5d4a47c140a11e43917`; test commit `41d42e89eeb3adc9e7dd2607e4f7b638214d8982`.
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI and independent review remain NOT VERIFIED. Keep PR #371 draft/open/unmerged and Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL. No uploads or public publishing.
+
+
+### ARO-CHAT-0235 post-empty-port exact-head CI audit — 2026-11-25
+
+- Audited the branch head `5a3b781f58c18b72d422bd7dcdf83a67664da5c0` after the empty-port URL validation production/test commits.
+- Associated Python CI run [#45494619613](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45494619613) completed FAILURE.
+- Ubuntu job `138801679783` and hosted-Windows job `138801678838` both completed FAILURE and exposed zero workflow steps. Both job-log requests returned `BlobNotFound`.
+- Failure cause remains NOT VERIFIED. Available evidence does not establish whether the failure occurred during runner/workflow initialization or before the first step; it is not attributed to application code or tests.
+- Local tests NOT RUN in this connector session. Exact-head CI: FAILED / NOT VERIFIED. No test counts or compile results are claimed. Independent security review NOT RECORDED.
+- Static inspection confirms the empty-port guard and DNS/IPv6 regression cases are present, alongside the existing URL whitespace/control/backslash and authority checks. Static inspection is not execution evidence.
+- No workflow retry/dispatch was initiated. Keep PR #371 DRAFT / OPEN / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+- No source code, tests, uploader, OAuth, media, or workflow behavior was changed in this audit. No credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action occurred.
