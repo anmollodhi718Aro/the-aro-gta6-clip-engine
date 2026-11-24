@@ -411,3 +411,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Initial exact-head run #45314761904 (run 1139) was IN_PROGRESS. Both platform jobs had reached FFmpeg/FFprobe installation; compile, tests, and synthetic render were pending.
 - Combined status, reviews, inline threads, and conversation comments were empty. Re-fetch exact PR head and run after completion; no result may be transferred from PR #249.
 - Documentation-only; no workflow retry or production behavior changes. Keep Issue #68 open and all live/public uploads disabled pending independent security review and owner-controlled integration.
+
+
+### ARO-CHAT-0171 exact-head CI closeout — 2026-11-24
+- PR #251 head `1316c12f4f66305b190f671330682eb535e41ba0` passed run #45314761904 on Ubuntu and hosted Windows: compile passed; the same 340 tests passed on each platform; synthetic MP4/FFprobe passed.
+- Both jobs checked out PR #251 merge ref `809c8c19d0d70aadd16f0c15d2ca97a15ad99e54`, merging the audited head into base `75854f6cbead27c42d723a72f883eb7f804665f9`. Raw-head-only checkout NOT DEMONSTRATED.
+- The repaired explicit `--max-upload-bytes` test passed. Synthetic test pattern/tone only; no GTA 6/third-party footage; manual review required; mocked upload false.
+- PR #251 remains open/draft/unmerged, mergeable=false, with no independent review recorded. Owner-device Windows and real-media acceptance remain unverified.
+- Audit PR #252's own head `eba4fe0f9bed2a0a01507ab62414cd61ecdb7010` has no associated workflow run; its CI is pending. Do not transfer parent PR #251's run.
+- Keep Issue #68 open and live/public uploads disabled pending owner approval, independent security review, owner-controlled integration, owner-device verification, device-appropriate upload limit, and authorized real-media acceptance.
