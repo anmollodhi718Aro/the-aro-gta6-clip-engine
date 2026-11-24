@@ -1066,3 +1066,8 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Hardened `backend/app/youtube_upload.py`: upload metadata validation and CLI now accept PRIVATE only; UNLISTED/PUBLIC are rejected. Test commit `598c9c488c34143c6cb8c0a9d86208e3e7ef74b1` covers both rejection paths.
 - Corrected `docs/YOUTUBE_UPLOAD.md` so it no longer describes unsupported UNLISTED/PUBLIC approval paths. Public publishing remains unimplemented and disabled.
 - CI run #45433283842 was cancelled before compile/tests on both platforms; run #45433336438 pending at docs head. Exact-head CI NOT VERIFIED. PR #339 remains draft/open/unmerged; parent PR #328 is currently non-mergeable. Independent review NOT RECORDED; issue #68 OPEN.
+
+
+### ARO-CHAT-0218 CI correction
+- Run #45433336438 found one stale assertion string only: implementation correctly rejected unlisted/public, but test expected error text containing `privacy`. Updated assertion in commit `52c168d4a389ab7a99bff5f660708382d00079df`.
+- Exact-head follow-up run #45433572590 is running on Ubuntu and hosted Windows. CI remains PENDING until both jobs complete.
