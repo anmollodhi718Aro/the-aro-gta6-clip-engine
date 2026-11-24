@@ -127,6 +127,18 @@ class YouTubeDestinationSetupTests(unittest.TestCase):
             _atomic_private_json(path, {"profiles": {"other": {}}})
         self.assertEqual(json.loads(path.read_text(encoding="utf-8")), {"profiles": {}})
 
+    def test_non_regular_existing_token_path_is_rejected_before_oauth(self):
+        token_dir = self.root / ".secrets" / "tokens"
+        token_dir.mkdir(parents=True)
+        (token_dir / "aroanmol7.json").mkdir()
+        with patch("backend.app.youtube_upload._authorize_google") as authorize:
+            with self.assertRaisesRegex(PermissionError, "regular file"):
+                setup_destination(
+                    repository_root=self.root, client_secrets=self.client,
+                    profile_name="aroanmol7",
+                )
+        authorize.assert_not_called()
+
     def test_invalid_profile_name_is_rejected_before_oauth(self):
         with patch("backend.app.youtube_upload._authorize_google") as authorize:
             with self.assertRaisesRegex(ValueError, "profile name"):
