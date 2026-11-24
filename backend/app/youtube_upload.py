@@ -286,15 +286,22 @@ def require_report_publish_permissions(
     report: dict[str, Any], rights_registry: Any, source_id: str
 ) -> None:
     """Recheck the clip source and all source-bound assets against current publish grants."""
+    if not isinstance(report, dict) or not isinstance(source_id, str) or not source_id.strip():
+        raise PermissionError("a valid rights report and source_id are required")
     if report.get("source_id") != source_id:
         raise PermissionError("requested source_id does not match the rights report")
+    assets = report.get("assets", [])
+    if not isinstance(assets, list):
+        raise PermissionError("rights report assets must be a list")
     source_ids = {source_id}
-    for asset in report.get("assets", []):
+    for asset in assets:
+        if not isinstance(asset, dict):
+            raise PermissionError("rights report asset entries must be objects")
         if asset.get("status") == "scope_match_metadata_only":
-            asset_source_id = str(asset.get("source_id", "")).strip()
-            if not asset_source_id:
-                raise PermissionError("source-bound rights report asset is missing source_id")
-            source_ids.add(asset_source_id)
+            asset_source_id = asset.get("source_id")
+            if not isinstance(asset_source_id, str) or not asset_source_id.strip():
+                raise PermissionError("source-bound rights report asset is missing a valid source_id")
+            source_ids.add(asset_source_id.strip())
     for current_source_id in sorted(source_ids):
         rights_registry.authorize(current_source_id, "publish", "youtube")
 
