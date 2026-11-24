@@ -168,3 +168,9 @@ For the current first-test upload priority:
 - Every valid source-bound asset is independently checked for a current YouTube publish grant alongside the primary clip source.
 - Regression tests cover multi-source authorization and malformed report structures. Commits: `fe9af3139d301773102b6c44d0e8a92bd5f08a8f`, `cc4eb2421c4779e7a76391e401d238652a34c75e`.
 - Require fresh Ubuntu and Windows CI for the new commits before treating the guard as validated.
+
+
+## Owner-approval evidence path hardening
+- The owner-approval gate rejects symlinked and non-regular approval paths; regular files are opened with `O_NOFOLLOW` where supported.
+- Added a regression test for a symlinked approval record. Fresh CI is required for these changes; previous run `45396612256` predates them.
+- Commits: `47b5fbeb9dc405d0c8643de7630b51631f1c4a29`, `a8c3b46a735ed8053d7f913beb6ace3194eaa29b`, `ec12e3ecbae4f34f6a9bd3543d16a58d83fb274b`.
