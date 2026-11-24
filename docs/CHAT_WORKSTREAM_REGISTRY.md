@@ -809,9 +809,26 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Exact chat title | ARO-CHAT-0132 | Private Upload CI Failure Fix |
 | Workstream ID | ARO-GTA-P1-132 |
 | Scope | Fix exact-head CI failure in PR #280 by enforcing PRIVATE visibility before optional Google SDK imports, so non-private attempts fail closed without requiring OAuth dependencies. |
-| Branch / PR | workstream/aro-chat-0132-private-upload-ci-fix-2026-11-24 / follow-up PR pending |
+| Branch / PR | workstream/aro-chat-0132-private-upload-ci-fix-2026-11-24 / [Draft PR #289](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/289) |
 | Starting SHA | 20427e0cad2e682076c627343e14b0f6f2f4f4a8 (PR #280 head) |
-| Status | IMPLEMENTED; CI pending; no upload performed |
-| Evidence | PR #280 run #45385315409 failed both Ubuntu and hosted Windows in test_upload_rejects_unlisted_visibility_before_oauth_or_api: optional googleapiclient import occurred before PRIVATE-only guard. This change moves the guard ahead of optional imports. |
+| Status | IMPLEMENTED; CI_VERIFIED on exact head 4e01f16e97b2239c74a2f96c4262b04b57a4ae73; no upload performed |
+| Evidence | PR #280 run #45385315409 exposed the optional googleapiclient import ordering failure. Follow-up PR #289 run #45386732186 passed Ubuntu and hosted Windows, including compile, complete unittest suite, and synthetic MP4 render/FFprobe steps. |
 
 No OAuth, credentials, network upload, merge, deployment, or public publishing was performed. Issue #68 remains open; this fix does not satisfy the authenticated owner/channel approval gate by itself.
+
+
+## ARO-CHAT-0133 implementation — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0133 |
+| Exact chat title | ARO-CHAT-0133 | Isolated Multi-Channel Private Upload Profiles |
+| Workstream ID | ARO-GTA-P1-133 |
+| Priority | P1; support the owner's two separately authorized YouTube destinations without sharing OAuth tokens or approval records |
+| Branch / PR | workstream/aro-chat-0133-multichannel-private-profiles-2026-11-24 / follow-up Draft PR pending |
+| Starting SHA | 4e01f16e97b2239c74a2f96c4262b04b57a4ae73 (PR #289 exact head) |
+| Scope | Add local named destination profiles mapping a verified Google OIDC subject and exact YouTube channel ID to a profile-specific OAuth token path; require explicit profile selection for each approval/upload; document local-only config. |
+| Status | IMPLEMENTED; tests and exact-head CI pending; no OAuth, upload, merge or publish performed |
+| Security behavior | Profile file is intended under ignored .secrets; no OAuth tokens or client secrets are stored in the profile map; profile channel IDs must be unique; per-profile token files are isolated; profile token override is rejected; existing exact channel and file-hash approval checks remain in force. |
+
+Both target handles must still be verified against exact channel IDs and Google OIDC subjects through their respective authorized OAuth sessions. Never infer IDs from handles. This workstream does not perform either OAuth flow or any upload. Public publishing remains disabled.
