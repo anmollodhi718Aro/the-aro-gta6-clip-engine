@@ -342,3 +342,9 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Production commit: `a9716c4e5d39b79103dfed2ee000cd817db71b0b`; test commit: `8cc3155cf39c75b5a9e28b1f9a17a44a13264530`.
 - Local tests NOT RUN; exact-head CI pending; independent security review not recorded. See `docs/ARO_CHAT_0226_IMMUTABLE_RIGHTS_GRANTS.md`.
 - Draft-only continuation. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget or deployment.
+
+
+### ARO-CHAT-0226 metadata immutability regression — 2026-11-24
+- Expanded the duplicate-source-ID regression to attempt replacing grantor, source URL, evidence reference, attribution, disclosure, allowed uses and platforms, then assert the original metadata is preserved.
+- Test-only commit: `33743ca5ecaab1d69cab999968e8da8dc7f030ae`. Production code unchanged.
+- Local tests NOT RUN; check fresh exact-head Ubuntu/hosted-Windows CI. Do not transfer results from the earlier PR #355 head.
