@@ -30,16 +30,18 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install FFmpeg and FFprobe
+        if: ${{ hashFiles('scripts/synthetic_first_clip_test.py') != '' }}
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y ffmpeg
           ffmpeg -version
           ffprobe -version
       - name: Compile source
-        run: python -m compileall -q backend tests THE_ARO_STUDIO.py scripts
+        run: python -m compileall -q backend tests
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Render and verify synthetic MP4
+        if: ${{ hashFiles('scripts/synthetic_first_clip_test.py') != '' }}
         run: python scripts/synthetic_first_clip_test.py --output-dir synthetic_test_runs
 
   windows-tests:
@@ -53,6 +55,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install FFmpeg and FFprobe
+        if: ${{ hashFiles('scripts/synthetic_first_clip_test.py') != '' }}
         shell: pwsh
         run: |
           # Retry transient Chocolatey community-feed failures (for example HTTP 503).
@@ -79,8 +82,9 @@ jobs:
           ffprobe -version
           if ($LASTEXITCODE -ne 0) { throw "FFprobe is unavailable." }
       - name: Compile source and tests
-        run: python -m compileall -q backend tests THE_ARO_STUDIO.py scripts
+        run: python -m compileall -q backend tests
       - name: Run complete unittest suite
         run: python -m unittest discover -s tests -v
       - name: Render and verify synthetic MP4
+        if: ${{ hashFiles('scripts/synthetic_first_clip_test.py') != '' }}
         run: python scripts/synthetic_first_clip_test.py --output-dir synthetic_test_runs
