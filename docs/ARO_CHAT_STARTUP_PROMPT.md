@@ -525,3 +525,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Draft PR #376 is open/unmerged at head `320d236609248e9fcf5fbad99483212f07a4ccb2`.
 - Initial exact-head workflow lookup returned no runs; combined status returned no entries. CI PENDING / NOT VERIFIED. Local tests NOT RUN; independent review NOT RECORDED.
 - Do not transfer results from PR #373 or #374. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0238 numeric URL suffix hardening follow-up — 2026-11-25
+- Static comparison against the parallel canonical-IPv4 implementation found PR #376 only rejected hosts made entirely of digits and dots. DNS-looking hosts with URL-parser numeric final labels, such as `example.123`, `example.0x2`, and `example.012`, still passed its DNS-label path.
+- Ported a conservative final-label numeric-form check into `backend/app/rights_registry.py`. When the final label has a URL-parser numeric form, the entire hostname must parse as canonical four-octet IPv4; ambiguous suffix hosts are rejected. Canonical IPv4, DNS/IDNA, FQDN trailing-dot and IPv6 paths remain covered by existing behavior.
+- Added regressions for octal/hex dotted forms and numeric-ending DNS labels in `tests/test_rights_registry.py`.
+- Production commit: `e9a3b0d77aae6c48aac5f34db66114f86839a1fd`; test commit: `3b4cf33873e1982493fb7b0a37b5f9d031379b05`.
+- PR #376's earlier head `320d236609248e9fcf5fbad99483212f07a4ccb2` had associated run #45495596246: Ubuntu and hosted Windows both failed before exposing any workflow steps; both job-log downloads returned BlobNotFound. Root cause NOT VERIFIED; this is not attributed to application code or tests. The new commits have not yet been validated by local tests or exact-head CI.
+- PR remains draft/open/unmerged. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
