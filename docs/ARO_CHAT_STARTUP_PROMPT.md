@@ -191,3 +191,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Close the media object's retained stream before cleaning the private snapshot directory; keep cleanup in a nested `finally` so it still runs if closing raises.
 - Add a regression test whose mocked media client holds a real open file handle and asserts it is closed before the upload function returns.
 - Branch `workstream/aro-chat-0216-close-upload-media-handle-2026-11-24`, based on PR #328 head `114e5bfc4b154e0da272ed36408ab156cfdc5ab9`. Draft-only; exact-head CI and local tests pending. No OAuth, real media, upload, merge, deployment, or publishing.
+
+
+## ARO-CHAT-0217 continuation — upload cleanup error-path regression (2026-11-24)
+- Add a test-only follow-up to ARO-CHAT-0216's retained MediaFileUpload stream cleanup.
+- A mocked upload request raises a deterministic error; assert the retained stream is closed, the temporary approved-byte snapshot is removed, and the exception propagates.
+- Branch: `workstream/aro-chat-0217-upload-error-cleanup-test-2026-11-24`, based on `workstream/aro-chat-0216-close-upload-media-handle-2026-11-24`.
+- Test commit: `707a7a882fa452bc512cc77062d0e8f0b9801c0d`; report: `docs/ARO_CHAT_0217_UPLOAD_ERROR_CLEANUP_TEST.md`.
+- Production code unchanged. Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. Synthetic/mock-only, no OAuth, real media, upload, merge, deployment or publishing. Issue #68 remains open; live uploads/public publishing disabled.
