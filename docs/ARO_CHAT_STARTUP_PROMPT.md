@@ -321,3 +321,9 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Test-only correction commit `6829261261175dd2f4693b0d8c62685f69fb6298` replaces physical rename/symlink mutation with a mocked post-open `Path.lstat()` result and disables `O_NOFOLLOW` only within that regression to exercise the fallback check deterministically. Production code is unchanged.
 - Corrected commit-associated workflow lookup returned zero runs; current startup-document head `03071572e8b59bf3f150617e26ea7fd49ca57212` has zero combined status entries. Therefore corrected exact-head Ubuntu/hosted-Windows CI remains PENDING / NOT VERIFIED. No rerun or workflow dispatch was initiated.
 - PR #353 remains draft/open/unmerged; independent review remains NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
+
+
+### Separate source-rights lineage blocker — 2026-11-24
+- Read `backend/app/rights_registry.py` directly from the PR #353 branch after the safe-read changes. Its `SourceRightsRegistry.register()` still contains `ON CONFLICT(source_id) DO UPDATE` and resets `revoked_at=NULL`; the append-only duplicate-ID rejection is therefore NOT integrated into PR #353's ancestry.
+- PR #352 contains the separate INSERT-only / duplicate-ID rejection fix, but its recorded head `1747290c7397f5e05b459edbac6783d0d00784a7` is on a divergent branch (9 commits ahead / 6 behind the then-current PR #350 head; merge base `b6d712a6438a132c3d8ca245b0a804bf8b929550`).
+- Do not cherry-pick, rebase, retarget, or merge PR #352 into PR #353 automatically. Preserve both draft histories and require explicit owner selection / consolidation direction. Treat duplicate-source grant overwrite and revocation reset as an unresolved security blocker on the PR #353 lineage.
