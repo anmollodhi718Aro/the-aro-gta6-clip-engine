@@ -189,3 +189,12 @@ For the current first-test upload priority:
 - Synthetic test only: no GTA 6 footage or third-party media; publishing disabled; manual review required; no upload performed. CI does not establish owner-device Windows verification or real-media acceptance. Independent review remains NOT RECORDED.
 - PR #300 / ARO-CHAT-0197 remains preserved as OPEN/DRAFT/UNMERGED. It diverged from the current PR #299 head (12 ahead / 43 behind); do not rebase or retarget it. This clean successor is based on current PR #299 instead.
 - No production code changed. No OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains open; live uploads/public publishing stay disabled.
+
+
+## ARO-CHAT-0198 / PR #301 CI closeout — 2026-11-24
+- PR #301 audited head `4dce542aa59023a7dc0ca9c61badecf4f0734f59` passed Actions run #45399961380 on Ubuntu and hosted Windows.
+- Both jobs passed compilation, the same 346 tests, and synthetic MP4/FFprobe validation. Ubuntu: 3.652s; Windows: 12.782s.
+- Both jobs checked out merge SHA `d961d60d45337ba58dbcc566b661545c673a5ce7` against base `97250fbb3bf1fd8d9e5e03dfc6ac6a9267b643b5`; raw-head-only checkout NOT DEMONSTRATED.
+- Logs confirm no upload, no GTA 6 or third-party media, publishing disabled, and manual review required.
+- PR #301 remains draft/open/unmerged; independent security review is NOT RECORDED. Issue #68 remains open. Keep live uploads/public publishing disabled.
+- Audit report: `docs/ARO_CHAT_0198_PR301_CI_AUDIT.md`.
