@@ -183,3 +183,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Regression test mutates the original source immediately before the mocked insert and asserts the media body still references the original approved bytes.
 - Branch: workstream/aro-chat-0215-verified-upload-byte-snapshot-2026-11-24; based on PR #311 head 67e6d4290fee795fb8ba6fd0e926107ea7f0eb81. Code commits 1fefe87ef47dd4be723cab8ba9424b31156e46c1 and f14f00758fad5cd400f4a1efeacb9e04256a279d; test commit 7d8fd5c85f4171e702cada1d0e6c9fcece2a494b.
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. No OAuth, real media, upload, merge, deployment or publishing. Keep Issue #68 open and public publishing disabled.
+
+
+## ARO-CHAT-0216 latest continuation — 2026-11-24
+- PR #328's verified upload snapshot implementation introduced a source-open race boundary: the helper checked a regular path with lstat() and then opened it without O_NONBLOCK. A raced FIFO replacement could block the open before descriptor validation.
+- Follow-up branch: `workstream/aro-chat-0216-nonblocking-upload-snapshot-open-2026-11-24`, based on PR #328 head `114e5bfc4b154e0da272ed36408ab156cfdc5ab9`.
+- Added O_NONBLOCK to source-open flags where supported and a FIFO-replacement regression test that asserts the flag before permitting the underlying open.
+- Code commit: `9d397a0aacb1687d64acd780d321c54fbf6647ff`; test commit: `ec46588884806c5b173340bfadcaccd47057997a`; report: `docs/ARO_CHAT_0216_NONBLOCKING_UPLOAD_SNAPSHOT_OPEN.md`.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING until a PR is opened. Do not transfer PR #328 CI to this follow-up head.
+- Draft-only. No OAuth, credentials/tokens, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
