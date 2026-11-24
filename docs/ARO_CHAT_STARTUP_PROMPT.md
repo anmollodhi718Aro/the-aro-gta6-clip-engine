@@ -583,3 +583,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #267 remains OPEN / DRAFT / UNMERGED. Independent review remains NOT RECORDED; no real-media or owner-device Windows acceptance is claimed.
 - The next continuation must re-read the live registry and open PRs, then select the next unreserved workstream. Do not duplicate ARO-CHAT-0184.
 - Keep Issue #68 and all authenticated-owner/live-publishing gates closed. No merge, retarget, deploy, workflow retry, credentials/OAuth, real-media processing, upload, or publishing without the separate required approvals.
+
+
+## Latest repository continuation — ARO-CHAT-0185 (2026-11-24)
+- Current title: `ARO-CHAT-0185 | PR #267 Live-Head CI Audit`; workstream ARO-GTA-P1-185.
+- Branch: `workstream/aro-chat-0185-pr267-live-head-ci-audit-2026-11-24`; starting/base SHA: PR #267 live head `7045b16da92211c8e625eb4a343af303be013916`.
+- Re-audit PR #267's current head only. The previous ARO-CHAT-0184 CI success applies to superseded SHA `587e6909d99c8db34ade24ca0c0f2392167e5df7` and must not be transferred.
+- Current-head run #45380743968 (run 1182) was in progress at initial inspection: Ubuntu passed compile and unit/synthetic-media integration tests; hosted Windows was still installing FFmpeg/FFprobe, with compile/tests pending.
+- Reviews, inline threads, and conversation comments were empty; independent review not recorded. Keep the PR draft-only and Issue #68/live publishing gates closed.
+- Documentation-only; no workflow retry, merge, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
