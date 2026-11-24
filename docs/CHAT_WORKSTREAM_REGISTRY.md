@@ -966,3 +966,35 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 ### Safety and continuation
 - Draft PR only. Preserve PR #300 for history; do not close, merge, rebase, or retarget it automatically.
 - Issue #68 remains OPEN. Live uploads/public publishing remain disabled pending exact-head CI, independent security review, owner-controlled integration, device-specific upload limit, and separately authorized real-media acceptance.
+
+
+## ARO-CHAT-0199 PR #301 exact-head CI closeout — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0199 |
+| Exact title | ARO-CHAT-0199 | PR #301 Exact-Head CI Closeout |
+| Workstream ID | ARO-GTA-P1-199 |
+| Role | CI evidence auditor; documentation-only |
+| Branch | `workstream/aro-chat-0199-pr301-ci-closeout-2026-11-24` |
+| Base / starting SHA | PR #301 head `4dce542aa59023a7dc0ca9c61badecf4f0734f59` |
+| Parent PR | [PR #301](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/301) |
+| Changed files | `docs/ARO_CHAT_0199_PR301_CI_CLOSEOUT.md`; `docs/CHAT_WORKSTREAM_REGISTRY.md`; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+| Status | IMPLEMENTED; PR #301-associated merge-ref CI PASS on Ubuntu and hosted Windows; raw-head-only checkout not demonstrated |
+| Scope boundary | Documentation-only. No application/uploader/OAuth/test/workflow behavior changes; no merge, rebase, retarget, deployment, upload, or publishing. |
+
+### CI evidence
+
+- PR #301 head `4dce542aa59023a7dc0ca9c61badecf4f0734f59` is associated with Actions run [#45399961380](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45399961380), run number 1285, conclusion SUCCESS.
+- Hosted Windows job `138465637811`: compilation passed; `Ran 346 tests in 12.782s`; `OK`; the two-profile token-path regression passed; synthetic MP4/FFprobe validation passed.
+- Ubuntu job `138465638360`: compilation passed; `Ran 346 tests in 3.652s`; `OK`; the two-profile token-path regression passed; synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/301/merge` at merge SHA `d961d60d45337ba58dbcc566b661545c673a5ce7`; raw-head-only checkout NOT DEMONSTRATED.
+- Both platforms ran the same 346-test suite, not 692 unique tests.
+- Logs report `upload_performed=false`, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Local tests and owner-device Windows verification were not performed in this connector session.
+
+### Safety and owner gates
+
+- PR #301 remains OPEN / DRAFT / UNMERGED; PR #299 remains OPEN / DRAFT / UNMERGED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live uploads and public publishing remain disabled pending independent security review, owner approval, canonical integration, device-specific upload memory limit, and separately authorized real-media acceptance.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, rebase, retarget, deployment, or destructive action was performed.
