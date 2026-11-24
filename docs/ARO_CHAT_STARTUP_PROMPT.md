@@ -584,3 +584,16 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #269 independent review NOT RECORDED; hosted-Windows CI is not owner-device verification; real-media acceptance NOT VERIFIED.
 - Report: `docs/ARO_CHAT_0185_PR269_CI_AUDIT.md`. Inspect this audit branch's own exact-head CI separately; do not transfer parent CI.
 - Keep Issue #68 open and live/public uploads disabled. No OAuth, credentials, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0186 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0186 | PR #271 Exact-Head CI Audit`; Workstream ID: ARO-GTA-P1-186.
+- Task: documentation-only exact-head CI audit of PR #271, the ARO-CHAT-0185 audit branch.
+- Branch: `workstream/aro-chat-0186-pr271-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #271 head `0172229e4dcdd29a50ee25ca13113cc1c9c83f13`.
+- PR #271 exact-head Python CI run #45381339772 (run 1192) passed on Ubuntu and hosted Windows. Each platform compiled, passed the same 28-test suite, and passed synthetic animation MP4/FFprobe validation. Ubuntu: 0.326s; hosted Windows: 0.407s.
+- Both jobs checked out `refs/remotes/pull/271/merge` at merge SHA `4bc93e464d2aced032793c6946f3914adc711379`, merging PR #271 head into base `99ef3bd9211f16c67573600e28cb3b696fdd6f71`. Raw-head-only checkout NOT DEMONSTRATED; this is merge-ref CI only.
+- PR #271 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. Combined status returned zero entries. PR #271 remains OPEN / DRAFT / UNMERGED.
+- Report: `docs/ARO_CHAT_0186_PR271_CI_AUDIT.md`. This audit branch's own exact-head CI must be inspected separately; never transfer PR #271's CI result to it.
+- Issue #68 remains OPEN / NOT IMPLEMENTED. Keep live uploads/public publishing disabled. Synthetic media is not GTA 6 footage or real-media acceptance; hosted Windows is not owner-device verification.
+- Documentation-only. No workflow retry, OAuth, credentials/tokens, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
