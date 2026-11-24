@@ -28,9 +28,12 @@ def load_destination_profile(config_path: str | Path, profile_name: str) -> dict
         raise ValueError("destination profile name must use 1-64 letters, numbers, underscores or hyphens")
     path = Path(config_path).expanduser()
     try:
+        path = path.resolve(strict=True)
         payload = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise PermissionError("destination profile configuration is missing or unreadable") from exc
+    if path.parent.name != ".secrets":
+        raise PermissionError("destination profile configuration must resolve inside the repository .secrets directory")
     profiles = payload.get("profiles") if isinstance(payload, dict) else None
     if not isinstance(profiles, dict) or not profiles:
         raise PermissionError("destination configuration must contain a non-empty profiles object")
