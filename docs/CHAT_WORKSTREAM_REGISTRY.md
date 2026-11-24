@@ -998,3 +998,35 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #301 remains OPEN / DRAFT / UNMERGED; PR #299 remains OPEN / DRAFT / UNMERGED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live uploads and public publishing remain disabled pending independent security review, owner approval, canonical integration, device-specific upload memory limit, and separately authorized real-media acceptance.
 - No credentials/tokens, OAuth session, real media, network upload, public publishing, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+## ARO-CHAT-0201 PR #302 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0201 |
+| Exact title | ARO-CHAT-0201 | PR #302 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-201 |
+| Role | Independent CI evidence auditor; documentation-only |
+| Branch | `workstream/aro-chat-0201-pr302-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #302 head `fa2a57126da72546f95b79fd3b8ad06695e9975e` |
+| Audited PR | [PR #302](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/302) |
+| Changed files | `docs/ARO_CHAT_0201_PR302_CI_AUDIT.md`; this registry; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+| Status | IMPLEMENTED; PR #302-associated CI PASS on hosted Ubuntu and hosted Windows; raw-head-only checkout not demonstrated |
+| Scope boundary | Documentation-only. No application, uploader, OAuth, test, or workflow behavior changes; no merge, rebase, retarget, deployment, upload, or publishing. |
+
+### CI evidence
+
+- PR #302 head `fa2a57126da72546f95b79fd3b8ad06695e9975e` is associated with Actions run [#45400525644](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45400525644), run number 1288, conclusion SUCCESS.
+- Ubuntu job `138467604418`: compilation passed; `Ran 346 tests in 5.247s`; synthetic MP4/FFprobe workflow step passed.
+- Hosted Windows job `138467604749`: compilation passed; `Ran 346 tests in 16.520s`; synthetic MP4/FFprobe workflow step passed.
+- Both jobs checked out merge ref SHA prefix `941f516`, merging audited head into base `4dce542aa59023a7dc0ca9c61badecf4f0734f59`; raw-head-only checkout NOT DEMONSTRATED.
+- Both platforms ran the same 346-test suite, not 692 unique tests.
+- Both logs report `upload_performed=false`, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- PR #302 reviews and conversation comments were empty at audit time. Independent review NOT RECORDED. Local tests and owner-device Windows verification were not performed.
+
+### Safety and continuation
+
+- PR #302 remains OPEN / DRAFT / UNMERGED. This audit does not authorize merging PR #302 or its parent stack.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live uploads and public publishing remain disabled.
+- No credentials/tokens, OAuth session, real media, network upload, public publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action occurred.
