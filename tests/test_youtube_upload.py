@@ -523,16 +523,18 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
     def test_profile_config_outside_ignored_secrets_directory_is_rejected(self):
         external = self.root / "destination_profiles_external.json"
         external.write_text(self.config.read_text(encoding="utf-8"), encoding="utf-8")
-        with self.assertRaisesRegex(PermissionError, "must resolve inside"):
-            load_destination_profile(external, "aroanmol7", repository_root=self.root)
+        with patch.object(Path, "read_text", side_effect=AssertionError("external config must not be read")):
+            with self.assertRaisesRegex(PermissionError, "must resolve inside"):
+                load_destination_profile(external, "aroanmol7", repository_root=self.root)
 
     def test_external_directory_named_secrets_is_rejected(self):
         external_secrets = self.root / "external" / ".secrets"
         external_secrets.mkdir(parents=True)
         external = external_secrets / "destination_profiles.json"
         external.write_text(self.config.read_text(encoding="utf-8"), encoding="utf-8")
-        with self.assertRaisesRegex(PermissionError, "this repository .secrets"):
-            load_destination_profile(external, "aroanmol7", repository_root=self.root)
+        with patch.object(Path, "read_text", side_effect=AssertionError("external config must not be read")):
+            with self.assertRaisesRegex(PermissionError, "this repository .secrets"):
+                load_destination_profile(external, "aroanmol7", repository_root=self.root)
 
     def test_metadata_dry_run_does_not_require_oauth_profile(self):
         args = [
