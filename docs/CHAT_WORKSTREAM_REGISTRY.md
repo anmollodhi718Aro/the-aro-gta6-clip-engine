@@ -1563,3 +1563,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - This audit branch's own exact-head CI must be inspected independently after documentation changes; do not transfer PR #249's CI result.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending explicit owner approval, canonical implementation selection, independent security review, owner-controlled integration, owner-device verification, owner-selected device-appropriate `--max-upload-bytes`, and separately authorized real-media acceptance.
 - Documentation-only; no credentials/OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0170 exact-head CI closeout — 2026-11-24
+- PR #249 audited head `75854f6cbead27c42d723a72f883eb7f804665f9` ran Python CI #45314464029 (run 1135), FAILURE on Ubuntu and hosted Windows.
+- Ubuntu job #138177936952: compilation passed; 340 tests ran in 3.391s, 339 passed and 1 failed. Hosted-Windows job #138177937472: compilation passed; 340 tests ran in 18.941s, 339 passed and 1 failed.
+- Both platforms failed the same stale fixture, `test_cli_passes_exact_clip_and_source_to_upload_boundary` at `tests/test_youtube_upload.py:655`. It invokes `--upload` without the newly required `--max-upload-bytes`, so the CLI correctly exits 2 before the mocked upload boundary. Preserve the production fail-closed guard; follow up with a test-only explicit positive limit.
+- Both jobs checked out `refs/remotes/pull/249/merge` at merge SHA `764f9ac098803f8bb8c77656157938db16edb186`, merging PR #249 head into base `d8cb0b25546e864b89fad65520010a6338ed919c`. Raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic MP4/FFprobe was skipped on both platforms because the unit-test step failed. Combined status had zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED.
+- PR #249 is NOT CI_VERIFIED. No workflow retry or local test run was performed. The same 340-test suite ran on each platform; do not count these as 680 unique tests.
+- Audit report: `docs/ARO_CHAT_0170_PR249_CI_AUDIT.md`. This audit branch's own exact-head CI remains separate and must be checked independently.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled pending explicit owner approval and all security/acceptance gates. Documentation-only; no OAuth, credentials, real media, upload, publishing, retry, merge, retarget, deployment, or destructive action.
