@@ -199,3 +199,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Branch: `workstream/aro-chat-0217-upload-error-cleanup-test-2026-11-24`, based on `workstream/aro-chat-0216-close-upload-media-handle-2026-11-24`.
 - Test commit: `707a7a882fa452bc512cc77062d0e8f0b9801c0d`; report: `docs/ARO_CHAT_0217_UPLOAD_ERROR_CLEANUP_TEST.md`.
 - Production code unchanged. Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. Synthetic/mock-only, no OAuth, real media, upload, merge, deployment or publishing. Issue #68 remains open; live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0218 — verify snapshot cleanup when media close fails (2026-11-24)
+- Add a test-only regression for the nested cleanup path when the retained `MediaFileUpload._fd.close()` raises.
+- Use a synthetic local snapshot and mocked API; the wrapped stream closes its underlying handle, then raises a deterministic exception.
+- Assert the close exception propagates, the stream is closed, snapshot cleanup is attempted exactly once, the snapshot file is removed, and the API insert is attempted exactly once.
+- Branch: `workstream/aro-chat-0218-media-close-failure-cleanup-2026-11-24`, based on PR #335 head `2779aee7b752433b72753ea77419f8ce3d1ae806`.
+- Test commit: `9c5a7578dfd441fa72ea542b8487371f5826a83c`; report: `docs/ARO_CHAT_0218_MEDIA_CLOSE_FAILURE_CLEANUP.md`.
+- Production code unchanged. Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. Synthetic/mock-only; no OAuth, credentials, real media, upload, merge, deployment, or publishing. Issue #68 remains OPEN; live uploads/public publishing disabled.
