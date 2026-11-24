@@ -248,3 +248,15 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 ### Latest CI handoff — ARO-CHAT-0218
 - Private-only uploader guard remains in place. Run #45433336438 exposed a stale error-message assertion; updated it in commit `52c168d4a389ab7a99bff5f660708382d00079df`.
 - Exact-head run #45433572590 is in progress on Ubuntu and hosted Windows. Verify both jobs before claiming success. PR #339 remains draft/open/unmerged; no live uploads or publishing.
+
+
+### ARO-CHAT-0218 exact-head CI closeout — 2026-11-24
+
+- PR #339 head `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722` passed its own associated Actions run #45433728254.
+- Ubuntu: compile passed; 351 tests passed; synthetic MP4/FFprobe passed.
+- Hosted Windows: compile passed; the same 351 tests ran, 3 FIFO-only tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed.
+- Both jobs checked out merge ref `5f5bf9f` (PR head merged into base `5ef44f391720966138b2eec1815dd223fb345dbd`); raw-head-only checkout NOT DEMONSTRATED. These are not 702 unique tests.
+- Synthetic logs confirm `upload_performed=false`, `publishing_enabled=false`, and `manual_review_required=true`. No GTA 6/third-party footage, OAuth, or network upload was used.
+- Scoped review of this PR's own delta found no defect in media-handle cleanup or PRIVATE-only restrictions. This is not independent security approval of the inherited uploader/approval lineage; PR #339 has no recorded review submissions or inline review threads.
+- PR #339 remains OPEN/DRAFT/UNMERGED. Parent PR #328 ancestry is separately non-mergeable; do not merge/rebase/retarget automatically. Issue #68 remains OPEN and owner-assigned, not approved for live use.
+- Next: obtain independent security review of the full consolidated uploader/approval lineage and reconcile the stacked PR ancestry. Keep live uploads/public publishing disabled; no OAuth, credentials, real media, network upload, merge, deployment, or publishing.
