@@ -108,3 +108,9 @@ Date: 2026-11-24
 - This closes the earlier documentation's "current documentation-only tip CI pending" status for the exact current branch tip. The run is associated with the PR head, but hosted CI does not establish owner-device Windows acceptance or real-media behavior. OAuth, network upload, and public publishing were not exercised.
 - PR #339 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN. Independent security review of the full consolidated uploader/approval lineage is NOT RECORDED. Parent PR #328 remains non-mergeable against its base; dependency ancestry reconciliation remains required.
 - Next authorized task: review the full uploader/approval lineage independently and map the PR #311 → #328 → #339 dependency graph using exact commit ancestry. Do not merge, rebase, retarget, access OAuth credentials, upload real media, deploy, or publish. Keep all live/public upload gates disabled.
+
+
+### CI scope clarification after documentation updates
+- Run #45434843065 validates the functional/code-and-test head `a08a69cfa687479c58ce72a322b1357761a92723` only.
+- The subsequent commits in this workstream update documentation only (this report, startup handoff, and registry); no application code or tests changed after the validated functional head.
+- The resulting documentation-only branch tip has no separately associated CI run returned and is therefore NOT independently CI-VERIFIED. Do not transfer the functional-head green result to the later documentation-only tip.
