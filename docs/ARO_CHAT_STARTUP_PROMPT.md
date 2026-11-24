@@ -215,6 +215,7 @@ For the current first-test upload priority:
 
 - Current documentation reconciliation workstream: ARO-CHAT-0202 / ARO-GTA-P2-202.
 - Branch: `workstream/aro-chat-0202-uploader-docs-privacy-reconciliation-2026-11-24`; base/start SHA: prior draft branch head `ddbb1506df96b5d6c085d735acfeb32315f920ae`.
+- Current head after final documentation-example correction: `462b4e3827eea02a9c922145bcccaba11c883381`.
 - Corrected README and `docs/YOUTUBE_UPLOAD.md`: the current uploader permits PRIVATE live staging only. The approval writer and upload boundary reject unlisted/public visibility. Do not restore public/unlisted instructions unless the implementation and owner security review are deliberately changed.
 - Current OAuth scopes are `openid`, `youtube.readonly`, and `youtube.upload`; do not document an `email` scope.
 - Destination profiles must resolve inside this checkout's `.secrets/`; per-profile token files are isolated under `.secrets/tokens/`. Approval binds the verified Google subject, channel, clip/source, PRIVATE visibility, exact file SHA-256, review time and expiry. Current source rights are rechecked before the upload API call.
