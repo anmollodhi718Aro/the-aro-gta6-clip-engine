@@ -1811,3 +1811,17 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Combined status returned zero entries. PR #267 is OPEN / DRAFT / UNMERGED; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED.
 - Checkout refs and numeric unittest output were not exposed. Do not claim raw-head-only checkout or infer test count. Re-fetch live head and jobs before closeout.
 - Documentation-only; no workflow retry, merge, rebase, retarget, deploy, OAuth, credentials, real media, upload, publishing, or destructive action. Keep Issue #68 and live/public publishing gates closed.
+
+
+
+### ARO-CHAT-0185 exact-head audit closeout — 2026-11-24
+
+- Audited PR #267 final live head `25ebb3731c9aaf159e67f744c4ae33047a013f7a`; exact-head run #45380924403 (run 1187) passed on Ubuntu job #138399418585 and hosted-Windows job #138399418505.
+- Both platforms passed setup, checkout, FFmpeg/FFprobe installation, Python setup, compilation, and the same 27 unit/synthetic-media integration tests. This is 27 shared test cases executed on two platforms, not 54 unique tests.
+- Combined status returned zero entries. PR #267 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. Checkout refs/raw unittest output were not exposed by the available audit record; raw-head-only checkout NOT DEMONSTRATED.
+- PR #267 remains OPEN / DRAFT / UNMERGED. Real-media acceptance and owner-device Windows verification remain NOT VERIFIED.
+- Audit PR #270 head `34d1196757b5d6922391b0f908425a902d2bf455`, base SHA `25ebb3731c9aaf159e67f744c4ae33047a013f7a), passed its own run #45381311414 (run 1191). Ubuntu job #138400743044 and hosted-Windows job #138400742544 both checked out `refs/remotes/pull/270/merge` at merge SHA `3bc6672e68d036fc304b527c3513bb415b8d9708`, compiled successfully, passed the same 27 tests, and passed synthetic animation render/FFprobe validation.
+- PR #270's CI verifies its merge ref only; raw-head-only checkout NOT DEMONSTRATED. Its combined status, review submissions, inline threads, and conversation comments returned zero entries. Independent review NOT RECORDED. PR #270 remains OPEN / DRAFT / UNMERGED.
+- Reports and audit evidence: `docs/ARO_CHAT_0185_PR267_CI_AUDIT.md`. Do not transfer CI between PRs or SHAs.
+- Workstream status: documentation audit IMPLEMENTED; PR #267 exact-head CI_VERIFIED; PR #270 audit-branch merge-ref CI_VERIFIED. Independent review, owner-device Windows, and real-media acceptance remain NOT VERIFIED.
+- Issue #68 remains OPEN. Keep live uploads/public publishing disabled. No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, network upload, publishing, or destructive action.
