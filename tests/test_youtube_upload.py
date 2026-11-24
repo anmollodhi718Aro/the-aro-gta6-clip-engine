@@ -155,7 +155,7 @@ class YouTubeUploadTests(unittest.TestCase):
         discovery = types.ModuleType("googleapiclient.discovery")
         http = types.ModuleType("googleapiclient.http")
         discovery.build = Mock(return_value=youtube)
-        http.MediaFileUpload = Mock(return_value=object())
+        http.MediaIoBaseUpload = Mock(side_effect=lambda stream, **kwargs: stream)
         package.discovery = discovery
         package.http = http
         return {
@@ -163,6 +163,40 @@ class YouTubeUploadTests(unittest.TestCase):
             "googleapiclient.discovery": discovery,
             "googleapiclient.http": http,
         }
+
+    def test_upload_sends_the_exact_approved_snapshot_if_source_path_changes(self):
+        db_path = self.root / "source_rights.sqlite3"
+        self._write_upload_rights(db_path)
+        youtube = Mock()
+        uploaded_bytes = []
+        def capture_insert(**kwargs):
+            uploaded_bytes.append(kwargs["media_body"].read())
+            request = Mock()
+            request.execute.return_value = {"id": "snapshot-video", "status": {"privacyStatus": "private"}}
+            return request
+        youtube.videos.return_value.insert.side_effect = capture_insert
+        gate_calls = 0
+        def approval_gate(*args, **kwargs):
+            nonlocal gate_calls
+            gate_calls += 1
+            if gate_calls == 2:
+                self.video.write_bytes(b"unapproved replacement bytes")
+        with patch.dict(sys.modules, self._mock_google_modules(youtube)):
+            with patch.dict(os.environ, {"ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123", "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456"}):
+                with patch("backend.app.youtube_upload._authorize_google", return_value=object()), \
+                     patch("backend.app.youtube_owner_approval.verify_authenticated_channel_owner", return_value=self.owner), \
+                     patch("backend.app.youtube_owner_approval.require_current_owner_approval", side_effect=approval_gate):
+                    result = upload_video(
+                        self.video, {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                        client_secrets=self.client_secrets, token_path=self.root / "token.json",
+                        rights_report_path=self.report, approval_record_path=self.root / "approval.json",
+                        rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
+                        owner_approved=True, rights_confirmed=True,
+                    )
+        self.assertEqual(result["video_id"], "snapshot-video")
+        self.assertEqual(gate_calls, 2)
+        self.assertEqual(uploaded_bytes, [b"synthetic video bytes"])
+        self.assertEqual(self.video.read_bytes(), b"unapproved replacement bytes")
 
     def test_upload_rechecks_oauth_owner_and_live_rights_before_api_insert(self):
         db_path = self.root / "source_rights.sqlite3"
