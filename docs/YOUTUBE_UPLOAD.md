@@ -40,7 +40,7 @@ For separate destinations, create a local file at `.secrets/youtube_destination_
 }
 ```
 
-Replace every placeholder only after checking the exact channel ID and Google account identity in that channel's own authorized OAuth session. Do not infer a channel ID from its public handle. Profile names must be unique and every profile must map to a distinct YouTube channel ID. Each profile gets its own token file under `.secrets/tokens/<profile>.json`; the CLI refuses a shared-token override when a profile is selected.
+Replace every placeholder only after checking the exact channel ID and Google account identity in that channel's own authorized OAuth session. Do not infer a channel ID from its public handle. Profile names must be unique without regard to letter case (to avoid collisions on case-insensitive filesystems), and every profile must map to a distinct YouTube channel ID. Each profile gets its own token file under `.secrets/tokens/<profile>.json`; the CLI refuses a shared-token override when a profile is selected. In profile mode, the approval record is also isolated: `--approval-record` must be stored beneath a directory whose resolved final name exactly matches the selected profile (for example, `local_approvals/aroanmol7/clip-001.json`). This prevents two destination profiles from pointing at the same approval-record directory.
 
 Use one profile per approval and upload invocation:
 
