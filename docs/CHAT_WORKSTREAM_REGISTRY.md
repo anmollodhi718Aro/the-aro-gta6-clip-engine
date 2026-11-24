@@ -1211,3 +1211,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Follow-up exact-head run #45465232908 completed SUCCESS: Ubuntu and hosted Windows both compiled, passed the complete unit-test step, and rendered/validated a synthetic MP4 with FFprobe. This does not establish real-media acceptance. Exact test counts were not exposed in the available job summary.
 - Local tests NOT RUN in the connector session; independent review NOT RECORDED. PR #362 remains draft/open/unmerged.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0232 — PR #362 SQLite cleanup fix review (2026-11-25)
+- Workstream: ARO-GTA-P1-232; branch `workstream/aro-chat-0232-pr362-independent-test-fix-review-2026-11-25`; based on PR #363 handoff-sync head `332be0ef6063392388a98608c179a046f4d381be`.
+- Bounded static review of PR #362's test-only fix: `contextlib.closing(sqlite3.connect(...))` deterministically closes the auxiliary trigger-creation connection before Windows temporary-directory cleanup. The registry's own `_connect()` already closes its separate connection in a `finally` block.
+- The trigger regression continues to assert that non-duplicate `sqlite3.IntegrityError` propagates and no audit event is written. One neighboring comment was removed, but the corresponding authorization assertions remain.
+- No defect identified in the narrow fix. This is not an independent external reviewer sign-off or a full security audit. PR #362 review submissions/threads were empty at inspection.
+- CI evidence for PR #362 remains run [#45465232908](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45465232908), SUCCESS on merge ref `6ca5d4d4572fc566ef0a7281a1e79c06a90d4297` containing head `5709bf02a1ba57b1021520bb4678243fb94abb11`: Ubuntu 365 passed; hosted Windows 365 executed, 361 passed and 4 skipped; both passed synthetic MP4/FFprobe. Same suite, not 730 unique tests; raw-head-only checkout NOT DEMONSTRATED.
+- PR #363 exact-head workflow lookup for `332be0ef6063392388a98608c179a046f4d381be` returned zero associated runs and zero combined status checks. Do not transfer PR #362 CI to PR #363.
+- PR #362 and #363 remain DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
