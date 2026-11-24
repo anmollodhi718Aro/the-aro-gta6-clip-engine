@@ -243,3 +243,8 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Code commit `e21f377583df944f5489e7d6a359bb5d2d1e6438`; test commit `598c9c488c34143c6cb8c0a9d86208e3e7ef74b1`; docs commit `51dbcdf38c59c6f74d239014fbb92019b6d50201`.
 - CI run #45433283842 cancelled before compile/tests; run #45433336438 pending. Exact-head CI NOT VERIFIED. PR #339 draft/open/unmerged; parent PR #328 currently non-mergeable. Independent review NOT RECORDED; issue #68 OPEN.
 - Do not merge, rebase, retarget, access OAuth credentials, upload real media, deploy, or publish. Continue code/tests and evidence collection only.
+
+
+### Latest CI handoff — ARO-CHAT-0218
+- Private-only uploader guard remains in place. Run #45433336438 exposed a stale error-message assertion; updated it in commit `52c168d4a389ab7a99bff5f660708382d00079df`.
+- Exact-head run #45433572590 is in progress on Ubuntu and hosted Windows. Verify both jobs before claiming success. PR #339 remains draft/open/unmerged; no live uploads or publishing.
