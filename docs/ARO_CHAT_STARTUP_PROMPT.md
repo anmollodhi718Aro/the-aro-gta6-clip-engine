@@ -604,3 +604,17 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Keep PR #274 draft-only until owner review. Do not infer independent approval, owner-device Windows acceptance, or real-media verification from hosted CI.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled until authenticated channel-owner binding, exact per-clip approval, current rights/scope checks, independent security review, and owner acceptance are all evidenced.
 - No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real-media upload, or public publishing is authorized by this baseline.
+
+
+## Latest continuation baseline — ARO-CHAT-0189 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0189 | PR #276 Exact-Head CI Audit`; workstream ARO-GTA-P1-189.
+- Branch: `workstream/aro-chat-0189-pr276-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #276 exact head `e425fbb9b789db9ba8746a0cb1a568dca28ba88a`.
+- Task: documentation-only independent audit of PR #276's own exact-head-associated Actions run, both platform jobs, checkout refs, compile/tests, synthetic media validation, combined status, and review state.
+- Collision check: `workstream/aro-chat-0188-pr276-exact-head-ci-audit-2026-11-24` already existed. It was left untouched; ARO-CHAT-0189 was selected after confirming no matching PR or branch existed.
+- PR #276 exact head `e425fbb9b789db9ba8746a0cb1a568dca28ba88a` passed run #45384791453 (run 1205). Ubuntu job #138412815303 and hosted-Windows job #138412814857 both passed FFmpeg/FFprobe setup, compilation, and the same 29-test suite; synthetic animation render-and-probe passed on both.
+- Both jobs checked out PR #276 merge ref at `6695c711dd1c317565ae12f9f01deafe4e63d260`, merging audited head into base `ab64dbfe566fa6d8f5ed1debeacd93cbf5b27eaf`. Raw-head-only checkout NOT DEMONSTRATED.
+- Combined status returned zero entries; reviews and comments were empty; independent review NOT RECORDED. Owner-device Windows and authorized real-media acceptance NOT VERIFIED.
+- Report: `docs/ARO_CHAT_0189_PR276_CI_AUDIT.md`. Do not transfer this run to any other PR or SHA.
+- Documentation-only; no workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled until every authenticated owner-identity, per-clip approval, rights/scope, independent review, and owner-acceptance gate is evidenced.
