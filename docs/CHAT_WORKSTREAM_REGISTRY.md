@@ -1264,3 +1264,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Test-only commit `77adf4b3541792b1151159bc5a2f02ec93a2369c` changes those two inputs to actual newline and tab characters, exercising the existing fail-closed whitespace/control-character guard.
 - No production behavior changed. Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI must be inspected on the final synchronized branch head; earlier run #45486979384 failed with both jobs exposing zero steps and no logs, cause NOT VERIFIED.
 - PR #371 remains draft/open/unmerged; independent review NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+### ARO-CHAT-0235 source URL test correction — 2026-11-25
+
+- Exact-head static review found the malformed URL test coupled all invalid inputs to one error-message phrase, although whitespace/control/backslash rejection intentionally raises a distinct, more specific `ValueError` message.
+- Test-only correction: `4a010129a1822e7a6658491981f28725e2be12fe`; report update: `fc6cd623e2aa022437b3a257079be46efad10691`.
+- The exact-head workflow lookup returned no run for the test correction at inspection. Local tests NOT RUN; Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED.
+- Earlier run `45486979384` failed on Ubuntu and hosted Windows with zero exposed steps and no logs. Failure cause remains NOT VERIFIED; do not attribute it solely to this static finding.
+- Preserve PR #371 as DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
