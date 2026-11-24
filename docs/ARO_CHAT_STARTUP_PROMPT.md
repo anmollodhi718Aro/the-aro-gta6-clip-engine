@@ -640,3 +640,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 ### ARO-CHAT-0190 audit-branch CI checkpoint — 2026-11-25
 - Draft audit PR #372 head `756d8c09e0633d44714e3d30b046fd12bc534c95`: zero associated PR workflow runs, zero combined status entries, no reviews. Its own CI PENDING / NOT VERIFIED; no jobs/logs. PR #372 remains OPEN / DRAFT / UNMERGED.
 - Do not transfer CI evidence from PR #279, PR #278, or PR #282. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### ARO-CHAT-0190 audit PR #372 exact-head CI correction — 2026-11-25
+- Current PR #372 head at audit: `484c2cfcfe7d579dd25ebaa4188405d64e088f53`; associated run #45495116038 completed FAILURE.
+- Ubuntu and hosted-Windows jobs both expose zero steps and no logs (`steps=null`, `logs_url=null`). Failure cause NOT VERIFIED; no source-code failure is established. Compile/tests, checkout refs, and synthetic media validation NOT VERIFIED.
+- Combined status zero entries; reviews/threads empty. PR #372 remains OPEN / DRAFT / UNMERGED. Do not transfer CI from another PR/SHA or retry workflows without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, uploads, publishing, merge, rebase, retarget, deployment, or destructive action.
