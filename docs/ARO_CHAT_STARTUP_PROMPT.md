@@ -312,3 +312,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Updated the same-inode symlink-substitution regression to simulate the post-open pathname result via a mocked `Path.lstat()`, matching the established approval-record regression pattern and avoiding a physical rename of an open file on Windows.
 - Test-only correction commit: `6829261261175dd2f4693b0d8c62685f69fb6298`. Production code unchanged.
 - The correction is a portability fix hypothesis pending new exact-head Ubuntu/hosted-Windows CI. Do not claim the previous run passed overall.
+
+
+## Current continuation — ARO-CHAT-0225 stable rights-report reads (2026-11-24)
+- Workstream: ARO-GTA-P1-225; parent PR #353; branch `workstream/aro-chat-0225-stable-rights-report-read-2026-11-24`, based on PR #353 head `03071572e8b59bf3f150617e26ea7fd49ca57212`.
+- Finding: PR #353 binds the read to a verified descriptor and stable path identity, but does not check whether the same inode is modified in place while its bytes are read.
+- Change: read bytes from the verified descriptor, compare device/inode/size/mtime_ns/ctime_ns before and after, verify byte count, then decode and parse JSON.
+- Regression: mocked descriptor metadata mutation during read must fail closed.
+- Parent PR #353 exact-head workflow lookup returned zero runs; no CI pass is inferred. New branch CI pending; local tests not run; independent review not recorded.
+- Preserve draft ancestry. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
