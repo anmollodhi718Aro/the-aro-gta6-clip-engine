@@ -500,3 +500,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED.
 - Parent PR #371 run #45494763114 failed with zero exposed steps and BlobNotFound logs; cause NOT VERIFIED. Do not attribute it to application code.
 - Keep this follow-up DRAFT / OPEN / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## Latest continuation — ARO-CHAT-0237 (2026-11-25)
+- Suggested chat title: `ARO-CHAT-0237 | Strict IPv6 URI Zone Identifier Validation`.
+- Workstream: ARO-GTA-P1-237; branch `workstream/aro-chat-0237-ipv6-zone-url-validation-2026-11-25`; base PR #373 head `ce0f784dcaace436214ae94c04e9a81b8f767a5d`.
+- Static review found malformed IPv6 URI zone syntax accepted because Python's `ipaddress.IPv6Address` accepts scoped literals with an unescaped percent delimiter. URI syntax requires the delimiter `%25`.
+- Production commit `85ba117d3e8a4dbe9f68a52996358719c7cee940` validates the encoded delimiter and ZoneID before IPv6 parsing. Test commit `9b0f0bd053dc63621f90e6359b8f22108b1428b4` covers malformed and valid scoped IPv6 URL cases.
+- Report: `docs/ARO_CHAT_0237_IPV6_ZONE_URL_VALIDATION.md`. Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED.
+- Draft-only; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
