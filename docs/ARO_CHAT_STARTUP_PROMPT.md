@@ -618,3 +618,16 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0189_PR276_CI_AUDIT.md`. Do not transfer this run to any other PR or SHA.
 - Documentation-only; no workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled until every authenticated owner-identity, per-clip approval, rights/scope, independent review, and owner-acceptance gate is evidenced.
+
+
+## Latest continuation — ARO-CHAT-0191 (2026-11-24)
+
+- Exact chat title: `ARO-CHAT-0191 | PR #281 Exact-Head CI Audit`; Workstream ID: ARO-GTA-P1-191.
+- Branch: `workstream/aro-chat-0191-pr281-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #281 head `0856679f801d6942910eb3631e6d26d1feeb16bb`.
+- Task: documentation-only independent exact-head CI audit of PR #281's own Actions run, Ubuntu/hosted-Windows jobs, checkout refs, compilation, 29-test suite, synthetic animation render/probe, combined status, and review state.
+- PR #281 remains OPEN / DRAFT / UNMERGED. Its head `0856679f801d6942910eb3631e6d26d1feeb16bb` has commit-associated run [#45385325466](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45385325466) (run 1213), conclusion SUCCESS.
+- Ubuntu job #138414630078 and hosted-Windows job #138414630655 both passed FFmpeg/FFprobe setup, Python 3.11, compilation, and the same 29-test suite; synthetic animation render-and-probe passed on both.
+- Both jobs checked out `refs/remotes/pull/281/merge` at merge SHA `c42c7927f7d1c6f6dcdb4f4c3c67441479067cc7`. Raw-head-only checkout NOT DEMONSTRATED.
+- Combined status returned zero entries; reviews and comments were empty; independent review NOT RECORDED. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
+- Report: `docs/ARO_CHAT_0191_PR281_CI_AUDIT.md`. This run applies only to PR #281's audited SHA and must not be transferred to another PR or SHA.
+- Documentation-only. No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled pending all security and owner-acceptance gates.
