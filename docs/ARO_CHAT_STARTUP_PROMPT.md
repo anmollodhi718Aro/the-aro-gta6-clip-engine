@@ -303,3 +303,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Commits: production `b926d093c294fb4639bc71f823a87ab498d5f664`; tests `87a9845d867b20366d9c25f542f7fbf342576970`; report `c8a1d84eb92e61ac2406a36c257d7760f5ea834c`.
 - Status: IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED.
 - No OAuth, credentials/tokens, real media, network upload, publishing, merge, rebase, retarget, deployment or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### Latest CI correction — ARO-CHAT-0224 — 2026-11-24
+- Initial PR #353 head `b0d8afedbb6b15e326b7ec309823ca926314c75a` triggered run #45443443832.
+- Ubuntu completed compile, unit tests and synthetic MP4/FFprobe successfully.
+- Hosted Windows completed compilation but the unit-test step failed; the connector exposed no failing test name or annotation text. Synthetic render was skipped after the test failure.
+- Updated the same-inode symlink-substitution regression to simulate the post-open pathname result via a mocked `Path.lstat()`, matching the established approval-record regression pattern and avoiding a physical rename of an open file on Windows.
+- Test-only correction commit: `6829261261175dd2f4693b0d8c62685f69fb6298`. Production code unchanged.
+- The correction is a portability fix hypothesis pending new exact-head Ubuntu/hosted-Windows CI. Do not claim the previous run passed overall.
