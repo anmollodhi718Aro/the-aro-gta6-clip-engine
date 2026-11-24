@@ -80,6 +80,7 @@ class SourceRightsRegistry:
             raise ValueError("missing required rights fields: " + ", ".join(missing))
         if not isinstance(actor, str) or not actor.strip():
             raise ValueError("actor is required")
+        actor = actor.strip()
         raw_uses = record["allowed_uses"]
         raw_platforms = record["platforms"]
         if not isinstance(raw_uses, (list, tuple, set, frozenset)):
