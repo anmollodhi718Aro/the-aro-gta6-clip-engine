@@ -387,11 +387,14 @@ def main() -> int:
         tags = [tag.strip() for tag in args.tags.split(",") if tag.strip()]
         if args.approve_clip and args.upload:
             raise PermissionError("--approve-clip and --upload must be separate invocations")
-        expected_subject, expected_channel, token_path = resolve_destination_identity(
-            config_path=args.destination_config,
-            profile_name=args.destination_profile,
-            token_override=args.token,
-        )
+        expected_subject = expected_channel = None
+        token_path = args.token or Path("token.json")
+        if args.approve_clip or args.upload:
+            expected_subject, expected_channel, token_path = resolve_destination_identity(
+                config_path=args.destination_config,
+                profile_name=args.destination_profile,
+                token_override=args.token,
+            )
         video, body = validate_upload(
             args.video, args.rights_report, title=args.title,
             description=args.description, tags=tags, privacy=args.privacy,
