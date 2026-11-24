@@ -997,3 +997,5 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Source commit: `07fc209ff4d68b7cc5236c834bcea42de95728f3`; test commit: `b37b3d694c4e6dc7f3c291a242f925dabdd0bc3e`; report: `docs/ARO_CHAT_0210_POST_OPEN_PATH_IDENTITY.md`.
 - Status: IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. No test pass is claimed.
 - Draft-only; do not merge/rebase/retarget. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, or deployment. Keep live uploads/public publishing disabled.
+
+- Test portability follow-up: commit `d37681e6af75b6ff81da2c47c67cf2001fb55049` skips the new symlink substitution test only when symlink creation is unavailable, consistent with existing platform-specific tests.
