@@ -99,6 +99,74 @@ class YouTubeUploadTests(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             load_rights_report(self.root / "missing.json")
 
+    def test_rights_report_rejects_symlinks(self):
+        linked = self.root / "linked-rights-report.json"
+        try:
+            linked.symlink_to(self.report)
+        except (NotImplementedError, OSError) as exc:
+            self.skipTest(f"file symlinks are unavailable on this runner: {exc}")
+        with self.assertRaisesRegex(PermissionError, "regular file"):
+            load_rights_report(linked)
+
+    def test_rights_report_rejects_directories(self):
+        with self.assertRaisesRegex(PermissionError, "regular file"):
+            load_rights_report(self.root)
+
+    def test_rights_report_rejects_path_replacement_between_stat_and_open(self):
+        replacement = self.root / "replacement-rights-report.json"
+        replacement.write_text(self.report.read_text(encoding="utf-8"), encoding="utf-8")
+        displaced = self.root / "displaced-rights-report.json"
+        original_open = os.open
+
+        def replace_before_open(path, flags, *args, **kwargs):
+            if Path(path) == self.report:
+                Path(path).replace(displaced)
+                replacement.replace(self.report)
+            return original_open(path, flags, *args, **kwargs)
+
+        with patch("backend.app.youtube_upload.os.open", side_effect=replace_before_open):
+            with self.assertRaisesRegex(PermissionError, "changed while opening"):
+                load_rights_report(self.report)
+
+    def test_rights_report_rejects_fifo_replacement_without_blocking(self):
+        if not hasattr(os, "mkfifo"):
+            self.skipTest("FIFO creation is unavailable on this platform")
+        original_open = os.open
+
+        def replace_with_fifo_before_open(path, flags, *args, **kwargs):
+            if Path(path) == self.report:
+                Path(path).unlink()
+                os.mkfifo(path)
+            return original_open(path, flags, *args, **kwargs)
+
+        with patch("backend.app.youtube_upload.os.open", side_effect=replace_with_fifo_before_open):
+            with self.assertRaisesRegex(PermissionError, "regular file"):
+                load_rights_report(self.report)
+
+    def test_rights_report_rejects_same_inode_symlink_substitution_after_open(self):
+        probe = self.root / "symlink-capability-probe"
+        try:
+            probe.symlink_to(self.report)
+            probe.unlink()
+        except (NotImplementedError, OSError) as exc:
+            self.skipTest(f"file symlinks are unavailable on this runner: {exc}")
+        backup = self.root / "original-rights-report.json"
+        original_open = os.open
+
+        def replace_with_same_inode_symlink_after_open(path, flags, *args, **kwargs):
+            descriptor = original_open(path, flags, *args, **kwargs)
+            if Path(path) == self.report:
+                Path(path).replace(backup)
+                Path(path).symlink_to(backup)
+            return descriptor
+
+        with patch(
+            "backend.app.youtube_upload.os.open",
+            side_effect=replace_with_same_inode_symlink_after_open,
+        ):
+            with self.assertRaisesRegex(PermissionError, "regular file"):
+                load_rights_report(self.report)
+
     def test_rights_report_must_target_youtube_and_have_assets(self):
         report = json.loads(self.report.read_text(encoding="utf-8"))
         report["platform"] = "tiktok"

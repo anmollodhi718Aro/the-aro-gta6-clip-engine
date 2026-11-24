@@ -292,3 +292,14 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Next: preserve both draft PRs; do not rebase/retarget or merge. Continue with narrowly scoped static review and test/evidence gaps only. Keep all OAuth/live-upload/public-publishing and real-media acceptance gates closed until owner-controlled acceptance and independent security review.
 - Report: `docs/ARO_CHAT_0223_CI_AND_SCOPED_UPLOADER_REVIEW.md`.
 - No local tests, workflow retry/dispatch, OAuth, credentials, real media, network upload, deployment, or publishing were performed in this session.
+
+
+## Current continuation — ARO-CHAT-0224 rights-report safe-read hardening (2026-11-24)
+- Workstream: ARO-GTA-P1-224; parent PR #344; branch `workstream/aro-chat-0224-secure-rights-report-read-2026-11-24`.
+- Base: PR #350 latest branch head `aae75a12b2f921e56ed39acba36de5c669edc5f6`; PR #350's earlier audited head `b6d712a6438a132c3d8ca245b0a804bf8b929550` passed Ubuntu and hosted-Windows CI run #45442036637.
+- Finding: `load_rights_report()` used `Path.read_text()`, so the final pre-insert re-read did not reject symlinks/non-regular files or bind the opened descriptor to the path observed before and after open.
+- Change: require a regular file; use `O_NOFOLLOW | O_NONBLOCK` where supported; compare pre-open, descriptor and post-open device/inode; parse JSON from the verified descriptor.
+- Tests: symlink, directory, regular-file replacement between stat/open, FIFO replacement without blocking, and same-inode symlink substitution after open.
+- Commits: production `b926d093c294fb4639bc71f823a87ab498d5f664`; tests `87a9845d867b20366d9c25f542f7fbf342576970`; report `c8a1d84eb92e61ac2406a36c257d7760f5ea834c`.
+- Status: IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED.
+- No OAuth, credentials/tokens, real media, network upload, publishing, merge, rebase, retarget, deployment or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
