@@ -1844,3 +1844,16 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Combined status had zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. PR #278 remains OPEN / DRAFT / UNMERGED.
 - Report: `docs/ARO_CHAT_0188_PR276_CI_AUDIT.md`. This is audit-branch CI evidence only, not owner approval, merge approval, owner-device Windows verification, or real-media acceptance.
 - No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## Latest continuation baseline — ARO-CHAT-0191 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0191 | PR #283 Exact-Head CI Audit`; workstream ARO-GTA-P1-191.
+- Branch: `workstream/aro-chat-0191-pr283-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #283 head `4436861af51d1f371b0fe3a0f1ea6277ce139a5c`.
+- Task: documentation-only independent audit of PR #283's own exact-head Actions run, Ubuntu/hosted-Windows jobs, compile/tests, synthetic media, checkout refs, combined status entries, and review state.
+- PR #283 exact-head-associated Python CI run #45385467671 (run 1215) completed SUCCESS. Ubuntu job #138415107928 and hosted-Windows job #138415107383 each passed compile and the same 29-test suite; synthetic animation render-and-probe passed on both.
+- Test durations: 1.365s Ubuntu and 0.425s hosted Windows. These are two executions of the same 29-test suite, not 58 unique tests.
+- Both jobs checked out `refs/remotes/pull/278/merge` at merge SHA `84c60c85ef0ae7c048f2655f4d60bab6613f160a`, merging audited head `4436861af51d1f371b0fe3a0f1ea6277ce139a5c` into base `e425fbb9b789db9ba8746a0cb1a568dca28ba88a`. Raw-head-only checkout NOT DEMONSTRATED.
+- Combined status returned zero entries. PR #283 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #283 remains OPEN / DRAFT / UNMERGED.
+- Report: `docs/ARO_CHAT_0191_PR283_CI_AUDIT.md`. Do not transfer CI evidence to another PR or SHA.
+- Documentation-only; no application/workflow behavior changes, workflow retry, OAuth, credentials, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
