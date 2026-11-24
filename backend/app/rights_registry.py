@@ -11,6 +11,7 @@ from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 ALLOWED_USES = frozenset({"analyze", "edit", "publish"})
 
@@ -109,8 +110,22 @@ class SourceRightsRegistry:
         if not platforms:
             raise ValueError("at least one permitted platform is required")
         source_url = record["source_url"].strip()
-        if not source_url.startswith(("https://", "http://")):
-            raise ValueError("source_url must be an http(s) URL")
+        try:
+            parsed_source_url = urlsplit(source_url)
+            # Accessing .port validates its numeric syntax and range.
+            parsed_source_url.port
+        except ValueError as exc:
+            raise ValueError("source_url must be a valid http(s) URL") from exc
+        hostname = parsed_source_url.hostname
+        if (
+            parsed_source_url.scheme.lower() not in ("http", "https")
+            or not parsed_source_url.netloc
+            or not hostname
+            or any(character.isspace() for character in hostname)
+            or parsed_source_url.username is not None
+            or parsed_source_url.password is not None
+        ):
+            raise ValueError("source_url must be a valid http(s) URL without embedded credentials")
         values = (
             record["source_id"].strip(), source_url, record["grantor"].strip(),
             record["evidence_ref"].strip(), json.dumps(sorted(uses)),
