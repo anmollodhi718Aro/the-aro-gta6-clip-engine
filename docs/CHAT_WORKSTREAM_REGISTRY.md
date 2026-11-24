@@ -1550,3 +1550,16 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #249's own commit-associated workflow lookup returned zero runs and combined status returned zero entries; its CI is PENDING / NOT VERIFIED. Local tests NOT RUN.
 - GitHub currently reports PR #249 mergeable=true; it remains draft-only. No merge requested.
 - Do not transfer PR #248's empty CI observation or any other PR's CI to PR #249. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled.
+
+
+## Latest continuation baseline — ARO-CHAT-0170 (2026-11-24)
+
+- Current workstream: ARO-CHAT-0170 / ARO-GTA-P1-170 | independent exact-head CI audit of PR #249.
+- Branch: `workstream/aro-chat-0170-pr249-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #249 exact head `75854f6cbead27c42d723a72f883eb7f804665f9`.
+- Duplicate-work check: no ARO-CHAT-0170 branch existed at reservation. This is a new documentation-only audit branch; it does not reuse ARO-CHAT-0169.
+- PR #249 exact-head Python CI run #45314464029 (run 1135) was IN_PROGRESS at initial inspection. Ubuntu compilation passed and unit tests were running; hosted-Windows FFmpeg/FFprobe installation was running. Synthetic MP4/FFprobe and final conclusions remain pending.
+- Combined status returned zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. Do not infer a pass from empty status.
+- Report: `docs/ARO_CHAT_0170_PR249_CI_AUDIT.md`. Re-fetch PR #249's exact head and inspect both job logs before finalizing.
+- This audit branch's own exact-head CI must be inspected independently after documentation changes; do not transfer PR #249's CI result.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending explicit owner approval, canonical implementation selection, independent security review, owner-controlled integration, owner-device verification, owner-selected device-appropriate `--max-upload-bytes`, and separately authorized real-media acceptance.
+- Documentation-only; no credentials/OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
