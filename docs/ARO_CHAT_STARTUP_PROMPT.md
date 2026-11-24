@@ -583,3 +583,10 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Audit report: `docs/ARO_CHAT_0238_PR376_EXACT_HEAD_CI_AUDIT.md`; registry updated.
 - Continue from the existing PR #376 branch only. Keep PR OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled.
 - Do not retry/dispatch workflows without owner direction. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### Latest continuation — ARO-CHAT-0238 IDNA numeric-host regression (2026-11-25)
+- Continued existing PR #376 / ARO-GTA-P1-238 on its existing branch; no duplicate workstream or PR.
+- Added four URL rejection regressions for IDNA-normalized fullwidth digits, ideographic/fullwidth dot separators, and a fullwidth hexadecimal prefix. Test commit: `c8a0c210d3bccedfd7678a5fda20fe2b01b1a275`.
+- An isolated in-memory probe passed the four new malformed URL cases plus two existing numeric-suffix controls. Repository unit tests NOT RUN; exact-head CI NOT YET VERIFIED; independent review NOT RECORDED.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
