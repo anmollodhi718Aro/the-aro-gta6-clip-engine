@@ -509,3 +509,9 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Production commit `85ba117d3e8a4dbe9f68a52996358719c7cee940` validates the encoded delimiter and ZoneID before IPv6 parsing. Test commit `9b0f0bd053dc63621f90e6359b8f22108b1428b4` covers malformed and valid scoped IPv6 URL cases.
 - Report: `docs/ARO_CHAT_0237_IPV6_ZONE_URL_VALIDATION.md`. Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED.
 - Draft-only; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+### ARO-CHAT-0237 supersession correction — 2026-11-25
+- PR #373's base branch advanced five commits after ARO-CHAT-0237 forked. The newer PR #373 code rejects all percent signs in hostnames, intentionally disallowing scoped IPv6 zone identifiers; this supersedes ARO-CHAT-0237's support for correctly encoded scoped zones.
+- PR #377 is DIVERGED from current PR #373 base tip `47b264928ff7c3fa752868bc52427fae32dbadc4` (5 ahead / 5 behind; merge base `ce0f784dcaace436214ae94c04e9a81b8f767a5d`). Do not rebase, retarget, merge or transplant it. Preserve as draft evidence only; status SUPERSEDED / NOT FOR MERGE.
+- Re-audit PR #373's current exact head, CI and review state independently. Do not transfer PR #377 CI (none) or any predecessor results.
