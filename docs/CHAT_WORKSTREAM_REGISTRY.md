@@ -1701,3 +1701,16 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0177_PR257_CI_AUDIT.md`. Do not transfer PR #256's absent CI or any other PR/SHA's CI evidence.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending explicit owner approval, canonical security implementation, independent security review, owner-controlled integration, owner-device verification, owner-selected device-appropriate `--max-upload-bytes`, and authorized real-media acceptance.
 - Documentation-only. No OAuth, credentials/tokens, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0178 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0178 | PR #258 Exact-Head CI Audit`.
+- Workstream: ARO-GTA-P1-178; branch: `workstream/aro-chat-0178-pr258-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #258 exact head `fdea8dd8cf6fe47e189607a0d5f8f0e63b6f0f89`.
+- Task: documentation-only independent audit of PR #258's exact-head Actions runs/check-runs, combined status, review submissions, inline review threads, and conversation comments; inspect jobs/logs and compile/tests/synthetic MP4/FFprobe only if an exact-head run appears.
+- PR #258 exact-head Actions run listing contained no match for SHA `fdea8dd8cf6fe47e189607a0d5f8f0e63b6f0f89` or its head branch; commit check-runs returned 0 entries. Combined status was `pending` with 0 status entries. No pass is inferred.
+- PR #258 was OPEN / DRAFT / UNMERGED at inspection. Mergeability was not established (`mergeable=null`). Reviews, inline comments, and conversation comments were empty; independent review NOT RECORDED.
+- No matching run/jobs/logs were available; checkout refs, compilation, unit tests, and synthetic MP4/FFprobe are NOT VERIFIED / NOT RUN. Local tests NOT RUN; no workflow retry initiated.
+- Report: `docs/ARO_CHAT_0178_PR258_CI_AUDIT.md`. Do not transfer PR #257's absent CI or any other PR/SHA's CI evidence.
+- Issue #68 remains OPEN / NOT IMPLEMENTED with owner-approval/security gates unresolved. Keep live uploads/public publishing disabled.
+- Documentation-only. No OAuth, credentials/tokens, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
