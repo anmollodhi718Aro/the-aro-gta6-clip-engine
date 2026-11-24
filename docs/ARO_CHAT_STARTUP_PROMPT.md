@@ -273,3 +273,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - PR #346 run #45441375437 exposed the same test-only assertion mismatch on Ubuntu and hosted Windows: actual rejection is `no recorded rights for source source-2`; stale test expected `no recorded rights for source-2`.
 - Corrected the test expectation only; production uploader and fail-closed rights behavior are unchanged. Commit `9e349ae9fa6d66832b8d030e2ffe3bef55cdf35d`.
 - Next: verify exact-head Ubuntu and hosted-Windows CI for this branch, then independently review the complete rights/uploader security lineage. Local tests NOT RUN. No OAuth, credentials, real media, upload, merge, rebase, retarget, deployment, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0224 independent uploader security lineage audit — 2026-11-24
+- Documentation-only audit branch `workstream/aro-chat-0224-independent-uploader-security-lineage-audit-2026-11-24`, based on PR #350 head `b6d712a6438a132c3d8ca245b0a804bf8b929550`.
+- PR #350 exact-head run #45442036637 passed Ubuntu and hosted-Windows jobs, including compile, unit tests, and synthetic MP4/FFprobe. No raw-head-only or real-media acceptance is claimed.
+- Independent review found PR #344 / #350 still uses `Credentials.from_authorized_user_file()` after a symlink check; the separate PR #342 no-follow descriptor loader is not integrated into this branch. Treat the OAuth token path race as a blocker.
+- PR #342 and PR #344 are separate implementations sharing ARO-CHAT-0219 attribution. Preserve both histories and require owner selection before consolidation. No rebase, retarget, merge, OAuth, real media, upload, or publishing.
+- Report: `docs/ARO_CHAT_0224_UPLOADER_SECURITY_LINEAGE_AUDIT.md`. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
