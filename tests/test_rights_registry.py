@@ -2,6 +2,7 @@
 import sqlite3
 import tempfile
 import unittest
+from contextlib import closing
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -133,7 +134,7 @@ class SourceRightsRegistryTests(unittest.TestCase):
                          ["registered", "revoked"])
 
     def test_non_duplicate_integrity_error_is_not_misreported_as_duplicate(self):
-        with sqlite3.connect(self.registry.database_path) as db:
+        with closing(sqlite3.connect(self.registry.database_path)) as db:
             db.execute("""
                 CREATE TRIGGER reject_source_registration
                 BEFORE INSERT ON source_rights
@@ -147,7 +148,7 @@ class SourceRightsRegistryTests(unittest.TestCase):
 
     def test_revocation_and_audit_are_atomic_when_audit_insert_fails(self):
         self.registry.register(self.record)
-        with sqlite3.connect(self.registry.database_path) as db:
+        with closing(sqlite3.connect(self.registry.database_path)) as db:
             db.execute("""
                 CREATE TRIGGER reject_revocation_audit
                 BEFORE INSERT ON source_rights_audit
