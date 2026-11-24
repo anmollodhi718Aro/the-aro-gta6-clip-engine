@@ -1115,3 +1115,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - The registry stores operator-supplied permission evidence and does not authenticate grantors or establish legal sufficiency. Human rights/music/third-party/policy review remains mandatory.
 - PR #344 own-head CI remains NOT VERIFIED; PR #344 review submissions/threads were empty. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
 - Report: `docs/ARO_CHAT_0223_CI_AND_SCOPED_UPLOADER_REVIEW.md`. PR #350 remains DRAFT / OPEN / UNMERGED. No workflow retry, OAuth, credentials, real media, upload, merge, rebase, retarget, deployment, or publishing.
+
+
+### ARO-CHAT-0223 scoped uploader review follow-up — 2026-11-24
+- Additional P1 finding: the durable owner-approval record binds clip/source IDs, privacy, video SHA-256, reviewer subject/channel and timestamps, but not the exact rights-report/asset manifest reviewed.
+- The approval CLI does not display the full asset/source manifest. Upload-time rights checks reload the report and verify current publish grants, but an added source-bound asset that already has a valid grant can pass without the existing approval record proving that the owner reviewed that changed manifest.
+- Existing regression rejects an added unregistered source; it does not cover an added source that is already registered and publish-authorized.
+- Recorded in `docs/ARO_CHAT_0223_CI_AND_SCOPED_UPLOADER_REVIEW.md`. Static-review finding only; no uploader/approval code changed.
+- Required remediation: bind approval to a canonical rights-report/asset-manifest digest, display the reviewed manifest during approval, and reject upload if the final report digest differs. Add a mocked already-authorized-added-source regression.
+- Status: BLOCKED / WAITING_FOR_OWNER_APPROVAL under Issue #68. Do not implement this security change without explicit owner authorization. Keep live uploads/public publishing disabled.
