@@ -1740,3 +1740,16 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - This verifies only the audit branch's merge-ref CI. Audited PR #257 exact-head CI remains PENDING / NOT VERIFIED. Synthetic pattern/tone is not GTA 6 or authorized real-media acceptance; hosted Windows is not owner-device verification.
 - Workstream ARO-CHAT-0179: audit documentation IMPLEMENTED; audit-branch CI_VERIFIED on merge ref; audited PR #257 remains pending. No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / NOT IMPLEMENTED. Keep live/public uploads disabled pending explicit owner approval and all security/owner-acceptance gates.
+
+
+## Latest continuation baseline — ARO-CHAT-0180 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0180 | PR #261 Latest Exact-Head CI Audit`.
+- Workstream: ARO-GTA-P1-180; branch: `workstream/aro-chat-0180-pr261-live-head-ci-audit-2026-11-24`; base / starting SHA: PR #261 current live head `c75d3ae385e017a6e889a9ead636868179c25ff4`.
+- Task: documentation-only exact-head CI audit of PR #261's current head, run/jobs, check-runs, combined status, and review state.
+- PR #261 current exact-head Python CI run #45351979138 (run 1157) completed CANCELLED overall. Hosted-Windows job #138300402554 passed setup, checkout, Python, FFmpeg/FFprobe, compilation, full unittest step, and synthetic MP4/FFprobe. Ubuntu job #138300403021 was cancelled during FFmpeg/FFprobe installation; compile, unit tests, and synthetic MP4/FFprobe were skipped.
+- Check-runs are associated with exact head `c75d3ae385e017a6e889a9ead636868179c25ff4`; combined status is PENDING with zero entries. Numeric test count and checkout commit refs are NOT VERIFIED. No CI_VERIFIED claim for the complete cross-platform workflow.
+- Reviews and inline review comments are empty. Two owner-authored conversation status comments exist; independent review NOT RECORDED. No workflow retry; local tests NOT RUN.
+- Report: `docs/ARO_CHAT_0180_PR261_LIVE_HEAD_CI_AUDIT.md`. Do not transfer prior PR #261 head `86dc5b5bb5bb0966b930c9d64e819b41978bbafa` CI success.
+- PR #261 remains OPEN / DRAFT / UNMERGED. This workstream is documentation-only; no application behavior changes, OAuth, credentials, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+- Issue #68 remains OPEN. Bounded implementation/review authorization is recorded, but live uploads/public publishing remain disabled pending all security and owner-acceptance gates.
