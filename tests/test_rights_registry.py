@@ -207,6 +207,9 @@ class SourceRightsRegistryTests(unittest.TestCase):
             "https://[::1]:/video",
             "https://example.com:70000/video",
             "https://example..com/video",
+            "https://example.com../video",
+            "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.example/video",
+            "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd/video",
             "https://-example.com/video",
             "https://example-.com/video",
             "https://exa_mple.com/video",
@@ -226,6 +229,7 @@ class SourceRightsRegistryTests(unittest.TestCase):
         for index, source_url in enumerate((
             "http://example.com/video",
             "https://example.com/video",
+            "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd/video",
             "https://[::1]/video",
             "https://bücher.example/video",
             "https://example.com./video",
