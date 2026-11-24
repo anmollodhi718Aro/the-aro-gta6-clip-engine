@@ -386,3 +386,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Exact-head run #45465232908 completed SUCCESS. Ubuntu and hosted Windows both compiled, passed the unit-test step, and rendered/validated synthetic MP4 with FFprobe. Test counts were not exposed in the job summary. Synthetic output is not GTA 6 footage.
 - Local tests NOT RUN in this connector session; independent review NOT RECORDED. Keep PR #362 draft/open/unmerged pending review. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
 - No OAuth, credentials, real media, network upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0233 current continuation — 2026-11-25
+
+- Draft PR #365: `workstream/aro-chat-0233-rights-registry-api-input-validation-2026-11-25`, based on PR #363 handoff head `332be0ef6063392388a98608c179a046f4d381be`.
+- Hardened `SourceRightsRegistry.register()`, `authorize()`, and `revoke()` against malformed public API argument types; added focused regression tests. No rights decision logic, uploader/OAuth behavior, or publishing behavior changed.
+- Commits: source `eaae220859b6171185f7091d0af940ab0925dff6`; tests `6aea6b4a27cfff8383fc8264263cf6db7f0c6144`; report `dcb3a940228ca6e6db6a92a54253c1b6e3eefc24`; registry `36e6d7649a881418f2397cbf0eda2b8668876747`.
+- Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; independent review NOT RECORDED. Do not transfer PR #362's passing CI to PR #365.
+- A separate ARO-CHAT-0232 branch was already reserved for PR #362's independent test-fix review; do not duplicate or overwrite it.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
