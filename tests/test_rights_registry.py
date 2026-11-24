@@ -68,6 +68,20 @@ class SourceRightsRegistryTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.registry.register(invalid)
 
+    def test_rejects_scalar_or_malformed_scope_collections(self):
+        for invalid_uses in ("publish", ["publish", 7], [" "], []):
+            with self.subTest(allowed_uses=invalid_uses):
+                with self.assertRaises(ValueError):
+                    self.registry.register(dict(self.record, allowed_uses=invalid_uses))
+        for invalid_platforms in ("youtube", ["youtube", None], [" "], []):
+            with self.subTest(platforms=invalid_platforms):
+                with self.assertRaises(ValueError):
+                    self.registry.register(dict(self.record, platforms=invalid_platforms))
+
+    def test_rejects_non_string_actor_without_attribute_error(self):
+        with self.assertRaisesRegex(ValueError, "actor is required"):
+            self.registry.register(self.record, actor=None)
+
     def test_duplicate_source_id_cannot_broaden_active_grant(self):
         original = dict(self.record, allowed_uses=["analyze"])
         self.registry.register(original)
