@@ -963,3 +963,27 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #311 exact-head CI for `a95d1cbc22fd2d0653ba8c7b09ea227e76b29edb` was not yet visible at the initial post-creation lookup. Do not claim it passed until the final head's Actions jobs are inspected.
 - Issue #68 implementation is present in the base ancestry and its OIDC verifier is non-recursive there; the older PR #83 head still contains the historical recursive helper and must not be treated as the current implementation.
 - Issue #68 remains OPEN pending independent review and owner-device OAuth/channel verification. No real YouTube upload has occurred. Public publishing remains disabled.
+
+
+## ARO-CHAT-0207 — PR #313 case-collision regression and CI audit
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0207 |
+| Workstream ID | ARO-GTA-P1-207 |
+| Scope | Restore regression coverage ensuring destination profile names that differ only by case cannot collide on case-insensitive filesystems. The loader normalizes names with `casefold()` and fails closed on duplicate normalized names. |
+| Branch / PR | `workstream/aro-chat-0207-profile-case-collision-fix-2026-11-24` / [Draft PR #313](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/313) |
+| Implementation commit | `97ab5468a425d8d5fa490561ad4b0755198f74c4` |
+| Base PR #311 head | `c3d767fd055c80dbd395c5c8821a335ad9b3b258` |
+| Changed implementation file | `tests/test_youtube_upload.py` |
+| Audit report | `docs/ARO_CHAT_0207_PR313_CI_AUDIT.md` |
+| Status | Regression test IMPLEMENTED; merge-ref CI_VERIFIED; raw-head-only CI NOT DEMONSTRATED; independent review NOT RECORDED |
+
+### CI evidence
+- PR #313 Actions run [#45421425678](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45421425678) completed SUCCESS.
+- Ubuntu job #138541677895 and hosted-Windows job #138541678307 each passed compilation, the same 338-test suite, and synthetic MP4/FFprobe validation.
+- Both jobs checked out PR #313 merge ref `ec2c2da451ee766bc080be7fbafc51604964c05c`, merging implementation commit `97ab5468a425d8d5fa490561ad4b0755198f74c4` into base `c3d767fd055c80dbd395c5c8821a335ad9b3b258`. Raw-head-only checkout NOT DEMONSTRATED; the platforms ran the same 338 tests, not 676 unique tests.
+- Synthetic-only: no GTA 6 or third-party media; publishing disabled; manual review required. Combined legacy statuses were empty; independent review NOT RECORDED. Local tests NOT RUN in this connector session.
+- PR #313 remains draft/open/unmerged. No merge or workflow retry performed.
+
+Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Real-media acceptance and owner-device verification remain NOT VERIFIED.
