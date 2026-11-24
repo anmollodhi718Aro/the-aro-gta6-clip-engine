@@ -347,7 +347,19 @@ def upload_video(
     video_id = str(response.get("id", "")).strip()
     if not video_id:
         raise RuntimeError("YouTube API response did not include a video ID")
-    return {"video_id": video_id, "url": f"https://www.youtube.com/watch?v={video_id}"}
+    # The request asks YouTube to stage privately. Do not report success unless
+    # the API response itself confirms that exact visibility.
+    returned_status = response.get("status")
+    if not isinstance(returned_status, dict) or returned_status.get("privacyStatus") != "private":
+        raise RuntimeError(
+            "YouTube did not confirm PRIVATE visibility in the upload response; "
+            "treat the upload state as unverified and inspect it in YouTube Studio"
+        )
+    return {
+        "video_id": video_id,
+        "url": f"https://www.youtube.com/watch?v={video_id}",
+        "privacy_status": "private",
+    }
 
 
 def main() -> int:
