@@ -40,3 +40,10 @@ Date: 2026-11-24
 - Test commit: `a07cf1d0e1023f6291cf69bb6998c4f43c972fdf`.
 - Local tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI must be inspected for the final branch head; owner-device Windows and real-media PRIVATE acceptance remain NOT VERIFIED.
 - No OAuth, real media, network upload, merge, deployment, or publishing. Issue #68 remains OPEN; keep live uploads/public publishing disabled.
+
+
+## Exact-once close assertion — 2026-11-24
+- Follow-up test commit: `cc4dca770655a7bd69d767f9cb164d133e00eafd`.
+- The close-failure mock now counts calls and asserts the retained stream's close is attempted exactly once, while the nested cleanup still removes the snapshot and the mocked insert occurs once.
+- PR #339 latest code/test head is recorded separately in GitHub metadata. Exact-head Ubuntu/hosted-Windows CI: NOT VERIFIED (no associated run/status returned for this head). Local tests NOT RUN. Independent review NOT RECORDED.
+- No OAuth, real media, live upload, merge, deployment, or publishing. Issue #68 remains OPEN; keep live uploads/public publishing disabled.
