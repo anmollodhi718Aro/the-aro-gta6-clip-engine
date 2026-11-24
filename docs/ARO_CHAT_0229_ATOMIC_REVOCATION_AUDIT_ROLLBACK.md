@@ -29,3 +29,11 @@
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
 - No OAuth, credentials, real media, network upload, publishing, workflow dispatch/retry, merge, rebase, retarget, deployment, or destructive action.
 - Keep live uploads and public publishing disabled.
+
+
+## Windows CI correction — 2026-11-25
+- Initial exact-head run `45464585193`: Ubuntu passed; hosted Windows failed during teardown in two rights-registry tests because `with sqlite3.connect(...)` commits/rolls back but does not close the connection. Windows reported `WinError 32` while `TemporaryDirectory.cleanup()` attempted to remove the SQLite file.
+- Corrected both trigger-fixture tests to use `contextlib.closing(sqlite3.connect(...))`, ensuring connections close before test teardown. Production code unchanged.
+- Test commit: `d7bec38ad63a33190928d5fdd13ae281c40a171e`.
+- Follow-up exact-head Ubuntu/hosted-Windows CI: PENDING. Do not treat the initial Windows failure as a production-registry defect or claim the correction passed before the new run completes.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
