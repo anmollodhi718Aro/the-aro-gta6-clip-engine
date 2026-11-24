@@ -805,3 +805,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Current audit PR #229 head before this documentation correction was `5fe98ad1f56052bef6c20ca2c340cc3bd1d4f4f2`; its own workflow lookup and combined status returned zero entries. PR #229 CI is PENDING / NOT VERIFIED. Wait for a naturally associated run and inspect that PR's own jobs/logs; never transfer PR #226's CI.
 - Keep PR #229 draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled.
 - Documentation-only correction. No workflow retry, credentials, OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0153 current-session refresh — 2026-11-24
+- PR #226 exact merge-ref CI is verified by run #45270941723 at merge SHA `025c577ecd3f0663cb96c225affe9a971f587da9`; Ubuntu and hosted Windows passed compile, the same 338 tests, and synthetic MP4/FFprobe validation. Later associated runs #45270832453 and #45270848881 were cancelled and are not a complete matrix pass.
+- PR #229 remains OPEN / DRAFT / UNMERGED at head `bd65951d569c2c05d5ec4763d489d06b1600b7f9`. Its own commit-associated workflow lookup returned zero runs, combined status zero entries, and no review submissions/threads/comments. CI PENDING / NOT VERIFIED; independent review NOT RECORDED.
+- Next: wait for a naturally associated run on this exact PR #229 head and inspect it. Do not retry/dispatch workflows or transfer PR #226 evidence. Keep Issue #68 owner approval pending and live publishing disabled.
+- This refresh changed documentation only. No credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
