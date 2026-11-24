@@ -444,6 +444,33 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
         self.assertNotEqual(first["token_path"], second["token_path"])
         self.assertEqual(first["token_path"], self.root / "tokens" / "aroanmol7.json")
 
+    def test_profile_name_cannot_escape_token_directory(self):
+        with self.assertRaisesRegex(ValueError, "letters, numbers"):
+            load_destination_profile(self.config, "../outside")
+
+    def test_metadata_dry_run_does_not_require_oauth_profile(self):
+        args = [
+            "youtube_upload.py", str(self.root / "sample.mp4"),
+            "--rights-report", str(self.root / "dryrun-report.json"),
+            "--title", "THE ARO dry run", "--not-made-for-kids",
+        ]
+        (self.root / "sample.mp4").write_bytes(b"synthetic")
+        (self.root / "dryrun-report.json").write_text(json.dumps({
+            "status": "ready_for_human_review", "platform": "youtube",
+            "assets": [{"status": "declared_original_requires_human_confirmation"}],
+            "errors": [],
+            "review": {
+                "approved_for_upload": False,
+                "permission_evidence_human_verification_required": True,
+                "all_embedded_music_and_third_party_rights_review_required": True,
+                "original_asset_declarations_human_confirmation_required": True,
+                "human_edit_and_platform_policy_review_required": True,
+            },
+        }), encoding="utf-8")
+        with patch.object(sys, "argv", args), patch.dict(os.environ, {}, clear=True):
+            from backend.app.youtube_upload import main
+            self.assertEqual(main(), 0)
+
     def test_unknown_profile_fails_closed(self):
         with self.assertRaisesRegex(PermissionError, "unknown destination profile"):
             load_destination_profile(self.config, "not-a-channel")
