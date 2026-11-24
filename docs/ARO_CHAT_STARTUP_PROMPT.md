@@ -357,3 +357,10 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Exact-head CI for the test follow-up was not returned by commit workflow lookup; combined status also returned no checks. Treat exact-head Ubuntu/hosted-Windows CI as PENDING / NOT VERIFIED. Local tests NOT RUN; independent security review NOT RECORDED.
 - PR #354 base advanced independently. PR #355 ancestry is DIVERGED (10 ahead / 2 behind; merge base `1d9d478fcfd03e36f6389acca682b3ede57c17fd`). Preserve draft ancestry; no rebase, retarget, or merge.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, deployment, or publishing.
+
+### ARO-CHAT-0226 latest continuation — SQLite error classification — 2026-11-25
+- Production commit `b8f17e4f7278d4996b931a980a54207b14170f29` narrows duplicate-grant translation to SQLite primary-key/unique constraint codes; unrelated integrity errors now propagate unchanged.
+- Test commit `b459ad87a0908fd3dc98479b663f7c2695ed12a7` adds a trigger-based regression and verifies no audit row is written on that failure.
+- Exact-head workflow lookup for the test commit returned zero runs; Ubuntu/hosted-Windows CI remains PENDING / NOT VERIFIED. Local tests NOT RUN; independent security review NOT RECORDED.
+- Current PR #355 ancestry against PR #354 head `cac64637a9cdc64eded472ab4d9c6ed0323d4b19` is DIVERGED (15 ahead / 7 behind; merge base `1d9d478fcfd03e36f6389acca682b3ede57c17fd`). Preserve draft ancestry; no rebase, retarget, or merge.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, deployment, or publishing.
