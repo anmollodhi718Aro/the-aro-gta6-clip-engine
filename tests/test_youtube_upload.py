@@ -11,7 +11,7 @@ from unittest.mock import Mock, patch
 
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
-from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_destination_approval_path, validate_upload, _read_oauth_token_info)
+from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_destination_approval_path, validate_upload, _read_oauth_token_info, _authorize_google)
 
 
 class YouTubeUploadTests(unittest.TestCase):
@@ -45,6 +45,46 @@ class YouTubeUploadTests(unittest.TestCase):
 
     def tearDown(self):
         self.temp.cleanup()
+
+    def test_oauth_token_integrity_error_does_not_start_interactive_login(self):
+        token = self.root / "token.json"
+        token.write_text(json.dumps({"refresh_token": "synthetic"}), encoding="utf-8")
+
+        google = types.ModuleType("google")
+        google.__path__ = []
+        auth = types.ModuleType("google.auth")
+        auth.__path__ = []
+        transport = types.ModuleType("google.auth.transport")
+        transport.__path__ = []
+        requests = types.ModuleType("google.auth.transport.requests")
+        requests.Request = Mock()
+        oauth2 = types.ModuleType("google.oauth2")
+        oauth2.__path__ = []
+        credentials = types.ModuleType("google.oauth2.credentials")
+        credentials.Credentials = Mock()
+        google_auth_oauthlib = types.ModuleType("google_auth_oauthlib")
+        google_auth_oauthlib.__path__ = []
+        flow = types.ModuleType("google_auth_oauthlib.flow")
+        flow_class = Mock()
+        flow.InstalledAppFlow = flow_class
+        modules = {
+            "google": google,
+            "google.auth": auth,
+            "google.auth.transport": transport,
+            "google.auth.transport.requests": requests,
+            "google.oauth2": oauth2,
+            "google.oauth2.credentials": credentials,
+            "google_auth_oauthlib": google_auth_oauthlib,
+            "google_auth_oauthlib.flow": flow,
+        }
+        with patch.dict(sys.modules, modules):
+            with patch(
+                "backend.app.youtube_upload._read_oauth_token_info",
+                side_effect=PermissionError("synthetic token path integrity failure"),
+            ):
+                with self.assertRaisesRegex(PermissionError, "path integrity failure"):
+                    _authorize_google(self.client_secrets, token)
+        flow_class.from_client_secrets_file.assert_not_called()
 
     def test_oauth_token_info_reads_regular_json_file(self):
         token = self.root / "token.json"
