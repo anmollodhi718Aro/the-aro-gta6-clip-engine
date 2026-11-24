@@ -458,6 +458,7 @@ def upload_video(
     )
     rights_registry = SourceRightsRegistry(rights_db_path.expanduser())
     snapshot_path, snapshot_dir = _create_verified_upload_snapshot(video_path)
+    media: Any = None
     try:
         mime_type, _ = mimetypes.guess_type(snapshot_path.name)
         media = MediaFileUpload(
@@ -512,7 +513,15 @@ def upload_video(
             "privacy_status": "private",
         }
     finally:
-        snapshot_dir.cleanup()
+        try:
+            # MediaFileUpload retains an open file handle for resumable reads.
+            # Close it before deleting the staging directory, especially on Windows.
+            media_stream = getattr(media, "_fd", None) if media is not None else None
+            close_stream = getattr(media_stream, "close", None)
+            if callable(close_stream):
+                close_stream()
+        finally:
+            snapshot_dir.cleanup()
 
 
 def main() -> int:
