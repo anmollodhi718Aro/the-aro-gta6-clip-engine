@@ -1105,3 +1105,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Production commit `87294298cd6f486d906f8964d4c9d590cf09dd9e`; test commit `5a9ef569c64b77151e60063f2b86cf967e60edd2`; report `docs/ARO_CHAT_0224_RIGHTS_REGISTRY_IMMUTABILITY.md`.
 - Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; local tests NOT RUN. Parent PR #350 exact-head run #45442036637 does not validate this branch.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, merge, deployment, or workflow retry/dispatch. Keep live/public upload gates disabled.
+
+### ARO-CHAT-0224 test-fixture correction — 2026-11-24
+- Reviewed PR #352's duplicate-registration regression and found the original fixture already allowed `publish`, contradicting the test's expected denial.
+- Corrected the fixture to register an `analyze`-only grant, then attempt a same-ID `publish` grant. This now directly tests that duplicate registration cannot broaden the original grant.
+- Commit: `01c3d53229b39e4e294a8cff1ca61303ca7b2f05`.
+- Local tests NOT RUN; exact-head CI PENDING / NOT VERIFIED. Parent PR #350 CI is not validation for this branch. PR #352 remains draft; do not rebase or retarget its diverged base automatically. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
