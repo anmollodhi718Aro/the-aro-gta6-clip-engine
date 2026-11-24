@@ -939,3 +939,44 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 
 
 - Follow-up: check `lstat()` regular-file status before opening, preventing a FIFO/device path from blocking or being read as approval evidence. Commit: `e389430313ecb94149ad042b8541d5a4b57eef5c`.
+
+
+## ARO-CHAT-0198 canonical profile-path regression continuation — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0198 |
+| Exact title | ARO-CHAT-0198 | Port canonical Windows profile-path regression onto current PR #299 head |
+| Workstream ID | ARO-GTA-P1-198 |
+| Scope | Add the missing canonical token-path assertion for the second destination profile on top of the current PR #299 code, without carrying forward stale branch ancestry. |
+| Branch | `workstream/aro-chat-0198-canonical-profile-path-regression-2026-11-24` |
+| Base / starting SHA | PR #299 current head `97250fbb3bf1fd8d9e5e03dfc6ac6a9267b643b5` |
+| Prior reference | PR #300 / ARO-CHAT-0197 remains OPEN / DRAFT / UNMERGED; its branch is 12 commits ahead / 43 behind the current PR #299 head and is not rebased or retargeted. |
+| Status | IMPLEMENTED; exact-head-associated CI SUCCESS on Ubuntu and hosted Windows (346 tests each plus synthetic MP4/FFprobe); independent review NOT RECORDED |
+| Changed files | `tests/test_youtube_upload.py`; this registry; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+
+### Implementation
+- Current PR #299 test signature uses `load_destination_profile(..., repository_root=self.root)`; the stale PR #300 test snapshot used an older signature and must not be transplanted wholesale.
+- Added the second profile's explicit expected token path using the already-canonicalized repository root: `self.root.resolve() / ".secrets" / "tokens" / "the_arro07.json"`.
+- The existing first-profile assertion remains unchanged. No production uploader, OAuth, token persistence, permission, or publishing behavior changed.
+- Code commit: `6031b6dbbaf0745fad8cbc3e74085ab9ac105a23`.
+- Exact-head-associated Actions run `45399961380` (run 1285) completed SUCCESS. Ubuntu job `138465638360` and hosted-Windows job `138465637811` both compiled successfully, passed the same 346-test unittest suite, and passed synthetic MP4/FFprobe validation.
+- Both jobs checked out merge commit `d961d60`, merging audited branch head `4dce542aa59023a7dc0ca9c61badecf4f0734f59` into base `97250fbb3bf1fd8d9e5e03dfc6ac6a9267b643b5`; raw-head-only checkout is NOT DEMONSTRATED. The result is evidence for this tested PR merge snapshot, not owner-device verification.
+- Synthetic smoke output confirms `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. No upload was performed. The tests and smoke test do not validate creator-authorized GTA 6 footage or live OAuth/upload behavior.
+- No OAuth, credentials/tokens, real media, API upload, public publishing, merge, rebase, retarget, deployment, or destructive action occurred.
+
+### Safety and continuation
+- Draft PR only. Preserve PR #300 for history; do not close, merge, rebase, or retarget it automatically.
+- Issue #68 remains OPEN. Live uploads/public publishing remain disabled pending exact-head CI, independent security review, owner-controlled integration, device-specific upload limit, and separately authorized real-media acceptance.
+
+
+### ARO-CHAT-0198 / PR #301 exact-head CI closeout — 2026-11-24
+- Audited PR head: `4dce542aa59023a7dc0ca9c61badecf4f0734f59`; base SHA: `97250fbb3bf1fd8d9e5e03dfc6ac6a9267b643b5`.
+- Actions run [#45399961380](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45399961380) completed SUCCESS.
+- Ubuntu job #138465638360 and hosted-Windows job #138465637811 both passed compilation, the same 346-test unittest suite, and synthetic MP4/FFprobe validation.
+- Ubuntu: 346 tests in 3.652s. Windows: 346 tests in 12.782s.
+- Both jobs checked out merge SHA `d961d60d45337ba58dbcc566b661545c673a5ce7`, merging the audited head into base `97250fbb3bf1fd8d9e5e03dfc6ac6a9267b643b5`. Raw-head-only checkout NOT DEMONSTRATED.
+- Logs confirm `upload_performed=false`, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- PR #301 remains OPEN / DRAFT / UNMERGED. No reviews, inline threads, or conversation comments were recorded; independent security review NOT RECORDED.
+- Audit report: `docs/ARO_CHAT_0198_PR301_CI_AUDIT.md`.
+- Issue #68 remains OPEN. Live uploads/public publishing remain disabled. This CI result does not authorize merge, OAuth, real-media acceptance, upload, or publishing.
