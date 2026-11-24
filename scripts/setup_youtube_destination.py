@@ -79,7 +79,14 @@ def setup_destination(
     token_dir = secrets_dir / "tokens"
     if token_dir.is_symlink():
         raise PermissionError("OAuth token directory must not be a symlink")
+    token_dir.mkdir(mode=0o700, exist_ok=True)
+    if token_dir.resolve(strict=True) != secrets_dir / "tokens":
+        raise PermissionError("OAuth token directory must remain inside this repository .secrets directory")
     token_path = token_dir / f"{profile_name}.json"
+    if token_path.is_symlink():
+        raise PermissionError("OAuth token path must not be a symbolic link")
+    if token_path.exists() and not token_path.is_file():
+        raise PermissionError("existing OAuth token path must be a regular file")
     credentials = _authorize_google(client_secrets.expanduser(), token_path)
     claims = _verify_google_id_token(credentials, _oauth_client_id(client_secrets))
     subject = claims.get("sub")
