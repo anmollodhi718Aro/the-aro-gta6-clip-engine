@@ -595,3 +595,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Files: backend/app/ingestion.py, tests/test_ingestion.py, docs/ARO_CHAT_0186_EVENT_INTAKE_MEMORY_GUARD.md, docs/CHAT_WORKSTREAM_REGISTRY.md, and this startup prompt.
 - Local tests NOT RUN in this connector session. Inspect this branch's own exact-head CI after PR creation; do not transfer CI from PR #269 or PR #272.
 - Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL and live uploads/public publishing disabled. No credentials/OAuth, real media, uploads, publishing, merge, retarget, deployment, or destructive actions.
+
+## Latest continuation baseline — ARO-CHAT-0187 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0187 | PR #274 Exact-Head CI Closeout`; workstream ARO-GTA-P1-187.
+- Branch: `workstream/aro-chat-0187-pr274-ci-closeout-2026-11-24`; base / starting SHA: PR #274 head `ab64dbfe566fa6d8f5ed1debeacd93cbf5b27eaf`.
+- Task: documentation-only exact-head CI closeout for PR #274. Run #45382081002 (run 1201) completed SUCCESS on Ubuntu and hosted Windows; both passed compile, the same 29 tests, and synthetic animation MP4/FFprobe integration.
+- Both jobs used PR merge ref `refs/remotes/pull/274/merge` at `73eb5508ce0690e0c50e49b555b7b5aec924fb0e`; raw-head-only checkout NOT DEMONSTRATED. Reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED.
+- Report: `docs/ARO_CHAT_0187_PR274_CI_AUDIT.md`. Inspect this audit branch's own CI after publication; never transfer PR #274's CI to this documentation branch.
+- PR #274 remains OPEN / DRAFT / UNMERGED. Hosted Windows CI is not owner-device verification; synthetic MP4 is not real GTA 6 footage. Local tests were NOT RUN in this connector session.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
