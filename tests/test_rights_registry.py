@@ -195,5 +195,31 @@ class SourceRightsRegistryTests(unittest.TestCase):
         self.assertEqual(self.registry.audit_events("creator-video-1"), [])
 
 
+
+    def test_register_rejects_non_string_rights_metadata(self):
+        for field in ("source_id", "source_url", "grantor", "evidence_ref"):
+            with self.subTest(field=field):
+                with self.assertRaises(ValueError):
+                    self.registry.register(dict(self.record, **{field: 7}))
+        for field in ("attribution", "disclosure"):
+            for invalid in (None, 7, []):
+                with self.subTest(field=field, value=invalid):
+                    with self.assertRaises(ValueError):
+                        self.registry.register(dict(self.record, **{field: invalid}))
+
+    def test_register_rejects_non_datetime_timestamp_values(self):
+        for field in ("valid_from", "expires_at"):
+            for invalid in (7, [], object()):
+                with self.subTest(field=field, value_type=type(invalid).__name__):
+                    with self.assertRaises(ValueError):
+                        self.registry.register(dict(self.record, **{field: invalid}))
+
+    def test_authorize_and_revoke_reject_invalid_explicit_timestamps(self):
+        self.registry.register(self.record)
+        with self.assertRaises(ValueError):
+            self.registry.authorize("creator-video-1", "publish", "youtube", at=0)
+        with self.assertRaises(ValueError):
+            self.registry.revoke("creator-video-1", actor="owner", at=0)
+
 if __name__ == "__main__":
     unittest.main()
