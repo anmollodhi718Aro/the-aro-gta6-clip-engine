@@ -72,3 +72,16 @@ Re-fetch PR #229 metadata before continuing. If its head changes, reserve a new 
 - This run belongs to audit PR #230, not the parent PR #229. PR #229's own head still has zero associated workflow runs; do not transfer PR #230's CI to PR #229.
 - Issue #68 remains OPEN. Its current assignee is the project owner, and the latest owner comment explicitly authorizes implementation/review using the PR #83 → #87 → #88 → #92 → #93 lineage, consolidated through PR #168, with PR #176 and #238 follow-ups. This does not enable uploads/public publishing; exact-head CI, independent security review, owner-controlled integration, and device-appropriate `--max-upload-bytes` decision remain gates.
 - No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+## Live exact-head recheck — 2026-11-24 08:11 IST
+- Re-fetched PR #229 metadata: OPEN / DRAFT / UNMERGED; head branch `workstream/aro-chat-0153-pr226-exact-head-ci-audit-2026-11-24`; exact head SHA remains `1f703e856d59ca5b41b19e8f8aad65a6d0539547`; base SHA `d8433a2c31dc0634d5fc9a853b82c8e061ced0ab`; GitHub reports `mergeable=false`.
+- Re-ran commit-associated pull-request workflow lookup for that exact head: zero workflow runs. Re-fetched combined commit status: zero status entries. Neither result establishes passing CI.
+- Re-fetched PR #229 review submissions, inline review threads, and conversation comments: all returned empty arrays; independent review NOT RECORDED.
+- No jobs or logs are available. Checkout refs, compilation, unit tests, synthetic MP4/FFprobe validation, and hosted-Windows outcome remain NOT VERIFIED. Local tests NOT RUN in this connector session.
+- PR #229 changed-file scope remains documentation-only. No workflow retry was initiated. Do not transfer PR #226, PR #230, or any predecessor/alternate-base CI result to PR #229.
+- PR #230 remains the existing OPEN / DRAFT / UNMERGED audit vehicle; this recheck does not alter its target, base, or review state. Keep it draft-only.
+- Safety: no application/uploader/test/renderer/media-ingestion/workflow behavior changes, credentials, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+## Disposition
+PR #229 exact-head CI remains PENDING / NOT VERIFIED. The next valid step is a fresh observation after a naturally associated run appears or the target head changes. Any changed head requires a new evidence snapshot.
