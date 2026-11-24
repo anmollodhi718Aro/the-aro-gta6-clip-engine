@@ -575,3 +575,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - No production renderer/uploader/OAuth/workflow behavior changes. Local tests NOT RUN in this connector session; this branch's exact-head CI must be inspected independently. Do not transfer PR #265 run #45373538938 or PR #266 run #45373702165.
 - PR #266 remains OPEN / DRAFT / UNMERGED pending independent review and owner-controlled integration. PR #265 remains a separate test-only branch; do not merge both independently.
 - Issue #68 remains OPEN. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, workflow retry, or destructive action.
+
+
+## Current continuation — ARO-CHAT-0185 (2026-11-24)
+- Suggested title: `ARO-CHAT-0185 | PR #269 Exact-Head CI Audit`.
+- Workstream: ARO-GTA-P1-185; branch: `workstream/aro-chat-0185-pr269-exact-head-ci-audit-2026-11-24`; base: PR #269 head `99ef3bd9211f16c67573600e28cb3b696fdd6f71`.
+- Audit target: PR #269 exact-head CI run #45380864718. Ubuntu and hosted Windows passed compile, the same 28 tests, and synthetic animation MP4/FFprobe. Both checked out merge ref `e95252b`; raw-head-only checkout NOT DEMONSTRATED.
+- PR #269 independent review NOT RECORDED; hosted-Windows CI is not owner-device verification; real-media acceptance NOT VERIFIED.
+- Report: `docs/ARO_CHAT_0185_PR269_CI_AUDIT.md`. Inspect this audit branch's own exact-head CI separately; do not transfer parent CI.
+- Keep Issue #68 open and live/public uploads disabled. No OAuth, credentials, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
