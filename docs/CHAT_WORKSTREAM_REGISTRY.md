@@ -1775,3 +1775,16 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Parent renderer PR: #263. This is a stacked implementation PR, not a duplicate renderer PR.
 - Safety: no platform scraping, live ingestion, OAuth, uploads, public publishing, deployment, merge, or destructive actions. The uploaded watermarked sample is not project footage; CI uses synthetic generated animation.
 - Status: IMPLEMENTED; CI_VERIFIED on exact implementation head d125e58e937b1b50b22b6ba0f5f0435f250156a1. Actions run #45373360816 (run 1175) passed Ubuntu and hosted Windows; each platform ran the same 27-test suite, compile passed, and synthetic moving MP4/FFprobe validation passed. Run #45373184825 (run 1173) exposed one fixture timestamp mismatch; test fixture was corrected before the verified head. PR #266 remains OPEN / DRAFT / UNMERGED; independent review NOT RECORDED. REAL_MEDIA_VERIFIED NOT VERIFIED.
+
+
+## Latest continuation — ARO-CHAT-0184 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-184 / ARO-CHAT-0184, test-only port of the renderer concurrent-output no-overwrite regression into the integrated local authorized MVP candidate.
+- Branch: `workstream/aro-chat-0184-pr266-renderer-race-regression-2026-11-24`; base / starting SHA: PR #266 head `25aeede30d0e28296af6e7b6d507e1f6ba96e566`.
+- Parent candidate: PR #266 (integrated local authorized MVP). Related source regression: PR #265 / ARO-CHAT-0183.
+- Duplicate check: PR #265 contains the race regression on a separate renderer-feature branch, but PR #266's integrated `tests/test_render.py` did not contain it and its renderer requires an active `PermissionRecord`. This workstream adapts the test to the integrated interface; it does not change production behavior or modify either parent branch.
+- Change: mocked concurrent destination creation during `os.link` promotion; assert fail-closed behavior, preservation of the competing file bytes, and cleanup of this invocation's temporary output.
+- Report: `docs/ARO_CHAT_0184_RENDERER_RACE_REGRESSION.md`.
+- Status: IMPLEMENTED (test-only); local tests NOT RUN; this branch's exact-head CI PENDING until its own Actions run is observed. Do not transfer PR #265 run #45373538938 or PR #266 run #45373702165.
+- PR #265 run #45373538938 and PR #266 run #45373702165 are predecessor/related-branch evidence only. No CI status transfers across PRs or SHAs.
+- Issue #68 remains OPEN. Keep live uploads/public publishing disabled; no credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, workflow retry, or destructive action.
