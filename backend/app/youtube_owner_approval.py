@@ -114,7 +114,6 @@ def write_owner_approval_record(
     confirmed: bool,
     at: datetime | None = None,
     expires_at: datetime | None = None,
-    video_sha256: str | None = None,
 ) -> dict[str, Any]:
     """Persist a one-time owner decision; never overwrite an existing record."""
     if confirmed is not True:
@@ -137,7 +136,7 @@ def write_owner_approval_record(
         "clip_id": clip_id.strip(),
         "source_id": source_id.strip(),
         "privacy": privacy,
-        "source_sha256": video_sha256 or sha256_file(video_path),
+        "source_sha256": sha256_file(video_path),
         "reviewer_google_subject": owner.google_subject,
         "reviewer_channel_id": owner.channel_id,
         "destination_channel_id": owner.channel_id,
