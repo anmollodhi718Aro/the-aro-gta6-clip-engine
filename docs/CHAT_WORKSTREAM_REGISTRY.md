@@ -1156,3 +1156,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Production commit: 0a0d22e57b3016b0e3bbacec29c71999086045eb. Test commit: 036ada61be8b5e2c03cbfd24e18ff4eeef96a996.
 - Local tests NOT RUN in this connector session. Verify fresh exact-head Ubuntu and hosted-Windows CI; independent security review remains NOT RECORDED.
 - Draft only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment or destructive action.
+
+
+### ARO-CHAT-0225 short-read regression follow-up — 2026-11-24
+- Added a synthetic short-read regression with unchanged mocked descriptor metadata to independently exercise the byte-count rejection guard.
+- Test-only commit: `8143da93904b5ed8d6ba8a18a8fb02ebdf471bbb`; production code unchanged.
+- Local tests NOT RUN in this connector session; updated PR #354 exact-head Ubuntu/hosted-Windows CI pending verification.
