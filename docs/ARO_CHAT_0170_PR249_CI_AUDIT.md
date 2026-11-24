@@ -56,3 +56,10 @@ Date: 2026-11-24
 - Add the explicit test-only CLI argument `--max-upload-bytes` with a positive fixture value to `test_cli_passes_exact_clip_and_source_to_upload_boundary`, or otherwise update the fixture to reflect the required explicit device limit.
 - Preserve the production fail-closed requirement. Do not weaken the CLI guard or introduce a default for live uploads.
 - Re-run the complete suite and synthetic MP4/FFprobe on a new exact head; do not reuse run #45314464029 as evidence for the follow-up commit.
+
+
+## Audit PR #250 exact-head status — 2026-11-24
+- Draft PR #250 is OPEN / DRAFT / UNMERGED; latest observed head `30105fd17d1c985a3e76b7927f709011adce5732`; GitHub reported mergeable=false at creation.
+- Commit-associated workflow lookup for PR #250's exact head returned zero runs; combined status returned zero entries. PR #250's own CI is PENDING / NOT VERIFIED. No compile/test/render result is claimed.
+- Reviews, inline review threads, and conversation comments were empty; independent review NOT RECORDED.
+- Keep PR #250 draft/open/unmerged. Recheck exact-head CI later; do not transfer the audited parent PR #249's failed run to this documentation branch.
