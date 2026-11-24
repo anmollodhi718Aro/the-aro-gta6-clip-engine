@@ -87,12 +87,14 @@ def setup_destination(
         raise PermissionError("OAuth token path must not be a symbolic link")
     if token_path.exists() and not token_path.is_file():
         raise PermissionError("existing OAuth token path must be a regular file")
+    # Validate the OAuth client configuration before opening a browser or
+    # creating a refreshable local credential.
+    client_id = _oauth_client_id(client_secrets.expanduser())
     credentials = _authorize_google(client_secrets.expanduser(), token_path)
-    claims = _verify_google_id_token(credentials, _oauth_client_id(client_secrets))
+    claims = _verify_google_id_token(credentials, client_id)
     subject = claims.get("sub")
     issuer = claims.get("iss")
     authorized_party = claims.get("azp")
-    client_id = _oauth_client_id(client_secrets)
     if (
         not isinstance(subject, str) or not subject.strip()
         or issuer not in ("accounts.google.com", "https://accounts.google.com")
