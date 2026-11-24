@@ -12,6 +12,7 @@ import mimetypes
 import os
 import re
 import sys
+import stat
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -335,6 +336,75 @@ def _approval_confirmation_phrase(clip_id: str, privacy: str) -> str:
     return f"APPROVE {privacy.upper()} {clip_id}"
 
 
+def _create_verified_upload_snapshot(video_path: str | Path) -> tuple[Path, Any]:
+    """Pin the exact approved bytes to a private staging file before upload.
+
+    The upload client reopens its filename while sending chunks. A private
+    snapshot prevents a later replacement or edit of the original source path
+    from changing the bytes that were approved.
+    """
+    source = Path(video_path).expanduser()
+    try:
+        path_before = source.lstat()
+        if not stat.S_ISREG(path_before.st_mode):
+            raise PermissionError("upload source must be a regular file")
+        flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0)
+        descriptor = os.open(source, flags)
+    except PermissionError:
+        raise
+    except OSError as exc:
+        raise PermissionError("upload source is missing, unreadable, or linked") from exc
+
+    staging: Any = None
+    try:
+        opened = os.fstat(descriptor)
+        if not stat.S_ISREG(opened.st_mode):
+            raise PermissionError("upload source must be a regular file")
+        if (path_before.st_dev, path_before.st_ino) != (opened.st_dev, opened.st_ino):
+            raise PermissionError("upload source changed while opening")
+
+        staging = tempfile.TemporaryDirectory(prefix="aro-youtube-upload-")
+        snapshot = Path(staging.name) / f"approved-upload{source.suffix}"
+        output_fd = os.open(snapshot, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        copied = 0
+        with os.fdopen(os.dup(descriptor), "rb") as source_stream, os.fdopen(output_fd, "wb") as output_stream:
+            while True:
+                chunk = source_stream.read(1024 * 1024)
+                if not chunk:
+                    break
+                output_stream.write(chunk)
+                copied += len(chunk)
+            output_stream.flush()
+            os.fsync(output_stream.fileno())
+
+        after = os.fstat(descriptor)
+        path_after = source.lstat()
+        before_identity = (
+            opened.st_dev, opened.st_ino, opened.st_size,
+            getattr(opened, "st_mtime_ns", int(opened.st_mtime * 1_000_000_000)),
+            getattr(opened, "st_ctime_ns", int(opened.st_ctime * 1_000_000_000)),
+        )
+        after_identity = (
+            after.st_dev, after.st_ino, after.st_size,
+            getattr(after, "st_mtime_ns", int(after.st_mtime * 1_000_000_000)),
+            getattr(after, "st_ctime_ns", int(after.st_ctime * 1_000_000_000)),
+        )
+        if not stat.S_ISREG(path_after.st_mode):
+            raise PermissionError("upload source pathname changed to a non-regular file")
+        if (path_after.st_dev, path_after.st_ino) != (after.st_dev, after.st_ino):
+            raise PermissionError("upload source pathname changed while snapshotting")
+        if before_identity != after_identity or copied != opened.st_size:
+            raise PermissionError("upload source changed while snapshotting")
+        os.chmod(snapshot, 0o400)
+        return snapshot, staging
+    except Exception:
+        if staging is not None:
+            staging.cleanup()
+        raise
+    finally:
+        os.close(descriptor)
+
+
 def upload_video(
     video_path: Path,
     body: dict[str, Any],
@@ -384,57 +454,62 @@ def upload_video(
         expected_google_subject=expected_subject, expected_channel_id=expected_channel,
     )
     rights_registry = SourceRightsRegistry(rights_db_path.expanduser())
-    mime_type, _ = mimetypes.guess_type(video_path.name)
-    media = MediaFileUpload(
-        str(video_path),
-        mimetype=mime_type or "application/octet-stream",
-        chunksize=8 * 1024 * 1024,
-        resumable=True,
-    )
-    current_report = load_rights_report(rights_report_path)
-    if not isinstance(clip_id, str) or not clip_id.strip():
-        raise PermissionError("requested clip_id is required")
-    if not isinstance(source_id, str) or not source_id.strip():
-        raise PermissionError("requested source_id is required")
-    if current_report.get("clip_id") != clip_id or current_report.get("source_id") != source_id:
-        raise PermissionError("requested clip/source IDs do not match the rights report")
-    require_report_publish_permissions(current_report, rights_registry, source_id)
-    require_current_owner_approval(
-        approval_record_path, clip_id=clip_id, source_id=source_id,
-        video_path=video_path, owner=owner, privacy=privacy,
-        rights_registry=rights_registry,
-    )
-    # Repeat all identity, approval and current-rights checks immediately
-    # before the upload API side effect. Any mismatch fails closed.
-    owner = verify_authenticated_channel_owner(
-        credentials, youtube, oauth_client_id=oauth_client_id,
-        expected_google_subject=expected_subject, expected_channel_id=expected_channel,
-    )
-    require_current_owner_approval(
-        approval_record_path, clip_id=clip_id, source_id=source_id,
-        video_path=video_path, owner=owner, privacy=privacy,
-        rights_registry=rights_registry,
-    )
-    require_report_publish_permissions(current_report, rights_registry, source_id)
-    response = youtube.videos().insert(
-        part="snippet,status", body=body, media_body=media,
-    ).execute(num_retries=3)
-    video_id = str(response.get("id", "")).strip()
-    if not video_id:
-        raise RuntimeError("YouTube API response did not include a video ID")
-    # The request asks YouTube to stage privately. Do not report success unless
-    # the API response itself confirms that exact visibility.
-    returned_status = response.get("status")
-    if not isinstance(returned_status, dict) or returned_status.get("privacyStatus") != "private":
-        raise RuntimeError(
-            "YouTube did not confirm PRIVATE visibility in the upload response; "
-            "treat the upload state as unverified and inspect it in YouTube Studio"
+    snapshot_path, snapshot_dir = _create_verified_upload_snapshot(video_path)
+    try:
+        mime_type, _ = mimetypes.guess_type(snapshot_path.name)
+        media = MediaFileUpload(
+            str(snapshot_path),
+            mimetype=mime_type or "application/octet-stream",
+            chunksize=8 * 1024 * 1024,
+            resumable=True,
         )
-    return {
-        "video_id": video_id,
-        "url": f"https://www.youtube.com/watch?v={video_id}",
-        "privacy_status": "private",
-    }
+        current_report = load_rights_report(rights_report_path)
+        if not isinstance(clip_id, str) or not clip_id.strip():
+            raise PermissionError("requested clip_id is required")
+        if not isinstance(source_id, str) or not source_id.strip():
+            raise PermissionError("requested source_id is required")
+        if current_report.get("clip_id") != clip_id or current_report.get("source_id") != source_id:
+            raise PermissionError("requested clip/source IDs do not match the rights report")
+        require_report_publish_permissions(current_report, rights_registry, source_id)
+        require_current_owner_approval(
+            approval_record_path, clip_id=clip_id, source_id=source_id,
+            video_path=snapshot_path, owner=owner, privacy=privacy,
+            rights_registry=rights_registry,
+        )
+        # Repeat all identity, approval and current-rights checks immediately
+        # before the upload API side effect. The upload reads the same private
+        # snapshot whose bytes were checked against the durable approval hash.
+        owner = verify_authenticated_channel_owner(
+            credentials, youtube, oauth_client_id=oauth_client_id,
+            expected_google_subject=expected_subject, expected_channel_id=expected_channel,
+        )
+        require_current_owner_approval(
+            approval_record_path, clip_id=clip_id, source_id=source_id,
+            video_path=snapshot_path, owner=owner, privacy=privacy,
+            rights_registry=rights_registry,
+        )
+        require_report_publish_permissions(current_report, rights_registry, source_id)
+        response = youtube.videos().insert(
+            part="snippet,status", body=body, media_body=media,
+        ).execute(num_retries=3)
+        video_id = str(response.get("id", "")).strip()
+        if not video_id:
+            raise RuntimeError("YouTube API response did not include a video ID")
+        # The request asks YouTube to stage privately. Do not report success unless
+        # the API response itself confirms that exact visibility.
+        returned_status = response.get("status")
+        if not isinstance(returned_status, dict) or returned_status.get("privacyStatus") != "private":
+            raise RuntimeError(
+                "YouTube did not confirm PRIVATE visibility in the upload response; "
+                "treat the upload state as unverified and inspect it in YouTube Studio"
+            )
+        return {
+            "video_id": video_id,
+            "url": f"https://www.youtube.com/watch?v={video_id}",
+            "privacy_status": "private",
+        }
+    finally:
+        snapshot_dir.cleanup()
 
 
 def main() -> int:

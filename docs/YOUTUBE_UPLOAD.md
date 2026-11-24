@@ -146,3 +146,8 @@ Immediately before `videos.insert`, the uploader re-verifies the Google OIDC sub
 ## Post-upload PRIVATE response verification
 
 The upload CLI reports success only when the official `videos.insert(part="snippet,status")` response contains a video ID and `status.privacyStatus == "private"`. If the response omits the status or reports any other visibility, the command exits as unverified and instructs the operator to inspect YouTube Studio. A request body asking for PRIVATE is not, by itself, evidence that YouTube accepted that visibility. Unit tests cover both confirmed-private and unexpected-visibility responses; tests do not upload to YouTube.
+
+
+## Exact-byte approval binding during upload
+
+Before a live upload, the uploader copies the selected local video through one opened regular-file descriptor into a private temporary staging directory. It checks the source path and descriptor identity before and after copying, rejects source mutation during the copy, and makes the staged snapshot read-only. The durable per-clip approval hash is checked against this snapshot, and the resumable YouTube media client reads the same snapshot rather than reopening the mutable original path. The temporary snapshot is removed after the upload attempt. Automated coverage changes the original source immediately before the mocked insert and verifies that the media body still points to the approved bytes. This test uses no OAuth credentials or network upload.

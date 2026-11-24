@@ -175,3 +175,42 @@ For the current first-test upload priority:
 
 ### Next authorized task
 Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/approval diff. Fix any newly evidenced defects on the same draft branch, update this prompt and the workstream registry, and do not merge, deploy, run OAuth, or upload media.
+
+
+## ARO-CHAT-0215 — bind uploaded bytes to the approved snapshot (2026-11-24)
+- Finding: the approval record binds consent to the source SHA-256, but a resumable filename-based media client can reopen a mutable original path after the final approval check.
+- Fix: open the source as a regular file, compare path/descriptor identity, copy from that descriptor into a private temporary directory, verify stable file metadata and byte count, mark the snapshot read-only, and use the snapshot for both approval-hash checks and MediaFileUpload.
+- Regression test mutates the original source immediately before the mocked insert and asserts the media body still references the original approved bytes.
+- Branch: workstream/aro-chat-0215-verified-upload-byte-snapshot-2026-11-24; based on PR #311 head 67e6d4290fee795fb8ba6fd0e926107ea7f0eb81. Code commits 1fefe87ef47dd4be723cab8ba9424b31156e46c1 and f14f00758fad5cd400f4a1efeacb9e04256a279d; test commit 7d8fd5c85f4171e702cada1d0e6c9fcece2a494b.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. No OAuth, real media, upload, merge, deployment or publishing. Keep Issue #68 open and public publishing disabled.
+
+
+- FIFO follow-up: the snapshot source open now includes O_NONBLOCK where supported, so a source pathname swapped to a FIFO after lstat cannot hang the uploader. A platform-aware regression test covers the race; fresh exact-head CI is pending.
+
+
+### ARO-CHAT-0215 CI closeout — 2026-11-24
+- Code/test head `1c380a2e311abbd5b818a398d0f0a70011f547d4` passed Actions run #45427291297 on merge ref `938dd9ef262b848fbc5f236601f8466171d77b9a`: Ubuntu 342 passed; hosted Windows 342 executed, 341 passed and FIFO-specific test skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed on both.
+- Regression for changing the original source before mocked insert passed on both platforms. FIFO-race regression passed on Ubuntu and was skipped only on hosted Windows due to platform capability.
+- No GTA 6/third-party media, OAuth, network upload, or publishing. Raw-head-only CI NOT DEMONSTRATED. This docs closeout changes the head and needs fresh exact-head CI.
+
+
+### ARO-CHAT-0215 latest continuation — approval-record read hardening
+- PR #328 remains the active draft branch: `workstream/aro-chat-0215-verified-upload-byte-snapshot-2026-11-24`, based on PR #311 head `67e6d4290fee795fb8ba6fd0e926107ea7f0eb81`.
+- Independent review found that the inherited approval reader followed symlinks and did not bind the pre-open path to the opened descriptor. Fixed on this same branch; symlink, path-replacement, directory and FIFO regression tests added.
+- Commits: production `e20445398a69e2bffb3d58401f3f5a7b322bf10d`; tests `8f6577db86580d4ea90c55736e619262d02302bc`.
+- Prior run #45426822957 validated the previous head only (341 tests on each hosted OS; synthetic MP4/FFprobe; merge-ref checkout). It does not validate the new commits. Inspect the latest PR head's Actions jobs and logs before claiming CI_VERIFIED.
+- Next: audit exact latest-head Ubuntu/Windows CI and complete independent review of PR #328. Keep PR draft/open/unmerged. Issue #68 remains OPEN. No OAuth, credentials, real media, network upload, merge, deployment or publishing; public publishing remains disabled.
+
+
+### ARO-CHAT-0215 post-open approval-path identity follow-up
+- The durable approval reader now performs a second pathname `lstat()` after open and requires a regular file with the same device/inode as the opened descriptor. This protects the fallback when `O_NOFOLLOW` is unavailable.
+- Added same-inode symlink substitution regression test. Production commit `d40aac24f08ec3ae7f5660fdc3aa73bf0e2598bb`; test commit `57dedee38b353a75e54f7aca89526604d8537b49`.
+- Exact-head Ubuntu/hosted-Windows CI remains PENDING after branch updates. No OAuth, real media, upload, merge, deployment or publishing.
+
+
+
+### ARO-CHAT-0215 combined CI closeout — 2026-11-24
+- PR #328 head `e1dd08c12d81e3a5c56eef65784955f0e55d4021` passed run #45428060156 on merge ref `b4adb085f8976e79bb70356b4314dbd450b23416` (base `67e6d4290fee795fb8ba6fd0e926107ea7f0eb81`).
+- Ubuntu: compile, 348 tests, synthetic MP4/FFprobe passed. Hosted Windows: compile, same 348 tests, 345 passed and 3 FIFO-only tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed.
+- Both regression paths passed: original source mutation at insert time, and same-inode approval symlink substitution after open. FIFO race test passed on Ubuntu and skipped on Windows due to unavailable FIFO creation.
+- Both jobs ran the same suite, not 696 unique tests. Raw-head-only checkout NOT DEMONSTRATED. Synthetic-only; no OAuth/upload/publishing. Independent review NOT RECORDED; owner-device and real-media PRIVATE acceptance NOT VERIFIED.

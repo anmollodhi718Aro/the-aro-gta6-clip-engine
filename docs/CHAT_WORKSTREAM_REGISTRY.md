@@ -972,3 +972,60 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Code commits: `30229510555805bb9c723c66403bb5695ffa726f` (production guards) and `566e19440add291fd0ceedc48aee662e314cf697` (regression tests).
 - The earlier PR #311 CI run #45418114502 passed Ubuntu and hosted Windows on the PRE-FIX head only; it does NOT validate these new commits. Re-run/inspect exact-head CI after the documentation updates.
 - PR #311 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN. No OAuth, credentials, real media, upload, public publishing, merge, or deployment was performed.
+
+
+## ARO-CHAT-0215 verified upload-byte snapshot — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0215 |
+| Workstream ID | ARO-GTA-P1-215 |
+| Scope | Ensure the exact bytes approved by the durable per-clip SHA-256 record are the bytes read by the resumable YouTube upload client. |
+| Branch / PR | workstream/aro-chat-0215-verified-upload-byte-snapshot-2026-11-24 / Draft PR pending |
+| Base / starting SHA | PR #311 head 67e6d4290fee795fb8ba6fd0e926107ea7f0eb81 |
+| Code commits | 1fefe87ef47dd4be723cab8ba9424b31156e46c1; f14f00758fad5cd400f4a1efeacb9e04256a279d; cc5b800686c0754536b59660f08516e2323a4f5e; 80e420cb14bac3d845419de1b5ec3e1b316870fc |
+| Test commit | 7d8fd5c85f4171e702cada1d0e6c9fcece2a494b; 3ac85e2b2f6c4f3912e0164077f72ea8f41e08b2 |
+| Report | docs/ARO_CHAT_0215_VERIFIED_UPLOAD_BYTE_SNAPSHOT.md |
+| Status | IMPLEMENTED; code/test head `1c380a2e311abbd5b818a398d0f0a70011f547d4` CI_VERIFIED on merge ref via run `45427291297`; documentation closeout requires its own fresh CI; no upload |
+
+### Implementation
+- Open the source once as a regular file with no-follow and nonblocking semantics where available; bind the opened descriptor to the pre-open path identity.
+- Copy from that descriptor into a private temporary staging directory while calculating bytes; re-check descriptor metadata and source pathname after the copy.
+- Reject a changed source path, non-regular path, changed device/inode, changed size/mtime/ctime, or incomplete copy.
+- Mark the snapshot read-only and use it for both approval-hash verification and MediaFileUpload; remove it after the attempt.
+- Added a regression test that mutates the original source immediately before the mocked insert and verifies the upload media path still contains the approved snapshot bytes. Added a platform-aware FIFO race test to prove the source open fails closed without blocking.
+
+### Validation and safety
+- Local tests NOT RUN in this connector session. Exact-head CI PENDING. No OAuth credentials, real media, network upload, merge, deployment, or publishing used.
+- PR #311 remains the parent draft. Issue #68 remains OPEN pending independent review and owner-controlled acceptance. Public publishing remains disabled.
+
+
+### ARO-CHAT-0215 CI evidence — 2026-11-24
+- Code/test head `1c380a2e311abbd5b818a398d0f0a70011f547d4` passed Actions run #45427291297 on merge ref `938dd9ef262b848fbc5f236601f8466171d77b9a`.
+- Ubuntu: compile, 342 tests, synthetic MP4/FFprobe passed. Hosted Windows: compile, same 342-test suite with 1 FIFO-specific skip because `os.mkfifo` is unavailable, synthetic MP4/FFprobe passed.
+- The regression for original-source mutation passed on both platforms. The FIFO race test passed on Ubuntu and skipped on hosted Windows solely because FIFO creation is unavailable.
+- Both jobs ran the same 342 tests, not 684 unique tests. Raw-head-only CI NOT DEMONSTRATED. No real media, OAuth, upload or publishing. Owner-device and real-media PRIVATE acceptance remain NOT VERIFIED.
+- The current documentation-only closeout commit advances the PR head; inspect its own exact-head CI before claiming current-head CI_VERIFIED.
+
+
+### ARO-CHAT-0215 approval-record read hardening — 2026-11-24
+- Independent review found the consolidated PR #311 base still read the durable approval JSON with `Path.read_text()`, allowing symlink following and leaving a stat/open path-substitution window. The same guard had existed on a parallel PR #317 line but was not present in this base.
+- On the existing PR #328 draft branch, approval-record reads now reject symlinks and non-regular files, open with `O_NOFOLLOW | O_NONBLOCK` where available, compare pre-open path identity with descriptor identity, and parse JSON from the verified descriptor.
+- Added tests for symlink records, replacement between stat/open, directory records, FIFO records, and FIFO replacement races.
+- Production commit: `e20445398a69e2bffb3d58401f3f5a7b322bf10d`; test commit: `8f6577db86580d4ea90c55736e619262d02302bc`; report: `docs/ARO_CHAT_0215_APPROVAL_RECORD_READ_HARDENING.md`.
+- Earlier PR #328 run #45426822957 passed 341 tests on Ubuntu and hosted Windows on merge ref `fc5b36ab4e395a8f86c5fced36262b1575338790`, but it predates this fix. New-head CI is PENDING; do not transfer prior CI evidence.
+- No local tests, OAuth, credentials, real media, upload, merge, deployment or publishing. Issue #68 remains OPEN; public publishing remains disabled.
+
+
+### ARO-CHAT-0215 approval-record post-open identity follow-up
+- Added a second `lstat()` after opening the approval record. It requires a regular pathname whose device/inode matches the opened descriptor, closing the no-`O_NOFOLLOW` same-inode symlink substitution gap.
+- Added a regression test simulating a same-inode symlink at the second pathname check while the opened descriptor remains valid.
+- Production commit `d40aac24f08ec3ae7f5660fdc3aa73bf0e2598bb`; test commit `57dedee38b353a75e54f7aca89526604d8537b49`; report `docs/ARO_CHAT_0215_APPROVAL_RECORD_READ_HARDENING.md`.
+- The earlier approval-reader runs for commits `e204453...` and `8f6577...` were cancelled during branch advancement. Current exact-head CI is PENDING; no CI result is transferred.
+
+
+### ARO-CHAT-0215 combined CI closeout — 2026-11-24
+- PR #328 head `e1dd08c12d81e3a5c56eef65784955f0e55d4021` passed run #45428060156 on merge ref `b4adb085f8976e79bb70356b4314dbd450b23416` (base `67e6d4290fee795fb8ba6fd0e926107ea7f0eb81`).
+- Ubuntu: compile, 348 tests, synthetic MP4/FFprobe passed. Hosted Windows: compile, same 348 tests, 345 passed and 3 FIFO-only tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed.
+- Both regression paths passed: original source mutation at insert time, and same-inode approval symlink substitution after open. FIFO race test passed on Ubuntu and skipped on Windows due to unavailable FIFO creation.
+- Both jobs ran the same suite, not 696 unique tests. Raw-head-only checkout NOT DEMONSTRATED. Synthetic-only; no OAuth/upload/publishing. Independent review NOT RECORDED; owner-device and real-media PRIVATE acceptance NOT VERIFIED.
