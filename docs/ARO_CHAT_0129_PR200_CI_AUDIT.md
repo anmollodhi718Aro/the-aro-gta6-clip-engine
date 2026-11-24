@@ -82,3 +82,18 @@ Independently audit PR #200's commit-associated GitHub Actions run, Ubuntu/hoste
 - PR #201 review submissions, inline review comments, and conversation comments were empty at inspection. Independent review is NOT RECORDED. PR #201 remains OPEN / DRAFT / UNMERGED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic-media CI is not real-media acceptance.
 - Documentation-only audit. Local tests were NOT RUN in this connector session. No workflow retry, OAuth, credentials/tokens, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
+
+
+### PR #201 current branch-head CI detailed closeout — 2026-11-24
+- Current PR #201 head: `b955d2a6a7414fed46bb752d5b763fbb02b67b48`.
+- Its commit-associated Python CI run [#45381056888](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45381056888), run 1188, completed SUCCESS and identifies this exact head SHA in run metadata.
+- Ubuntu job #138399868777 (`tests`) and hosted-Windows job #138399869120 (`windows-tests`) both completed SUCCESS.
+- Ubuntu log: compileall passed; 338 tests passed in 5.084s; synthetic MP4/FFprobe validation passed.
+- Hosted-Windows log: compileall passed; 338 tests passed in 20.912s; synthetic MP4/FFprobe validation passed.
+- Both jobs checked out `refs/remotes/pull/201/merge` at merge SHA `65b3bc47b56086559def289e2a75980e6882676c`, merging PR head `b955d2a6a7414fed46bb752d5b763fbb02b67b48` into base `d8f345b6c914fc116b6f2e402b3d82d52c247720`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Both platforms ran the same 338-test suite, not 676 unique tests. Synthetic reports identify locally generated pattern/tone only, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. The mocked approval fixture reports `upload_performed=false`.
+- No real GTA 6/third-party media, network upload, or publishing occurred. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- Combined commit status for the PR head is `pending` with zero status entries. The successful commit-associated Actions run and job logs are the CI evidence; do not describe combined status as green.
+- PR #201 remains OPEN / DRAFT / UNMERGED. Review submissions, inline review comments, and conversation comments were empty at inspection; independent review is NOT RECORDED.
+- Issue #68 remains OPEN. Its body still requires explicit implementation-owner assignment, canonical security PR/branch selection or an approved consolidation plan, and owner-controlled verification. No implementation authorization is inferred. Keep live uploads/public publishing disabled.
+- Documentation-only audit update. No local tests, OAuth, credentials/tokens, real media, upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
