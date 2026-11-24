@@ -1427,3 +1427,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Report: `docs/ARO_CHAT_0238_PR376_EXACT_HEAD_CI_AUDIT.md`.
 - PR #376 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 - Documentation-only. No workflow retry/dispatch, source/test behavior change, OAuth, credentials, media, upload, publishing, merge, rebase, retarget, or deployment.
+
+
+### ARO-CHAT-0238 IDNA-normalized numeric-host regression follow-up — 2026-11-25
+- Added four malformed-source-URL regression cases covering fullwidth decimal digits, ideographic/fullwidth dot separators, and fullwidth hexadecimal-prefix characters. Python IDNA normalization maps these forms to ASCII numeric-like suffixes before validation; they must therefore be rejected by the existing canonical-IPv4-only numeric suffix rule.
+- Test commit: `c8a0c210d3bccedfd7678a5fda20fe2b01b1a275`.
+- An isolated in-memory probe of the four new URL forms plus two existing numeric-suffix controls produced the expected rejection results. This is not the repository unit-test suite.
+- Local repository tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI for the new head NOT YET VERIFIED; independent review NOT RECORDED.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
