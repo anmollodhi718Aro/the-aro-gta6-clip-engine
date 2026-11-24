@@ -186,6 +186,26 @@ class YouTubeUploadTests(unittest.TestCase):
         self.assertEqual(verify_owner.call_count, 2)
         youtube.videos.return_value.insert.assert_called_once()
 
+    def test_fifo_replacement_between_lstat_and_open_is_rejected_without_blocking(self):
+        if not hasattr(os, "mkfifo"):
+            self.skipTest("FIFO creation is unavailable on this platform")
+        import backend.app.youtube_upload as upload_module
+
+        original_open = upload_module.os.open
+
+        def replace_with_fifo_then_open(path, flags, *args, **kwargs):
+            if Path(path) == self.video:
+                self.video.unlink()
+                os.mkfifo(self.video)
+                nonblocking = getattr(os, "O_NONBLOCK", 0)
+                self.assertTrue(nonblocking and flags & nonblocking,
+                                "upload source open must be non-blocking")
+            return original_open(path, flags, *args, **kwargs)
+
+        with patch("backend.app.youtube_upload.os.open", side_effect=replace_with_fifo_then_open):
+            with self.assertRaisesRegex(PermissionError, "upload source must be a regular file"):
+                upload_module._create_verified_upload_snapshot(self.video)
+
     def test_upload_sends_the_approved_snapshot_if_original_changes_before_insert(self):
         db_path = self.root / "source_rights.sqlite3"
         self._write_upload_rights(db_path)
