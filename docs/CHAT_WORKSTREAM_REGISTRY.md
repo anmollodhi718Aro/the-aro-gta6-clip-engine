@@ -867,3 +867,28 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Fix: resolve the profile config path strictly and reject it unless its resolved parent directory is exactly `.secrets`; this also rejects config-file or directory symlinks resolving outside that directory.
 - Regression test: an otherwise valid profile config outside `.secrets/` is rejected. Existing profile tests now place fixtures under `.secrets/` and assert tokens resolve to `.secrets/tokens/<profile>.json`.
 - Commits: `6c3e35a4905ab8ac69fb7ff57f5204f67d67162a`, `004a2001e4e624334658ac084b0d41f79ae4a1ff`. Exact-head CI pending; no OAuth or upload performed.
+
+
+## ARO-CHAT-0197 Windows path regression fix — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0197 |
+| Exact chat title | ARO-CHAT-0197 | PR #299 Windows Path Regression Fix |
+| Workstream ID | ARO-GTA-P1-197 |
+| Scope | Fix the Windows-only destination-profile token-path assertion exposed by the latest PR #299 CI run. Keep the production path canonicalization/security behavior unchanged. |
+| Branch / PR | workstream/aro-chat-0197-pr299-windows-path-regression-fix-2026-11-24 / Draft PR pending |
+| Base | workstream/aro-chat-0134-private-upload-response-verification-2026-11-24 (PR #299 head) |
+| Starting SHA | 758ae2d44e04b9a875a2a85aa153f0407a209766 |
+| Status | IMPLEMENTED; CI pending; no OAuth, real media, network upload, merge, deployment, or publishing performed |
+| Changed files | tests/test_youtube_upload.py; docs/CHAT_WORKSTREAM_REGISTRY.md; docs/ARO_CHAT_STARTUP_PROMPT.md |
+
+### Evidence and rationale
+
+- PR #299 current head `758ae2d44e04b9a875a2a85aa153f0407a209766` triggered Actions run [#45393428557](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45393428557).
+- Ubuntu test job passed; hosted-Windows test job failed one of 334 tests: `test_profiles_resolve_to_distinct_channel_and_token_paths`.
+- The assertion compared a canonicalized path returned by `Path.resolve()` against an un-resolved temporary path. Windows normalized the user directory from its short form `RUNNER~1` to `runneradmin`, causing a representation-only mismatch.
+- The regression fix compares the returned token path against the resolved `.secrets` parent, preserving the production requirement that profile config resolves inside `.secrets/`.
+- No uploader runtime behavior or security gate is weakened. No OAuth, credentials, API calls, media processing, or upload is used by this test.
+- Validation status remains pending until the new branch's exact-head Ubuntu and hosted-Windows CI runs are inspected.
+
