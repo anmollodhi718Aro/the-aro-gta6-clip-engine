@@ -832,3 +832,25 @@ No OAuth, credentials, network upload, merge, deployment, or public publishing w
 | Security behavior | Profile file is intended under ignored .secrets; no OAuth tokens or client secrets are stored in the profile map; profile channel IDs must be unique; per-profile token files are isolated; profile token override is rejected; existing exact channel and file-hash approval checks remain in force. |
 
 Both target handles must still be verified against exact channel IDs and Google OIDC subjects through their respective authorized OAuth sessions. Never infer IDs from handles. This workstream does not perform either OAuth flow or any upload. Public publishing remains disabled.
+
+
+## ARO-CHAT-0195 | PR #295 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0195 |
+| Exact chat title | ARO-CHAT-0195 | PR #295 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-195 |
+| Scope | Independently audit PR #295's own exact-head Actions run, Ubuntu/hosted-Windows jobs, checkout refs, compile/tests, synthetic MP4/FFprobe validation, combined status, and review state. Documentation-only; do not alter the implementation under audit. |
+| Audited PR / head | [PR #295](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/295) / `cf731cabda8a045d39457f0eef800dbdb051e75e` |
+| Audit branch | `workstream/aro-chat-0195-pr295-exact-head-ci-audit-2026-11-24` |
+| Report | `docs/ARO_CHAT_0195_PR295_CI_AUDIT.md` |
+| Status | IN_PROGRESS; Ubuntu exact-head job passed; hosted-Windows exact-head job pending at initial inspection; independent review NOT RECORDED |
+| CI evidence | Exact-head run #45390003956 (run 1233). Ubuntu job #138430897019 passed compilation, unit tests, and synthetic MP4/FFprobe. Hosted-Windows job #138430897645 was still running its unittest suite at initial inspection. |
+
+### Findings and boundaries
+- PR #295's base is `4e01f16e97b2239c74a2f96c4262b04b57a4ae73`. Run #45390003956 is associated with the exact PR head above. A prior failed run #45388115805 was associated with a different merge SHA and must not be transferred to this head.
+- Combined status for the exact head was pending with zero legacy status entries. Re-fetch after jobs complete.
+- PR #295 is OPEN / DRAFT / UNMERGED; review submissions were empty at initial inspection.
+- This audit is documentation-only. No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
