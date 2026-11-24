@@ -179,8 +179,8 @@ For the current first-test upload priority:
 ## ARO-CHAT-0211 continuation — post-open approval-path identity verification (2026-11-24)
 
 - This continuation uses the next unused identity because ARO-CHAT-0210 is already assigned to the separate PR #318 CI audit. The original ARO-CHAT-0210 branch is preserved unchanged.
-- Branch: `workstream/aro-chat-0211-post-open-approval-path-identity-2026-11-24`, based on PR #317 head `36f9ac70f841715255d917183d24d3b2df2bfc49`; parent PR #317.
+- Draft PR #320 is OPEN / UNMERGED on `workstream/aro-chat-0211-post-open-approval-path-identity-2026-11-24`, based on the PR #317 branch; PR #317 is the parent.
 - Source commit `07fc209ff4d68b7cc5236c834bcea42de95728f3` adds a post-open pathname `lstat()` and verifies regular-file type plus device/inode identity against the opened descriptor.
 - Test commit `b37b3d694c4e6dc7f3c291a242f925dabdd0bc3e` adds a no-`O_NOFOLLOW` same-inode symlink-substitution regression. Portability commit `d37681e6af75b6ff81da2c47c67cf2001fb55049` skips only when symlink creation is unavailable.
-- Commit-associated CI lookup for the source/test commits returned no runs. Exact final-head Ubuntu and hosted-Windows CI remain PENDING; local tests NOT RUN. Do not claim verification until both jobs and logs are inspected.
+- PR #320 head `d33e1a22390f66cffdbab7a5ec776180585df512` currently has no commit-associated workflow run. Exact-head Ubuntu and hosted-Windows CI remain PENDING; local tests NOT RUN. Do not claim verification until both jobs and logs are inspected.
 - Draft-only, stacked on PR #317. No merge, rebase, retarget, OAuth, credentials, media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
