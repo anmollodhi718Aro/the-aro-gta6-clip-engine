@@ -420,3 +420,8 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Both jobs checked out PR #249 merge ref at `764f9ac098803f8bb8c77656157938db16edb186`; raw-head-only checkout NOT DEMONSTRATED. Synthetic MP4/FFprobe skipped on both platforms.
 - Combined status empty; independent review not recorded. PR #249 NOT CI_VERIFIED. No workflow retry or local tests run.
 - Audit report: `docs/ARO_CHAT_0170_PR249_CI_AUDIT.md`. This audit branch's own exact-head CI remains to be checked separately. Keep Issue #68 open and live uploads/public publishing disabled; no OAuth, credentials, real media, upload, publishing, merge, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0170 audit PR #250 status refresh — 2026-11-24
+- PR #250 is OPEN / DRAFT / UNMERGED at head `30105fd17d1c985a3e76b7927f709011adce5732`; its exact-head workflow lookup and combined status returned zero entries. Own CI PENDING / NOT VERIFIED; do not transfer PR #249's failed CI.
+- Reviews/comments empty; independent review not recorded. Keep draft-only and recheck its own exact head later.
