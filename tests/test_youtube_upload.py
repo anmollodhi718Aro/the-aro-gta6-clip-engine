@@ -10,7 +10,7 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 from backend.app.rights_registry import SourceRightsRegistry
-from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
+from backend.app.youtube_owner_approval import (MAX_OWNER_APPROVAL_RECORD_BYTES, AuthenticatedChannelOwner, require_current_owner_approval, write_owner_approval_record)
 from backend.app.youtube_upload import (MAX_RIGHTS_REPORT_BYTES, build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_destination_approval_path, validate_upload)
 
 
@@ -266,6 +266,82 @@ class YouTubeUploadTests(unittest.TestCase):
             video_path=self.video, owner=owner, privacy="private", confirmed=True,
         )
         return registry, owner, approval_path
+
+    def test_owner_approval_rejects_symlink_record(self):
+        registry, owner, approval_path = self._write_upload_rights(self.root / "source_rights.sqlite3")
+        target = self.root / "approval-target.json"
+        approval_path.replace(target)
+        try:
+            approval_path.symlink_to(target)
+        except (NotImplementedError, OSError) as exc:
+            self.skipTest(f"file symlinks are unavailable on this runner: {exc}")
+        with self.assertRaisesRegex(PermissionError, "must not be a symlink"):
+            require_current_owner_approval(
+                approval_path, clip_id="clip-1", source_id="source-1",
+                video_path=self.video, owner=owner, privacy="private",
+                rights_registry=registry,
+            )
+
+    def test_owner_approval_rejects_oversized_record(self):
+        registry, owner, approval_path = self._write_upload_rights(self.root / "source_rights.sqlite3")
+        approval_path.write_bytes(b" " * (MAX_OWNER_APPROVAL_RECORD_BYTES + 1))
+        with self.assertRaisesRegex(PermissionError, "exceeds maximum size"):
+            require_current_owner_approval(
+                approval_path, clip_id="clip-1", source_id="source-1",
+                video_path=self.video, owner=owner, privacy="private",
+                rights_registry=registry,
+            )
+
+    def test_owner_approval_rejects_fifo_replacement_without_blocking(self):
+        if not hasattr(os, "mkfifo"):
+            self.skipTest("FIFO creation is unavailable on this platform")
+        registry, owner, approval_path = self._write_upload_rights(self.root / "source_rights.sqlite3")
+        original_open = os.open
+
+        def replace_with_fifo_before_open(path, flags, *args, **kwargs):
+            if Path(path) == approval_path:
+                Path(path).unlink()
+                os.mkfifo(path)
+            return original_open(path, flags, *args, **kwargs)
+
+        with patch("backend.app.youtube_owner_approval.os.open", side_effect=replace_with_fifo_before_open):
+            with self.assertRaisesRegex(PermissionError, "regular file"):
+                require_current_owner_approval(
+                    approval_path, clip_id="clip-1", source_id="source-1",
+                    video_path=self.video, owner=owner, privacy="private",
+                    rights_registry=registry,
+                )
+
+    def test_owner_approval_rejects_path_replacement_between_stat_and_open(self):
+        registry, owner, approval_path = self._write_upload_rights(self.root / "source_rights.sqlite3")
+        replacement = self.root / "replacement-approval.json"
+        replacement.write_text(approval_path.read_text(encoding="utf-8"), encoding="utf-8")
+        displaced = self.root / "displaced-approval.json"
+        original_open = os.open
+
+        def replace_before_open(path, flags, *args, **kwargs):
+            if Path(path) == approval_path:
+                approval_path.replace(displaced)
+                replacement.replace(approval_path)
+            return original_open(path, flags, *args, **kwargs)
+
+        with patch("backend.app.youtube_owner_approval.os.open", side_effect=replace_before_open):
+            with self.assertRaisesRegex(PermissionError, "changed while opening"):
+                require_current_owner_approval(
+                    approval_path, clip_id="clip-1", source_id="source-1",
+                    video_path=self.video, owner=owner, privacy="private",
+                    rights_registry=registry,
+                )
+
+    def test_owner_approval_rejects_malformed_json(self):
+        registry, owner, approval_path = self._write_upload_rights(self.root / "source_rights.sqlite3")
+        approval_path.write_text("{not-json", encoding="utf-8")
+        with self.assertRaisesRegex(PermissionError, "missing or unreadable"):
+            require_current_owner_approval(
+                approval_path, clip_id="clip-1", source_id="source-1",
+                video_path=self.video, owner=owner, privacy="private",
+                rights_registry=registry,
+            )
 
     def _mock_google_modules(self, youtube):
         package = types.ModuleType("googleapiclient")
@@ -973,6 +1049,20 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
                 self.root / "local_approvals" / "shared" / "clip-001.json", "aroanmol7"
             )
 
+    def test_profile_approval_record_directory_symlink_is_rejected(self):
+        external_parent = self.root / "external" / "aroanmol7"
+        external_parent.mkdir(parents=True)
+        linked_parent = self.root / "local_approvals" / "aroanmol7"
+        linked_parent.parent.mkdir()
+        try:
+            linked_parent.symlink_to(external_parent, target_is_directory=True)
+        except (NotImplementedError, OSError) as exc:
+            self.skipTest(f"directory symlinks are unavailable on this runner: {exc}")
+        with self.assertRaisesRegex(PermissionError, "must not be a symbolic link"):
+            validate_destination_approval_path(
+                linked_parent / "clip-001.json", "aroanmol7"
+            )
+
     def test_profile_approval_record_path_is_required(self):
         with self.assertRaisesRegex(PermissionError, "profile-specific --approval-record"):
             validate_destination_approval_path(None, "aroanmol7")
@@ -1007,3 +1097,66 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class YouTubeOAuthPersistenceTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp.name)
+        self.client = self.root / "oauth-client.json"
+        self.client.write_text("{}", encoding="utf-8")
+        self.token = self.root / "token.json"
+        self.credentials = types.SimpleNamespace(
+            valid=True, id_token="mock-id-token", to_json=Mock(return_value='{"token":"mock"}')
+        )
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def _google_oauth_modules(self):
+        google = types.ModuleType("google")
+        auth = types.ModuleType("google.auth")
+        transport = types.ModuleType("google.auth.transport")
+        requests = types.ModuleType("google.auth.transport.requests")
+        oauth2 = types.ModuleType("google.oauth2")
+        credentials_module = types.ModuleType("google.oauth2.credentials")
+        oauthlib = types.ModuleType("google_auth_oauthlib")
+        flow_module = types.ModuleType("google_auth_oauthlib.flow")
+        requests.Request = Mock()
+        credentials_module.Credentials = Mock()
+        flow = Mock()
+        flow.run_local_server.return_value = self.credentials
+        installed_app_flow = Mock()
+        installed_app_flow.from_client_secrets_file.return_value = flow
+        flow_module.InstalledAppFlow = installed_app_flow
+        google.auth = auth
+        auth.transport = transport
+        transport.requests = requests
+        google.oauth2 = oauth2
+        oauth2.credentials = credentials_module
+        oauthlib.flow = flow_module
+        return {
+            "google": google, "google.auth": auth,
+            "google.auth.transport": transport,
+            "google.auth.transport.requests": requests,
+            "google.oauth2": oauth2,
+            "google.oauth2.credentials": credentials_module,
+            "google_auth_oauthlib": oauthlib,
+            "google_auth_oauthlib.flow": flow_module,
+        }
+
+    def test_authorize_can_defer_token_persistence_until_destination_verification(self):
+        with patch.dict(sys.modules, self._google_oauth_modules()):
+            with patch("backend.app.youtube_upload._persist_oauth_token") as persist:
+                from backend.app.youtube_upload import _authorize_google
+                result = _authorize_google(self.client, self.token, persist_token=False)
+        self.assertIs(result, self.credentials)
+        persist.assert_not_called()
+        self.assertFalse(self.token.exists())
+
+    def test_authorize_preserves_default_token_persistence_behavior(self):
+        with patch.dict(sys.modules, self._google_oauth_modules()):
+            with patch("backend.app.youtube_upload._persist_oauth_token") as persist:
+                from backend.app.youtube_upload import _authorize_google
+                result = _authorize_google(self.client, self.token)
+        self.assertIs(result, self.credentials)
+        persist.assert_called_once_with(self.token, self.credentials.to_json.return_value)

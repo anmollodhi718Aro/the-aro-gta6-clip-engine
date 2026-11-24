@@ -396,3 +396,16 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; independent review NOT RECORDED. Do not transfer PR #362's passing CI to PR #365.
 - A separate ARO-CHAT-0232 branch was already reserved for PR #362's independent test-fix review; do not duplicate or overwrite it.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+## ARO-CHAT-0234 — private YouTube destination-profile bootstrap (2026-11-25)
+
+- Draft PR #368: `https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/368`; branch `workstream/aro-chat-0234-youtube-oauth-destination-setup-2026-11-25`.
+- Base: PR #367 branch, base SHA `43cf4adb90916fc1bd8da5d7fd70e6b56c39b145`.
+- Audited head before this handoff update: `d1a962001c7b70ac6ea6966b4e60a1011bd2fb2b`.
+- Scope: add a local setup command that uses the existing Desktop OAuth flow, verifies Google OIDC identity against the configured OAuth client, enumerates channels through the authenticated YouTube API, and writes a private destination profile under `.secrets/`. Multiple channels require an explicit channel ID. Add focused setup and uploader regression tests.
+- Additional hardening in this PR: bound durable owner-approval record reads to 1 MiB and reject a symlinked profile-specific approval directory.
+- Exact-head workflow run `45484808906` completed FAILURE. Both jobs (`tests` and `windows-tests`) reported failure with zero steps; fetching both job logs returned BlobNotFound. No runner was assigned/executed steps in the available job summaries. This is a pre-step workflow failure, not evidence that Python compilation or unit tests failed. It is consistent with the separate runner-allocation symptom tracked in Issue #26, but the cause is NOT ESTABLISHED.
+- Exact-head Ubuntu/hosted-Windows code validation: NOT VERIFIED. Local tests NOT RUN in this connector session. Independent security review NOT RECORDED. Do not transfer CI from parent PRs.
+- Static patch inspection only; no confirmed code defect established from the reviewed diff. This is not a full security audit.
+- Safety: draft/open/unmerged. No OAuth authorization was performed, no credentials/tokens or real media were accessed, and no upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing was performed. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.

@@ -119,7 +119,13 @@ def validate_destination_approval_path(
         return
     if approval_record_path is None:
         raise PermissionError("destination profiles require a profile-specific --approval-record path")
-    resolved_parent = approval_record_path.expanduser().parent.resolve()
+    approval_parent = approval_record_path.expanduser().parent
+    # Do not let a profile-named symlink redirect approval records outside the
+    # operator-selected directory. Resolve only after rejecting the final
+    # parent entry itself as a symlink.
+    if approval_parent.is_symlink():
+        raise PermissionError("approval record directory must not be a symbolic link")
+    resolved_parent = approval_parent.resolve()
     if resolved_parent.name != profile_name:
         raise PermissionError(
             f"approval record must be stored in a directory named for destination profile {profile_name!r}"
@@ -310,7 +316,9 @@ def _persist_oauth_token(token_path: Path, token_json: str) -> None:
             os.unlink(temp_name)
 
 
-def _authorize_google(client_secrets: Path, token_path: Path):
+def _authorize_google(
+    client_secrets: Path, token_path: Path, *, persist_token: bool = True
+):
     try:
         from google.auth.transport.requests import Request
         from google.oauth2.credentials import Credentials
@@ -345,7 +353,8 @@ def _authorize_google(client_secrets: Path, token_path: Path):
             host="127.0.0.1", port=0, open_browser=True,
             authorization_prompt_message="Authorize THE ARO Studio in your browser: {url}",
         )
-        _persist_oauth_token(token_path, credentials.to_json())
+        if persist_token:
+            _persist_oauth_token(token_path, credentials.to_json())
     return credentials
 
 

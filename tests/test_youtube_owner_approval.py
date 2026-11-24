@@ -350,6 +350,11 @@ class OwnerApprovalTests(unittest.TestCase):
         with self.assertRaisesRegex(PermissionError, "unsupported schema"):
             self.gate()
 
+    def test_invalid_utf8_approval_record_fails_closed(self):
+        self.record.write_bytes(b"\xff\xfe\x80")
+        with self.assertRaisesRegex(PermissionError, "missing or unreadable"):
+            self.gate()
+
     def test_expired_rights_fail_closed(self):
         expired_registry = SourceRightsRegistry(self.root / "expired.sqlite3")
         expired_registry.register({

@@ -18,6 +18,9 @@ from typing import Any
 from .rights_registry import SourceRightsRegistry
 
 
+MAX_OWNER_APPROVAL_RECORD_BYTES = 1024 * 1024
+
+
 @dataclass(frozen=True)
 class AuthenticatedChannelOwner:
     google_subject: str
@@ -207,15 +210,37 @@ def require_current_owner_approval(
                 opened_stat.st_dev, opened_stat.st_ino
             ):
                 raise PermissionError("owner approval record changed while opening")
-            with os.fdopen(descriptor, "r", encoding="utf-8") as stream:
+            before_read_signature = (
+                opened_stat.st_dev,
+                opened_stat.st_ino,
+                opened_stat.st_size,
+                getattr(opened_stat, "st_mtime_ns", int(opened_stat.st_mtime * 1_000_000_000)),
+                getattr(opened_stat, "st_ctime_ns", int(opened_stat.st_ctime * 1_000_000_000)),
+            )
+            if opened_stat.st_size > MAX_OWNER_APPROVAL_RECORD_BYTES:
+                raise PermissionError("owner approval record exceeds maximum size")
+            with os.fdopen(descriptor, "rb") as stream:
                 descriptor = -1
-                record = json.load(stream)
+                approval_bytes = stream.read(MAX_OWNER_APPROVAL_RECORD_BYTES + 1)
+                after_read_stat = os.fstat(stream.fileno())
+            after_read_signature = (
+                after_read_stat.st_dev,
+                after_read_stat.st_ino,
+                after_read_stat.st_size,
+                getattr(after_read_stat, "st_mtime_ns", int(after_read_stat.st_mtime * 1_000_000_000)),
+                getattr(after_read_stat, "st_ctime_ns", int(after_read_stat.st_ctime * 1_000_000_000)),
+            )
+            if before_read_signature != after_read_signature:
+                raise PermissionError("owner approval record changed while reading")
+            if len(approval_bytes) > MAX_OWNER_APPROVAL_RECORD_BYTES:
+                raise PermissionError("owner approval record exceeds maximum size")
+            record = json.loads(approval_bytes.decode("utf-8"))
         finally:
             if descriptor >= 0:
                 os.close(descriptor)
     except PermissionError:
         raise
-    except (OSError, json.JSONDecodeError) as exc:
+    except (OSError, json.JSONDecodeError, UnicodeDecodeError) as exc:
         raise PermissionError("durable owner approval record is missing or unreadable") from exc
     if not isinstance(record, dict) or record.get("schema_version") != 1:
         raise PermissionError("owner approval record has an unsupported schema")
