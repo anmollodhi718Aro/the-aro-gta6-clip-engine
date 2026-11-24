@@ -10,7 +10,7 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 from backend.app.rights_registry import SourceRightsRegistry
-from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
+from backend.app.youtube_owner_approval import (MAX_OWNER_APPROVAL_RECORD_BYTES, AuthenticatedChannelOwner, require_current_owner_approval, write_owner_approval_record)
 from backend.app.youtube_upload import (MAX_RIGHTS_REPORT_BYTES, build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_destination_approval_path, validate_upload)
 
 
@@ -266,6 +266,41 @@ class YouTubeUploadTests(unittest.TestCase):
             video_path=self.video, owner=owner, privacy="private", confirmed=True,
         )
         return registry, owner, approval_path
+
+    def test_owner_approval_rejects_symlink_record(self):
+        registry, owner, approval_path = self._write_upload_rights(self.root / "source_rights.sqlite3")
+        target = self.root / "approval-target.json"
+        approval_path.replace(target)
+        try:
+            approval_path.symlink_to(target)
+        except (NotImplementedError, OSError) as exc:
+            self.skipTest(f"file symlinks are unavailable on this runner: {exc}")
+        with self.assertRaisesRegex(PermissionError, "must not be a symlink"):
+            require_current_owner_approval(
+                approval_path, clip_id="clip-1", source_id="source-1",
+                video_path=self.video, owner=owner, privacy="private",
+                rights_registry=registry,
+            )
+
+    def test_owner_approval_rejects_oversized_record(self):
+        registry, owner, approval_path = self._write_upload_rights(self.root / "source_rights.sqlite3")
+        approval_path.write_bytes(b" " * (MAX_OWNER_APPROVAL_RECORD_BYTES + 1))
+        with self.assertRaisesRegex(PermissionError, "exceeds maximum size"):
+            require_current_owner_approval(
+                approval_path, clip_id="clip-1", source_id="source-1",
+                video_path=self.video, owner=owner, privacy="private",
+                rights_registry=registry,
+            )
+
+    def test_owner_approval_rejects_malformed_json(self):
+        registry, owner, approval_path = self._write_upload_rights(self.root / "source_rights.sqlite3")
+        approval_path.write_text("{not-json", encoding="utf-8")
+        with self.assertRaisesRegex(PermissionError, "missing or unreadable"):
+            require_current_owner_approval(
+                approval_path, clip_id="clip-1", source_id="source-1",
+                video_path=self.video, owner=owner, privacy="private",
+                rights_registry=registry,
+            )
 
     def _mock_google_modules(self, youtube):
         package = types.ModuleType("googleapiclient")
