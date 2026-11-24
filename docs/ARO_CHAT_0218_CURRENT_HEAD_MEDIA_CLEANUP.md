@@ -96,3 +96,15 @@ Date: 2026-11-24
 - The green run above validates the functional PR head `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722` via its merge-ref checkout.
 - Subsequent commits in this work session update only the three documentation files (workstream report, startup handoff, and registry). The latest documentation-only branch tip has no associated Actions run returned; therefore latest-tip CI is NOT VERIFIED.
 - No application code or tests changed after the green functional head. Do not describe the current documentation-only tip as independently CI-verified.
+
+
+## Current branch-tip CI verification — 2026-11-24
+
+- Current PR #339 head: `a08a69cfa687479c58ce72a322b1357761a92723`.
+- Commit-associated Actions run: [45434843065](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45434843065), completed SUCCESS.
+- Ubuntu job `138589783324`: compile passed; 351 tests passed; synthetic MP4/FFprobe passed.
+- Hosted-Windows job `138589782758`: compile passed; same 351-test suite passed; 3 FIFO-only tests are unavailable/skipped on this runner because `os.mkfifo` is not provided; synthetic MP4/FFprobe passed.
+- Both platforms ran the same 351-test suite, not 702 unique tests. The run logs identify generated synthetic pattern/tone only; `gta6_footage_used=false`, `third_party_media_used=false`, `upload_performed=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- This closes the earlier documentation's "current documentation-only tip CI pending" status for the exact current branch tip. The run is associated with the PR head, but hosted CI does not establish owner-device Windows acceptance or real-media behavior. OAuth, network upload, and public publishing were not exercised.
+- PR #339 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN. Independent security review of the full consolidated uploader/approval lineage is NOT RECORDED. Parent PR #328 remains non-mergeable against its base; dependency ancestry reconciliation remains required.
+- Next authorized task: review the full uploader/approval lineage independently and map the PR #311 → #328 → #339 dependency graph using exact commit ancestry. Do not merge, rebase, retarget, access OAuth credentials, upload real media, deploy, or publish. Keep all live/public upload gates disabled.
