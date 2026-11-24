@@ -33,3 +33,13 @@ Date: 2026-11-25
 ## Safety
 - Draft-only continuation. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials/tokens, real media, network upload, or publishing.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
+
+## Follow-up CI verification — 2026-11-25
+- PR #362 commit-associated Actions run [#45465232908](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45465232908) completed SUCCESS.
+- The workflow checked PR merge ref `6ca5d4d4572fc566ef0a7281a1e79c06a90d4297`, which merges PR head/report commit `5709bf02a1ba57b1021520bb4678243fb94abb11` into starting base `3a8bc14207e9957e3920caf430935b144bfd559b`.
+- Ubuntu job `138698264359`: compilation passed; complete unittest suite ran 365 tests and returned OK; synthetic MP4/FFprobe validation passed.
+- Hosted Windows job `138698263819`: compilation passed; complete unittest suite ran 365 tests and returned OK; synthetic MP4/FFprobe validation passed.
+- Both jobs used the same 365-test suite; do not describe this as 730 unique tests. The synthetic render used locally generated test pattern/tone only; no GTA 6 or third-party footage. Publishing remained disabled and manual review required.
+- Status: CI_VERIFIED on the PR merge ref containing the current PR head. Raw-head-only checkout was NOT demonstrated. Local tests in this connector session NOT RUN. Independent review NOT RECORDED.
+- Parent PR #361's earlier Windows failure remains historical failure evidence; this follow-up run is a separate successful run for PR #362 and does not alter PR #361.
+- PR #362 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, OAuth, credentials, real media, network upload, merge, rebase, retarget, deployment, or publishing was performed.
