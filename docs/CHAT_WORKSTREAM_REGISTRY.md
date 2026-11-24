@@ -1764,3 +1764,17 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Parent feature PR: [#263](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/263).
 - Status: IMPLEMENTED; CI_VERIFIED on Ubuntu + hosted Windows for PR #264 exact head (run #45371891963; 16 tests per platform); PR #264 merged into feature branch; PR #263 post-merge head CI pending; independent review NOT RECORDED.
 - Safety: synthetic test media only; no real GTA 6 footage, credentials, network upload, publishing, merge, retarget, or deployment. Hosted Windows CI is not owner-device Windows verification.
+
+
+## Latest continuation baseline — ARO-CHAT-0182 (2026-11-24)
+
+- Chat title: `ARO-CHAT-0182 | Renderer Concurrent-Output No-Overwrite Regression`.
+- Workstream: ARO-GTA-P1-182.
+- Branch: `workstream/aro-chat-0182-renderer-no-overwrite-race-test-2026-11-24`; base: `feature/local-authorized-ffmpeg-renderer`; starting SHA: `065daab77624ce1adb65f61c61eee1dbcadd8303`.
+- Task: add a deterministic offline regression test proving the local renderer cannot overwrite a destination created concurrently after FFmpeg completes.
+- Implementation: `tests/test_render.py`, commit `c0235d490e4ca6ba912c358fc805ef45f2732dfb`; report: `docs/ARO_CHAT_0182_RENDERER_NO_OVERWRITE_RACE_TEST.md`.
+- The regression simulates a concurrent destination creator at the atomic `os.link` promotion boundary, verifies the concurrent file's contents survive, verifies the renderer fails closed, and verifies its temporary output is removed.
+- Status: IMPLEMENTED; local tests NOT RUN in this connector session; exact-head CI PENDING until this branch's PR checks complete.
+- Parent PR #263 head `065daab77624ce1adb65f61c61eee1dbcadd8303` passed Ubuntu and hosted-Windows CI run #45372348715. This result is parent-only evidence and is not transferred to this follow-up.
+- No production behavior changes, real media, OAuth, credentials, upload, publishing, merge, retarget, deployment, or destructive action. Owner-device Windows and real-media acceptance remain unverified.
+- Issue #68 remains open; keep live uploads/public publishing disabled until all authenticated-owner approval and rights gates are independently verified.
