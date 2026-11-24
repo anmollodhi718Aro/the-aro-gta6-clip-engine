@@ -489,7 +489,13 @@ def upload_video(
             video_path=snapshot_path, owner=owner, privacy=privacy,
             rights_registry=rights_registry,
         )
-        require_report_publish_permissions(current_report, rights_registry, source_id)
+        # Re-read the rights report immediately before the upload side effect.
+        # The registry checks below are fresh, but reusing the earlier in-memory
+        # report would miss a newly added source-bound asset or changed report.
+        latest_report = load_rights_report(rights_report_path)
+        if latest_report.get("clip_id") != clip_id or latest_report.get("source_id") != source_id:
+            raise PermissionError("requested clip/source IDs no longer match the current rights report")
+        require_report_publish_permissions(latest_report, rights_registry, source_id)
         response = youtube.videos().insert(
             part="snippet,status", body=body, media_body=media,
         ).execute(num_retries=3)
