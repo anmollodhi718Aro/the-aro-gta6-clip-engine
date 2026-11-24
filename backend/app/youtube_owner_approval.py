@@ -8,6 +8,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import stat
 import tempfile
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -177,7 +178,34 @@ def require_current_owner_approval(
 ) -> None:
     """Fail closed on stale, mismatched, revoked or non-publishable evidence."""
     try:
-        record = json.loads(Path(approval_path).expanduser().read_text(encoding="utf-8"))
+        approval_file = Path(approval_path).expanduser()
+        # Approval records are security-sensitive local evidence. Refuse links
+        # and non-regular files rather than following a path outside the record.
+        if approval_file.is_symlink():
+            raise PermissionError("owner approval record must not be a symlink")
+        path_stat = approval_file.lstat()
+        if not stat.S_ISREG(path_stat.st_mode):
+            raise PermissionError("owner approval record must be a regular file")
+        flags = (
+            os.O_RDONLY
+            | getattr(os, "O_NOFOLLOW", 0)
+            | getattr(os, "O_NONBLOCK", 0)
+        )
+        descriptor = os.open(approval_file, flags)
+        try:
+            opened_stat = os.fstat(descriptor)
+            if not stat.S_ISREG(opened_stat.st_mode):
+                raise PermissionError("owner approval record must be a regular file")
+            if (path_stat.st_dev, path_stat.st_ino) != (opened_stat.st_dev, opened_stat.st_ino):
+                raise PermissionError("owner approval record changed while opening")
+            with os.fdopen(descriptor, "r", encoding="utf-8") as stream:
+                descriptor = -1
+                record = json.load(stream)
+        finally:
+            if descriptor >= 0:
+                os.close(descriptor)
+    except PermissionError:
+        raise
     except (OSError, json.JSONDecodeError) as exc:
         raise PermissionError("durable owner approval record is missing or unreadable") from exc
     if not isinstance(record, dict) or record.get("schema_version") != 1:
