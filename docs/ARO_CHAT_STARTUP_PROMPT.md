@@ -556,3 +556,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #264 exact head `c00f0b4070bc8941619b219897b609fa9368510c` passed run #45371891963: Ubuntu and hosted Windows each compiled, passed 16 tests, and passed synthetic MP4/FFprobe integration. Both jobs used PR merge ref `1186fdf`; raw-head-only checkout is NOT DEMONSTRATED.
 - PR #264 was squash-merged into the feature branch as `0c7d3226e903560a01e8335172f73088d5876ac1`. PR #263 remains open/draft/unmerged against main. Its post-merge head and subsequent documentation updates require their own exact-head CI; do not transfer PR #264's run.
 - No real-media verification, OAuth, upload, or publishing. Hosted Windows CI does not replace owner-device Windows acceptance. Issue #68 security and owner-acceptance gates remain closed.
+
+
+## Latest continuation baseline — ARO-CHAT-0183 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0183 | Renderer Concurrent-Output No-Overwrite Regression`.
+- Workstream: ARO-GTA-P1-183; branch: `workstream/aro-chat-0182-renderer-no-overwrite-race-test-2026-11-24`; base: `feature/local-authorized-ffmpeg-renderer`; starting SHA: `065daab77624ce1adb65f61c61eee1dbcadd8303`.
+- Task: deterministic regression test for a concurrent destination creator racing the renderer's atomic no-overwrite promotion.
+- Implementation commit: `c0235d490e4ca6ba912c358fc805ef45f2732dfb`; workstream documentation and registry updates follow on this branch.
+- Parent PR #263 head `065daab77624ce1adb65f61c61eee1dbcadd8303` passed Ubuntu and hosted-Windows CI run #45372348715. Do not transfer that result to this follow-up branch.
+- PR #265 exact head `cad30dd59b8d03305ffc0077cf587734a43e86e8` passed run #45373306320: Ubuntu job #138372817334 and hosted-Windows job #138372817771 each compiled, passed 17 tests, and passed synthetic MP4/FFprobe integration. Same 17-test suite on both platforms, not 34 unique tests; merge-ref checkout only, raw-head-only checkout NOT DEMONSTRATED. Local tests were not run in the connector session.
+- Keep the scope test-only. Do not merge, retarget, deploy, upload, publish, or process real media. Issue #68 remains an independent publishing security gate; public uploads stay disabled.
