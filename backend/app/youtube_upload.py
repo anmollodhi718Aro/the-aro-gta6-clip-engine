@@ -12,6 +12,7 @@ import mimetypes
 import os
 import re
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -22,20 +23,28 @@ DEFAULT_CATEGORY_ID = "20"  # Gaming
 
 
 
-def load_destination_profile(config_path: str | Path, profile_name: str) -> dict[str, Any]:
+def load_destination_profile(
+    config_path: str | Path, profile_name: str, *, repository_root: str | Path | None = None
+) -> dict[str, Any]:
     """Load one non-secret destination identity; OAuth tokens stay in separate local files."""
     if not isinstance(profile_name, str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", profile_name):
         raise ValueError("destination profile name must use 1-64 letters, numbers, underscores or hyphens")
     configured_path = Path(config_path).expanduser()
     if configured_path.parent.is_symlink():
         raise PermissionError("destination profile configuration directory must not be a symlink")
+    path = configured_path
     try:
-        path = configured_path.resolve(strict=True)
+        path = path.resolve(strict=True)
+        root = Path(repository_root).resolve(strict=True) if repository_root is not None else Path(__file__).resolve().parents[2]
+        expected_secrets_dir = root / ".secrets"
+    except OSError as exc:
+        raise PermissionError("destination profile configuration or repository root is missing or unreadable") from exc
+    if path.parent != expected_secrets_dir:
+        raise PermissionError("destination profile configuration must resolve inside this repository .secrets directory")
+    try:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise PermissionError("destination profile configuration is missing or unreadable") from exc
-    if path.parent.name != ".secrets":
-        raise PermissionError("destination profile configuration must resolve inside the repository .secrets directory")
     profiles = payload.get("profiles") if isinstance(payload, dict) else None
     if not isinstance(profiles, dict) or not profiles:
         raise PermissionError("destination configuration must contain a non-empty profiles object")
@@ -55,7 +64,17 @@ def load_destination_profile(config_path: str | Path, profile_name: str) -> dict
     selected = profiles.get(profile_name)
     if not isinstance(selected, dict):
         raise PermissionError(f"unknown destination profile: {profile_name}")
-    token_path = path.parent / "tokens" / f"{profile_name}.json"
+    token_dir = path.parent / "tokens"
+    if token_dir.is_symlink():
+        raise PermissionError("OAuth token directory must not be a symbolic link")
+    if token_dir.exists():
+        try:
+            resolved_token_dir = token_dir.resolve(strict=True)
+        except OSError as exc:
+            raise PermissionError("OAuth token directory is missing or unreadable") from exc
+        if resolved_token_dir != expected_secrets_dir / "tokens":
+            raise PermissionError("OAuth token directory must remain inside this repository .secrets directory")
+    token_path = token_dir / f"{profile_name}.json"
     return {
         "profile": profile_name,
         "google_subject": selected["google_subject"].strip(),
@@ -67,13 +86,14 @@ def load_destination_profile(config_path: str | Path, profile_name: str) -> dict
 def resolve_destination_identity(
     *, config_path: Path | None, profile_name: str | None,
     token_override: Path | None,
+    repository_root: str | Path | None = None,
 ) -> tuple[str, str, Path]:
     if bool(config_path) != bool(profile_name):
         raise PermissionError("--destination-config and --destination-profile must be supplied together")
     if config_path and profile_name:
         if token_override is not None:
             raise PermissionError("--token cannot override a destination profile's isolated token path")
-        profile = load_destination_profile(config_path, profile_name)
+        profile = load_destination_profile(config_path, profile_name, repository_root=repository_root)
         return profile["google_subject"], profile["channel_id"], profile["token_path"]
     subject = os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "").strip()
     channel = os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "").strip()
@@ -187,6 +207,31 @@ def validate_upload(
     return video, body
 
 
+def _persist_oauth_token(token_path: Path, token_json: str) -> None:
+    """Atomically persist an OAuth token with owner-only permissions."""
+    target = Path(token_path).expanduser()
+    target.parent.mkdir(parents=True, exist_ok=True)
+    parent = target.parent.resolve(strict=True)
+    target = parent / target.name
+    if target.is_symlink():
+        raise PermissionError("OAuth token path must not be a symbolic link")
+    fd, temp_name = tempfile.mkstemp(prefix=f".{target.name}.", dir=str(parent))
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as stream:
+            os.chmod(temp_name, 0o600)
+            stream.write(token_json)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temp_name, target)
+        try:
+            os.chmod(target, 0o600)
+        except OSError:
+            pass
+    finally:
+        if os.path.exists(temp_name):
+            os.unlink(temp_name)
+
+
 def _authorize_google(client_secrets: Path, token_path: Path):
     try:
         from google.auth.transport.requests import Request
@@ -197,6 +242,9 @@ def _authorize_google(client_secrets: Path, token_path: Path):
             'Google upload dependencies are missing. Install with: pip install -e ".[youtube-upload]"'
         ) from exc
 
+    token_path = Path(token_path).expanduser()
+    if token_path.is_symlink():
+        raise PermissionError("OAuth token path must not be a symbolic link")
     credentials = None
     if token_path.is_file():
         try:
@@ -219,12 +267,7 @@ def _authorize_google(client_secrets: Path, token_path: Path):
             host="127.0.0.1", port=0, open_browser=True,
             authorization_prompt_message="Authorize THE ARO Studio in your browser: {url}",
         )
-        token_path.parent.mkdir(parents=True, exist_ok=True)
-        token_path.write_text(credentials.to_json(), encoding="utf-8")
-        try:
-            os.chmod(token_path, 0o600)
-        except OSError:
-            pass
+        _persist_oauth_token(token_path, credentials.to_json())
     return credentials
 
 
@@ -246,15 +289,22 @@ def require_report_publish_permissions(
     report: dict[str, Any], rights_registry: Any, source_id: str
 ) -> None:
     """Recheck the clip source and all source-bound assets against current publish grants."""
+    if not isinstance(report, dict) or not isinstance(source_id, str) or not source_id.strip():
+        raise PermissionError("a valid rights report and source_id are required")
     if report.get("source_id") != source_id:
         raise PermissionError("requested source_id does not match the rights report")
+    assets = report.get("assets", [])
+    if not isinstance(assets, list):
+        raise PermissionError("rights report assets must be a list")
     source_ids = {source_id}
-    for asset in report.get("assets", []):
+    for asset in assets:
+        if not isinstance(asset, dict):
+            raise PermissionError("rights report asset entries must be objects")
         if asset.get("status") == "scope_match_metadata_only":
-            asset_source_id = str(asset.get("source_id", "")).strip()
-            if not asset_source_id:
-                raise PermissionError("source-bound rights report asset is missing source_id")
-            source_ids.add(asset_source_id)
+            asset_source_id = asset.get("source_id")
+            if not isinstance(asset_source_id, str) or not asset_source_id.strip():
+                raise PermissionError("source-bound rights report asset is missing a valid source_id")
+            source_ids.add(asset_source_id.strip())
     for current_source_id in sorted(source_ids):
         rights_registry.authorize(current_source_id, "publish", "youtube")
 
