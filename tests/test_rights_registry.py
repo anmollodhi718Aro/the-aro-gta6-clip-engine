@@ -206,8 +206,8 @@ class SourceRightsRegistryTests(unittest.TestCase):
             "https://example.com:70000/video",
             "https://user:password@example.com/video",
             "https://exa mple.com/video",
-            "https://exa\\nmple.com/video",
-            "https://exa\\tmple.com/video",
+            "https://exa\nmple.com/video",
+            "https://exa\tmple.com/video",
             "https://example.com\\\\@evil.example/video",
         )
         for source_url in invalid_urls:
