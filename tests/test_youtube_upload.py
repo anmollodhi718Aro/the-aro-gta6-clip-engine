@@ -200,6 +200,59 @@ class YouTubeUploadTests(unittest.TestCase):
         self.assertEqual(verify_owner.call_count, 2)
         youtube.videos.return_value.insert.assert_called_once()
 
+    def test_upload_rechecks_latest_rights_report_before_api_insert(self):
+        db_path = self.root / "source_rights.sqlite3"
+        self._write_upload_rights(db_path)
+        youtube = Mock()
+        youtube.channels.return_value.list.return_value.execute.return_value = {
+            "items": [{"id": "youtube-channel-456"}]
+        }
+        youtube.videos.return_value.insert.return_value.execute.return_value = {
+            "id": "video-latest-report", "status": {"privacyStatus": "private"}
+        }
+        from backend.app import youtube_upload as upload_module
+        original_loader = upload_module.load_rights_report
+        calls = {"count": 0}
+
+        def mutate_report_before_final_read(path):
+            calls["count"] += 1
+            if calls["count"] == 2:
+                changed = json.loads(Path(path).read_text(encoding="utf-8"))
+                changed["assets"].append({
+                    "asset_id": "new-third-party-asset",
+                    "status": "scope_match_metadata_only",
+                    "source_id": "source-2",
+                })
+                Path(path).write_text(json.dumps(changed), encoding="utf-8")
+            return original_loader(path)
+
+        modules = self._mock_google_modules(youtube)
+        with patch.dict(sys.modules, modules):
+            with patch.dict(os.environ, {
+                "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
+                "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
+            }):
+                with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch(
+                    "backend.app.youtube_owner_approval.verify_authenticated_channel_owner",
+                    return_value=self.owner,
+                ), patch.object(upload_module, "load_rights_report", side_effect=mutate_report_before_final_read):
+                    with self.assertRaisesRegex(PermissionError, "no current publish permission"):
+                        upload_video(
+                            self.video,
+                            {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                            client_secrets=self.client_secrets,
+                            token_path=self.root / "token.json",
+                            rights_report_path=self.report,
+                            approval_record_path=self.root / "approval.json",
+                            rights_db_path=db_path,
+                            clip_id="clip-1",
+                            source_id="source-1",
+                            owner_approved=True,
+                            rights_confirmed=True,
+                        )
+        self.assertEqual(calls["count"], 2)
+        youtube.videos.return_value.insert.assert_not_called()
+
     def test_upload_snapshot_rejects_fifo_replacement_without_blocking(self):
         if not hasattr(os, "mkfifo"):
             self.skipTest("FIFO creation is unavailable on this platform")
