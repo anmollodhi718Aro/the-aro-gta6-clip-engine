@@ -104,3 +104,9 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Issue #68 remains OPEN. This PRIVATE-only guard-order fix does not complete authenticated channel-owner approval or authorize live upload/public publishing. Keep all live uploads and public publishing disabled.
 - No local tests were run in the audit connector session. No workflow retry, OAuth, credentials, real media, upload, publishing, merge, retarget, or deployment was performed.
 - The inspected project master document is `docs/MASTER_PLAN.md`; a separate `MASTER_SCRIPT.md` was not present at the inspected root/docs paths. The canonical registry and startup prompt are branch-specific; always fetch them from the selected branch.
+
+
+### Follow-up CI status — PR #292
+- Draft PR #292 for ARO-CHAT-0194 is OPEN / DRAFT / UNMERGED.
+- First post-creation head `3f2b6eb66661dbe451989f366f3346c51a7f8386` had zero associated Actions runs and zero combined status entries; own CI is PENDING / NOT VERIFIED. Inspect the latest live head before updating this status.
+- Do not transfer PR #289's successful CI run to PR #292. No workflow retry was initiated.
