@@ -1574,3 +1574,9 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #249 is NOT CI_VERIFIED. No workflow retry or local test run was performed. The same 340-test suite ran on each platform; do not count these as 680 unique tests.
 - Audit report: `docs/ARO_CHAT_0170_PR249_CI_AUDIT.md`. This audit branch's own exact-head CI remains separate and must be checked independently.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled pending explicit owner approval and all security/acceptance gates. Documentation-only; no OAuth, credentials, real media, upload, publishing, retry, merge, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0170 audit PR status refresh — 2026-11-24
+- Draft PR #250 is OPEN / DRAFT / UNMERGED at head `30105fd17d1c985a3e76b7927f709011adce5732`; GitHub reported mergeable=false at creation.
+- PR #250 exact-head workflow lookup returned zero runs and combined status returned zero entries. Its own CI is PENDING / NOT VERIFIED; no compile/test/render result is claimed. Reviews, inline threads, and comments are empty; independent review NOT RECORDED.
+- Do not transfer PR #249's failed CI result to PR #250. Keep PR #250 draft-only; recheck its own exact head before claiming verification.
