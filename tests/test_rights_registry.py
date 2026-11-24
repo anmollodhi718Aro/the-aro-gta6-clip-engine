@@ -1,8 +1,10 @@
 """Tests for source-specific rights registration and export authorization."""
 import tempfile
 import unittest
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from threading import Barrier
 
 from backend.app.rights_registry import SourceRightsRegistry
 
@@ -112,6 +114,24 @@ class SourceRightsRegistryTests(unittest.TestCase):
         self.assertEqual([e["action"] for e in self.registry.audit_events("creator-video-1")],
                          ["registered", "revoked"])
 
+    def test_concurrent_duplicate_registration_creates_exactly_one_grant(self):
+        barrier = Barrier(2)
+
+        def attempt_registration(actor):
+            barrier.wait(timeout=5)
+            try:
+                self.registry.register(dict(self.record), actor=actor)
+                return "registered"
+            except PermissionError:
+                return "duplicate"
+
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            outcomes = list(pool.map(attempt_registration, ("worker-a", "worker-b")))
+
+        self.assertCountEqual(outcomes, ["registered", "duplicate"])
+        events = self.registry.audit_events("creator-video-1")
+        self.assertEqual([event["action"] for event in events], ["registered"])
+        self.assertIn(events[0]["actor"], ("worker-a", "worker-b"))
 
 if __name__ == "__main__":
     unittest.main()
