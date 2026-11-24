@@ -1800,3 +1800,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #267 remains OPEN / DRAFT / UNMERGED. Its CI result applies only to head `587e6909d99c8db34ade24ca0c0f2392167e5df7`; do not transfer it to PR #266 or another SHA.
 - Workstream status: documentation audit IMPLEMENTED; PR #267 exact-head CI_VERIFIED for both hosted platforms; independent review, real-media acceptance, and owner-device Windows acceptance remain NOT VERIFIED.
 - No application/source/test/workflow behavior changes, workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or destructive action. Issue #68 remains OPEN and live uploads/public publishing remain disabled.
+
+
+## Latest continuation baseline — ARO-CHAT-0185 (2026-11-24)
+
+- Exact chat title: `ARO-CHAT-0185 | PR #267 Live-Head CI Audit`; workstream: ARO-GTA-P1-185.
+- Branch: `workstream/aro-chat-0185-pr267-live-head-ci-audit-2026-11-24`; base / starting SHA: PR #267 live head `7045b16da92211c8e625eb4a343af303be013916`.
+- Task: documentation-only audit of PR #267's current exact head. Earlier ARO-CHAT-0184 closeout CI on `587e6909d99c8db34ade24ca0c0f2392167e5df7` is stale and must not be transferred.
+- Current-head run #45380743968 (run 1182) was IN_PROGRESS at initial inspection. Ubuntu job #138398801881 passed setup, checkout, FFmpeg/FFprobe, Python, compile, and unit/synthetic-media integration tests. Hosted-Windows job #138398801341 had passed setup/checkout; FFmpeg/FFprobe installation was still running and Python/compile/tests were pending.
+- Combined status returned zero entries. PR #267 is OPEN / DRAFT / UNMERGED; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED.
+- Checkout refs and numeric unittest output were not exposed. Do not claim raw-head-only checkout or infer test count. Re-fetch live head and jobs before closeout.
+- Documentation-only; no workflow retry, merge, rebase, retarget, deploy, OAuth, credentials, real media, upload, publishing, or destructive action. Keep Issue #68 and live/public publishing gates closed.
