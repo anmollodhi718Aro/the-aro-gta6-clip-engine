@@ -206,6 +206,11 @@ class SourceRightsRegistryTests(unittest.TestCase):
             "https://example.com:/video",
             "https://[::1]:/video",
             "https://example.com:70000/video",
+            "https://example..com/video",
+            "https://-example.com/video",
+            "https://example-.com/video",
+            "https://exa_mple.com/video",
+            "https://%65xample.com/video",
             "https://user:password@example.com/video",
             "https://exa mple.com/video",
             "https://exa\nmple.com/video",
@@ -218,7 +223,13 @@ class SourceRightsRegistryTests(unittest.TestCase):
                     self.registry.register(dict(self.record, source_url=source_url))
 
     def test_register_accepts_http_and_https_source_urls(self):
-        for index, source_url in enumerate(("http://example.com/video", "https://example.com/video")):
+        for index, source_url in enumerate((
+            "http://example.com/video",
+            "https://example.com/video",
+            "https://[::1]/video",
+            "https://bücher.example/video",
+            "https://example.com./video",
+        )):
             with self.subTest(source_url=source_url):
                 record = dict(self.record, source_id=f"url-source-{index}", source_url=source_url)
                 self.registry.register(record)
