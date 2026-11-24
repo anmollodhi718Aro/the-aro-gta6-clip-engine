@@ -29,3 +29,11 @@ The ARO-CHAT-0215 upload snapshot helper checks that the source pathname is a re
 
 ## Safety
 Draft-only follow-up stacked on PR #328. Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled. Do not merge, rebase, retarget, deploy, or perform a real upload.
+
+
+## PR and exact-head CI reconciliation — 2026-11-24
+- Draft PR #331 is OPEN / DRAFT / UNMERGED at head `15fd23d486794e02a7ae1b3076a7fe4f0c473eca`.
+- Exact-head Actions lookup returned zero workflow runs; combined status is PENDING with zero checks/statuses. Ubuntu and hosted-Windows CI are NOT RUN / NOT VERIFIED.
+- The earlier statement that the branch was not yet in a PR is superseded. Do not transfer parent PR #328's earlier CI to this head.
+- Code inspection only: no local tests or independent review are recorded in this session.
+- Next action: diagnose missing workflow trigger, then run/obtain exact-head CI and independent review. Keep draft stack unmerged; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; no OAuth, real media, upload, publishing, merge, rebase, retarget or deployment.
