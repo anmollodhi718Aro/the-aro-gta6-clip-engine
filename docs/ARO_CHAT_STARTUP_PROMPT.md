@@ -348,3 +348,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Expanded the duplicate-source-ID regression to attempt replacing grantor, source URL, evidence reference, attribution, disclosure, allowed uses and platforms, then assert the original metadata is preserved.
 - Test-only commit: `33743ca5ecaab1d69cab999968e8da8dc7f030ae`. Production code unchanged.
 - Local tests NOT RUN; check fresh exact-head Ubuntu/hosted-Windows CI. Do not transfer results from the earlier PR #355 head.
+
+
+### ARO-CHAT-0226 latest continuation — 2026-11-25
+- Test-only follow-up commit `5befa5058e3d018dca999a98b6ab564edc8c3f30` explicitly verifies duplicate source-ID registration cannot add the `tiktok` platform or broaden an `analyze`-only grant to `edit`; production behavior is unchanged.
+- The test file on this branch includes those assertions. The prior startup/registry handoff entries did not yet record this follow-up, so this note synchronizes the handoff.
+- PR #355 remains DRAFT / OPEN / UNMERGED. Latest previously recorded PR head before this documentation sync: `f2bd2982216280852f5b823796dc3700c16f2e7d`.
+- Exact-head CI for the test follow-up was not returned by commit workflow lookup; combined status also returned no checks. Treat exact-head Ubuntu/hosted-Windows CI as PENDING / NOT VERIFIED. Local tests NOT RUN; independent security review NOT RECORDED.
+- PR #354 base advanced independently. PR #355 ancestry is DIVERGED (10 ahead / 2 behind; merge base `1d9d478fcfd03e36f6389acca682b3ede57c17fd`). Preserve draft ancestry; no rebase, retarget, or merge.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, deployment, or publishing.
