@@ -828,30 +828,112 @@ No OAuth, credentials, network upload, merge, deployment, or public publishing w
 | Branch / PR | workstream/aro-chat-0133-multichannel-private-profiles-2026-11-24 / [Draft PR #295](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/295) |
 | Starting SHA | 4e01f16e97b2239c74a2f96c4262b04b57a4ae73 (PR #289 exact head) |
 | Scope | Add local named destination profiles mapping a verified Google OIDC subject and exact YouTube channel ID to a profile-specific OAuth token path; require explicit profile selection for each approval/upload; document local-only config. |
-| Status | IMPLEMENTED; TESTED (334 tests per platform); CI_VERIFIED on exact PR head `8a3eecb446402d4a86c3c3951e9b99307afefa75` via run `45401275694`; Ubuntu and hosted Windows passed; no OAuth, upload, merge or publish performed |
+| Status | IMPLEMENTED; TESTED; CI_VERIFIED on exact head `cf731cabda8a045d39457f0eef800dbdb051e75e` (Ubuntu + hosted Windows); no OAuth or upload performed |
 | Security behavior | Profile file is intended under ignored .secrets; no OAuth tokens or client secrets are stored in the profile map; profile channel IDs must be unique; per-profile token files are isolated; profile token override is rejected; existing exact channel and file-hash approval checks remain in force. |
 
 Both target handles must still be verified against exact channel IDs and Google OIDC subjects through their respective authorized OAuth sessions. Never infer IDs from handles. This workstream does not perform either OAuth flow or any upload. Public publishing remains disabled.
 
 
-### ARO-CHAT-0133 exact-head CI verification — 2026-11-24
+## ARO-CHAT-0134 implementation — 2026-11-24
 
-- PR [#295](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/295) implementation head at run time `cf731cabda8a045d39457f0eef800dbdb051e75e` was associated with GitHub Actions run [45390003956](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45390003956), workflow `Python CI`.
-- Ubuntu job `138430897019` and hosted Windows job `138430897645` both completed successfully. Each compiled source/tests, ran the complete 331-test unittest suite (`Ran 331 tests`; success), and generated/verified a locally generated synthetic MP4 with FFmpeg/FFprobe.
-- This is CI_VERIFIED on the exact implementation SHA, including hosted Windows CI. It is not owner-device Windows verification and the synthetic media is not GTA 6 footage or real-media acceptance.
-- PR #295 remains OPEN / DRAFT / UNMERGED and independent review is pending. No OAuth, credential/token access, YouTube API upload, merge, deployment, or public publishing occurred. Public visibility remains prohibited.
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0134 |
+| Exact chat title | ARO-CHAT-0134 | Verify YouTube PRIVATE Upload Response |
+| Workstream ID | ARO-GTA-P1-134 |
+| Scope | Harden the final upload result boundary: the CLI must not report success unless YouTube's videos.insert response returns a video ID and explicitly confirms privacyStatus=private. Add regression coverage and update the operating instructions. |
+| Branch / PR | workstream/aro-chat-0134-private-upload-response-verification-2026-11-24 / PR pending |
+| Starting SHA | cf731cabda8a045d39457f0eef800dbdb051e75e (PR #295 head) |
+| Status | IMPLEMENTED; exact-head CI pending; no OAuth, real upload, merge, deployment or publishing performed |
+| Changed files | backend/app/youtube_upload.py; tests/test_youtube_upload.py; docs/YOUTUBE_UPLOAD.md; docs/CHAT_WORKSTREAM_REGISTRY.md; docs/ARO_CHAT_STARTUP_PROMPT.md |
 
-- Registry-only follow-up commit `461bf01df87923378c6ebf6b3b8d460391c80737` is the current branch tip at this audit. No PR-triggered workflow run is associated with that docs-only SHA; retain the distinction between implementation CI evidence and current-tip CI status.
+The uploader requests PRIVATE and now additionally requires the official upload response to explicitly confirm PRIVATE before reporting success. Missing or unexpected visibility is reported as UNVERIFIED; the code does not silently claim a successful private staging operation.
 
 
-### ARO-CHAT-0133 approval-path isolation hardening — 2026-11-24
+## ARO-CHAT-0134 exact-head CI closeout — 2026-11-24
 
-- Follow-up implementation commit `99f39a3182abd2c7cd44dabaa229fd48ea41def1` adds a fail-closed guard requiring profile-mode approval records to live beneath a directory whose resolved final component equals the selected destination profile.
-- Regression tests in commit `67b3f7008769f59d2116031f4e95fddd8ad255e2` cover the matching profile directory, rejection of a shared/mismatched directory, and missing approval-record paths. Documentation updated in `07359368c7322e9da021bfac448619c4e1b34828`.
-- The approval-path isolation hardening was extended to reject profile names that collide case-insensitively, preventing token/approval path collisions on Windows filesystems. Regression test `test_case_colliding_profile_names_fail_closed` was added.
-- Exact PR head `8a3eecb446402d4a86c3c3951e9b99307afefa75` passed Actions run [45401275694](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45401275694). Ubuntu job `138470235452` and hosted Windows job `138470235170` each passed compilation, all 334 unit tests, and synthetic MP4 render/FFprobe verification. Status: CI_VERIFIED on this exact SHA.
-- PR #295 remains draft/open/unmerged. No OAuth, credential access, upload, merge, deployment or publishing was performed.
+- PR #299 audited implementation head: `d4ca7042ff8bfbd00070f801d374b6292feddfda`; base PR #295 head: `cf731cabda8a045d39457f0eef800dbdb051e75e`.
+- Exact-head-associated Actions run [#45391987858](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45391987858) completed SUCCESS.
+- Ubuntu job #138437817592 and hosted-Windows job #138437817026 both passed compilation, the same 332-test suite, and synthetic MP4/FFprobe validation (3.716s Ubuntu; 14.442s Windows).
+- Both jobs checked out merge SHA `4a22ec0cdf15cbc78b17543c21e3b0f75a8f16b3`, merging audited head `d4ca7042ff8bfbd00070f801d374b6292feddfda` into base `cf731cabda8a045d39457f0eef800dbdb051e75e`; raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic logs: `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`. No real GTA 6 footage or live upload was used.
+- PR #299 remains OPEN / DRAFT / UNMERGED. No review submissions, inline review comments, or conversation comments were recorded; independent security review NOT RECORDED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Local OAuth owner/channel verification, source-rights evidence, exact per-clip approval, owner-device verification, and an accepted private-upload test remain NOT VERIFIED.
+- No OAuth, credential/token access, real media, network upload, publishing, merge, deployment, or destructive action occurred.
 
-- Windows log confirms both new regression tests passed and `Ran 333 tests in 13.660s`; Ubuntu log confirms the same two tests passed and `Ran 333 tests in 4.990s`. Synthetic fixture render/FFprobe passed on both runners.
 
-- Log evidence: Ubuntu `Ran 334 tests in 5.068s`; hosted Windows `Ran 334 tests in 14.136s`. The new case-collision and profile-specific approval-path tests passed on both platforms. Both synthetic MP4/FFprobe smoke steps passed.
+### Additional security hardening — destination profile storage boundary
+- Review finding: profile config selected an isolated token path relative to its own parent, while docs required `.secrets/` but code did not enforce that boundary. A config outside `.secrets/` could therefore place OAuth token files outside the ignored secrets directory.
+- Fix: resolve the profile config path strictly and reject it unless its resolved parent directory is exactly `.secrets`; this also rejects config-file or directory symlinks resolving outside that directory.
+- Regression test: an otherwise valid profile config outside `.secrets/` is rejected. Existing profile tests now place fixtures under `.secrets/` and assert tokens resolve to `.secrets/tokens/<profile>.json`.
+- Commits: `6c3e35a4905ab8ac69fb7ff57f5204f67d67162a`, `004a2001e4e624334658ac084b0d41f79ae4a1ff`. Exact-head CI pending; no OAuth or upload performed.
+
+
+## ARO-CHAT-0197 Windows path regression fix — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0197 |
+| Exact chat title | ARO-CHAT-0197 | PR #299 Windows Path Regression Fix |
+| Workstream ID | ARO-GTA-P1-197 |
+| Scope | Fix the Windows-only destination-profile token-path assertion exposed by the latest PR #299 CI run. Keep the production path canonicalization/security behavior unchanged. |
+| Branch / PR | `workstream/aro-chat-0197-pr299-windows-path-regression-fix-2026-11-24` / [Draft PR #300](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/300) OPEN / UNMERGED |
+| Base | workstream/aro-chat-0134-private-upload-response-verification-2026-11-24 (PR #299 head) |
+| Starting SHA | 758ae2d44e04b9a875a2a85aa153f0407a209766 |
+| Status | IMPLEMENTED; CI pending; no OAuth, real media, network upload, merge, deployment, or publishing performed |
+| Changed files | tests/test_youtube_upload.py; docs/CHAT_WORKSTREAM_REGISTRY.md; docs/ARO_CHAT_STARTUP_PROMPT.md |
+
+### Evidence and rationale
+
+- PR #299 current head `758ae2d44e04b9a875a2a85aa153f0407a209766` triggered Actions run [#45393428557](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45393428557).
+- Ubuntu test job passed; hosted-Windows test job failed one of 334 tests: `test_profiles_resolve_to_distinct_channel_and_token_paths`.
+- The assertion compared a canonicalized path returned by `Path.resolve()` against an un-resolved temporary path. Windows normalized the user directory from its short form `RUNNER~1` to `runneradmin`, causing a representation-only mismatch.
+- The regression fix compares the returned token path against the resolved `.secrets` parent, preserving the production requirement that profile config resolves inside `.secrets/`.
+- No uploader runtime behavior or security gate is weakened. No OAuth, credentials, API calls, media processing, or upload is used by this test.
+- Validation status remains pending until the new branch's exact-head Ubuntu and hosted-Windows CI runs are inspected.
+
+
+
+### ARO-CHAT-0197 test-coverage continuation — 2026-11-24
+- Follow-up commit `8269505c423e50c7460335f5ca776f250b695aa0` adds an explicit canonical token-path assertion for the second destination profile as well as the first. Both expected paths derive from the strictly resolved `.secrets` parent; production path validation is unchanged.
+- Test-only implementation commit: `8269505c423e50c7460335f5ca776f250b695aa0`; subsequent documentation commits bring the current PR #300 head to `02b5e7c16077d31e9cee1950cc5c379339c5baff`.
+- Exact-head Ubuntu and hosted-Windows CI: PENDING. No local test execution is claimed in this connector session.
+
+
+### ARO-CHAT-0197 PR #300 continuation refresh — 2026-11-24
+- Draft PR #300 is OPEN / UNMERGED on `workstream/aro-chat-0197-pr299-windows-path-regression-fix-2026-11-24`.
+- Current PR head: `02b5e7c16077d31e9cee1950cc5c379339c5baff`; base PR #299 branch head recorded by PR metadata as `152de0e3cecbfe2be2569c46db14e5c9c67506a2`.
+- Changed files remain test-only (`tests/test_youtube_upload.py`) plus this registry and startup prompt. Production uploader path enforcement is unchanged.
+- Commit-associated workflow lookup for current head returned no runs. Exact-head Ubuntu/hosted-Windows CI is PENDING; do not transfer PR #299's earlier green Ubuntu result or failing Windows result as validation of PR #300.
+- PR #300 reviews and inline review threads are empty; independent review NOT RECORDED. No local tests run in this connector session.
+- Keep PR #300 draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; no OAuth, credentials, real media, API upload, publishing, merge, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0197 live-head reconciliation — 2026-11-24
+- Re-fetched live Draft PR #300 metadata: branch `workstream/aro-chat-0197-pr299-windows-path-regression-fix-2026-11-24`, current head `83445d763ebce065140a0f7a19ac75c42a761d48`, base branch `workstream/aro-chat-0134-private-upload-response-verification-2026-11-24`, recorded base SHA `152de0e3cecbfe2be2569c46db14e5c9c67506a2`.
+- The prior `02b5e7c16077d31e9cee1950cc5c379339c5baff` value is an earlier documentation commit, not the live PR head. Commit `83445d763ebce065140a0f7a19ac75c42a761d48` only refreshes `docs/ARO_CHAT_STARTUP_PROMPT.md`.
+- Changed PR files remain `tests/test_youtube_upload.py`, `docs/CHAT_WORKSTREAM_REGISTRY.md`, and `docs/ARO_CHAT_STARTUP_PROMPT.md`; test assertion compares both profile token paths against the strictly resolved `.secrets` parent. Production code is unchanged by this workstream.
+- Exact-live-head workflow lookup and combined status for `83445d763ebce065140a0f7a19ac75c42a761d48` returned no runs/status checks. CI is PENDING, not passed. No local test execution is claimed.
+- PR #300 remains OPEN / DRAFT / UNMERGED; independent review is not recorded. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Keep uploads and public publishing disabled; do not merge, retarget, or deploy.
+
+
+### ARO-CHAT-0197 latest live-head reconciliation — 2026-11-24
+- Re-read live PR #300 metadata: OPEN / DRAFT / UNMERGED; head branch `workstream/aro-chat-0197-pr299-windows-path-regression-fix-2026-11-24`; exact current head `68b62198572117d22fe4072a8e3a48abf05cadd6`; base branch `workstream/aro-chat-0134-private-upload-response-verification-2026-11-24`; recorded base SHA `152de0e3cecbfe2be2569c46db14e5c9c67506a2`.
+- The earlier registry note naming `83445d763ebce065140a0f7a19ac75c42a761d48` is stale. The current branch tip has moved to `68b62198572117d22fe4072a8e3a48abf05cadd6`.
+- Compare from the recorded PR base to the live head reports 10 commits ahead and 5 behind, with merge base `758ae2d44e04b9a875a2a85aa153f0407a209766`. Do not rebase or retarget automatically; preserve the draft stack for owner review.
+- The live head's commit-associated workflow lookup returned zero runs. Exact-head Ubuntu and hosted-Windows CI remain PENDING / NOT VERIFIED. No test results are inferred from PR #299 or any other SHA.
+- Current PR diff remains limited to `tests/test_youtube_upload.py`, `docs/CHAT_WORKSTREAM_REGISTRY.md`, and `docs/ARO_CHAT_STARTUP_PROMPT.md`. The test asserts both profile token paths against the resolved `.secrets` parent; production uploader path enforcement is unchanged.
+- Review submissions and inline review threads are empty; independent review NOT RECORDED. Local tests NOT RUN in this connector session.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, API upload, publishing, merge, rebase, retarget, deployment, or destructive action. Keep live uploads and public publishing disabled.
+
+
+### ARO-CHAT-0197 security-regression coverage — 2026-11-24
+
+
+### ARO-CHAT-0197 path-boundary hardening continuation — 2026-11-24
+- Added a fail-closed check rejecting a symlinked `.secrets` parent before resolving the destination config path. The loader retains the base branch's exact resolved repository-root/.secrets comparison and OAuth token-directory symlink containment checks.
+- Synced the loader implementation with the current PR #299 base branch so the stacked PR does not carry an older profile-loader variant.
+- Added regression tests for config-file symlink escape, `.secrets` directory symlink escape, and OAuth `tokens/` directory symlink escape. Destination-profile tests now pass an explicit isolated `repository_root` fixture.
+- Implementation commits: `6c21c0977a6a9ec7643306f14fe7edf26f81d592` (initial guard), `848cdb1447743257e9a00ac7fa84da22c58a9acf` (base-aligned loader), `e10070cc0a9ff167922649ce2293bb6a5a3ab3ae` (fixture root), `a1c785ad7a54121732d3d59289054090ee892d96` (token-directory symlink test).
+- Exact-head Ubuntu and hosted-Windows CI remain PENDING / NOT VERIFIED; local tests have not been run in this connector session.
+- PR #300 remains DRAFT / OPEN / UNMERGED and GitHub currently reports it non-mergeable. Do not merge, rebase, or retarget automatically. Issue #68 remains OPEN; live uploads and public publishing stay disabled.
