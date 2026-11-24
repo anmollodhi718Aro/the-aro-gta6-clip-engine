@@ -402,3 +402,5 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Local tests NOT RUN; this branch's exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED.
 - No change to grant semantics or uploader/publishing behavior. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
 - No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
+
+- ARO-CHAT-0232 follow-up: timestamp parsing rejects non-datetime/non-ISO-string values with `ValueError`; tests cover invalid timestamps in registration, authorization and revocation. Commits: `33c36a359e3438fbc9e76fc6b1cf7d0ffba979ef`, `cf2cfecbe910e94929f17cbde16da4e00d3268e2`.
