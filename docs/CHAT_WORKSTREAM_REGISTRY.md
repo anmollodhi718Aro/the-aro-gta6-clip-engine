@@ -997,3 +997,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Source commit: `07fc209ff4d68b7cc5236c834bcea42de95728f3`; test commit: `b37b3d694c4e6dc7f3c291a242f925dabdd0bc3e`; report: `docs/ARO_CHAT_0210_POST_OPEN_PATH_IDENTITY.md`.
 - Status: IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. No test pass is claimed.
 - Draft-only; do not merge/rebase/retarget. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, or deployment. Keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0211 post-open regular-file replacement regression — 2026-11-24
+
+- Added `test_regular_file_replacement_after_open_is_rejected` to exercise a different regular file replacing the approval-record pathname after descriptor open but before the post-open `lstat()`.
+- The test verifies the opened descriptor and current pathname must retain the same device/inode identity; the existing implementation rejects the mismatch.
+- Branch: `workstream/aro-chat-0211-post-open-regular-replacement-test-2026-11-24`; based on PR #319 head `4f5796e2a62927213f474a1e09ff1927d540cf96`.
+- Workstream: ARO-GTA-P1-211. Test commit: `8905865bab1127e470f1115ab31bbcbc63c70cbb`.
+- Status: IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. Production code unchanged.
+- Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; no OAuth, real media, upload, publishing, merge, rebase, retarget, or deployment.
