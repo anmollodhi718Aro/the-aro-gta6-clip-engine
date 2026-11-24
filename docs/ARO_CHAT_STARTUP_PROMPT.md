@@ -198,3 +198,9 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Expected behavior: preserve the close error while still attempting private snapshot-directory cleanup; assert cleanup invocation and snapshot removal using synthetic files and mocked Google API modules.
 - Branch: `workstream/aro-chat-0218-cleanup-after-stream-close-error-2026-11-24`; base: `workstream/aro-chat-0216-close-upload-media-handle-2026-11-24`. Exact-head Ubuntu/hosted-Windows CI must be inspected before claiming validation.
 - Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth credentials, real footage, network upload, public publishing, merge, retarget, or deployment.
+
+
+### ARO-CHAT-0218 CI correction handoff — 2026-11-24
+- Initial exact-head run `45428635076` failed on both Ubuntu and hosted Windows because the new test was placed in `YouTubeDestinationProfileTests` while using helpers defined on `YouTubeUploadTests`.
+- Test was moved to the correct class in commit `9bc1e8b8541a8379a67ee8424efdde246f13c8f0`; production code is unchanged.
+- Follow-up run `45428933635` must pass on the final PR head on both platforms before CI_VERIFIED. Keep Issue #68 open / WAITING_FOR_OWNER_APPROVAL; no OAuth, live upload, merge, deployment, or publishing.
