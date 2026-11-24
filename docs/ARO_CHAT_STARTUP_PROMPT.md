@@ -604,3 +604,23 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Keep PR #274 draft-only until owner review. Do not infer independent approval, owner-device Windows acceptance, or real-media verification from hosted CI.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled until authenticated channel-owner binding, exact per-clip approval, current rights/scope checks, independent security review, and owner acceptance are all evidenced.
 - No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real-media upload, or public publishing is authorized by this baseline.
+
+
+## Latest continuation baseline — ARO-CHAT-0188 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0188 | PR #276 Exact-Head CI Audit`; workstream ARO-GTA-P1-188.
+- Branch: `workstream/aro-chat-0188-pr276-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #276 head `e425fbb9b789db9ba8746a0cb1a568dca28ba88a`.
+- Task: documentation-only independent exact-head CI audit of PR #276.
+- PR #276 exact-head Python CI run #45384791453 (run 1205) succeeded. Ubuntu job #138412815303 and hosted-Windows job #138412814857 each passed compile, the same 29-test suite, and synthetic MP4/FFprobe. Durations: 0.329s Ubuntu and 0.523s Windows.
+- Both jobs checked out PR merge ref at `6695c711dd1c317565ae12f9f01deafe4e63d260`, merging audited head `e425fbb9b789db9ba8746a0cb1a568dca28ba88a` into base `ab64dbfe566fa6d8f5ed1debeacd93cbf5b27eaf`. Raw-head-only checkout NOT DEMONSTRATED.
+- Combined status, reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #276 remains OPEN / DRAFT / UNMERGED. This new audit branch needs its own CI evidence.
+- Documentation-only; no runtime behavior, credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## Latest verified continuation — ARO-CHAT-0188 audit PR CI closeout (2026-11-24)
+- Continue the existing ARO-GTA-P1-188 workstream; do not allocate a duplicate ID or branch for this closeout.
+- Audit PR #278 latest head `1026367d06109eff908d56e62260bd453528af3a` passed run #45385215158 (run 1208). Ubuntu job #138414245671 and hosted-Windows job #138414245219 both passed compilation, the same 29 tests, and synthetic animation MP4/FFprobe validation.
+- Both jobs used PR #278 merge ref at `25e3cf03b9cf53b88b943b6823779006fc9b87f7`, merging the audited head into base `e425fbb9b789db9ba8746a0cb1a568dca28ba88a`. Raw-head-only checkout NOT DEMONSTRATED.
+- Combined status, review submissions, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #278 remains OPEN / DRAFT / UNMERGED.
+- This audit branch's merge-ref CI does not establish owner-device Windows acceptance, authorized real-media acceptance, security approval, or permission to merge/publish. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep all live uploads/public publishing disabled.
+- Safe next step: stop this audit workstream at its evidence-only boundary and await owner review/selection. Do not create a new implementation task from inference; inspect the registry and live PRs again when the owner authorizes the next bounded task.
