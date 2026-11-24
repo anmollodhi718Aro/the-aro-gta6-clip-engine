@@ -115,3 +115,8 @@ For the current first-test upload priority:
 - Destination profile config must resolve to a file directly inside the repository's `.secrets/` directory. The loader rejects configs whose resolved parent is elsewhere, including symlink targets outside `.secrets/`.
 - Profile-specific OAuth tokens remain under `.secrets/tokens/<profile>.json`. Never commit profile config or token files.
 - Regression test rejects an otherwise valid profile file outside `.secrets/`; CI for this new head is pending.
+
+
+## Mandatory source-rights lineage check
+- Before any live upload, verify that the integrated uploader branch actually contains the append-only `SourceRightsRegistry.register()` fix from PR #168. Its current head must be an ancestor of the selected security integration head; PR title/issue references alone do not prove ancestry.
+- Current snapshot: PR #168 head `03ac14cb1d74296870541b68839580c12ed2a84b` is not the base shown for PR #176 (`9ff25d7356d5badc39f448c9f5e939cda4048541`), while #238/#241/#242 are stacked on #176/#238. Treat this as an unresolved integration blocker. Do not rebase/retarget/merge without explicit owner control.
