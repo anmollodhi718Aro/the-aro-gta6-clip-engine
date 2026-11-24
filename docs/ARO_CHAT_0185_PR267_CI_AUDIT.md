@@ -28,7 +28,7 @@ Repository: anmollodhi718Aro/the-aro-gta6-clip-engine
 - Both jobs passed FFmpeg/FFprobe setup, `python -m compileall -q backend tests`, and all 27 unit/integration tests. The synthetic animation render/FFprobe test passed on both platforms.
 - This verifies PR #270's merge-ref CI for head `34d1196757b5d6922391b0f908425a902d2bf455` only. Raw-head-only checkout is NOT DEMONSTRATED.
 - PR #270 combined status returned zero entries. Review submissions, inline threads, and conversation comments were empty; independent review NOT RECORDED.
-- PR #270 remains OPEN / DRAFT / UNMERGED. Later documentation-only closeout commits advanced its branch to `decada64fdbc907c3540e042ae5efb9ba8031608`; the latest head's own CI lookup returned zero runs. Its latest-head CI is PENDING / NOT VERIFIED. Do not transfer the earlier run to the later head.
+- PR #270 remains OPEN / DRAFT / UNMERGED. Subsequent documentation-only closeout commits advanced its branch; the latest head's workflow lookup returned zero runs. Latest-head CI is PENDING / NOT VERIFIED. Do not transfer run #45381311414 to later heads.
 
 ## Scope, safety, and remaining gates
 - Documentation-only audit; no application, renderer, uploader, test, media-ingestion, or workflow behavior changes.
@@ -39,7 +39,7 @@ Repository: anmollodhi718Aro/the-aro-gta6-clip-engine
 ## Final status
 - ARO-CHAT-0185 documentation audit: IMPLEMENTED.
 - PR #267 exact-head CI: CI_VERIFIED on its exact merge ref for the audited head only.
-- PR #270 audit-branch CI: CI_VERIFIED on its merge ref for head `34d1196757b5d6922391b0f908425a902d2bf455` only; later documentation head `decada64fdbc907c3540e042ae5efb9ba8031608` remains PENDING / NOT VERIFIED.
+- PR #270 audit-branch CI: CI_VERIFIED on its merge ref for head `34d1196757b5d6922391b0f908425a902d2bf455` only; subsequent documentation head CI remains PENDING / NOT VERIFIED.
 - Independent review: NOT RECORDED.
 - Raw-head-only CI: NOT DEMONSTRATED.
 - Owner-device Windows and real-media acceptance: NOT VERIFIED.
