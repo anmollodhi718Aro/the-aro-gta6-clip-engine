@@ -1046,3 +1046,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Combined legacy statuses empty. PR #328 reviews, inline threads and conversation comments empty; independent review NOT RECORDED. Local tests NOT RUN. Owner-device Windows and real-media acceptance NOT VERIFIED.
 - The upload-byte snapshot patch and its source-mutation regression are present, but this scoped inspection is not an independent security review of the complete uploader/parent lineage.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment or destructive action.
+
+
+## Live-head reconciliation (2026-11-24)
+- PR #328 subsequently advanced to head `1c380a2e311abbd5b818a398d0f0a70011f547d4`, including the FIFO/nonblocking source-open hardening.
+- The earlier run #45426822957 validates only the earlier head `114e5bfc4b154e0da272ed36408ab156cfdc5ab9`; it is not transferred to later commits.
+- A separate commit-associated run #45427291297 is associated with current head `1c380a2e311abbd5b818a398d0f0a70011f547d4` and completed SUCCESS. Ubuntu and hosted-Windows jobs both completed compile, unittest-suite, and synthetic MP4/FFprobe steps successfully. Job summaries do not expose test counts or checkout SHA; raw-head-only checkout NOT DEMONSTRATED.
+- A parallel draft PR #331 also proposes the O_NONBLOCK/FIFO regression follow-up, based on the earlier PR #328 head. Its head `15fd23d486794e02a7ae1b3076a7fe4f0c473eca` has no associated workflow run at this lookup. Avoid merging or consolidating duplicate branches automatically; reconcile exact ancestry and diff first.
+- PR #330 is a separate draft upload-snapshot branch with CI run #45427507267 QUEUED at this lookup. Do not infer its result.
+- PR #332 (this documentation audit) has no associated workflow run or combined status entries at this lookup; its own CI is PENDING / NOT VERIFIED.
+- PR #328 remains OPEN / DRAFT / UNMERGED. Independent review remains NOT RECORDED; local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
