@@ -890,3 +890,8 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - The PR #299 branch now directly contains the append-only `SourceRightsRegistry.register()` behavior: duplicate `source_id` inserts are rejected instead of overwriting grant metadata or resetting `revoked_at`.
 - Audit events now retain grantor and evidence reference. Added regressions for duplicate active grants, duplicate registration after revocation, and a separate versioned source ID for a new grant.
 - Commits: `e2cb08feaf5273c2595cf78045b2a47acb26d7f8`, `7b1b120a17fb4ad1dc2228d4571228af9d04d320`. CI pending; no real media or upload used.
+
+
+### Source-rights ancestry concern superseded for PR #299
+- Earlier notes correctly flagged that the append-only fix from the separate PR #168 lineage was not proven to be an ancestor of PR #299's base. To remove that dependency from this branch, the same fail-closed behavior and regression coverage have now been implemented directly on PR #299 in commits `e2cb08feaf5273c2595cf78045b2a47acb26d7f8` and `7b1b120a17fb4ad1dc2228d4571228af9d04d320`.
+- Therefore PR #299 no longer relies on PR #168 ancestry for append-only source-rights behavior. The broader Issue #68 integration/review gates remain open and still require independent review and verified CI.
