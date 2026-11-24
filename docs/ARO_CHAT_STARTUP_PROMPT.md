@@ -402,3 +402,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #249 exact-head workflow lookup returned zero runs and combined status returned zero entries. Its own CI is PENDING / NOT VERIFIED; local tests NOT RUN. No other PR's CI result may be transferred.
 - GitHub reports PR #249 mergeable=true; keep it draft and do not merge without explicit owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending all recorded security and owner-acceptance gates.
+
+
+### ARO-CHAT-0169 PR #249 exact-head CI closeout — 2026-11-24
+
+- PR #249 head `75854f6cbead27c42d723a72f883eb7f804665f9` failed its own run #45314464029 on Ubuntu and hosted Windows.
+- Both platforms compiled successfully, then each failed exactly one of the same 340 tests: `test_cli_passes_exact_clip_and_source_to_upload_boundary`. Its mocked CLI arguments request `--upload` without the newly required `--max-upload-bytes`; the CLI correctly rejects the invocation. Synthetic MP4/FFprobe was skipped.
+- Safe fix is test-only: supply a positive explicit `--max-upload-bytes` fixture value. Do not weaken the live-upload memory guard. Other relevant uploader limit/staging tests passed.
+- PR #249 combined status returned zero entries; reviews, inline threads, and comments were empty. Keep draft/open/unmerged; no workflow retry, merge, or retarget.
+- Two ARO-CHAT-0170 branches already exist (CLI test fix and exact-head audit). Treat both as occupied; do not duplicate or overwrite. Reconcile the duplicate serial before allocating a later workstream.
+- Report: `docs/ARO_CHAT_0169_PR248_CI_AUDIT.md`; registry records exact job IDs and failure evidence.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; no credentials/OAuth, real media, network upload, or publishing.
