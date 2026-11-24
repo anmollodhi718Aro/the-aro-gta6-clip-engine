@@ -2215,3 +2215,16 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #229 review submissions, inline review threads, and conversation comments returned empty arrays. Independent review NOT RECORDED.
 - This is an observation-only documentation closeout. No workflow retry, source-code change, credential/OAuth action, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
 - Next action: wait for a naturally associated run on the current head, then independently inspect its jobs/logs and checkout refs. Any new head requires a fresh audit.
+
+## ARO-CHAT-0153 exact-base CI attribution correction — 2026-11-24
+
+This correction supersedes the earlier ARO-CHAT-0153 note that treated both successful runs on PR #226's source SHA as alternate-base runs.
+
+- PR #226 source head `d8433a2c31dc0634d5fc9a853b82c8e061ced0ab`, base `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`.
+- Exact PR #226 merge-ref run #45270941723 (run 1080) checked out `refs/remotes/pull/226/merge` at merge SHA `025c577ecd3f0663cb96c225affe9a971f587da9`. Ubuntu job #138030347655 and hosted-Windows job #138030348239 both passed compileall, the same 338-test suite (5.080s Ubuntu; 24.990s Windows), and synthetic MP4/FFprobe validation.
+- Synthetic pattern/tone only; no GTA 6 or third-party media; publishing disabled; manual review required; mocked approval reports `upload_performed=false`. This is not a live upload or real-media acceptance.
+- Run #45270942827 (run 1081) checked out PR #228 merge ref `d07abf4346a167d807a3e0539a3f7b4ee92af3ea` into base `894bf28f07b2bb5eccbbb393f63425da5e64c0da`; exclude it from PR #226's exact-base result.
+- Corrected status: PR #226 CI_VERIFIED on its exact merge ref; raw-head-only CI NOT DEMONSTRATED; owner-device Windows and real-media acceptance NOT VERIFIED. Combined status had zero entries; review submissions, inline threads, and conversation comments were empty; independent review NOT RECORDED.
+- Audit PR #229 head `5fe98ad1f56052bef6c20ca2c340cc3bd1d4f4f2` has zero associated workflow runs and zero combined-status entries. Its own CI remains PENDING / NOT VERIFIED. No evidence transfers from PR #226.
+- Next action: wait for a naturally associated run on the current PR #229 head, then inspect that PR's own jobs/logs. Any head change requires a fresh lookup.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
