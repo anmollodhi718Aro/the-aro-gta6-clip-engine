@@ -1226,3 +1226,5 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Production commit `94067f2974f7c6ebcea6415ccfae72b66d521255`; test commit `ec18f4f45ec8e1a5c0ff8be64e8c2cff1f83ec49`; report `4aa4541fdcc2a3ce7ba3948010ef047dbee7f65e`.
 - Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI PENDING. Independent security review NOT RECORDED; owner-device Windows and real-media acceptance NOT VERIFIED.
 - Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
+
+- Follow-up: `_time()` now rejects non-datetime/non-ISO-string inputs with `ValueError`; malformed timestamp regressions cover registration, authorization and revocation. Production commit `33c36a359e3438fbc9e76fc6b1cf7d0ffba979ef`; test commit `cf2cfecbe910e94929f17cbde16da4e00d3268e2`.
