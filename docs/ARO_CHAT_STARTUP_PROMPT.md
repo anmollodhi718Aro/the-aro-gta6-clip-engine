@@ -172,3 +172,10 @@ For the current first-test upload priority:
 - Security finding: case-only profile names can collide on case-insensitive filesystems because token paths are derived from profile names. The fix restores `casefold()` uniqueness validation and adds `test_case_colliding_profile_names_fail_closed`.
 - Report: `docs/ARO_CHAT_0207_CASEFOLD_PROFILE_COLLISION_FIX.md`. Local tests NOT RUN; this branch's exact-head Ubuntu/Windows CI PENDING. Do not transfer prior PR #311 CI.
 - PR #311 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0207 CI closeout — 2026-11-24
+- PR #314 head `13b7a41c68e2a52757854fc6c7cd692535c6cd67` has successful Ubuntu and hosted-Windows checks in Actions run #45421632805 (jobs #138542406428 and #138542405807).
+- Both jobs passed compile, unit tests, and synthetic MP4/FFprobe validation. This is CI evidence attached to the PR head SHA; do not claim raw-head-only checkout or independent review.
+- PR #313 duplicates the same casefold guard/test and also has successful CI run #45421752370. Keep both draft/open/unmerged until one canonical PR is selected; do not close or merge either automatically.
+- CI closeout: `docs/ARO_CHAT_0207_PR314_CI_CLOSEOUT.md`. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No real-media upload or public publishing.
