@@ -61,5 +61,5 @@ No OAuth login, credentials/tokens, real media, network upload, publishing, work
 - Added a trigger-based regression proving a non-duplicate SQLite integrity failure remains an `sqlite3.IntegrityError` and writes no audit event.
 - Test commit: `b459ad87a0908fd3dc98479b663f7c2695ed12a7`.
 - Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI lookup for test commit returned zero runs; CI PENDING / NOT VERIFIED. Independent security review NOT RECORDED.
-- PR #355 remains draft/open/unmerged. Branch ancestry against current PR #354 head `cac64637a9cdc64eded472ab4d9c6ed0323d4b19` is DIVERGED (15 ahead / 7 behind; merge base `1d9d478fcfd03e36f6389acca682b3ede57c17fd`). No rebase, retarget, or merge.
+- PR #355 remains draft/open/unmerged. Branch ancestry against PR #355's recorded current base SHA `600cb7773c8ec9c6cf6288cbe15402444aa2cf46` is DIVERGED (18 ahead / 2 behind; merge base `1d9d478fcfd03e36f6389acca682b3ede57c17fd`). No rebase, retarget, or merge.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, deployment, or publishing.
