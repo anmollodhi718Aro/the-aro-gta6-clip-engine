@@ -90,3 +90,70 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - The uploader must verify the Google OIDC subject and destination channel from the same OAuth session, require a durable per-clip approval bound to the exact video hash, Google subject and channel, and re-check live publish permission immediately before the upload API call.
 - A client-supplied reviewer string or legacy boolean is never identity authentication. Fail closed on missing/mismatched channel, clip, source, file hash, approval, permission, expiry or revocation.
 - Use mocked API clients in tests; no test may perform a network upload. Keep public publishing disabled unless every authenticated owner, per-clip approval and source-rights gate passes.
+
+
+## PRIVATE upload completion gate — refreshed 2026-11-24
+
+For the current first-test upload priority:
+- PR #289 (PRIVATE-only guard ordering) and PR #295 (isolated destination profiles) have recorded Ubuntu and hosted Windows CI success on their exact heads; verify current live heads/runs before relying on that evidence.
+- PR #295 is stacked on PR #289, which is stacked on PR #280 and the authenticated uploader workstream. Do not merge these stacked PRs independently or bypass their ancestry.
+- Each destination must use its own locally authorized OAuth session, verified Google OIDC subject, exact channel ID returned by YouTube channels.list(mine=true), token file, and separate approval record bound to the exact MP4 SHA-256. Never infer channel IDs from public handles.
+- The upload request must be PRIVATE-only. A successful request is not enough: require YouTube's response to include a video ID and status.privacyStatus == "private"; otherwise report upload state as UNVERIFIED and direct the owner to inspect YouTube Studio.
+- Do not commit OAuth files, tokens, channel IDs, private approvals, or media. Never ask the owner to paste secrets into chat.
+- Automated tests must mock OAuth and YouTube API clients. No test may perform a live upload.
+- Distinguish code/CI completion from environment setup and live acceptance. Real upload still requires local OAuth configuration, verified source publish rights, exact per-channel approval, and an actual private-visibility confirmation. Public publishing remains a separate owner action.
+
+
+## ARO-CHAT-0134 CI closeout — 2026-11-24
+- PR #299 implementation head `d4ca7042ff8bfbd00070f801d374b6292feddfda` passed run #45391987858 on hosted Ubuntu and Windows. Both compiled, passed the same 332 tests, and passed synthetic MP4/FFprobe validation.
+- Both jobs used merge SHA `4a22ec0cdf15cbc78b17543c21e3b0f75a8f16b3` with base PR #295 head `cf731cabda8a045d39457f0eef800dbdb051e75e`; raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic-only: no GTA 6 footage or third-party media; publishing disabled; manual review required. PR #299 remains draft/open/unmerged; independent security review NOT RECORDED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live uploads/public publishing remain disabled. OAuth/channel verification, source-rights evidence, per-clip approval, owner-device verification and real private-upload acceptance remain NOT VERIFIED.
+
+
+## Destination profile storage boundary — 2026-11-24
+- Destination profile config must resolve to a file directly inside the repository's `.secrets/` directory. The loader rejects configs whose resolved parent is elsewhere, including symlink targets outside `.secrets/`.
+- Profile-specific OAuth tokens remain under `.secrets/tokens/<profile>.json`. Never commit profile config or token files.
+- Regression test rejects an otherwise valid profile file outside `.secrets/`; CI for this new head is pending.
+
+
+## ARO-CHAT-0197 current continuation — 2026-11-24
+
+- Continue from PR #299 head `758ae2d44e04b9a875a2a85aa153f0407a209766` on a separate draft-only branch. Do not merge or retarget the stacked PR chain.
+- Latest observed run #45393428557: Ubuntu passed; hosted Windows failed 1 of 334 tests because a test compared a `Path.resolve()` canonical path against an un-resolved temporary path (`RUNNER~1` versus `runneradmin`). The fix updates the test expectation to use the resolved `.secrets` parent; do not weaken production path validation.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No live upload or public publishing until the authenticated owner/channel approval design is selected, integrated, independently reviewed, and locally verified.
+- PR #299 and this follow-up must be validated on their latest exact heads. Synthetic MP4/FFprobe checks are not real GTA 6 media acceptance.
+
+
+### ARO-CHAT-0197 follow-up — 2026-11-24
+- Test-only continuation commit `8269505c423e50c7460335f5ca776f250b695aa0` now asserts canonical token paths for both configured destination profiles, using the resolved `.secrets` parent. Production path enforcement is unchanged.
+- Registry/startup documentation update follows in commit `7dad8ec0bf0140dd522369de846e10efe7436bb6`; exact-head Ubuntu and hosted-Windows CI remains pending.
+
+
+## ARO-CHAT-0197 PR #300 current continuation — 2026-11-24
+- Draft PR #300 is OPEN / UNMERGED. Current head before this documentation refresh: `02b5e7c16077d31e9cee1950cc5c379339c5baff`.
+- Test-only path assertion compares both profile token paths against the strictly resolved `.secrets` parent. Production path validation is unchanged.
+- No commit-associated CI run was found for that head; exact-head Ubuntu and hosted-Windows CI remains PENDING. No local tests run in this connector session.
+- PR #300 review submissions and inline review threads are empty; independent review NOT RECORDED. Do not merge or retarget. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads and public publishing remain disabled.
+
+
+### ARO-CHAT-0197 live-head reconciliation — 2026-11-24
+- Live PR #300 metadata reports branch `workstream/aro-chat-0197-pr299-windows-path-regression-fix-2026-11-24`, head `83445d763ebce065140a0f7a19ac75c42a761d48`, and base SHA `152de0e3cecbfe2be2569c46db14e5c9c67506a2`. Earlier notes naming `02b5e7c16077d31e9cee1950cc5c379339c5baff` describe the preceding docs commit, not the current head.
+- Exact-live-head workflow lookup and combined status returned no checks for `83445d763ebce065140a0f7a19ac75c42a761d48`; Ubuntu and hosted-Windows CI remain PENDING. Do not claim the older PR #299 run validates PR #300.
+- Keep PR #300 draft/open/unmerged. No local tests, OAuth, credentials, real-media processing, upload, publishing, merge, retarget, or deployment occurred. Issue #68 remains open and unresolved; live uploads/public publishing stay disabled.
+
+
+## ARO-CHAT-0197 latest live-head reconciliation — 2026-11-24
+- PR #300 remains OPEN / DRAFT / UNMERGED. Live head: `68b62198572117d22fe4072a8e3a48abf05cadd6`; base branch: `workstream/aro-chat-0134-private-upload-response-verification-2026-11-24`; recorded base SHA: `152de0e3cecbfe2be2569c46db14e5c9c67506a2`.
+- The previous recorded head `83445d763ebce065140a0f7a19ac75c42a761d48` is stale. Base-to-head comparison reports 10 commits ahead / 5 behind with merge base `758ae2d44e04b9a875a2a85aa153f0407a209766`; do not rebase or retarget automatically.
+- No commit-associated workflow run was returned for the current head. Exact-head Ubuntu and hosted-Windows CI are PENDING / NOT VERIFIED. Local tests were NOT RUN in this connector session.
+- The current diff remains limited to the profile-path regression test and the registry/startup documentation. Both expected token paths use the strictly resolved `.secrets` parent; production uploader enforcement is unchanged.
+- Independent review is NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, API upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0197 path-boundary hardening continuation — 2026-11-24
+- The destination-profile loader now rejects a symlinked `.secrets` parent before resolving the config file. It preserves the base branch's exact repository-root/.secrets containment check and OAuth token-directory symlink guard.
+- The loader was aligned with the current PR #299 base implementation; profile fixture tests now provide their isolated `repository_root`.
+- Added tests for config-file, `.secrets` directory, and OAuth `tokens/` directory symlink escapes.
+- Commits: `6c21c0977a6a9ec7643306f14fe7edf26f81d592`, `848cdb1447743257e9a00ac7fa84da22c58a9acf`, `e10070cc0a9ff167922649ce2293bb6a5a3ab3ae`, `a1c785ad7a54121732d3d59289054090ee892d96`.
+- Exact-head Ubuntu/Windows CI is PENDING and local tests are NOT RUN. PR #300 is still DRAFT / OPEN / UNMERGED and currently reported non-mergeable. Do not merge, rebase, or retarget automatically. Issue #68 remains open; keep uploads and public publishing disabled.
