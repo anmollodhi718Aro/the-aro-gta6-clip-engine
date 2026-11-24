@@ -444,3 +444,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Initial exact-head workflow lookup returned zero runs and combined status returned zero entries. PR #253 CI is PENDING / NOT VERIFIED; no passing result is inferred.
 - Report: `docs/ARO_CHAT_0173_PR253_CI_AUDIT.md`. Re-fetch PR #253's current exact head and inspect its own run before assigning TESTED or CI_VERIFIED. Never transfer another PR/SHA's CI.
 - Documentation-only; keep Issue #68 open and live/public uploads disabled. No workflow retry, OAuth, credentials/tokens, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+### Latest continuation baseline — ARO-CHAT-0174 (2026-11-24)
+- Current chat title: `ARO-CHAT-0174 | PR #254 Exact-Head CI Audit`.
+- Active bounded workstream: ARO-GTA-P1-174; branch `workstream/aro-chat-0174-pr254-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #254 head `5069449aa775b2b8378c3e3ca36c6ec87b479f66`.
+- Audit PR #254's own exact-head Actions run #45315956237 (run 1150), both platform jobs/logs, checkout refs, compile/tests, synthetic MP4/FFprobe, combined status, review submissions, inline threads, and conversation comments.
+- Initial observation: Ubuntu and hosted-Windows jobs were IN_PROGRESS; checkout and Python setup passed, FFmpeg/FFprobe installation was running, and compile/tests/render were pending. Combined status and review/comment collections were empty.
+- Do not transfer PR #253 or any other PR/SHA's CI evidence. Re-fetch exact head and both jobs before assigning TESTED or CI_VERIFIED.
+- Documentation-only. Keep Issue #68 open and live/public uploads disabled. No workflow retry, credentials/OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action.
