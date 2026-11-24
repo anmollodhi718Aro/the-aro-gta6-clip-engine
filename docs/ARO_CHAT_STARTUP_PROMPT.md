@@ -204,3 +204,13 @@ For the current first-test upload priority:
 - Continue with evidence-based P1 pipeline work only. Preserve draft/open/unmerged stacks. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, live upload, public publishing, merge, rebase, retarget, deployment, or destructive action without separate explicit approval.
 
 - Documentation audit PR #327 head `fa64b10bb455430080e5df301d04a39bd7c34509`: no associated workflow run/status entries; exact-head CI PENDING / NOT VERIFIED; reviews empty. Do not transfer PR #324's run to #327.
+
+
+## Current continuation — ARO-CHAT-0215 (2026-11-24)
+- Latest workstream: ARO-GTA-P1-215 / ARO-CHAT-0215, independent exact-head CI audit of PR #327.
+- PR #327 source head: `f3c7745d840f3cd2951f258d461e2e1fd29688e5`; base: `f4cf5766c7f0cad8531919f444d077b2fcdbe0fe`.
+- Actions run #45426392678 completed SUCCESS on hosted Ubuntu and Windows. Both jobs compiled, ran the same 344-test suite (Windows reported 2 skipped), and passed synthetic MP4/FFprobe validation.
+- Both jobs checked out PR #327 merge ref SHA `189e81b5e0d2452a1c5430713a605d53a932865a`; raw-head-only checkout NOT DEMONSTRATED. Synthetic logs confirm no GTA 6 footage, publishing disabled, manual review required, and mocked upload not performed.
+- PR #327 independent review NOT RECORDED; local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED. Do not transfer its CI result to another PR/head.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Owner assignment is not implementation approval; canonical security lineage selection and independent review remain pending. Keep live uploads/public publishing disabled.
+- Preserve all draft/open/unmerged stacks. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.

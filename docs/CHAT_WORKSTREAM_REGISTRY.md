@@ -1023,3 +1023,15 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - No application/test/workflow behavior changes, OAuth, credentials, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
 
 - Audit follow-up PR #327 head `fa64b10bb455430080e5df301d04a39bd7c34509` has no associated Actions run or combined status entries; its exact-head CI is PENDING / NOT VERIFIED. Reviews empty; independent review NOT RECORDED. Do not transfer PR #324's CI evidence to PR #327.
+
+
+## ARO-CHAT-0215 — PR #327 exact-head CI audit (2026-11-24)
+
+- Chat ID: ARO-CHAT-0215; Workstream ID: ARO-GTA-P1-215.
+- Documentation-only audit branch: `workstream/aro-chat-0215-pr327-exact-head-ci-audit-2026-11-24`, based on PR #327 source head `f3c7745d840f3cd2951f258d461e2e1fd29688e5`.
+- Audited PR #327 Actions run [#45426392678](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45426392678) completed SUCCESS. Ubuntu: compile + 344 tests + synthetic MP4/FFprobe passed. Hosted Windows: compile + 344 tests (2 skipped) + synthetic MP4/FFprobe passed.
+- Both jobs checked out merge ref SHA `189e81b5e0d2452a1c5430713a605d53a932865a`, merging PR #327 source head into base `f4cf5766c7f0cad8531919f444d077b2fcdbe0fe`. Raw-head-only checkout NOT DEMONSTRATED; do not count both platforms as 688 unique tests.
+- Synthetic logs: `gta6_footage_used=false`, `publishing_enabled=false`, `manual_review_required=true`, and mocked upload checks report `upload_performed=false`. This is not real GTA 6 media acceptance.
+- PR #327 review submissions empty; independent review NOT RECORDED. Combined legacy statuses empty; Actions run and job logs are the evidence. Local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Assignment to the repository owner is not implementation approval; canonical security implementation/consolidation choice and independent review remain pending. Keep live uploads/public publishing disabled.
+- Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes, workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
