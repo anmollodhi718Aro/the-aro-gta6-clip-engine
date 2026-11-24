@@ -348,3 +348,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Expanded the duplicate-source-ID regression to attempt replacing grantor, source URL, evidence reference, attribution, disclosure, allowed uses and platforms, then assert the original metadata is preserved.
 - Test-only commit: `33743ca5ecaab1d69cab999968e8da8dc7f030ae`. Production code unchanged.
 - Local tests NOT RUN; check fresh exact-head Ubuntu/hosted-Windows CI. Do not transfer results from the earlier PR #355 head.
+
+
+## Latest continuation — ARO-CHAT-0227 CI and ancestry audit (2026-11-25)
+- Continue PR #357 (`workstream/aro-chat-0227-atomic-rights-grant-concurrency-2026-11-25`), test-only concurrent duplicate-registration coverage.
+- PR-head-associated Actions run #45462145169 completed SUCCESS on Ubuntu and hosted Windows. Compile, unit-test and synthetic MP4/FFprobe steps completed successfully on both jobs. Numeric test totals and checkout SHA were not exposed; raw-head-only checkout NOT DEMONSTRATED.
+- Current branch tip at audit `5e8dc2baeb822a988fc527d1cba3f35fc4bc5e1f`; compare against parent PR #355 recorded head `4ceba80e02f28c52946d3d143cbb7fa4e31d611e` is DIVERGED (3 ahead / 10 behind; merge base `f2bd2982216280852f5b823796dc3700c16f2e7d`). Preserve draft ancestry; do not rebase, retarget, or merge automatically.
+- PR #357 reviews and inline review threads are empty. Local tests NOT RUN; independent security review NOT RECORDED; owner-device Windows and real-media acceptance NOT VERIFIED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep OAuth, live uploads, and public publishing disabled. No credentials, real media, network upload, workflow retry/dispatch, deployment, or publishing.
