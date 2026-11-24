@@ -1019,3 +1019,17 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 
 ### Safety
 - Draft-only follow-up to PR #328. No OAuth credentials, real GTA 6 media, network upload, merge, deployment, or publishing. Issue #68 remains OPEN; live uploads/public publishing remain disabled pending the established owner/security gates.
+
+
+## ARO-CHAT-0218 — cleanup attempt when media-handle close fails (2026-11-24)
+- Test-only continuation of the PR #333 media-handle cleanup workstream.
+- Add a mocked regression where the API returns PRIVATE but the retained media handle's `close()` raises. Assert the close error propagates, nested snapshot cleanup is still called exactly once, the staged snapshot is removed, and the API insert was attempted once.
+- Chat ID: ARO-CHAT-0218; Workstream ID: ARO-GTA-P1-218.
+- Branch: `workstream/aro-chat-0218-cleanup-after-stream-close-error-2026-11-24`; base: `workstream/aro-chat-0216-close-upload-media-handle-2026-11-24` (PR #333 branch).
+- Production code unchanged. Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. No OAuth, real media, network upload, merge, deployment, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### ARO-CHAT-0218 CI failure and test-placement correction — 2026-11-24
+- Exact-head run `45428635076` failed on Ubuntu and hosted Windows (`342 tests`, one error on each platform). The new cleanup regression was nested under `YouTubeDestinationProfileTests` but called `_write_upload_rights`, a helper on `YouTubeUploadTests`.
+- Moved the regression into `YouTubeUploadTests`; production code unchanged. Fix commit: `9bc1e8b8541a8379a67ee8424efdde246f13c8f0`.
+- Follow-up exact-head run `45428933635` is pending. Current status: IMPLEMENTED; CI PENDING. Do not reuse the failed run as passing evidence.
