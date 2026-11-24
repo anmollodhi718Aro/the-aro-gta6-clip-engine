@@ -558,10 +558,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - No real-media verification, OAuth, upload, or publishing. Hosted Windows CI does not replace owner-device Windows acceptance. Issue #68 security and owner-acceptance gates remain closed.
 
 
-## Latest continuation baseline — ARO-CHAT-0182 (2026-11-24)
+## Latest continuation baseline — ARO-CHAT-0183 (2026-11-24)
 
-- Current chat title: `ARO-CHAT-0182 | Renderer Concurrent-Output No-Overwrite Regression`.
-- Workstream: ARO-GTA-P1-182; branch: `workstream/aro-chat-0182-renderer-no-overwrite-race-test-2026-11-24`; base: `feature/local-authorized-ffmpeg-renderer`; starting SHA: `065daab77624ce1adb65f61c61eee1dbcadd8303`.
+- Current chat title: `ARO-CHAT-0183 | Renderer Concurrent-Output No-Overwrite Regression`.
+- Workstream: ARO-GTA-P1-183; branch: `workstream/aro-chat-0182-renderer-no-overwrite-race-test-2026-11-24`; base: `feature/local-authorized-ffmpeg-renderer`; starting SHA: `065daab77624ce1adb65f61c61eee1dbcadd8303`.
 - Task: deterministic regression test for a concurrent destination creator racing the renderer's atomic no-overwrite promotion.
 - Implementation commit: `c0235d490e4ca6ba912c358fc805ef45f2732dfb`; workstream documentation and registry updates follow on this branch.
 - Parent PR #263 head `065daab77624ce1adb65f61c61eee1dbcadd8303` passed Ubuntu and hosted-Windows CI run #45372348715. Do not transfer that result to this follow-up branch.
