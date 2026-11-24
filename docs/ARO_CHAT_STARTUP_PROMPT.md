@@ -565,5 +565,5 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Task: deterministic regression test for a concurrent destination creator racing the renderer's atomic no-overwrite promotion.
 - Implementation commit: `c0235d490e4ca6ba912c358fc805ef45f2732dfb`; workstream documentation and registry updates follow on this branch.
 - Parent PR #263 head `065daab77624ce1adb65f61c61eee1dbcadd8303` passed Ubuntu and hosted-Windows CI run #45372348715. Do not transfer that result to this follow-up branch.
-- Exact-head CI for this workstream is pending until the draft PR checks complete. Local tests were not run in the connector session.
+- PR #265 exact head `cad30dd59b8d03305ffc0077cf587734a43e86e8` passed run #45373306320: Ubuntu job #138372817334 and hosted-Windows job #138372817771 each compiled, passed 17 tests, and passed synthetic MP4/FFprobe integration. Same 17-test suite on both platforms, not 34 unique tests; merge-ref checkout only, raw-head-only checkout NOT DEMONSTRATED. Local tests were not run in the connector session.
 - Keep the scope test-only. Do not merge, retarget, deploy, upload, publish, or process real media. Issue #68 remains an independent publishing security gate; public uploads stay disabled.
