@@ -186,3 +186,11 @@ For the current first-test upload priority:
 - PR #317 remains the parent draft; no merge, rebase, retarget, OAuth, credentials, media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 
 - Cross-platform test follow-up commit: `d37681e6af75b6ff81da2c47c67cf2001fb55049` skips the symlink-specific case only on filesystems where symlink creation is unavailable; CI for the resulting head remains independently pending.
+
+
+## Current continuation — ARO-CHAT-0213 (2026-11-24)
+- Continue from `workstream/aro-chat-0213-windows-safe-post-open-race-test-2026-11-24`, based on PR #322 head `449f0a96fac2b3eacfb1544bf9bc9a329ad02a94`.
+- PR #322 run #45423955539 had Ubuntu success and hosted-Windows failure: the new test tried to rename a file while its descriptor was open, which Windows denied (WinError 32). This was a test portability failure; production code was not implicated by the observed exception.
+- A test-only correction simulates the second post-open pathname `lstat()` as a symlink while retaining the real descriptor, avoiding Windows-incompatible rename behavior. Production code unchanged.
+- Report: `docs/ARO_CHAT_0213_WINDOWS_SAFE_POST_OPEN_RACE_TEST.md`. Exact-head Ubuntu and hosted-Windows CI remains PENDING until both jobs/logs for this new PR head are inspected. Local tests NOT RUN in this connector session.
+- Preserve draft-only status. Do not merge/rebase/retarget, dispatch/retry workflows, access OAuth credentials, process real media, upload, publish, or deploy. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled.

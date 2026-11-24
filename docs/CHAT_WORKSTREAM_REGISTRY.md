@@ -999,3 +999,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Draft-only; do not merge/rebase/retarget. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, or deployment. Keep live uploads/public publishing disabled.
 
 - Test portability follow-up: commit `d37681e6af75b6ff81da2c47c67cf2001fb55049` skips the new symlink substitution test only when symlink creation is unavailable, consistent with existing platform-specific tests.
+
+
+## ARO-CHAT-0213 Windows-safe post-open race regression — 2026-11-24
+
+- Follow-up to PR #322 after its exact-head run #45423955539: Ubuntu job succeeded, but hosted Windows failed because the regression test attempted to rename an open approval file (WinError 32), followed by a temporary-directory cleanup error. The production check itself was not shown to fail.
+- New branch `workstream/aro-chat-0213-windows-safe-post-open-race-test-2026-11-24`, based on PR #322 head `449f0a96fac2b3eacfb1544bf9bc9a329ad02a94`.
+- Test-only correction: retain a real opened descriptor and simulate the second post-open `Path.lstat()` observation as a symlink. This tests the fail-closed production branch without renaming a live file handle, making the regression portable to Windows.
+- Production code unchanged. Report: `docs/ARO_CHAT_0213_WINDOWS_SAFE_POST_OPEN_RACE_TEST.md`.
+- Exact-head Ubuntu/hosted-Windows CI is PENDING; local tests NOT RUN in this connector session. Do not transfer PR #322's partial CI result to this new head.
+- Draft-only; no workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
