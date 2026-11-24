@@ -147,3 +147,9 @@ For the current first-test upload priority:
 - Token persistence uses a same-directory temporary file, flush/fsync, atomic replacement, and `0600` permissions where supported.
 - Existing token-file symlinks and profile token-directory symlinks fail closed. Tests cover symlink rejection and restricted file permissions.
 - CI run `45395149052` exposed a missing `tempfile` import; corrected in commit `92368c71a6cae96f364cdac1066cdf9e93fe3c43`. Fresh CI is required before treating this code as validated.
+
+
+## OAuth atomic-write failure-path guard
+- Added a regression test that simulates `os.replace` failure and verifies the existing OAuth token remains unchanged and the temporary file is cleaned up.
+- Test commit: `bcdd2355a23ca4a653c76857bc5ff4650f6e1d79`.
+- CI success on the immediately preceding head does not validate this new test; require fresh Ubuntu and Windows checks for the latest PR head.
