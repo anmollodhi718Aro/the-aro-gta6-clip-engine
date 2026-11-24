@@ -513,3 +513,6 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 ### ARO-CHAT-0178 audit publication — 2026-11-24
 - Draft PR #259 records the live-head refresh of PR #257. Audit PR #259's own current head CI independently; do not transfer PR #257's empty CI observation.
 - Keep the PR draft-only and all Issue #68 live-upload/publication gates closed.
+
+
+- PR #259's own inspected head had zero workflow runs/check-runs and empty combined status; its CI is PENDING / NOT VERIFIED. Its own head must be rechecked after any further commit.
