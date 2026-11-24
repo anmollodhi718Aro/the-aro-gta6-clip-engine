@@ -141,3 +141,11 @@ For the current first-test upload priority:
 - Live PR #300 metadata reports branch `workstream/aro-chat-0197-pr299-windows-path-regression-fix-2026-11-24`, head `83445d763ebce065140a0f7a19ac75c42a761d48`, and base SHA `152de0e3cecbfe2be2569c46db14e5c9c67506a2`. Earlier notes naming `02b5e7c16077d31e9cee1950cc5c379339c5baff` describe the preceding docs commit, not the current head.
 - Exact-live-head workflow lookup and combined status returned no checks for `83445d763ebce065140a0f7a19ac75c42a761d48`; Ubuntu and hosted-Windows CI remain PENDING. Do not claim the older PR #299 run validates PR #300.
 - Keep PR #300 draft/open/unmerged. No local tests, OAuth, credentials, real-media processing, upload, publishing, merge, retarget, or deployment occurred. Issue #68 remains open and unresolved; live uploads/public publishing stay disabled.
+
+
+## ARO-CHAT-0197 latest live-head reconciliation — 2026-11-24
+- PR #300 remains OPEN / DRAFT / UNMERGED. Live head: `68b62198572117d22fe4072a8e3a48abf05cadd6`; base branch: `workstream/aro-chat-0134-private-upload-response-verification-2026-11-24`; recorded base SHA: `152de0e3cecbfe2be2569c46db14e5c9c67506a2`.
+- The previous recorded head `83445d763ebce065140a0f7a19ac75c42a761d48` is stale. Base-to-head comparison reports 10 commits ahead / 5 behind with merge base `758ae2d44e04b9a875a2a85aa153f0407a209766`; do not rebase or retarget automatically.
+- No commit-associated workflow run was returned for the current head. Exact-head Ubuntu and hosted-Windows CI are PENDING / NOT VERIFIED. Local tests were NOT RUN in this connector session.
+- The current diff remains limited to the profile-path regression test and the registry/startup documentation. Both expected token paths use the strictly resolved `.secrets` parent; production uploader enforcement is unchanged.
+- Independent review is NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, API upload, publishing, merge, rebase, retarget, deployment, or destructive action.
