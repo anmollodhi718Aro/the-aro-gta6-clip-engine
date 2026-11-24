@@ -148,6 +148,48 @@ class SourceRightsRegistryTests(unittest.TestCase):
         self.assertEqual([e["action"] for e in self.registry.audit_events("creator-video-1")],
                          ["registered", "revoked"])
 
+    def test_timestamp_inputs_reject_non_datetime_values(self):
+        for field in ("valid_from", "expires_at"):
+            with self.subTest(field=field):
+                invalid = dict(self.record, **{field: 7})
+                with self.assertRaises(ValueError):
+                    self.registry.register(invalid)
+        self.registry.register(self.record)
+        with self.assertRaises(ValueError):
+            self.registry.authorize("creator-video-1", "publish", "youtube", at=7)
+        with self.assertRaises(ValueError):
+            self.registry.revoke("creator-video-1", actor="owner", at=7)
+
+    def test_public_rights_methods_reject_non_text_arguments(self):
+        self.registry.register(self.record)
+        invalid_values = (None, 7, [], "   ")
+        for value in invalid_values:
+            with self.subTest(source_id=value):
+                with self.assertRaises(ValueError):
+                    self.registry.authorize(value, "publish", "youtube", at=self.now)
+                with self.assertRaises(ValueError):
+                    self.registry.revoke(value, actor="owner", at=self.now)
+                with self.assertRaises(ValueError):
+                    self.registry.audit_events(value)
+            with self.subTest(use=value):
+                with self.assertRaises(ValueError):
+                    self.registry.authorize("creator-video-1", value, "youtube", at=self.now)
+            with self.subTest(platform=value):
+                with self.assertRaises(ValueError):
+                    self.registry.authorize("creator-video-1", "publish", value, at=self.now)
+            with self.subTest(actor=value):
+                with self.assertRaises(ValueError):
+                    self.registry.revoke("creator-video-1", actor=value, at=self.now)
+
+    def test_register_rejects_non_mapping_and_non_text_identity_fields(self):
+        with self.assertRaisesRegex(ValueError, "record must be a mapping"):
+            self.registry.register(None)
+        for field in ("source_id", "source_url", "grantor", "evidence_ref"):
+            with self.subTest(field=field):
+                invalid = dict(self.record, **{field: 7})
+                with self.assertRaises(ValueError):
+                    self.registry.register(invalid)
+
     def test_non_duplicate_integrity_error_is_not_misreported_as_duplicate(self):
         # sqlite3.Connection's context manager commits/rolls back but does not
         # close the handle. Close explicitly so Windows can remove the temp DB
