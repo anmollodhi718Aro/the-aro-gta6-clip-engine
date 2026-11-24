@@ -1347,3 +1347,15 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Bounded static review found the hostname syntax checks and listed regression cases present. Python's IPv6 parser accepts scoped IPv6 literals; whether these are intended remains a policy question, not a confirmed vulnerability. DNS resolution, destination-IP policy and DNS-rebinding protection are outside this diff.
 - No CI result is transferred from PR #371 or any other branch. Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL and live uploads/public publishing disabled.
 - No source/test behavior, workflow, OAuth, credentials, real media, upload, publishing, retry/dispatch, merge, rebase, retarget, deployment, or destructive action occurred.
+
+
+## ARO-CHAT-0238 — Ambiguous numeric URL host rejection (2026-11-25)
+
+- Chat title: `ARO-CHAT-0238 | Reject Ambiguous Numeric URL Hosts`; workstream: ARO-GTA-P1-238.
+- Branch: `workstream/aro-chat-0238-ambiguous-numeric-hostname-rejection-2026-11-25`; base: PR #374 head `bd458946572ca5cec66f4ea55064d8596bf4ad3c`.
+- Finding: DNS-label validation accepted numeric-only hosts such as `127.1` and `2130706433`, which can be interpreted as shorthand IPv4 by URL consumers/resolvers.
+- Production change: numeric-and-dot-only hosts must parse as canonical four-octet IPv4 using `ipaddress.IPv4Address`; malformed dotted quads and shorthand/integer forms are rejected. IPv6 and DNS/IDNA paths remain unchanged.
+- Regression tests reject `999.999.999.999`, `127.1`, and `2130706433`, and accept canonical IPv4 `192.0.2.1`.
+- Report: `docs/ARO_CHAT_0238_AMBIGUOUS_NUMERIC_HOST_VALIDATION.md`.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED.
+- Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
