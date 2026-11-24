@@ -265,3 +265,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - The base branch advanced from starting SHA `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722` to `6204a3979b8753919e3f983ce42a3777b3215d87` by 12 documentation-only commits. Compare reports PR #344 head 6 commits ahead and 12 behind the current base, with merge base at the starting SHA; status DIVERGED.
 - Preserve PR #344 as DRAFT / OPEN / UNMERGED. No automatic rebase or retarget. Reconcile the documentation-only parent advancement with owner approval before ancestry changes.
 - Local tests NOT RUN. Independent security review NOT RECORDED. Issue #68 remains OPEN. Keep live uploads/public publishing disabled.
+
+
+## Current continuation — ARO-CHAT-0222 (2026-11-24)
+- Task: correct the newly observed test assertion mismatch from PR #346 exact-head CI without changing uploader behavior.
+- Branch: `workstream/aro-chat-0222-pr344-ci-assertion-fix-2026-11-24`, based on PR #344 exact head `d2e057734517c1dfb3be994eb7268580f1f173a4`.
+- Finding: both Ubuntu and hosted Windows ran 352 tests and failed only because the regression test expected `no recorded rights for source-2`, while the registry correctly raises `no recorded rights for source source-2`.
+- Test-only correction committed as `c70d4bb14237427cdbdca8fab0753d7ed5b10813`. No production code changed.
+- Next: open a draft PR targeting PR #344's branch, then inspect exact-head Ubuntu/Windows CI. Do not transfer the failed run. Keep PRs draft/unmerged, Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL, and live uploads/public publishing disabled.
