@@ -1143,3 +1143,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Test-only correction commit: `6829261261175dd2f4693b0d8c62685f69fb6298`. It simulates the post-open symlink result through mocked `Path.lstat()` rather than renaming an open file. Production code unchanged.
 - Corrected exact-head CI is still PENDING / NOT VERIFIED: corrected commit lookup returned zero runs and the latest startup-document head `03071572e8b59bf3f150617e26ea7fd49ca57212` has zero combined status entries. No workflow retry/dispatch initiated.
 - PR #353 remains draft/open/unmerged; independent review NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+
+### Separate source-rights lineage blocker — 2026-11-24
+- Read `backend/app/rights_registry.py` directly from the PR #353 branch after the safe-read changes. Its `SourceRightsRegistry.register()` still contains `ON CONFLICT(source_id) DO UPDATE` and resets `revoked_at=NULL`; the append-only duplicate-ID rejection is therefore NOT integrated into PR #353's ancestry.
+- PR #352 contains the separate INSERT-only / duplicate-ID rejection fix, but its recorded head `1747290c7397f5e05b459edbac6783d0d00784a7` is on a divergent branch (9 commits ahead / 6 behind the then-current PR #350 head; merge base `b6d712a6438a132c3d8ca245b0a804bf8b929550`).
+- Do not cherry-pick, rebase, retarget, or merge PR #352 into PR #353 automatically. Preserve both draft histories and require explicit owner selection / consolidation direction. Treat duplicate-source grant overwrite and revocation reset as an unresolved security blocker on the PR #353 lineage.
