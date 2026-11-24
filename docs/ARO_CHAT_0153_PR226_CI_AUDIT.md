@@ -116,3 +116,28 @@ A fresh inspection of the two commit-associated runs separates the exact PR #226
 - Current PR #229 metadata: OPEN / DRAFT / UNMERGED; head `58255a61fdf20eba115bead51d8fada72b74d1bd`; base `d8433a2c31dc0634d5fc9a853b82c8e061ced0ab`. Commit-associated pull-request workflow lookup for this exact PR #229 head returned zero runs. PR #229 CI remains PENDING / NOT VERIFIED; no CI transfer from PR #226.
 - **Disposition:** PR #226 exact merge-ref CI_VERIFIED; raw-head-only CI NOT DEMONSTRATED; owner-device Windows and authorized real-media acceptance NOT VERIFIED. PR #229 remains awaiting its own naturally triggered exact-head CI and independent review.
 - No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed. Documentation-only continuation.
+
+
+## Live continuation audit — 2026-11-24 (latest session)
+
+### PR #226 exact-head evidence
+- Live PR #226 metadata: OPEN / DRAFT / UNMERGED; source head `d8433a2c31dc0634d5fc9a853b82c8e061ced0ab`; base `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`.
+- Commit-associated workflow lookup returned runs #45270942827 and #45270941723. Run #45270941723 (run 1080) is the exact PR #226 merge-ref run. Ubuntu job #138030347655 and hosted-Windows job #138030348239 both completed SUCCESS.
+- Both jobs checked out `refs/remotes/pull/226/merge` at merge SHA `025c577ecd3f0663cb96c225affe9a971f587da9`, explicitly merging the stated source head into the stated PR #226 base. The logs confirm this checkout ref and SHA.
+- Both jobs passed source compilation, the same 338-test unittest suite, and synthetic MP4/FFprobe validation. Ubuntu ran 338 tests in 5.080s; hosted Windows ran 338 tests in 24.990s. This is 338 shared test cases executed on two platforms, not 676 unique tests.
+- Synthetic validation used locally generated test pattern/tone only, with no GTA 6 or third-party media. Publishing was disabled and manual review required. Mock approval output explicitly reported `upload_performed=false`; no live upload occurred.
+- Separate run #45270942827 (run 1081) is excluded: its logs checked out PR #228's merge ref at `d07abf4346a167d807a3e0539a3f7b4ee92af3ea`, against a different base.
+- PR #226 combined commit status returned zero status entries. Reviews, inline threads, and conversation comments were previously observed empty; independent review NOT RECORDED.
+- Disposition for PR #226: **CI_VERIFIED on its exact merge ref only**. Raw-head-only CI NOT DEMONSTRATED. Owner-device Windows verification and authorized real-media acceptance NOT VERIFIED.
+
+### Audit PR #229 current-head gate
+- Live PR #229 metadata at this inspection: OPEN / DRAFT / UNMERGED; head `2f4849e3b3ffd6b86ae3919fab9376d02497167e`; base `d8433a2c31dc0634d5fc9a853b82c8e061ced0ab`.
+- Commit-associated workflow lookup for this exact PR #229 head returned zero runs. Combined status returned zero entries. CI is **PENDING / NOT VERIFIED**; no jobs, logs, or checkout refs are available.
+- Review submissions, inline review threads, and conversation comments returned empty arrays. Independent review NOT RECORDED.
+- Do not transfer PR #226's successful CI to PR #229. Wait for a naturally associated run on PR #229's current head, then inspect its merge checkout SHA, both platform jobs/logs, compile/tests, synthetic MP4/FFprobe evidence, and review state. Any head change requires a fresh lookup.
+- No workflow retry or dispatch was initiated. This audit is documentation-only.
+
+### Safety / remaining acceptance gates
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Assignment is not implementation approval. Keep live uploads and public publishing disabled.
+- Hosted Windows CI is not owner-device Windows verification. Synthetic media is not GTA 6 footage or real-media acceptance.
+- No credentials/OAuth, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
