@@ -402,3 +402,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #249 exact-head workflow lookup returned zero runs and combined status returned zero entries. Its own CI is PENDING / NOT VERIFIED; local tests NOT RUN. No other PR's CI result may be transferred.
 - GitHub reports PR #249 mergeable=true; keep it draft and do not merge without explicit owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending all recorded security and owner-acceptance gates.
+
+
+### ARO-CHAT-0171 exact-head CI audit — 2026-11-24
+- Active workstream: ARO-GTA-P1-171 / ARO-CHAT-0171 | audit PR #251's own current-head CI after the narrow CLI upload-limit fixture repair.
+- Branch: `workstream/aro-chat-0171-pr251-test-fix-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #251 head `1316c12f4f66305b190f671330682eb535e41ba0`.
+- Duplicate-work check: ARO-CHAT-0170 is concurrently represented by PR #250 (PR #249 CI audit) and PR #251 (test-fixture repair). Preserve both histories; this audit uses unique ID 0171 and does not modify either branch.
+- Initial exact-head run #45314761904 (run 1139) was IN_PROGRESS. Both platform jobs had reached FFmpeg/FFprobe installation; compile, tests, and synthetic render were pending.
+- Combined status, reviews, inline threads, and conversation comments were empty. Re-fetch exact PR head and run after completion; no result may be transferred from PR #249.
+- Documentation-only; no workflow retry or production behavior changes. Keep Issue #68 open and all live/public uploads disabled pending independent security review and owner-controlled integration.
