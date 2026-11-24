@@ -265,3 +265,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - The base branch advanced from starting SHA `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722` to `6204a3979b8753919e3f983ce42a3777b3215d87` by 12 documentation-only commits. Compare reports PR #344 head 6 commits ahead and 12 behind the current base, with merge base at the starting SHA; status DIVERGED.
 - Preserve PR #344 as DRAFT / OPEN / UNMERGED. No automatic rebase or retarget. Reconcile the documentation-only parent advancement with owner approval before ancestry changes.
 - Local tests NOT RUN. Independent security review NOT RECORDED. Issue #68 remains OPEN. Keep live uploads/public publishing disabled.
+
+## ARO-CHAT-0222 — rights-report regression assertion correction (2026-11-24)
+- Workstream: ARO-GTA-P1-222; branch `workstream/aro-chat-0222-fix-rights-report-regression-assertion-2026-11-24`.
+- Parent/base: PR #344 exact head `d2e057734517c1dfb3be994eb7268580f1f173a4`.
+- PR #346 CI run #45441375437 failed on Ubuntu and hosted Windows in `test_upload_rechecks_latest_rights_report_before_api_insert`. The production code raised `no recorded rights for source source-2`; the test expected stale text without the second `source`.
+- Updated only the test assertion; production code and upload behavior are unchanged. Code/test commit `2e79ef7c2a7970cec3259fc200457dc6b3042c92`; report `docs/ARO_CHAT_0222_RIGHTS_REPORT_ASSERTION_FIX.md`.
+- Local tests NOT RUN; exact-head Ubuntu/Windows CI PENDING. No workflow retry/dispatch. PR #346's failed run is not evidence for this new head.
+- Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; no OAuth, credentials, real media, network upload, merge, rebase, retarget, deployment, or publishing.
