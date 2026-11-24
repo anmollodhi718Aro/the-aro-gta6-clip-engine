@@ -1448,3 +1448,37 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Parent PR #238 run #45277658000 passed Ubuntu and hosted Windows (338 tests per platform plus synthetic MP4/FFprobe); this predecessor evidence is NOT transferred to ARO-CHAT-0164.
 - No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment or destructive action.
 - Keep Issue #68 OPEN and all live/public uploads disabled pending this branch's exact-head CI, independent security review, owner-controlled integration, owner-device verification and separate authorized real-media acceptance.
+
+
+## Latest continuation — ARO-CHAT-0165 (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0165 |
+| Exact title | ARO-CHAT-0165 | PR #242 Windows CI Failure Audit |
+| Workstream ID | ARO-GTA-P1-165 |
+| Scope | Documentation-only exact-head audit of PR #242's Windows CI failure; recover evidence before proposing any workflow change |
+| Branch | `workstream/aro-chat-0165-pr242-windows-ci-failure-audit-2026-11-24` |
+| Base / starting SHA | PR #242 head `dfb1e9390490806e44bad93fc661ddff0a551f54` |
+| Status | IMPLEMENTED (audit report); raw Windows installer diagnostic NOT VERIFIED; no workflow rerun; draft PR pending |
+| Report | `docs/ARO_CHAT_0165_PR242_WINDOWS_CI_AUDIT.md` |
+
+### Evidence and safety
+- PR #242 exact-head Actions run #45278668116 reports FAILURE on head `dfb1e9390490806e44bad93fc661ddff0a551f54`.
+- Ubuntu compile, unit tests and synthetic MP4/FFprobe passed.
+- Available Windows step summary reports failure at FFmpeg/FFprobe installation and skipped later validation steps; a subsequent jobs lookup returned null Windows conclusion/no steps, so the raw installer error remains NOT VERIFIED.
+- Existing workflow already retries Chocolatey installation four times. No workflow behavior change or retry is justified without the raw log.
+- PR #242 remains OPEN / DRAFT / UNMERGED; independent review NOT RECORDED. Issue #68 remains OPEN; keep live/public uploads disabled.
+- Documentation-only. No credentials, OAuth, real media, network upload, publishing, merge, rebase, retarget, deployment or destructive action.
+
+
+### ARO-CHAT-0165 exact-head CI evidence correction — 2026-11-24
+- Recovered the completed logs for PR #242 run #45278668116. Final conclusion is SUCCESS, not failure.
+- Ubuntu job #138058372656 passed checkout, Python setup, FFmpeg/FFprobe installation, compilation, 340 unit tests (4.934s), and synthetic MP4/FFprobe validation.
+- Hosted-Windows job #138058368900 passed checkout, Python 3.11 setup, FFmpeg/FFprobe installation, compilation, the same 340 unit tests (24.840s), and synthetic MP4/FFprobe validation.
+- Both jobs checked out PR #242 merge ref `refs/remotes/pull/242/merge` at `ad80436817f46f8f36093ae95dc4eeed6cf0ce7e`, combining head `dfb1e9390490806e44bad93fc661ddff0a551f54` with base `cdcf7a4bef2728e3299e82bc88d376992ecec39d`. Raw-head-only checkout NOT DEMONSTRATED.
+- The earlier interim Windows-installer failure report is superseded by the completed job steps and decoded logs; installation succeeded. No additional workflow retry or workflow edit was justified or initiated.
+- Same 340 tests ran on each platform, not 680 unique tests. Synthetic-only validation; no GTA 6/third-party media, publishing disabled, manual review required, and mocked uploader tests only.
+- PR #242 remains OPEN / DRAFT / UNMERGED. Combined status returned zero entries; independent review NOT RECORDED. Hosted Windows is not owner-device verification; authorized real-media acceptance remains NOT VERIFIED.
+- This correction does not close Issue #68 or authorize live/public uploads. Keep uploads disabled pending independent security review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
+- Audit report: `docs/ARO_CHAT_0165_PR242_WINDOWS_CI_AUDIT.md`. This audit branch's own CI must be checked independently; do not transfer PR #242's run.

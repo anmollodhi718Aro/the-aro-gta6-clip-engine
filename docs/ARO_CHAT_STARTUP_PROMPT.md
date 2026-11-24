@@ -349,3 +349,24 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Local tests NOT RUN; this branch's own exact-head Ubuntu/hosted-Windows CI is PENDING (run #45278418962 / run 1115 is QUEUED; jobs not yet available). Draft PR #242 is open at head `414fd4f7da94fdffcdd3261a5ea723b5f03290b3`. Do not transfer PR #238 run #45277658000.
 - No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment or destructive action.
 - Issue #68 remains OPEN. Keep live/public uploads disabled pending exact-head CI, independent security review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
+
+
+## Latest continuation baseline — ARO-CHAT-0165 (2026-11-24)
+
+- Current workstream: ARO-CHAT-0165 / ARO-GTA-P1-165 | PR #242 Windows CI Failure Audit.
+- Branch: `workstream/aro-chat-0165-pr242-windows-ci-failure-audit-2026-11-24`; base/starting SHA: PR #242 head `dfb1e9390490806e44bad93fc661ddff0a551f54`.
+- Draft documentation-only audit records exact-head run #45278668116: Ubuntu compile/tests/synthetic MP4 passed; available Windows step summary reports FFmpeg/FFprobe installation failure and skipped later steps.
+- Raw Windows installer diagnostic is NOT VERIFIED because the subsequent jobs lookup returned a null Windows conclusion and no steps. Existing workflow already retries Chocolatey four times; do not modify workflow or rerun until diagnostic evidence is available.
+- Audit report: `docs/ARO_CHAT_0165_PR242_WINDOWS_CI_AUDIT.md`. Issue #68 remains OPEN; keep live/public uploads disabled.
+- No credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment or destructive action.
+
+
+## ARO-CHAT-0165 evidence correction — 2026-11-24
+- PR #242 exact-head run #45278668116 completed SUCCESS on Ubuntu and hosted Windows.
+- Ubuntu: compile passed, 340 tests passed (4.934s), synthetic MP4/FFprobe passed.
+- Hosted Windows: FFmpeg/FFprobe installation and compilation passed; 340 tests passed (24.840s); synthetic MP4/FFprobe passed.
+- Both jobs checked out PR #242 merge ref at `ad80436817f46f8f36093ae95dc4eeed6cf0ce7e`, merging head `dfb1e9390490806e44bad93fc661ddff0a551f54` into base `cdcf7a4bef2728e3299e82bc88d376992ecec39d`. Raw-head-only checkout NOT DEMONSTRATED.
+- The earlier interim Windows installer failure note is superseded by recovered final logs; installation succeeded. No workflow edit/retry was made.
+- This is 340 shared test cases run on two platforms, not 680 unique tests. Synthetic media only; publishing disabled; manual review required; mocked upload only.
+- PR #242 remains OPEN / DRAFT / UNMERGED. Independent review, owner-device Windows and authorized real-media acceptance remain NOT VERIFIED. Issue #68 remains OPEN; keep live/public uploads disabled.
+- Audit report: `docs/ARO_CHAT_0165_PR242_WINDOWS_CI_AUDIT.md`. Inspect the audit branch's own CI independently; do not transfer the parent run.
