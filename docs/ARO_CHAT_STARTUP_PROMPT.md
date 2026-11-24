@@ -202,3 +202,5 @@ For the current first-test upload priority:
 - Both jobs checked out merge SHA `9a6c481cd5897ad4dd6a39b1b4f1d63e938c6350`, merging PR #324 head into PR #322 head `449f0a96fac2b3eacfb1544bf9bc9a329ad02a94`; raw-head-only checkout NOT DEMONSTRATED. Do not call hosted Windows owner-device verification.
 - PR #324 independent review NOT RECORDED; local tests NOT RUN; real-media acceptance NOT VERIFIED. Synthetic logs confirm `gta6_footage_used=false`, `publishing_enabled=false`, `manual_review_required=true`.
 - Continue with evidence-based P1 pipeline work only. Preserve draft/open/unmerged stacks. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, live upload, public publishing, merge, rebase, retarget, deployment, or destructive action without separate explicit approval.
+
+- Documentation audit PR #327 head `fa64b10bb455430080e5df301d04a39bd7c34509`: no associated workflow run/status entries; exact-head CI PENDING / NOT VERIFIED; reviews empty. Do not transfer PR #324's run to #327.
