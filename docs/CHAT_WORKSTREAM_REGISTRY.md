@@ -963,3 +963,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #311 exact-head CI for `a95d1cbc22fd2d0653ba8c7b09ea227e76b29edb` was not yet visible at the initial post-creation lookup. Do not claim it passed until the final head's Actions jobs are inspected.
 - Issue #68 implementation is present in the base ancestry and its OIDC verifier is non-recursive there; the older PR #83 head still contains the historical recursive helper and must not be treated as the current implementation.
 - Issue #68 remains OPEN pending independent review and owner-device OAuth/channel verification. No real YouTube upload has occurred. Public publishing remains disabled.
+
+
+## ARO-CHAT-0207 | Case-insensitive destination-profile isolation fix — 2026-11-24
+
+- Follow-up branch: `workstream/aro-chat-0207-casefold-profile-isolation-fix-2026-11-24`, based on PR #311 head `c3d767fd055c80dbd395c5c8821a335ad9b3b258`.
+- Restore casefold-based uniqueness validation for destination-profile names. This prevents case-only profile-name collisions from mapping separate JSON entries to the same OAuth token filename on case-insensitive filesystems.
+- Add regression test `test_case_colliding_profile_names_fail_closed`.
+- Report: `docs/ARO_CHAT_0207_CASEFOLD_PROFILE_COLLISION_FIX.md`.
+- Local tests NOT RUN in this connector session; exact-head Ubuntu/Windows CI PENDING. Do not transfer PR #311's earlier CI result to this follow-up head.
+- PR #311 remains draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, merge, rebase, retarget, deployment, or destructive action.
