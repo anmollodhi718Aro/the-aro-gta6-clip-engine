@@ -240,7 +240,7 @@ def require_current_owner_approval(
                 os.close(descriptor)
     except PermissionError:
         raise
-    except (OSError, json.JSONDecodeError) as exc:
+    except (OSError, json.JSONDecodeError, UnicodeDecodeError) as exc:
         raise PermissionError("durable owner approval record is missing or unreadable") from exc
     if not isinstance(record, dict) or record.get("schema_version") != 1:
         raise PermissionError("owner approval record has an unsupported schema")
