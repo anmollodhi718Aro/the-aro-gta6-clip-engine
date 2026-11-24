@@ -214,6 +214,9 @@ class SourceRightsRegistryTests(unittest.TestCase):
             "https://example-.com/video",
             "https://exa_mple.com/video",
             "https://%65xample.com/video",
+            "https://[fe80::1%eth0]/video",
+            "https://[fe80::1%25]/video",
+            "https://[fe80::1%25eth%ZZ]/video",
             "https://user:password@example.com/video",
             "https://exa mple.com/video",
             "https://exa\nmple.com/video",
@@ -231,6 +234,7 @@ class SourceRightsRegistryTests(unittest.TestCase):
             "https://example.com/video",
             "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd/video",
             "https://[::1]/video",
+            "https://[fe80::1%25eth0]/video",
             "https://bücher.example/video",
             "https://example.com./video",
         )):
