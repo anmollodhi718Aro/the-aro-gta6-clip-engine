@@ -19,7 +19,7 @@ PR #328 stages the approved video bytes in a private temporary directory and pas
 - Workstream ID: ARO-GTA-P1-216
 - Branch: `workstream/aro-chat-0216-close-upload-media-handle-2026-11-24`
 - Base: PR #328 head `114e5bfc4b154e0da272ed36408ab156cfdc5ab9`
-- PR: pending creation
+- PR: [Draft PR #333](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/333)
 
 ## Validation
 
