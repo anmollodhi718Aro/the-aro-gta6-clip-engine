@@ -500,3 +500,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED.
 - Parent PR #371 run #45494763114 failed with zero exposed steps and BlobNotFound logs; cause NOT VERIFIED. Do not attribute it to application code.
 - Keep this follow-up DRAFT / OPEN / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0237 live continuation — 2026-11-25
+- Current task: documentation-only exact-head CI and bounded static audit of PR #373 / ARO-CHAT-0236.
+- Branch `workstream/aro-chat-0237-pr373-exact-head-ci-and-static-audit-2026-11-25`, based on PR #373 exact head `ecd35c1c4170f038b57ece0d5df976b80de5c276`.
+- PR #373 exact-head workflow lookup returned zero runs; combined status returned zero entries; reviews and inline threads were empty. Ubuntu/hosted-Windows CI, local tests and independent review are NOT VERIFIED / NOT RUN / NOT RECORDED respectively.
+- Bounded review confirms syntax-level DNS/IDNA/IPv6 checks and listed regressions. Scoped IPv6 zone identifiers are accepted by Python's IPv6 parser; intended policy remains an owner/design question. DNS resolution, destination-IP filtering and DNS-rebinding protection are not implemented by this helper.
+- Keep PR #373 draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, OAuth, credentials, real media, upload, merge, retarget, deployment or publishing.
