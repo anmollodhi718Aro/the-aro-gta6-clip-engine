@@ -460,3 +460,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Connector summaries did not expose numeric test counts or checkout refs; raw-head-only checkout is NOT DEMONSTRATED. Hosted Windows CI is not owner-device Windows verification; synthetic MP4 is not real GTA 6 footage.
 - Audit PR #255 is OPEN / DRAFT / UNMERGED; its own exact-head CI was not yet associated with a run at last inspection. Never transfer PR #254's CI to PR #255.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending independent security review and all owner-acceptance gates.
+
+
+## Latest continuation baseline — ARO-CHAT-0175 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0175 | PR #255 Exact-Head CI Audit`.
+- Workstream: ARO-GTA-P1-175; branch: `workstream/aro-chat-0175-pr255-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #255 head `f9698ee9bd5a144cd8f95874919fbc9f7fe18418`.
+- Task: documentation-only independent audit of PR #255's own commit-associated Actions run, both platform jobs/logs, checkout refs, compilation/tests, synthetic MP4/FFprobe, combined status, reviews, inline threads, and conversation comments.
+- Exact-head run #45316121389 (run 1152) completed CANCELLED. Ubuntu job #138183346938 and hosted-Windows job #138183346620 were both cancelled during FFmpeg/FFprobe installation; compilation, unit tests, and synthetic MP4/FFprobe steps were skipped. No compile/test/render result is claimed.
+- Combined commit status returned zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. Local tests NOT RUN; no workflow retry initiated.
+- Report: `docs/ARO_CHAT_0175_PR255_CI_AUDIT.md`. Do not transfer PR #254's successful CI result to PR #255 or this audit branch.
+- Documentation-only; keep Issue #68 open and live/public uploads disabled pending explicit owner approval, canonical security implementation, independent security review, owner-controlled integration, owner-device verification, owner-selected device-appropriate `--max-upload-bytes`, and authorized real-media acceptance.
+- No credentials/OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
