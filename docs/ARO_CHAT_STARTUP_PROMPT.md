@@ -409,3 +409,17 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Exact-head Ubuntu/hosted-Windows code validation: NOT VERIFIED. Local tests NOT RUN in this connector session. Independent security review NOT RECORDED. Do not transfer CI from parent PRs.
 - Static patch inspection only; no confirmed code defect established from the reviewed diff. This is not a full security audit.
 - Safety: draft/open/unmerged. No OAuth authorization was performed, no credentials/tokens or real media were accessed, and no upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing was performed. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+
+## ARO-CHAT-0235 — tighten existing OAuth secret directory permissions (2026-11-25)
+
+- Draft PR #370: `https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/370`; branch `workstream/aro-chat-0235-tighten-existing-secrets-directory-permissions-2026-11-25`.
+- Parent: PR #368 OAuth destination-profile bootstrap; starting SHA `44625b51672221a823e98c4abf327024839a30d7`.
+- Finding: `mkdir(mode=0o700, exist_ok=True)` does not change permissions on an already-existing directory. Existing POSIX `.secrets/` and `.secrets/tokens/` directories could therefore retain broader access.
+- Added `_ensure_private_directory()`: reject symlinks/non-directories; on POSIX require current-user ownership, set mode `0700`, and verify it. Applied to both secret directories.
+- Added a POSIX regression test starting with both directories at `0755`. Windows ACLs are not modified or verified; Windows confidentiality still relies on the user's private profile ACL.
+- Commits: source `435acaf30b4817d00cd8194298f929807214a3e0`; tests `66e200e9f83b256a221505e8513404c42ea35e4b`; report `199b1dd902adc873460fc266fe491899b8e69335`.
+- Local tests NOT RUN in this connector session. PR #370 exact-head workflow lookup currently returns zero runs; CI PENDING / NOT VERIFIED. Independent security review NOT RECORDED.
+- PR #368's latest inspected head run #45485466980 failed before any job steps were exposed; both jobs had zero steps and logs were unavailable. This is not evidence of a source/test failure. No CI result is transferred.
+- Draft only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
