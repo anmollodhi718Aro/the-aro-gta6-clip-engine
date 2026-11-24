@@ -282,6 +282,36 @@ class OwnerApprovalTests(unittest.TestCase):
             with self.assertRaisesRegex(PermissionError, "changed while opening"):
                 self.gate()
 
+    def test_same_inode_symlink_substitution_after_open_is_rejected(self):
+        import stat
+        import backend.app.youtube_owner_approval as approval_module
+
+        original_open = approval_module.os.open
+        original_lstat = Path.lstat
+        lstat_calls = 0
+
+        def open_without_nofollow(path, flags, *args, **kwargs):
+            return original_open(path, flags & ~getattr(os, "O_NOFOLLOW", 0), *args, **kwargs)
+
+        def report_symlink_on_post_open_check(path):
+            nonlocal lstat_calls
+            result = original_lstat(path)
+            if Path(path) == self.record:
+                lstat_calls += 1
+                if lstat_calls == 2:
+                    return type(result)(
+                        (stat.S_IFLNK | stat.S_IMODE(result.st_mode), *result[1:])
+                    )
+            return result
+
+        with (
+            patch("backend.app.youtube_owner_approval.os.open", side_effect=open_without_nofollow),
+            patch.object(Path, "lstat", report_symlink_on_post_open_check),
+        ):
+            with self.assertRaisesRegex(PermissionError, "must be a regular file"):
+                self.gate()
+        self.assertEqual(lstat_calls, 2)
+
     def test_directory_approval_path_is_rejected(self):
         directory_path = self.root / "approval-directory"
         directory_path.mkdir()
