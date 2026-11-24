@@ -1015,3 +1015,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Production commit: `e20445398a69e2bffb3d58401f3f5a7b322bf10d`; test commit: `8f6577db86580d4ea90c55736e619262d02302bc`; report: `docs/ARO_CHAT_0215_APPROVAL_RECORD_READ_HARDENING.md`.
 - Earlier PR #328 run #45426822957 passed 341 tests on Ubuntu and hosted Windows on merge ref `fc5b36ab4e395a8f86c5fced36262b1575338790`, but it predates this fix. New-head CI is PENDING; do not transfer prior CI evidence.
 - No local tests, OAuth, credentials, real media, upload, merge, deployment or publishing. Issue #68 remains OPEN; public publishing remains disabled.
+
+
+### ARO-CHAT-0215 approval-record post-open identity follow-up
+- Added a second `lstat()` after opening the approval record. It requires a regular pathname whose device/inode matches the opened descriptor, closing the no-`O_NOFOLLOW` same-inode symlink substitution gap.
+- Added a regression test simulating a same-inode symlink at the second pathname check while the opened descriptor remains valid.
+- Production commit `d40aac24f08ec3ae7f5660fdc3aa73bf0e2598bb`; test commit `57dedee38b353a75e54f7aca89526604d8537b49`; report `docs/ARO_CHAT_0215_APPROVAL_RECORD_READ_HARDENING.md`.
+- The earlier approval-reader runs for commits `e204453...` and `8f6577...` were cancelled during branch advancement. Current exact-head CI is PENDING; no CI result is transferred.
