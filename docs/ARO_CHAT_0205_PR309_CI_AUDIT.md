@@ -44,3 +44,28 @@ Date: 2026-11-24
 
 ## Required closeout
 Re-fetch run #45402794811 and both job logs. Record final conclusions, test count and timings, FFmpeg/FFprobe and synthetic MP4/FFprobe evidence, actual checkout refs/SHAs, combined status, review state and safety flags. Do not transfer PR #308's result.
+
+## CI closeout and current-head correction — 2026-11-24
+
+### Historical PR #309 head run (not the latest head)
+- Run [#45402794811](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45402794811), run 1317, completed SUCCESS for the then-current PR #309 head `0d673ea56e494cbab73fe12d9957be413c8cfab6`.
+- Ubuntu job #138475524569 passed compilation, 346 tests in 3.905s, and the synthetic first-clip render/FFprobe validation.
+- Hosted-Windows job #138475524071 passed compilation, the same 346 tests in 10.548s, and the synthetic first-clip render/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/309/merge` at merge SHA `f8b38ecbfe86e298462bfd2b6a5ca7b8d80ddf65`, merging the then-audited head `0d673ea56e494cbab73fe12d9957be413c8cfab6` into base `3eb2add67c339e543a46035ec6a29e2485a424f7`. Raw-head-only CI NOT DEMONSTRATED.
+- Both platforms ran the same 346-test suite, not 692 unique tests. Logs show FFmpeg/FFprobe available; synthetic first-clip test status passed; `upload_performed=false`, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. The output was generated from a synthetic pattern/tone, not GTA 6 footage.
+- The two job logs confirm the merge-ref checkout; hosted Windows is not owner-device verification. No network upload or public publishing occurred.
+
+### Current PR #309 head correction
+- A fresh PR fetch after run completion shows PR #309's current head advanced to `896337ddafbdedae788defd37bd8d82e82cd87ba` (latest documentation commit). The successful run above tested the earlier head `0d673ea56e494cbab73fe12d9957be413c8cfab6`, not this current head.
+- No PR-triggered workflow run was returned for current head `896337ddafbdedae788defd37bd8d82e82cd87ba` at inspection. Therefore current-head CI remains PENDING / NOT VERIFIED. Do not transfer the earlier successful run.
+- Combined legacy commit statuses returned zero entries on earlier head `0d673ea...` and merge SHA `f8b38ec...`; this is not a green legacy status check.
+- PR #309 reviews, inline review threads and conversation comments remain empty. Independent review NOT RECORDED.
+- This audit branch's own PR #310 is OPEN / DRAFT. No workflow run was returned for its current head `5556f1c7cb14bc0b6873ba837be0645ff4d0144f` at inspection. Its metadata reports mergeable=false; no retarget, rebase or merge was attempted.
+- Local tests NOT RUN in this connector session.
+
+### Final status
+- Historical PR #309 head `0d673ea...`: merge-ref CI_VERIFIED only.
+- Current PR #309 head `896337d...`: CI NOT VERIFIED.
+- Raw-head-only CI: NOT DEMONSTRATED. Independent review: NOT RECORDED.
+- Owner-device Windows, authorized real-media acceptance and first real GTA 6 clip: NOT VERIFIED. COMPLETE NOT CLAIMED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
