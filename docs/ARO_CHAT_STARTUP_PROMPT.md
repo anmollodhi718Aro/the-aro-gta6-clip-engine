@@ -829,3 +829,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Run #45270942827 used PR #228's merge ref and must not be attributed to PR #226.
 - PR #229 current head `58255a61fdf20eba115bead51d8fada72b74d1bd` has zero associated workflow runs. Wait for its own natural PR-triggered run and inspect both jobs/logs and checkout refs; do not manually dispatch or retry.
 - Issue #68 remains WAITING_FOR_OWNER_APPROVAL. Do not implement OAuth/uploader integration, process unapproved media, upload, publish, merge, retarget, or deploy without the required explicit approval.
+
+
+### Current handoff — ARO-CHAT-0153 / 2026-11-24
+- Latest bounded workstream: ARO-GTA-P1-153, documentation-only exact-head CI audit of PR #226; audit PR #229 remains DRAFT / UNMERGED.
+- PR #226 exact merge-ref CI_VERIFIED: run #45270941723, merge SHA `025c577ecd3f0663cb96c225affe9a971f587da9`; Ubuntu and hosted Windows each passed compilation, 338 tests, and synthetic MP4/FFprobe validation. This does not prove raw-head-only CI, owner-device Windows, or real-media acceptance.
+- PR #229 current head at the latest audit: `2f4849e3b3ffd6b86ae3919fab9376d02497167e`; zero associated workflow runs and zero combined-status entries; own-head CI PENDING / NOT VERIFIED. Wait for its natural run and inspect both jobs/logs and checkout refs; do not retry or manually dispatch.
+- Issue #68 remains WAITING_FOR_OWNER_APPROVAL. No uploader/OAuth implementation, live upload, publishing, merge, retarget, or deployment without the required explicit owner approval and canonical security-lineage decision.
