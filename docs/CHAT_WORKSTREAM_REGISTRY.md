@@ -1583,3 +1583,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0171_PR251_CI_AUDIT.md`. Refresh PR #251's exact head and run before final status; do not transfer PR #249's failing run or any other PR's CI.
 - Documentation-only audit. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled pending independent security review and explicit owner-controlled integration.
 - No workflow retry, OAuth, credentials/tokens, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0171 exact-head CI closeout — 2026-11-24
+- Audited PR #251 head `1316c12f4f66305b190f671330682eb535e41ba0` passed Python CI run #45314761904 (run 1139).
+- Ubuntu job #138178811989 and hosted-Windows job #138178812309 both passed compilation, the same 340 tests, and synthetic MP4/FFprobe validation.
+- Both jobs checked out PR #251 merge ref at `809c8c19d0d70aadd16f0c15d2ca97a15ad99e54`, merging head `1316c12f4f66305b190f671330682eb535e41ba0` into base `75854f6cbead27c42d723a72f883eb7f804665f9`. Raw-head-only CI NOT DEMONSTRATED.
+- The explicit upload-limit CLI test now passes. Synthetic media only; no GTA 6/third-party media, publishing disabled, manual review required, mocked upload false.
+- PR #251 remains OPEN / DRAFT / UNMERGED and GitHub reported mergeable=false; independent review NOT RECORDED. Owner-device Windows and authorized real-media acceptance NOT VERIFIED.
+- Audit PR #252 head `eba4fe0f9bed2a0a01507ab62414cd61ecdb7010` has no associated CI run and zero combined-status entries at recheck; its own CI remains PENDING / NOT VERIFIED. Do not transfer PR #251's result.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending all security and owner-acceptance gates.
+- No workflow retry, merge, rebase, retarget, deployment, credentials/OAuth, real media, upload, publishing, or destructive action.
