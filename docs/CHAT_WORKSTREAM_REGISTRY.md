@@ -1038,6 +1038,7 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 | Scope | Reconcile README and YouTube uploader instructions with the current PRIVATE-only upload implementation and current CI evidence |
 | Branch | `workstream/aro-chat-0202-uploader-docs-privacy-reconciliation-2026-11-24` |
 | Base / starting SHA | prior draft branch head `ddbb1506df96b5d6c085d735acfeb32315f920ae` |
+| Current head | `462b4e3827eea02a9c922145bcccaba11c883381` |
 | Report | `docs/ARO_CHAT_0202_UPLOADER_DOCS_PRIVACY_RECONCILIATION.md` |
 | Status | IMPLEMENTED (documentation); local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING |
 | Changed files | `README.md`; `docs/YOUTUBE_UPLOAD.md`; `docs/ARO_CHAT_0202_UPLOADER_DOCS_PRIVACY_RECONCILIATION.md`; this registry; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
