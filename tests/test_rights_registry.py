@@ -148,6 +148,18 @@ class SourceRightsRegistryTests(unittest.TestCase):
         self.assertEqual([e["action"] for e in self.registry.audit_events("creator-video-1")],
                          ["registered", "revoked"])
 
+    def test_timestamp_inputs_reject_non_datetime_values(self):
+        for field in ("valid_from", "expires_at"):
+            with self.subTest(field=field):
+                invalid = dict(self.record, **{field: 7})
+                with self.assertRaises(ValueError):
+                    self.registry.register(invalid)
+        self.registry.register(self.record)
+        with self.assertRaises(ValueError):
+            self.registry.authorize("creator-video-1", "publish", "youtube", at=7)
+        with self.assertRaises(ValueError):
+            self.registry.revoke("creator-video-1", actor="owner", at=7)
+
     def test_public_rights_methods_reject_non_text_arguments(self):
         self.registry.register(self.record)
         invalid_values = (None, 7, [], "   ")
