@@ -107,6 +107,15 @@ class SourceRightsRegistry:
                     INSERT INTO source_rights VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, values)
             except sqlite3.IntegrityError as exc:
+                # Translate only a primary/unique-key collision. Other
+                # integrity failures indicate a different database problem
+                # and must retain their original exception for diagnosis.
+                duplicate_codes = {
+                    sqlite3.SQLITE_CONSTRAINT_PRIMARYKEY,
+                    sqlite3.SQLITE_CONSTRAINT_UNIQUE,
+                }
+                if getattr(exc, "sqlite_errorcode", None) not in duplicate_codes:
+                    raise
                 raise PermissionError(
                     f"rights already exist for source {values[0]}; register a new source ID for a new grant"
                 ) from exc
