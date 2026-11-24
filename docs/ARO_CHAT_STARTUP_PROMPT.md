@@ -120,3 +120,8 @@ For the current first-test upload priority:
 ## Mandatory source-rights lineage check
 - Before any live upload, verify that the integrated uploader branch actually contains the append-only `SourceRightsRegistry.register()` fix from PR #168. Its current head must be an ancestor of the selected security integration head; PR title/issue references alone do not prove ancestry.
 - Current snapshot: PR #168 head `03ac14cb1d74296870541b68839580c12ed2a84b` is not the base shown for PR #176 (`9ff25d7356d5badc39f448c9f5e939cda4048541`), while #238/#241/#242 are stacked on #176/#238. Treat this as an unresolved integration blocker. Do not rebase/retarget/merge without explicit owner control.
+
+
+## Destination profile path boundary and Windows regression
+- A profile config must resolve specifically to this checkout's `<repo>/.secrets/` directory. A similarly named `.secrets` directory elsewhere is rejected. Production derives the root from the module location; tests can inject a temporary repository root.
+- Windows CI run #45393615753 had 334 tests with one failure: the expected token path used an unresolved temporary path, while the implementation returned the resolved Windows path. Ubuntu's 334 tests and synthetic MP4 validation passed. Follow-up regression changes normalize the expected path and add an external `.secrets` rejection test. Latest-head CI is pending.
