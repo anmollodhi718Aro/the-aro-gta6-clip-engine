@@ -103,3 +103,16 @@ A fresh inspection of the two commit-associated runs separates the exact PR #226
 - Issue #68 is OPEN and assigned to the repository owner, but its implementation remains explicitly WAITING_FOR_OWNER_APPROVAL. Assignment is not implementation approval. Do not begin uploader/OAuth integration or enable publishing without the required explicit implementation approval and canonical security lineage selection.
 - Next action: wait for a naturally associated run on this exact PR #229 head, then inspect the run's merge checkout SHA, Ubuntu and hosted-Windows jobs/logs, compile/tests, synthetic MP4/FFprobe results, and review state. Re-fetch PR metadata first if the head changes.
 - This continuation is an evidence-only documentation refresh. No application code, credentials, OAuth, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0153 continuation recheck — 2026-11-24 (current session)
+
+- Live PR #226 remains OPEN / DRAFT / UNMERGED at source head `d8433a2c31dc0634d5fc9a853b82c8e061ced0ab`, base `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`.
+- Exact PR #226 merge-ref CI remains verified by run [#45270941723](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45270941723): Ubuntu job #138030347655 and hosted-Windows job #138030348239 both checked out `refs/remotes/pull/226/merge` at merge SHA `025c577ecd3f0663cb96c225affe9a971f587da9`, merging the stated source head into the stated base.
+- Both jobs passed compilation, the same 338 unit tests, and synthetic MP4/FFprobe validation. Ubuntu reported 338 tests in 5.080s; hosted Windows reported 338 tests in 24.990s. This is 338 shared test cases on two platforms, not 676 unique tests.
+- Both synthetic outputs use locally generated pattern/tone only; no GTA 6 or third-party media; publishing disabled; manual review required. Mock approval reports `upload_performed=false`. This is not real-media acceptance or a live upload.
+- A second associated run [#45270942827](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45270942827) is excluded from PR #226 evidence: its Ubuntu and Windows logs checked out `refs/remotes/pull/228/merge` at `d07abf4346a167d807a3e0539a3f7b4ee92af3ea`, against a different base.
+- PR #226 combined status has zero entries; review submissions, inline threads, and conversation comments were previously observed empty. Independent review remains NOT RECORDED.
+- Current PR #229 metadata: OPEN / DRAFT / UNMERGED; head `58255a61fdf20eba115bead51d8fada72b74d1bd`; base `d8433a2c31dc0634d5fc9a853b82c8e061ced0ab`. Commit-associated pull-request workflow lookup for this exact PR #229 head returned zero runs. PR #229 CI remains PENDING / NOT VERIFIED; no CI transfer from PR #226.
+- **Disposition:** PR #226 exact merge-ref CI_VERIFIED; raw-head-only CI NOT DEMONSTRATED; owner-device Windows and authorized real-media acceptance NOT VERIFIED. PR #229 remains awaiting its own naturally triggered exact-head CI and independent review.
+- No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed. Documentation-only continuation.
