@@ -26,6 +26,7 @@
 
 | Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
 |---|---|---|---|---|---|---|
+| ARO-CHAT-0236 | ARO-CHAT-0236 \| Strict Source URL Hostname Validation | ARO-GTA-P1-236 | Reject malformed DNS host labels and invalid hostname encodings in source-rights URLs while preserving valid IPv6, IDNA, and fully-qualified DNS hosts | `workstream/aro-chat-0236-strict-source-url-hostname-validation-2026-11-25` / draft PR pending | IMPLEMENTED; tests/CI NOT VERIFIED; independent review NOT RECORDED | Starting SHA `2032ccbc1c115426e3731415915656841c2633ad`; production `a58e30cd21f55cdabc0ff90103fc7a01e6b4e6b8`; tests `4b6eabc429196e449e91e3119535a575eb2392f3`; no local tests run |
 | ARO-CHAT-0015 | ARO-CHAT-0015 \| Windows CI Recovery and First-Clip Readiness Audit | ARO-ZERO-ONE (continuation) | Re-run native Windows CI for the manual clipping path, reconcile exact test evidence, and refresh first-clip readiness | `workstream/aro-zero-one-clipping-first-2026-11-20` / [PR #66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66) | IMPLEMENTED; CI_VERIFIED NOT CLAIMED; WINDOWS_VERIFIED NOT VERIFIED; REAL_MEDIA_VERIFIED BLOCKED | Starting SHA `a9c537fc4ac5a7c437dc2c2f535ac258d24b619e`; branch update `fe4713febb4572f82f9a4386a5cf954e18f3bff9`; existing PR #66 and issue #26 reused; no duplicate branch/PR |
 | ARO-CHAT-0018 | ARO-CHAT-0018 \\| Exact-Head CI and Windows Verification Audit (collision-reconciled historical attribution) | ARO-ZERO-ONE (continuation; task ARO-GTA-P0-18) | Separate the historical exact-head CI evidence audit from the Windows recovery session after duplicate Chat ID/task reservation was detected | `workstream/aro-zero-one-clipping-first-2026-11-20` / [PR #66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66) | HISTORICAL; attribution reconciled; exact historical CI evidence retained; current PR head failure tracked separately | Historical starting SHA `db6ba235335ec9de215916da166416793faea68d`; commit reference `fd7fa41dc75e19235d75b96ffb1791d7e101b9d6`; original duplicate identity `ARO-CHAT-0015` corrected to unique `ARO-CHAT-0018`; no new branch/PR |
 | ARO-CHAT-0019 | ARO-CHAT-0019 \\| Analytics Ledger Identity Collision Repair and Exact-Head CI Recovery | ARO-ZERO-ONE (continuation; task ARO-GTA-P0-19) | Resolve duplicate historical chat identity, preserve evidence, validate the canonical ledger, and verify exact-head CI | `workstream/aro-zero-one-clipping-first-2026-11-20` / [PR #66](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/66) | IN_PROGRESS | Starting observed PR head `23daf0fa0ec14886733ba59cd52df642b4a1c28c`; `main` remains `5f3332770b27d8a5211b3e74feade222563a9263`; existing branch/PR reused; no duplicate PR |
@@ -1325,3 +1326,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Test commit: 079d9213ab53142c6d085dbfc28597df745a5a2b; current PR #371 head at handoff: same SHA.
 - Local tests NOT RUN in this connector session. Commit-associated workflow lookup returned no run at inspection; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent security review NOT RECORDED.
 - PR #371 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+## ARO-CHAT-0236 execution record — 2026-11-25
+
+- Added conservative DNS/IDNA hostname validation and IPv6 literal validation to `backend/app/rights_registry.py`.
+- Added malformed-host and valid-host regression coverage in `tests/test_rights_registry.py`.
+- Report: `docs/ARO_CHAT_0236_STRICT_SOURCE_URL_HOSTNAME_VALIDATION.md`.
+- Exact-head CI and local tests remain NOT VERIFIED until actual execution evidence is available. Parent PR #371's latest workflow failed before exposing steps; root cause remains NOT VERIFIED.
+- Draft-only; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
