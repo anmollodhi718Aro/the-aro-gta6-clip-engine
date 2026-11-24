@@ -267,3 +267,10 @@ For the current first-test upload priority:
 - Related PR #335 test-only head `2779aee7b752433b72753ea77419f8ce3d1ae806` completed run #45428127882 successfully: Ubuntu 342 tests passed; hosted Windows 342 tests ran with 2 skipped. Both platforms passed compile and synthetic MP4/FFprobe.
 - These are separate head-scoped CI results. Hosted Windows is not owner-device verification; synthetic media is not GTA 6 real-media acceptance. No independent review is recorded for PRs #335 or #336.
 - Preserve all draft/open/unmerged PRs. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, OAuth, credentials, real media, live upload, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0217 final-head reconciliation — 2026-11-24
+- PR #336 predecessor head `3d537f9df3830728f63fda4ee6a8133166475dec` passed run #45428154454 (Ubuntu 344 passed; hosted Windows 344 ran, 2 skipped). Three later commits changed only the audit report, startup prompt and registry; current PR #336 head `bd15caca886356fd2850dea653dee0f63699d90d` has no associated workflow run or combined status entry. Final docs head CI is PENDING / NOT VERIFIED.
+- PR #335 predecessor code/test head `2779aee7b752433b72753ea77419f8ce3d1ae806` passed run #45428127882 (Ubuntu 342 passed; hosted Windows 342 ran, 2 skipped). Three later commits changed only documentation; current observed PR #335 head `6d06bf9d4386506420d8e1028018016191fc1fde` has no exact-head run in the current lookup. Do not transfer the predecessor CI result to the later docs head.
+- ARO-CHAT-0218 / ARO-GTA-P1-218 is already reserved by PR #337 for a stream-close-error cleanup regression. Avoid duplicate implementation or registry reservation.
+- Preserve all draft PRs and the Issue #68 owner-approval boundary. No live upload/public publishing, merge, rebase, retarget, deployment or destructive action.
