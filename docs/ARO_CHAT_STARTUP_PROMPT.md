@@ -381,3 +381,35 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Draft PR #248 is OPEN / DRAFT / UNMERGED; branch `workstream/aro-chat-0168-pr246-exact-head-ci-audit-2026-11-24`; latest head `837370abb12dba897f24de86ad72be9ecf755c28`; base is the ARO-CHAT-0166 branch.
 - PR #248 exact-head workflow lookup and combined status returned zero entries; own CI is PENDING / NOT VERIFIED. Reviews/comments empty; independent review NOT RECORDED.
 - Do not transfer PR #246 run #45279477145 to PR #248. No merge or retarget.
+
+
+## Latest continuation baseline — ARO-CHAT-0169 (2026-11-24)
+
+- Current workstream: ARO-CHAT-0169 / ARO-GTA-P1-169 | independent exact-head CI audit of PR #248.
+- Branch: `workstream/aro-chat-0169-pr248-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #248 current head `d8cb0b25546e864b89fad65520010a6338ed919c`.
+- Duplicate-work check: no ARO-CHAT-0169 branch existed at reservation. The workstream audits PR #248 and does not reuse ARO-CHAT-0168.
+- PR #248 is OPEN / DRAFT / UNMERGED; GitHub reported mergeable=false.
+- PR #248 exact-head workflow lookup returned zero runs and combined status returned zero entries. Its CI is PENDING / NOT VERIFIED; no compile/test/render result is claimed.
+- PR #248 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. No workflow retry was initiated.
+- Report: `docs/ARO_CHAT_0169_PR248_CI_AUDIT.md`. Re-fetch PR #248 and its exact head before relying on this snapshot.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending explicit owner approval, canonical implementation selection, independent security review, owner-controlled integration, owner-device verification, owner-selected device-appropriate `--max-upload-bytes`, and separately authorized real-media acceptance.
+- Documentation-only; no OAuth, credentials/tokens, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0169 publication and verification update — 2026-11-24
+- Draft audit PR [#249](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/249) is OPEN / DRAFT / UNMERGED on `workstream/aro-chat-0169-pr248-exact-head-ci-audit-2026-11-24`, based on PR #248 exact head `d8cb0b25546e864b89fad65520010a6338ed919c`.
+- Latest PR #249 head: `488aa8f1375ea1114f5e63728a65dc677fcba1fa`.
+- PR #249 exact-head workflow lookup returned zero runs and combined status returned zero entries. Its own CI is PENDING / NOT VERIFIED; local tests NOT RUN. No other PR's CI result may be transferred.
+- GitHub reports PR #249 mergeable=true; keep it draft and do not merge without explicit owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending all recorded security and owner-acceptance gates.
+
+
+### ARO-CHAT-0169 PR #249 exact-head CI closeout — 2026-11-24
+
+- PR #249 head `75854f6cbead27c42d723a72f883eb7f804665f9` failed its own run #45314464029 on Ubuntu and hosted Windows.
+- Both platforms compiled successfully, then each failed exactly one of the same 340 tests: `test_cli_passes_exact_clip_and_source_to_upload_boundary`. Its mocked CLI arguments request `--upload` without the newly required `--max-upload-bytes`; the CLI correctly rejects the invocation. Synthetic MP4/FFprobe was skipped.
+- Safe fix is test-only: supply a positive explicit `--max-upload-bytes` fixture value. Do not weaken the live-upload memory guard. Other relevant uploader limit/staging tests passed.
+- PR #249 combined status returned zero entries; reviews, inline threads, and comments were empty. Keep draft/open/unmerged; no workflow retry, merge, or retarget.
+- Two ARO-CHAT-0170 branches already exist (CLI test fix and exact-head audit). Treat both as occupied; do not duplicate or overwrite. Reconcile the duplicate serial before allocating a later workstream.
+- Report: `docs/ARO_CHAT_0169_PR248_CI_AUDIT.md`; registry records exact job IDs and failure evidence.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; no credentials/OAuth, real media, network upload, or publishing.
