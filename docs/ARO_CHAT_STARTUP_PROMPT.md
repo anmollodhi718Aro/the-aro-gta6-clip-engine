@@ -512,3 +512,9 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Next step: re-fetch PR #258's current head and its own exact-head checks before closing the audit. Keep the task documentation-only.
 - Issue #68 remains OPEN / NOT IMPLEMENTED with owner-approval/security gates unresolved. Keep live uploads/public publishing disabled.
 - No workflow retry, OAuth, credentials/tokens, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0178 live recheck — 2026-11-24
+- PR #258 advanced to head `71bace7bfa58a49d81e65d037b0a81f6c5ccb062`; its exact-head run listing had no match, check-runs were empty, and combined status was pending with zero entries. Reviews and comments remained empty.
+- Audit PR #260 is OPEN / DRAFT / UNMERGED at head `9c2277e73307a573b89e1c81673acc576f51cb5c`; its own check-runs are empty and combined status is pending. Do not claim CI verification.
+- The target branch advanced after the audit branch fork point. Do not rebase, force-push, retarget, or merge without explicit approval. Keep PR #260 draft-only.
