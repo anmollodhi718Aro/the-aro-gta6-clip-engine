@@ -81,3 +81,12 @@ Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploa
 - Local tests NOT RUN in this connector session. Exact-head CI status: FAILED / NOT VERIFIED. No test count or compile result is claimed.
 - No workflow retry/dispatch was initiated. PR #371 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 - No source, test, uploader, OAuth, media, or workflow behavior was changed in this audit. No credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+## Empty-port URL hardening — 2026-11-25
+
+- Static review found `urllib.parse.urlsplit(...).port` returns `None` for an explicitly empty port (for example `https://example.com:/video`) rather than raising `ValueError`.
+- The source-rights registry now rejects an authority whose netloc ends in `:` after parsing, covering both DNS and bracketed IPv6 authorities.
+- Regression tests added for `https://example.com:/video` and `https://[::1]:/video`.
+- Production commit: `15f68da1e3416ee2b785b5d4a47c140a11e43917`; test commit: `41d42e89eeb3adc9e7dd2607e4f7b638214d8982`.
+- Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT YET OBSERVED; independent security review NOT RECORDED. PR #371 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
