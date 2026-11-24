@@ -1295,3 +1295,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Local tests NOT RUN in this connector session. Exact-head CI status: FAILED / NOT VERIFIED. No test count or compile result is claimed.
 - No workflow retry/dispatch was initiated. PR #371 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 - No source, test, uploader, OAuth, media, or workflow behavior was changed in this audit. No credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0235 empty-port URL validation follow-up — 2026-11-25
+
+- Static review found Python URL parsing treats an explicitly empty port (`https://example.com:/video`) as `port=None`, so the existing `.port` access did not reject it.
+- Added a fail-closed rejection for an authority ending in `:` and regression cases for DNS and bracketed IPv6 hosts.
+- Production commit `15f68da1e3416ee2b785b5d4a47c140a11e43917`; test commit `41d42e89eeb3adc9e7dd2607e4f7b638214d8982`.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI and independent review remain NOT VERIFIED. Keep PR #371 draft/open/unmerged and Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL. No uploads or public publishing.
