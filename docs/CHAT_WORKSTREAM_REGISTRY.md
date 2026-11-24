@@ -1251,3 +1251,8 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Regression tests cover malformed authorities/schemes/ports/credentials/hostnames and valid HTTP/HTTPS URLs.
 - This is a continuation of existing PR #371 / ARO-GTA-P1-235, not a new workstream. Local tests NOT RUN; fresh exact-head Ubuntu/hosted-Windows CI PENDING. No CI evidence is transferred from prior commits.
 - Draft-only; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
+
+
+- Additional URL parser hardening on the same PR #371 branch: reject any raw URL whitespace (including embedded CR/LF/tab), ASCII control characters, DEL, and backslashes before parsing. Regression inputs include newline, tab, and backslash authority ambiguity.
+- Production commit 0380133cb38d5067b6d6016d41c42b72071babbd; tests commit a94b6e6fae9d9789e11f74fa2233a347d0a46701.
+- Local tests NOT RUN. Earlier run #45486119308 completed FAILURE but both jobs exposed zero steps and no logs; failure cause NOT VERIFIED. Recheck CI on the final synchronized head; do not infer a code failure or claim success.
