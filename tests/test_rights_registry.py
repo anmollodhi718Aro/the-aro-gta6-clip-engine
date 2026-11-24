@@ -56,9 +56,12 @@ class SourceRightsRegistryTests(unittest.TestCase):
                          ["registered", "revoked"])
 
     def test_register_rejects_duplicate_source_id_without_overwriting_grant(self):
-        self.registry.register(self.record)
+        # Start with a deliberately narrow grant, then try to broaden it using
+        # the same source ID. The duplicate must not replace the original row.
+        initial = dict(self.record, allowed_uses=["analyze"])
+        self.registry.register(initial)
         replacement = dict(
-            self.record,
+            initial,
             source_url="https://example.com/replacement",
             evidence_ref="replacement-permission",
             allowed_uses=["publish"],
