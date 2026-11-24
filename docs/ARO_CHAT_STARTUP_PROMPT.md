@@ -209,3 +209,18 @@ For the current first-test upload priority:
 - Logs confirm no live upload, no GTA 6 or third-party media, publishing disabled, and manual review required. This is not owner-device Windows verification or real-media acceptance.
 - Report: `docs/ARO_CHAT_0200_PR302_CI_AUDIT.md`. PR #302 remains OPEN / DRAFT / UNMERGED; independent review NOT RECORDED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or workflow retry.
+
+
+## ARO-CHAT-0202 current continuation — 2026-11-24
+
+- Current documentation reconciliation workstream: ARO-CHAT-0202 / ARO-GTA-P2-202.
+- Branch: `workstream/aro-chat-0202-uploader-docs-privacy-reconciliation-2026-11-24`; base/start SHA: prior draft branch head `ddbb1506df96b5d6c085d735acfeb32315f920ae`.
+- Current head after final documentation-example correction: `462b4e3827eea02a9c922145bcccaba11c883381`.
+- Corrected README and `docs/YOUTUBE_UPLOAD.md`: the current uploader permits PRIVATE live staging only. The approval writer and upload boundary reject unlisted/public visibility. Do not restore public/unlisted instructions unless the implementation and owner security review are deliberately changed.
+- Current OAuth scopes are `openid`, `youtube.readonly`, and `youtube.upload`; do not document an `email` scope.
+- Destination profiles must resolve inside this checkout's `.secrets/`; per-profile token files are isolated under `.secrets/tokens/`. Approval binds the verified Google subject, channel, clip/source, PRIVATE visibility, exact file SHA-256, review time and expiry. Current source rights are rechecked before the upload API call.
+- README CI summary now cites run #45400525644 accurately: Ubuntu and hosted Windows each passed compile, the same 346 tests and synthetic MP4/FFprobe on PR #302's merge ref. Raw-head-only CI, owner-device Windows and real-media acceptance are not established.
+- PR #299 remains the private-upload implementation draft; PRs #301–#303 are follow-up regression/CI documentation drafts. None is merged. PR #303 is the ARO-CHAT-0200 audit; this chat uses ARO-CHAT-0202 and must not duplicate that work.
+- Current PR #302 CI is predecessor merge-ref evidence only. This branch's own exact-head CI is pending; local tests were not run in this connector session.
+- Issue #68 remains OPEN. Keep live uploads/public publishing disabled pending independent security review, owner-controlled integration, owner-device verification and separately authorized real-media PRIVATE acceptance.
+- Report: `docs/ARO_CHAT_0202_UPLOADER_DOCS_PRIVACY_RECONCILIATION.md`.

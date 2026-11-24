@@ -1026,3 +1026,33 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 ### Safety
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED. Keep live uploads/public publishing disabled pending independent security review and owner-controlled integration.
 - Documentation-only. No application/uploader/test/workflow behavior changes, credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0202 uploader documentation/privacy reconciliation — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0202 |
+| Exact title | ARO-CHAT-0202 | Reconcile YouTube uploader documentation with PRIVATE-only implementation |
+| Workstream ID | ARO-GTA-P2-202 |
+| Scope | Reconcile README and YouTube uploader instructions with the current PRIVATE-only upload implementation and current CI evidence |
+| Branch | `workstream/aro-chat-0202-uploader-docs-privacy-reconciliation-2026-11-24` |
+| Base / starting SHA | prior draft branch head `ddbb1506df96b5d6c085d735acfeb32315f920ae` |
+| Current head | `462b4e3827eea02a9c922145bcccaba11c883381` |
+| Report | `docs/ARO_CHAT_0202_UPLOADER_DOCS_PRIVACY_RECONCILIATION.md` |
+| Status | IMPLEMENTED (documentation); local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING |
+| Changed files | `README.md`; `docs/YOUTUBE_UPLOAD.md`; `docs/ARO_CHAT_0202_UPLOADER_DOCS_PRIVACY_RECONCILIATION.md`; this registry; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+
+### Finding and changes
+- README incorrectly attributed the current authenticated uploader to PR #83 and cited obsolete 281-test evidence.
+- `docs/YOUTUBE_UPLOAD.md` described unlisted/public approval phrases even though the current approval writer and live upload boundary accept PRIVATE only; it also listed an unused `email` OAuth scope.
+- README and detailed instructions now describe the current PRIVATE-only boundary, verified Google OIDC subject and YouTube channel binding, isolated per-profile token paths, exact-file approval records, current source-rights rechecks and explicit PRIVATE response verification.
+- CI wording now identifies run #45400525644 as 346 tests per hosted platform on PR #302's merge ref only. It is not raw-head-only proof, owner-device verification or real-media acceptance.
+- The open draft lineage rooted at PR #299 and follow-ups #301–#303 is described as unmerged; no integration or upload authorization is implied.
+
+### Validation and safety
+- Static documentation review against current source and workstream records completed.
+- Local tests NOT RUN in this connector session. Exact-head CI for this branch PENDING; no predecessor CI result is transferred.
+- Documentation-only. No application/uploader/OAuth/test/workflow behavior changed.
+- Issue #68 remains OPEN. Keep live uploads/public publishing disabled pending independent security review, owner-controlled integration, owner-device verification and separately authorized real-media PRIVATE acceptance.
+- No OAuth, credentials/tokens, real media, upload, publishing, merge, rebase, retarget, deployment, workflow retry or destructive action.
