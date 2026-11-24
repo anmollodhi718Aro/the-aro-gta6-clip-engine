@@ -49,9 +49,14 @@ def load_destination_profile(
     if not isinstance(profiles, dict) or not profiles:
         raise PermissionError("destination configuration must contain a non-empty profiles object")
     seen_channels: set[str] = set()
+    seen_profile_names: set[str] = set()
     for name, item in profiles.items():
         if not isinstance(name, str) or not isinstance(item, dict):
             raise PermissionError("destination profile entries must be named JSON objects")
+        normalized_name = name.casefold()
+        if normalized_name in seen_profile_names:
+            raise PermissionError("destination profile names must be unique without regard to case")
+        seen_profile_names.add(normalized_name)
         channel_id = item.get("channel_id")
         subject = item.get("google_subject")
         if not isinstance(channel_id, str) or not channel_id.startswith("UC") or len(channel_id) < 10:
@@ -102,6 +107,21 @@ def resolve_destination_identity(
             "configure --destination-config/--destination-profile or the legacy owner/channel environment variables"
         )
     return subject, channel, (token_override or Path("token.json")).expanduser()
+
+
+def validate_destination_approval_path(
+    approval_record_path: Path | None, profile_name: str | None,
+) -> None:
+    """Keep profile-mode approval records in a profile-specific directory."""
+    if profile_name is None:
+        return
+    if approval_record_path is None:
+        raise PermissionError("destination profiles require a profile-specific --approval-record path")
+    resolved_parent = approval_record_path.expanduser().parent.resolve()
+    if resolved_parent.name != profile_name:
+        raise PermissionError(
+            f"approval record must be stored in a directory named for destination profile {profile_name!r}"
+        )
 
 
 def load_rights_report(path: str | Path) -> dict[str, Any]:
@@ -463,6 +483,7 @@ def main() -> int:
                 profile_name=args.destination_profile,
                 token_override=args.token,
             )
+            validate_destination_approval_path(args.approval_record, args.destination_profile)
         video, body = validate_upload(
             args.video, args.rights_report, title=args.title,
             description=args.description, tags=tags, privacy=args.privacy,
