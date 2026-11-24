@@ -915,3 +915,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Changed PR files remain `tests/test_youtube_upload.py`, `docs/CHAT_WORKSTREAM_REGISTRY.md`, and `docs/ARO_CHAT_STARTUP_PROMPT.md`; test assertion compares both profile token paths against the strictly resolved `.secrets` parent. Production code is unchanged by this workstream.
 - Exact-live-head workflow lookup and combined status for `83445d763ebce065140a0f7a19ac75c42a761d48` returned no runs/status checks. CI is PENDING, not passed. No local test execution is claimed.
 - PR #300 remains OPEN / DRAFT / UNMERGED; independent review is not recorded. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Keep uploads and public publishing disabled; do not merge, retarget, or deploy.
+
+
+### ARO-CHAT-0197 latest live-head reconciliation — 2026-11-24
+- Re-read live PR #300 metadata: OPEN / DRAFT / UNMERGED; head branch `workstream/aro-chat-0197-pr299-windows-path-regression-fix-2026-11-24`; exact current head `68b62198572117d22fe4072a8e3a48abf05cadd6`; base branch `workstream/aro-chat-0134-private-upload-response-verification-2026-11-24`; recorded base SHA `152de0e3cecbfe2be2569c46db14e5c9c67506a2`.
+- The earlier registry note naming `83445d763ebce065140a0f7a19ac75c42a761d48` is stale. The current branch tip has moved to `68b62198572117d22fe4072a8e3a48abf05cadd6`.
+- Compare from the recorded PR base to the live head reports 10 commits ahead and 5 behind, with merge base `758ae2d44e04b9a875a2a85aa153f0407a209766`. Do not rebase or retarget automatically; preserve the draft stack for owner review.
+- The live head's commit-associated workflow lookup returned zero runs. Exact-head Ubuntu and hosted-Windows CI remain PENDING / NOT VERIFIED. No test results are inferred from PR #299 or any other SHA.
+- Current PR diff remains limited to `tests/test_youtube_upload.py`, `docs/CHAT_WORKSTREAM_REGISTRY.md`, and `docs/ARO_CHAT_STARTUP_PROMPT.md`. The test asserts both profile token paths against the resolved `.secrets` parent; production uploader path enforcement is unchanged.
+- Review submissions and inline review threads are empty; independent review NOT RECORDED. Local tests NOT RUN in this connector session.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, API upload, publishing, merge, rebase, retarget, deployment, or destructive action. Keep live uploads and public publishing disabled.
