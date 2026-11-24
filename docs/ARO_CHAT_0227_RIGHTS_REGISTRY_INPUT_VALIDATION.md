@@ -33,3 +33,14 @@
 
 ## Safety
 Draft only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials/tokens, real media, network upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action. Keep live uploads/public publishing disabled.
+
+
+## SQLite integrity-error classification follow-up — 2026-11-25
+
+- Static review found this branch still translated every `sqlite3.IntegrityError` into a duplicate-grant `PermissionError`, unlike the later hardened parent implementation.
+- Narrowed translation to SQLite primary-key and unique-key constraint codes only. Trigger/check/foreign-key and other integrity failures now propagate unchanged.
+- Added a trigger-based regression proving a non-duplicate integrity failure remains an `sqlite3.IntegrityError` and writes no registration audit event.
+- This is a fail-closed diagnostic correction; immutable grant behavior and permission scope are unchanged.
+- Local tests NOT RUN in this connector session. Fresh exact-head Ubuntu/hosted-Windows CI is required; independent security review NOT RECORDED.
+- PR #356 remains DRAFT / OPEN / UNMERGED. Its ancestry remains diverged from the newer PR #355 head; no rebase or retarget was performed.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
