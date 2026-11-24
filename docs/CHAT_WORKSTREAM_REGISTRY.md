@@ -1020,3 +1020,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Local tests NOT RUN in this connector session. The branch is not yet in a PR, so exact-head Ubuntu/hosted-Windows CI is PENDING.
 - Follow-up is stacked on draft PR #328. No OAuth, credentials/tokens, real media, upload, publishing, merge, rebase, retarget, or deployment performed.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
+
+
+## ARO-CHAT-0216 PR/CI reconciliation — 2026-11-24
+- Draft PR #331 is OPEN / DRAFT / UNMERGED at exact head `15fd23d486794e02a7ae1b3076a7fe4f0c473eca`; base is PR #328 head `1c380a2e311abbd5b818a398d0f0a70011f547d4`.
+- The branch is now represented by PR #331. The earlier note that it was not yet in a PR is superseded.
+- Exact-head Actions lookup returned zero runs; combined status remains PENDING with no checks/statuses. Ubuntu and hosted-Windows CI are NOT RUN / NOT VERIFIED. No result from PR #328 or an earlier SHA transfers to this head.
+- Diff inspection confirms the `O_NONBLOCK` addition and FIFO-replacement regression test, but no test execution or independent review is recorded.
+- Next: investigate missing workflow trigger, obtain exact-head Ubuntu/hosted-Windows CI, and record independent review. Keep PR #331 and parent stack draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live upload/public publishing disabled. No OAuth, real media, upload, merge, rebase, retarget or deployment.
