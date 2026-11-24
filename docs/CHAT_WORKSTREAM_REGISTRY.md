@@ -1799,3 +1799,34 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #269 has no review submissions, inline threads, or conversation comments; independent review NOT RECORDED. Hosted-Windows CI is not owner-device Windows verification; real-media acceptance NOT VERIFIED.
 - Report: `docs/ARO_CHAT_0185_PR269_CI_AUDIT.md`. This audit branch's own exact-head CI must be inspected separately; never transfer PR #269's CI result to it.
 - Documentation-only. Keep Issue #68 open and live uploads/public publishing disabled. No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0186 PR #271 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0186 |
+| Exact title | ARO-CHAT-0186 | PR #271 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-186 |
+| Scope | Documentation-only independent audit of PR #271's own exact-head CI, both platform logs, checkout refs, compile/tests, synthetic MP4/FFprobe, combined status, and review state |
+| Branch | `workstream/aro-chat-0186-pr271-exact-head-ci-audit-2026-11-24` |
+| Base / starting SHA | PR #271 head `0172229e4dcdd29a50ee25ca13113cc1c9c83f13` |
+| Parent PR audited | #271 |
+| Report | `docs/ARO_CHAT_0186_PR271_CI_AUDIT.md` |
+| Status | IMPLEMENTED (audit documentation); PR #271 exact-head CI_VERIFIED on merge ref; this audit branch's own CI PENDING / NOT VERIFIED |
+
+### Exact-head evidence
+- PR #271 head `0172229e4dcdd29a50ee25ca13113cc1c9c83f13` passed its own Python CI run #45381339772 (run 1192).
+- Ubuntu job #138400838748 passed compilation, 28 tests (0.326s), and synthetic animation MP4/FFprobe validation.
+- Hosted-Windows job #138400837863 passed compilation, the same 28 tests (0.407s), and synthetic animation MP4/FFprobe validation. Same suite on two platforms, not 56 unique tests.
+- Both jobs checked out `refs/remotes/pull/271/merge` at `4bc93e464d2aced032793c6946f3914adc711379`, merging audited head `0172229e4dcdd29a50ee25ca13113cc1c9c83f13` into base `99ef3bd9211f16c67573600e28cb3b696fdd6f71`. Raw-head-only checkout NOT DEMONSTRATED.
+- The concurrent-destination no-overwrite regression and synthetic render/probe passed on both platforms. Synthetic-only; not GTA 6 footage or real-media acceptance.
+- Combined status returned zero entries. PR #271 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED.
+- PR #271 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=true at inspection. Local tests NOT RUN in this connector session.
+- Do not transfer PR #271's run to this audit branch. Inspect this branch's own exact-head CI independently.
+
+### Safety
+- Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes.
+- Issue #68 remains OPEN / NOT IMPLEMENTED. Keep live uploads/public publishing disabled pending all authenticated-owner security and owner-acceptance gates.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+- Hosted Windows CI is not owner-device Windows verification; real-media acceptance remains NOT VERIFIED.
