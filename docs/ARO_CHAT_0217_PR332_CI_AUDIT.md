@@ -49,3 +49,12 @@ Date: 2026-11-24
 - Ubuntu job #138564697043 is IN_PROGRESS: setup, checkout, Python setup, FFmpeg/FFprobe installation and compilation completed SUCCESS; the complete unittest step is IN_PROGRESS; synthetic MP4/FFprobe has not started.
 - Hosted-Windows job #138564696271 is IN_PROGRESS: setup, checkout and Python 3.11 setup completed SUCCESS; FFmpeg/FFprobe installation is IN_PROGRESS; compile, tests and synthetic MP4/FFprobe have not started.
 - No final test counts, test conclusions, synthetic render result, or run conclusion are available yet. Exact-head CI remains PENDING / NOT VERIFIED.
+
+
+## Latest recheck after PR #336 creation — 2026-11-24
+- PR #332 audited head remains `b97b6272356f4ee07d6708ced8fbd37354864194`; its associated run #45427815827 remains IN_PROGRESS.
+- Ubuntu job #138564697043 completed SUCCESS, including compile, complete unittest step and synthetic MP4/FFprobe step. Numeric test count/duration, checkout SHA and synthetic report payload were not exposed in the job summary; these details are NOT ASSERTED.
+- Hosted-Windows job #138564696271 remains IN_PROGRESS. Setup, checkout, Python 3.11, FFmpeg/FFprobe installation and compile steps completed SUCCESS; complete unittest suite is IN_PROGRESS; synthetic MP4/FFprobe has not started.
+- Run conclusion is still unset. PR #332 exact-head CI remains PENDING / NOT VERIFIED until Windows completes and the run concludes.
+- Follow-up PR #336 was opened as DRAFT / OPEN / UNMERGED. Its head is `17ef5f78b9b1790f033958a427a1319861c39131`; commit-associated workflow lookup returned zero runs and combined status returned zero entries. Its own CI is PENDING / NOT VERIFIED.
+- PR #336 review submissions: zero returned. Local tests NOT RUN. No CI evidence is transferred from PR #332 or PR #328.
