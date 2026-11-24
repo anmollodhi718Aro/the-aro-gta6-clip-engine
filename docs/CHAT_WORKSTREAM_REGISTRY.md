@@ -1071,3 +1071,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 ### ARO-CHAT-0218 CI correction
 - Run #45433336438 found one stale assertion string only: implementation correctly rejected unlisted/public, but test expected error text containing `privacy`. Updated assertion in commit `52c168d4a389ab7a99bff5f660708382d00079df`.
 - Exact-head follow-up run #45433572590 is running on Ubuntu and hosted Windows. CI remains PENDING until both jobs complete.
+
+
+## ARO-CHAT-0219 — revalidate current rights report before upload (2026-11-24)
+- Workstream: ARO-GTA-P1-219; parent PR #339; branch `workstream/aro-chat-0219-revalidate-rights-report-before-upload-2026-11-24`; base / starting SHA `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722`.
+- Finding: uploader reused the initially loaded rights report for the final pre-insert permission check. A changed report could add a source-bound asset whose current publish permission was never checked.
+- Fix: re-read and validate the rights report immediately before the API insert; require exact clip/source binding and re-check all source-bound assets against the current rights registry.
+- Regression: mutate the report between initial and final reads to add an unregistered source; assert fail-closed and no YouTube insert.
+- Commits: production `56685d4edf88af8d15b2390283752792984427a5`; test `70b86a1ead7f3f4c6c466dc79684041aac08ea18`; assertion correction `0e3d54632d142d64d609aef6641ba6d295615941`; report `docs/ARO_CHAT_0219_REVALIDATE_RIGHTS_REPORT.md`.
+- Status: IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED.
+- Safety: draft-only, stacked on PR #339. Issue #68 remains OPEN. No OAuth, credentials, real media, network upload, merge, rebase, retarget, deployment, or publishing. Keep live uploads/public publishing disabled.
