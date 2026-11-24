@@ -273,3 +273,20 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - PR #346 run #45441375437 exposed the same test-only assertion mismatch on Ubuntu and hosted Windows: actual rejection is `no recorded rights for source source-2`; stale test expected `no recorded rights for source-2`.
 - Corrected the test expectation only; production uploader and fail-closed rights behavior are unchanged. Commit `9e349ae9fa6d66832b8d030e2ffe3bef55cdf35d`.
 - Next: verify exact-head Ubuntu and hosted-Windows CI for this branch, then independently review the complete rights/uploader security lineage. Local tests NOT RUN. No OAuth, credentials, real media, upload, merge, rebase, retarget, deployment, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0223 exact-head CI closeout — 2026-11-24
+- PR #350 final audited head: `b6d712a6438a132c3d8ca245b0a804bf8b929550`; run [#45442036637](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45442036637) completed SUCCESS.
+- Ubuntu: compile + 352 tests + synthetic MP4/FFprobe passed. Hosted Windows: compile + 352 tests, 3 FIFO-only skips, synthetic MP4/FFprobe passed. Same suite on both platforms, not 704 unique tests.
+- CI checked merge ref `74dbc1c` containing the PR head; raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic-only; `upload_performed=false`, `publishing_enabled=false`, `manual_review_required=true`. No real media, OAuth or network upload.
+- PR #350 remains DRAFT / OPEN / UNMERGED. Local tests NOT RUN; owner-device Windows, real-media acceptance and independent security review NOT VERIFIED / NOT RECORDED.
+- Next: independent security review of the full consolidated uploader, OAuth identity, durable approval, source-rights and final pre-insert validation lineage. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No merge, rebase, retarget, deployment, upload or publishing; keep live/public upload gates disabled.
+
+
+## ARO-CHAT-0224 current continuation — rights-report stability audit (2026-11-24)
+- Chat ID: ARO-CHAT-0224; Workstream: ARO-GTA-P1-224; branch `workstream/aro-chat-0224-rights-report-stability-audit-2026-11-24`, based on PR #350 head `b6d712a6438a132c3d8ca245b0a804bf8b929550`.
+- PR #350 run #45442036637 passed Ubuntu and hosted Windows: 352 tests each; Windows skipped 3 FIFO-only tests. Both compiled and passed synthetic MP4/FFprobe. Jobs checked out PR merge refs; raw-head-only checkout NOT DEMONSTRATED. PR #350 has no review submissions or inline review threads.
+- Scoped inspection confirms PR #344's final rights-report reread closes the stale in-memory-report case, but a residual mutable-path/TOCTOU window remains between the final report read/permission check and YouTube insert. The loader uses Path.read_text without no-follow descriptor/path identity validation. This is a potential race requiring a deterministic regression, not proof of exploitation.
+- Next: design and implement a stable verified rights-report snapshot with approval binding plus a regression that mutates/replaces the report after the final read and proves the API insert is not called. Keep all work draft-only until exact-head CI and independent review. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+- No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing. Keep live uploads/public publishing disabled.
