@@ -224,6 +224,8 @@ class SourceRightsRegistryTests(unittest.TestCase):
             "https://example.123./video",
             "https://example.0x2./video",
             "https://example.09./video",
+            "https://[fe80::1%25eth0]/video",
+            "https://[fe80::1%eth0]/video",
             "https://user:password@example.com/video",
             "https://exa mple.com/video",
             "https://exa\nmple.com/video",
