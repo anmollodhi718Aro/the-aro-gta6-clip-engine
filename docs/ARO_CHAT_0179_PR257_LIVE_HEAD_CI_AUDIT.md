@@ -45,3 +45,23 @@ Date: 2026-11-24
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / NOT IMPLEMENTED. Keep live uploads/public publishing disabled pending explicit owner approval, canonical security implementation, independent security review, owner-controlled integration, owner-device verification, owner-selected device-appropriate `--max-upload-bytes`, and separately authorized real-media acceptance.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
 - Draft only; no merge requested.
+
+
+## Audit PR #261 exact-head CI closeout — 2026-11-24
+
+This section verifies the audit branch's own CI only. It does not change the findings for audited parent PR #257.
+
+- Live PR #261: OPEN / DRAFT / UNMERGED; current head `86dc5b5bb5bb0966b930c9d64e819b41978bbafa`; base branch `workstream/aro-chat-0176-pr256-exact-head-ci-audit-2026-11-24` at `cb12b8a1509d00ff9ec0a7ebce5dc25977bcba58`.
+- Commit-associated workflow run #45351424601 (run 1156) completed SUCCESS for this exact PR head.
+- Ubuntu job #138298592512: checkout and Python/FFmpeg/FFprobe setup passed; compilation passed; all 340 unit tests passed (5.143s); the synthetic MP4 render-and-verify step passed.
+- Hosted-Windows job #138298591353: checkout and Python/FFmpeg/FFprobe setup passed; compilation passed; all 340 unit tests passed (17.453s); the synthetic MP4 render-and-verify step passed.
+- Both jobs checked out `refs/remotes/pull/261/merge` at merge commit `cdc118dc6e625a6e3e9969f1249b806f3eb29907`, merging audited PR #261 head `86dc5b5bb5bb0966b930c9d64e819b41978bbafa` into base `cb12b8a1509d00ff9ec0a7ebce5dc25977bcba58`. Raw-head-only checkout is NOT DEMONSTRATED.
+- The synthetic fixture is a locally generated test pattern and tone (8-second source, 4-second rendered output). This is not GTA 6 footage, third-party footage, authorized real-media acceptance, or owner-device Windows verification.
+- PR #261 combined commit status returned zero status entries. Reviews, inline review threads, and conversation comments are empty; independent review NOT RECORDED.
+- PR #261 remains draft-only and unmerged. No workflow retry, local test run, merge, rebase, or retarget was performed.
+- Status distinction: PR #261 audit-branch CI is CI_VERIFIED on its merge ref; audited PR #257 itself remains exact-head CI PENDING / NOT VERIFIED because its own exact head had zero runs/check-runs/statuses.
+
+## Safety
+- Documentation-only changes: this report, the workstream registry, and the startup prompt.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / NOT IMPLEMENTED. Keep live uploads and public publishing disabled until explicit owner approval and all security/owner-acceptance gates are satisfied.
+- No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
