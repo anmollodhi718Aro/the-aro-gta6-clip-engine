@@ -1834,3 +1834,16 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0188_PR276_CI_AUDIT.md`. This audit branch's own CI must be inspected independently; do not transfer PR #276's run.
 - Documentation-only; no application/workflow behavior changes, OAuth, credentials, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action. Hosted Windows CI is not owner-device Windows verification; synthetic media is not authorized real-media acceptance.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending all security and owner-acceptance gates.
+
+
+## Latest continuation baseline — ARO-CHAT-0190 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0190 | PR #278 Exact-Head CI Audit`; workstream ARO-GTA-P1-190.
+- Branch: `workstream/aro-chat-0190-pr278-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #278 head `1026367d06109eff908d56e62260bd453528af3a`.
+- Task: documentation-only independent audit of PR #278's own commit-associated Actions run, Ubuntu/hosted-Windows job outcomes, compile/test step states, combined status, and review state.
+- PR #278 head `1026367d06109eff908d56e62260bd453528af3a` is associated with Python CI run [#45385215158](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45385215158), run 1208, SUCCESS.
+- Ubuntu job #138414245671 and hosted-Windows job #138414245219 both completed SUCCESS; checkout, FFmpeg/FFprobe setup, Python setup, compile, and unit/synthetic-media integration test steps report SUCCESS.
+- Job-log contents were not available in this audit. Exact test count/duration, detailed synthetic MP4/FFprobe assertions, and actual checkout ref/SHA are NOT VERIFIED. Do not infer merge-ref or raw-head-only checkout from the workflow configuration alone.
+- Combined commit status reports `pending` with zero status entries; this is not a green combined-status context. PR #278 review submissions, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #278 remains OPEN / DRAFT / UNMERGED.
+- Report: `docs/ARO_CHAT_0190_PR278_CI_AUDIT.md`. This audit branch's own CI and independent review must be inspected separately; never transfer CI between PRs or SHAs.
+- Documentation-only; no application/workflow behavior changes, workflow retry, OAuth, credentials, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
