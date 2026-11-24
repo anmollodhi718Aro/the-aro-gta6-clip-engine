@@ -1060,3 +1060,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 ### ARO-CHAT-0218 exact-once media close assertion — 2026-11-24
 - Test commit `cc4dca770655a7bd69d767f9cb164d133e00eafd` makes the close-failure mock count close calls and asserts exactly one attempt, while preserving assertions for exception propagation, closed stream, removed snapshot, and one mocked insert.
 - Exact-head CI NOT VERIFIED; local tests NOT RUN; independent review NOT RECORDED. Keep PR #339 draft/open/unmerged and all live/public upload gates disabled.
+
+
+### ARO-CHAT-0218 PRIVATE-only upload visibility guard — 2026-11-24
+- Hardened `backend/app/youtube_upload.py`: upload metadata validation and CLI now accept PRIVATE only; UNLISTED/PUBLIC are rejected. Test commit `598c9c488c34143c6cb8c0a9d86208e3e7ef74b1` covers both rejection paths.
+- Corrected `docs/YOUTUBE_UPLOAD.md` so it no longer describes unsupported UNLISTED/PUBLIC approval paths. Public publishing remains unimplemented and disabled.
+- CI run #45433283842 was cancelled before compile/tests on both platforms; run #45433336438 pending at docs head. Exact-head CI NOT VERIFIED. PR #339 remains draft/open/unmerged; parent PR #328 is currently non-mergeable. Independent review NOT RECORDED; issue #68 OPEN.
