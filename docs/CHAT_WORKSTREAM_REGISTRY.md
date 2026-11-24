@@ -860,3 +860,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #299 remains OPEN / DRAFT / UNMERGED. No review submissions, inline review comments, or conversation comments were recorded; independent security review NOT RECORDED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Local OAuth owner/channel verification, source-rights evidence, exact per-clip approval, owner-device verification, and an accepted private-upload test remain NOT VERIFIED.
 - No OAuth, credential/token access, real media, network upload, publishing, merge, deployment, or destructive action occurred.
+
+
+### Additional security hardening — destination profile storage boundary
+- Review finding: profile config selected an isolated token path relative to its own parent, while docs required `.secrets/` but code did not enforce that boundary. A config outside `.secrets/` could therefore place OAuth token files outside the ignored secrets directory.
+- Fix: resolve the profile config path strictly and reject it unless its resolved parent directory is exactly `.secrets`; this also rejects config-file or directory symlinks resolving outside that directory.
+- Regression test: an otherwise valid profile config outside `.secrets/` is rejected. Existing profile tests now place fixtures under `.secrets/` and assert tokens resolve to `.secrets/tokens/<profile>.json`.
+- Commits: `6c3e35a4905ab8ac69fb7ff57f5204f67d67162a`, `004a2001e4e624334658ac084b0d41f79ae4a1ff`. Exact-head CI pending; no OAuth or upload performed.
