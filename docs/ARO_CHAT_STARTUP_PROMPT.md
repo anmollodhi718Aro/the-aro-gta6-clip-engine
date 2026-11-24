@@ -478,3 +478,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Draft PR [#256](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/256) was created OPEN / DRAFT / UNMERGED against the ARO-CHAT-0174 audit branch; latest created head `6ee3c01fd0395a134d69411dbe412c64499d8f67`.
 - PR #256's own exact-head workflow lookup returned zero runs and combined status returned zero entries at initial post-creation inspection. Its own CI is PENDING / NOT VERIFIED; do not transfer PR #255's cancelled run or any parent CI.
 - PR #256 changes only the audit report, registry, and startup prompt. No application behavior or workflow configuration changed. No workflow retry, merge, or retarget.
+
+
+## Latest continuation baseline — ARO-CHAT-0176 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0176 | PR #256 Exact-Head CI Audit`.
+- Workstream: ARO-GTA-P1-176; branch: `workstream/aro-chat-0176-pr256-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #256 exact head `d09f8147c7227cfec80d9e37a57a6463082da2cd`.
+- Audit PR #256's own exact-head Actions run/check-runs, combined status, review submissions, inline threads, and conversation comments. If a run appears, inspect both Ubuntu and hosted-Windows jobs/logs, checkout refs, compilation/tests, and synthetic MP4/FFprobe.
+- Initial exact-head workflow-run lookup returned zero runs; check-runs returned zero entries; combined status is `pending` with zero status entries. PR #256 CI is PENDING / NOT VERIFIED. Do not transfer PR #255's cancelled run or any other PR/SHA's CI.
+- PR #256 is OPEN / DRAFT / UNMERGED and GitHub reports `mergeable=false`; reviews and comments are empty. Independent review NOT RECORDED.
+- Report: `docs/ARO_CHAT_0176_PR256_CI_AUDIT.md`. Re-fetch the exact PR head before closeout; never assign TESTED or CI_VERIFIED without observed evidence.
+- Documentation-only. Keep Issue #68 open and live/public uploads disabled. No workflow retry, credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
