@@ -42,3 +42,10 @@ Date: 2026-11-24
 - No local tests were run in this connector session.
 - No workflow retry/dispatch, OAuth, credentials/tokens, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
 - Recheck run #45427815827 and both job logs against the same exact head before changing this status. Do not transfer evidence from PR #328 or another SHA.
+
+
+## Run #45427815827 progress refresh — 2026-11-24
+- Rechecked the same audited head `b97b6272356f4ee07d6708ced8fbd37354864194`; run #45427815827 remains IN_PROGRESS.
+- Ubuntu job #138564697043 is IN_PROGRESS: setup, checkout, Python setup, FFmpeg/FFprobe installation and compilation completed SUCCESS; the complete unittest step is IN_PROGRESS; synthetic MP4/FFprobe has not started.
+- Hosted-Windows job #138564696271 is IN_PROGRESS: setup, checkout and Python 3.11 setup completed SUCCESS; FFmpeg/FFprobe installation is IN_PROGRESS; compile, tests and synthetic MP4/FFprobe have not started.
+- No final test counts, test conclusions, synthetic render result, or run conclusion are available yet. Exact-head CI remains PENDING / NOT VERIFIED.
