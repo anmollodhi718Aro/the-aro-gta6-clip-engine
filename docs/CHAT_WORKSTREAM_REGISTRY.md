@@ -998,3 +998,24 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 ### Validation and safety
 - Local tests NOT RUN in this connector session. Exact-head CI PENDING. No OAuth credentials, real media, network upload, merge, deployment, or publishing used.
 - PR #311 remains the parent draft. Issue #68 remains OPEN pending independent review and owner-controlled acceptance. Public publishing remains disabled.
+
+
+## ARO-CHAT-0216 — close resumable media handle before snapshot cleanup (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0216 |
+| Workstream ID | ARO-GTA-P1-216 |
+| Scope | Ensure the resumable upload client's retained snapshot file handle is closed before temporary-directory cleanup. |
+| Branch | `workstream/aro-chat-0216-close-upload-media-handle-2026-11-24` |
+| Base / starting SHA | PR #328 head `114e5bfc4b154e0da272ed36408ab156cfdc5ab9` |
+| Status | IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; no upload |
+
+### Finding and correction
+- `MediaFileUpload` retains its opened media stream for resumable reads. PR #328's `finally` removed the snapshot directory without first closing that stream.
+- This can prevent temporary-file deletion on Windows and can mask a successful PRIVATE response with a cleanup error.
+- Close the retained stream before snapshot cleanup, with nested `finally` ensuring cleanup is attempted even if close fails.
+- Add a regression test using a real open file object in the mocked media upload and assert that it is closed after the upload flow.
+
+### Safety
+- Draft-only follow-up to PR #328. No OAuth credentials, real GTA 6 media, network upload, merge, deployment, or publishing. Issue #68 remains OPEN; live uploads/public publishing remain disabled pending the established owner/security gates.
