@@ -184,3 +184,10 @@ For the current first-test upload priority:
 - Source commit `07fc209ff4d68b7cc5236c834bcea42de95728f3`; test commit `b37b3d694c4e6dc7f3c291a242f925dabdd0bc3e`.
 - Exact-head Ubuntu and hosted-Windows CI are PENDING; local tests NOT RUN. Do not claim verification until the run and both logs are inspected.
 - PR #317 remains the parent draft; no merge, rebase, retarget, OAuth, credentials, media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0211 current continuation — 2026-11-24
+- A focused regression test now covers replacement of the approval-record pathname with a different regular file after the descriptor is opened and before the post-open `lstat()`. It asserts fail-closed device/inode mismatch handling; production code is unchanged.
+- Workstream: ARO-CHAT-0211 / ARO-GTA-P1-211; branch `workstream/aro-chat-0211-post-open-regular-replacement-test-2026-11-24`, based on PR #319 head `4f5796e2a62927213f474a1e09ff1927d540cf96`.
+- Test commit: `8905865bab1127e470f1115ab31bbcbc63c70cbb`; report: `docs/ARO_CHAT_0211_POST_OPEN_REGULAR_REPLACEMENT.md`.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. Do not infer CI from PR #319. Keep the branch draft-only and do not merge/rebase/retarget. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
