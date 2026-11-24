@@ -1811,3 +1811,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Scope: local event intake only. No live adapters, credentials/OAuth, real media, uploads, publishing, deployment, or workflow changes.
 - Status: IMPLEMENTED; local tests NOT RUN in this connector session; exact-head CI PENDING until this branch's own PR run is observed.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+## Latest continuation baseline — ARO-CHAT-0187 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0187 | PR #274 Exact-Head CI Closeout`; workstream ARO-GTA-P1-187.
+- Branch: `workstream/aro-chat-0187-pr274-ci-closeout-2026-11-24`; base / starting SHA: PR #274 head `ab64dbfe566fa6d8f5ed1debeacd93cbf5b27eaf`.
+- Scope: documentation-only independent closeout of PR #274 exact-head CI, job logs, checkout refs, compile/tests, synthetic MP4/FFprobe, combined status, and review state.
+- PR #274 exact-head Actions run #45382081002 (run 1201) completed SUCCESS. Ubuntu and hosted Windows each passed compile and the same 29 tests plus synthetic animation MP4/FFprobe integration.
+- Both jobs checked out PR merge ref `refs/remotes/pull/274/merge` at merge SHA `73eb5508ce0690e0c50e49b555b7b5aec924fb0e`; raw-head-only checkout NOT DEMONSTRATED. The two platforms ran the same suite, not 58 unique tests.
+- Combined status returned `pending` with zero entries; check-runs and workflow run independently show two completed successes. Reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED.
+- Report: `docs/ARO_CHAT_0187_PR274_CI_AUDIT.md`. This audit branch's own exact-head CI must be inspected independently after publication; do not transfer PR #274's run to this branch.
+- PR #274 remains OPEN / DRAFT / UNMERGED. Hosted Windows CI is not owner-device Windows verification; synthetic media is not real GTA 6 footage.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
