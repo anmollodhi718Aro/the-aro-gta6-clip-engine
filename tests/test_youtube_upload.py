@@ -144,28 +144,34 @@ class YouTubeUploadTests(unittest.TestCase):
                 load_rights_report(self.report)
 
     def test_rights_report_rejects_same_inode_symlink_substitution_after_open(self):
-        probe = self.root / "symlink-capability-probe"
-        try:
-            probe.symlink_to(self.report)
-            probe.unlink()
-        except (NotImplementedError, OSError) as exc:
-            self.skipTest(f"file symlinks are unavailable on this runner: {exc}")
-        backup = self.root / "original-rights-report.json"
-        original_open = os.open
+        import stat
+        import backend.app.youtube_upload as upload_module
 
-        def replace_with_same_inode_symlink_after_open(path, flags, *args, **kwargs):
-            descriptor = original_open(path, flags, *args, **kwargs)
+        original_open = upload_module.os.open
+        original_lstat = Path.lstat
+        lstat_calls = 0
+
+        def open_without_nofollow(path, flags, *args, **kwargs):
+            return original_open(path, flags & ~getattr(os, "O_NOFOLLOW", 0), *args, **kwargs)
+
+        def report_symlink_on_post_open_check(path):
+            nonlocal lstat_calls
+            result = original_lstat(path)
             if Path(path) == self.report:
-                Path(path).replace(backup)
-                Path(path).symlink_to(backup)
-            return descriptor
+                lstat_calls += 1
+                if lstat_calls == 2:
+                    return type(result)(
+                        (stat.S_IFLNK | stat.S_IMODE(result.st_mode), *result[1:])
+                    )
+            return result
 
-        with patch(
-            "backend.app.youtube_upload.os.open",
-            side_effect=replace_with_same_inode_symlink_after_open,
+        with (
+            patch("backend.app.youtube_upload.os.open", side_effect=open_without_nofollow),
+            patch.object(Path, "lstat", report_symlink_on_post_open_check),
         ):
             with self.assertRaisesRegex(PermissionError, "regular file"):
                 load_rights_report(self.report)
+        self.assertEqual(lstat_calls, 2)
 
     def test_rights_report_must_target_youtube_and_have_assets(self):
         report = json.loads(self.report.read_text(encoding="utf-8"))
