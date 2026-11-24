@@ -392,3 +392,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Test fix commit: `cdd2eb320527b32ccaabe4e4e0f82fa541b94351`; report commit: `5709bf02a1ba57b1021520bb4678243fb94abb11`.
 - Commit-associated Actions run #45465232908 completed SUCCESS: Ubuntu and hosted Windows each compiled, ran the same 365 tests, and passed synthetic MP4/FFprobe validation; Windows skipped 4 platform-unavailable tests. This does not establish owner-device Windows or real-media acceptance.
 - Independent review NOT RECORDED. PR #362 remains draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+## Current continuation — ARO-CHAT-0232 (2026-11-25)
+- Workstream ARO-GTA-P1-232 ports the atomic rights-revocation/audit rollback regression from older draft PR #360 onto the newer PR #362 rights-registry test line.
+- Branch: `workstream/aro-chat-0232-atomic-revocation-audit-rollback-port-2026-11-25`; base / starting SHA: `a39fd8ed3db36e8aae98cfc902c10f7fe36e7054`.
+- Test commit: `98f20b1a657169b4bd3f6d85d4de7dd4197c655d`; report commit: `b5786d595a056349d2e31df64167b739dfaf64fe`; registry commit: `4a9a963dc719414f351aff36a1fba5c79f074dcb`.
+- Regression: a trigger rejects the `revoked` audit insert; the original SQLite integrity error must propagate, the rights update must roll back, the grant must remain authorizable, and the audit history must contain only `registered`. Fixture uses `contextlib.closing` for Windows cleanup.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED. Do not claim success until the new PR's own CI completes.
+- Preserve PR #360, #362, and #363 as separate drafts; no rebase, retarget, or merge. PR #363 is a separate documentation-only branch and is not part of this workstream's ancestry.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, deployment, or publishing.
