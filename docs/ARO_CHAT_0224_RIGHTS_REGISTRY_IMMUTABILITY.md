@@ -37,3 +37,9 @@ The current `SourceRightsRegistry.register()` used SQLite `ON CONFLICT(source_id
 - Draft-only; keep PRs unmerged pending independent security review and owner-controlled acceptance.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
 - Keep live uploads and public publishing disabled.
+
+## Test-fixture review correction — 2026-11-24
+- Review found the first version of the duplicate-registration regression initialized its original grant with `publish` already allowed, while asserting that `publish` should remain denied. That fixture did not correctly prove that a duplicate registration could not broaden a narrower grant.
+- Corrected the test to register an `analyze`-only grant first, then attempt to replace it with a `publish` grant using the same source ID. The assertions now verify the original narrow grant remains authoritative.
+- Test correction commit: `01c3d53229b39e4e294a8cff1ca61303ca7b2f05`.
+- Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI remains PENDING / NOT VERIFIED; no CI result is transferred from the parent PR.
