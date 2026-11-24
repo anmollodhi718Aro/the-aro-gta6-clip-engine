@@ -233,3 +233,14 @@ For the current first-test upload priority:
 - PR #330 is a separate draft upload-snapshot branch with CI run #45427507267 QUEUED at this lookup. Do not infer its result.
 - PR #332 (this documentation audit) has no associated workflow run or combined status entries at this lookup; its own CI is PENDING / NOT VERIFIED.
 - PR #328 remains OPEN / DRAFT / UNMERGED. Independent review remains NOT RECORDED; local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## Live continuation — ARO-CHAT-0217 (2026-11-24)
+- Suggested chat title: `ARO-CHAT-0217 | PR #332 Exact-Head CI Audit`.
+- Workstream: ARO-GTA-P1-217; exact-head CI audit of PR #332.
+- Audit branch: `workstream/aro-chat-0217-pr332-exact-head-ci-audit-2026-11-24`, based on PR #332 head `b97b6272356f4ee07d6708ced8fbd37354864194`.
+- PR #332 exact-head run #45427815827 was IN_PROGRESS at the latest observation: hosted Windows job #138564696271 was checking out and Ubuntu job #138564697043 was queued. Exact-head CI remains PENDING / NOT VERIFIED until both jobs complete and their logs are inspected.
+- PR #332 reviews, inline threads and conversation comments returned zero entries; independent review NOT RECORDED. PR #332 remains OPEN / DRAFT / UNMERGED.
+- Continue by rechecking run #45427815827 and auditing the same SHA; do not transfer PR #328's CI evidence. Keep the workstream documentation-only unless a separate implementation task is explicitly authorized.
+- Issue #68 is OPEN and the repository owner is currently assigned. Assignment alone does not approve a canonical security branch or authorize live uploads. Keep live uploads/public publishing disabled.
+- No local tests, workflow retry/dispatch, OAuth, credentials/tokens, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
