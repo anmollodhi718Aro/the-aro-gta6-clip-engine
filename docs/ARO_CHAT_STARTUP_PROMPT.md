@@ -101,3 +101,10 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Do not transfer earlier failed run #45388115805 from merge SHA `c767f8110049abfaebce62950c293d2afb0fe8b9` to PR #295's actual head.
 - Do not modify the implementation under audit. No workflow retries, OAuth, credentials, real media, uploads, publishing, merge, retarget, deployment or destructive actions.
 - Issue #68 remains open and owner approval remains a blocker; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0195 closeout update — 2026-11-24
+- PR #295 exact head `cf731cabda8a045d39457f0eef800dbdb051e75e` passed exact-head-associated run #45390003956 (run 1233): hosted Ubuntu and Windows each compiled, passed the same 331 tests, and passed synthetic MP4/FFprobe.
+- Both jobs checked out merge ref SHA `0568fdb4b4453f97bbd51e639343dd0f1d9aea5d`; raw-head-only checkout NOT DEMONSTRATED.
+- Combined status was pending with zero legacy status entries. PR #295 reviews/comments were empty; independent review NOT RECORDED. PR remains draft/open/unmerged.
+- Synthetic-only validation; no real GTA 6/third-party media, uploads or publishing. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
