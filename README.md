@@ -6,7 +6,7 @@ A local-first, zero-mandatory-dependency creator workflow for analysing authoriz
 
 ## Start clipping today
 
-**Fastest Windows route:** install Python 3.11+ and FFmpeg (including ffprobe), then double-click `START_CLIPPING_TODAY.bat`. It guides you through selecting up to 50 moments from a local recording, optionally renders full-frame 1080×1920 (9:16) Shorts output, runs a dry-run, requires two explicit confirmations before rendering, and opens a local review dashboard. See [Manual Clipping](docs/MANUAL_CLIPPING.md). Before the first real session, run the project checks with `powershell -ExecutionPolicy Bypass -File scripts/check_project.ps1`; The latest verified hosted CI run passed compilation and all 281 unit tests on both Ubuntu and Windows for code SHA `817c7947c6756b80ae91ba272d172c3efaa2fa07`; this does not replace owner-device Windows playback or authorized real-media acceptance. See `docs/PROJECT_HANDOFF.md` for exact-SHA evidence and current blockers.
+**Fastest Windows route:** install Python 3.11+ and FFmpeg (including ffprobe), then double-click `START_CLIPPING_TODAY.bat`. It guides you through selecting up to 50 moments from a local recording, optionally renders full-frame 1080×1920 (9:16) Shorts output, runs a dry-run, requires two explicit confirmations before rendering, and opens a local review dashboard. See [Manual Clipping](docs/MANUAL_CLIPPING.md). Before the first real session, run the project checks with `powershell -ExecutionPolicy Bypass -File scripts/check_project.ps1`. The latest recorded hosted CI evidence in the current draft stack is run [#45400525644](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45400525644): Ubuntu and hosted Windows each passed compilation, the same 346-test suite, and synthetic MP4/FFprobe validation on PR #302's merge ref. This is merge-ref CI evidence only; it is not raw-head-only proof, owner-device Windows verification, or authorized real-media acceptance. See `docs/PROJECT_HANDOFF.md` for project handoff evidence and current blockers.
 
 For the full chat-assisted workflow and measured timestamp synchronization, see [First Clip Today](docs/FIRST_CLIP_TODAY.md).
 
@@ -156,24 +156,30 @@ python -m backend.app.content_preflight output/gta6_short.json \
 
 For each declared third-party visual, the preflight requires both `edit` and `publish` scope on the target platform. A matching record is metadata only, not legal verification. All included music, game publisher, guest and other third-party rights need separate review. Credit and a disclaimer do not replace permission.
 
-### Optional YouTube uploader: two-step owner approval
+### Optional YouTube uploader: private-only owner approval
 
-The uploader remains opt-in. Configure both `ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT` (the expected Google OIDC `sub`) and `ARO_YOUTUBE_CHANNEL_ID` for the owner account and destination channel; keep these in local environment configuration, not Git. Keep the OAuth client file and token outside Git. The verified OIDC subject and OAuth-backed `channels.list(mine=True)` result must both match configuration. Existing tokens without the required OpenID and YouTube read-only scopes must be re-authorized.
+The uploader is opt-in and its live upload boundary currently permits **PRIVATE staging only**. The current draft implementation is not integrated into the default branch, and no real upload has been accepted. Keep OAuth client files, tokens, destination profiles, and approval records local and out of Git.
 
-First, create a durable approval for one exact local video, clip ID and source ID. This command does not upload:
+For multiple destinations, store a non-secret profile map at `.secrets/youtube_destination_profiles.json`. Each profile maps a verified Google OIDC `sub` to the exact YouTube channel ID. The profile loader requires this file to resolve directly inside this repository's `.secrets/` directory; profile-specific OAuth tokens are isolated under `.secrets/tokens/<profile>.json`. Never infer a channel ID from a public handle. Each destination must be verified through its own authorized OAuth session and `channels.list(mine=True)` result. The CLI does not allow a shared `--token` override when a destination profile is selected. A legacy single-destination configuration may use `ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT` and `ARO_YOUTUBE_CHANNEL_ID` locally.
+
+First, record approval for one exact local video, clip ID, source ID, destination and PRIVATE visibility. This separate command does not upload:
 
 ```bash
 python -m backend.app.youtube_upload /path/to/authorized-clip.mp4 \\
   --rights-report output/preflight_report.json \\
-  --title "THE ARO clip" --not-made-for-kids \\
+  --title "THE ARO clip" --not-made-for-kids --privacy private \\
+  --destination-config .secrets/youtube_destination_profiles.json \\
+  --destination-profile PROFILE_NAME \\
   --approve-clip --clip-id CLIP_ID --source-id SOURCE_ID \\
-  --approval-record aro_studio_data/approvals/CLIP_ID.json \\
+  --approval-record .secrets/approvals/PROFILE_NAME/CLIP_ID.json \\
   --rights-db aro_studio_data/source_rights.sqlite3
 ```
 
-After OAuth channel verification and a current publish-scope check, the CLI asks for a visibility-specific typed confirmation: `APPROVE PRIVATE CLIP_ID`, `APPROVE UNLISTED CLIP_ID`, or `PUBLISH PUBLIC CLIP_ID`. The resulting record is non-overwritable, expires after 24 hours by default, and binds the Google OIDC subject, destination channel, clip, source, requested privacy level and SHA-256 of the local video.
+The owner must authenticate through the loopback OAuth flow. The signed Google ID token is checked against the OAuth client ID, issuer and configured subject; the same OAuth session must resolve to the configured channel through `channels.list(mine=True)`. The command rechecks current YouTube publish permission and asks for `APPROVE PRIVATE <clip_id>`. The non-overwritable approval expires after 24 hours by default and binds the Google subject, channel, clip/source IDs, PRIVATE visibility and exact local video SHA-256.
 
-A separate upload invocation still requires the same clip/source IDs and approved privacy level, the approval record, `--upload --owner-approved --confirm-rights`, and a fresh check of channel identity, approval and the SQLite publish grant immediately before the YouTube API request. The default privacy is `private`. A client-supplied flag is never treated as channel authentication. Unit tests use mocked API clients; they do not perform uploads. A real upload remains a separate owner-approved acceptance test.
+A separate, deliberate upload invocation requires the same destination profile, exact clip/source IDs, approval record, `--privacy private`, `--upload --owner-approved --confirm-rights`, and fresh identity, approval and rights checks immediately before `videos.insert`. The API response must contain a video ID and explicitly confirm `status.privacyStatus == "private"`; otherwise the result is UNVERIFIED and must be inspected in YouTube Studio. The two boolean flags are additional acknowledgements, never identity authentication.
+
+**Unlisted and public live uploads are rejected by the current uploader.** Do not use an unlisted/public approval phrase or treat a dry-run metadata validation as upload permission. Unit tests use mocked OAuth/YouTube clients and never perform a network upload. See [YouTube Upload Adapter](docs/YOUTUBE_UPLOAD.md) for the current detailed procedure and limits.
 
 ## Seven-day creator activity watchlist
 
@@ -249,7 +255,7 @@ GitHub Actions runs the same compile and unittest discovery workflow on pull req
 - YouTube chat access does not provide the stream's video bytes. Video must be separately supplied as a local file with adequate rights.
 - No fully automatic chat-to-video synchronization: mapping requires a manually measured single origin or at least three calibration anchors; the clock fit refuses extrapolation.
 - No packaged Windows desktop installer; the current unified app is a local Python HTTP dashboard.
-- The optional OAuth uploader's authenticated per-clip approval gate is implemented on draft PR #83; owner-side Google Cloud setup and a private/unlisted end-to-end upload test remain outstanding. No real upload has been performed or accepted.
+- The authenticated per-clip uploader and private-only response checks are implemented in the open draft PR stack rooted at PR #299, with regression/CI follow-ups in PRs #301–#303; this work is not merged into the default branch. Owner-side OAuth setup, independent security review, owner-controlled integration, owner-device verification, and an authorized PRIVATE real-media acceptance test remain outstanding. No real upload has been performed or accepted.
 - No automatic posting, background cloud worker, billing, or monetization guarantee.
 - The creator watchlist only ranks supplied, evidence-backed metrics.
 - A score or successful rights-metadata preflight is not an upload or monetization approval.
