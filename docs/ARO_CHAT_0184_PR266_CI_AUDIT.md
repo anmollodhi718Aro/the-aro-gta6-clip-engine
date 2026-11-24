@@ -52,3 +52,15 @@ PR #266's recorded exact-head CI run and both platform jobs are successful. Inde
 - Workflow job metadata does not expose checkout commit refs; raw-head-only checkout NOT DEMONSTRATED. This is successful PR-triggered CI evidence associated with the audit head, not proof of a raw-head checkout.
 - No workflow retry was initiated. No code, tests, or workflow configuration changed in this workstream.
 - PR #267's CI result applies only to its exact head above. It does not alter PR #266's review status or prove real-media/owner-device acceptance.
+
+
+## Current audit-branch head refresh — 2026-11-24
+
+- PR #267 latest inspected head: `0b79f174e2f1935c5db842b2f59223dfd598fdbe`. This supersedes the earlier audit-head snapshot `587e6909d99c8db34ade24ca0c0f2392167e5df7` recorded above.
+- Exact-head Actions run #45380690338 (run 1180) completed SUCCESS.
+- Ubuntu job #138398619175 and hosted-Windows job #138398619665 both completed setup, checkout, platform-specific FFmpeg/FFprobe installation, Python setup, compilation, and unit/synthetic-media integration-test steps successfully.
+- Both platforms ran the same test suite. Numeric test count is NOT VERIFIED because the connector job summaries did not expose unittest output. Checkout commit refs are NOT EXPOSED; raw-head-only checkout NOT DEMONSTRATED.
+- Combined commit status returned zero entries. Review submissions, inline review threads, and conversation comments are empty; independent review NOT RECORDED.
+- PR #267 remains OPEN / DRAFT / UNMERGED (GitHub metadata reports mergeable=true). This run applies only to the exact head above.
+- Workstream ARO-CHAT-0184: PR #266 exact-head CI audit documented; PR #267 audit-branch CI_VERIFIED on Ubuntu and hosted Windows. Independent review, authorized real-media acceptance, and owner-device Windows acceptance remain outstanding.
+- No application/source/test/workflow behavior changed. No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or destructive action. Issue #68 remains OPEN; live uploads/public publishing remain disabled.
