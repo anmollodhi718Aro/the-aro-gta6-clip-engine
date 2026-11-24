@@ -618,3 +618,16 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0185_PR267_CI_AUDIT.md`; registry updated. Do not transfer CI evidence across PRs or SHAs.
 - Synthetic media is not GTA 6 footage or real-media acceptance. Owner-device Windows and real-media acceptance remain NOT VERIFIED.
 - Issue #68 remains OPEN. Keep live uploads/public publishing disabled. No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or destructive action.
+
+
+
+### ARO-CHAT-0185 exact-head audit closeout — 2026-11-24
+
+- Audited PR #267 head `25ebb3731c9aaf159e67f744c4ae33047a013f7a`: run #45380924403 passed Ubuntu and hosted Windows. Both checked out merge SHA `86a4cb1f23f70dde31a01b9cdbbfe4a9d6fdacd4`, compiled, and passed the same 27 tests (0.421s Ubuntu; 0.464s Windows), including synthetic animation render/FFprobe. This verifies the merge ref, not raw-head-only execution.
+- PR #267 combined status, reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #267 remains OPEN / DRAFT / UNMERGED.
+- Audit PR #270 head `34d1196757b5d6922391b0f908425a902d2bf455` passed its own run #45381311414. Ubuntu and hosted Windows checked out merge SHA `3bc6672e68d036fc304b527c3513bb415b8d9708`, compiled, passed all 27 tests, and passed synthetic animation render/FFprobe. This verifies that merge ref/head only.
+- Subsequent documentation-only closeout commits advanced PR #270's branch. The latest head's workflow lookup returned zero runs; latest-head CI is PENDING / NOT VERIFIED. Do not transfer the earlier run to the new head.
+- PR #270 remains OPEN / DRAFT / UNMERGED; combined status, reviews, inline threads, and conversation comments were empty at the inspected head. Independent review NOT RECORDED.
+- Report: `docs/ARO_CHAT_0185_PR267_CI_AUDIT.md`; registry updated. Do not transfer CI evidence across PRs or SHAs.
+- Synthetic media is not GTA 6 footage or real-media acceptance. Owner-device Windows and real-media acceptance remain NOT VERIFIED.
+- Issue #68 remains OPEN. Keep live uploads/public publishing disabled. No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or destructive action.
