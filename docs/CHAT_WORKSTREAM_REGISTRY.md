@@ -950,5 +950,8 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Test commit: `b4eb7f2462579700a8e3d64698b27dcad743925d`.
 - Scope: bind approval-record reads to the file identity observed by `lstat()`, use non-blocking open where supported, and reject path replacement between pre-open check and `fstat()`.
 - Regression coverage: replacement race, directory path, and FIFO path (platform-conditional).
-- Local tests: NOT RUN. Exact-head Ubuntu/Windows CI: PENDING.
-- Draft/open/unmerged. No OAuth, credentials, real media, upload, publishing, merge, deployment, rebase, retarget, or destructive action. Issue #68 remains open; all live-upload/public-publishing gates remain disabled.
+- Local tests: NOT RUN in this connector session. Exact PR-head Actions run [45401960825](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45401960825) completed SUCCESS on head `c9f05295d3319ae67481747a72a67a1ab2b9a3ac`.
+- Ubuntu job `138472588352`: compilation passed; 350 tests passed; path replacement and FIFO replacement regressions passed; synthetic MP4/FFprobe passed.
+- Hosted Windows job `138472588884`: compilation passed; 350 tests executed, 348 passed and 2 FIFO tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed.
+- This is hosted Windows CI, not owner-device Windows verification. Synthetic media is not GTA 6 footage or real-media acceptance.
+- Draft/open/unmerged; no OAuth, credentials, real media, upload, publishing, merge, deployment, rebase, retarget, or destructive action. Issue #68 remains open; all live-upload/public-publishing gates remain disabled.
