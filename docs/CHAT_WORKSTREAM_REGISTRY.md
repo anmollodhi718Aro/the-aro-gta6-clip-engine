@@ -1029,3 +1029,23 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Ubuntu: compile, 348 tests, synthetic MP4/FFprobe passed. Hosted Windows: compile, same 348 tests, 345 passed and 3 FIFO-only tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed.
 - Both regression paths passed: original source mutation at insert time, and same-inode approval symlink substitution after open. FIFO race test passed on Ubuntu and skipped on Windows due to unavailable FIFO creation.
 - Both jobs ran the same suite, not 696 unique tests. Raw-head-only checkout NOT DEMONSTRATED. Synthetic-only; no OAuth/upload/publishing. Independent review NOT RECORDED; owner-device and real-media PRIVATE acceptance NOT VERIFIED.
+
+
+## ARO-CHAT-0218 — restore current-head upload media-handle cleanup (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0218 |
+| Workstream ID | ARO-GTA-P1-218 |
+| Scope | Restore close-before-cleanup for the resumable MediaFileUpload file handle on the current PR #328 head; add success and request-failure regressions |
+| Branch | `workstream/aro-chat-0218-current-head-media-cleanup-2026-11-24` |
+| Base / starting SHA | PR #328 head `5ef44f391720966138b2eec1815dd223fb345dbd` |
+| Report | `docs/ARO_CHAT_0218_CURRENT_HEAD_MEDIA_CLEANUP.md` |
+| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI PENDING |
+
+### Finding and disposition
+- PR #333 contained a close-before-snapshot-cleanup fix and PR #335 added a mocked request-failure regression, but their branch stack was stale and diverged from the latest PR #328 head.
+- The latest PR #328 head had only `snapshot_dir.cleanup()` in its upload `finally`, so the retained `MediaFileUpload._fd` handle could remain open during cleanup on Windows.
+- This workstream ports the cleanup fix and both regressions directly onto the current PR #328 head. Existing PR #333 and #335 branches remain untouched; no rebase, retarget, merge, or close was performed.
+- The tests use temporary local files and mocked API modules only. No live upload or real media is used.
+- Issue #68 remains OPEN. Keep live uploads/public publishing disabled pending exact-head CI, independent security review, and owner-controlled acceptance.
