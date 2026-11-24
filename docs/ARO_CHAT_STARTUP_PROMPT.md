@@ -402,3 +402,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #249 exact-head workflow lookup returned zero runs and combined status returned zero entries. Its own CI is PENDING / NOT VERIFIED; local tests NOT RUN. No other PR's CI result may be transferred.
 - GitHub reports PR #249 mergeable=true; keep it draft and do not merge without explicit owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending all recorded security and owner-acceptance gates.
+
+
+## Latest continuation baseline — ARO-CHAT-0170 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0170 | PR #249 Exact-Head CI Audit`.
+- Workstream: ARO-GTA-P1-170; branch `workstream/aro-chat-0170-pr249-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #249 exact head `75854f6cbead27c42d723a72f883eb7f804665f9`.
+- Task: documentation-only independent audit of PR #249's exact-head Actions run, Ubuntu/hosted-Windows jobs and logs, checkout refs, compilation/tests, synthetic MP4/FFprobe, combined status, and review state.
+- Initial run #45314464029 (run 1135) was IN_PROGRESS: Ubuntu compilation passed and unit tests were running; hosted-Windows FFmpeg/FFprobe installation was running. Final results are not yet verified.
+- Report: `docs/ARO_CHAT_0170_PR249_CI_AUDIT.md`. Re-fetch the audited PR head and run after completion; never transfer CI evidence from another SHA or PR.
+- Documentation-only; keep Issue #68 open and live uploads/public publishing disabled. No credentials, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action. Keep the audit PR draft/open/unmerged.
