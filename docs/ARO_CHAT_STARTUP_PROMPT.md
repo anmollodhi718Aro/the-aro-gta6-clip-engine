@@ -551,7 +551,8 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 ## Latest continuation — ARO-CHAT-0181 (2026-11-24)
 
 - Chat title: `ARO-CHAT-0181 | Add Windows CI coverage for the local FFmpeg renderer`; workstream: ARO-GTA-P1-181.
-- Branch: `workstream/aro-chat-0181-renderer-windows-ci-2026-11-24`; base: `feature/local-authorized-ffmpeg-renderer`; starting SHA: `9ad8bb29381a703057729fd0f2ef50ede2dbf743`.
-- Task: add hosted Windows CI coverage for the local FFmpeg renderer alongside Ubuntu, with FFmpeg/FFprobe installed on each runner. Trigger pull-request CI for this feature-branch follow-up.
-- Parent implementation: PR #263. Its Ubuntu run #45355982338 passed compilation, all 16 tests, and the synthetic MP4/FFprobe end-to-end test. That result is Linux-only and must not be treated as Windows evidence.
-- Keep the branch draft-only. No real-media verification, OAuth, upload, publishing, merge, retarget, or deployment. Hosted Windows CI does not replace owner-device Windows acceptance.
+- Parent implementation PR: #263; follow-up CI PR: #264.
+- Follow-up branch: `workstream/aro-chat-0181-renderer-windows-ci-2026-11-24`; base: `feature/local-authorized-ffmpeg-renderer`; starting SHA: `9ad8bb29381a703057729fd0f2ef50ede2dbf743`.
+- PR #264 exact head `c00f0b4070bc8941619b219897b609fa9368510c` passed run #45371891963: Ubuntu and hosted Windows each compiled, passed 16 tests, and passed synthetic MP4/FFprobe integration. Both jobs used PR merge ref `1186fdf`; raw-head-only checkout is NOT DEMONSTRATED.
+- PR #264 was squash-merged into the feature branch as `0c7d3226e903560a01e8335172f73088d5876ac1`. PR #263 remains open/draft/unmerged against main. Its post-merge head and subsequent documentation updates require their own exact-head CI; do not transfer PR #264's run.
+- No real-media verification, OAuth, upload, or publishing. Hosted Windows CI does not replace owner-device Windows acceptance. Issue #68 security and owner-acceptance gates remain closed.
