@@ -53,6 +53,6 @@ Date: 2026-11-24
 
 ### Safety and disposition
 - Documentation-only audit update. No application/uploader/test/renderer/media-ingestion/workflow behavior changed.
-- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / UNASSIGNED for implementation ownership and canonical security-PR selection. Keep live uploads/public publishing disabled.
+- Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Its current GitHub assignee is `anmollodhi718Aro`, while the issue body still lists the implementation owner as UNASSIGNED; canonical security-PR selection/approval remains unresolved. Keep live uploads/public publishing disabled.
 - No credentials/tokens, OAuth, real media, network upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
 - ARO-CHAT-0177 remains IN_PROGRESS. Await a naturally associated run on the current PR #257 head and inspect it independently; any head movement requires a fresh audit.
