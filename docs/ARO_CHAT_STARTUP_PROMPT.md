@@ -248,3 +248,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 ### Latest CI handoff — ARO-CHAT-0218
 - Private-only uploader guard remains in place. Run #45433336438 exposed a stale error-message assertion; updated it in commit `52c168d4a389ab7a99bff5f660708382d00079df`.
 - Exact-head run #45433572590 is in progress on Ubuntu and hosted Windows. Verify both jobs before claiming success. PR #339 remains draft/open/unmerged; no live uploads or publishing.
+
+
+## Current continuation — ARO-CHAT-0219 (2026-11-24)
+- Task: revalidate the current rights-preflight report immediately before the YouTube upload API side effect.
+- Branch: `workstream/aro-chat-0219-revalidate-rights-report-before-upload-2026-11-24`, based on PR #339 functional/docs head `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722`.
+- Finding: the uploader repeated current rights-registry checks but reused an earlier in-memory rights report; newly added source-bound assets could be omitted from the final check.
+- Fix and regression committed: `56685d4edf88af8d15b2390283752792984427a5`, `70b86a1ead7f3f4c6c466dc79684041aac08ea18`, and assertion correction `0e3d54632d142d64d609aef6641ba6d295615941`.
+- Local tests NOT RUN; this branch's exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED.
+- Next: inspect this branch's own exact-head CI and review the full uploader/approval lineage. Keep PR draft/unmerged; Issue #68 OPEN; no OAuth, credentials, real media, network upload, merge, deployment, or publishing. Public publishing remains disabled.
