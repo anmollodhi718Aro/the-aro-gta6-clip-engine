@@ -270,3 +270,15 @@ For the current first-test upload priority:
 - PR #309 reviews, inline threads and comments remain empty; independent review NOT RECORDED. Local tests NOT RUN.
 - Report: `docs/ARO_CHAT_0205_PR309_CI_AUDIT.md`. PR #310 remains OPEN / DRAFT; no run was returned for its current head at inspection and its metadata reported mergeable=false. No rebase, retarget or merge was attempted.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment or destructive action.
+
+
+## Live continuation baseline — ARO-CHAT-0206 (2026-11-24)
+
+- Latest registered workstream: ARO-CHAT-0206 / ARO-GTA-P2-206, PR #310 current-head CI pending audit.
+- Branch: `workstream/aro-chat-0206-pr310-ci-pending-audit-2026-11-24`; starting SHA: `33b16b578243033c1158100d1a798f6f3f6e6c2f`; parent PR #310.
+- Fresh Actions lookup for PR #310 current head returned zero workflow runs; combined legacy status returned zero entries. PR #310 metadata is OPEN / DRAFT / UNMERGED and `mergeable=false`, `mergeable_state=dirty`. Conversation comments/review-comment count were zero; independent review NOT RECORDED.
+- PR #309's successful run applies only to its earlier head `0d673ea56e494cbab73fe12d9957be413c8cfab6`; do not transfer it to later PR #309 head `896337ddafbdedae788defd37bd8d82e82cd87ba` or PR #310.
+- Report: `docs/ARO_CHAT_0206_PR310_CI_PENDING_AUDIT.md`. Audit documentation is implemented; current-head CI remains NOT VERIFIED.
+- Next action requires owner/reviewer inspection and explicit approval of a conflict-resolution plan for PR #310. Do not rebase, force-push, retarget, merge, or retry workflows automatically. After approved resolution, verify a fresh exact-head Ubuntu and hosted-Windows run.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials/OAuth, real media, upload, publishing, deployment, or destructive action.
+- First authorized real GTA 6 clip remains NOT COMPLETE until scope-specific permission, owner-supplied media, local render, FFprobe validation, playback, and owner acceptance are evidenced.
