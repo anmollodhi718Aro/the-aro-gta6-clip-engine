@@ -282,3 +282,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Synthetic-only; `upload_performed=false`, `publishing_enabled=false`, `manual_review_required=true`. No real media, OAuth or network upload.
 - PR #350 remains DRAFT / OPEN / UNMERGED. Local tests NOT RUN; owner-device Windows, real-media acceptance and independent security review NOT VERIFIED / NOT RECORDED.
 - Next: independent security review of the full consolidated uploader, OAuth identity, durable approval, source-rights and final pre-insert validation lineage. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No merge, rebase, retarget, deployment, upload or publishing; keep live/public upload gates disabled.
+
+
+## ARO-CHAT-0223 continuation handoff — 2026-11-24
+- PR #350 branch: `workstream/aro-chat-0223-pr344-ci-assertion-fix-2026-11-24`; test correction commit `9e349ae9fa6d66832b8d030e2ffe3bef55cdf35d`.
+- CI run #45442036637 passed Ubuntu and hosted Windows on merge ref `74dbc1c`, containing branch tip `b6d712a6438a132c3d8ca245b0a804bf8b929550` merged into base `d2e057734517c1dfb3be994eb7268580f1f173a4`. Each platform ran 352 tests; Windows skipped 3 FIFO-only tests. Synthetic MP4/FFprobe passed. Raw-head-only checkout NOT DEMONSTRATED.
+- Bounded assistant review of uploader, OAuth owner approval, rights registry, and PR #344 change found no additional confirmed defect in the inspected scope. It is not an independent external security review. Source-rights entries remain operator-supplied evidence, not authenticated grantor proof or legal clearance.
+- PR #344 own-head CI remains NOT VERIFIED; its review submissions and inline threads were empty. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+- Next: preserve both draft PRs; do not rebase/retarget or merge. Continue with narrowly scoped static review and test/evidence gaps only. Keep all OAuth/live-upload/public-publishing and real-media acceptance gates closed until owner-controlled acceptance and independent security review.
+- Report: `docs/ARO_CHAT_0223_CI_AND_SCOPED_UPLOADER_REVIEW.md`.
+- No local tests, workflow retry/dispatch, OAuth, credentials, real media, network upload, deployment, or publishing were performed in this session.
