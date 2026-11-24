@@ -10,6 +10,7 @@ import argparse
 import json
 import mimetypes
 import os
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -18,6 +19,84 @@ from typing import Any
 UPLOAD_SCOPE = "https://www.googleapis.com/auth/youtube.upload"
 IDENTITY_SCOPES = ["openid", "https://www.googleapis.com/auth/youtube.readonly", UPLOAD_SCOPE]
 DEFAULT_CATEGORY_ID = "20"  # Gaming
+
+
+
+def load_destination_profile(config_path: str | Path, profile_name: str) -> dict[str, Any]:
+    """Load one non-secret destination identity; OAuth tokens stay in separate local files."""
+    if not isinstance(profile_name, str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", profile_name):
+        raise ValueError("destination profile name must use 1-64 letters, numbers, underscores or hyphens")
+    path = Path(config_path).expanduser()
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PermissionError("destination profile configuration is missing or unreadable") from exc
+    profiles = payload.get("profiles") if isinstance(payload, dict) else None
+    if not isinstance(profiles, dict) or not profiles:
+        raise PermissionError("destination configuration must contain a non-empty profiles object")
+    seen_channels: set[str] = set()
+    seen_profile_names: set[str] = set()
+    for name, item in profiles.items():
+        if not isinstance(name, str) or not isinstance(item, dict):
+            raise PermissionError("destination profile entries must be named JSON objects")
+        normalized_name = name.casefold()
+        if normalized_name in seen_profile_names:
+            raise PermissionError("destination profile names must be unique without regard to case")
+        seen_profile_names.add(normalized_name)
+        channel_id = item.get("channel_id")
+        subject = item.get("google_subject")
+        if not isinstance(channel_id, str) or not channel_id.startswith("UC") or len(channel_id) < 10:
+            raise PermissionError(f"destination profile {name!r} has an invalid YouTube channel ID")
+        if not isinstance(subject, str) or not subject.strip():
+            raise PermissionError(f"destination profile {name!r} is missing its Google subject")
+        if channel_id in seen_channels:
+            raise PermissionError("each destination profile must map to a unique YouTube channel ID")
+        seen_channels.add(channel_id)
+    selected = profiles.get(profile_name)
+    if not isinstance(selected, dict):
+        raise PermissionError(f"unknown destination profile: {profile_name}")
+    token_path = path.parent / "tokens" / f"{profile_name}.json"
+    return {
+        "profile": profile_name,
+        "google_subject": selected["google_subject"].strip(),
+        "channel_id": selected["channel_id"],
+        "token_path": token_path,
+    }
+
+
+def resolve_destination_identity(
+    *, config_path: Path | None, profile_name: str | None,
+    token_override: Path | None,
+) -> tuple[str, str, Path]:
+    if bool(config_path) != bool(profile_name):
+        raise PermissionError("--destination-config and --destination-profile must be supplied together")
+    if config_path and profile_name:
+        if token_override is not None:
+            raise PermissionError("--token cannot override a destination profile's isolated token path")
+        profile = load_destination_profile(config_path, profile_name)
+        return profile["google_subject"], profile["channel_id"], profile["token_path"]
+    subject = os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "").strip()
+    channel = os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "").strip()
+    if not subject or not channel:
+        raise PermissionError(
+            "configure --destination-config/--destination-profile or the legacy owner/channel environment variables"
+        )
+    return subject, channel, (token_override or Path("token.json")).expanduser()
+
+
+def validate_destination_approval_path(
+    approval_record_path: Path | None, profile_name: str | None,
+) -> None:
+    """Keep profile-mode approval records in a profile-specific directory."""
+    if profile_name is None:
+        return
+    if approval_record_path is None:
+        raise PermissionError("destination profiles require a profile-specific --approval-record path")
+    resolved_parent = approval_record_path.expanduser().parent.resolve()
+    if resolved_parent.name != profile_name:
+        raise PermissionError(
+            f"approval record must be stored in a directory named for destination profile {profile_name!r}"
+        )
 
 
 def load_rights_report(path: str | Path) -> dict[str, Any]:
@@ -214,6 +293,8 @@ def upload_video(
     source_id: str,
     owner_approved: bool,
     rights_confirmed: bool,
+    expected_google_subject: str | None = None,
+    expected_channel_id: str | None = None,
 ) -> dict[str, str]:
     # Enforce the private-only boundary before importing optional Google SDKs,
     # reading credentials, or performing any other OAuth/API-related work.
@@ -236,10 +317,10 @@ def upload_video(
         require_current_owner_approval,
     )
     from backend.app.rights_registry import SourceRightsRegistry
-    expected_subject = os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "").strip()
-    expected_channel = os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "").strip()
+    expected_subject = (expected_google_subject or os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "")).strip()
+    expected_channel = (expected_channel_id or os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "")).strip()
     if not expected_subject or not expected_channel:
-        raise PermissionError("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT and ARO_YOUTUBE_CHANNEL_ID must be configured")
+        raise PermissionError("a verified destination profile or owner/channel configuration is required")
     oauth_client_id = _oauth_client_id(client_secrets)
     credentials = _authorize_google(client_secrets, token_path)
     youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)
@@ -304,7 +385,12 @@ def main() -> int:
     made_for_kids.add_argument("--made-for-kids", dest="made_for_kids", action="store_true")
     made_for_kids.add_argument("--not-made-for-kids", dest="made_for_kids", action="store_false")
     parser.add_argument("--client-secrets", type=Path, default=Path("client_secret.json"))
-    parser.add_argument("--token", type=Path, default=Path("token.json"))
+    parser.add_argument("--destination-config", type=Path,
+                        help="Local JSON destination map; keep it under .secrets and never commit it")
+    parser.add_argument("--destination-profile",
+                        help="Exact profile name from --destination-config, e.g. aroanmol7")
+    parser.add_argument("--token", type=Path, default=None,
+                        help="Legacy single-channel token path; unavailable with destination profiles")
     parser.add_argument("--upload", action="store_true", help="Perform an API upload; default is dry-run only.")
     parser.add_argument("--owner-approved", action="store_true", help="Additional operator acknowledgement; not identity authentication and not a substitute for the OAuth-bound per-clip approval record.")
     parser.add_argument("--confirm-rights", action="store_true", help="Confirm that the exact local video and all included assets are cleared for this upload.")
@@ -322,6 +408,15 @@ def main() -> int:
         tags = [tag.strip() for tag in args.tags.split(",") if tag.strip()]
         if args.approve_clip and args.upload:
             raise PermissionError("--approve-clip and --upload must be separate invocations")
+        expected_subject = expected_channel = None
+        token_path = args.token or Path("token.json")
+        if args.approve_clip or args.upload:
+            expected_subject, expected_channel, token_path = resolve_destination_identity(
+                config_path=args.destination_config,
+                profile_name=args.destination_profile,
+                token_override=args.token,
+            )
+            validate_destination_approval_path(args.approval_record, args.destination_profile)
         video, body = validate_upload(
             args.video, args.rights_report, title=args.title,
             description=args.description, tags=tags, privacy=args.privacy,
@@ -342,13 +437,9 @@ def main() -> int:
                 verify_authenticated_channel_owner, write_owner_approval_record,
             )
             credentials = _authorize_google(
-                args.client_secrets.expanduser(), args.token.expanduser()
+                args.client_secrets.expanduser(), token_path
             )
             youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)
-            expected_subject = os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "")
-            expected_channel = os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "")
-            if not expected_subject or not expected_channel:
-                raise PermissionError("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT and ARO_YOUTUBE_CHANNEL_ID must be configured")
             oauth_client_id = _oauth_client_id(args.client_secrets.expanduser())
             owner = verify_authenticated_channel_owner(
                 credentials, youtube, oauth_client_id=oauth_client_id,
@@ -398,7 +489,7 @@ def main() -> int:
             raise PermissionError("upload clip/source IDs must match the rights report exactly")
         result = upload_video(
             video, body, client_secrets=args.client_secrets.expanduser(),
-            token_path=args.token.expanduser(),
+            token_path=token_path,
             rights_report_path=args.rights_report.expanduser(),
             approval_record_path=args.approval_record.expanduser(),
             rights_db_path=args.rights_db.expanduser(),
@@ -406,6 +497,8 @@ def main() -> int:
             source_id=args.source_id,
             owner_approved=args.owner_approved,
             rights_confirmed=args.confirm_rights,
+            expected_google_subject=expected_subject,
+            expected_channel_id=expected_channel,
         )
         print(json.dumps({"status": "uploaded", **result}, indent=2))
         return 0

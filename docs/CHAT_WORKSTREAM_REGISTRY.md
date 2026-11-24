@@ -809,9 +809,49 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Exact chat title | ARO-CHAT-0132 | Private Upload CI Failure Fix |
 | Workstream ID | ARO-GTA-P1-132 |
 | Scope | Fix exact-head CI failure in PR #280 by enforcing PRIVATE visibility before optional Google SDK imports, so non-private attempts fail closed without requiring OAuth dependencies. |
-| Branch / PR | workstream/aro-chat-0132-private-upload-ci-fix-2026-11-24 / follow-up PR pending |
+| Branch / PR | workstream/aro-chat-0132-private-upload-ci-fix-2026-11-24 / [Draft PR #289](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/289) |
 | Starting SHA | 20427e0cad2e682076c627343e14b0f6f2f4f4a8 (PR #280 head) |
-| Status | IMPLEMENTED; CI pending; no upload performed |
-| Evidence | PR #280 run #45385315409 failed both Ubuntu and hosted Windows in test_upload_rejects_unlisted_visibility_before_oauth_or_api: optional googleapiclient import occurred before PRIVATE-only guard. This change moves the guard ahead of optional imports. |
+| Status | IMPLEMENTED; CI_VERIFIED on exact head 4e01f16e97b2239c74a2f96c4262b04b57a4ae73; no upload performed |
+| Evidence | PR #280 run #45385315409 exposed the optional googleapiclient import ordering failure. Follow-up PR #289 run #45386732186 passed Ubuntu and hosted Windows, including compile, complete unittest suite, and synthetic MP4 render/FFprobe steps. |
 
 No OAuth, credentials, network upload, merge, deployment, or public publishing was performed. Issue #68 remains open; this fix does not satisfy the authenticated owner/channel approval gate by itself.
+
+
+## ARO-CHAT-0133 implementation — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0133 |
+| Exact chat title | ARO-CHAT-0133 | Isolated Multi-Channel Private Upload Profiles |
+| Workstream ID | ARO-GTA-P1-133 |
+| Priority | P1; support the owner's two separately authorized YouTube destinations without sharing OAuth tokens or approval records |
+| Branch / PR | workstream/aro-chat-0133-multichannel-private-profiles-2026-11-24 / [Draft PR #295](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/295) |
+| Starting SHA | 4e01f16e97b2239c74a2f96c4262b04b57a4ae73 (PR #289 exact head) |
+| Scope | Add local named destination profiles mapping a verified Google OIDC subject and exact YouTube channel ID to a profile-specific OAuth token path; require explicit profile selection for each approval/upload; document local-only config. |
+| Status | IMPLEMENTED; TESTED (334 tests per platform); CI_VERIFIED on exact PR head `8a3eecb446402d4a86c3c3951e9b99307afefa75` via run `45401275694`; Ubuntu and hosted Windows passed; no OAuth, upload, merge or publish performed |
+| Security behavior | Profile file is intended under ignored .secrets; no OAuth tokens or client secrets are stored in the profile map; profile channel IDs must be unique; per-profile token files are isolated; profile token override is rejected; existing exact channel and file-hash approval checks remain in force. |
+
+Both target handles must still be verified against exact channel IDs and Google OIDC subjects through their respective authorized OAuth sessions. Never infer IDs from handles. This workstream does not perform either OAuth flow or any upload. Public publishing remains disabled.
+
+
+### ARO-CHAT-0133 exact-head CI verification — 2026-11-24
+
+- PR [#295](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/295) implementation head at run time `cf731cabda8a045d39457f0eef800dbdb051e75e` was associated with GitHub Actions run [45390003956](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45390003956), workflow `Python CI`.
+- Ubuntu job `138430897019` and hosted Windows job `138430897645` both completed successfully. Each compiled source/tests, ran the complete 331-test unittest suite (`Ran 331 tests`; success), and generated/verified a locally generated synthetic MP4 with FFmpeg/FFprobe.
+- This is CI_VERIFIED on the exact implementation SHA, including hosted Windows CI. It is not owner-device Windows verification and the synthetic media is not GTA 6 footage or real-media acceptance.
+- PR #295 remains OPEN / DRAFT / UNMERGED and independent review is pending. No OAuth, credential/token access, YouTube API upload, merge, deployment, or public publishing occurred. Public visibility remains prohibited.
+
+- Registry-only follow-up commit `461bf01df87923378c6ebf6b3b8d460391c80737` is the current branch tip at this audit. No PR-triggered workflow run is associated with that docs-only SHA; retain the distinction between implementation CI evidence and current-tip CI status.
+
+
+### ARO-CHAT-0133 approval-path isolation hardening — 2026-11-24
+
+- Follow-up implementation commit `99f39a3182abd2c7cd44dabaa229fd48ea41def1` adds a fail-closed guard requiring profile-mode approval records to live beneath a directory whose resolved final component equals the selected destination profile.
+- Regression tests in commit `67b3f7008769f59d2116031f4e95fddd8ad255e2` cover the matching profile directory, rejection of a shared/mismatched directory, and missing approval-record paths. Documentation updated in `07359368c7322e9da021bfac448619c4e1b34828`.
+- The approval-path isolation hardening was extended to reject profile names that collide case-insensitively, preventing token/approval path collisions on Windows filesystems. Regression test `test_case_colliding_profile_names_fail_closed` was added.
+- Exact PR head `8a3eecb446402d4a86c3c3951e9b99307afefa75` passed Actions run [45401275694](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45401275694). Ubuntu job `138470235452` and hosted Windows job `138470235170` each passed compilation, all 334 unit tests, and synthetic MP4 render/FFprobe verification. Status: CI_VERIFIED on this exact SHA.
+- PR #295 remains draft/open/unmerged. No OAuth, credential access, upload, merge, deployment or publishing was performed.
+
+- Windows log confirms both new regression tests passed and `Ran 333 tests in 13.660s`; Ubuntu log confirms the same two tests passed and `Ran 333 tests in 4.990s`. Synthetic fixture render/FFprobe passed on both runners.
+
+- Log evidence: Ubuntu `Ran 334 tests in 5.068s`; hosted Windows `Ran 334 tests in 14.136s`. The new case-collision and profile-specific approval-path tests passed on both platforms. Both synthetic MP4/FFprobe smoke steps passed.

@@ -21,6 +21,44 @@ The uploader requests `youtube.upload`, `youtube.readonly`, `openid`, and `email
 
 Set `ARO_YOUTUBE_CHANNEL_ID` locally to the exact destination channel ID. Do not put OAuth secrets, tokens, or this configuration in Git.
 
+## Multi-channel destination profiles
+
+For separate destinations, create a local file at `.secrets/youtube_destination_profiles.json`. This file is ignored by Git because it is stored under `.secrets/`. It contains channel identity mapping only, never OAuth tokens or client secrets:
+
+```json
+{
+  "profiles": {
+    "aroanmol7": {
+      "google_subject": "OWNER_ONE_GOOGLE_OIDC_SUB",
+      "channel_id": "UC_CHANNEL_ID_FOR_AROANMOL7"
+    },
+    "the_arro07": {
+      "google_subject": "OWNER_TWO_GOOGLE_OIDC_SUB",
+      "channel_id": "UC_CHANNEL_ID_FOR_THE_ARRO07"
+    }
+  }
+}
+```
+
+Replace every placeholder only after checking the exact channel ID and Google account identity in that channel's own authorized OAuth session. Do not infer a channel ID from its public handle. Profile names must be unique without regard to letter case (to avoid collisions on Windows filesystems), and every profile must map to a distinct YouTube channel ID. Each profile gets its own token file under `.secrets/tokens/<profile>.json`; the CLI refuses a shared-token override when a profile is selected. In profile mode, the approval record is also isolated: `--approval-record` must be stored beneath a directory whose resolved final name exactly matches the selected profile (for example, `local_approvals/aroanmol7/clip-001.json`). This prevents two destination profiles from pointing at the same approval-record directory.
+
+Use one profile per approval and upload invocation:
+
+```bash
+python -m backend.app.youtube_upload rendered_clips/RUN_ID/clip_001.mp4 \
+  --rights-report output/preflight_report.json \
+  --title "THE ARO GTA 6 Highlight" \
+  --not-made-for-kids \
+  --destination-config .secrets/youtube_destination_profiles.json \
+  --destination-profile aroanmol7 \
+  --clip-id clip-001 --source-id source-001 \
+  --approval-record local_approvals/aroanmol7/clip-001.json \
+  --rights-db aro_studio_data/source_rights.sqlite3 \
+  --approve-clip
+```
+
+Repeat with `--destination-profile the_arro07` and a different approval-record path only after that destination's owner identity and rights are independently verified. The approval record itself binds the authenticated channel ID and exact video hash, so one profile's approval cannot authorize the other profile. The profile mechanism does not itself prove control of a handle; OAuth verification remains mandatory.
+
 ## 2. Create a rights preflight report
 
 Use a structured content pack and the same local rights database used by THE ARO Studio:

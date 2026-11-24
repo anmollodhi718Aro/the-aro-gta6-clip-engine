@@ -11,7 +11,7 @@ from unittest.mock import Mock, patch
 
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
-from backend.app.youtube_upload import build_upload_body, load_rights_report, upload_video, validate_upload
+from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_destination_approval_path, validate_upload)
 
 
 class YouTubeUploadTests(unittest.TestCase):
@@ -389,12 +389,17 @@ class YouTubeUploadTests(unittest.TestCase):
             "--source-id", "source-1", "--approval-record", str(approval_path),
             "--rights-db", str(db_path),
         ]
-        with patch.object(sys, "argv", args):
+        with patch.object(sys, "argv", args), patch.dict(os.environ, {
+            "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
+            "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
+        }):
             with patch("backend.app.youtube_upload.upload_video", return_value={"video_id": "mock-id", "url": "https://youtube.invalid/mock-id"}) as upload:
                 from backend.app.youtube_upload import main
                 self.assertEqual(main(), 0)
         self.assertEqual(upload.call_args.kwargs["clip_id"], "clip-1")
         self.assertEqual(upload.call_args.kwargs["source_id"], "source-1")
+        self.assertEqual(upload.call_args.kwargs["expected_google_subject"], "google-subject-123")
+        self.assertEqual(upload.call_args.kwargs["expected_channel_id"], "youtube-channel-456")
         self.assertTrue(upload.call_args.kwargs["owner_approved"])
         self.assertTrue(upload.call_args.kwargs["rights_confirmed"])
 
@@ -412,6 +417,121 @@ class YouTubeUploadTests(unittest.TestCase):
                     owner_approved=True, rights_confirmed=True,
                 )
         authorize.assert_not_called()
+
+
+class YouTubeDestinationProfileTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp.name)
+        self.config = self.root / "destination_profiles.json"
+        self.config.write_text(json.dumps({
+            "profiles": {
+                "aroanmol7": {
+                    "google_subject": "google-subject-one",
+                    "channel_id": "UC1234567890abcdef",
+                },
+                "the_arro07": {
+                    "google_subject": "google-subject-two",
+                    "channel_id": "UCabcdef1234567890",
+                },
+            }
+        }), encoding="utf-8")
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def test_profiles_resolve_to_distinct_channel_and_token_paths(self):
+        first = load_destination_profile(self.config, "aroanmol7")
+        second = load_destination_profile(self.config, "the_arro07")
+        self.assertEqual(first["channel_id"], "UC1234567890abcdef")
+        self.assertEqual(second["channel_id"], "UCabcdef1234567890")
+        self.assertNotEqual(first["google_subject"], second["google_subject"])
+        self.assertNotEqual(first["token_path"], second["token_path"])
+        self.assertEqual(first["token_path"], self.root / "tokens" / "aroanmol7.json")
+
+    def test_profile_name_cannot_escape_token_directory(self):
+        with self.assertRaisesRegex(ValueError, "letters, numbers"):
+            load_destination_profile(self.config, "../outside")
+
+    def test_metadata_dry_run_does_not_require_oauth_profile(self):
+        args = [
+            "youtube_upload.py", str(self.root / "sample.mp4"),
+            "--rights-report", str(self.root / "dryrun-report.json"),
+            "--title", "THE ARO dry run", "--not-made-for-kids",
+        ]
+        (self.root / "sample.mp4").write_bytes(b"synthetic")
+        (self.root / "dryrun-report.json").write_text(json.dumps({
+            "status": "ready_for_human_review", "platform": "youtube",
+            "assets": [{"status": "declared_original_requires_human_confirmation"}],
+            "errors": [],
+            "review": {
+                "approved_for_upload": False,
+                "permission_evidence_human_verification_required": True,
+                "all_embedded_music_and_third_party_rights_review_required": True,
+                "original_asset_declarations_human_confirmation_required": True,
+                "human_edit_and_platform_policy_review_required": True,
+            },
+        }), encoding="utf-8")
+        with patch.object(sys, "argv", args), patch.dict(os.environ, {}, clear=True):
+            from backend.app.youtube_upload import main
+            self.assertEqual(main(), 0)
+
+    def test_unknown_profile_fails_closed(self):
+        with self.assertRaisesRegex(PermissionError, "unknown destination profile"):
+            load_destination_profile(self.config, "not-a-channel")
+
+    def test_duplicate_channel_mapping_fails_closed(self):
+        payload = json.loads(self.config.read_text(encoding="utf-8"))
+        payload["profiles"]["the_arro07"]["channel_id"] = payload["profiles"]["aroanmol7"]["channel_id"]
+        self.config.write_text(json.dumps(payload), encoding="utf-8")
+        with self.assertRaisesRegex(PermissionError, "unique YouTube channel ID"):
+            load_destination_profile(self.config, "aroanmol7")
+
+    def test_case_colliding_profile_names_fail_closed(self):
+        payload = json.loads(self.config.read_text(encoding="utf-8"))
+        payload["profiles"]["AROANMOL7"] = {
+            "google_subject": "google-subject-three",
+            "channel_id": "UCfedcba0987654321",
+        }
+        self.config.write_text(json.dumps(payload), encoding="utf-8")
+        with self.assertRaisesRegex(PermissionError, "unique without regard to case"):
+            load_destination_profile(self.config, "aroanmol7")
+
+    def test_profile_requires_config_and_name_together(self):
+        with self.assertRaisesRegex(PermissionError, "must be supplied together"):
+            resolve_destination_identity(
+                config_path=self.config, profile_name=None, token_override=None
+            )
+
+    def test_profile_token_path_cannot_be_overridden(self):
+        with self.assertRaisesRegex(PermissionError, "cannot override"):
+            resolve_destination_identity(
+                config_path=self.config, profile_name="aroanmol7",
+                token_override=self.root / "shared-token.json",
+            )
+
+    def test_profile_resolution_keeps_channels_isolated(self):
+        first = resolve_destination_identity(
+            config_path=self.config, profile_name="aroanmol7", token_override=None
+        )
+        second = resolve_destination_identity(
+            config_path=self.config, profile_name="the_arro07", token_override=None
+        )
+        self.assertEqual(first[1], "UC1234567890abcdef")
+        self.assertEqual(second[1], "UCabcdef1234567890")
+        self.assertNotEqual(first[2], second[2])
+
+    def test_profile_approval_records_must_use_profile_named_directory(self):
+        valid_path = self.root / "local_approvals" / "aroanmol7" / "clip-001.json"
+        validate_destination_approval_path(valid_path, "aroanmol7")
+        with self.assertRaisesRegex(PermissionError, "directory named for destination profile"):
+            validate_destination_approval_path(
+                self.root / "local_approvals" / "shared" / "clip-001.json", "aroanmol7"
+            )
+
+    def test_profile_approval_record_path_is_required(self):
+        with self.assertRaisesRegex(PermissionError, "profile-specific --approval-record"):
+            validate_destination_approval_path(None, "aroanmol7")
 
 
 if __name__ == "__main__":
