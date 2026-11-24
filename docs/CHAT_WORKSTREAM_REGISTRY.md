@@ -1344,3 +1344,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Test commit: `83f970b608af3f49e6bf6c496d6de6918dc24bf7`.
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. This commit does not change production behavior.
 - PR #373 remains draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0236 scoped IPv6 zone-identifier hardening — 2026-11-25
+- Static runtime probe showed Python's `ipaddress.IPv6Address` accepts scoped literals such as `fe80::1%25eth0`; the existing hostname validator therefore accepted interface-specific IPv6 zone IDs.
+- Production fix rejects `%` in hostnames before IPv6/IDNA validation; regression cases cover encoded and raw zone identifiers while retaining ordinary IPv6 literals.
+- Production commit `213ad9f2a23c93943b67536c96590cf60af7baf6`; test commit `4786b5a316b39f8b840674b1d8c47c20f8a1ab8a`.
+- Local repository test suite NOT RUN. Latest exact-head CI lookup for `4786b5a316b39f8b840674b1d8c47c20f8a1ab8a` returned zero runs/checks and pending combined status; Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent review NOT RECORDED.
+- PR #373 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, deployment, or publishing.
