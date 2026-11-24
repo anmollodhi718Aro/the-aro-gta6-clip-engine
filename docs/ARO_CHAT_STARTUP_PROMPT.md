@@ -508,3 +508,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - PR #373 exact-head workflow lookup returned zero runs; combined status returned zero entries; reviews and inline threads were empty. Ubuntu/hosted-Windows CI, local tests and independent review are NOT VERIFIED / NOT RUN / NOT RECORDED respectively.
 - Bounded review confirms syntax-level DNS/IDNA/IPv6 checks and listed regressions. Scoped IPv6 zone identifiers are accepted by Python's IPv6 parser; intended policy remains an owner/design question. DNS resolution, destination-IP filtering and DNS-rebinding protection are not implemented by this helper.
 - Keep PR #373 draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, OAuth, credentials, real media, upload, merge, retarget, deployment or publishing.
+
+
+## Current continuation — ARO-CHAT-0238 ambiguous numeric URL hosts (2026-11-25)
+
+- Chat title: `ARO-CHAT-0238 | Reject Ambiguous Numeric URL Hosts`; workstream: ARO-GTA-P1-238.
+- Branch: `workstream/aro-chat-0238-ambiguous-numeric-hostname-rejection-2026-11-25`; base PR #374 head `bd458946572ca5cec66f4ea55064d8596bf4ad3c`.
+- Reject numeric-only URL hosts unless they are canonical four-octet IPv4 literals. This prevents shorthand forms such as `127.1` and integer-form addresses from passing hostname syntax checks despite parser-dependent interpretation.
+- Production and regression-test changes are committed; local tests NOT RUN, exact-head Ubuntu/hosted-Windows CI PENDING, independent review NOT RECORDED.
+- Preserve PR #373/#374 ancestry and draft state. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
