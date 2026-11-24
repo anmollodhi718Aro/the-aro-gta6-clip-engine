@@ -348,3 +348,10 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Expanded the duplicate-source-ID regression to attempt replacing grantor, source URL, evidence reference, attribution, disclosure, allowed uses and platforms, then assert the original metadata is preserved.
 - Test-only commit: `33743ca5ecaab1d69cab999968e8da8dc7f030ae`. Production code unchanged.
 - Local tests NOT RUN; check fresh exact-head Ubuntu/hosted-Windows CI. Do not transfer results from the earlier PR #355 head.
+
+
+## ARO-CHAT-0227 current continuation — 2026-11-25
+- Active workstream: ARO-GTA-P1-227, branch `workstream/aro-chat-0227-rights-registry-input-validation-2026-11-25`, based on PR #355 head `ac95ccc7e3eda5ab83621bb4652c24cecf873d8e`.
+- Hardened `SourceRightsRegistry.register()` input validation: scope/platform values must be collections of non-empty strings; scalar strings, empty collections, malformed members, and non-string actors fail with ValueError.
+- Production commit: `ed13ef9d49a8829c87d6cb28b750c6cfe854bc13`; regression tests: `14e0c8ab9a3c2069aa2e7301222731460b77e6b9`.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED. Preserve draft-only status. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads and public publishing remain disabled.

@@ -1172,3 +1172,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Expanded duplicate-source-ID coverage to prove grant metadata and permission scope cannot be replaced by a repeated registration.
 - Test-only commit: `33743ca5ecaab1d69cab999968e8da8dc7f030ae`; production code unchanged.
 - Local tests NOT RUN; fresh exact-head Ubuntu/hosted-Windows CI must be checked.
+
+
+## ARO-CHAT-0227 — validate rights-registry collection inputs (2026-11-25)
+- Workstream: ARO-GTA-P1-227; branch: `workstream/aro-chat-0227-rights-registry-input-validation-2026-11-25`; base / starting SHA: PR #355 head `ac95ccc7e3eda5ab83621bb4652c24cecf873d8e`.
+- Finding: `register()` accepted strings as iterables for `allowed_uses` and `platforms`, and accepted non-string collection members via coercion. This could persist malformed permission metadata rather than rejecting the input at the boundary. A non-string actor could also raise an incidental AttributeError.
+- Change: require scope/platform inputs to be list/tuple/set/frozenset collections containing only non-empty strings; require a non-empty string actor. Existing grant semantics are unchanged.
+- Commits: production `ed13ef9d49a8829c87d6cb28b750c6cfe854bc13`; tests `14e0c8ab9a3c2069aa2e7301222731460b77e6b9`.
+- Tests: added malformed scalar/member/empty collection and invalid actor regressions. Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED.
+- Draft only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment or destructive action. Keep live uploads/public publishing disabled.
