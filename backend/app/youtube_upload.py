@@ -231,8 +231,8 @@ def upload_video(
     if owner_approved is not True or rights_confirmed is not True:
         raise PermissionError("actual upload requires --owner-approved and --confirm-rights")
     privacy = body.get("status", {}).get("privacyStatus")
-    if privacy not in {"private", "unlisted", "public"}:
-        raise PermissionError("upload privacy must be explicit")
+    if privacy != "private":
+        raise PermissionError("this uploader only permits PRIVATE staging; public visibility is a separate owner action")
     expected_subject = os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "").strip()
     expected_channel = os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "").strip()
     if not expected_subject or not expected_channel:
