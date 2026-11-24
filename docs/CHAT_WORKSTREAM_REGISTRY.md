@@ -1019,3 +1019,23 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 
 ### Safety
 - Draft-only follow-up to PR #328. No OAuth credentials, real GTA 6 media, network upload, merge, deployment, or publishing. Issue #68 remains OPEN; live uploads/public publishing remain disabled pending the established owner/security gates.
+
+
+## ARO-CHAT-0217 upload-error cleanup regression — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0217 |
+| Workstream ID | ARO-GTA-P1-217 |
+| Scope | Verify that a failed mocked upload request still closes the retained media stream and removes the approved-byte snapshot. |
+| Branch | `workstream/aro-chat-0217-upload-error-cleanup-test-2026-11-24` |
+| Base | `workstream/aro-chat-0216-close-upload-media-handle-2026-11-24` |
+| Test commit | `707a7a882fa452bc512cc77062d0e8f0b9801c0d` |
+| Report | `docs/ARO_CHAT_0217_UPLOAD_ERROR_CLEANUP_TEST.md` |
+| Status | IMPLEMENTED; production code unchanged; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING |
+
+### Coverage and safety
+- A mocked API request raises a deterministic exception after the media object opens a real temporary snapshot stream.
+- The test asserts exception propagation, stream closure, snapshot-path removal, and exactly one insert attempt.
+- Synthetic local file and mocked API only; no OAuth, real media, network upload, merge, deployment, or publishing.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
