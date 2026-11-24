@@ -1188,3 +1188,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Commit-associated workflow lookup for the test commit returned zero runs. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; local tests NOT RUN; independent security review NOT RECORDED.
 - Current branch ancestry against PR #355's recorded base SHA `600cb7773c8ec9c6cf6288cbe15402444aa2cf46`: DIVERGED (18 ahead / 2 behind; merge base `1d9d478fcfd03e36f6389acca682b3ede57c17fd`). Preserve draft; no rebase, retarget, or merge.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live uploads/public publishing remain disabled; no OAuth, credentials, real media, upload, workflow retry/dispatch, deployment, or publishing.
+ 
+
+## ARO-CHAT-0228 — rights-registry validation and concurrency reconciliation (2026-11-25)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0228 | ARO-CHAT-0228 | Rights Registry Validation and Concurrency Reconciliation | ARO-GTA-P1-228 | Port rights scope/platform collection validation and concurrent duplicate-registration regression onto the latest immutable-rights parent head while preserving SQLite integrity-error classification | `workstream/aro-chat-0228-rights-registry-validation-concurrency-2026-11-25` / PR pending | IMPLEMENTED; exact-head CI PENDING / NOT VERIFIED; independent security review NOT RECORDED | Starting SHA `4ceba80e02f28c52946d3d143cbb7fa4e31d611e`; production commit `318970c09c53e239bdbf89a52e6f154cba1b3745`; tests `15f2d7cd0820e684098cffe095a872ff4a6f37`; report `da5daac9ad2529c0585066bd38e2c171a062e5e8` |
+
+- PR #356 and #357 remain unchanged draft branches. Their divergence from the latest PR #355 head is the reason this continuation was based on PR #355's latest observed head rather than rebasing either draft.
+- The production change preserves PR #355's SQLite primary-key/unique-only error translation. No CI result is transferred from PR #355, #356, or #357.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, network upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
