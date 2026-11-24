@@ -1256,3 +1256,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Additional URL parser hardening on the same PR #371 branch: reject any raw URL whitespace (including embedded CR/LF/tab), ASCII control characters, DEL, and backslashes before parsing. Regression inputs include newline, tab, and backslash authority ambiguity.
 - Production commit 0380133cb38d5067b6d6016d41c42b72071babbd; tests commit a94b6e6fae9d9789e11f74fa2233a347d0a46701.
 - Local tests NOT RUN. Earlier run #45486119308 completed FAILURE but both jobs exposed zero steps and no logs; failure cause NOT VERIFIED. Recheck CI on the final synchronized head; do not infer a code failure or claim success.
+
+
+### ARO-CHAT-0235 test-fixture correction — 2026-11-25
+
+- Static review found the source-URL tests used escaped backslash-plus-letter sequences where the handoff described literal newline and tab characters.
+- Test-only commit `77adf4b3541792b1151159bc5a2f02ec93a2369c` changes those two inputs to actual newline and tab characters, exercising the existing fail-closed whitespace/control-character guard.
+- No production behavior changed. Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI must be inspected on the final synchronized branch head; earlier run #45486979384 failed with both jobs exposing zero steps and no logs, cause NOT VERIFIED.
+- PR #371 remains draft/open/unmerged; independent review NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
