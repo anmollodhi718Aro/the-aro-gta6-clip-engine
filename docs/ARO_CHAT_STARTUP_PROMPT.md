@@ -401,6 +401,6 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 ## Current continuation — ARO-CHAT-0233 rights-registry input validation (2026-11-25)
 - Workstream: ARO-GTA-P1-233; branch `workstream/aro-chat-0233-rights-registry-input-validation-2026-11-25`, based on PR #364 head `26b596483197151453121f953061ce6439b78751`.
 - Validated external inputs at the rights-registry API boundary. Non-object registration records and malformed/non-string/blank identifiers or actors now raise explicit `ValueError`; source/use/platform values are normalized only after validation.
-- Regression coverage added in `tests/test_rights_registry.py`. Production commit `6f401febec441d6ca8511a14fbe2f51c1fa6a0d2`; test commit `73a5a7495b82bb45417b3f10af562f7fea839370`.
+- Regression coverage added in `tests/test_rights_registry.py`. Production commits `6f401febec441d6ca8511a14fbe2f51c1fa6a0d2` and `267d298a03c21a3a8bea38d6e7f10be1a25633f9` (actor normalization); test commit `73a5a7495b82bb45417b3f10af562f7fea839370`.
 - Local tests NOT RUN in this connector session. Verify exact-head Ubuntu and hosted-Windows CI; do not transfer older parent CI. Independent review NOT RECORDED.
 - Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
