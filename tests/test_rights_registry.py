@@ -86,6 +86,34 @@ class SourceRightsRegistryTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "actor is required"):
             self.registry.register(self.record, actor=None)
 
+    def test_rejects_non_mapping_registration_record(self):
+        for invalid_record in (None, [], "not-a-record"):
+            with self.subTest(record=invalid_record):
+                with self.assertRaisesRegex(ValueError, "record must be a mapping"):
+                    self.registry.register(invalid_record)
+
+    def test_authorize_rejects_malformed_arguments(self):
+        invalid_arguments = (
+            (None, "publish", "youtube"),
+            ("creator-video-1", None, "youtube"),
+            ("creator-video-1", [], "youtube"),
+            ("creator-video-1", "publish", None),
+            ("creator-video-1", "publish", " "),
+        )
+        for source_id, use, platform in invalid_arguments:
+            with self.subTest(source_id=source_id, use=use, platform=platform):
+                with self.assertRaises(ValueError):
+                    self.registry.authorize(source_id, use, platform, at=self.now)
+
+    def test_revoke_rejects_malformed_arguments(self):
+        invalid_arguments = ((None, "owner"), (" ", "owner"),
+                             ("creator-video-1", None), ("creator-video-1", " "))
+        for source_id, actor in invalid_arguments:
+            with self.subTest(source_id=source_id, actor=actor):
+                with self.assertRaisesRegex(ValueError, "source_id and actor"):
+                    self.registry.revoke(source_id, actor=actor, at=self.now)
+        self.assertEqual(self.registry.audit_events("creator-video-1"), [])
+
     def test_concurrent_duplicate_registration_creates_exactly_one_grant(self):
         barrier = Barrier(2)
 

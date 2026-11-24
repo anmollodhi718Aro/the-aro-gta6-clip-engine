@@ -1211,3 +1211,23 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Follow-up exact-head run #45465232908 completed SUCCESS: Ubuntu and hosted Windows both compiled, passed the complete unit-test step, and rendered/validated a synthetic MP4 with FFprobe. This does not establish real-media acceptance. Exact test counts were not exposed in the available job summary.
 - Local tests NOT RUN in the connector session; independent review NOT RECORDED. PR #362 remains draft/open/unmerged.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0233 — rights registry API input validation (2026-11-25)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0233 |
+| Exact title | ARO-CHAT-0233 | Rights Registry API Input Validation |
+| Workstream ID | ARO-GTA-P1-233 |
+| Scope | Reject malformed record/source/use/platform/actor input before mapping access, set membership, or string methods |
+| Branch / PR | `workstream/aro-chat-0233-rights-registry-api-input-validation-2026-11-25` / [PR #365](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/365) |
+| Base / starting SHA | PR #363 handoff branch; `332be0ef6063392388a98608c179a046f4d381be` |
+| Status | IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED |
+
+- `register()` now rejects non-mapping records; `authorize()` validates use/source/platform types before set membership and string methods; `revoke()` validates source/actor types before string methods.
+- Added regression cases for None, list, scalar and empty arguments. Rights decisions, SQL operations, audit semantics, uploader/OAuth behavior and publishing behavior are unchanged.
+- Commits: source `eaae220859b6171185f7091d0af940ab0925dff6`; tests `6aea6b4a27cfff8383fc8264263cf6db7f0c6144`; report `dcb3a940228ca6e6db6a92a54253c1b6e3eefc24`.
+- A separate branch named `workstream/aro-chat-0232-pr362-independent-test-fix-review-2026-11-25` was already present during reservation checks; this workstream therefore uses serial 0233 and does not duplicate that review.
+- PR #365 is DRAFT / OPEN / UNMERGED. Its own-head CI is pending; PR #362's passing CI is parent evidence only and is not transferred.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment or publishing.
