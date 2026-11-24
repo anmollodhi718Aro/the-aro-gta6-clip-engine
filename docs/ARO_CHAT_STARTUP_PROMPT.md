@@ -90,3 +90,16 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - The uploader must verify the Google OIDC subject and destination channel from the same OAuth session, require a durable per-clip approval bound to the exact video hash, Google subject and channel, and re-check live publish permission immediately before the upload API call.
 - A client-supplied reviewer string or legacy boolean is never identity authentication. Fail closed on missing/mismatched channel, clip, source, file hash, approval, permission, expiry or revocation.
 - Use mocked API clients in tests; no test may perform a network upload. Keep public publishing disabled unless every authenticated owner, per-clip approval and source-rights gate passes.
+
+
+## LIVE REPOSITORY UPDATE — 2026-11-24 (ARO-CHAT-0193)
+
+- Latest audited narrow security fix: draft PR #289, Chat ARO-CHAT-0132 / Workstream ARO-GTA-P1-132, head `4e01f16e97b2239c74a2f96c4262b04b57a4ae73`.
+- Exact-head-associated Actions run #45386732186 succeeded. Ubuntu job #138419476509 and hosted-Windows job #138419476953 each compiled and ran the same 323-test suite successfully, then rendered and FFprobe-validated a synthetic MP4.
+- Both jobs checked out PR #289's merge ref at `c1980d7c5aea879e86a17b1b8b51a7de101bfc28`, merging audited head into base `20427e0cad2e682076c627343e14b0f6f2f4f4a8`. Raw-head-only checkout is not demonstrated.
+- Synthetic logs explicitly confirm no GTA 6 footage, no third-party media, publishing disabled, and manual review required. This is not real-media acceptance.
+- PR #289 remains OPEN / DRAFT / UNMERGED. Independent review is not recorded; combined status has zero entries. Do not describe zero status entries as a passing combined status.
+- Documentation-only audit: Chat ARO-CHAT-0193 / Workstream ARO-GTA-P1-193, branch `workstream/aro-chat-0193-pr289-exact-head-ci-audit-2026-11-24`, report `docs/ARO_CHAT_0193_PR289_CI_AUDIT.md`.
+- Issue #68 remains OPEN and its authenticated owner-approval integration is not complete. The narrow PRIVATE-only guard fix does not authorize OAuth, live uploads, public publishing, merge, deployment, or real-media processing.
+- No local tests were run in the audit session. No workflow retry was initiated.
+- The repository's default branch currently exposes `docs/MASTER_PLAN.md`; a separate file named `MASTER_SCRIPT.md` was not found in the inspected root/docs paths. The canonical workstream registry and startup prompt are present on the PR #289 workstream branch, not on `main`. Always inspect the exact selected branch before assuming documentation is synchronized.
