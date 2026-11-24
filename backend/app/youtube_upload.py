@@ -127,7 +127,43 @@ def validate_destination_approval_path(
 
 def load_rights_report(path: str | Path) -> dict[str, Any]:
     report_path = Path(path).expanduser()
-    payload = json.loads(report_path.read_text(encoding="utf-8"))
+    # Rights reports gate the final upload side effect. Read only a regular
+    # file and bind the validated bytes to the same path entry observed before
+    # open. O_NONBLOCK prevents a path swapped to a FIFO from hanging the CLI.
+    path_stat = report_path.lstat()
+    if not stat.S_ISREG(path_stat.st_mode):
+        raise PermissionError("rights report must be a regular file")
+    flags = (
+        os.O_RDONLY
+        | getattr(os, "O_NOFOLLOW", 0)
+        | getattr(os, "O_NONBLOCK", 0)
+    )
+    try:
+        descriptor = os.open(report_path, flags)
+    except OSError as exc:
+        raise PermissionError("rights report changed or became unreadable while opening") from exc
+    try:
+        opened_stat = os.fstat(descriptor)
+        if not stat.S_ISREG(opened_stat.st_mode):
+            raise PermissionError("rights report must be a regular file")
+        if (path_stat.st_dev, path_stat.st_ino) != (opened_stat.st_dev, opened_stat.st_ino):
+            raise PermissionError("rights report changed while opening")
+        try:
+            current_path_stat = report_path.lstat()
+        except OSError as exc:
+            raise PermissionError("rights report path changed while opening") from exc
+        if not stat.S_ISREG(current_path_stat.st_mode):
+            raise PermissionError("rights report must be a regular file")
+        if (current_path_stat.st_dev, current_path_stat.st_ino) != (
+            opened_stat.st_dev, opened_stat.st_ino
+        ):
+            raise PermissionError("rights report path changed while opening")
+        with os.fdopen(descriptor, "r", encoding="utf-8") as stream:
+            descriptor = -1
+            payload = json.load(stream)
+    finally:
+        if descriptor >= 0:
+            os.close(descriptor)
     if not isinstance(payload, dict):
         raise ValueError("rights report must be a JSON object")
     if payload.get("status") != "ready_for_human_review":
