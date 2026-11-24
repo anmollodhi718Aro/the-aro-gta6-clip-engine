@@ -9,16 +9,17 @@ Independent review of the snapshot branch found that `require_current_owner_appr
 - Reject symlink and non-regular approval-record paths.
 - Open with `O_NOFOLLOW` and `O_NONBLOCK` where supported.
 - Compare pre-open `lstat()` identity with descriptor `fstat()` identity before reading.
+- Re-check the pathname after open; require a regular file whose device/inode still matches the opened descriptor. This closes the no-`O_NOFOLLOW` same-inode symlink substitution gap.
 - Read JSON from the verified descriptor and close it on every path.
-- Add regression coverage for symlink paths, path replacement between stat/open, directories, FIFOs, and FIFO replacement races.
+- Add regression coverage for symlink paths, path replacement between stat/open, same-inode symlink substitution after open, directories, FIFOs, and FIFO replacement races.
 
 ## Commits
-- Production: `e20445398a69e2bffb3d58401f3f5a7b322bf10d`
-- Tests: `8f6577db86580d4ea90c55736e619262d02302bc`
+- Production: `e20445398a69e2bffb3d58401f3f5a7b322bf10d`, `d40aac24f08ec3ae7f5660fdc3aa73bf0e2598bb`
+- Tests: `8f6577db86580d4ea90c55736e619262d02302bc`, `57dedee38b353a75e54f7aca89526604d8537b49`
 
 ## Validation
 - Local tests: NOT RUN in this connector session.
-- CI for the new code/test commits: PENDING.
+- CI for the new code/test commits: PENDING; the first runs for commits `e204453...` and `8f6577...` were cancelled as the branch advanced. The post-open identity follow-up also requires fresh exact-head CI.
 - Earlier PR #328 run #45426822957 passed 341 tests on Ubuntu and hosted Windows, but it predates this fix and does not validate these commits.
 - Earlier CI checked out PR merge ref `fc5b36ab4e395a8f86c5fced36262b1575338790`, merging head `114e5bfc4b154e0da272ed36408ab156cfdc5ab9` into base `67e6d4290fee795fb8ba6fd0e926107ea7f0eb81`. Raw-head-only checkout was not demonstrated.
 
