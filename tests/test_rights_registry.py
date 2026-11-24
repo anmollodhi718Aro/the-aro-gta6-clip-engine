@@ -196,6 +196,33 @@ class SourceRightsRegistryTests(unittest.TestCase):
 
 
 
+    def test_register_rejects_malformed_source_urls(self):
+        invalid_urls = (
+            "https://",
+            "http://",
+            "https:///video",
+            "ftp://example.com/video",
+            "https://example.com:bad/video",
+            "https://example.com:70000/video",
+            "https://user:password@example.com/video",
+            "https://exa mple.com/video",
+        )
+        for source_url in invalid_urls:
+            with self.subTest(source_url=source_url):
+                with self.assertRaisesRegex(ValueError, "source_url must be a valid"):
+                    self.registry.register(dict(self.record, source_url=source_url))
+
+    def test_register_accepts_http_and_https_source_urls(self):
+        for index, source_url in enumerate(("http://example.com/video", "https://example.com/video")):
+            with self.subTest(source_url=source_url):
+                record = dict(self.record, source_id=f"url-source-{index}", source_url=source_url)
+                self.registry.register(record)
+                self.assertEqual(
+                    self.registry.authorize(
+                        record["source_id"], "publish", "youtube", at=self.now
+                    )["source_url"],
+                    source_url,
+                )
     def test_register_rejects_non_string_rights_metadata(self):
         for field in ("source_id", "source_url", "grantor", "evidence_ref"):
             with self.subTest(field=field):
