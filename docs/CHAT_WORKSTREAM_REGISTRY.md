@@ -1180,3 +1180,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Exact-head workflow lookup returned no runs and combined status returned no checks. CI PENDING / NOT VERIFIED; local tests NOT RUN; independent security review NOT RECORDED.
 - PR #355 remains DRAFT / OPEN / UNMERGED. Its base PR #354 advanced independently; ancestry is DIVERGED (10 ahead / 2 behind; merge base `1d9d478fcfd03e36f6389acca682b3ede57c17fd`). No rebase, retarget, or merge.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, deployment, or publishing.
+
+### ARO-CHAT-0226 SQLite error-classification hardening — 2026-11-25
+- Static review found that PR #355 translated every `sqlite3.IntegrityError` into a duplicate-source `PermissionError`, masking unrelated database integrity failures.
+- Production commit `b8f17e4f7278d4996b931a980a54207b14170f29` now translates only primary-key/unique constraint codes and re-raises other integrity failures.
+- Regression commit `b459ad87a0908fd3dc98479b663f7c2695ed12a7` adds a trigger-induced non-duplicate integrity failure test and asserts no audit event is written.
+- Commit-associated workflow lookup for the test commit returned zero runs. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; local tests NOT RUN; independent security review NOT RECORDED.
+- Current branch ancestry against PR #354 head `cac64637a9cdc64eded472ab4d9c6ed0323d4b19`: DIVERGED (15 ahead / 7 behind; merge base `1d9d478fcfd03e36f6389acca682b3ede57c17fd`). Preserve draft; no rebase, retarget, or merge.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live uploads/public publishing remain disabled; no OAuth, credentials, real media, upload, workflow retry/dispatch, deployment, or publishing.
