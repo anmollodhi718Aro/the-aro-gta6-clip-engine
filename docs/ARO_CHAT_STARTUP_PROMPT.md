@@ -364,3 +364,10 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Exact-head workflow lookup for the test commit returned zero runs; Ubuntu/hosted-Windows CI remains PENDING / NOT VERIFIED. Local tests NOT RUN; independent security review NOT RECORDED.
 - Current PR #355 ancestry against PR #355's recorded base SHA `600cb7773c8ec9c6cf6288cbe15402444aa2cf46` is DIVERGED (18 ahead / 2 behind; merge base `1d9d478fcfd03e36f6389acca682b3ede57c17fd`). Preserve draft ancestry; no rebase, retarget, or merge.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, deployment, or publishing.
+
+
+### Latest continuation — ARO-CHAT-0228 concurrent source-rights revocation (2026-11-25)
+- Workstream ARO-GTA-P1-228; branch `workstream/aro-chat-0228-atomic-rights-revocation-2026-11-25`, based on PR #355 recorded head `4ceba80e02f28c52946d3d143cbb7fa4e31d611e`.
+- Added a test-only regression with two synchronized revocation attempts against one source ID. Expected result: one `True`, one `False`, and one revocation audit event.
+- Production code unchanged. Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED.
+- Preserve draft-only boundaries. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action. Keep live uploads/public publishing disabled.
