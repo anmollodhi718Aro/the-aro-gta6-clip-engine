@@ -1376,3 +1376,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Production commit: `e9a3b0d77aae6c48aac5f34db66114f86839a1fd`; test commit: `3b4cf33873e1982493fb7b0a37b5f9d031379b05`.
 - PR #376's earlier head `320d236609248e9fcf5fbad99483212f07a4ccb2` had associated run #45495596246: Ubuntu and hosted Windows both failed before exposing any workflow steps; both job-log downloads returned BlobNotFound. Root cause NOT VERIFIED; this is not attributed to application code or tests. The new commits have not yet been validated by local tests or exact-head CI.
 - PR remains draft/open/unmerged. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0238 leading-zero numeric suffix follow-up — 2026-11-25
+- Tightened URL-host suffix classification: every all-decimal final label with a leading zero is now treated as numeric-like, including `09` and `0008`; the complete hostname must parse as canonical four-octet IPv4 or registration is rejected.
+- Added regressions for `https://example.09/video` and `https://example.0008/video`.
+- Production commit `8d9812d8c88ad4549e5677a4a3a175b4e75bdd26`; test commit/current branch head `f6bb501eccf77445509f85e24ec69babbd61e41a`.
+- Current-head associated workflow lookup returned zero runs. Exact-head CI PENDING / NOT VERIFIED; local tests NOT RUN; independent review NOT RECORDED.
+- PR #376 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
