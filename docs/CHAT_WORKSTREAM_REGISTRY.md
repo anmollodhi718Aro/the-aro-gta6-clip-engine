@@ -873,3 +873,34 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Security review of the PR #299 base found `SourceRightsRegistry.register()` still uses `ON CONFLICT(source_id) DO UPDATE` and resets `revoked_at=NULL`. This can replace a prior grant and clear its revocation when the same source_id is re-registered.
 - PR #168 contains the append-only duplicate-ID rejection fix, but current PR #168 head is `03ac14cb1d74296870541b68839580c12ed2a84b`, while PR #176 base is `9ff25d7356d5badc39f448c9f5e939cda4048541`; PR #238 is based on PR #176 head `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`, and PRs #241/#242 are based on PR #238 head `cdcf7a4bef2728e3299e82bc88d376992ecec39d`. The current append-only PR #168 head is therefore not demonstrated as an ancestor of the #176/#238/#241/#242 stack.
 - Do not treat the #168 fix as integrated into PR #299 or the #241/#242 line. Resolve the ancestry/integration in the canonical Issue #68 stack before enabling any live upload. No rebase, retarget, or merge performed.
+
+
+## ARO-CHAT-0198 append-only source-rights integration — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0198 |
+| Exact chat title | ARO-CHAT-0198 | Enforce Append-Only Source Rights Grants |
+| Workstream ID | ARO-GTA-P1-198 |
+| Scope | Port the reviewed append-only source-rights registration fix into the active private-upload stack so duplicate source IDs cannot overwrite prior grants or clear revocation. |
+| Branch / PR | workstream/aro-chat-0198-append-only-source-rights-on-private-upload-stack-2026-11-24 / Draft PR pending |
+| Base | workstream/aro-chat-0134-private-upload-response-verification-2026-11-24 (PR #299 current observed head) |
+| Starting SHA | 763d3fc3ee73f93802eacfc97fbb03abc970c74c |
+| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI pending; no OAuth or upload performed |
+| Changed files | backend/app/rights_registry.py; tests/test_rights_registry.py; docs/CHAT_WORKSTREAM_REGISTRY.md; docs/ARO_CHAT_STARTUP_PROMPT.md |
+
+### Security behavior and evidence
+
+- The active PR #299 branch still contained ON CONFLICT(source_id) DO UPDATE and set revoked_at=NULL at the time of inspection.
+- PR #168 contains the append-only implementation, but its head is not an ancestor of the active PR #299 branch. This workstream selectively ports that behavior rather than merging or retargeting PR #168.
+- Duplicate source_id registration now fails with PermissionError; a renewed grant must use a new versioned source_id and new permission evidence.
+- The audit event records grantor and evidence_ref. The actor remains audit metadata, not authentication of the grantor.
+- Regression tests cover duplicate active grant rejection, revoked grant reactivation rejection, new versioned grant registration, and evidence details.
+- Integrity errors unrelated to the source_id primary-key collision are re-raised rather than being mislabeled as duplicate registrations.
+- PR #168 implementation head 9ff25d7356d5badc39f448c9f5e939cda4048541 had successful Ubuntu/hosted-Windows CI run #45245685334 (338 tests per platform plus synthetic MP4/FFprobe). That result is predecessor evidence only and is not transferred to this new branch.
+- This branch's local tests and exact-head CI remain NOT VERIFIED. No OAuth, credentials, real media, network upload, publishing, merge, retarget, deployment, or destructive action occurred.
+
+### Adjacent workstream note
+
+- ARO-CHAT-0197 / PR #300 was created from the earlier PR #299 head 758ae2d44e04b9a875a2a85aa153f0407a209766. PR #299 subsequently advanced through repository-root profile validation commits to 763d3fc3ee73f93802eacfc97fbb03abc970c74c, which already updates the Windows path expectation. Treat PR #300 as stale pending owner-controlled ancestry resolution; do not merge or rebase it blindly.
+- Issue #68 remains OPEN. Keep live upload disabled pending full security review, integration approval, OAuth/channel identity verification, source-rights evidence, per-clip approval, explicit device upload limit, and real-media acceptance.
