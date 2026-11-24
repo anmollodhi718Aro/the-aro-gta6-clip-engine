@@ -1117,3 +1117,5 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Ancestry compare: PR #311 current head `29984e540355d86b6024f8aea37742759637a9b3` is one docs-only commit ahead of PR #328's recorded base `67e6d4290fee795fb8ba6fd0e926107ea7f0eb81`; PR #328 line `5ef44f391720966138b2eec1815dd223fb345dbd` is 31 ahead / 1 behind PR #311 current head, merge base `67e6d4290fee795fb8ba6fd0e926107ea7f0eb81`.
 - PRs #311/#328/#339 remain open drafts; no merge/rebase/retarget/close/force-push. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, real media, upload, deployment, publishing, or destructive action.
 - Next: owner-approved canonical dependency sequence plus independent security review of the complete lineage; then rerun exact-head CI after any integration change.
+
+- PR #341 created as OPEN / DRAFT / UNMERGED, targeting the ARO-CHAT-0218 branch; head `392ecea6a1e460cbd6498c081517bf76ac61c927`. Exact-head workflow lookup returned no run; CI is PENDING / NOT VERIFIED. GitHub reports mergeable=false for this stacked documentation PR; no merge/rebase/retarget was attempted.
