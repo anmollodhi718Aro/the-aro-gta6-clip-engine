@@ -263,7 +263,6 @@ class OwnerApprovalTests(unittest.TestCase):
         with self.assertRaisesRegex(PermissionError, "must not be a symlink"):
             self.gate(approval_path=link)
         self.assertEqual(json.loads(target.read_text(encoding="utf-8"))["decision"], "approved")
-        self.registry.authorize.reset_mock()
 
     def test_missing_or_malformed_record_fails_closed(self):
         with self.assertRaisesRegex(PermissionError, "missing or unreadable"):
