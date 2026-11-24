@@ -26,7 +26,8 @@ Date: 2026-11-25
 ## Validation
 - The parent run is a failure and is not treated as a pass.
 - Local tests in this connector session: NOT RUN.
-- Follow-up exact-head Ubuntu/hosted-Windows CI: NOT YET RUN / NOT VERIFIED.
+- Follow-up commit-associated GitHub Actions run #45465232908 completed SUCCESS on 2026-11-24. Ubuntu and hosted Windows both compiled, ran the same 365-test suite, and passed synthetic MP4/FFprobe validation. Windows skipped 4 platform-unavailable tests; Ubuntu skipped none. This is hosted CI, not owner-device verification.
+- Run was associated with report commit `5709bf02a1ba57b1021520bb4678243fb94abb11`; no CI result is transferred from parent PR #361.
 - Independent review: NOT RECORDED.
 - This is a targeted portability fix hypothesis. It is not marked verified until the new exact-head run passes.
 
