@@ -115,3 +115,11 @@ For the current first-test upload priority:
 - Destination profile config must resolve to a file directly inside the repository's `.secrets/` directory. The loader rejects configs whose resolved parent is elsewhere, including symlink targets outside `.secrets/`.
 - Profile-specific OAuth tokens remain under `.secrets/tokens/<profile>.json`. Never commit profile config or token files.
 - Regression test rejects an otherwise valid profile file outside `.secrets/`; CI for this new head is pending.
+
+
+## ARO-CHAT-0197 current continuation — 2026-11-24
+
+- Continue from PR #299 head `758ae2d44e04b9a875a2a85aa153f0407a209766` on a separate draft-only branch. Do not merge or retarget the stacked PR chain.
+- Latest observed run #45393428557: Ubuntu passed; hosted Windows failed 1 of 334 tests because a test compared a `Path.resolve()` canonical path against an un-resolved temporary path (`RUNNER~1` versus `runneradmin`). The fix updates the test expectation to use the resolved `.secrets` parent; do not weaken production path validation.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No live upload or public publishing until the authenticated owner/channel approval design is selected, integrated, independently reviewed, and locally verified.
+- PR #299 and this follow-up must be validated on their latest exact heads. Synthetic MP4/FFprobe checks are not real GTA 6 media acceptance.
