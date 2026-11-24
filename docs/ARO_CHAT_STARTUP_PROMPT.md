@@ -164,3 +164,14 @@ For the current first-test upload priority:
 - It consolidates PR #299's YouTube PRIVATE response verification and PR #300's destination-profile path/symlink hardening and Windows canonical-path tests, avoiding the stale diverged #299 → #300 branch ancestry.
 - Issue #68's corrected authenticated OIDC/channel-owner gate, exact clip/source/hash approval, and source-rights checks are present in the PR #295 base ancestry. Do not use historical PR #83 head `f66f6406a496d08e3e85972010f1f52d831298ab` as current code; that historical snapshot contains a recursive verifier defect.
 - PR #311 exact-head CI must pass on both Ubuntu and Windows before acceptance. Issue #68 stays OPEN until independent security review and owner-device OAuth/channel verification. No live upload or public publishing without separate explicit owner action.
+
+
+## ARO-CHAT-0201 latest continuation — 2026-11-24
+- Independent review of PR #311 found two security regressions: removed case-insensitive destination-profile name uniqueness and removed profile-specific approval-record directory enforcement.
+- Both guards are restored. Regression tests now cover case-colliding profile names and approval-record directory isolation/required-path behavior.
+- Production guard commit: `30229510555805bb9c723c66403bb5695ffa726f`; test commit: `566e19440add291fd0ceedc48aee662e314cf697`.
+- The previous green run #45418114502 is pre-fix evidence only. Verify Ubuntu and hosted-Windows CI against the final PR #311 head; do not reuse the earlier run as proof.
+- Keep PR #311 draft/open/unmerged. Issue #68 remains open pending independent security review and owner-device OAuth/channel verification. No live upload or public publishing.
+
+### Next authorized task
+Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/approval diff. Fix any newly evidenced defects on the same draft branch, update this prompt and the workstream registry, and do not merge, deploy, run OAuth, or upload media.
