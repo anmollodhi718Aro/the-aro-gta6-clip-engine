@@ -488,7 +488,9 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
-        self.config = self.root / "destination_profiles.json"
+        secrets_dir = self.root / ".secrets"
+        secrets_dir.mkdir()
+        self.config = secrets_dir / "destination_profiles.json"
         self.config.write_text(json.dumps({
             "profiles": {
                 "aroanmol7": {
@@ -512,11 +514,17 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
         self.assertEqual(second["channel_id"], "UCabcdef1234567890")
         self.assertNotEqual(first["google_subject"], second["google_subject"])
         self.assertNotEqual(first["token_path"], second["token_path"])
-        self.assertEqual(first["token_path"], self.root / "tokens" / "aroanmol7.json")
+        self.assertEqual(first["token_path"], self.root / ".secrets" / "tokens" / "aroanmol7.json")
 
     def test_profile_name_cannot_escape_token_directory(self):
         with self.assertRaisesRegex(ValueError, "letters, numbers"):
             load_destination_profile(self.config, "../outside")
+
+    def test_profile_config_outside_ignored_secrets_directory_is_rejected(self):
+        external = self.root / "destination_profiles_external.json"
+        external.write_text(self.config.read_text(encoding="utf-8"), encoding="utf-8")
+        with self.assertRaisesRegex(PermissionError, "must resolve inside"):
+            load_destination_profile(external, "aroanmol7")
 
     def test_metadata_dry_run_does_not_require_oauth_profile(self):
         args = [
