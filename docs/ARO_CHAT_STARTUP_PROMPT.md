@@ -229,3 +229,9 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Latest test commit: `a07cf1d0e1023f6291cf69bb6998c4f43c972fdf`. Added a mocked close-failure regression proving the nested `finally` removes the approved-byte snapshot even when media stream closure raises.
 - Inspect exact-head Ubuntu and hosted-Windows CI before marking CI_VERIFIED. Local tests, owner-device Windows, OAuth, real-media PRIVATE acceptance, and independent security review are NOT VERIFIED.
 - Do not merge, deploy, access credentials, perform live uploads, or enable public publishing. Issue #68 remains OPEN.
+
+
+### ARO-CHAT-0218 latest code/test handoff
+- PR #339 latest test commit: `cc4dca770655a7bd69d767f9cb164d133e00eafd`.
+- Close-failure regression asserts exactly one close attempt, propagation of the synthetic close error, closed underlying stream, removal of the approved-byte snapshot, and exactly one mocked insert.
+- Exact-head Ubuntu/hosted-Windows CI is NOT VERIFIED (no associated run/status returned); local tests and independent review are NOT RECORDED. Keep PR #339 draft/open/unmerged; no OAuth, real media, upload, deployment, or publishing. Issue #68 remains OPEN.
