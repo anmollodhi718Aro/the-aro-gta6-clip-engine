@@ -1204,3 +1204,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Production rights-registry, uploader, OAuth, and workflow behavior unchanged.
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0229 Windows CI correction — 2026-11-25
+- Initial exact-head run `45464585193`: Ubuntu passed; hosted Windows failed two test teardowns with `WinError 32` because SQLite connections created by `with sqlite3.connect(...)` remained open. The Python SQLite connection context manager does not close the connection.
+- Updated both rights-registry trigger-fixture tests to use `contextlib.closing(...)`; production code unchanged.
+- Test commit: `d7bec38ad63a33190928d5fdd13ae281c40a171e`.
+- New exact-head Ubuntu/hosted-Windows CI is PENDING / NOT VERIFIED. Independent security review remains NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
