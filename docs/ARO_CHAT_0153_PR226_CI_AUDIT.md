@@ -84,3 +84,13 @@ A fresh inspection of the two commit-associated runs separates the exact PR #226
 ### Current audit-PR gate
 - Audit PR #229 branch head before this correction was `5fe98ad1f56052bef6c20ca2c340cc3bd1d4f4f2`. Its commit-associated workflow lookup returned zero runs and combined status returned zero entries. PR #229 CI remains PENDING / NOT VERIFIED; do not transfer PR #226's CI to the audit PR.
 - PR #229 review submissions, inline threads, and conversation comments were empty. Keep PR #229 draft-only and wait for a naturally associated run; do not retry or manually trigger workflows.
+
+
+## Current-session refresh — 2026-11-24
+
+- Revalidated PR #226 metadata: OPEN / DRAFT / UNMERGED; source head `d8433a2c31dc0634d5fc9a853b82c8e061ced0ab`; base `e03528ebbcb66a44d2b3f438fd3a2f115ab67acd`.
+- Rechecked commit-associated workflow records for that source SHA. Two later associated attempts, #45270832453 and #45270848881, are CANCELLED. In run #45270848881 the Ubuntu compile, unit-test, and synthetic MP4 steps completed successfully before cancellation, while hosted Windows was cancelled during FFmpeg/FFprobe installation and its compile/tests/render steps were skipped. In run #45270832453 both platform jobs were cancelled during FFmpeg/FFprobe installation; later validation steps were skipped. These cancelled attempts do not replace or invalidate the separately inspected exact-base successful run #45270941723; they provide no additional complete matrix pass.
+- Exact PR #226 merge-ref run #45270941723 remains the valid CI_VERIFIED evidence: merge SHA `025c577ecd3f0663cb96c225affe9a971f587da9`, Ubuntu job #138030347655 and hosted-Windows job #138030348239, 338 tests per platform and synthetic MP4/FFprobe validation.
+- Revalidated audit PR #229: OPEN / DRAFT / UNMERGED; current head `bd65951d569c2c05d5ec4763d489d06b1600b7f9`, base `d8433a2c31dc0634d5fc9a853b82c8e061ced0ab`. Its exact-head workflow lookup returned zero runs and combined status returned zero entries. PR #229 reviews, inline threads, and conversation comments remain empty; independent review NOT RECORDED.
+- **Current disposition:** PR #226 exact merge-ref CI_VERIFIED; PR #229 own-head CI PENDING / NOT VERIFIED. No CI evidence transfers between PRs. Wait for a naturally triggered run on the final PR #229 head and inspect its jobs/logs; do not retry or manually dispatch workflows.
+- Documentation-only refresh. No application behavior, credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
