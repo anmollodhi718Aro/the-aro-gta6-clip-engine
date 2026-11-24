@@ -1083,3 +1083,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Numeric test counts/durations, checkout SHA and synthetic report payload were not exposed; raw-head-only checkout NOT DEMONSTRATED. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
 - PR #332 reviews, inline threads and conversation comments were empty; independent review NOT RECORDED. PR #332 remains OPEN / DRAFT / UNMERGED.
 - PR #336 is the follow-up audit PR. At the last pre-closeout lookup, its head `0048f822ccacb1e5ae17402136166c5b934b38ac` had no associated run/status entries; its own CI PENDING / NOT VERIFIED.
+
+
+### ARO-CHAT-0217 evidence refresh — 2026-11-24
+- PR #332 exact-head run #45427815827 completed SUCCESS on its own audited head `b97b6272356f4ee07d6708ced8fbd37354864194`; Ubuntu and hosted Windows passed compile, full unittest, and synthetic MP4/FFprobe stages. Counts and checkout SHA were not exposed.
+- Documentation follow-up PR #336 head `3d537f9df3830728f63fda4ee6a8133166475dec` completed run #45428154454 SUCCESS: Ubuntu 344 tests passed; hosted Windows 344 tests ran, 2 skipped; both passed compile and synthetic MP4/FFprobe.
+- Test-only follow-up PR #335 head `2779aee7b752433b72753ea77419f8ce3d1ae806` completed run #45428127882 SUCCESS: Ubuntu 342 tests passed; hosted Windows 342 tests ran, 2 skipped; both passed compile and synthetic MP4/FFprobe.
+- PR #335 and #336 review submissions/inline threads returned zero; independent review NOT RECORDED. All three PRs remain draft/open/unmerged at the observed snapshots.
+- Keep each CI result scoped to its exact commit. Synthetic fixtures and mocked upload interactions do not establish real-media acceptance or a live upload. Hosted Windows is not owner-device verification.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No canonical security-lineage selection or live publishing authorization is inferred. No merge, rebase, retarget, deployment, upload, publishing, workflow retry/dispatch, OAuth, or credential access.
