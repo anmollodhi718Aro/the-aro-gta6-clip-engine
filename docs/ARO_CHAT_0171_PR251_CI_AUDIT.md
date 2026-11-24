@@ -65,3 +65,16 @@ Date: 2026-11-24
 - PR #252 remains OPEN / DRAFT / UNMERGED. This audit branch's exact-head CI is verified on its merge ref only; owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
 - No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or destructive action was performed.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live/public uploads disabled until owner approval, canonical security implementation selection, independent security review, owner-controlled integration, owner-device verification, and separately authorized real-media acceptance are complete.
+
+
+## Audit branch own-head CI closeout — 2026-11-24
+- Live PR #252 remains OPEN / DRAFT / UNMERGED; current head `c5ce5fe3557b89e12b52ac8df3b8b518dad37e63`, base `1316c12f4f66305b190f671330682eb535e41ba0`; GitHub reports mergeable=true.
+- The PR #252 head is associated with Python CI run #45314960254 (run 1145), completed SUCCESS. Ubuntu job #138179488732 and hosted-Windows job #138179488417 both completed successfully.
+- Ubuntu: Python compile passed; all 340 tests passed (5.143s); synthetic MP4/FFprobe validation passed.
+- Hosted Windows: Python compile passed; the same 340 tests passed (15.690s); synthetic MP4/FFprobe validation passed. This is one shared 340-test suite run on two platforms, not 680 unique tests.
+- Both jobs checked out `refs/remotes/pull/252/merge` at merge SHA `93f8ed47ab657902a173030b548d91412a4a76cb`, merging PR #252 head `c5ce5fe3557b89e12b52ac8df3b8b518dad37e63` into base `1316c12f4f66305b190f671330682eb535e41ba0`. CI_VERIFIED applies to this merge ref; raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic reports on both platforms identify locally generated test pattern/tone only, 8-second source / 4-second render, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. Mocked approval output explicitly reports `upload_performed=false`; no live upload occurred.
+- PR #252 combined status returned zero entries. Review submissions, inline threads, and conversation comments remain empty; independent review NOT RECORDED.
+- PR #251's separate CI result remains run #45314761904 on its own merge ref. Do not conflate the two PRs' evidence.
+- **Disposition:** ARO-CHAT-0171 parent audit and its audit-branch CI are both verified on their respective PR merge refs. PR #251 remains OPEN / DRAFT / UNMERGED, mergeable=false, and without independent review. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
+- No workflow retry, credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
