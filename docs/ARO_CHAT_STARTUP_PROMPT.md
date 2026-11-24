@@ -244,3 +244,7 @@ For the current first-test upload priority:
 - Continue by rechecking run #45427815827 and auditing the same SHA; do not transfer PR #328's CI evidence. Keep the workstream documentation-only unless a separate implementation task is explicitly authorized.
 - Issue #68 is OPEN and the repository owner is currently assigned. Assignment alone does not approve a canonical security branch or authorize live uploads. Keep live uploads/public publishing disabled.
 - No local tests, workflow retry/dispatch, OAuth, credentials/tokens, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0217 latest CI progress
+- Rechecked PR #332 head `b97b6272356f4ee07d6708ced8fbd37354864194`; run #45427815827 remains IN_PROGRESS. Ubuntu is in unit tests; hosted Windows is installing FFmpeg/FFprobe. Compile succeeded on Ubuntu; Windows compile and both synthetic MP4/FFprobe steps remain pending. Do not report CI_VERIFIED until both jobs complete successfully and the final head is unchanged.
