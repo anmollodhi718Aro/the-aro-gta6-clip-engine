@@ -248,3 +248,8 @@ For the current first-test upload priority:
 
 ### ARO-CHAT-0217 latest CI progress
 - Rechecked PR #332 head `b97b6272356f4ee07d6708ced8fbd37354864194`; run #45427815827 remains IN_PROGRESS. Ubuntu is in unit tests; hosted Windows is installing FFmpeg/FFprobe. Compile succeeded on Ubuntu; Windows compile and both synthetic MP4/FFprobe steps remain pending. Do not report CI_VERIFIED until both jobs complete successfully and the final head is unchanged.
+
+
+### ARO-CHAT-0217 PR #332 / PR #336 current status
+- PR #332 head run #45427815827: Ubuntu compile/tests/synthetic MP4/FFprobe steps SUCCESS; exact test counts and logs not exposed. Hosted Windows compile succeeded; unittest is still IN_PROGRESS and synthetic render pending. Overall run still IN_PROGRESS; do not mark CI_VERIFIED yet.
+- Follow-up PR #336 is OPEN / DRAFT / UNMERGED at head `17ef5f78b9b1790f033958a427a1319861c39131`; exact-head workflow lookup and combined status currently return zero entries. Its CI is PENDING / NOT VERIFIED.
