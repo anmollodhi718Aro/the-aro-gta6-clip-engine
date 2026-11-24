@@ -460,3 +460,8 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Connector summaries did not expose numeric test counts or checkout refs; raw-head-only checkout is NOT DEMONSTRATED. Hosted Windows CI is not owner-device Windows verification; synthetic MP4 is not real GTA 6 footage.
 - Audit PR #255 is OPEN / DRAFT / UNMERGED; its own exact-head CI was not yet associated with a run at last inspection. Never transfer PR #254's CI to PR #255.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending independent security review and all owner-acceptance gates.
+
+
+### ARO-CHAT-0174 audit-branch status refresh — 2026-11-24
+- PR #255 latest head `f9698ee9bd5a144cd8f95874919fbc9f7fe18418` has no associated workflow run or combined status entries at last inspection; its CI remains PENDING / NOT VERIFIED.
+- Next pending action: re-check PR #255 exact-head Actions evidence and both platform jobs/logs if available. Do not transfer PR #254's successful run.
