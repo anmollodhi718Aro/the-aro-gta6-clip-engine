@@ -86,6 +86,36 @@ class SourceRightsRegistryTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "actor is required"):
             self.registry.register(self.record, actor=None)
 
+    def test_rejects_non_object_rights_record(self):
+        for invalid in (None, [], "record", 7):
+            with self.subTest(record=invalid):
+                with self.assertRaisesRegex(ValueError, "rights record must be an object"):
+                    self.registry.register(invalid)
+
+    def test_authorize_rejects_missing_or_non_string_identifiers(self):
+        invalid_calls = (
+            (None, "publish", "youtube"),
+            ("creator-video-1", None, "youtube"),
+            ("creator-video-1", "publish", None),
+            (" ", "publish", "youtube"),
+            ("creator-video-1", 7, "youtube"),
+        )
+        for source_id, use, platform in invalid_calls:
+            with self.subTest(source_id=source_id, use=use, platform=platform):
+                with self.assertRaisesRegex(ValueError, "non-empty strings"):
+                    self.registry.authorize(source_id, use, platform, at=self.now)
+
+    def test_revoke_and_audit_reject_invalid_source_or_actor(self):
+        for source_id, actor in ((None, "owner"), ("creator-video-1", None),
+                                 (" ", "owner"), ("creator-video-1", 7)):
+            with self.subTest(source_id=source_id, actor=actor):
+                with self.assertRaisesRegex(ValueError, "non-empty strings"):
+                    self.registry.revoke(source_id, actor=actor, at=self.now)
+        for source_id in (None, "", 7):
+            with self.subTest(audit_source_id=source_id):
+                with self.assertRaisesRegex(ValueError, "non-empty string"):
+                    self.registry.audit_events(source_id)
+
     def test_concurrent_duplicate_registration_creates_exactly_one_grant(self):
         barrier = Barrier(2)
 
