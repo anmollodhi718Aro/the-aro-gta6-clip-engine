@@ -32,3 +32,12 @@ Issue #68 remains a separate authenticated channel-owner approval/security gate.
 
 ## Result
 PR #267's current exact-head CI is successful on Ubuntu and hosted Windows for run #45380924403. Independent review, numeric test output, checkout commit refs/raw-head-only execution, real-media acceptance, and owner-device Windows acceptance remain NOT VERIFIED / NOT RECORDED.
+
+
+## Audit PR #270 publication and validation boundary
+
+- Draft PR #270 was created as the documentation-only publication of this ARO-CHAT-0185 audit.
+- PR #270 head at initial post-creation inspection: `16e8b75feddb4552bddd14db1482bad833c7f7e3`; PR state OPEN / DRAFT / UNMERGED, mergeable=true.
+- PR #270's own commit-associated workflow lookup returned zero runs; combined status returned zero entries. Its own exact-head CI is PENDING / NOT VERIFIED. Do not transfer PR #267 run #45380924403 to PR #270.
+- PR #270 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED.
+- Next task: re-fetch PR #270's live head and inspect its own commit-associated Ubuntu/hosted-Windows CI and review state. Do not retry workflows or merge/retarget without the required authorization.
