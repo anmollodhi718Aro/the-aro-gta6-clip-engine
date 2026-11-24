@@ -22,7 +22,9 @@ DEFAULT_CATEGORY_ID = "20"  # Gaming
 
 
 
-def load_destination_profile(config_path: str | Path, profile_name: str) -> dict[str, Any]:
+def load_destination_profile(
+    config_path: str | Path, profile_name: str, *, repository_root: str | Path | None = None
+) -> dict[str, Any]:
     """Load one non-secret destination identity; OAuth tokens stay in separate local files."""
     if not isinstance(profile_name, str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", profile_name):
         raise ValueError("destination profile name must use 1-64 letters, numbers, underscores or hyphens")
@@ -32,8 +34,13 @@ def load_destination_profile(config_path: str | Path, profile_name: str) -> dict
         payload = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise PermissionError("destination profile configuration is missing or unreadable") from exc
-    if path.parent.name != ".secrets":
-        raise PermissionError("destination profile configuration must resolve inside the repository .secrets directory")
+    try:
+        root = Path(repository_root).resolve(strict=True) if repository_root is not None else Path(__file__).resolve().parents[2]
+        expected_secrets_dir = root / ".secrets"
+    except OSError as exc:
+        raise PermissionError("repository root is missing or unreadable") from exc
+    if path.parent != expected_secrets_dir:
+        raise PermissionError("destination profile configuration must resolve inside this repository .secrets directory")
     profiles = payload.get("profiles") if isinstance(payload, dict) else None
     if not isinstance(profiles, dict) or not profiles:
         raise PermissionError("destination configuration must contain a non-empty profiles object")
