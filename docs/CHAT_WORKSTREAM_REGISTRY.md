@@ -2245,3 +2245,11 @@ This correction supersedes the earlier ARO-CHAT-0153 note that treated both succ
 - Issue #68 is OPEN and assigned to the repository owner, but its implementation remains explicitly WAITING_FOR_OWNER_APPROVAL. Assignment is not implementation approval. Do not begin uploader/OAuth integration or enable publishing without the required explicit implementation approval and canonical security lineage selection.
 - Next action: wait for a naturally associated run on this exact PR #229 head, then inspect the run's merge checkout SHA, Ubuntu and hosted-Windows jobs/logs, compile/tests, synthetic MP4/FFprobe results, and review state. Re-fetch PR metadata first if the head changes.
 - This continuation is an evidence-only documentation refresh. No application code, credentials, OAuth, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0153 continuation update — 2026-11-24
+- Workstream: ARO-GTA-P1-153; branch `workstream/aro-chat-0153-pr226-exact-head-ci-audit-2026-11-24`; audit PR #229 remains OPEN / DRAFT / UNMERGED.
+- PR #226 exact merge-ref CI_VERIFIED: run #45270941723, merge SHA `025c577ecd3f0663cb96c225affe9a971f587da9`; Ubuntu job #138030347655 and hosted-Windows job #138030348239 each passed compilation, 338 tests, and synthetic MP4/FFprobe validation.
+- Separate run #45270942827 checked out PR #228's merge ref and is excluded from PR #226 evidence. PR #226 raw-head-only CI, owner-device Windows verification, and authorized real-media acceptance remain NOT VERIFIED.
+- Current PR #229 head `58255a61fdf20eba115bead51d8fada72b74d1bd` has zero associated workflow runs; its CI is PENDING / NOT VERIFIED. No evidence transfers between PRs.
+- Documentation-only. No retry/dispatch, merge, deployment, OAuth, upload, or publishing.
