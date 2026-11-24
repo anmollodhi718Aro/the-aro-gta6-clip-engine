@@ -11,7 +11,7 @@ from unittest.mock import Mock, patch
 
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
-from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_destination_approval_path, validate_upload)
+from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_destination_approval_path, validate_upload, _read_oauth_token_info)
 
 
 class YouTubeUploadTests(unittest.TestCase):
@@ -45,6 +45,50 @@ class YouTubeUploadTests(unittest.TestCase):
 
     def tearDown(self):
         self.temp.cleanup()
+
+    def test_oauth_token_info_reads_regular_json_file(self):
+        token = self.root / "token.json"
+        expected = {"refresh_token": "synthetic-token", "client_id": "synthetic-client"}
+        token.write_text(json.dumps(expected), encoding="utf-8")
+        self.assertEqual(_read_oauth_token_info(token), expected)
+
+    def test_oauth_token_info_rejects_symlink(self):
+        target = self.root / "external-token.json"
+        target.write_text(json.dumps({"refresh_token": "must-not-be-read"}), encoding="utf-8")
+        link = self.root / "token-link.json"
+        try:
+            link.symlink_to(target)
+        except (OSError, NotImplementedError) as exc:
+            self.skipTest(f"symlink creation is unavailable on this platform: {exc}")
+        with self.assertRaisesRegex(PermissionError, "OAuth token path must be a regular file"):
+            _read_oauth_token_info(link)
+        self.assertTrue(target.is_file())
+
+    def test_oauth_token_info_rejects_path_replacement_with_symlink_before_open(self):
+        token = self.root / "token.json"
+        token.write_text(json.dumps({"refresh_token": "original"}), encoding="utf-8")
+        target = self.root / "replacement-token.json"
+        target.write_text(json.dumps({"refresh_token": "replacement"}), encoding="utf-8")
+        original_open = os.open
+
+        def replace_then_open(path, flags, *args, **kwargs):
+            if Path(path) == token:
+                token.unlink()
+                try:
+                    token.symlink_to(target)
+                except (OSError, NotImplementedError) as exc:
+                    self.skipTest(f"symlink creation is unavailable on this platform: {exc}")
+            return original_open(path, flags, *args, **kwargs)
+
+        with patch("backend.app.youtube_upload.os.open", side_effect=replace_then_open):
+            with self.assertRaisesRegex(PermissionError, "OAuth token"):
+                _read_oauth_token_info(token)
+
+    def test_oauth_token_info_rejects_directory(self):
+        token_dir = self.root / "token-directory"
+        token_dir.mkdir()
+        with self.assertRaisesRegex(PermissionError, "OAuth token path must be a regular file"):
+            _read_oauth_token_info(token_dir)
 
     def test_dry_run_validates_without_owner_or_upload_flags(self):
         video, body = validate_upload(
