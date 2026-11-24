@@ -371,3 +371,9 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Added a test-only regression with two synchronized revocation attempts against one source ID. Expected result: one `True`, one `False`, and one revocation audit event.
 - Production code unchanged. Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED.
 - Preserve draft-only boundaries. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action. Keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0228 Windows SQLite test-cleanup correction — 2026-11-25
+- PR #359 run #45464223565 passed Ubuntu compile/tests/synthetic MP4, but hosted Windows failed in cleanup of `test_non_duplicate_integrity_error_is_not_misreported_as_duplicate`: its SQLite connection was used as a transaction context manager but not explicitly closed, so TemporaryDirectory cleanup hit WinError 32. Windows synthetic render was skipped.
+- Test-only correction commit: `bf1e57e180bc08b78bdc0e5c1243850db12ce8df`, using `contextlib.closing` for deterministic connection closure. Production code unchanged.
+- Fresh exact-head Ubuntu/hosted-Windows CI remains required; do not transfer the failed run. PR #359 stays DRAFT / OPEN / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget or deployment.
