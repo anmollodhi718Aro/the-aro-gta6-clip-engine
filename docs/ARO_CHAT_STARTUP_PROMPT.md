@@ -205,3 +205,11 @@ For the current first-test upload priority:
 - Local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED. PR #316 remains OPEN / DRAFT / UNMERGED.
 - Full evidence: `docs/ARO_CHAT_0210_PR316_CI_AUDIT.md`. Do not transfer this run to another PR or head.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0210 final audit reconciliation — 2026-11-24
+- PR #316 audited head `0a4c88a6ba417adfc7fcdf82bfa75699baf193a8` completed associated run #45422766452 successfully.
+- Ubuntu and hosted Windows each passed compile, the same 338 tests, and synthetic MP4/FFprobe validation. Both jobs checked out merge ref `38c90e5cca78078f60759f38c60f20decc8c0d24`, merging the audited head into base `0bd547b74414da289cf6ae74e39dd26007935aa2`; raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic pattern/tone only; no GTA 6 or third-party media; publishing disabled; manual review required. Independent review NOT RECORDED; local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED.
+- Audit vehicle PR #318 remains OPEN / DRAFT / UNMERGED. Its own head `541ca8c250f875dee07e414ef4316192ec2ac87f` passed run #45423111599 on Ubuntu and hosted Windows, 338 tests per platform plus synthetic MP4/FFprobe. Both jobs checked out merge ref `4f0dd351c7f7f5dd229f7b52d1f422b33bf6de39`.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Do not transfer CI between PRs or commits. Keep live uploads/public publishing disabled.
