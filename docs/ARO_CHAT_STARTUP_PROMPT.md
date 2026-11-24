@@ -518,3 +518,10 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Production and regression-test changes are committed; local tests NOT RUN, exact-head Ubuntu/hosted-Windows CI PENDING, independent review NOT RECORDED.
 - Preserve PR #373/#374 ancestry and draft state. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
 - No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### ARO-CHAT-0238 PR #376 handoff (2026-11-25)
+
+- Draft PR #376 is open/unmerged at head `320d236609248e9fcf5fbad99483212f07a4ccb2`.
+- Initial exact-head workflow lookup returned no runs; combined status returned no entries. CI PENDING / NOT VERIFIED. Local tests NOT RUN; independent review NOT RECORDED.
+- Do not transfer results from PR #373 or #374. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
