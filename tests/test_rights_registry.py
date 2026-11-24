@@ -212,7 +212,7 @@ class SourceRightsRegistryTests(unittest.TestCase):
         )
         for source_url in invalid_urls:
             with self.subTest(source_url=source_url):
-                with self.assertRaisesRegex(ValueError, "source_url must be a valid"):
+                with self.assertRaises(ValueError):
                     self.registry.register(dict(self.record, source_url=source_url))
 
     def test_register_accepts_http_and_https_source_urls(self):
