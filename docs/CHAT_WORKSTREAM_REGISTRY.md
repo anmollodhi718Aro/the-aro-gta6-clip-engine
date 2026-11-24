@@ -1162,3 +1162,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added a synthetic short-read regression with unchanged mocked descriptor metadata to independently exercise the byte-count rejection guard.
 - Test-only commit: `8143da93904b5ed8d6ba8a18a8fb02ebdf471bbb`; production code unchanged.
 - Local tests NOT RUN in this connector session; updated PR #354 exact-head Ubuntu/hosted-Windows CI pending verification.
+
+
+### ARO-CHAT-0225 post-read pathname binding — 2026-11-24
+- Added a final pathname identity check after the bounded descriptor read and before JSON parsing. The path must still name the same regular file (device/inode) as the opened descriptor; missing, non-regular, or replaced paths fail closed.
+- Regression test simulates path replacement at the final post-read check and asserts rejection.
+- Production commit `8a4aa7591063f003f95e57e7ff1f4d7286fa416e`; test commit `600cb7773c8ec9c6cf6288cbe15402444aa2cf46`.
+- PR #354 current head at documentation update: `600cb7773c8ec9c6cf6288cbe15402444aa2cf46`; associated Actions lookup returned zero runs. Exact-head CI PENDING; local tests NOT RUN; independent review NOT RECORDED.
+- Preserve PR #354 draft ancestry; no rebase/retarget. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
