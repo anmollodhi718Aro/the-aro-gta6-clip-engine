@@ -1571,3 +1571,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - This follow-up adds the explicit limit and asserts it is forwarded. Production uploader code and workflow configuration are unchanged.
 - Do not transfer PR #249's failed run to this branch. Inspect this branch's own exact-head CI before claiming TESTED or CI_VERIFIED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live/public uploads disabled; no credentials, OAuth, real media, upload, publishing, merge, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0171 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-171 / ARO-CHAT-0171 | exact-head CI audit of PR #251, the narrow CLI upload-limit test-fixture repair.
+- Branch: `workstream/aro-chat-0171-pr251-test-fix-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #251 head `1316c12f4f66305b190f671330682eb535e41ba0`.
+- Duplicate-ID check: ARO-CHAT-0170 is already used by PRs #250 and #251 on separate branches. This audit uses the next unused ID and does not modify either ARO-CHAT-0170 branch.
+- PR #251's own Python CI run #45314761904 (run 1139) was IN_PROGRESS at initial inspection. Ubuntu and hosted-Windows jobs had completed setup, checkout, Python, and FFmpeg/FFprobe installation; compile, unit tests, and synthetic MP4/FFprobe remained pending.
+- Combined status returned zero entries. PR #251 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED.
+- Report: `docs/ARO_CHAT_0171_PR251_CI_AUDIT.md`. Refresh PR #251's exact head and run before final status; do not transfer PR #249's failing run or any other PR's CI.
+- Documentation-only audit. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled pending independent security review and explicit owner-controlled integration.
+- No workflow retry, OAuth, credentials/tokens, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action.
