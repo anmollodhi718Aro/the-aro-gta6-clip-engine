@@ -303,6 +303,31 @@ class OwnerApprovalTests(unittest.TestCase):
                 self.gate()
         self.assertTrue(target.is_file())
 
+    def test_regular_file_replacement_after_open_is_rejected(self):
+        import backend.app.youtube_owner_approval as approval_module
+
+        moved_original = self.root / "opened-original-approval.json"
+        replacement = self.root / "replacement-after-open.json"
+        replacement.write_text(self.record.read_text(encoding="utf-8"), encoding="utf-8")
+        original_lstat = Path.lstat
+        calls = 0
+
+        def replace_before_post_open_lstat(path, *args, **kwargs):
+            nonlocal calls
+            if path == self.record:
+                calls += 1
+                if calls == 2:
+                    os.replace(self.record, moved_original)
+                    replacement.replace(self.record)
+            return original_lstat(path, *args, **kwargs)
+
+        with patch.object(Path, "lstat", replace_before_post_open_lstat):
+            with self.assertRaisesRegex(PermissionError, "changed while opening"):
+                self.gate()
+
+        self.assertTrue(moved_original.is_file())
+        self.assertTrue(self.record.is_file())
+
     def test_directory_approval_path_is_rejected(self):
         directory_path = self.root / "approval-directory"
         directory_path.mkdir()
