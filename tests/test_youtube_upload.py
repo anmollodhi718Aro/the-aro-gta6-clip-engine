@@ -292,6 +292,47 @@ class YouTubeUploadTests(unittest.TestCase):
                 rights_registry=registry,
             )
 
+    def test_owner_approval_rejects_fifo_replacement_without_blocking(self):
+        if not hasattr(os, "mkfifo"):
+            self.skipTest("FIFO creation is unavailable on this platform")
+        registry, owner, approval_path = self._write_upload_rights(self.root / "source_rights.sqlite3")
+        original_open = os.open
+
+        def replace_with_fifo_before_open(path, flags, *args, **kwargs):
+            if Path(path) == approval_path:
+                Path(path).unlink()
+                os.mkfifo(path)
+            return original_open(path, flags, *args, **kwargs)
+
+        with patch("backend.app.youtube_owner_approval.os.open", side_effect=replace_with_fifo_before_open):
+            with self.assertRaisesRegex(PermissionError, "regular file"):
+                require_current_owner_approval(
+                    approval_path, clip_id="clip-1", source_id="source-1",
+                    video_path=self.video, owner=owner, privacy="private",
+                    rights_registry=registry,
+                )
+
+    def test_owner_approval_rejects_path_replacement_between_stat_and_open(self):
+        registry, owner, approval_path = self._write_upload_rights(self.root / "source_rights.sqlite3")
+        replacement = self.root / "replacement-approval.json"
+        replacement.write_text(approval_path.read_text(encoding="utf-8"), encoding="utf-8")
+        displaced = self.root / "displaced-approval.json"
+        original_open = os.open
+
+        def replace_before_open(path, flags, *args, **kwargs):
+            if Path(path) == approval_path:
+                approval_path.replace(displaced)
+                replacement.replace(approval_path)
+            return original_open(path, flags, *args, **kwargs)
+
+        with patch("backend.app.youtube_owner_approval.os.open", side_effect=replace_before_open):
+            with self.assertRaisesRegex(PermissionError, "changed while opening"):
+                require_current_owner_approval(
+                    approval_path, clip_id="clip-1", source_id="source-1",
+                    video_path=self.video, owner=owner, privacy="private",
+                    rights_registry=registry,
+                )
+
     def test_owner_approval_rejects_malformed_json(self):
         registry, owner, approval_path = self._write_upload_rights(self.root / "source_rights.sqlite3")
         approval_path.write_text("{not-json", encoding="utf-8")
