@@ -1231,3 +1231,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Production commits `6f401febec441d6ca8511a14fbe2f51c1fa6a0d2` and `267d298a03c21a3a8bea38d6e7f10be1a25633f9` (actor normalization); test commit `73a5a7495b82bb45417b3f10af562f7fea839370`.
 - Local tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI PENDING until observed. Independent security review NOT RECORDED.
 - PR is draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+## ARO-CHAT-0235 — strict rights metadata and timestamp validation (2026-11-25)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0235 | ARO-CHAT-0235 \| Strict Rights Metadata and Timestamp Validation | ARO-GTA-P1-235 | Reject coerced source-rights metadata and malformed timestamps at the public registry boundary | `workstream/aro-chat-0235-rights-registry-strict-text-timestamps-2026-11-25` / pending draft PR | IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED | Base PR #369 head `8185687919138671deff872f6a7f35f86eafc27c`; production `42011adcb725a171d30ee496b37df47f00b01678`; tests `5f305f66e2e47582fe651886ff3ca8b53843bcc9`; report `f894fd5e10ec240e0e36e1a17af76f6a0b8bdc67` |
+
+- PR #369's exact current head had associated Python CI run #45485759897, completed FAILURE. Connector job-step/log inspection returned no steps and log retrieval was unavailable; failure cause remains NOT VERIFIED. This continuation does not claim the parent failure was fixed.
+- New branch requires its own Ubuntu and hosted-Windows CI evidence. No results are transferred from PR #369 or other parent branches.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
