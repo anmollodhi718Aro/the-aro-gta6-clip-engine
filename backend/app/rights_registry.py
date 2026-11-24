@@ -121,6 +121,8 @@ class SourceRightsRegistry:
             parsed_source_url = urlsplit(source_url)
             # Accessing .port validates its numeric syntax and range.
             parsed_source_url.port
+            if parsed_source_url.netloc.endswith(":"):
+                raise ValueError("source_url must not have an empty port")
         except ValueError as exc:
             raise ValueError("source_url must be a valid http(s) URL") from exc
         hostname = parsed_source_url.hostname
