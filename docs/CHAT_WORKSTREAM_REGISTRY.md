@@ -988,14 +988,30 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
 
 
-## ARO-CHAT-0210 — post-open approval-path identity verification (2026-11-24)
+## ARO-CHAT-0211 — post-open approval-path identity verification (2026-11-24)
 
-- Follow-up to PR #317 / ARO-CHAT-0209. The reader now performs a second pathname `lstat()` after opening the approval record and requires the pathname to remain a regular file whose device/inode matches the opened descriptor.
-- This closes the fallback gap on platforms without `O_NOFOLLOW`: a path replaced with a symlink to the same inode between the pre-open check and open would otherwise pass the descriptor identity check.
-- Regression test simulates the no-`O_NOFOLLOW` fallback and a same-inode symlink substitution.
-- New branch: `workstream/aro-chat-0210-post-open-path-identity-check-2026-11-24`, based on PR #317 head `36f9ac70f841715255d917183d24d3b2df2bfc49`.
-- Source commit: `07fc209ff4d68b7cc5236c834bcea42de95728f3`; test commit: `b37b3d694c4e6dc7f3c291a242f925dabdd0bc3e`; report: `docs/ARO_CHAT_0210_POST_OPEN_PATH_IDENTITY.md`.
-- Status: IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. No test pass is claimed.
-- Draft-only; do not merge/rebase/retarget. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, or deployment. Keep live uploads/public publishing disabled.
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0211 |
+| Exact chat title | ARO-CHAT-0211 | Post-Open Approval-Path Identity Verification |
+| Workstream ID | ARO-GTA-P1-211 |
+| Scope | Recheck approval-record pathname identity after opening, closing the no-O_NOFOLLOW same-inode symlink substitution gap. |
+| Branch / PR | `workstream/aro-chat-0211-post-open-approval-path-identity-2026-11-24` / draft PR pending |
+| Base / starting SHA | PR #317 head `36f9ac70f841715255d917183d24d3b2df2bfc49` |
+| Parent | PR #317 |
+| Status | IMPLEMENTED; exact-head Ubuntu/hosted-Windows CI PENDING; local tests NOT RUN |
 
-- Test portability follow-up: commit `d37681e6af75b6ff81da2c47c67cf2001fb55049` skips the new symlink substitution test only when symlink creation is unavailable, consistent with existing platform-specific tests.
+### Implementation and evidence
+- Source commit: `07fc209ff4d68b7cc5236c834bcea42de95728f3`; test commit: `b37b3d694c4e6dc7f3c291a242f925dabdd0bc3e`.
+- Portability follow-up: `d37681e6af75b6ff81da2c47c67cf2001fb55049` skips the symlink-specific regression only where symlink creation is unavailable.
+- The reader performs a post-open `lstat()`, requires a regular file, and compares pathname device/inode with the opened descriptor.
+- Regression coverage simulates the no-`O_NOFOLLOW` fallback and same-inode symlink substitution.
+- Commit-associated workflow lookup for source and test commits returned no runs. Exact final-head CI remains PENDING; no test pass is claimed.
+- Owner-device Windows and real-media acceptance remain NOT VERIFIED.
+
+### Identity collision correction
+- The earlier work branch used ARO-CHAT-0210, but that ID is already assigned to the separate PR #318 exact-head CI audit. This continuation is therefore attributed to the next unused ID, ARO-CHAT-0211. The original branch is preserved unchanged; no existing PR was rewritten.
+
+### Safety
+- Draft-only follow-up stacked on PR #317. No merge, rebase, retarget, deployment, OAuth, credentials/tokens, real media, upload, publishing, or destructive action.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
