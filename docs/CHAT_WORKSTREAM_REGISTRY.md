@@ -1231,3 +1231,22 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - A separate branch named `workstream/aro-chat-0232-pr362-independent-test-fix-review-2026-11-25` was already present during reservation checks; this workstream therefore uses serial 0233 and does not duplicate that review.
 - PR #365 is DRAFT / OPEN / UNMERGED. Its own-head CI is pending; PR #362's passing CI is parent evidence only and is not transferred.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment or publishing.
+
+
+## ARO-CHAT-0234 — private YouTube destination-profile bootstrap (2026-11-25)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0234 |
+| Workstream ID | ARO-GTA-P1-234 |
+| Scope | Local OAuth-backed destination profile setup; authenticated channel enumeration; profile-specific local token/config paths; bounded owner-approval record reads |
+| Branch / PR | `workstream/aro-chat-0234-youtube-oauth-destination-setup-2026-11-25` / [PR #368](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/368) |
+| Base | PR #367 branch at `43cf4adb90916fc1bd8da5d7fd70e6b56c39b145` |
+| Audited head | `d1a962001c7b70ac6ea6966b4e60a1011bd2fb2b` |
+| Status | IMPLEMENTED; exact-head CI NOT VERIFIED; local tests NOT RUN; independent security review NOT RECORDED |
+
+- Adds `scripts/setup_youtube_destination.py` and focused setup tests. The command is intended for a deliberate local owner-run OAuth setup; it was NOT executed in this chat. No credentials/tokens were accessed.
+- Exact-head Actions run #45484808906 reported FAILURE on both Ubuntu and hosted Windows jobs. Both jobs exposed zero steps, and both job-log fetches returned BlobNotFound. Therefore this is a pre-step workflow failure; compilation and unit-test outcomes are unknown, not failed. This resembles Issue #26's runner-allocation symptom, but the underlying cause is not established.
+- The PR also adds a 1 MiB bound to durable owner-approval reads and rejects a symlinked profile approval directory.
+- No CI result is transferred from parent PRs. Keep PR #368 DRAFT / OPEN / UNMERGED pending actual runner execution and review.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials/tokens, real media, network upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
