@@ -564,6 +564,17 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
             with self.assertRaisesRegex(PermissionError, "this repository .secrets"):
                 load_destination_profile(external, "aroanmol7", repository_root=self.root)
 
+    def test_symlinked_token_directory_is_rejected(self):
+        external_tokens = self.root / "external-tokens"
+        external_tokens.mkdir()
+        token_dir = self.root / ".secrets" / "tokens"
+        try:
+            token_dir.symlink_to(external_tokens, target_is_directory=True)
+        except (OSError, NotImplementedError):
+            self.skipTest("directory symbolic links are unavailable in this environment")
+        with self.assertRaisesRegex(PermissionError, "token directory must not be a symbolic link"):
+            load_destination_profile(self.config, "aroanmol7", repository_root=self.root)
+
     def test_metadata_dry_run_does_not_require_oauth_profile(self):
         args = [
             "youtube_upload.py", str(self.root / "sample.mp4"),
