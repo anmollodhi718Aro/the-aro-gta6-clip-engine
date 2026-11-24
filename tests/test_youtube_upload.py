@@ -236,7 +236,7 @@ class YouTubeUploadTests(unittest.TestCase):
                     "backend.app.youtube_owner_approval.verify_authenticated_channel_owner",
                     return_value=self.owner,
                 ), patch.object(upload_module, "load_rights_report", side_effect=mutate_report_before_final_read):
-                    with self.assertRaisesRegex(PermissionError, "no recorded rights for source-2"):
+                    with self.assertRaisesRegex(PermissionError, "no recorded rights for source source-2"):
                         upload_video(
                             self.video,
                             {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
