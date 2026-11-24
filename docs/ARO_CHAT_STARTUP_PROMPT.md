@@ -153,3 +153,15 @@ For the current first-test upload priority:
 - Added a regression test that simulates `os.replace` failure and verifies the existing OAuth token remains unchanged and the temporary file is cleaned up.
 - Test commit: `bcdd2355a23ca4a653c76857bc5ff4650f6e1d79`.
 - CI success on the immediately preceding head does not validate this new test; require fresh Ubuntu and Windows checks for the latest PR head.
+
+
+## ARO-CHAT-0136 current continuation — bounded disk-backed upload staging
+
+- Branch: `workstream/aro-chat-0136-bounded-disk-backed-upload-staging-2026-11-24`, based on PR #299 head `c93925037c031c92e38d80205f3fd0f669935b38`.
+- Require explicit positive `--max-upload-bytes` for actual uploads. Dry-run/approval-only validation defaults to 256 MiB unless the operator supplies a different cap.
+- Stage source bytes before OAuth into a private temporary file using 1 MiB chunks, enforce the cap while copying (including source growth), and hash the exact snapshot.
+- Bind the immutable per-clip owner approval to the staged snapshot SHA-256. Use `MediaIoBaseUpload` from the open disk-backed file stream with 1 MiB chunks; never load the full clip into RAM. Clean staging after API completion or failure.
+- PR #242's earlier implementation is a reference for the byte cap but must not be copied verbatim: it reads the complete staged file into `BytesIO`, defeating low-memory bounded streaming.
+- Add regression tests for oversize input, source growth, exact snapshot digest, source mutation after staging, cleanup, and missing explicit cap before OAuth.
+- Parent PR #299 head `c93925037c031c92e38d80205f3fd0f669935b38` passed run #45395847022: Ubuntu and hosted Windows each ran 342 tests plus compile and synthetic MP4/FFprobe. This does not validate ARO-CHAT-0136 until its own exact-head CI passes.
+- No live OAuth, real-media upload, merge, deployment, or public publishing. Keep Issue #68 and owner-device acceptance gates open until independently reviewed.
