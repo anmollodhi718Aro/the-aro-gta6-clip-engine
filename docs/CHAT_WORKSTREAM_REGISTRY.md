@@ -1055,3 +1055,8 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - On the current PR #339 branch, added `test_upload_removes_snapshot_when_media_stream_close_raises` to prove nested snapshot cleanup still runs when the retained media stream's `close()` raises after closing its underlying file.
 - Test commit: `a07cf1d0e1023f6291cf69bb6998c4f43c972fdf`. It asserts exception propagation, closed stream, removed snapshot, and exactly one mocked insert.
 - Exact-head CI PENDING; local tests NOT RUN in this connector session. Keep PR #339 draft/open/unmerged. Issue #68 remains OPEN; no OAuth, real media, live upload, merge, deployment or publishing.
+
+
+### ARO-CHAT-0218 exact-once media close assertion — 2026-11-24
+- Test commit `cc4dca770655a7bd69d767f9cb164d133e00eafd` makes the close-failure mock count close calls and asserts exactly one attempt, while preserving assertions for exception propagation, closed stream, removed snapshot, and one mocked insert.
+- Exact-head CI NOT VERIFIED; local tests NOT RUN; independent review NOT RECORDED. Keep PR #339 draft/open/unmerged and all live/public upload gates disabled.
