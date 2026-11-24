@@ -3,6 +3,7 @@ import sqlite3
 import tempfile
 import unittest
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import closing
 from threading import Barrier
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -129,7 +130,6 @@ class SourceRightsRegistryTests(unittest.TestCase):
         self.assertEqual(original_grant["disclosure"], self.record["disclosure"])
         with self.assertRaises(PermissionError):
             self.registry.authorize("creator-video-1", "publish", "youtube", at=self.now)
-        # The duplicate attempt must not broaden the platform allowlist either.
         with self.assertRaises(PermissionError):
             self.registry.authorize("creator-video-1", "analyze", "tiktok", at=self.now)
         with self.assertRaises(PermissionError):
@@ -149,7 +149,10 @@ class SourceRightsRegistryTests(unittest.TestCase):
                          ["registered", "revoked"])
 
     def test_non_duplicate_integrity_error_is_not_misreported_as_duplicate(self):
-        with sqlite3.connect(self.registry.database_path) as db:
+        # sqlite3.Connection's context manager commits/rolls back but does not
+        # close the handle. Close explicitly so Windows can remove the temp DB
+        # in tearDown after this trigger-backed regression.
+        with closing(sqlite3.connect(self.registry.database_path)) as db:
             db.execute("""
                 CREATE TRIGGER reject_source_registration
                 BEFORE INSERT ON source_rights
