@@ -635,3 +635,8 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #279 head `5921c242b518755fa11d13bd2692459dde6ef94a` passed run #45385250632 on one Ubuntu job: compile + 13 tests. Job checked out merge ref `56aa9df81a85f442774d85445942eae5e62a4687`; raw-head-only and Windows verification NOT DEMONSTRATED. No reviews/threads.
 - Bounded review found no critical defect in the source-permission diff. Registry is in-memory only, has no audit log, and downstream enforcement is not yet proven. Report: `docs/ARO_CHAT_0190_PR282_PR279_AUDIT.md`.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, uploads, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0190 audit-branch CI checkpoint — 2026-11-25
+- Draft audit PR #372 head `756d8c09e0633d44714e3d30b046fd12bc534c95`: zero associated PR workflow runs, zero combined status entries, no reviews. Its own CI PENDING / NOT VERIFIED; no jobs/logs. PR #372 remains OPEN / DRAFT / UNMERGED.
+- Do not transfer CI evidence from PR #279, PR #278, or PR #282. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
