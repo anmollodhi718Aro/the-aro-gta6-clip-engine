@@ -89,3 +89,10 @@ Date: 2026-11-24
 - PR #339 remains OPEN / DRAFT / UNMERGED. Parent PR #328 has a separate non-mergeable ancestry concern; do not merge, rebase, or retarget automatically.
 - Issue #68 remains OPEN and assigned to the repository owner; assignment is not approval to enable live uploads.
 - Keep live uploads and public publishing disabled. No OAuth credentials, real media, network upload, merge, deployment, or publishing were used in this audit.
+
+
+### Documentation follow-up head distinction
+
+- The green run above validates the functional PR head `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722` via its merge-ref checkout.
+- Subsequent commits in this work session update only the three documentation files (workstream report, startup handoff, and registry). The latest documentation-only branch tip has no associated Actions run returned; therefore latest-tip CI is NOT VERIFIED.
+- No application code or tests changed after the green functional head. Do not describe the current documentation-only tip as independently CI-verified.
