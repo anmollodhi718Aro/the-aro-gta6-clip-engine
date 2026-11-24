@@ -71,10 +71,26 @@ class SourceRightsRegistryTests(unittest.TestCase):
     def test_duplicate_source_id_cannot_broaden_active_grant(self):
         original = dict(self.record, allowed_uses=["analyze"])
         self.registry.register(original)
-        broadened = dict(self.record, allowed_uses=["analyze", "publish"])
+        broadened = dict(
+            self.record,
+            source_url="https://attacker.example/replacement",
+            grantor="different-grantor",
+            evidence_ref="replacement-evidence",
+            allowed_uses=["analyze", "publish"],
+            platforms=["youtube", "tiktok"],
+            attribution="replacement attribution",
+            disclosure="replacement disclosure",
+        )
         with self.assertRaisesRegex(PermissionError, "rights already exist"):
             self.registry.register(broadened)
-        self.registry.authorize("creator-video-1", "analyze", "youtube", at=self.now)
+        original_grant = self.registry.authorize(
+            "creator-video-1", "analyze", "youtube", at=self.now
+        )
+        self.assertEqual(original_grant["source_url"], self.record["source_url"])
+        self.assertEqual(original_grant["grantor"], self.record["grantor"])
+        self.assertEqual(original_grant["evidence_ref"], self.record["evidence_ref"])
+        self.assertEqual(original_grant["attribution"], self.record["attribution"])
+        self.assertEqual(original_grant["disclosure"], self.record["disclosure"])
         with self.assertRaises(PermissionError):
             self.registry.authorize("creator-video-1", "publish", "youtube", at=self.now)
         self.assertEqual([e["action"] for e in self.registry.audit_events("creator-video-1")],
