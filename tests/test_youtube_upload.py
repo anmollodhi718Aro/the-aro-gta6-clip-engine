@@ -72,7 +72,7 @@ class YouTubeUploadTests(unittest.TestCase):
     def test_actual_upload_validation_passes_with_both_approvals(self):
         video, body = validate_upload(
             self.video, self.report, title="Approved title",
-            made_for_kids=True, owner_approved=True, rights_confirmed=True,
+            made_for_kids=True, owner_approved=True, rights_confirmed=True, max_upload_bytes=1024 * 1024,
                             max_upload_bytes=1024 * 1024,
             upload_requested=True, privacy="unlisted",
         )
@@ -345,6 +345,7 @@ class YouTubeUploadTests(unittest.TestCase):
                             source_id="source-1",
                             owner_approved=True,
                             rights_confirmed=True,
+                            max_upload_bytes=1024 * 1024,
                         )
         youtube.videos.return_value.insert.assert_called_once()
 
