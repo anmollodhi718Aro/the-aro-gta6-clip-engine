@@ -1207,3 +1207,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - CI run [#45465232908](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45465232908) SUCCESS on merge ref `6ca5d4d4572fc566ef0a7281a1e79c06a90d4297` containing the PR head. Ubuntu and hosted Windows each passed compilation, 365 unit tests, and synthetic MP4/FFprobe validation. Same 365-test suite on both platforms, not 730 unique tests. Raw-head-only checkout NOT DEMONSTRATED.
 - Local tests NOT RUN in this connector session; independent review NOT RECORDED. PR #362 remains DRAFT / OPEN / UNMERGED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, network upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+## ARO-CHAT-0230 — Windows SQLite test cleanup regression (2026-11-25)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0230 | ARO-CHAT-0230 | Windows SQLite Test Cleanup Regression | ARO-GTA-P1-230 | Close trigger-backed SQLite connection before temporary-directory teardown to prevent Windows WinError 32; test-only portability correction | `workstream/aro-chat-0230-windows-sqlite-test-cleanup-2026-11-25` / [PR #362](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/362) | IMPLEMENTED; CI_VERIFIED on associated commit; independent review NOT RECORDED; owner-device Windows and real-media acceptance NOT VERIFIED | Base / starting SHA `3a8bc14207e9957e3920caf430935b144bfd559b`; test commit `cdd2eb320527b32ccaabe4e4e0f82fa541b94351`; report commit `5709bf02a1ba57b1021520bb4678243fb94abb11`; Actions run `45465232908` |
+- Ubuntu and hosted Windows each ran the same 365-test suite; Windows skipped 4 platform-unavailable tests. Both passed synthetic MP4/FFprobe validation. Synthetic output is not GTA 6 media.
+- No production rights-registry, uploader, OAuth, media-ingestion, workflow, or publishing behavior changed.
+- PR #362 remains draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
