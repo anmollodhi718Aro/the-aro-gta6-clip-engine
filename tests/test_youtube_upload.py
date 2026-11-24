@@ -11,7 +11,7 @@ from unittest.mock import Mock, patch
 
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
-from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_upload)
+from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_destination_approval_path, validate_upload)
 
 
 class YouTubeUploadTests(unittest.TestCase):
@@ -596,6 +596,28 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
         self.config.write_text(json.dumps(payload), encoding="utf-8")
         with self.assertRaisesRegex(PermissionError, "unique YouTube channel ID"):
             load_destination_profile(self.config, "aroanmol7", repository_root=self.root)
+
+    def test_profile_names_that_collide_case_insensitively_fail_closed(self):
+        payload = json.loads(self.config.read_text(encoding="utf-8"))
+        payload["profiles"]["AROANMOL7"] = {
+            "google_subject": "google-subject-three",
+            "channel_id": "UCfedcba987654321",
+        }
+        self.config.write_text(json.dumps(payload), encoding="utf-8")
+        with self.assertRaisesRegex(PermissionError, "unique without regard to case"):
+            load_destination_profile(self.config, "aroanmol7", repository_root=self.root)
+
+    def test_profile_approval_records_must_use_profile_named_directory(self):
+        valid_path = self.root / "local_approvals" / "aroanmol7" / "clip-001.json"
+        validate_destination_approval_path(valid_path, "aroanmol7")
+        with self.assertRaisesRegex(PermissionError, "directory named for destination profile"):
+            validate_destination_approval_path(
+                self.root / "local_approvals" / "shared" / "clip-001.json", "aroanmol7"
+            )
+
+    def test_profile_approval_record_path_is_required(self):
+        with self.assertRaisesRegex(PermissionError, "profile-specific --approval-record"):
+            validate_destination_approval_path(None, "aroanmol7")
 
     def test_profile_requires_config_and_name_together(self):
         with self.assertRaisesRegex(PermissionError, "must be supplied together"):
