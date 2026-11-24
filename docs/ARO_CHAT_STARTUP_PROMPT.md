@@ -564,3 +564,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Build only the local authorized Phase 1 workflow: source registry, permission-gated event intake, deterministic candidates, human review ledger, and registered-scope local renderer.
 - Keep live platform ingestion, OAuth, upload, publishing, deployment, and public release outside this MVP until separate security and owner-acceptance gates are met.
 - Do not reuse third-party watermarked footage. Use synthetic moving patterns for CI and owner-authorized media for real-media acceptance.
+
+
+## Latest continuation baseline — ARO-CHAT-0184 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0184 | Port Renderer No-Overwrite Regression into Integrated MVP`.
+- Workstream: ARO-GTA-P1-184; branch: `workstream/aro-chat-0184-pr266-renderer-race-regression-2026-11-24`; base / starting SHA: PR #266 head `25aeede30d0e28296af6e7b6d507e1f6ba96e566`.
+- Scope: test-only adaptation of PR #265's concurrent-output no-overwrite regression into PR #266's integrated local authorized MVP renderer tests. PR #266 requires an active `PermissionRecord`; PR #265's helper did not supply it.
+- Add a mocked race test for a competing destination creator during atomic `os.link` promotion; verify fail-closed behavior, preservation of the competing file, and cleanup of this invocation's temporary file.
+- No production renderer/uploader/OAuth/workflow behavior changes. Local tests NOT RUN in this connector session; this branch's exact-head CI must be inspected independently. Do not transfer PR #265 run #45373538938 or PR #266 run #45373702165.
+- PR #266 remains OPEN / DRAFT / UNMERGED pending independent review and owner-controlled integration. PR #265 remains a separate test-only branch; do not merge both independently.
+- Issue #68 remains OPEN. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, workflow retry, or destructive action.
