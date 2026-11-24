@@ -986,3 +986,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Code commit: `72f72e26c2a58ce01066275f56b4c4f649ed6bf2`; test commit: `da3d774a14565b3d3bc99d61b8335e92aaf96cff`.
 - No local test result or CI pass is claimed. CI must run on this follow-up PR's exact head.
 - PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
+
+
+### ARO-CHAT-0209 live CI reconciliation — 2026-11-24
+- Live PR #317 current head is `8e9bd5ef546c28b2cb2633e7e99373725b1fc053`; the earlier registry entry naming `36f9ac70f841715255d917183d24d3b2df2bfc49` is stale and superseded.
+- Actions run [#45422909011](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45422909011) completed SUCCESS for PR #317 head `8e9bd5ef546c28b2cb2633e7e99373725b1fc053`.
+- Ubuntu: compile passed, 342 tests passed, synthetic MP4/FFprobe passed. Hosted Windows: compile passed, same 342 tests with 2 skipped, synthetic MP4/FFprobe passed.
+- Both jobs checked out the PR merge ref `refs/remotes/pull/317/merge`; raw-head-only CI NOT DEMONSTRATED. These are 342 tests on each platform, not 684 unique tests.
+- Synthetic media only; no GTA 6/third-party media, no upload, publishing disabled, manual review required. Local tests NOT RUN. Independent review NOT RECORDED. Owner-device Windows and real-media acceptance NOT VERIFIED.
+- PR #317 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. The CI result applies to head `8e9bd5e...`; any subsequent commit requires fresh validation.
