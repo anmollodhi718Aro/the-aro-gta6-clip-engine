@@ -35,3 +35,14 @@ The hostname validator delegated any IPv6-like value to `ipaddress.IPv6Address`.
 ## Safety
 
 Draft-only validation hardening. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
+
+
+## Supersession / ancestry correction — 2026-11-25
+
+A live recheck found that the PR #373 base branch advanced five commits after this workstream's starting point. Its current implementation now rejects every percent sign in the hostname before IPv6 parsing, deliberately disallowing scoped IPv6 zone identifiers rather than supporting correctly encoded zones. This stricter parent change supersedes the need for this follow-up and conflicts with this branch's positive scoped-zone test.
+
+- Current PR #373 base tip at recheck: `47b264928ff7c3fa752868bc52427fae32dbadc4`.
+- This branch head at recheck: `8244e56fa86bc34d3d9d5b74a9aa2ddd1debb0ac`.
+- Compare result: DIVERGED, 5 ahead / 5 behind; merge base remains `ce0f784dcaace436214ae94c04e9a81b8f767a5d`.
+- Do not rebase, retarget, merge, or transplant this implementation. Preserve PR #377 as a draft evidence branch only; it is SUPERSEDED / NOT FOR MERGE.
+- PR #373's newer percent-rejection implementation must receive its own exact-head CI and independent review. No CI evidence transfers from this branch.
