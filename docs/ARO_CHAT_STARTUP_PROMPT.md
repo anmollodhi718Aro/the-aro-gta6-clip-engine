@@ -373,6 +373,6 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - PR #356's collection validation was useful but its branch was based on an older ancestor and retained broad `sqlite3.IntegrityError` translation. PR #357's concurrency test was also based on a stale/diverged parent. Both drafts were preserved unchanged.
 - Ported strict list/tuple/set/frozenset validation for `allowed_uses` and `platforms`, non-empty string member checks, and actor validation. Added synchronized two-worker duplicate registration coverage.
 - Preserved the latest parent's narrow SQLite primary-key/unique-only duplicate translation.
-- Commits: production `318970c09c53e239bdbf89a52e6f154cba1b3745`; tests `15f2d7cd0820e684098cffe095a872ff4a6f37`; report `da5daac9ad2529c0585066bd38e2c171a062e5e8`.
+- Draft PR: [#361](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/361), based on PR #355's latest observed head. Commits: production `318970c09c53e239bdbf89a52e6f154cba1b3745`; tests `15f2d7cd0820e684098cffe095a872ff4a6f37`; report `da5daac9ad2529c0585066bd38e2c171a062e5e8`.
 - Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent security review NOT RECORDED. Do not transfer CI from PRs #355, #356, or #357.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
