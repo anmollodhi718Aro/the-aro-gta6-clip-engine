@@ -47,3 +47,13 @@ Date: 2026-11-24
 - The close-failure mock now counts calls and asserts the retained stream's close is attempted exactly once, while the nested cleanup still removes the snapshot and the mocked insert occurs once.
 - PR #339 latest code/test head is recorded separately in GitHub metadata. Exact-head Ubuntu/hosted-Windows CI: NOT VERIFIED (no associated run/status returned for this head). Local tests NOT RUN. Independent review NOT RECORDED.
 - No OAuth, real media, live upload, merge, deployment, or publishing. Issue #68 remains OPEN; keep live uploads/public publishing disabled.
+
+
+## PRIVATE-only visibility hardening — 2026-11-24
+- Code commit: `e21f377583df944f5489e7d6a359bb5d2d1e6438`.
+- Test commit: `598c9c488c34143c6cb8c0a9d86208e3e7ef74b1`.
+- The upload metadata builder now rejects `unlisted` and `public`; CLI `--privacy` accepts only `private`. Added regression coverage proving both non-private values are rejected by metadata construction and upload validation.
+- Docs commit: `51dbcdf38c59c6f74d239014fbb92019b6d50201`; corrected `docs/YOUTUBE_UPLOAD.md` to state that public publishing is not implemented and only PRIVATE staging is supported.
+- CI run #45433283842 was cancelled during FFmpeg/FFprobe setup on both Ubuntu and Windows; it did not reach compile/tests. A later run #45433336438 is pending for the documentation head. Exact-head green CI is NOT VERIFIED.
+- PR #339 is OPEN/DRAFT/UNMERGED and mergeable at last metadata check. Parent PR #328 is reported non-mergeable against its base; do not merge or retarget without a dependency-graph review. Independent security review NOT RECORDED. Issue #68 remains OPEN.
+- No OAuth, credentials, real media, network upload, merge, deployment, or publishing.
