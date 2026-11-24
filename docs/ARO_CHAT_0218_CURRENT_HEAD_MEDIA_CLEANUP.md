@@ -57,3 +57,9 @@ Date: 2026-11-24
 - CI run #45433283842 was cancelled during FFmpeg/FFprobe setup on both Ubuntu and Windows; it did not reach compile/tests. A later run #45433336438 is pending for the documentation head. Exact-head green CI is NOT VERIFIED.
 - PR #339 is OPEN/DRAFT/UNMERGED and mergeable at last metadata check. Parent PR #328 is reported non-mergeable against its base; do not merge or retarget without a dependency-graph review. Independent security review NOT RECORDED. Issue #68 remains OPEN.
 - No OAuth, credentials, real media, network upload, merge, deployment, or publishing.
+
+
+## CI assertion correction — 2026-11-24
+- First private-only hardening CI run #45433336438 exposed one stale test expectation: the test still expected the generic word `privacy`, while the stricter code now emits the intentional PRIVATE-only policy error. The implementation behavior was correct; 350 tests passed and one assertion failed on Ubuntu. Hosted Windows was cancelled before test execution.
+- Updated the test assertion to expect the PRIVATE-only policy message in commit `52c168d4a389ab7a99bff5f660708382d00079df`.
+- Follow-up CI run #45433572590 is now running on that exact head; both Ubuntu and hosted Windows jobs are in progress. Do not mark CI green until both complete.
