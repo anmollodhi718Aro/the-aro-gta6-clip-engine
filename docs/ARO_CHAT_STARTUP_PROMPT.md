@@ -420,3 +420,17 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #251 remains open/draft/unmerged, mergeable=false, with no independent review recorded. Owner-device Windows and real-media acceptance remain unverified.
 - Audit PR #252's own head `eba4fe0f9bed2a0a01507ab62414cd61ecdb7010` has no associated workflow run; its CI is pending. Do not transfer parent PR #251's run.
 - Keep Issue #68 open and live/public uploads disabled pending owner approval, independent security review, owner-controlled integration, owner-device verification, device-appropriate upload limit, and authorized real-media acceptance.
+
+
+
+## Latest continuation baseline — ARO-CHAT-0172 (2026-11-24)
+
+- Current workstream: ARO-GTA-P1-172 / ARO-CHAT-0172 | independent exact-head CI audit of PR #252.
+- Branch: `workstream/aro-chat-0172-pr252-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #252 head `c5ce5fe3557b89e12b52ac8df3b8b518dad37e63`.
+- PR #252's own Python CI run #45314960254 (run 1145) completed SUCCESS: Ubuntu job #138179488732 passed compile, 340 tests (5.143s), and synthetic MP4/FFprobe; hosted-Windows job #138179488417 passed compile, the same 340 tests (15.690s), and synthetic MP4/FFprobe.
+- Both jobs checked out PR #252 merge ref at `93f8ed47ab657902a173030b548d91412a4a76cb`, merging audited head `c5ce5fe3557b89e12b52ac8df3b8b518dad37e63` into base `1316c12f4f66305b190f671330682eb535e41ba0`. Raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic pattern/tone only; no GTA 6 or third-party media; publishing disabled; manual review required. Hosted Windows CI is not owner-device Windows verification.
+- PR #252 remains OPEN / DRAFT / UNMERGED; independent review NOT RECORDED. Its audit branch's own exact-head CI must be inspected separately; never transfer PR #252's run.
+- Report: `docs/ARO_CHAT_0172_PR252_CI_AUDIT.md`.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live/public uploads disabled pending explicit owner approval, independent security review, owner-controlled integration, owner-device verification, owner-selected device-appropriate upload limit, and authorized real-media acceptance.
+- Documentation-only. No OAuth, credentials/tokens, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
