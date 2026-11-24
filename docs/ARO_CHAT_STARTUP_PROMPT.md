@@ -376,3 +376,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Draft PR: [#361](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/361), based on PR #355's latest observed head. Commits: production `318970c09c53e239bdbf89a52e6f154cba1b3745`; tests `15f2d7cd0820e684098cffe095a872ff4a6f37`; report `da5daac9ad2529c0585066bd38e2c171a062e5e8`.
 - Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent security review NOT RECORDED. Do not transfer CI from PRs #355, #356, or #357.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+## Latest continuation — ARO-CHAT-0230 (2026-11-25)
+- Current draft: PR #362, branch `workstream/aro-chat-0230-windows-sqlite-test-cleanup-2026-11-25`; test-only Windows SQLite teardown fix using `contextlib.closing`.
+- PR #362 head/report commit: `5709bf02a1ba57b1021520bb4678243fb94abb11`; test fix commit: `cdd2eb320527b32ccaabe4e4e0f82fa541b94351`.
+- CI run [#45465232908](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45465232908) passed on merge ref `6ca5d4d4572fc566ef0a7281a1e79c06a90d4297` containing the PR head. Ubuntu and hosted Windows each passed compile, 365 unit tests, and synthetic MP4/FFprobe. Same suite on both platforms, not 730 unique tests. Raw-head-only checkout NOT DEMONSTRATED.
+- Local tests NOT RUN in this connector session; independent review NOT RECORDED. Keep PR #362 DRAFT / OPEN / UNMERGED.
+- Next: preserve PR #362; continue with the next bounded, evidence-backed test/security task only after checking the latest registry and open PRs. Do not infer a security/owner approval from green CI.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
