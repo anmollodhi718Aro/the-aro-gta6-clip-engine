@@ -615,3 +615,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Both jobs checked out PR merge ref at `6695c711dd1c317565ae12f9f01deafe4e63d260`, merging audited head `e425fbb9b789db9ba8746a0cb1a568dca28ba88a` into base `ab64dbfe566fa6d8f5ed1debeacd93cbf5b27eaf`. Raw-head-only checkout NOT DEMONSTRATED.
 - Combined status, reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #276 remains OPEN / DRAFT / UNMERGED. This new audit branch needs its own CI evidence.
 - Documentation-only; no runtime behavior, credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## Latest continuation baseline — ARO-CHAT-0190 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0190 | PR #278 Exact-Head CI Audit`; workstream ARO-GTA-P1-190.
+- Branch: `workstream/aro-chat-0190-pr278-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #278 head `1026367d06109eff908d56e62260bd453528af3a`.
+- Task: documentation-only independent exact-head CI audit of PR #278.
+- PR #278 head `1026367d06109eff908d56e62260bd453528af3a` is associated with Python CI run #45385215158 (run 1208), SUCCESS. Ubuntu job #138414245671 and hosted-Windows job #138414245219 both passed checkout, tool setup, compile, and the unit/synthetic-media integration test step.
+- Job-log contents were unavailable in this audit; exact test count/duration, detailed synthetic MP4/FFprobe output, and actual checkout ref/SHA remain NOT VERIFIED. Combined commit status is PENDING with zero status entries; independent review is NOT RECORDED. PR #278 remains OPEN / DRAFT / UNMERGED.
+- Report: `docs/ARO_CHAT_0190_PR278_CI_AUDIT.md`. Do not transfer CI evidence to this audit PR's own head.
+- Documentation-only. No application/workflow behavior changes, workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
