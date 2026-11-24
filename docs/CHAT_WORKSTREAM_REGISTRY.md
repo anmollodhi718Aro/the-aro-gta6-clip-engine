@@ -1156,3 +1156,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Production commit: 0a0d22e57b3016b0e3bbacec29c71999086045eb. Test commit: 036ada61be8b5e2c03cbfd24e18ff4eeef96a996.
 - Local tests NOT RUN in this connector session. Verify fresh exact-head Ubuntu and hosted-Windows CI; independent security review remains NOT RECORDED.
 - Draft only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment or destructive action.
+
+
+## ARO-CHAT-0226 — immutable source-rights grants (2026-11-24)
+- Workstream: ARO-GTA-P1-226; branch `workstream/aro-chat-0226-rights-grant-no-overwrite-2026-11-24`; base PR #354 branch `workstream/aro-chat-0225-stable-rights-report-read-2026-11-24`.
+- Finding: the active PR #354 lineage still used an UPSERT for an existing source ID, allowing grant replacement/scope broadening and resetting `revoked_at`. A similar draft change on a separate branch is not inherited by this lineage.
+- Change: INSERT-only grant registration; duplicate source IDs fail with `PermissionError`; duplicate attempts do not add audit events or reactivate revoked rights.
+- Tests: duplicate registration cannot broaden an analyze-only grant to publish; duplicate registration cannot reactivate a revoked grant.
+- Commits: production `a9716c4e5d39b79103dfed2ee000cd817db71b0b`; tests `8cc3155cf39c75b5a9e28b1f9a17a44a13264530`; report added in this workstream.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED.
+- Draft only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment or destructive action. Keep live uploads/public publishing disabled.
