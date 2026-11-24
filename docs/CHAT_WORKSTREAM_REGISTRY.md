@@ -1088,3 +1088,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Current-head workflow lookup: zero associated runs; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED.
 - Base advanced 12 documentation-only commits after starting SHA `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722`; compare reports DIVERGED (6 ahead / 12 behind), merge base remains starting SHA. Preserve draft; do not rebase/retarget automatically.
 - Local tests NOT RUN; independent security review NOT RECORDED. Issue #68 OPEN; public publishing disabled.
+
+
+## ARO-CHAT-0223 — PR #344 CI assertion correction (2026-11-24)
+- Workstream: ARO-GTA-P1-223; branch `workstream/aro-chat-0223-pr344-ci-assertion-fix-2026-11-24`; base PR #344 branch at starting SHA `d2e057734517c1dfb3be994eb7268580f1f173a4`.
+- PR #346 run #45441375437 failed identically on Ubuntu and hosted Windows: 352 tests, one assertion failure on each platform (Windows also skipped 3 FIFO-only tests). The rights check correctly raised `no recorded rights for source source-2`; the test expected a stale string missing the second `source`.
+- Test-only fix updates the expected substring; production uploader behavior is unchanged. Commit `9e349ae9fa6d66832b8d030e2ffe3bef55cdf35d`.
+- This follow-up's exact-head CI is PENDING / NOT VERIFIED; local tests NOT RUN. No result is transferred from PR #346. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
