@@ -1325,3 +1325,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Test commit: 079d9213ab53142c6d085dbfc28597df745a5a2b; current PR #371 head at handoff: same SHA.
 - Local tests NOT RUN in this connector session. Commit-associated workflow lookup returned no run at inspection; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent security review NOT RECORDED.
 - PR #371 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+### ARO-CHAT-0235 current exact-head CI recheck — 2026-11-25
+
+- PR #371 exact head: `2032ccbc1c115426e3731415915656841c2633ad`; base: `8185687919138671deff872f6a7f35f86eafc27c`; OPEN / DRAFT / UNMERGED.
+- Exact-head Python CI run [#45494763114](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45494763114) completed FAILURE.
+- Ubuntu job `138802196403` and hosted-Windows job `138802196129` both completed FAILURE. Jobs returned `steps: null`; dedicated step lookups returned empty arrays; both job-log requests returned `BlobNotFound`.
+- Failure cause NOT VERIFIED. No evidence identifies a failed command or establishes an application/test defect. Combined status returned zero entries; independent review NOT RECORDED.
+- Local tests NOT RUN in this connector session; no test count or compile result claimed. CI FAILED / NOT VERIFIED.
+- No workflow retry/dispatch, source-code or workflow change, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+- Next: preserve draft status; investigate runner/workflow initialization through an authorized owner-side Actions/account check, then run validation only on a naturally triggered exact-head workflow. Do not transfer parent CI.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
