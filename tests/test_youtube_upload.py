@@ -1125,7 +1125,9 @@ class YouTubeOAuthPersistenceTests(unittest.TestCase):
         credentials_module.Credentials = Mock()
         flow = Mock()
         flow.run_local_server.return_value = self.credentials
-        flow_module.InstalledAppFlow.from_client_secrets_file.return_value = flow
+        installed_app_flow = Mock()
+        installed_app_flow.from_client_secrets_file.return_value = flow
+        flow_module.InstalledAppFlow = installed_app_flow
         google.auth = auth
         auth.transport = transport
         transport.requests = requests
@@ -1143,7 +1145,6 @@ class YouTubeOAuthPersistenceTests(unittest.TestCase):
         }
 
     def test_authorize_can_defer_token_persistence_until_destination_verification(self):
-        from backend.app.youtube_upload import _persist_oauth_token
         with patch.dict(sys.modules, self._google_oauth_modules()):
             with patch("backend.app.youtube_upload._persist_oauth_token") as persist:
                 from backend.app.youtube_upload import _authorize_google
