@@ -131,10 +131,7 @@ class SourceRightsRegistryTests(unittest.TestCase):
         self.assertCountEqual(outcomes, ["registered", "duplicate"])
         events = self.registry.audit_events("creator-video-1")
         self.assertEqual([event["action"] for event in events], ["registered"])
-        self.assertEqual(events[0]["actor"], outcomes and next(
-            actor for actor in ("worker-a", "worker-b")
-            if events[0]["actor"] == actor
-        ))
+        self.assertIn(events[0]["actor"], ("worker-a", "worker-b"))
 
 if __name__ == "__main__":
     unittest.main()
