@@ -310,6 +310,67 @@ class YouTubeUploadTests(unittest.TestCase):
         self.assertFalse(snapshot_paths[0].exists())
         youtube.videos.return_value.insert.assert_called_once()
 
+    def test_upload_removes_snapshot_when_media_stream_close_raises(self):
+        db_path = self.root / "source_rights.sqlite3"
+        self._write_upload_rights(db_path)
+        youtube = Mock()
+        youtube.videos.return_value.insert.return_value.execute.return_value = {
+            "id": "video-cleanup",
+            "status": {"privacyStatus": "private"},
+        }
+        modules = self._mock_google_modules(youtube)
+        snapshot_paths = []
+        media_streams = []
+
+        class CloseThenRaise:
+            def __init__(self, filename):
+                self._stream = open(filename, "rb")
+
+            @property
+            def closed(self):
+                return self._stream.closed
+
+            def close(self):
+                self._stream.close()
+                raise OSError("synthetic media close failure")
+
+        def media_file_upload(filename, **kwargs):
+            snapshot_paths.append(Path(filename))
+            stream = CloseThenRaise(filename)
+            media_streams.append(stream)
+            return types.SimpleNamespace(filename=filename, _fd=stream)
+
+        modules["googleapiclient.http"].MediaFileUpload.side_effect = media_file_upload
+        with patch.dict(sys.modules, modules):
+            with patch.dict(os.environ, {
+                "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
+                "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
+            }):
+                with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch(
+                    "backend.app.youtube_owner_approval.verify_authenticated_channel_owner",
+                    return_value=self.owner,
+                ):
+                    with self.assertRaisesRegex(OSError, "synthetic media close failure"):
+                        upload_video(
+                            self.video,
+                            {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                            client_secrets=self.client_secrets,
+                            token_path=self.root / "token.json",
+                            rights_report_path=self.report,
+                            approval_record_path=self.root / "approval.json",
+                            rights_db_path=db_path,
+                            clip_id="clip-1",
+                            source_id="source-1",
+                            owner_approved=True,
+                            rights_confirmed=True,
+                        )
+
+        self.assertEqual(len(media_streams), 1)
+        self.assertTrue(media_streams[0].closed)
+        self.assertEqual(len(snapshot_paths), 1)
+        self.assertFalse(snapshot_paths[0].exists())
+        youtube.videos.return_value.insert.assert_called_once()
+
     def test_upload_does_not_report_success_without_private_visibility_confirmation(self):
         db_path = self.root / "source_rights.sqlite3"
         self._write_upload_rights(db_path)
