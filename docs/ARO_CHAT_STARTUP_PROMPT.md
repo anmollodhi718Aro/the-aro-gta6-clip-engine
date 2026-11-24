@@ -276,3 +276,9 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Synthetic evidence: no GTA 6 or third-party media; `upload_performed=false`, `publishing_enabled=false`, `manual_review_required=true`. No OAuth, network upload, owner-device acceptance, or real-media acceptance.
 - PR #339 remains draft/open/unmerged. Independent security review of the full uploader/approval lineage is still NOT RECORDED. Parent PR #328 remains non-mergeable; reconcile ancestry before integration.
 - Next: independently review the consolidated uploader/approval lineage and map exact PR #311 → #328 → #339 ancestry. Keep Issue #68 open and live/public uploads disabled. No merge, rebase, retarget, OAuth, real media, upload, deployment, or publishing.
+
+
+### CI scope clarification after documentation updates
+- Run #45434843065 validates the functional/code-and-test head `a08a69cfa687479c58ce72a322b1357761a92723` only.
+- The subsequent commits in this workstream update documentation only (this report, startup handoff, and registry); no application code or tests changed after the validated functional head.
+- The resulting documentation-only branch tip has no separately associated CI run returned and is therefore NOT independently CI-VERIFIED. Do not transfer the functional-head green result to the later documentation-only tip.
