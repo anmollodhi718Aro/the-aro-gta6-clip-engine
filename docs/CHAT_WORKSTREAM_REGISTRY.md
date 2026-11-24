@@ -1730,3 +1730,13 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Branch: `workstream/aro-chat-0179-pr257-live-head-audit-2026-11-24`; audited PR #257 live head: `cb12b8a1509d00ff9ec0a7ebce5dc25977bcba58`.
 - PR #261 initially opened at head `581d59a74b9425b979d507083d02cd91fb181aaf`; inspect this audit PR's own exact-head CI separately after the final documentation update. Do not transfer PR #257's CI.
 - Report: `docs/ARO_CHAT_0179_PR257_LIVE_HEAD_CI_AUDIT.md`. Documentation-only; no workflow retry, merge, or retarget.
+
+
+### ARO-CHAT-0179 audit-branch CI closeout — 2026-11-24
+- PR #261 current exact head `86dc5b5bb5bb0966b930c9d64e819b41978bbafa` passed its own run #45351424601 (run 1156).
+- Ubuntu job #138298592512 and hosted-Windows job #138298591353 both passed compilation, 340 unit tests, and synthetic MP4 render/verification. Test durations: 5.143s Ubuntu and 17.453s Windows.
+- Both jobs checked out PR #261 merge ref at `cdc118dc6e625a6e3e9969f1249b806f3eb29907`, merging head `86dc5b5bb5bb0966b930c9d64e819b41978bbafa` into base `cb12b8a1509d00ff9ec0a7ebce5dc25977bcba58`. Raw-head-only checkout NOT DEMONSTRATED.
+- PR #261 remains OPEN / DRAFT / UNMERGED. Reviews, inline threads, and conversation comments are empty; independent review NOT RECORDED. Combined status has zero entries.
+- This verifies only the audit branch's merge-ref CI. Audited PR #257 exact-head CI remains PENDING / NOT VERIFIED. Synthetic pattern/tone is not GTA 6 or authorized real-media acceptance; hosted Windows is not owner-device verification.
+- Workstream ARO-CHAT-0179: audit documentation IMPLEMENTED; audit-branch CI_VERIFIED on merge ref; audited PR #257 remains pending. No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / NOT IMPLEMENTED. Keep live/public uploads disabled pending explicit owner approval and all security/owner-acceptance gates.
