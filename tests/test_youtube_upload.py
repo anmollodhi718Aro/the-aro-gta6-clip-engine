@@ -612,10 +612,12 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
 
     def test_profile_resolution_keeps_channels_isolated(self):
         first = resolve_destination_identity(
-            config_path=self.config, profile_name="aroanmol7", token_override=None
+            config_path=self.config, profile_name="aroanmol7", token_override=None,
+            repository_root=self.root,
         )
         second = resolve_destination_identity(
-            config_path=self.config, profile_name="the_arro07", token_override=None
+            config_path=self.config, profile_name="the_arro07", token_override=None,
+            repository_root=self.root,
         )
         self.assertEqual(first[1], "UC1234567890abcdef")
         self.assertEqual(second[1], "UCabcdef1234567890")
