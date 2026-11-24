@@ -534,3 +534,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Production commit: `e9a3b0d77aae6c48aac5f34db66114f86839a1fd`; test commit: `3b4cf33873e1982493fb7b0a37b5f9d031379b05`.
 - PR #376's earlier head `320d236609248e9fcf5fbad99483212f07a4ccb2` had associated run #45495596246: Ubuntu and hosted Windows both failed before exposing any workflow steps; both job-log downloads returned BlobNotFound. Root cause NOT VERIFIED; this is not attributed to application code or tests. The new commits have not yet been validated by local tests or exact-head CI.
 - PR remains draft/open/unmerged. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0238 continuation update — 2026-11-25
+
+- Follow-up production commit `8d9812d8c88ad4549e5677a4a3a175b4e75bdd26` conservatively rejects every all-decimal URL hostname suffix beginning with zero unless the complete hostname is canonical four-octet IPv4.
+- Regression test commit and current branch head: `f6bb501eccf77445509f85e24ec69babbd61e41a`; added `example.09` and `example.0008` rejection cases.
+- Current-head associated workflow lookup returned zero runs. Exact-head CI PENDING / NOT VERIFIED; local tests NOT RUN; independent review NOT RECORDED.
+- PR #376 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
