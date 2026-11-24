@@ -16,9 +16,12 @@ ALLOWED_USES = frozenset({"analyze", "edit", "publish"})
 
 
 def _time(value: str | datetime) -> datetime:
-    parsed = value if isinstance(value, datetime) else datetime.fromisoformat(
-        value.replace("Z", "+00:00")
-    )
+    if isinstance(value, datetime):
+        parsed = value
+    elif isinstance(value, str) and value.strip():
+        parsed = datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
+    else:
+        raise ValueError("timestamp must be ISO text or a datetime")
     if parsed.tzinfo is None or parsed.utcoffset() is None:
         raise ValueError("timestamps must include a timezone")
     return parsed
@@ -75,9 +78,17 @@ class SourceRightsRegistry:
             raise ValueError("rights record must be an object")
         required = ("source_id", "source_url", "grantor", "evidence_ref",
                     "allowed_uses", "platforms", "valid_from")
-        missing = [key for key in required if not record.get(key)]
+        missing = [key for key in required if record.get(key) is None or record.get(key) == ""]
         if missing:
             raise ValueError("missing required rights fields: " + ", ".join(missing))
+        text_fields = ("source_id", "source_url", "grantor", "evidence_ref")
+        for field in text_fields:
+            value = record[field]
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(f"{field} must be a non-empty string")
+        for field in ("attribution", "disclosure"):
+            if field in record and not isinstance(record[field], str):
+                raise ValueError(f"{field} must be a string")
         if not isinstance(actor, str) or not actor.strip():
             raise ValueError("actor is required")
         actor = actor.strip()
@@ -97,15 +108,16 @@ class SourceRightsRegistry:
         platforms = sorted({item.strip().lower() for item in raw_platforms})
         if not platforms:
             raise ValueError("at least one permitted platform is required")
-        source_url = str(record["source_url"]).strip()
+        source_url = record["source_url"].strip()
         if not source_url.startswith(("https://", "http://")):
             raise ValueError("source_url must be an http(s) URL")
         values = (
-            str(record["source_id"]).strip(), source_url, str(record["grantor"]).strip(),
-            str(record["evidence_ref"]).strip(), json.dumps(sorted(uses)),
-            json.dumps(platforms), str(record.get("attribution", "")).strip(),
-            str(record.get("disclosure", "")).strip(), _time(record["valid_from"]).isoformat(),
-            _time(record["expires_at"]).isoformat() if record.get("expires_at") else None,
+            record["source_id"].strip(), source_url, record["grantor"].strip(),
+            record["evidence_ref"].strip(), json.dumps(sorted(uses)),
+            json.dumps(platforms), record.get("attribution", "").strip(),
+            record.get("disclosure", "").strip(), _time(record["valid_from"]).isoformat(),
+            _time(record["expires_at"]).isoformat()
+            if record.get("expires_at") is not None else None,
             None,
         )
         if not all(values[:4]):
@@ -152,7 +164,7 @@ class SourceRightsRegistry:
         with self._connect() as db:
             row = db.execute("SELECT * FROM source_rights WHERE source_id=?",
                              (source_id,)).fetchone()
-        now = _time(at or datetime.now(timezone.utc))
+        now = _time(at) if at is not None else datetime.now(timezone.utc)
         if row is None:
             raise PermissionError(f"no recorded rights for source {source_id}")
         if row["revoked_at"] and now >= _time(row["revoked_at"]):
@@ -178,7 +190,7 @@ class SourceRightsRegistry:
             raise ValueError("source_id and actor must be non-empty strings")
         source_id = source_id.strip()
         actor = actor.strip()
-        when = _time(at or datetime.now(timezone.utc)).isoformat()
+        when = (_time(at) if at is not None else datetime.now(timezone.utc)).isoformat()
         with self._connect() as db:
             cur = db.execute("UPDATE source_rights SET revoked_at=? "
                              "WHERE source_id=? AND revoked_at IS NULL",
