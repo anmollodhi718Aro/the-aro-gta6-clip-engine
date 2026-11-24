@@ -71,6 +71,8 @@ class SourceRightsRegistry:
             """)
 
     def register(self, record: dict[str, Any], *, actor: str = "operator") -> None:
+        if not isinstance(record, dict):
+            raise ValueError("rights record must be an object")
         required = ("source_id", "source_url", "grantor", "evidence_ref",
                     "allowed_uses", "platforms", "valid_from")
         missing = [key for key in required if not record.get(key)]
@@ -138,10 +140,14 @@ class SourceRightsRegistry:
     def authorize(self, source_id: str, use: str, platform: str,
                   *, at: datetime | None = None) -> dict[str, Any]:
         """Return the grant metadata or raise PermissionError; unknown is blocked."""
+        if any(not isinstance(value, str) or not value.strip()
+               for value in (source_id, use, platform)):
+            raise ValueError("source_id, use, and platform must be non-empty strings")
+        source_id = source_id.strip()
+        use = use.strip().lower()
+        platform = platform.strip().lower()
         if use not in ALLOWED_USES:
             raise ValueError(f"unsupported use: {use}")
-        if not source_id.strip() or not platform.strip():
-            raise ValueError("source_id and platform are required")
         with self._connect() as db:
             row = db.execute("SELECT * FROM source_rights WHERE source_id=?",
                              (source_id,)).fetchone()
@@ -166,8 +172,11 @@ class SourceRightsRegistry:
 
     def revoke(self, source_id: str, *, actor: str,
                at: datetime | None = None) -> bool:
-        if not source_id.strip() or not actor.strip():
-            raise ValueError("source_id and actor are required")
+        if any(not isinstance(value, str) or not value.strip()
+               for value in (source_id, actor)):
+            raise ValueError("source_id and actor must be non-empty strings")
+        source_id = source_id.strip()
+        actor = actor.strip()
         when = _time(at or datetime.now(timezone.utc)).isoformat()
         with self._connect() as db:
             cur = db.execute("UPDATE source_rights SET revoked_at=? "
@@ -181,6 +190,9 @@ class SourceRightsRegistry:
             return cur.rowcount == 1
 
     def audit_events(self, source_id: str) -> list[dict[str, str]]:
+        if not isinstance(source_id, str) or not source_id.strip():
+            raise ValueError("source_id must be a non-empty string")
+        source_id = source_id.strip()
         with self._connect() as db:
             rows = db.execute("""
                 SELECT action, actor, occurred_at, details_json
