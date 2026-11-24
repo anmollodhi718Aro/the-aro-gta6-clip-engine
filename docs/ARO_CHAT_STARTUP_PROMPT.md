@@ -192,3 +192,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Code/test head `1c380a2e311abbd5b818a398d0f0a70011f547d4` passed Actions run #45427291297 on merge ref `938dd9ef262b848fbc5f236601f8466171d77b9a`: Ubuntu 342 passed; hosted Windows 342 executed, 341 passed and FIFO-specific test skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed on both.
 - Regression for changing the original source before mocked insert passed on both platforms. FIFO-race regression passed on Ubuntu and was skipped only on hosted Windows due to platform capability.
 - No GTA 6/third-party media, OAuth, network upload, or publishing. Raw-head-only CI NOT DEMONSTRATED. This docs closeout changes the head and needs fresh exact-head CI.
+
+
+### ARO-CHAT-0215 latest continuation — approval-record read hardening
+- PR #328 remains the active draft branch: `workstream/aro-chat-0215-verified-upload-byte-snapshot-2026-11-24`, based on PR #311 head `67e6d4290fee795fb8ba6fd0e926107ea7f0eb81`.
+- Independent review found that the inherited approval reader followed symlinks and did not bind the pre-open path to the opened descriptor. Fixed on this same branch; symlink, path-replacement, directory and FIFO regression tests added.
+- Commits: production `e20445398a69e2bffb3d58401f3f5a7b322bf10d`; tests `8f6577db86580d4ea90c55736e619262d02302bc`.
+- Prior run #45426822957 validated the previous head only (341 tests on each hosted OS; synthetic MP4/FFprobe; merge-ref checkout). It does not validate the new commits. Inspect the latest PR head's Actions jobs and logs before claiming CI_VERIFIED.
+- Next: audit exact latest-head Ubuntu/Windows CI and complete independent review of PR #328. Keep PR draft/open/unmerged. Issue #68 remains OPEN. No OAuth, credentials, real media, network upload, merge, deployment or publishing; public publishing remains disabled.
