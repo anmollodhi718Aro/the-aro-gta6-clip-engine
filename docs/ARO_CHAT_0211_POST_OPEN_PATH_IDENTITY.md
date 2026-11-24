@@ -24,9 +24,14 @@ The approval reader compared the pre-open `lstat()` identity with the opened des
 - Test commit: `b37b3d694c4e6dc7f3c291a242f925dabdd0bc3e`
 - Portability commit: `d37681e6af75b6ff81da2c47c67cf2001fb55049`
 
+## Pull request
+- Draft PR #320: https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/320
+- Current head: `d33e1a22390f66cffdbab7a5ec776180585df512`
+- Parent: PR #317
+
 ## Validation
-- Commit-associated workflow lookup for source and test commits: no runs returned.
-- Exact final-head Ubuntu and hosted-Windows CI: PENDING.
+- Commit-associated workflow lookup for the current PR head returned no runs.
+- Exact-head Ubuntu and hosted-Windows CI: PENDING.
 - Local tests: NOT RUN.
 - Owner-device Windows verification: NOT VERIFIED.
 - Real GTA 6 media: NOT USED; real-media acceptance NOT VERIFIED.
