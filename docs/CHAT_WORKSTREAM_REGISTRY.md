@@ -937,3 +937,29 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Implementation commits: `6c21c0977a6a9ec7643306f14fe7edf26f81d592` (initial guard), `848cdb1447743257e9a00ac7fa84da22c58a9acf` (base-aligned loader), `e10070cc0a9ff167922649ce2293bb6a5a3ab3ae` (fixture root), `a1c785ad7a54121732d3d59289054090ee892d96` (token-directory symlink test).
 - Exact-head Ubuntu and hosted-Windows CI remain PENDING / NOT VERIFIED; local tests have not been run in this connector session.
 - PR #300 remains DRAFT / OPEN / UNMERGED and GitHub currently reports it non-mergeable. Do not merge, rebase, or retarget automatically. Issue #68 remains OPEN; live uploads and public publishing stay disabled.
+
+
+## ARO-CHAT-0201 consolidated private-upload security continuation — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0201 |
+| Workstream ID | ARO-GTA-P1-201 |
+| Scope | Consolidate PR #299 private-response verification and PR #300 Windows/profile-path hardening directly on the current PR #295 base, avoiding the stale and diverged stacked branch chain. |
+| Branch / PR | `workstream/aro-chat-0201-consolidated-private-upload-security-2026-11-24` / [Draft PR #311](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/311) |
+| Base | PR #295 head `9f6cdc10bc77e99d6a9399f3c8a1505e18a87ab0` |
+| Initial consolidated head | `a95d1cbc22fd2d0653ba8c7b09ea227e76b29edb` |
+| Status | IMPLEMENTED IN DRAFT; exact-head CI pending; no real OAuth, upload, merge, deployment or publishing performed |
+
+### Included changes
+- Require a non-empty YouTube video ID and an explicit `status.privacyStatus == private` in the API response before reporting private-upload success.
+- Enforce the private-only staging boundary before OAuth/API work.
+- Reject destination-profile configuration and token-directory symlink escapes and keep per-profile token paths inside repository `.secrets/`.
+- Preserve the authenticated OIDC subject + OAuth-backed channel verification, durable exact-clip/source/hash approval, and live source-bound publish-rights checks already present in the PR #295 base.
+- Add Windows canonical-path assertions and update upload documentation.
+
+### Validation and blockers
+- PR #295 base exact-head CI run #45401529491 passed its Ubuntu and Windows jobs, including compile, unit tests and synthetic MP4/FFprobe validation. This validates the base only, not PR #311.
+- PR #311 exact-head CI for `a95d1cbc22fd2d0653ba8c7b09ea227e76b29edb` was not yet visible at the initial post-creation lookup. Do not claim it passed until the final head's Actions jobs are inspected.
+- Issue #68 implementation is present in the base ancestry and its OIDC verifier is non-recursive there; the older PR #83 head still contains the historical recursive helper and must not be treated as the current implementation.
+- Issue #68 remains OPEN pending independent review and owner-device OAuth/channel verification. No real YouTube upload has occurred. Public publishing remains disabled.
