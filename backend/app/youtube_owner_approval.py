@@ -183,6 +183,12 @@ def require_current_owner_approval(
         # and non-regular files rather than following a path outside the record.
         if approval_file.is_symlink():
             raise PermissionError("owner approval record must not be a symlink")
+        try:
+            path_mode = approval_file.lstat().st_mode
+        except OSError:
+            raise
+        if not stat.S_ISREG(path_mode):
+            raise PermissionError("owner approval record must be a regular file")
         flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
         descriptor = os.open(approval_file, flags)
         try:
