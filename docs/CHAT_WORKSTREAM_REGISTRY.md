@@ -952,7 +952,7 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 | Branch | `workstream/aro-chat-0198-canonical-profile-path-regression-2026-11-24` |
 | Base / starting SHA | PR #299 current head `97250fbb3bf1fd8d9e5e03dfc6ac6a9267b643b5` |
 | Prior reference | PR #300 / ARO-CHAT-0197 remains OPEN / DRAFT / UNMERGED; its branch is 12 commits ahead / 43 behind the current PR #299 head and is not rebased or retargeted. |
-| Status | IMPLEMENTED; exact-head CI PENDING; no local test run in this connector session |
+| Status | IMPLEMENTED; exact-head-associated CI SUCCESS on Ubuntu and hosted Windows (346 tests each plus synthetic MP4/FFprobe); independent review NOT RECORDED |
 | Changed files | `tests/test_youtube_upload.py`; this registry; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
 
 ### Implementation
@@ -960,7 +960,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added the second profile's explicit expected token path using the already-canonicalized repository root: `self.root.resolve() / ".secrets" / "tokens" / "the_arro07.json"`.
 - The existing first-profile assertion remains unchanged. No production uploader, OAuth, token persistence, permission, or publishing behavior changed.
 - Code commit: `6031b6dbbaf0745fad8cbc3e74085ab9ac105a23`.
-- Exact-head Ubuntu and hosted-Windows CI: PENDING. No test pass is claimed.
+- Exact-head-associated Actions run `45399961380` (run 1285) completed SUCCESS. Ubuntu job `138465638360` and hosted-Windows job `138465637811` both compiled successfully, passed the same 346-test unittest suite, and passed synthetic MP4/FFprobe validation.
+- Both jobs checked out merge commit `d961d60`, merging audited branch head `4dce542aa59023a7dc0ca9c61badecf4f0734f59` into base `97250fbb3bf1fd8d9e5e03dfc6ac6a9267b643b5`; raw-head-only checkout is NOT DEMONSTRATED. The result is evidence for this tested PR merge snapshot, not owner-device verification.
+- Synthetic smoke output confirms `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. No upload was performed. The tests and smoke test do not validate creator-authorized GTA 6 footage or live OAuth/upload behavior.
 - No OAuth, credentials/tokens, real media, API upload, public publishing, merge, rebase, retarget, deployment, or destructive action occurred.
 
 ### Safety and continuation
