@@ -486,3 +486,14 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #201 remains OPEN / DRAFT / UNMERGED; no independent review submissions, inline comments, or conversation comments are recorded. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
 - Next safe work: continue documentation-only evidence review and independent review readiness. Do not begin Issue #68 uploader/OAuth integration until an owner is assigned and the canonical security PR/branch or consolidation plan is explicitly approved. Keep live uploads/public publishing disabled.
 - No application behavior changes, local tests, credentials/tokens, OAuth, real media, upload, publishing, workflow retry, merge, retarget, deployment, or destructive action was performed.
+
+
+## OWNER-REVIEW AUTOMATION MODE — added 2026-11-24
+
+For the durable owner goal, read `docs/THE_ARO_OWNER_REVIEW_AUTOMATION_PLAN.md` before assigning new work. The owner wants four GPT-enabled devices/sessions to coordinate through GitHub so each session can use the standard startup instruction, find the latest pending task, and continue without requiring the owner to repeat project history. GitHub Master Script + Chat Workstream Registry are the shared memory; chat memory is not authoritative.
+
+Build toward an end-to-end pipeline: authorized intake → analysis/highlight detection → clip planning → rendering/validation → metadata drafts → owner review dashboard → (only after Issue #68 is securely completed) private upload staging to authenticated owner-approved channels → owner independently decides whether to make each video Public. The owner should normally only review finished clips and handle important exceptions/approvals.
+
+Initial owner-supplied channel handles: `@aroanmol7` and `@the_arro07`. Handles are not proof of channel ownership; bind each to an authenticated channel ID. Private upload requires separate per-channel/per-clip approval and verified OAuth owner identity. Public visibility is a separate final owner action and must never be automatic. Do not enable live uploads while Issue #68 is OPEN / WAITING_FOR_OWNER_APPROVAL. Never ask for passwords or commit/log OAuth tokens.
+
+For four-device coordination: one unique Chat ID/workstream/branch per session; check active PRs and branches before work; serialize shared-file changes; do not edit the same branch/file concurrently; record exact evidence and blockers; do not transfer CI results between heads. If blocked, report the next safe task rather than bypassing gates.

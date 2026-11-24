@@ -1748,3 +1748,18 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #201 remains OPEN / DRAFT / UNMERGED. This workstream remains documentation-only and CI evidence is limited to the commit-associated run and named job steps.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
 - No local tests, workflow retry, OAuth, credentials/tokens, real media, network upload, publishing, merge, retarget, deployment, or destructive action was performed.
+
+| ARO-CHAT-0130 | ARO-CHAT-0130 \\| Owner-Review Automation Plan for Four-Device GPT Workflow | ARO-GTA-P1-130 | Record the owner-requested end-to-end automation model, four-device GitHub coordination, authenticated per-channel PRIVATE upload staging and separate owner-only Public decision; planning/documentation only | `workstream/aro-chat-0130-owner-review-automation-plan-2026-11-24` / pending PR | IMPLEMENTED (planning docs only); runtime automation NOT IMPLEMENTED; Issue #68 remains blocking | Starting SHA `b955d2a6a7414fed46bb752d5b763fbb02b67b48`; plan `docs/THE_ARO_OWNER_REVIEW_AUTOMATION_PLAN.md`; targets `@aroanmol7`, `@the_arro07` |
+
+
+## Latest continuation baseline — ARO-CHAT-0130 (2026-11-24)
+
+- Chat ID: ARO-CHAT-0130; exact title: `ARO-CHAT-0130 | Owner-Review Automation Plan for Four-Device GPT Workflow`; Workstream ID: ARO-GTA-P1-130.
+- Scope: planning/documentation only. Record the owner's desired operating model: four GPT-enabled devices/sessions coordinate through GitHub; each reads Master Script + Registry, selects the latest safe pending task, and contributes through unique workstreams/branches/PRs. Owner's normal role is finished-output review and important approvals/exceptions.
+- Branch: `workstream/aro-chat-0130-owner-review-automation-plan-2026-11-24`; base: PR #201 head `b955d2a6a7414fed46bb752d5b763fbb02b67b48`.
+- Plan: `docs/THE_ARO_OWNER_REVIEW_AUTOMATION_PLAN.md`. Startup prompt updated to require reading this plan and to apply the same owner-review workflow.
+- Requested future pipeline: authorized intake → analysis/highlight detection → clip planning → rendering/validation → metadata drafting → review dashboard → secure PRIVATE upload staging → owner independently decides Public visibility.
+- Owner-supplied target handles: `@aroanmol7` and `@the_arro07`. These handles are not proof of ownership; future integration must authenticate exact channel IDs and require per-channel/per-clip approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live upload is NOT enabled or implemented by this planning change. Public publishing remains disabled. PRIVATE upload must not be enabled until authenticated channel-owner binding, exact-asset approval, permission rechecks, idempotency, audit records and independent review are implemented and accepted. Public visibility requires a separate final owner action.
+- This workstream changes planning documentation only; no application code, OAuth, secrets, YouTube API call, upload, publishing, merge, deployment or destructive action. Tests are not applicable to documentation text; the branch's own CI and independent review must be checked separately.
+- Next actionable project work remains the Issue #68 canonical security-lineage review/selection and authenticated private-upload gate, not live uploading. Do not bypass owner assignment/review requirements or assume any earlier CI applies to this branch.
