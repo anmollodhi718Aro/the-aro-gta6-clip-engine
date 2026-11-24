@@ -93,6 +93,11 @@ class SourceRightsRegistryTests(unittest.TestCase):
         self.assertEqual(original_grant["disclosure"], self.record["disclosure"])
         with self.assertRaises(PermissionError):
             self.registry.authorize("creator-video-1", "publish", "youtube", at=self.now)
+        # The duplicate attempt must not broaden the platform allowlist either.
+        with self.assertRaises(PermissionError):
+            self.registry.authorize("creator-video-1", "analyze", "tiktok", at=self.now)
+        with self.assertRaises(PermissionError):
+            self.registry.authorize("creator-video-1", "edit", "youtube", at=self.now)
         self.assertEqual([e["action"] for e in self.registry.audit_events("creator-video-1")],
                          ["registered"])
 
