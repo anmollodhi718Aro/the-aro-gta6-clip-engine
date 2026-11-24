@@ -26,9 +26,11 @@ def load_destination_profile(config_path: str | Path, profile_name: str) -> dict
     """Load one non-secret destination identity; OAuth tokens stay in separate local files."""
     if not isinstance(profile_name, str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", profile_name):
         raise ValueError("destination profile name must use 1-64 letters, numbers, underscores or hyphens")
-    path = Path(config_path).expanduser()
+    configured_path = Path(config_path).expanduser()
+    if configured_path.parent.is_symlink():
+        raise PermissionError("destination profile configuration directory must not be a symlink")
     try:
-        path = path.resolve(strict=True)
+        path = configured_path.resolve(strict=True)
         payload = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise PermissionError("destination profile configuration is missing or unreadable") from exc
