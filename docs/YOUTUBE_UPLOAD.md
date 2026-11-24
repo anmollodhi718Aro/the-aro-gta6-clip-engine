@@ -40,7 +40,7 @@ For separate destinations, create a local file at `.secrets/youtube_destination_
 }
 ```
 
-Replace every placeholder only after checking the exact channel ID and Google account identity in that channel's own authorized OAuth session. Do not infer a channel ID from its public handle. Profile names must be unique without regard to letter case (to avoid collisions on Windows filesystems), and every profile must map to a distinct YouTube channel ID. Each profile gets its own token file under `.secrets/tokens/<profile>.json`; the CLI refuses a shared-token override when a profile is selected. In profile mode, the approval record is also isolated: `--approval-record` must be stored beneath a directory whose resolved final name exactly matches the selected profile (for example, `local_approvals/aroanmol7/clip-001.json`). This prevents two destination profiles from pointing at the same approval-record directory.
+Replace every placeholder only after checking the exact channel ID and Google account identity in that channel's own authorized OAuth session. Do not infer a channel ID from its public handle. Profile names must be unique and every profile must map to a distinct YouTube channel ID. Each profile gets its own token file under `.secrets/tokens/<profile>.json`; the CLI refuses a shared-token override when a profile is selected.
 
 Use one profile per approval and upload invocation:
 
@@ -141,3 +141,8 @@ Immediately before `videos.insert`, the uploader re-verifies the Google OIDC sub
 - A private or unlisted approval cannot authorize a public upload. Public approval requires the distinct phrase PUBLISH PUBLIC CLIP_ID.
 - Immediately before videos.insert, the uploader rechecks the current publish grant for the clip source and every source-bound asset in the rights report.
 - Tests use synthetic files and mocked YouTube/OAuth clients only. They never perform a real upload.
+
+
+## Post-upload PRIVATE response verification
+
+The upload CLI reports success only when the official `videos.insert(part="snippet,status")` response contains a video ID and `status.privacyStatus == "private"`. If the response omits the status or reports any other visibility, the command exits as unverified and instructs the operator to inspect YouTube Studio. A request body asking for PRIVATE is not, by itself, evidence that YouTube accepted that visibility. Unit tests cover both confirmed-private and unexpected-visibility responses; tests do not upload to YouTube.
