@@ -1004,6 +1004,6 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added `test_regular_file_replacement_after_open_is_rejected` to exercise a different regular file replacing the approval-record pathname after descriptor open but before the post-open `lstat()`.
 - The test verifies the opened descriptor and current pathname must retain the same device/inode identity; the existing implementation rejects the mismatch.
 - Branch: `workstream/aro-chat-0211-post-open-regular-replacement-test-2026-11-24`; based on PR #319 head `4f5796e2a62927213f474a1e09ff1927d540cf96`.
-- Workstream: ARO-GTA-P1-211. Test commit: `8905865bab1127e470f1115ab31bbcbc63c70cbb`.
+- Workstream: ARO-GTA-P1-211. Test commit: `8905865bab1127e470f1115ab31bbcbc63c70cbb`; cleanup commit: `7cb422e1725f15e29111db1b4c7d113dcaeb75e7`. Draft PR #321 is OPEN / DRAFT / UNMERGED.
 - Status: IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. Production code unchanged.
 - Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; no OAuth, real media, upload, publishing, merge, rebase, retarget, or deployment.
