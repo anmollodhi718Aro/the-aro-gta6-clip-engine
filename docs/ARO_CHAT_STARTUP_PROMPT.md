@@ -355,3 +355,14 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Hardened `SourceRightsRegistry.register()` input validation: scope/platform values must be collections of non-empty strings; scalar strings, empty collections, malformed members, and non-string actors fail with ValueError.
 - Production commit: `ed13ef9d49a8829c87d6cb28b750c6cfe854bc13`; regression tests: `14e0c8ab9a3c2069aa2e7301222731460b77e6b9`.
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED. Preserve draft-only status. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads and public publishing remain disabled.
+
+
+## SQLite integrity-error classification follow-up — 2026-11-25
+
+- Static review found this branch still translated every `sqlite3.IntegrityError` into a duplicate-grant `PermissionError`, unlike the later hardened parent implementation.
+- Narrowed translation to SQLite primary-key and unique-key constraint codes only. Trigger/check/foreign-key and other integrity failures now propagate unchanged.
+- Added a trigger-based regression proving a non-duplicate integrity failure remains an `sqlite3.IntegrityError` and writes no registration audit event.
+- This is a fail-closed diagnostic correction; immutable grant behavior and permission scope are unchanged.
+- Local tests NOT RUN in this connector session. Fresh exact-head Ubuntu/hosted-Windows CI is required; independent security review NOT RECORDED.
+- PR #356 remains DRAFT / OPEN / UNMERGED. Its ancestry remains diverged from the newer PR #355 head; no rebase or retarget was performed.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
