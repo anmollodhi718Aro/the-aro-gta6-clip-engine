@@ -165,3 +165,9 @@ For the current first-test upload priority:
 - Exact-head Ubuntu and hosted-Windows CI has not been observed; local tests were not run in this connector session. Do not report this fix as tested.
 - PR #300 remains OPEN / DRAFT / UNMERGED and GitHub reports a dirty, non-mergeable branch (23 commits ahead / 5 behind the recorded base; merge base `758ae2d44e04b9a875a2a85aa153f0407a209766`). Do not rebase, retarget, or merge automatically.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled; no OAuth, credentials, real media, API upload, deployment, or publishing was performed.
+
+
+## ARO-CHAT-0197 scope correction — 2026-11-24
+- PR #300's live diff includes `backend/app/youtube_upload.py` in addition to the test and two docs. The production changes add repository-bound profile validation, symlink checks for token storage, atomic token persistence, and stricter rights-report validation. Treat this as production/security code, not a test-only patch.
+- Independent security review and tests for the production changes remain required. Exact-head CI has not been observed; no local tests are claimed.
+- GitHub reports PR #300 dirty/non-mergeable and 5 commits behind its recorded base. Do not rebase, retarget, or merge without explicit owner approval.
