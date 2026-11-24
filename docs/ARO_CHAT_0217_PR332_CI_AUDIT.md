@@ -87,3 +87,11 @@ Date: 2026-11-24
 - PR #335 changes tests and documentation only; its CI result is scoped to its own head and is not transferred to PR #328 or another branch.
 - PR #335 review submissions and inline review threads returned zero; independent review NOT RECORDED. PR remains OPEN / DRAFT / UNMERGED.
 - These synthetic/mocked checks do not constitute real GTA 6 media acceptance, owner-device Windows verification, or a live YouTube upload.
+
+
+## Post-CI documentation-head reconciliation — 2026-11-24
+- After the successful PR #336 run on predecessor head `3d537f9df3830728f63fda4ee6a8133166475dec`, three documentation-only commits advanced PR #336 to `bd15caca886356fd2850dea653dee0f63699d90d`. Compare confirms only the three audit/startup/registry documentation files changed.
+- Commit-associated workflow lookup and combined commit status for final head `bd15caca886356fd2850dea653dee0f63699d90d` returned zero entries. Therefore the final PR #336 documentation head is PENDING / NOT VERIFIED for exact-head CI. The earlier 344-test CI result applies only to predecessor `3d537f9df3830728f63fda4ee6a8133166475dec`.
+- PR #335 similarly advanced three documentation-only commits after its passing run: tested head `2779aee7b752433b72753ea77419f8ce3d1ae806`, current observed head `6d06bf9d4386506420d8e1028018016191fc1fde`. Compare confirms only its report/startup/registry files changed. The 342-test results apply to the earlier code/test head, not the current documentation tip.
+- A new parallel workstream ARO-CHAT-0218 / ARO-GTA-P1-218 is already reserved in PR #337 for a test-only stream-close-error cleanup regression. Do not duplicate or alter that workstream from ARO-CHAT-0217.
+- This audit branch's final commit is documentation-only. No local tests were run; no workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment was performed.
