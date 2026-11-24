@@ -32,3 +32,11 @@ Date: 2026-11-24
 ## Safety
 - Draft-only; no merge, rebase, retarget, workflow retry/dispatch, OAuth credentials, real media, network upload, publishing, deployment, or destructive action.
 - Issue #68 remains OPEN. Keep live uploads and public publishing disabled pending independent security review and owner-controlled acceptance.
+
+
+## Close-failure regression follow-up — 2026-11-24
+- Added `test_upload_removes_snapshot_when_media_stream_close_raises` on the current PR #339 branch.
+- The mocked stream closes its underlying file and then raises `OSError`. The test asserts the close error propagates, the stream is closed, the approved-byte snapshot is removed by the nested `finally`, and the YouTube insert is attempted exactly once.
+- Test commit: `a07cf1d0e1023f6291cf69bb6998c4f43c972fdf`.
+- Local tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI must be inspected for the final branch head; owner-device Windows and real-media PRIVATE acceptance remain NOT VERIFIED.
+- No OAuth, real media, network upload, merge, deployment, or publishing. Issue #68 remains OPEN; keep live uploads/public publishing disabled.
