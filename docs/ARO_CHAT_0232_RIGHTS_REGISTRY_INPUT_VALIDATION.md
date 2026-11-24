@@ -14,14 +14,14 @@ Date: 2026-11-25
 The persistent source-rights registry's public methods used string operations before validating argument types. Non-string or container values passed to `authorize()`, `revoke()`, or `audit_events()` could raise incidental `AttributeError`/SQLite binding errors rather than a predictable validation error. `register()` also assumed its record argument was a dictionary and coerced identity fields to strings.
 
 ## Changes
-- Add a shared required-text validator that rejects non-string and blank values with `ValueError`.
+- Add shared required-text and timestamp validators that reject malformed values with `ValueError`.
 - Validate and normalize source ID, use, platform, actor, grantor, evidence reference, and source URL before persistence or lookup.
 - Reject non-mapping registration records and non-text identity fields instead of silently coercing them.
-- Add regressions covering malformed values across `register()`, `authorize()`, `revoke()`, and `audit_events()`.
+- Add regressions covering malformed text and timestamp values across `register()`, `authorize()`, `revoke()`, and `audit_events()`.
 - No changes to grant scope semantics, immutable grant behavior, SQLite transaction boundaries, uploader, OAuth, media ingestion, or publishing.
 
 ## Validation
-- Implementation commits: `94067f2974f7c6ebcea6415ccfae72b66d521255`; tests: `ec18f4f45ec8e1a5c0ff8be64e8c2cff1f83ec49`.
+- Implementation commits: `94067f2974f7c6ebcea6415ccfae72b66d521255`, timestamp validation `33c36a359e3438fbc9e76fc6b1cf7d0ffba979ef`; tests: `ec18f4f45ec8e1a5c0ff8be64e8c2cff1f83ec49`, timestamp regressions `cf2cfecbe910e94929f17cbde16da4e00d3268e2`.
 - Local tests: NOT RUN in this connector session.
 - Exact-head Ubuntu / hosted-Windows CI: PENDING.
 - Independent security review: NOT RECORDED.
