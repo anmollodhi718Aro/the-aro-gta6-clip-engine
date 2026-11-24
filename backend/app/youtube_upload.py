@@ -10,6 +10,7 @@ import argparse
 import json
 import mimetypes
 import os
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -23,8 +24,8 @@ DEFAULT_CATEGORY_ID = "20"  # Gaming
 
 def load_destination_profile(config_path: str | Path, profile_name: str) -> dict[str, Any]:
     """Load one non-secret destination identity; OAuth tokens stay in separate local files."""
-    if not isinstance(profile_name, str) or not profile_name.strip():
-        raise ValueError("destination profile name is required")
+    if not isinstance(profile_name, str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", profile_name):
+        raise ValueError("destination profile name must use 1-64 letters, numbers, underscores or hyphens")
     path = Path(config_path).expanduser()
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
