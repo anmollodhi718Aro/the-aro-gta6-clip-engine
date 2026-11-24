@@ -130,3 +130,9 @@ For the current first-test upload priority:
 ## Profile config validation order
 - Resolve and validate the config file location against this checkout's `.secrets/` directory before reading any config content. Tests assert that external config files are rejected without a read.
 - Commits: `716424791e971a27e05b6f0a49a54a5c5008c059`, `15973b3f6d156b7ea51f64c9192020d7607d809c`. CI pending.
+
+
+## Source-rights registry is append-only
+- Duplicate `source_id` registration is rejected. Existing grant metadata and revocation cannot be overwritten/reset; a renewed grant must use a new versioned source ID.
+- Audit events retain grantor and evidence reference. Tests cover duplicate active registration, attempted duplicate after revocation, and a new versioned grant.
+- Commits: `e2cb08feaf5273c2595cf78045b2a47acb26d7f8`, `7b1b120a17fb4ad1dc2228d4571228af9d04d320`. CI pending.
