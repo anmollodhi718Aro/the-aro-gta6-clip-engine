@@ -1800,3 +1800,12 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #267 remains OPEN / DRAFT / UNMERGED. Its CI result applies only to head `587e6909d99c8db34ade24ca0c0f2392167e5df7`; do not transfer it to PR #266 or another SHA.
 - Workstream status: documentation audit IMPLEMENTED; PR #267 exact-head CI_VERIFIED for both hosted platforms; independent review, real-media acceptance, and owner-device Windows acceptance remain NOT VERIFIED.
 - No application/source/test/workflow behavior changes, workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or destructive action. Issue #68 remains OPEN and live uploads/public publishing remain disabled.
+
+
+### ARO-CHAT-0184 audit-branch exact-head CI refresh — 2026-11-24
+- PR #267 latest inspected head: `0b79f174e2f1935c5db842b2f59223dfd598fdbe`; earlier head `587e6909d99c8db34ade24ca0c0f2392167e5df7` is superseded for current-head status.
+- Exact-head run #45380690338 (run 1180) completed SUCCESS. Ubuntu job #138398619175 and hosted-Windows job #138398619665 both passed setup, checkout, FFmpeg/FFprobe installation, compile, and unit/synthetic-media integration steps.
+- Numeric test count and checkout commit refs are NOT EXPOSED; raw-head-only checkout NOT DEMONSTRATED. Combined status has zero entries.
+- Reviews, inline threads, and conversation comments are empty; independent review NOT RECORDED. PR #267 remains OPEN / DRAFT / UNMERGED.
+- ARO-CHAT-0184 documentation audit is IMPLEMENTED; audit PR exact-head hosted CI is successful. Independent review, owner-device Windows acceptance, and authorized real-media acceptance remain NOT VERIFIED.
+- No source/test/workflow behavior changes, retries, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or destructive actions. Issue #68 remains OPEN; live/public publishing disabled.
