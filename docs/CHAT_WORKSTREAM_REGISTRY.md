@@ -928,5 +928,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 
 
 ### ARO-CHAT-0197 security-regression coverage — 2026-11-24
-- Added `test_profile_config_symlink_cannot_escape_secrets_directory`NaN`cf14e2adad58699c7fc76f075923b3c7d0021349`.
-- Exact-head Ubuntu and Windows CI remain pending; do not mark the workstream verified until both report results for the latest PR head.
+
+
+### ARO-CHAT-0197 path-boundary hardening continuation — 2026-11-24
+- Added a fail-closed check rejecting a symlinked `.secrets` parent before resolving the destination config path. The loader retains the base branch's exact resolved repository-root/.secrets comparison and OAuth token-directory symlink containment checks.
+- Synced the loader implementation with the current PR #299 base branch so the stacked PR does not carry an older profile-loader variant.
+- Added regression tests for config-file symlink escape, `.secrets` directory symlink escape, and OAuth `tokens/` directory symlink escape. Destination-profile tests now pass an explicit isolated `repository_root` fixture.
+- Implementation commits: `6c21c0977a6a9ec7643306f14fe7edf26f81d592` (initial guard), `848cdb1447743257e9a00ac7fa84da22c58a9acf` (base-aligned loader), `e10070cc0a9ff167922649ce2293bb6a5a3ab3ae` (fixture root), `a1c785ad7a54121732d3d59289054090ee892d96` (token-directory symlink test).
+- Exact-head Ubuntu and hosted-Windows CI remain PENDING / NOT VERIFIED; local tests have not been run in this connector session.
+- PR #300 remains DRAFT / OPEN / UNMERGED and GitHub currently reports it non-mergeable. Do not merge, rebase, or retarget automatically. Issue #68 remains OPEN; live uploads and public publishing stay disabled.
