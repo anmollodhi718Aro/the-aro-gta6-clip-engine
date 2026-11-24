@@ -661,3 +661,16 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Combined status is PENDING with zero entries; independent review NOT RECORDED. PR #288 remains draft-only in the audited snapshot.
 - Report: `docs/ARO_CHAT_0193_PR288_CI_AUDIT.md`. Do not transfer its CI result to another PR/SHA.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / NOT IMPLEMENTED. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action is authorized by this baseline.
+
+
+## Latest continuation baseline — ARO-CHAT-0195 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0195 | PR #290 Exact-Head CI Audit`; Workstream ID: `ARO-GTA-P1-195`.
+- Audit branch: `workstream/aro-chat-0195-pr290-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #290 head `021a9de8169c86856cda887de24edbde0824d5a1`.
+- Task: documentation-only independent audit of PR #290's own exact-head CI, both platform logs, checkout refs, compilation/tests, synthetic-media validation, combined status, and review state.
+- PR #290 exact head passed run #45387537781 (run 1222). Ubuntu and hosted Windows each passed compileall and the same 29-test suite; synthetic animation render/probe passed on both.
+- Both jobs checked out PR #290 merge ref `c09c1b9176883eaca1ac5e8f91e1d691b6a447ad`, merging audited head into base `3eaf216daeedac7ff59816180dc99ab270f6a2d5`. Raw-head-only checkout NOT DEMONSTRATED.
+- Combined status returned zero entries; independent review NOT RECORDED. PR #290 remains OPEN / DRAFT / UNMERGED.
+- Report: `docs/ARO_CHAT_0195_PR290_CI_AUDIT.md`. Do not transfer this run to another PR or SHA.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL / NOT IMPLEMENTED. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+- Inspect this audit branch's own exact-head CI and independent review separately after publication; PR #290's successful CI does not transfer to the audit branch.
