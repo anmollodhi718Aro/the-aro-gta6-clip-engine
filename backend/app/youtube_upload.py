@@ -337,7 +337,7 @@ def _approval_confirmation_phrase(clip_id: str, privacy: str) -> str:
     return f"APPROVE {privacy.upper()} {clip_id}"
 
 
-def _create_verified_upload_snapshot(video_path: str | Path) -> tuple[Path, tempfile.TemporaryDirectory[str]]:
+def _create_verified_upload_snapshot(video_path: str | Path) -> tuple[Path, Any]:
     """Pin the exact approved bytes to a private staging file before upload.
 
     The upload client reopens its filename while sending chunks. A private
@@ -356,7 +356,7 @@ def _create_verified_upload_snapshot(video_path: str | Path) -> tuple[Path, temp
     except OSError as exc:
         raise PermissionError("upload source is missing, unreadable, or linked") from exc
 
-    staging: tempfile.TemporaryDirectory[str] | None = None
+    staging: Any = None
     try:
         opened = os.fstat(descriptor)
         if not stat.S_ISREG(opened.st_mode):
