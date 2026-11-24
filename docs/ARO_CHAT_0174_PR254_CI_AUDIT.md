@@ -11,27 +11,36 @@ Date: 2026-11-24
 - Branch: `workstream/aro-chat-0174-pr254-exact-head-ci-audit-2026-11-24`
 - Base / starting SHA: PR #254 head `5069449aa775b2b8378c3e3ca36c6ec87b479f66`
 - Parent PR audited: #254
-- Scope: Inspect PR #254's own commit-associated Actions run, both platform jobs and logs, checkout refs, compile/tests, synthetic MP4/FFprobe, combined status, review submissions, inline threads, and conversation comments. Record observed evidence only.
+- Scope: Inspect PR #254's own commit-associated Actions run, both platform jobs and step conclusions, checkout refs, compile/tests, synthetic MP4/FFprobe, combined status, review submissions, inline threads, and conversation comments. Record observed evidence only.
 
 ## Duplicate-work check
 - Latest registered workstream at reservation: ARO-CHAT-0173 / ARO-GTA-P1-173, auditing PR #253 and producing PR #254.
 - Latest open PR observed: #254. No ARO-CHAT-0174 branch existed at reservation.
 - This workstream uses a new isolated branch based on PR #254's exact head; it does not modify PR #254 or its branch.
 
-## Initial exact-head evidence
-- PR #254 is OPEN / DRAFT / UNMERGED; GitHub reported mergeable=true at inspection.
+## PR #254 exact-head CI evidence
 - PR #254 head: `5069449aa775b2b8378c3e3ca36c6ec87b479f66`.
-- Commit-associated Python CI run #45315956237 (run 1150) was IN_PROGRESS at inspection.
-- Ubuntu job #138182726018 and hosted-Windows job #138182725577 were both IN_PROGRESS. Checkout and Python setup steps completed; FFmpeg/FFprobe installation was in progress. Compile, unit tests, and synthetic render steps were pending.
-- Combined commit status returned zero entries at inspection; no passing result is inferred.
-- Review submissions, inline review threads, and conversation comments returned empty arrays; independent review NOT RECORDED.
-- No completed job logs or checkout SHA evidence were available at this snapshot. Compilation, tests, synthetic MP4/FFprobe validation, and exact checkout refs are NOT VERIFIED.
+- Commit-associated Python CI run [#45315956237](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45315956237) (run 1150) completed SUCCESS on that exact PR head.
+- Ubuntu job #138182726018 completed successfully: setup, checkout, Python setup, FFmpeg/FFprobe installation, compilation, unit-test step, and synthetic MP4/FFprobe step all concluded success.
+- Hosted-Windows job #138182725577 completed successfully: setup, checkout, Python 3.11 setup, FFmpeg/FFprobe installation, compilation, complete unittest step, and synthetic MP4/FFprobe step all concluded success.
+- The connector exposed step conclusions but not test-log counts or checkout commit refs. Therefore numeric test count and whether the jobs checked out the PR merge ref versus raw head are NOT VERIFIED. Do not claim raw-head-only CI.
+- Synthetic MP4/FFprobe step passed on both platforms. This is synthetic fixture validation only, not GTA 6 or third-party footage, real-media acceptance, or owner-device Windows verification.
+- Combined commit status returned zero entries; no separate status context is inferred from the empty list.
+- Reviews, inline review threads, and conversation comments returned empty arrays; independent review NOT RECORDED.
+- PR #254 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=true at inspection.
 - Local tests NOT RUN in this connector session. No workflow retry initiated.
 
+## Audit branch / PR #255
+- Audit branch: `workstream/aro-chat-0174-pr254-exact-head-ci-audit-2026-11-24`.
+- Draft PR [#255](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/255) was opened against PR #254's audit branch.
+- PR #255 head at creation: `0edc8a9a66c1529adea298cd5aef660b0a886842`.
+- At initial check, no commit-associated workflow run and no combined status entries were returned for PR #255's head. Its own CI is PENDING / NOT VERIFIED; do not transfer PR #254's run.
+- PR #255 remains OPEN / DRAFT / UNMERGED. No merge requested.
+
 ## Status
-- ARO-CHAT-0174: IMPLEMENTED (initial documentation audit).
-- Audited PR #254 exact-head CI: IN_PROGRESS at initial inspection; re-fetch run #45315956237 and both jobs before closeout.
-- Do not transfer PR #253 or any other PR/SHA's CI evidence to PR #254 or this audit branch.
+- ARO-CHAT-0174: IMPLEMENTED (documentation audit and draft PR).
+- Audited PR #254: CI_VERIFIED at the workflow-step level on exact head `5069449aa775b2b8378c3e3ca36c6ec87b479f66`; test count and checkout refs remain NOT VERIFIED.
+- Audit PR #255: own exact-head CI PENDING / NOT VERIFIED at last inspection.
 
 ## Safety and remaining gates
 - Documentation-only; no application/uploader/test/renderer/media-ingestion/workflow behavior changes.
