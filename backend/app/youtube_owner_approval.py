@@ -198,6 +198,15 @@ def require_current_owner_approval(
                 raise PermissionError("owner approval record must be a regular file")
             if (path_stat.st_dev, path_stat.st_ino) != (opened_stat.st_dev, opened_stat.st_ino):
                 raise PermissionError("owner approval record changed while opening")
+            # Re-check the pathname after open. On platforms without O_NOFOLLOW,
+            # a raced symlink to the same inode can otherwise pass fstat identity.
+            current_path_stat = approval_file.lstat()
+            if not stat.S_ISREG(current_path_stat.st_mode):
+                raise PermissionError("owner approval record must be a regular file")
+            if (current_path_stat.st_dev, current_path_stat.st_ino) != (
+                opened_stat.st_dev, opened_stat.st_ino
+            ):
+                raise PermissionError("owner approval record changed while opening")
             with os.fdopen(descriptor, "r", encoding="utf-8") as stream:
                 descriptor = -1
                 record = json.load(stream)
