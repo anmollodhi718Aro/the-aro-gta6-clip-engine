@@ -214,3 +214,12 @@ For the current first-test upload priority:
 - PR #327 independent review NOT RECORDED; local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED. Do not transfer its CI result to another PR/head.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Owner assignment is not implementation approval; canonical security lineage selection and independent review remain pending. Keep live uploads/public publishing disabled.
 - Preserve all draft/open/unmerged stacks. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Current continuation — ARO-CHAT-0216 (2026-11-24)
+- Latest audited P1 follow-up: PR #328 exact-head CI audit; branch `workstream/aro-chat-0216-pr328-ci-audit-2026-11-24`, based on PR #329 head `4e29f0f87479af3a1848db249cc8bc5c425f9097`.
+- PR #328 head `114e5bfc4b154e0da272ed36408ab156cfdc5ab9`; associated Actions run #45426822957 completed SUCCESS. Ubuntu and hosted Windows compile, complete unittest-suite, and synthetic MP4/FFprobe steps succeeded.
+- Available job summaries do not expose test counts or checked-out SHA. Raw-head-only checkout NOT DEMONSTRATED; no count is inferred.
+- PR #328 review submissions, inline threads and conversation comments empty; independent review NOT RECORDED. Local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED.
+- The scoped patch inspection is not an independent security review. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; canonical security lineage selection, independent review and owner-controlled acceptance remain pending. Keep live uploads/public publishing disabled.
+- Preserve all draft/open/unmerged stacks. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment or destructive action.
