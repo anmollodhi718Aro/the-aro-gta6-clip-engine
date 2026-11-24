@@ -1146,3 +1146,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Documentation-only. No application/uploader/test/workflow behavior changes, workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment or destructive action.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
 - Re-fetch this exact run and both job logs before closeout; do not transfer PR #308's evidence.
+
+### ARO-CHAT-0205 PR #309 CI audit closeout — 2026-11-24
+- Run #45402794811 (run 1317) completed SUCCESS for the earlier PR #309 head `0d673ea56e494cbab73fe12d9957be413c8cfab6`: Ubuntu job #138475524569 passed compilation, 346 tests in 3.905s and synthetic MP4/FFprobe; hosted-Windows job #138475524071 passed compilation, the same 346 tests in 10.548s and synthetic MP4/FFprobe.
+- Both jobs checked out `refs/remotes/pull/309/merge` at merge SHA `f8b38ecbfe86e298462bfd2b6a5ca7b8d80ddf65`, merging the earlier head into base `3eb2add67c339e543a46035ec6a29e2485a424f7`. Raw-head-only CI NOT DEMONSTRATED; same 346 tests on both platforms.
+- Synthetic logs: pattern/tone only, no GTA 6/third-party media, no upload, publishing disabled, manual review required. Hosted Windows is not owner-device verification.
+- Critical correction: PR #309 current head later advanced to `896337ddafbdedae788defd37bd8d82e82cd87ba`; no associated PR-triggered run was returned for that current head. Current-head CI remains NOT VERIFIED. Do not transfer run #45402794811 to it.
+- PR #309 reviews, inline threads and comments remain empty; independent review NOT RECORDED. Combined legacy status entries were zero on the earlier head and merge SHA. Local tests NOT RUN in this connector session.
+- Audit report: `docs/ARO_CHAT_0205_PR309_CI_AUDIT.md`. PR #310 is OPEN / DRAFT; its current head had no associated run returned and metadata reported mergeable=false. No rebase, retarget or merge attempted.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment or destructive action.
