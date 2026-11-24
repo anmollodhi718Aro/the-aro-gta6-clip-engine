@@ -1088,3 +1088,39 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Current-head workflow lookup: zero associated runs; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED.
 - Base advanced 12 documentation-only commits after starting SHA `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722`; compare reports DIVERGED (6 ahead / 12 behind), merge base remains starting SHA. Preserve draft; do not rebase/retarget automatically.
 - Local tests NOT RUN; independent security review NOT RECORDED. Issue #68 OPEN; public publishing disabled.
+
+
+## ARO-CHAT-0223 — PR #344 CI assertion correction (2026-11-24)
+- Workstream: ARO-GTA-P1-223; branch `workstream/aro-chat-0223-pr344-ci-assertion-fix-2026-11-24`; base PR #344 branch at starting SHA `d2e057734517c1dfb3be994eb7268580f1f173a4`.
+- PR #346 run #45441375437 failed identically on Ubuntu and hosted Windows: 352 tests, one assertion failure on each platform (Windows also skipped 3 FIFO-only tests). The rights check correctly raised `no recorded rights for source source-2`; the test expected a stale string missing the second `source`.
+- Test-only fix updates the expected substring; production uploader behavior is unchanged. Commit `9e349ae9fa6d66832b8d030e2ffe3bef55cdf35d`.
+- This follow-up's exact-head CI is PENDING / NOT VERIFIED; local tests NOT RUN. No result is transferred from PR #346. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0223 exact-head CI closeout — 2026-11-24
+- PR #350 final audited head: `b6d712a6438a132c3d8ca245b0a804bf8b929550`; follow-up run [#45442036637](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45442036637) completed SUCCESS.
+- Actions checked out merge ref `74dbc1c`, merging PR head `b6d712a6438a132c3d8ca245b0a804bf8b929550` into base `d2e057734517c1dfb3e994eb7268580f1f173a4`; raw-head-only checkout NOT DEMONSTRATED.
+- Ubuntu job `138615535069`: compile passed; 352 tests passed; synthetic MP4/FFprobe passed.
+- Hosted Windows job `138615534290`: compile passed; 352 tests executed, 349 passed and 3 FIFO-only tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed.
+- Same 352-test suite on both platforms, not 704 unique tests. Synthetic logs report `upload_performed=false`, `publishing_enabled=false`, `manual_review_required=true`.
+- PR #350 remains DRAFT / OPEN / UNMERGED. Local tests NOT RUN; owner-device Windows and authorized real-media acceptance NOT VERIFIED. Independent full uploader/approval/rights security review NOT RECORDED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; no merge, rebase, retarget, deployment, OAuth or live upload.
+
+
+### ARO-CHAT-0223 CI and scoped uploader review — 2026-11-24
+- PR #350 test-only correction commit `9e349ae9fa6d66832b8d030e2ffe3bef55cdf35d` is included in branch tip `b6d712a6438a132c3d8ca245b0a804bf8b929550`.
+- Associated run #45442036637 succeeded on Ubuntu and hosted Windows. Both jobs checked out merge ref `74dbc1c` (PR branch tip merged into base `d2e057734517c1dfb3be994eb7268580f1f173a4)); raw-head-only checkout NOT DEMONSTRATED.
+- Both platforms ran 352 tests; Windows skipped 3 FIFO-only tests. Compile and synthetic MP4/FFprobe passed. Synthetic logs: no GTA 6/third-party media, `upload_performed=false`, `publishing_enabled=false`, `manual_review_required=true`.
+- Bounded assistant inspection covered uploader, OAuth-bound owner approval, source-rights registry and PR #344's rights-report re-read. No additional confirmed defect was established in this scope; this is NOT an independent external security review.
+- The registry stores operator-supplied permission evidence and does not authenticate grantors or establish legal sufficiency. Human rights/music/third-party/policy review remains mandatory.
+- PR #344 own-head CI remains NOT VERIFIED; PR #344 review submissions/threads were empty. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+- Report: `docs/ARO_CHAT_0223_CI_AND_SCOPED_UPLOADER_REVIEW.md`. PR #350 remains DRAFT / OPEN / UNMERGED. No workflow retry, OAuth, credentials, real media, upload, merge, rebase, retarget, deployment, or publishing.
+
+
+### ARO-CHAT-0223 scoped uploader review follow-up — 2026-11-24
+- Additional P1 finding: the durable owner-approval record binds clip/source IDs, privacy, video SHA-256, reviewer subject/channel and timestamps, but not the exact rights-report/asset manifest reviewed.
+- The approval CLI does not display the full asset/source manifest. Upload-time rights checks reload the report and verify current publish grants, but an added source-bound asset that already has a valid grant can pass without the existing approval record proving that the owner reviewed that changed manifest.
+- Existing regression rejects an added unregistered source; it does not cover an added source that is already registered and publish-authorized.
+- Recorded in `docs/ARO_CHAT_0223_CI_AND_SCOPED_UPLOADER_REVIEW.md`. Static-review finding only; no uploader/approval code changed.
+- Required remediation: bind approval to a canonical rights-report/asset-manifest digest, display the reviewed manifest during approval, and reject upload if the final report digest differs. Add a mocked already-authorized-added-source regression.
+- Status: BLOCKED / WAITING_FOR_OWNER_APPROVAL under Issue #68. Do not implement this security change without explicit owner authorization. Keep live uploads/public publishing disabled.
