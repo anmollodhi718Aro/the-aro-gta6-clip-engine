@@ -31,3 +31,9 @@ The preceding cleanup implementation closes the resumable media object's retaine
 ## Safety
 Draft only. No OAuth credentials/tokens, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action.
 Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
+
+
+## CI correction — 2026-11-24
+- Initial exact-head run `45428635076` failed on both Ubuntu and hosted Windows: the new test was accidentally nested under `YouTubeDestinationProfileTests`, but called `_write_upload_rights`, a helper owned by `YouTubeUploadTests`.
+- Moved the test into `YouTubeUploadTests` without changing production code in commit `9bc1e8b8541a8379a67ee8424efdde246f13c8f0`.
+- Follow-up exact-head CI run `45428933635` is pending; do not mark this workstream CI_VERIFIED until both platform jobs pass on the final branch head.
