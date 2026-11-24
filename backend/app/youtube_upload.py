@@ -215,6 +215,14 @@ def upload_video(
     owner_approved: bool,
     rights_confirmed: bool,
 ) -> dict[str, str]:
+    # Enforce the private-only boundary before importing optional Google SDKs,
+    # reading credentials, or performing any other OAuth/API-related work.
+    privacy = body.get("status", {}).get("privacyStatus")
+    if privacy != "private":
+        raise PermissionError("this uploader only permits PRIVATE staging; public visibility is a separate owner action")
+    if owner_approved is not True or rights_confirmed is not True:
+        raise PermissionError("actual upload requires --owner-approved and --confirm-rights")
+
     try:
         from googleapiclient.discovery import build
         from googleapiclient.http import MediaFileUpload
@@ -228,11 +236,6 @@ def upload_video(
         require_current_owner_approval,
     )
     from backend.app.rights_registry import SourceRightsRegistry
-    if owner_approved is not True or rights_confirmed is not True:
-        raise PermissionError("actual upload requires --owner-approved and --confirm-rights")
-    privacy = body.get("status", {}).get("privacyStatus")
-    if privacy != "private":
-        raise PermissionError("this uploader only permits PRIVATE staging; public visibility is a separate owner action")
     expected_subject = os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "").strip()
     expected_channel = os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "").strip()
     if not expected_subject or not expected_channel:
