@@ -35,3 +35,10 @@ The prior UPSERT updated an existing `source_id` and set `revoked_at=NULL`. Re-r
 
 ## Safety
 No OAuth login, credentials/tokens, real media, network upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action was performed. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
+
+
+## Metadata immutability regression follow-up
+- Expanded the active duplicate-ID test to attempt replacing the source URL, grantor, evidence reference, attribution, disclosure, allowed uses, and platforms.
+- The test now asserts that the original stored grant metadata remains unchanged after the duplicate attempt.
+- Test-only commit: `33743ca5ecaab1d69cab999968e8da8dc7f030ae`.
+- Local tests NOT RUN in this connector session. The prior CI run applies to the earlier head only; verify the new exact head separately.
