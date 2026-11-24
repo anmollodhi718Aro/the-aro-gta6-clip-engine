@@ -1088,3 +1088,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Current-head workflow lookup: zero associated runs; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED.
 - Base advanced 12 documentation-only commits after starting SHA `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722`; compare reports DIVERGED (6 ahead / 12 behind), merge base remains starting SHA. Preserve draft; do not rebase/retarget automatically.
 - Local tests NOT RUN; independent security review NOT RECORDED. Issue #68 OPEN; public publishing disabled.
+
+## ARO-CHAT-0222 — rights-report regression assertion correction (2026-11-24)
+- Workstream: ARO-GTA-P1-222; branch `workstream/aro-chat-0222-fix-rights-report-regression-assertion-2026-11-24`.
+- Parent/base: PR #344 exact head `d2e057734517c1dfb3be994eb7268580f1f173a4`.
+- PR #346 CI run #45441375437 failed on Ubuntu and hosted Windows in `test_upload_rechecks_latest_rights_report_before_api_insert`. The production code raised `no recorded rights for source source-2`; the test expected stale text without the second `source`.
+- Updated only the test assertion; production code and upload behavior are unchanged. Code/test commit `2e79ef7c2a7970cec3259fc200457dc6b3042c92`; report `docs/ARO_CHAT_0222_RIGHTS_REPORT_ASSERTION_FIX.md`.
+- Local tests NOT RUN; exact-head Ubuntu/Windows CI PENDING. No workflow retry/dispatch. PR #346's failed run is not evidence for this new head.
+- Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; no OAuth, credentials, real media, network upload, merge, rebase, retarget, deployment, or publishing.
