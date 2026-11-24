@@ -1766,10 +1766,10 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Safety: synthetic test media only; no real GTA 6 footage, credentials, network upload, publishing, merge, retarget, or deployment. Hosted Windows CI is not owner-device Windows verification.
 
 
-## Latest continuation baseline — ARO-CHAT-0182 (2026-11-24)
+## Latest continuation baseline — ARO-CHAT-0183 (2026-11-24)
 
-- Chat title: `ARO-CHAT-0182 | Renderer Concurrent-Output No-Overwrite Regression`.
-- Workstream: ARO-GTA-P1-182.
+- Chat title: `ARO-CHAT-0183 | Renderer Concurrent-Output No-Overwrite Regression`.
+- Workstream: ARO-GTA-P1-183.
 - Branch: `workstream/aro-chat-0182-renderer-no-overwrite-race-test-2026-11-24`; base: `feature/local-authorized-ffmpeg-renderer`; starting SHA: `065daab77624ce1adb65f61c61eee1dbcadd8303`.
 - Task: add a deterministic offline regression test proving the local renderer cannot overwrite a destination created concurrently after FFmpeg completes.
 - Implementation: `tests/test_render.py`, commit `c0235d490e4ca6ba912c358fc805ef45f2732dfb`; report: `docs/ARO_CHAT_0182_RENDERER_NO_OVERWRITE_RACE_TEST.md`.
