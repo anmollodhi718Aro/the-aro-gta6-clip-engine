@@ -35,3 +35,9 @@ Date: 2026-11-24
 - Keep live uploads and public publishing disabled.
 - Preserve all draft/open/unmerged stacks. No workflow retry/dispatch, OAuth, credentials/tokens, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
 - Next action: obtain a genuinely independent review of the uploader/security lineage and record owner-controlled acceptance gates. Do not treat this audit as that review.
+
+
+## Live-head reconciliation
+The PR #328 branch advanced after the first audit snapshot. Its current head is `1c380a2e311abbd5b818a398d0f0a70011f547d4`, and exact-head-associated run [#45427291297](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45427291297) completed SUCCESS. Both Ubuntu and hosted-Windows jobs completed compile, unittest-suite, and synthetic MP4/FFprobe steps successfully. The earlier run #45426822957 applies only to the earlier head `114e5bfc4b154e0da272ed36408ab156cfdc5ab9`. Current job summaries do not expose test counts or checkout SHA; raw-head-only checkout is NOT DEMONSTRATED.
+
+A parallel draft PR #331 proposes the same O_NONBLOCK/FIFO follow-up from the earlier PR #328 head; its current head has no associated workflow run. PR #330 is a separate draft snapshot branch with a queued run. These parallel stacks require ancestry/diff reconciliation before any consolidation. This audit PR #332 itself has no associated CI run yet. Independent review, local tests, owner-device verification, and real-media acceptance remain NOT VERIFIED.
