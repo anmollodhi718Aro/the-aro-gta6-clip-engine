@@ -892,3 +892,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - No uploader runtime behavior or security gate is weakened. No OAuth, credentials, API calls, media processing, or upload is used by this test.
 - Validation status remains pending until the new branch's exact-head Ubuntu and hosted-Windows CI runs are inspected.
 
+
+
+### ARO-CHAT-0197 test-coverage continuation — 2026-11-24
+- Follow-up commit `8269505c423e50c7460335f5ca776f250b695aa0` adds an explicit canonical token-path assertion for the second destination profile as well as the first. Both expected paths derive from the strictly resolved `.secrets` parent; production path validation is unchanged.
+- Latest branch head after this test-only change: `8269505c423e50c7460335f5ca776f250b695aa0`.
+- Exact-head Ubuntu and hosted-Windows CI: PENDING. No local test execution is claimed in this connector session.
