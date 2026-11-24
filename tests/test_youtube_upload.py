@@ -127,7 +127,7 @@ class YouTubeUploadTests(unittest.TestCase):
             build_upload_body(title=" ", description="", tags=[], privacy="private", made_for_kids=False)
         with self.assertRaisesRegex(ValueError, "100 characters"):
             build_upload_body(title="x" * 101, description="", tags=[], privacy="private", made_for_kids=False)
-        with self.assertRaisesRegex(ValueError, "privacy"):
+        with self.assertRaisesRegex(ValueError, "PRIVATE staging only"):
             build_upload_body(title="Short", description="", tags=[], privacy="everyone", made_for_kids=False)
 
     def test_rejects_overlong_tags(self):
