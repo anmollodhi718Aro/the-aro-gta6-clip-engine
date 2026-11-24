@@ -395,3 +395,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - PR #362 associated run #45465232908 passed on merge ref `6ca5d4d4572fc566ef0a7281a1e79c06a90d4297`: Ubuntu 365 tests passed; hosted Windows ran 365, 361 passed and 4 skipped; both passed synthetic MP4/FFprobe. Raw-head-only checkout NOT DEMONSTRATED; local tests NOT RUN. This is not independent external review or owner-device Windows/real-media verification.
 - PR #363 docs-only handoff branch head `332be0ef6063392388a98608c179a046f4d381be` has no associated workflow run or combined status checks at this audit. Do not transfer PR #362's CI result.
 - Keep PRs #362 and #363 draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled. No OAuth, credentials, real media, network upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
+
+
+
+## Current continuation — ARO-CHAT-0233 rights-registry input validation (2026-11-25)
+- Workstream: ARO-GTA-P1-233; branch `workstream/aro-chat-0233-rights-registry-input-validation-2026-11-25`, based on PR #364 head `26b596483197151453121f953061ce6439b78751`.
+- Validated external inputs at the rights-registry API boundary. Non-object registration records and malformed/non-string/blank identifiers or actors now raise explicit `ValueError`; source/use/platform values are normalized only after validation.
+- Regression coverage added in `tests/test_rights_registry.py`. Production commits `6f401febec441d6ca8511a14fbe2f51c1fa6a0d2` and `267d298a03c21a3a8bea38d6e7f10be1a25633f9` (actor normalization); test commit `73a5a7495b82bb45417b3f10af562f7fea839370`.
+- Local tests NOT RUN in this connector session. Verify exact-head Ubuntu and hosted-Windows CI; do not transfer older parent CI. Independent review NOT RECORDED.
+- Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
