@@ -1,5 +1,6 @@
 """Tests for source-specific rights registration and export authorization."""
 import sqlite3
+from contextlib import closing
 import tempfile
 import unittest
 from concurrent.futures import ThreadPoolExecutor
@@ -133,7 +134,7 @@ class SourceRightsRegistryTests(unittest.TestCase):
                          ["registered", "revoked"])
 
     def test_non_duplicate_integrity_error_is_not_misreported_as_duplicate(self):
-        with sqlite3.connect(self.registry.database_path) as db:
+        with closing(sqlite3.connect(self.registry.database_path)) as db:
             db.execute("""
                 CREATE TRIGGER reject_source_registration
                 BEFORE INSERT ON source_rights
