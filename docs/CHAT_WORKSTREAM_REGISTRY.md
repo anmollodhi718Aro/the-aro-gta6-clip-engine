@@ -937,3 +937,5 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Both logs report `upload_performed=false`, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
 - This closes the latest-head CI requirement for the current PR #299 code/docs snapshot. It does not establish live OAuth, owner-device acceptance, actual creator/source rights, a real GTA 6 media test, independent security review, or permission to upload. PR #299 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
 
+
+- Follow-up: check `lstat()` regular-file status before opening, preventing a FIFO/device path from blocking or being read as approval evidence. Commit: `e389430313ecb94149ad042b8541d5a4b57eef5c`.
