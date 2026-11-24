@@ -1088,3 +1088,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Current-head workflow lookup: zero associated runs; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED.
 - Base advanced 12 documentation-only commits after starting SHA `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722`; compare reports DIVERGED (6 ahead / 12 behind), merge base remains starting SHA. Preserve draft; do not rebase/retarget automatically.
 - Local tests NOT RUN; independent security review NOT RECORDED. Issue #68 OPEN; public publishing disabled.
+
+
+## ARO-CHAT-0222 — PR #344 CI assertion correction (2026-11-24)
+- Workstream: ARO-GTA-P1-222; branch `workstream/aro-chat-0222-pr344-ci-assertion-fix-2026-11-24`; stacked directly on PR #344 exact head `d2e057734517c1dfb3be994eb7268580f1f173a4`.
+- Exact-head CI for the preceding PR #346 documentation audit commit `e583858daa25d199a99aff2e260e26c85777eae2` ran 352 tests on Ubuntu and hosted Windows. Both jobs failed only in `test_upload_rechecks_latest_rights_report_before_api_insert`: the production exception text is `no recorded rights for source source-2`, while the test expected `no recorded rights for source-2`.
+- Corrected the test's expected message only; no production code or workflow configuration changed. Commit: `c70d4bb14237427cdbdca8fab0753d7ed5b10813`.
+- Fresh exact-head CI for the corrected branch is required. Do not count the failed prior run as a pass or transfer it to this commit. Independent security review, owner-device Windows, and real-media acceptance remain NOT VERIFIED.
+- PR #344 and PR #346 remain draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, network upload, publishing, merge, rebase, retarget, deployment, or workflow retry/dispatch was performed.
