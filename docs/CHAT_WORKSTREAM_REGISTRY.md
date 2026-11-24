@@ -939,3 +939,30 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 
 
 - Follow-up: check `lstat()` regular-file status before opening, preventing a FIFO/device path from blocking or being read as approval evidence. Commit: `e389430313ecb94149ad042b8541d5a4b57eef5c`.
+
+
+## ARO-CHAT-0198 canonical profile-path regression continuation — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0198 |
+| Exact title | ARO-CHAT-0198 | Port canonical Windows profile-path regression onto current PR #299 head |
+| Workstream ID | ARO-GTA-P1-198 |
+| Scope | Add the missing canonical token-path assertion for the second destination profile on top of the current PR #299 code, without carrying forward stale branch ancestry. |
+| Branch | `workstream/aro-chat-0198-canonical-profile-path-regression-2026-11-24` |
+| Base / starting SHA | PR #299 current head `97250fbb3bf1fd8d9e5e03dfc6ac6a9267b643b5` |
+| Prior reference | PR #300 / ARO-CHAT-0197 remains OPEN / DRAFT / UNMERGED; its branch is 12 commits ahead / 43 behind the current PR #299 head and is not rebased or retargeted. |
+| Status | IMPLEMENTED; exact-head CI PENDING; no local test run in this connector session |
+| Changed files | `tests/test_youtube_upload.py`; this registry; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+
+### Implementation
+- Current PR #299 test signature uses `load_destination_profile(..., repository_root=self.root)`; the stale PR #300 test snapshot used an older signature and must not be transplanted wholesale.
+- Added the second profile's explicit expected token path using the already-canonicalized repository root: `self.root.resolve() / ".secrets" / "tokens" / "the_arro07.json"`.
+- The existing first-profile assertion remains unchanged. No production uploader, OAuth, token persistence, permission, or publishing behavior changed.
+- Code commit: `6031b6dbbaf0745fad8cbc3e74085ab9ac105a23`.
+- Exact-head Ubuntu and hosted-Windows CI: PENDING. No test pass is claimed.
+- No OAuth, credentials/tokens, real media, API upload, public publishing, merge, rebase, retarget, deployment, or destructive action occurred.
+
+### Safety and continuation
+- Draft PR only. Preserve PR #300 for history; do not close, merge, rebase, or retarget it automatically.
+- Issue #68 remains OPEN. Live uploads/public publishing remain disabled pending exact-head CI, independent security review, owner-controlled integration, device-specific upload limit, and separately authorized real-media acceptance.
