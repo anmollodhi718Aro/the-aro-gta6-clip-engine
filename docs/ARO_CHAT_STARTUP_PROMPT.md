@@ -597,3 +597,9 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Report: `docs/ARO_CHAT_0186_PR271_CI_AUDIT.md`. This audit branch's own exact-head CI must be inspected separately; never transfer PR #271's CI result to it.
 - Issue #68 remains OPEN / NOT IMPLEMENTED. Keep live uploads/public publishing disabled. Synthetic media is not GTA 6 footage or real-media acceptance; hosted Windows is not owner-device verification.
 - Documentation-only. No workflow retry, OAuth, credentials/tokens, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0186 publication refresh — 2026-11-24
+- Draft PR [#273](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/273) is OPEN / DRAFT / UNMERGED on `workstream/aro-chat-0186-pr271-exact-head-ci-audit-2026-11-24`, based on PR #271 head `0172229e4dcdd29a50ee25ca13113cc1c9c83f13`.
+- PR #273 head `5511b6da088e51a92bf3297569e4c7c3d6404a58` has no associated workflow run and zero combined-status entries at post-creation inspection. Own CI is PENDING / NOT VERIFIED; do not transfer PR #271's CI.
+- Report: `docs/ARO_CHAT_0186_PR271_CI_AUDIT.md`. Documentation-only; no workflow retry, merge, or retarget.
