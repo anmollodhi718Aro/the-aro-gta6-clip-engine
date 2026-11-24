@@ -27,8 +27,6 @@ class RenderUnitTests(unittest.TestCase):
   self.assertEqual(self.output.read_bytes(),b"keep")
   with self.assertRaises(ValueError):
    render_clip(self.source,self.source,start_seconds=0,duration_seconds=5,rights_confirmed=True,permission=self.permission)
- @patch("backend.app.render.shutil.which",return_value="/usr/bin/ffmpeg")
- @patch("backend.app.render.subprocess.run")
  @patch("backend.app.render.os.link")
  @patch("backend.app.render.shutil.which",return_value="/usr/bin/ffmpeg")
  @patch("backend.app.render.subprocess.run")
@@ -44,6 +42,8 @@ class RenderUnitTests(unittest.TestCase):
   with self.assertRaises(RenderError): self.render()
   self.assertEqual(self.output.read_bytes(),b"concurrent owner file")
   self.assertEqual(list(self.folder.glob(".clip.*.mp4")),[])
+ @patch("backend.app.render.shutil.which",return_value="/usr/bin/ffmpeg")
+ @patch("backend.app.render.subprocess.run")
  def test_safe_argument_list_and_atomic_output(self,run,_which):
   def fake(cmd,**kw): Path(cmd[-1]).write_bytes(b"mp4"); return subprocess.CompletedProcess(cmd,0,"","")
   run.side_effect=fake; self.assertEqual(self.render(),self.output)
