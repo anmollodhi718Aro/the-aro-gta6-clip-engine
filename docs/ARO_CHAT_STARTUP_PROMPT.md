@@ -575,3 +575,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - No production renderer/uploader/OAuth/workflow behavior changes. Local tests NOT RUN in this connector session; this branch's exact-head CI must be inspected independently. Do not transfer PR #265 run #45373538938 or PR #266 run #45373702165.
 - PR #266 remains OPEN / DRAFT / UNMERGED pending independent review and owner-controlled integration. PR #265 remains a separate test-only branch; do not merge both independently.
 - Issue #68 remains OPEN. Keep live uploads/public publishing disabled. No credentials, OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, workflow retry, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0185 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0185 | PR #269 Exact-Head CI Closeout`; workstream ARO-GTA-P1-185.
+- Latest completed implementation candidate: PR #269, test-only renderer no-overwrite race regression port into integrated MVP PR #266. Audited head: `99ef3bd9211f16c67573600e28cb3b696fdd6f71`.
+- PR #269 exact-head run #45380864718 passed Ubuntu and hosted Windows; each platform compiled, passed the same 28 tests, and passed synthetic animation MP4/FFprobe validation. Both tested PR merge ref `e95252b8bed6bdfda806ce3ea1a83537bae65112`; raw-head-only checkout NOT DEMONSTRATED. Report: `docs/ARO_CHAT_0185_PR269_CI_AUDIT.md`.
+- PR #269 remains OPEN / DRAFT / UNMERGED; independent review NOT RECORDED. Do not merge stacked PRs independently or transfer CI between PRs/SHAs.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending all separate security and owner-acceptance gates.
+- Safe next step: inspect the newest registry entry and open PRs before reserving new work; prioritize independent review and owner-controlled integration of the local MVP stack. No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action without the relevant explicit gate.
