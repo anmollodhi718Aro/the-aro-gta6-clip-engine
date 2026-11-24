@@ -191,3 +191,10 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Close the media object's retained stream before cleaning the private snapshot directory; keep cleanup in a nested `finally` so it still runs if closing raises.
 - Add a regression test whose mocked media client holds a real open file handle and asserts it is closed and the approved snapshot file is removed before the upload function returns.
 - Branch `workstream/aro-chat-0216-close-upload-media-handle-2026-11-24`, based on PR #328 head `114e5bfc4b154e0da272ed36408ab156cfdc5ab9`. Draft-only; exact-head CI and local tests pending. No OAuth, real media, upload, merge, deployment, or publishing.
+
+
+## ARO-CHAT-0218 continuation — 2026-11-24
+- Test-only follow-up to PR #333: exercise the nested-finally path where the retained resumable media handle's close operation raises.
+- Expected behavior: preserve the close error while still attempting private snapshot-directory cleanup; assert cleanup invocation and snapshot removal using synthetic files and mocked Google API modules.
+- Branch: `workstream/aro-chat-0218-cleanup-after-stream-close-error-2026-11-24`; base: `workstream/aro-chat-0216-close-upload-media-handle-2026-11-24`. Exact-head Ubuntu/hosted-Windows CI must be inspected before claiming validation.
+- Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth credentials, real footage, network upload, public publishing, merge, retarget, or deployment.
