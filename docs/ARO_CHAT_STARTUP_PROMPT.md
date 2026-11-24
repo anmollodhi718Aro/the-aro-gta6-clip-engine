@@ -500,3 +500,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED.
 - Parent PR #371 run #45494763114 failed with zero exposed steps and BlobNotFound logs; cause NOT VERIFIED. Do not attribute it to application code.
 - Keep this follow-up DRAFT / OPEN / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### DNS hostname length boundary follow-up — 2026-11-25
+
+- Added test-only regressions for a 64-character DNS label, a 254-character hostname, and a valid 253-character hostname composed of maximum-length labels.
+- Also reject multiple terminal dots explicitly.
+- Test commit: `83f970b608af3f49e6bf6c496d6de6918dc24bf7`.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. This commit does not change production behavior.
+- PR #373 remains draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
