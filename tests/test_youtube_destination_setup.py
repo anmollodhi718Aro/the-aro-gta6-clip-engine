@@ -78,6 +78,47 @@ class YouTubeDestinationSetupTests(unittest.TestCase):
                     profile_name="aroanmol7",
                 )
 
+    def test_explicit_channel_selection_is_bound_to_authenticated_channel_list(self):
+        credentials, youtube, google_api = self._mocks(("UC1234567890abcdef", "UCabcdef1234567890"))
+        with (
+            patch("backend.app.youtube_upload._authorize_google", return_value=credentials),
+            patch("backend.app.youtube_upload._oauth_client_id", return_value="test-client"),
+            patch("backend.app.youtube_owner_approval._verify_google_id_token", return_value={
+                "sub": "verified-google-subject", "iss": "accounts.google.com",
+            }),
+            patch.dict("sys.modules", {
+                "googleapiclient": SimpleNamespace(discovery=SimpleNamespace(build=google_api)),
+                "googleapiclient.discovery": SimpleNamespace(build=google_api),
+            }),
+        ):
+            result = setup_destination(
+                repository_root=self.root, client_secrets=self.client,
+                profile_name="aroanmol7", selected_channel_id="UCabcdef1234567890",
+            )
+        self.assertEqual(result["channel_id"], "UCabcdef1234567890")
+        self.assertEqual(youtube.channels.return_value.list.call_count, 1)
+
+    def test_rejects_unverified_google_issuer_before_channel_discovery(self):
+        credentials, youtube, google_api = self._mocks()
+        with (
+            patch("backend.app.youtube_upload._authorize_google", return_value=credentials),
+            patch("backend.app.youtube_upload._oauth_client_id", return_value="test-client"),
+            patch("backend.app.youtube_owner_approval._verify_google_id_token", return_value={
+                "sub": "verified-google-subject", "iss": "attacker.example",
+            }),
+            patch.dict("sys.modules", {
+                "googleapiclient": SimpleNamespace(discovery=SimpleNamespace(build=google_api)),
+                "googleapiclient.discovery": SimpleNamespace(build=google_api),
+            }),
+        ):
+            with self.assertRaisesRegex(PermissionError, "valid subject, issuer"):
+                setup_destination(
+                    repository_root=self.root, client_secrets=self.client,
+                    profile_name="aroanmol7",
+                )
+        youtube.channels.return_value.list.assert_not_called()
+        self.assertFalse((self.root / ".secrets" / "destination_profiles.json").exists())
+
     def test_private_json_writer_refuses_to_overwrite_existing_profile_map(self):
         path = self.root / ".secrets" / "destination_profiles.json"
         path.parent.mkdir()
