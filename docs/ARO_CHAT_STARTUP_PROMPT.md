@@ -102,3 +102,10 @@ For the current first-test upload priority:
 - Do not commit OAuth files, tokens, channel IDs, private approvals, or media. Never ask the owner to paste secrets into chat.
 - Automated tests must mock OAuth and YouTube API clients. No test may perform a live upload.
 - Distinguish code/CI completion from environment setup and live acceptance. Real upload still requires local OAuth configuration, verified source publish rights, exact per-channel approval, and an actual private-visibility confirmation. Public publishing remains a separate owner action.
+
+
+## ARO-CHAT-0134 CI closeout — 2026-11-24
+- PR #299 implementation head `d4ca7042ff8bfbd00070f801d374b6292feddfda` passed run #45391987858 on hosted Ubuntu and Windows. Both compiled, passed the same 332 tests, and passed synthetic MP4/FFprobe validation.
+- Both jobs used merge SHA `4a22ec0cdf15cbc78b17543c21e3b0f75a8f16b3` with base PR #295 head `cf731cabda8a045d39457f0eef800dbdb051e75e`; raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic-only: no GTA 6 footage or third-party media; publishing disabled; manual review required. PR #299 remains draft/open/unmerged; independent security review NOT RECORDED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live uploads/public publishing remain disabled. OAuth/channel verification, source-rights evidence, per-clip approval, owner-device verification and real private-upload acceptance remain NOT VERIFIED.
