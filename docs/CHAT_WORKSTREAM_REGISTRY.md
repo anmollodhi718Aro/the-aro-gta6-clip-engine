@@ -1095,3 +1095,32 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #346 run #45441375437 failed identically on Ubuntu and hosted Windows: 352 tests, one assertion failure on each platform (Windows also skipped 3 FIFO-only tests). The rights check correctly raised `no recorded rights for source source-2`; the test expected a stale string missing the second `source`.
 - Test-only fix updates the expected substring; production uploader behavior is unchanged. Commit `9e349ae9fa6d66832b8d030e2ffe3bef55cdf35d`.
 - This follow-up's exact-head CI is PENDING / NOT VERIFIED; local tests NOT RUN. No result is transferred from PR #346. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0223 exact-head CI closeout — 2026-11-24
+- PR #350 final audited head: `b6d712a6438a132c3d8ca245b0a804bf8b929550`; follow-up run [#45442036637](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45442036637) completed SUCCESS.
+- Actions checked out merge ref `74dbc1c`, merging PR head `b6d712a6438a132c3d8ca245b0a804bf8b929550` into base `d2e057734517c1dfb3e994eb7268580f1f173a4`; raw-head-only checkout NOT DEMONSTRATED.
+- Ubuntu job `138615535069`: compile passed; 352 tests passed; synthetic MP4/FFprobe passed.
+- Hosted Windows job `138615534290`: compile passed; 352 tests executed, 349 passed and 3 FIFO-only tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed.
+- Same 352-test suite on both platforms, not 704 unique tests. Synthetic logs report `upload_performed=false`, `publishing_enabled=false`, `manual_review_required=true`.
+- PR #350 remains DRAFT / OPEN / UNMERGED. Local tests NOT RUN; owner-device Windows and authorized real-media acceptance NOT VERIFIED. Independent full uploader/approval/rights security review NOT RECORDED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled; no merge, rebase, retarget, deployment, OAuth or live upload.
+
+
+### ARO-CHAT-0223 CI and scoped uploader review — 2026-11-24
+- PR #350 test-only correction commit `9e349ae9fa6d66832b8d030e2ffe3bef55cdf35d` is included in branch tip `b6d712a6438a132c3d8ca245b0a804bf8b929550`.
+- Associated run #45442036637 succeeded on Ubuntu and hosted Windows. Both jobs checked out merge ref `74dbc1c` (PR branch tip merged into base `d2e057734517c1dfb3be994eb7268580f1f173a4)); raw-head-only checkout NOT DEMONSTRATED.
+- Both platforms ran 352 tests; Windows skipped 3 FIFO-only tests. Compile and synthetic MP4/FFprobe passed. Synthetic logs: no GTA 6/third-party media, `upload_performed=false`, `publishing_enabled=false`, `manual_review_required=true`.
+- Bounded assistant inspection covered uploader, OAuth-bound owner approval, source-rights registry and PR #344's rights-report re-read. No additional confirmed defect was established in this scope; this is NOT an independent external security review.
+- The registry stores operator-supplied permission evidence and does not authenticate grantors or establish legal sufficiency. Human rights/music/third-party/policy review remains mandatory.
+- PR #344 own-head CI remains NOT VERIFIED; PR #344 review submissions/threads were empty. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+- Report: `docs/ARO_CHAT_0223_CI_AND_SCOPED_UPLOADER_REVIEW.md`. PR #350 remains DRAFT / OPEN / UNMERGED. No workflow retry, OAuth, credentials, real media, upload, merge, rebase, retarget, deployment, or publishing.
+
+
+## ARO-CHAT-0224 — PR #344 rights-report stability audit (2026-11-24)
+- Workstream: ARO-GTA-P1-224; branch `workstream/aro-chat-0224-rights-report-stability-audit-2026-11-24`; based on PR #350 docs head `b6d712a6438a132c3d8ca245b0a804bf8b929550`.
+- PR #350 Actions run #45442036637: Ubuntu SUCCESS (compile, 352 tests, synthetic MP4/FFprobe); hosted Windows SUCCESS (compile, 352 tests, 3 FIFO-only skips, synthetic MP4/FFprobe). Both checked out `refs/remotes/pull/350/merge`; raw-head-only checkout NOT DEMONSTRATED. Same suite on both platforms, not 704 unique tests.
+- PR #350 review submissions and inline review threads empty; independent review NOT RECORDED.
+- Scoped PR #344 code inspection: final rights-report reread and source-bound permission checks are present, but loader still uses `Path.read_text()` without no-follow descriptor/path-identity validation. A concurrent report mutation/path replacement after final read and before API insert is not covered. Treat as a residual TOCTOU finding requiring a deterministic regression, not proof of exploitation.
+- Next: stable verified rights-report snapshot + approval binding and a regression proving post-read mutation cannot reach YouTube insert. This audit is documentation-only; no production/test code changed.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing. Keep live uploads/public publishing disabled.
