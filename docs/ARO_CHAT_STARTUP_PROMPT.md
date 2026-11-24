@@ -149,3 +149,5 @@ For the current first-test upload priority:
 - No commit-associated workflow run was returned for the current head. Exact-head Ubuntu and hosted-Windows CI are PENDING / NOT VERIFIED. Local tests were NOT RUN in this connector session.
 - The current diff remains limited to the profile-path regression test and the registry/startup documentation. Both expected token paths use the strictly resolved `.secrets` parent; production uploader enforcement is unchanged.
 - Independent review is NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, API upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+NaN`cf14e2adad58699c7fc76f075923b3c7d0021349`; registry update: `dd223d8f016ec24709f54133759b124b4cb0979b`.
+- Latest branch head is expected to advance with this documentation update. Exact-head Ubuntu and hosted-Windows CI must be checked after all commits; no local test execution is claimed.
