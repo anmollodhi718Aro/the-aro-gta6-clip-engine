@@ -973,8 +973,8 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 | Exact chat title | ARO-CHAT-0209 | Restore Approval-Record Open-Race Protection in Consolidated Uploader |
 | Workstream ID | ARO-GTA-P1-209 |
 | Scope | Restore approval-record symlink/non-regular-file rejection and pre-open/post-open file-identity checks that were lost when PR #311 consolidated from PR #295 without PR #305's path-race hardening. |
-| Branch / PR | `workstream/aro-chat-0209-restore-approval-record-open-race-2026-11-24` / draft PR pending |
-| Base / starting SHA | PR #311 head `c3d767fd055c80dbd395c5c8821a335ad9b3b258` |
+| Branch / PR | `workstream/aro-chat-0209-restore-approval-record-open-race-2026-11-24` / [Draft PR #317](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/317) |
+| Base / starting SHA | PR #311 head `c3d767fd055c80dbd395c5c8821a335ad9b3b258`; current follow-up head `36f9ac70f841715255d917183d24d3b2df2bfc49` |
 | Report | `docs/ARO_CHAT_0209_APPROVAL_RECORD_RACE_REGRESSION.md` |
 | Status | IMPLEMENTED; local tests NOT RUN; exact-head CI PENDING; no merge/upload/publishing |
 
