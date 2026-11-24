@@ -61,3 +61,11 @@ Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploa
 - Exact-head workflow lookup for this correction returned no associated run at inspection. Local tests NOT RUN; Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED.
 - The prior run `45486979384` failed on both jobs, but both exposed zero steps and no logs. That run does not establish the failure cause; the assertion mismatch is a separately confirmed static test defect.
 - Draft PR #371 remains open and unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## Test-fixture correction — 2026-11-25
+
+- Static review found two URL regression inputs encoded a literal backslash followed by `n`/`t`, rather than actual newline/tab characters.
+- Test-only commit `77adf4b3541792b1151159bc5a2f02ec93a2369c` corrects those inputs so the tests exercise literal newline and tab rejection by the existing raw-URL guard.
+- No production behavior changed. Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI must be inspected on the final synchronized branch head. Earlier run #45486979384 failed with both jobs exposing zero steps and no logs; cause NOT VERIFIED.
+- PR #371 remains draft/open/unmerged; independent review NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
