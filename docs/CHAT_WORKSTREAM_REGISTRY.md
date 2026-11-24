@@ -1107,3 +1107,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Run #45434843065 validates the functional/code-and-test head `a08a69cfa687479c58ce72a322b1357761a92723` only.
 - The subsequent commits in this workstream update documentation only (this report, startup handoff, and registry); no application code or tests changed after the validated functional head.
 - The resulting documentation-only branch tip has no separately associated CI run returned and is therefore NOT independently CI-VERIFIED. Do not transfer the functional-head green result to the later documentation-only tip.
+ 
+
+### ARO-CHAT-0219 — OAuth token no-follow hardening (2026-11-24)
+- PR #342 / branch `workstream/aro-chat-0219-oauth-token-no-follow-2026-11-24`, based on PR #339 branch.
+- Finding: the prior token loader performed a symlink check and then reopened the path through `Credentials.from_authorized_user_file`, leaving a local check/open race.
+- Added no-follow descriptor read, regular-file and pre/open/post identity checks, and `Credentials.from_authorized_user_info` to avoid a second path open.
+- Code: `d5f764f49645608b42dffad354bc75575fb4f0b3`; tests: `a26951f486bce4710d7a3b8a85440076870d305d`; report: `docs/ARO_CHAT_0219_OAUTH_TOKEN_NOFOLLOW.md`.
+- Exact-head Ubuntu/hosted-Windows CI PENDING / NOT YET RETURNED; local tests NOT RUN. Synthetic token JSON only; no OAuth login or real credentials.
+- PR #342 remains OPEN/DRAFT/UNMERGED. Issue #68 remains OPEN. No merge/rebase/retarget/OAuth/credential access/real media/upload/deployment/publishing. Live/public upload gates remain disabled.
