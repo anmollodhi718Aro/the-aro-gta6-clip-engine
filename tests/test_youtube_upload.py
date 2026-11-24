@@ -348,7 +348,7 @@ class YouTubeUploadTests(unittest.TestCase):
         with patch.dict(sys.modules, self._mock_google_modules(youtube)):
             with patch.dict(os.environ, {"ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123", "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456"}):
                 with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch("backend.app.youtube_owner_approval.verify_authenticated_channel_owner", return_value=self.owner):
-                    with self.assertRaisesRegex(PermissionError, "does not match"):
+                    with self.assertRaisesRegex(PermissionError, "only permits PRIVATE"):
                         upload_video(
                             self.video, {"snippet": {"title": "Test"}, "status": {"privacyStatus": "public"}},
                             client_secrets=self.client_secrets, token_path=self.root / "token.json",
@@ -397,6 +397,21 @@ class YouTubeUploadTests(unittest.TestCase):
         self.assertEqual(upload.call_args.kwargs["source_id"], "source-1")
         self.assertTrue(upload.call_args.kwargs["owner_approved"])
         self.assertTrue(upload.call_args.kwargs["rights_confirmed"])
+
+
+    def test_upload_rejects_unlisted_visibility_before_oauth_or_api(self):
+        db_path = self.root / "source_rights.sqlite3"
+        self._write_upload_rights(db_path)
+        with patch("backend.app.youtube_upload._authorize_google") as authorize:
+            with self.assertRaisesRegex(PermissionError, "only permits PRIVATE"):
+                upload_video(
+                    self.video, {"snippet": {"title": "Test"}, "status": {"privacyStatus": "unlisted"}},
+                    client_secrets=self.client_secrets, token_path=self.root / "token.json",
+                    rights_report_path=self.report, approval_record_path=self.root / "approval.json",
+                    rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
+                    owner_approved=True, rights_confirmed=True,
+                )
+        authorize.assert_not_called()
 
 
 if __name__ == "__main__":

@@ -308,5 +308,17 @@ class OwnerApprovalTests(unittest.TestCase):
         self.assertTrue(data["expires_at"].endswith("+00:00"))
 
 
+    def test_only_private_approval_can_be_recorded(self):
+        for privacy in ("unlisted", "public"):
+            with self.subTest(privacy=privacy):
+                with self.assertRaisesRegex(PermissionError, "only permits PRIVATE"):
+                    write_owner_approval_record(
+                        self.root / f"{privacy}.json",
+                        clip_id="clip-1", source_id="source-1",
+                        video_path=self.video, owner=OWNER,
+                        privacy=privacy, confirmed=True, at=NOW,
+                    )
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -34,7 +34,20 @@ def sha256_file(path: str | Path) -> str:
 
 def _verify_google_id_token(credentials: Any, oauth_client_id: str) -> dict[str, Any]:
     """Verify the OAuth session's Google ID token signature and audience."""
-    claims = _verify_google_id_token(credentials, oauth_client_id)
+    token = getattr(credentials, "id_token", None)
+    if not isinstance(token, str) or not token.strip():
+        raise PermissionError("OAuth session has no OpenID Connect identity token")
+    if not isinstance(oauth_client_id, str) or not oauth_client_id.strip():
+        raise PermissionError("OAuth client ID is required to verify the identity token")
+    try:
+        from google.auth.transport.requests import Request
+        from google.oauth2 import id_token
+
+        claims = id_token.verify_oauth2_token(token, Request(), audience=oauth_client_id)
+    except Exception as exc:
+        raise PermissionError("Google identity token could not be verified") from exc
+    if not isinstance(claims, dict):
+        raise PermissionError("verified Google identity token claims are invalid")
     return claims
 
 
@@ -50,18 +63,7 @@ def verify_authenticated_channel_owner(
     required = (oauth_client_id, expected_google_subject, expected_channel_id)
     if not all(isinstance(value, str) and value.strip() for value in required):
         raise PermissionError("configured Google owner subject, OAuth client ID and YouTube channel ID are required")
-    token = getattr(credentials, "id_token", None)
-    if not isinstance(token, str) or not token:
-        raise PermissionError("OAuth session has no OpenID Connect identity token")
-    try:
-        from google.auth.transport.requests import Request
-        from google.oauth2 import id_token
-
-        claims = id_token.verify_oauth2_token(token, Request(), audience=oauth_client_id)
-    except Exception as exc:
-        raise PermissionError("Google identity token could not be verified") from exc
-    if not isinstance(claims, dict):
-        raise PermissionError("verified Google identity token claims are invalid")
+    claims = _verify_google_id_token(credentials, oauth_client_id)
     subject = claims.get("sub")
     issuer = claims.get("iss")
     authorized_party = claims.get("azp")
@@ -115,8 +117,8 @@ def write_owner_approval_record(
     """Persist a one-time owner decision; never overwrite an existing record."""
     if confirmed is not True:
         raise PermissionError("explicit channel-owner confirmation is required")
-    if privacy not in {"private", "unlisted", "public"}:
-        raise ValueError("approval privacy must be private, unlisted or public")
+    if privacy != "private":
+        raise PermissionError("this uploader only permits PRIVATE staging; public visibility is a separate owner action")
     if not all(isinstance(value, str) and value.strip() for value in (
         clip_id, source_id, owner.google_subject, owner.channel_id
     )):
