@@ -998,3 +998,25 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 ### Validation and safety
 - Local tests NOT RUN in this connector session. Exact-head CI PENDING. No OAuth credentials, real media, network upload, merge, deployment, or publishing used.
 - PR #311 remains the parent draft. Issue #68 remains OPEN pending independent review and owner-controlled acceptance. Public publishing remains disabled.
+
+
+## ARO-CHAT-0216 non-blocking upload snapshot source open — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0216 |
+| Workstream ID | ARO-GTA-P1-216 |
+| Scope | Prevent a raced FIFO/special-file replacement from blocking the upload snapshot source open. |
+| Branch | `workstream/aro-chat-0216-nonblocking-upload-snapshot-open-2026-11-24` |
+| Base / starting SHA | PR #328 head `114e5bfc4b154e0da272ed36408ab156cfdc5ab9` |
+| Code commit | `9d397a0aacb1687d64acd780d321c54fbf6647ff` |
+| Test commit | `ec46588884806c5b173340bfadcaccd47057997a` |
+| Report | `docs/ARO_CHAT_0216_NONBLOCKING_UPLOAD_SNAPSHOT_OPEN.md` |
+| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI PENDING; no upload |
+
+### Implementation and validation
+- Add `O_NONBLOCK` to the source open flags where supported, alongside `O_NOFOLLOW`.
+- Add a FIFO path-replacement regression test that verifies the non-blocking flag is supplied before opening the substituted FIFO, then confirms the non-regular file is rejected.
+- Local tests NOT RUN in this connector session. The branch is not yet in a PR, so exact-head Ubuntu/hosted-Windows CI is PENDING.
+- Follow-up is stacked on draft PR #328. No OAuth, credentials/tokens, real media, upload, publishing, merge, rebase, retarget, or deployment performed.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
