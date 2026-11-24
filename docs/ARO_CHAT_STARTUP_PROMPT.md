@@ -636,3 +636,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Combined status returned zero entries; PR #283 reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. PR #283 remains OPEN / DRAFT / UNMERGED.
 - Report: `docs/ARO_CHAT_0191_PR283_CI_AUDIT.md`. Do not transfer CI evidence to this audit PR's own head or any other SHA.
 - Documentation-only. No application/workflow behavior changes, workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## Live continuation correction — ARO-CHAT-0191 (2026-11-24)
+- Existing audit PR: #286, branch `workstream/aro-chat-0191-pr283-exact-head-ci-audit-2026-11-24`. Do not create a duplicate branch or PR.
+- Re-fetch audited PR #283 before every audit. Its current head is `8c5a46d3e09daef7dbc53a51fd826af2bfd4718a`; earlier successful run #45385467671 was for prior SHA `4436861af51d1f371b0fe3a0f1ea6277ce139a5c` only.
+- Current PR #283 head has zero Actions runs, zero check-runs, and pending combined status with zero entries. Reviews, inline comments, and conversation comments are empty. Current-head CI PENDING / NOT VERIFIED.
+- PR #286 own current head `df310a41d1e54daafef191f671a5949ae4be4c2a` also has zero runs/check-runs, pending combined status, and no recorded reviews/comments. Its own exact-head CI PENDING / NOT VERIFIED.
+- This workstream is documentation-only. Do not change application, uploader, renderer, ingestion, tests, or workflow behavior. No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. Await owner review/selection before creating a new implementation task.
