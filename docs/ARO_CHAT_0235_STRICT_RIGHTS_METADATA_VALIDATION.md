@@ -42,3 +42,13 @@ Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploa
 - The registry now parses the URL authority, requires an HTTP(S) scheme and non-empty whitespace-free hostname, validates port syntax/range, and rejects embedded URL credentials.
 - Regression tests cover empty/missing hosts, unsupported schemes, invalid/out-of-range ports, embedded credentials, whitespace in hostnames, and valid HTTP/HTTPS URLs.
 - Production and test changes are committed on the existing ARO-CHAT-0235 branch. Local execution and fresh exact-head CI remain pending.
+
+
+## URL parser ambiguity hardening
+
+- Reject raw URL whitespace, including embedded CR/LF/tab, ASCII control characters, DEL, and backslashes before URL parsing.
+- This avoids accepting values that parsers may normalize or interpret differently across layers.
+- Added regression cases for newline, tab, and backslash-containing URLs.
+- Production commit: 0380133cb38d5067b6d6016d41c42b72071babbd.
+- Test commit: a94b6e6fae9d9789e11f74fa2233a347d0a46701.
+- Local tests NOT RUN; final-head CI and independent review remain pending.
