@@ -624,3 +624,15 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Combined status, review submissions, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #278 remains OPEN / DRAFT / UNMERGED.
 - This audit branch's merge-ref CI does not establish owner-device Windows acceptance, authorized real-media acceptance, security approval, or permission to merge/publish. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep all live uploads/public publishing disabled.
 - Safe next step: stop this audit workstream at its evidence-only boundary and await owner review/selection. Do not create a new implementation task from inference; inspect the registry and live PRs again when the owner authorizes the next bounded task.
+
+
+## Latest continuation baseline — ARO-CHAT-0191 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0191 | PR #283 Exact-Head CI Audit`; workstream ARO-GTA-P1-191.
+- Branch: `workstream/aro-chat-0191-pr283-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #283 head `4436861af51d1f371b0fe3a0f1ea6277ce139a5c`.
+- Task: documentation-only independent exact-head CI audit of PR #283.
+- PR #283 exact-head Python CI run #45385467671 (run 1215) succeeded. Ubuntu and hosted Windows each passed compilation, the same 29-test suite, and synthetic animation render-and-probe integration test.
+- Both jobs checked out PR #278 merge ref at `84c60c85ef0ae7c048f2655f4d60bab6613f160a`, merging PR #283 head `4436861af51d1f371b0fe3a0f1ea6277ce139a5c` into base `e425fbb9b789db9ba8746a0cb1a568dca28ba88a`. Raw-head-only checkout NOT DEMONSTRATED.
+- Combined status returned zero entries; PR #283 reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. PR #283 remains OPEN / DRAFT / UNMERGED.
+- Report: `docs/ARO_CHAT_0191_PR283_CI_AUDIT.md`. Do not transfer CI evidence to this audit PR's own head or any other SHA.
+- Documentation-only. No application/workflow behavior changes, workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
