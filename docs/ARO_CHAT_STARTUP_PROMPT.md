@@ -449,3 +449,15 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Local tests NOT RUN in this connector session. Exact-head CI is NOT VERIFIED / FAILED. Independent security review NOT RECORDED.
 - Static inspection of the current rights-registry implementation and regression tests found the intended fail-closed text, timestamp, URL-authority and raw-URL-character checks present; this is not a substitute for execution or independent review.
 - Keep PR #371 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload or publishing.
+
+
+## Exact-head CI audit — 2026-11-25
+
+- Audited PR #371 current head `bfa64a2953a6b046ff4cf2a23d8d9ba81b1a7346` on branch `workstream/aro-chat-0235-rights-registry-strict-text-timestamps-2026-11-25`.
+- Commit-associated Python CI run [#45491714696](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45491714696) completed FAILURE.
+- Ubuntu job `138791506600` and hosted-Windows job `138791505874` both report completed FAILURE. The connector exposed zero steps for both jobs; log retrieval for both returned `BlobNotFound`.
+- Combined commit status returned zero status entries. PR #371 review submissions and inline review threads were empty at inspection. Independent review NOT RECORDED.
+- The available evidence does not establish whether failure occurred during runner/workflow initialization or before the first step. Root cause NOT VERIFIED; do not attribute the failure to application code or tests.
+- Local tests NOT RUN in this connector session. Exact-head CI status: FAILED / NOT VERIFIED. No test count or compile result is claimed.
+- No workflow retry/dispatch was initiated. PR #371 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- No source, test, uploader, OAuth, media, or workflow behavior was changed in this audit. No credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
