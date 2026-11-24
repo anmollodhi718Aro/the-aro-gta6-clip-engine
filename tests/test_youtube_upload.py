@@ -508,8 +508,8 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
         self.temp.cleanup()
 
     def test_profiles_resolve_to_distinct_channel_and_token_paths(self):
-        first = load_destination_profile(self.config, "aroanmol7")
-        second = load_destination_profile(self.config, "the_arro07")
+        first = load_destination_profile(self.config, "aroanmol7", repository_root=self.root)
+        second = load_destination_profile(self.config, "the_arro07", repository_root=self.root)
         self.assertEqual(first["channel_id"], "UC1234567890abcdef")
         self.assertEqual(second["channel_id"], "UCabcdef1234567890")
         self.assertNotEqual(first["google_subject"], second["google_subject"])
@@ -519,13 +519,13 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
 
     def test_profile_name_cannot_escape_token_directory(self):
         with self.assertRaisesRegex(ValueError, "letters, numbers"):
-            load_destination_profile(self.config, "../outside")
+            load_destination_profile(self.config, "../outside", repository_root=self.root)
 
     def test_profile_config_outside_ignored_secrets_directory_is_rejected(self):
         external = self.root / "destination_profiles_external.json"
         external.write_text(self.config.read_text(encoding="utf-8"), encoding="utf-8")
         with self.assertRaisesRegex(PermissionError, "must resolve inside"):
-            load_destination_profile(external, "aroanmol7")
+            load_destination_profile(external, "aroanmol7", repository_root=self.root)
 
     def test_profile_config_symlink_cannot_escape_secrets_directory(self):
         external = self.root / "destination_profiles_external.json"
@@ -536,7 +536,7 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
         except (NotImplementedError, OSError) as exc:
             self.skipTest(f"file symlinks are unavailable on this runner: {exc}")
         with self.assertRaisesRegex(PermissionError, "must resolve inside"):
-            load_destination_profile(linked, "aroanmol7")
+            load_destination_profile(linked, "aroanmol7", repository_root=self.root)
 
     def test_secrets_directory_symlink_cannot_escape_repository_secrets_directory(self):
         external_secrets = self.root / "external" / ".secrets"
@@ -550,7 +550,7 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
         except (NotImplementedError, OSError) as exc:
             self.skipTest(f"directory symlinks are unavailable on this runner: {exc}")
         with self.assertRaisesRegex(PermissionError, "directory must not be a symlink"):
-            load_destination_profile(self.config, "aroanmol7")
+            load_destination_profile(self.config, "aroanmol7", repository_root=self.root)
 
     def test_metadata_dry_run_does_not_require_oauth_profile(self):
         args = [
@@ -577,14 +577,14 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
 
     def test_unknown_profile_fails_closed(self):
         with self.assertRaisesRegex(PermissionError, "unknown destination profile"):
-            load_destination_profile(self.config, "not-a-channel")
+            load_destination_profile(self.config, "not-a-channel", repository_root=self.root)
 
     def test_duplicate_channel_mapping_fails_closed(self):
         payload = json.loads(self.config.read_text(encoding="utf-8"))
         payload["profiles"]["the_arro07"]["channel_id"] = payload["profiles"]["aroanmol7"]["channel_id"]
         self.config.write_text(json.dumps(payload), encoding="utf-8")
         with self.assertRaisesRegex(PermissionError, "unique YouTube channel ID"):
-            load_destination_profile(self.config, "aroanmol7")
+            load_destination_profile(self.config, "aroanmol7", repository_root=self.root)
 
     def test_profile_requires_config_and_name_together(self):
         with self.assertRaisesRegex(PermissionError, "must be supplied together"):
