@@ -543,6 +543,8 @@ class YouTubeUploadTests(unittest.TestCase):
         authorize.assert_not_called()
 
 
+
+
     def test_upload_attempts_snapshot_cleanup_when_media_stream_close_fails(self):
         db_path = self.root / "source_rights.sqlite3"
         self._write_upload_rights(db_path)
@@ -604,8 +606,6 @@ class YouTubeUploadTests(unittest.TestCase):
         self.assertFalse(snapshot_paths[0].exists())
         media_handle.close.assert_called_once()
         youtube.videos.return_value.insert.assert_called_once()
-
-
 
 class YouTubeDestinationProfileTests(unittest.TestCase):
     def setUp(self):
