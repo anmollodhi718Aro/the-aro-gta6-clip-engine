@@ -991,3 +991,44 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #314's reported run #45421632805 passed 338 tests on Ubuntu and hosted Windows, but both checked out merge ref `a9f9253bf15d431761179586d886a3b0365abb79`; raw-head-only CI NOT DEMONSTRATED. Synthetic media only.
 - Report: `docs/ARO_CHAT_0209_PR315_CI_PENDING_AUDIT.md`; audit vehicle [PR #316](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/316) is OPEN / DRAFT / UNMERGED, with its own exact-head CI pending. PR #315 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 - No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0210 | PR #316 exact-head CI audit — 2026-11-24
+- Documentation-only audit branch `workstream/aro-chat-0210-pr316-exact-head-ci-audit-2026-11-24`, based on PR #316 head `0a4c88a6ba417adfc7fcdf82bfa75699baf193a8`.
+- Exact-head-associated Actions run #45422766452 (run 1335) was IN_PROGRESS at audit time. Ubuntu job #138546522496 and hosted-Windows job #138546521666 were both still installing FFmpeg/FFprobe; compilation, tests, and synthetic MP4/FFprobe steps had not started.
+- PR #316 exact-head Ubuntu/hosted-Windows CI: IN_PROGRESS / NOT VERIFIED. Combined legacy statuses empty; no green status inferred. PR reviews and inline threads empty; independent review NOT RECORDED. Local tests NOT RUN.
+- Report: `docs/ARO_CHAT_0210_PR316_CI_AUDIT.md`. Do not transfer CI evidence from PR #315 or #314. Re-inspect run #45422766452 and actual checkout refs before any verification claim.
+- PR #316 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0210 PR #316 CI closeout — 2026-11-24
+- PR #316 audited head `0a4c88a6ba417adfc7fcdf82bfa75699baf193a8` completed associated run [#45422766452](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45422766452) successfully.
+- Ubuntu job #138546522496 and hosted-Windows job #138546521666 each passed compilation, the same 338 tests, and synthetic MP4/FFprobe validation.
+- Both jobs checked out merge ref `refs/remotes/pull/316/merge`, merge SHA `38c90e5cca78078f60759f38c60f20decc8c0d24`, merging audited head into base `0bd547b74414da289cf6ae74e39dd26007935aa2`; raw-head-only checkout NOT DEMONSTRATED. These are 338 tests per platform, not 676 unique tests.
+- Logs confirm synthetic pattern/tone only; no GTA 6 or third-party media, no upload, publishing disabled, manual review required. `upload_performed=false`.
+- PR #316 reviews and inline threads remain empty; independent review NOT RECORDED. Local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED.
+- Report: `docs/ARO_CHAT_0210_PR316_CI_AUDIT.md`. PR #316 remains OPEN / DRAFT / UNMERGED. Do not transfer this CI to another PR/head.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0210 final PR #316 CI reconciliation — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0210 |
+| Workstream ID | ARO-GTA-P2-210 |
+| Audited PR / head | PR #316 / `0a4c88a6ba417adfc7fcdf82bfa75699baf193a8` |
+| Audit vehicle | Draft PR #318, branch `workstream/aro-chat-0210-pr316-exact-head-ci-audit-2026-11-24`, current head `541ca8c250f875dee07e414ef4316192ec2ac87f` |
+| Audited run | #45422766452, SUCCESS |
+| Merge checkout | `38c90e5cca78078f60759f38c60f20decc8c0d24`, merging audited head into base `0bd547b74414da289cf6ae74e39dd26007935aa2` |
+| Validation | Ubuntu and hosted Windows each passed compile, the same 338 tests, and synthetic MP4/FFprobe validation |
+| Review | PR #316 reviews/inline threads empty; independent review NOT RECORDED |
+| Remaining gates | Owner-device Windows NOT VERIFIED; real GTA 6 media NOT VERIFIED; Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL |
+
+Both platforms ran the same 338-test suite, not 676 unique tests. Logs show synthetic pattern/tone only, no GTA 6/third-party media, publishing disabled, and manual review required. Raw-head-only checkout NOT DEMONSTRATED. Local tests NOT RUN in this connector session. Keep live uploads/public publishing disabled.
+
+### Audit vehicle PR #318 CI
+- PR #318 head `541ca8c250f875dee07e414ef4316192ec2ac87f` passed associated run #45423111599.
+- Ubuntu job #138547694254 and hosted-Windows job #138547694698 each passed compilation, the same 338 tests, and synthetic MP4/FFprobe validation.
+- Both checked out merge ref `4f0dd351c7f7f5dd229f7b52d1f422b33bf6de39`, merging PR #318 head into PR #316 head `0a4c88a6ba417adfc7fcdf82bfa75699baf193a8`; raw-head-only checkout NOT DEMONSTRATED.
+- PR #318 reviews and inline threads empty; independent review NOT RECORDED. PR #318 remains OPEN / DRAFT / UNMERGED.
