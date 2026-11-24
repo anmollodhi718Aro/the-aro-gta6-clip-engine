@@ -349,7 +349,11 @@ def _create_verified_upload_snapshot(video_path: str | Path) -> tuple[Path, Any]
         path_before = source.lstat()
         if not stat.S_ISREG(path_before.st_mode):
             raise PermissionError("upload source must be a regular file")
-        flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
+        flags = (
+            os.O_RDONLY
+            | getattr(os, "O_NOFOLLOW", 0)
+            | getattr(os, "O_NONBLOCK", 0)
+        )
         descriptor = os.open(source, flags)
     except PermissionError:
         raise
