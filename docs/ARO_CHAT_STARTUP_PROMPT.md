@@ -202,3 +202,5 @@ For the current first-test upload priority:
 - PR #324 has zero review submissions, zero inline review threads, and zero conversation comments in the inspected results. Independent review remains NOT RECORDED / PENDING. Local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED.
 - Audit report: `docs/ARO_CHAT_0214_PR324_CI_AUDIT.md`. Documentation-only; no uploader or production behavior change.
 - Keep PR #324 and this audit branch draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. Keep live uploads/public publishing disabled.
+
+- Follow-up audit PR #326 is OPEN / DRAFT / UNMERGED at head `38e11dfc525ee7c3e8bdbf94268174de3c802170`; exact-head workflow lookup returned zero runs. Its own CI is PENDING / NOT VERIFIED. Do not transfer PR #324's run #45425499575 to PR #326.
