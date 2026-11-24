@@ -1088,3 +1088,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Current-head workflow lookup: zero associated runs; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED.
 - Base advanced 12 documentation-only commits after starting SHA `b0a5e3e1adcff9f7a2f3715b6ba7a0c138a50722`; compare reports DIVERGED (6 ahead / 12 behind), merge base remains starting SHA. Preserve draft; do not rebase/retarget automatically.
 - Local tests NOT RUN; independent security review NOT RECORDED. Issue #68 OPEN; public publishing disabled.
+
+## ARO-CHAT-0222 — rights-report assertion correction (2026-11-24)
+- Workstream: ARO-GTA-P1-222; parent PR #344; branch `workstream/aro-chat-0222-rights-report-test-message-fix-2026-11-24`; base / starting SHA `d2e057734517c1dfb3be994eb7268580f1f173a4`.
+- PR #346 run #45441375437 failed on Ubuntu and hosted Windows because one assertion expected `no recorded rights for source-2`, while the fail-closed registry correctly returned `no recorded rights for source source-2`. 352 tests ran on each platform; one assertion failed on each. The YouTube insert was not reached in the regression.
+- Corrected only the expected message in `tests/test_youtube_upload.py`. Commit `43434965bd0b0607f3e95077d5abb4f4710ae1a3`; report `docs/ARO_CHAT_0222_RIGHTS_REPORT_ASSERTION_FIX.md`.
+- Test-only correction: IMPLEMENTED. Local tests NOT RUN. New-branch exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Do not transfer PR #346's failed run to this new head.
+- No production behavior or workflow changes. No OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
