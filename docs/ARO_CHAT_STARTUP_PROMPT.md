@@ -204,3 +204,5 @@ For the current first-test upload priority:
 - Keep PR #324 and this audit branch draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. Keep live uploads/public publishing disabled.
 
 - Follow-up audit PR #326 is OPEN / DRAFT / UNMERGED at head `38e11dfc525ee7c3e8bdbf94268174de3c802170`; exact-head workflow lookup returned zero runs. Its own CI is PENDING / NOT VERIFIED. Do not transfer PR #324's run #45425499575 to PR #326.
+
+- Latest PR #326 head is `b99afc0dd50f82be191b928c878ff040599b17e6`; associated Actions run #45426146051 (run 1355) is PENDING. This supersedes the earlier zero-run lookup for the previous head. Verify the latest run and both job logs; do not transfer PR #324's CI.
