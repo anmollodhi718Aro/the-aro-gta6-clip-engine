@@ -90,3 +90,13 @@ Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploa
 - Regression tests added for `https://example.com:/video` and `https://[::1]:/video`.
 - Production commit: `15f68da1e3416ee2b785b5d4a47c140a11e43917`; test commit: `41d42e89eeb3adc9e7dd2607e4f7b638214d8982`.
 - Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT YET OBSERVED; independent security review NOT RECORDED. PR #371 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### Blank-text and falsey-timestamp regression follow-up — 2026-11-25
+
+- Test-only follow-up on the existing ARO-CHAT-0235 branch; no new branch or PR.
+- Added regression cases proving whitespace-only required rights text is rejected for source ID, source URL, grantor, and evidence reference.
+- Added explicit falsey timestamp cases (empty string, False, and 0) for registration valid_from/expires_at and authorize/revoke at parameters. Only None remains the sentinel for selecting the current time in the latter methods.
+- Test commit: 079d9213ab53142c6d085dbfc28597df745a5a2b; current PR #371 head at handoff: same SHA.
+- Local tests NOT RUN in this connector session. Commit-associated workflow lookup returned no run at inspection; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent security review NOT RECORDED.
+- PR #371 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
