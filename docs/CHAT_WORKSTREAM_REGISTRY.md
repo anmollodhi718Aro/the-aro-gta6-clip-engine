@@ -1217,3 +1217,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Ubuntu and hosted Windows each ran the same 365-test suite; Windows skipped 4 platform-unavailable tests. Both passed synthetic MP4/FFprobe validation. Synthetic output is not GTA 6 media.
 - No production rights-registry, uploader, OAuth, media-ingestion, workflow, or publishing behavior changed.
 - PR #362 remains draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0232 — public rights-registry input validation (2026-11-25)
+- Workstream: ARO-GTA-P1-232; branch `workstream/aro-chat-0232-rights-registry-public-input-validation-2026-11-25`; based on PR #362 live head `a39fd8ed3db36e8aae98cfc902c10f7fe36e7054`.
+- Finding: malformed non-string values passed to `authorize()`, `revoke()`, and `audit_events()` could cause incidental attribute/SQLite binding errors; `register()` also coerced identity fields and assumed a dictionary.
+- Added a shared required-text validator, strict mapping/identity validation, normalization at public method boundaries, and malformed-input regressions.
+- Production commit `94067f2974f7c6ebcea6415ccfae72b66d521255`; test commit `ec18f4f45ec8e1a5c0ff8be64e8c2cff1f83ec49`; report `4aa4541fdcc2a3ce7ba3948010ef047dbee7f65e`.
+- Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI PENDING. Independent security review NOT RECORDED; owner-device Windows and real-media acceptance NOT VERIFIED.
+- Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
