@@ -1800,3 +1800,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Combined status had zero entries; PR #269 reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. PR #269 remains OPEN / DRAFT / UNMERGED.
 - Report: `docs/ARO_CHAT_0185_PR269_CI_AUDIT.md`. This is CI evidence for PR #269's audited SHA only. Synthetic media is not real-media acceptance; hosted Windows is not owner-device verification.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation — ARO-CHAT-0186 (2026-11-24)
+
+- Current chat title: ARO-CHAT-0186 | Bound Event Intake Memory Guard; workstream ARO-GTA-P1-186.
+- Finding: normalize_event_batch eagerly materialized an arbitrary Iterable before enforcing max_events, so the configured batch limit did not bound input consumption or pre-validation memory use.
+- Branch: workstream/aro-chat-0186-bounded-event-intake-2026-11-24; base / starting SHA: PR #272 head 6b244904967c2db8a5105e0e0a0ca5fa48b6f091.
+- Change: enforce the batch ceiling during iteration, reject the first over-limit record, and add a generator regression proving only max_events + 1 records are consumed.
+- Scope: local event intake only. No live adapters, credentials/OAuth, real media, uploads, publishing, deployment, or workflow changes.
+- Status: IMPLEMENTED; local tests NOT RUN in this connector session; exact-head CI PENDING until this branch's own PR run is observed.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
