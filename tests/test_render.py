@@ -36,7 +36,7 @@ class RenderUnitTests(unittest.TestCase):
             self.render(rights_confirmed=False)
 
     def test_rejects_invalid_time_bounds(self) -> None:
-        for start, duration in [(-1, 5), (0, 0), (0, 181)]:
+        for start, duration in [(-1, 5), (0, 0), (0, 181), (float('nan'), 5), (0, float('inf'))]:
             with self.subTest(start=start, duration=duration):
                 with self.assertRaises(ValueError):
                     self.render(start_seconds=start, duration_seconds=duration)
@@ -71,6 +71,24 @@ class RenderUnitTests(unittest.TestCase):
         self.assertFalse(run.call_args.kwargs["shell"])
         self.assertIn("-map", command)
         self.assertEqual(run.call_args.kwargs["timeout"], 300)
+
+    @patch("backend.app.render.shutil.which", return_value=None)
+    def test_fails_closed_when_ffmpeg_is_missing(self, _which) -> None:
+        with self.assertRaises(RenderError):
+            self.render()
+        self.assertFalse(self.output.exists())
+
+    @patch("backend.app.render.shutil.which", return_value="/usr/bin/ffmpeg")
+    @patch("backend.app.render.subprocess.run")
+    def test_removes_temporary_file_after_timeout(self, run, _which) -> None:
+        def fake_run(command, **kwargs):
+            Path(command[-1]).write_bytes(b"partial")
+            raise subprocess.TimeoutExpired(command, kwargs["timeout"])
+        run.side_effect = fake_run
+        with self.assertRaises(RenderError):
+            self.render()
+        self.assertFalse(self.output.exists())
+        self.assertEqual(list(self.folder.glob(".clip.*.mp4")), [])
 
     @patch("backend.app.render.shutil.which", return_value="/usr/bin/ffmpeg")
     @patch("backend.app.render.subprocess.run")
