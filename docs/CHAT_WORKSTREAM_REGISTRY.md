@@ -907,3 +907,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added regression test proving a failed atomic replace leaves the previous token intact and removes the temporary file.
 - Test commit: `bcdd2355a23ca4a653c76857bc5ff4650f6e1d79`.
 - Fresh CI is required for this exact head; the preceding head `2f801ce8043906829e352733644a01ef01ffc3b1` passed Ubuntu and Windows suites plus synthetic MP4/FFprobe.
+
+
+### Exact-head CI closeout for OAuth atomic-write failure-path guard (24 Nov 2026)
+- Latest PR #299 test commit: `bcdd2355a23ca4a653c76857bc5ff4650f6e1d79`.
+- Associated workflow run #45395778292 completed SUCCESS. Ubuntu job #138452502803 and hosted-Windows job #138452503365 both passed compilation, the same 342-test unittest suite, and synthetic MP4/FFprobe validation.
+- Ubuntu: 342 tests in 5.130s. Windows: 342 tests in 17.488s.
+- Both jobs checked out merge SHA `a6de7b8`, merging the audited PR head into base `cf731cabda8a045d39457f0eef800dbdb051e75e`; raw-head-only checkout is NOT DEMONSTRATED.
+- Logs confirm `upload_performed=false`, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true` on both platforms.
+- This validates the PR merge-ref CI path, not a real GTA 6 media run, OAuth session, or live upload. PR #299 remains OPEN / DRAFT / UNMERGED; independent security review is NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
