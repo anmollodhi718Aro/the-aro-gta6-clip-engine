@@ -339,3 +339,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Added a synthetic test that forces a short descriptor read while fstat metadata remains unchanged; confirms the byte-count check rejects incomplete input before JSON parsing.
 - Test-only commit: `8143da93904b5ed8d6ba8a18a8fb02ebdf471bbb`. Production code unchanged.
 - Local tests NOT RUN in this connector session. Verify exact-head Ubuntu/hosted-Windows CI for the updated PR #354 head; do not infer CI from its parent or previous head.
+
+
+### ARO-CHAT-0225 latest continuation — post-read path binding (2026-11-24)
+- Current workstream: ARO-GTA-P1-225 on PR #354, branch `workstream/aro-chat-0225-stable-rights-report-read-2026-11-24`.
+- Added final pathname identity verification after reading the bounded rights-report bytes, ensuring the path still names the same regular file as the opened descriptor before parsing.
+- Regression simulates a path replacement during the read and requires fail-closed rejection.
+- Production commit `8a4aa7591063f003f95e57e7ff1f4d7286fa416e`; test commit `600cb7773c8ec9c6cf6288cbe15402444aa2cf46`.
+- Latest exact-head CI not yet associated with the current branch tip; do not claim CI verification. Local tests NOT RUN in this connector session. Independent security review NOT RECORDED.
+- Preserve draft ancestry. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
