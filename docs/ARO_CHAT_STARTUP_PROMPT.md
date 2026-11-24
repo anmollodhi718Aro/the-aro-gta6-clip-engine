@@ -194,3 +194,11 @@ For the current first-test upload priority:
 - A test-only correction simulates the second post-open pathname `lstat()` as a symlink while retaining the real descriptor, avoiding Windows-incompatible rename behavior. Production code unchanged.
 - Report: `docs/ARO_CHAT_0213_WINDOWS_SAFE_POST_OPEN_RACE_TEST.md`. Exact-head Ubuntu and hosted-Windows CI remains PENDING until both jobs/logs for this new PR head are inspected. Local tests NOT RUN in this connector session.
 - Preserve draft-only status. Do not merge/rebase/retarget, dispatch/retry workflows, access OAuth credentials, process real media, upload, publish, or deploy. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled.
+
+
+## ARO-CHAT-0214 — PR #324 exact-head CI audit (2026-11-24)
+- Continue from `workstream/aro-chat-0214-pr324-exact-head-ci-audit-2026-11-24`, based on PR #324 head `f4cf5766c7f0cad8531919f444d077b2fcdbe0fe`.
+- PR #324 exact-head run #45425499575 completed SUCCESS. Both Ubuntu and hosted-Windows jobs passed compile, complete unittest-suite, and synthetic MP4/FFprobe steps. Job summaries did not expose test counts/raw logs; do not claim a count.
+- PR #324 has zero review submissions, zero inline review threads, and zero conversation comments in the inspected results. Independent review remains NOT RECORDED / PENDING. Local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED.
+- Audit report: `docs/ARO_CHAT_0214_PR324_CI_AUDIT.md`. Documentation-only; no uploader or production behavior change.
+- Keep PR #324 and this audit branch draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. Keep live uploads/public publishing disabled.
