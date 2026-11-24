@@ -176,3 +176,13 @@ For the current first-test upload priority:
 - Commits: `47b5fbeb9dc405d0c8643de7630b51631f1c4a29`, `a8c3b46a735ed8053d7f913beb6ace3194eaa29b`, `ec12e3ecbae4f34f6a9bd3543d16a58d83fb274b`.
 
 - Follow-up hardening checks `lstat()` regular-file status before opening the approval path, preventing FIFO/device paths from blocking or serving as approval evidence. Commit: `e389430313ecb94149ad042b8541d5a4b57eef5c`.
+
+
+## ARO-CHAT-0200 continuation — approval-record file race
+
+- Current bounded workstream: ARO-CHAT-0200 / ARO-GTA-P1-200; PR #305 (draft).
+- Branch: `workstream/aro-chat-0200-approval-record-open-race-hardening-2026-11-24`, based on PR #299 branch head `97250fbb3bf1fd8d9e5e03dfc6ac6a9267b643b5`.
+- The approval reader compares pre-open `lstat()` device/inode with the opened descriptor's `fstat()`, uses `O_NONBLOCK` where supported, and rejects path replacement.
+- Regression tests cover replacement between check/open, directory paths, and FIFO paths.
+- Local tests were not run in this connector session. Exact PR-head Actions run `45401960825` passed Ubuntu job `138472588352` and hosted Windows job `138472588884` on `c9f05295d3319ae67481747a72a67a1ab2b9a3ac`. Ubuntu passed 350 tests; hosted Windows ran 350 with 2 FIFO tests skipped because `os.mkfifo` is unavailable. Both compiled and passed synthetic MP4/FFprobe validation. This is hosted Windows CI, not owner-device verification.
+- No merge, rebase, retarget, OAuth, credential access, real media, upload, publishing, deployment, or destructive action. Issue #68 stays OPEN; live upload/public publishing remains disabled.

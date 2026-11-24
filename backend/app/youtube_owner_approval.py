@@ -183,17 +183,21 @@ def require_current_owner_approval(
         # and non-regular files rather than following a path outside the record.
         if approval_file.is_symlink():
             raise PermissionError("owner approval record must not be a symlink")
-        try:
-            path_mode = approval_file.lstat().st_mode
-        except OSError:
-            raise
-        if not stat.S_ISREG(path_mode):
+        path_stat = approval_file.lstat()
+        if not stat.S_ISREG(path_stat.st_mode):
             raise PermissionError("owner approval record must be a regular file")
-        flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
+        flags = (
+            os.O_RDONLY
+            | getattr(os, "O_NOFOLLOW", 0)
+            | getattr(os, "O_NONBLOCK", 0)
+        )
         descriptor = os.open(approval_file, flags)
         try:
-            if not stat.S_ISREG(os.fstat(descriptor).st_mode):
+            opened_stat = os.fstat(descriptor)
+            if not stat.S_ISREG(opened_stat.st_mode):
                 raise PermissionError("owner approval record must be a regular file")
+            if (path_stat.st_dev, path_stat.st_ino) != (opened_stat.st_dev, opened_stat.st_ino):
+                raise PermissionError("owner approval record changed while opening")
             with os.fdopen(descriptor, "r", encoding="utf-8") as stream:
                 descriptor = -1
                 record = json.load(stream)
