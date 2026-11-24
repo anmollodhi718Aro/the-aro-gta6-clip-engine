@@ -193,6 +193,35 @@ class YouTubeUploadTests(unittest.TestCase):
                 load_rights_report(self.report)
         self.assertEqual(lstat_calls, 3)
 
+    def test_rights_report_rejects_short_read_even_when_metadata_is_unchanged(self):
+        import backend.app.youtube_upload as upload_module
+
+        original_fdopen = upload_module.os.fdopen
+
+        class ShortReadStream:
+            def __init__(self, stream):
+                self.stream = stream
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc_value, traceback):
+                return self.stream.__exit__(exc_type, exc_value, traceback)
+
+            def read(self, size=-1):
+                data = self.stream.read(size)
+                return data[:-1]
+
+            def fileno(self):
+                return self.stream.fileno()
+
+        with patch(
+            "backend.app.youtube_upload.os.fdopen",
+            side_effect=lambda descriptor, mode: ShortReadStream(original_fdopen(descriptor, mode)),
+        ):
+            with self.assertRaisesRegex(PermissionError, "changed while reading"):
+                load_rights_report(self.report)
+
     def test_rights_report_rejects_same_inode_symlink_substitution_after_open(self):
         import stat
         import backend.app.youtube_upload as upload_module
