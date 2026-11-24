@@ -11,14 +11,23 @@ permissions:
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    name: Tests (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-      - name: Install FFmpeg and FFprobe
+      - name: Install FFmpeg and FFprobe (Ubuntu)
+        if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install --yes ffmpeg
+      - name: Install FFmpeg and FFprobe (Windows)
+        if: runner.os == 'Windows'
+        run: choco install ffmpeg --yes --no-progress
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
