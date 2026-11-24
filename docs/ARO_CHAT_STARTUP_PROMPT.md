@@ -439,3 +439,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Test-only commit `77adf4b3541792b1151159bc5a2f02ec93a2369c` changes those two inputs to actual newline and tab characters, exercising the existing fail-closed whitespace/control-character guard.
 - No production behavior changed. Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI must be inspected on the final synchronized branch head; earlier run #45486979384 failed with both jobs exposing zero steps and no logs, cause NOT VERIFIED.
 - PR #371 remains draft/open/unmerged; independent review NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+### ARO-CHAT-0235 exact-head CI follow-up — 2026-11-25
+
+- Inspected PR #371 exact head `a192100be0d25d910f9da5cb05d9723f4741104a`.
+- Associated Python CI run #45487261841 completed FAILURE. Both `tests` and `windows-tests` jobs report failure with zero exposed steps; job-log retrieval returned BlobNotFound. Combined commit status returned no status checks.
+- Failure cause is NOT VERIFIED. The available evidence does not show whether jobs failed during runner/workflow initialization or before steps; do not attribute the failure to the code or tests.
+- Local tests NOT RUN in this connector session. Exact-head CI is NOT VERIFIED / FAILED. Independent security review NOT RECORDED.
+- Static inspection of the current rights-registry implementation and regression tests found the intended fail-closed text, timestamp, URL-authority and raw-URL-character checks present; this is not a substitute for execution or independent review.
+- Keep PR #371 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload or publishing.
