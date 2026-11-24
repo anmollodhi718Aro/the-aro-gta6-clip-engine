@@ -412,3 +412,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Initial run #45314464029 (run 1135) was IN_PROGRESS: Ubuntu compilation passed and unit tests were running; hosted-Windows FFmpeg/FFprobe installation was running. Final results are not yet verified.
 - Report: `docs/ARO_CHAT_0170_PR249_CI_AUDIT.md`. Re-fetch the audited PR head and run after completion; never transfer CI evidence from another SHA or PR.
 - Documentation-only; keep Issue #68 open and live uploads/public publishing disabled. No credentials, OAuth, real media, network upload, publishing, workflow retry, merge, retarget, deployment, or destructive action. Keep the audit PR draft/open/unmerged.
+
+
+### ARO-CHAT-0170 PR #249 CI audit closeout — 2026-11-24
+- PR #249 exact head `75854f6cbead27c42d723a72f883eb7f804665f9` run #45314464029 failed on Ubuntu and hosted Windows. Each platform compiled successfully, then ran 340 tests with 339 passed and 1 failed; both failed `test_cli_passes_exact_clip_and_source_to_upload_boundary` because its `--upload` argv omitted required `--max-upload-bytes`.
+- The CLI's explicit device-limit fail-closed guard is correct and must not be weakened. Follow-up should add a positive explicit fixture limit in the test only.
+- Both jobs checked out PR #249 merge ref at `764f9ac098803f8bb8c77656157938db16edb186`; raw-head-only checkout NOT DEMONSTRATED. Synthetic MP4/FFprobe skipped on both platforms.
+- Combined status empty; independent review not recorded. PR #249 NOT CI_VERIFIED. No workflow retry or local tests run.
+- Audit report: `docs/ARO_CHAT_0170_PR249_CI_AUDIT.md`. This audit branch's own exact-head CI remains to be checked separately. Keep Issue #68 open and live uploads/public publishing disabled; no OAuth, credentials, real media, upload, publishing, merge, retarget, deployment, or destructive action.
