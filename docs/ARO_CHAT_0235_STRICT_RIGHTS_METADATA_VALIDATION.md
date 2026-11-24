@@ -34,3 +34,11 @@ The preceding rights-registry input-validation branch still coerced source ident
 ## Safety
 
 Draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, network upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+## Source URL validation follow-up
+
+- Static review found that checking only an `http://` or `https://` prefix accepted malformed authorities such as `https://` and invalid ports.
+- The registry now parses the URL authority, requires an HTTP(S) scheme and non-empty whitespace-free hostname, validates port syntax/range, and rejects embedded URL credentials.
+- Regression tests cover empty/missing hosts, unsupported schemes, invalid/out-of-range ports, embedded credentials, whitespace in hostnames, and valid HTTP/HTTPS URLs.
+- Production and test changes are committed on the existing ARO-CHAT-0235 branch. Local execution and fresh exact-head CI remain pending.
