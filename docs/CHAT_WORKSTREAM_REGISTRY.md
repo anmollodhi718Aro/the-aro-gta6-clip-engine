@@ -867,3 +867,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Fix: resolve the profile config path strictly and reject it unless its resolved parent directory is exactly `.secrets`; this also rejects config-file or directory symlinks resolving outside that directory.
 - Regression test: an otherwise valid profile config outside `.secrets/` is rejected. Existing profile tests now place fixtures under `.secrets/` and assert tokens resolve to `.secrets/tokens/<profile>.json`.
 - Commits: `6c3e35a4905ab8ac69fb7ff57f5204f67d67162a`, `004a2001e4e624334658ac084b0d41f79ae4a1ff`. Exact-head CI pending; no OAuth or upload performed.
+
+
+### Integration dependency blocker — append-only source-rights lineage
+- Security review of the PR #299 base found `SourceRightsRegistry.register()` still uses `ON CONFLICT(source_id) DO UPDATE` and resets `revoked_at=NULL`. This can replace a prior grant and clear its revocation when the same source_id is re-registered.
+- PR #168 contains the append-only duplicate-ID rejection fix, but current PR #168 head is `03ac14cb1d74296870541b68839580c12ed2a84b`, while PR #176 base is `9ff25d7356d5badc39f448c9f5e939cda4048541`; PR #238 is based on PR #176 head `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`, and PRs #241/#242 are based on PR #238 head `cdcf7a4bef2728e3299e82bc88d376992ecec39d`. The current append-only PR #168 head is therefore not demonstrated as an ancestor of the #176/#238/#241/#242 stack.
+- Do not treat the #168 fix as integrated into PR #299 or the #241/#242 line. Resolve the ancestry/integration in the canonical Issue #68 stack before enabling any live upload. No rebase, retarget, or merge performed.
