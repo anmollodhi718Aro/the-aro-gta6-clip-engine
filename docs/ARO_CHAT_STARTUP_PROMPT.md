@@ -542,3 +542,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Regression test commit and current branch head: `f6bb501eccf77445509f85e24ec69babbd61e41a`; added `example.09` and `example.0008` rejection cases.
 - Current-head associated workflow lookup returned zero runs. Exact-head CI PENDING / NOT VERIFIED; local tests NOT RUN; independent review NOT RECORDED.
 - PR #376 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+
+### Current handoff — ARO-CHAT-0238 trailing-dot regression follow-up (2026-11-25)
+
+- Continue existing draft PR #376 on `workstream/aro-chat-0238-ambiguous-numeric-hostname-rejection-2026-11-25`; do not create a duplicate branch or PR.
+- Latest test-only commit: `4cde1bb1b12ab95fd9779171f95d93f78621760e`. It covers rejection of numeric-like DNS suffixes with trailing dots and acceptance of canonical IPv4 with a trailing dot.
+- Production code unchanged. Local tests NOT RUN; exact-head CI NOT YET CHECKED; independent review NOT RECORDED.
+- Preserve draft/open/unmerged state. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Keep live uploads/public publishing disabled.
