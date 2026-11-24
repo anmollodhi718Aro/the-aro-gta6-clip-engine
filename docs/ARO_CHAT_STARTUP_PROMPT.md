@@ -184,3 +184,5 @@ For the current first-test upload priority:
 - Source commit `07fc209ff4d68b7cc5236c834bcea42de95728f3`; test commit `b37b3d694c4e6dc7f3c291a242f925dabdd0bc3e`.
 - Exact-head Ubuntu and hosted-Windows CI are PENDING; local tests NOT RUN. Do not claim verification until the run and both logs are inspected.
 - PR #317 remains the parent draft; no merge, rebase, retarget, OAuth, credentials, media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+- Cross-platform test follow-up commit: `d37681e6af75b6ff81da2c47c67cf2001fb55049` skips the symlink-specific case only on filesystems where symlink creation is unavailable; CI for the resulting head remains independently pending.
