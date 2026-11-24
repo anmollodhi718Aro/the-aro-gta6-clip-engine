@@ -489,3 +489,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Test commit: 079d9213ab53142c6d085dbfc28597df745a5a2b; current PR #371 head at handoff: same SHA.
 - Local tests NOT RUN in this connector session. Commit-associated workflow lookup returned no run at inspection; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent security review NOT RECORDED.
 - PR #371 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+### Current continuation — ARO-CHAT-0235 exact-head CI audit (2026-11-25)
+
+- Latest workstream: ARO-GTA-P1-235, PR #371, branch `workstream/aro-chat-0235-rights-registry-strict-text-timestamps-2026-11-25`.
+- Exact current head: `2032ccbc1c115426e3731415915656841c2633ad`; base: `8185687919138671deff872f6a7f35f86eafc27c`.
+- Exact-head Python CI run #45494763114 completed FAILURE. Ubuntu job #138802196403 and hosted-Windows job #138802196129 exposed null/empty step lists; both log requests returned BlobNotFound. Failure cause NOT VERIFIED; do not attribute it to application code or tests.
+- Combined commit status returned zero entries; review submissions and inline review threads were empty. Independent review NOT RECORDED. Local tests NOT RUN; no test count or compile result claimed.
+- Keep PR #371 DRAFT / OPEN / UNMERGED. Do not retry or manually dispatch workflows. Wait for authorized runner/account investigation and a naturally triggered run on the exact current head; inspect merge checkout refs and both platform jobs.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
