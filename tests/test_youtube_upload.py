@@ -147,7 +147,8 @@ class YouTubeUploadTests(unittest.TestCase):
         import backend.app.youtube_upload as upload_module
 
         original_fstat = upload_module.os.fstat
-        opened_stat = original_fstat(os.open(self.report, os.O_RDONLY))
+        with self.report.open("rb") as fixture_stream:
+            opened_stat = original_fstat(fixture_stream.fileno())
         changed_stat = types.SimpleNamespace(
             st_mode=opened_stat.st_mode,
             st_dev=opened_stat.st_dev,
