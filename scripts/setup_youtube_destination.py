@@ -22,7 +22,14 @@ def _atomic_private_json(path: Path, payload: dict[str, Any]) -> None:
     fd, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=str(path.parent))
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as stream:
-            os.fchmod(stream.fileno(), 0o600)
+            # fchmod is unavailable on some Windows Python builds. On POSIX,
+            # set owner-only permissions on the open descriptor; on Windows,
+            # apply the supported protection and rely on the user's private
+            # profile ACL for confidentiality.
+            if hasattr(os, "fchmod"):
+                os.fchmod(stream.fileno(), 0o600)
+            else:
+                os.chmod(temporary, 0o600)
             json.dump(payload, stream, indent=2, sort_keys=True)
             stream.write("\n")
             stream.flush()
