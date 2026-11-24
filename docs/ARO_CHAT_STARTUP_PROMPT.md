@@ -196,3 +196,12 @@ For the current first-test upload priority:
 - PR #316 exact-head CI remains IN_PROGRESS / NOT VERIFIED; combined legacy statuses empty; reviews and inline threads empty. Local tests NOT RUN.
 - Audit report: `docs/ARO_CHAT_0210_PR316_CI_AUDIT.md`; branch `workstream/aro-chat-0210-pr316-exact-head-ci-audit-2026-11-24`, based on PR #316 head. Re-fetch the run/jobs/logs after completion and record actual checkout refs before assigning CI_VERIFIED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, or deployment.
+
+
+## Latest continuation — ARO-CHAT-0210 PR #316 CI closeout (2026-11-24)
+- PR #316 head `0a4c88a6ba417adfc7fcdf82bfa75699baf193a8` passed associated run #45422766452 on Ubuntu and hosted Windows; each passed compile, the same 338 tests, and synthetic MP4/FFprobe validation.
+- Both jobs checked out merge SHA `38c90e5cca78078f60759f38c60f20decc8c0d24` from `refs/remotes/pull/316/merge`, merging audited head into base `0bd547b74414da289cf6ae74e39dd26007935aa2`. Raw-head-only checkout NOT DEMONSTRATED; count is 338 tests per platform, not 676 unique tests.
+- Synthetic-only logs: no GTA 6/third-party media, `upload_performed=false`, publishing disabled, manual review required. PR #316 reviews and inline threads remain empty; independent review NOT RECORDED.
+- Local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED. PR #316 remains OPEN / DRAFT / UNMERGED.
+- Full evidence: `docs/ARO_CHAT_0210_PR316_CI_AUDIT.md`. Do not transfer this run to another PR or head.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
