@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 import os
 import shutil
 import subprocess
@@ -29,9 +30,9 @@ def render_clip(
     """Render a local clip. This function never downloads or publishes media."""
     if not rights_confirmed:
         raise PermissionError("explicit confirmation of media rights is required")
-    if start_seconds < 0:
-        raise ValueError("start_seconds cannot be negative")
-    if duration_seconds <= 0 or duration_seconds > MAX_CLIP_SECONDS:
+    if not math.isfinite(start_seconds) or start_seconds < 0:
+        raise ValueError("start_seconds must be a finite, non-negative number")
+    if not math.isfinite(duration_seconds) or duration_seconds <= 0 or duration_seconds > MAX_CLIP_SECONDS:
         raise ValueError(f"duration_seconds must be between 0 and {MAX_CLIP_SECONDS}")
     if timeout_seconds <= 0:
         raise ValueError("timeout_seconds must be positive")
