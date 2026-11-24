@@ -206,3 +206,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - The durable approval reader now performs a second pathname `lstat()` after open and requires a regular file with the same device/inode as the opened descriptor. This protects the fallback when `O_NOFOLLOW` is unavailable.
 - Added same-inode symlink substitution regression test. Production commit `d40aac24f08ec3ae7f5660fdc3aa73bf0e2598bb`; test commit `57dedee38b353a75e54f7aca89526604d8537b49`.
 - Exact-head Ubuntu/hosted-Windows CI remains PENDING after branch updates. No OAuth, real media, upload, merge, deployment or publishing.
+
+
+
+### ARO-CHAT-0215 combined CI closeout — 2026-11-24
+- PR #328 head `e1dd08c12d81e3a5c56eef65784955f0e55d4021` passed run #45428060156 on merge ref `b4adb085f8976e79bb70356b4314dbd450b23416` (base `67e6d4290fee795fb8ba6fd0e926107ea7f0eb81`).
+- Ubuntu: compile, 348 tests, synthetic MP4/FFprobe passed. Hosted Windows: compile, same 348 tests, 345 passed and 3 FIFO-only tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed.
+- Both regression paths passed: original source mutation at insert time, and same-inode approval symlink substitution after open. FIFO race test passed on Ubuntu and skipped on Windows due to unavailable FIFO creation.
+- Both jobs ran the same suite, not 696 unique tests. Raw-head-only checkout NOT DEMONSTRATED. Synthetic-only; no OAuth/upload/publishing. Independent review NOT RECORDED; owner-device and real-media PRIVATE acceptance NOT VERIFIED.
