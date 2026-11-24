@@ -119,7 +119,13 @@ def validate_destination_approval_path(
         return
     if approval_record_path is None:
         raise PermissionError("destination profiles require a profile-specific --approval-record path")
-    resolved_parent = approval_record_path.expanduser().parent.resolve()
+    approval_parent = approval_record_path.expanduser().parent
+    # Do not let a profile-named symlink redirect approval records outside the
+    # operator-selected directory. Resolve only after rejecting the final
+    # parent entry itself as a symlink.
+    if approval_parent.is_symlink():
+        raise PermissionError("approval record directory must not be a symbolic link")
+    resolved_parent = approval_parent.resolve()
     if resolved_parent.name != profile_name:
         raise PermissionError(
             f"approval record must be stored in a directory named for destination profile {profile_name!r}"
