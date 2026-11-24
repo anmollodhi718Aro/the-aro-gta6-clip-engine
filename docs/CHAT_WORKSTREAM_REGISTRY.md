@@ -1135,3 +1135,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Updated the same-inode symlink-substitution regression to simulate the post-open pathname result via a mocked `Path.lstat()`, matching the established approval-record regression pattern and avoiding a physical rename of an open file on Windows.
 - Test-only correction commit: `6829261261175dd2f4693b0d8c62685f69fb6298`. Production code unchanged.
 - The correction is a portability fix hypothesis pending new exact-head Ubuntu/hosted-Windows CI. Do not claim the previous run passed overall.
+
+
+### ARO-CHAT-0224 Windows CI root-cause recovery — 2026-11-24
+- Retrieved Windows job log for run #45443443832, job 138620636802. The failing same-inode symlink-substitution test attempted to rename an already-open report file; Windows rejected it with WinError 32. The test's assertion then saw the wrapped open error rather than the expected regular-file rejection, and the leaked test descriptor also caused temporary-directory cleanup failure.
+- Ubuntu passed. Windows ran 357 tests with 1 failure, 1 error, and 4 skips; Windows synthetic render was skipped after the test failure. This is a test-fixture portability failure, not evidence of a production-code failure.
+- Test-only correction commit: `6829261261175dd2f4693b0d8c62685f69fb6298`. It simulates the post-open symlink result through mocked `Path.lstat()` rather than renaming an open file. Production code unchanged.
+- Corrected exact-head CI is still PENDING / NOT VERIFIED: corrected commit lookup returned zero runs and the latest startup-document head `03071572e8b59bf3f150617e26ea7fd49ca57212` has zero combined status entries. No workflow retry/dispatch initiated.
+- PR #353 remains draft/open/unmerged; independent review NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
