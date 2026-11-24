@@ -33,3 +33,13 @@ This is a regression in the consolidated integration line, not a finding that PR
 
 ## Safety
 PR #311 remains OPEN / DRAFT / UNMERGED. This follow-up is draft-only and stacked on its exact current head. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled until the complete security review, owner-controlled integration, owner-device verification, and separately authorized real-media PRIVATE acceptance are completed.
+
+## CI closeout — 2026-11-24
+
+- PR #317 current code head `8e9bd5ef546c28b2cb2633e7e99373725b1fc053` was associated with Actions run [#45422909011](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45422909011), run 1338; run conclusion SUCCESS.
+- Ubuntu job passed compilation, 342 unit tests (`Ran 342 tests in 3.582s`), and synthetic MP4/FFprobe validation.
+- Hosted-Windows job passed compilation, 342 unit tests (`Ran 342 tests in 16.748s`, `OK (skipped=2)`), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/317/merge`; this is successful PR merge-ref CI, not evidence of raw-head-only checkout. The same 342-test suite ran on each platform, not 684 unique tests.
+- Logs confirm locally generated synthetic pattern/tone only, `gta6_footage_used=false`, `third_party_media_used=false`, `upload_performed=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- PR #317 review submissions, inline review threads, and conversation comments: none recorded; independent review NOT RECORDED. Local tests NOT RUN in this connector session.
+- Hosted Windows is not owner-device verification. Real-media acceptance remains NOT VERIFIED. PR #317 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
