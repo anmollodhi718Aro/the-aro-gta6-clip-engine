@@ -799,3 +799,19 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Public visibility requires the distinct typed confirmation PUBLISH PUBLIC CLIP_ID.
 - Current publish grants are rechecked for the clip source and each source-bound asset immediately before the upload API request.
 - CI evidence must be refreshed on the latest PR head before the workstream can be marked verified.
+
+
+## ARO-CHAT-0132 implementation — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0132 |
+| Exact chat title | ARO-CHAT-0132 | Private Upload CI Failure Fix |
+| Workstream ID | ARO-GTA-P1-132 |
+| Scope | Fix exact-head CI failure in PR #280 by enforcing PRIVATE visibility before optional Google SDK imports, so non-private attempts fail closed without requiring OAuth dependencies. |
+| Branch / PR | workstream/aro-chat-0132-private-upload-ci-fix-2026-11-24 / follow-up PR pending |
+| Starting SHA | 20427e0cad2e682076c627343e14b0f6f2f4f4a8 (PR #280 head) |
+| Status | IMPLEMENTED; CI pending; no upload performed |
+| Evidence | PR #280 run #45385315409 failed both Ubuntu and hosted Windows in test_upload_rejects_unlisted_visibility_before_oauth_or_api: optional googleapiclient import occurred before PRIVATE-only guard. This change moves the guard ahead of optional imports. |
+
+No OAuth, credentials, network upload, merge, deployment, or public publishing was performed. Issue #68 remains open; this fix does not satisfy the authenticated owner/channel approval gate by itself.
