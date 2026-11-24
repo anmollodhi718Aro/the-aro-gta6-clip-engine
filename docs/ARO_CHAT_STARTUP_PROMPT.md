@@ -182,3 +182,11 @@ For the current first-test upload priority:
 - Ubuntu and hosted Windows both passed compile, 342 tests, and synthetic MP4/FFprobe validation; Windows reported 2 skipped tests. Both jobs used PR merge ref, so raw-head-only CI is NOT DEMONSTRATED.
 - Independent review NOT RECORDED; local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED. Do not transfer this run to any later PR head.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled; no OAuth, live upload, merge, deployment, or public publishing without separate explicit owner approval.
+
+
+## ARO-CHAT-0210 continuation — destination profile isolation regression (2026-11-24)
+- On the existing PR #317 follow-up branch, restored case-insensitive uniqueness for destination profile names. Profile keys are now constrained to 1-64 ASCII letters, digits, underscores, or hyphens and collisions under `casefold()` fail closed before token-path selection.
+- Added regression test `test_case_colliding_profile_names_fail_closed`, reproducing `aroanmol7` / `AROANMOL7` token-path collision on case-insensitive filesystems.
+- Code commit: `2de1798d1f8bf284e54a07d3538ac42dbf76066e`; test commit: `869c315d72cbe7bff5f04b0cc813fcb9aed3a7f3`.
+- Current branch head: `869c315d72cbe7bff5f04b0cc813fcb9aed3a7f3`. Exact-head CI has not yet been observed; no test pass is claimed. Local tests NOT RUN in this connector session.
+- PR #317 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, merge, or deployment was performed. Keep live uploads and public publishing disabled.
