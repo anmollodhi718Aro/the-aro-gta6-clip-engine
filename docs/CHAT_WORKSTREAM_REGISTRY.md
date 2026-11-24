@@ -828,7 +828,114 @@ No OAuth, credentials, network upload, merge, deployment, or public publishing w
 | Branch / PR | workstream/aro-chat-0133-multichannel-private-profiles-2026-11-24 / [Draft PR #295](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/295) |
 | Starting SHA | 4e01f16e97b2239c74a2f96c4262b04b57a4ae73 (PR #289 exact head) |
 | Scope | Add local named destination profiles mapping a verified Google OIDC subject and exact YouTube channel ID to a profile-specific OAuth token path; require explicit profile selection for each approval/upload; document local-only config. |
-| Status | IMPLEMENTED; tests and exact-head CI pending; no OAuth, upload, merge or publish performed |
+| Status | IMPLEMENTED; TESTED; CI_VERIFIED on exact head `cf731cabda8a045d39457f0eef800dbdb051e75e` (Ubuntu + hosted Windows); no OAuth or upload performed |
 | Security behavior | Profile file is intended under ignored .secrets; no OAuth tokens or client secrets are stored in the profile map; profile channel IDs must be unique; per-profile token files are isolated; profile token override is rejected; existing exact channel and file-hash approval checks remain in force. |
 
 Both target handles must still be verified against exact channel IDs and Google OIDC subjects through their respective authorized OAuth sessions. Never infer IDs from handles. This workstream does not perform either OAuth flow or any upload. Public publishing remains disabled.
+
+
+## ARO-CHAT-0134 implementation — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0134 |
+| Exact chat title | ARO-CHAT-0134 | Verify YouTube PRIVATE Upload Response |
+| Workstream ID | ARO-GTA-P1-134 |
+| Scope | Harden the final upload result boundary: the CLI must not report success unless YouTube's videos.insert response returns a video ID and explicitly confirms privacyStatus=private. Add regression coverage and update the operating instructions. |
+| Branch / PR | workstream/aro-chat-0134-private-upload-response-verification-2026-11-24 / PR pending |
+| Starting SHA | cf731cabda8a045d39457f0eef800dbdb051e75e (PR #295 head) |
+| Status | IMPLEMENTED; exact-head CI pending; no OAuth, real upload, merge, deployment or publishing performed |
+| Changed files | backend/app/youtube_upload.py; tests/test_youtube_upload.py; docs/YOUTUBE_UPLOAD.md; docs/CHAT_WORKSTREAM_REGISTRY.md; docs/ARO_CHAT_STARTUP_PROMPT.md |
+
+The uploader requests PRIVATE and now additionally requires the official upload response to explicitly confirm PRIVATE before reporting success. Missing or unexpected visibility is reported as UNVERIFIED; the code does not silently claim a successful private staging operation.
+
+
+## ARO-CHAT-0134 exact-head CI closeout — 2026-11-24
+
+- PR #299 audited implementation head: `d4ca7042ff8bfbd00070f801d374b6292feddfda`; base PR #295 head: `cf731cabda8a045d39457f0eef800dbdb051e75e`.
+- Exact-head-associated Actions run [#45391987858](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45391987858) completed SUCCESS.
+- Ubuntu job #138437817592 and hosted-Windows job #138437817026 both passed compilation, the same 332-test suite, and synthetic MP4/FFprobe validation (3.716s Ubuntu; 14.442s Windows).
+- Both jobs checked out merge SHA `4a22ec0cdf15cbc78b17543c21e3b0f75a8f16b3`, merging audited head `d4ca7042ff8bfbd00070f801d374b6292feddfda` into base `cf731cabda8a045d39457f0eef800dbdb051e75e`; raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic logs: `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`. No real GTA 6 footage or live upload was used.
+- PR #299 remains OPEN / DRAFT / UNMERGED. No review submissions, inline review comments, or conversation comments were recorded; independent security review NOT RECORDED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Local OAuth owner/channel verification, source-rights evidence, exact per-clip approval, owner-device verification, and an accepted private-upload test remain NOT VERIFIED.
+- No OAuth, credential/token access, real media, network upload, publishing, merge, deployment, or destructive action occurred.
+
+
+### Additional security hardening — destination profile storage boundary
+- Review finding: profile config selected an isolated token path relative to its own parent, while docs required `.secrets/` but code did not enforce that boundary. A config outside `.secrets/` could therefore place OAuth token files outside the ignored secrets directory.
+- Fix: resolve the profile config path strictly and reject it unless its resolved parent directory is exactly `.secrets`; this also rejects config-file or directory symlinks resolving outside that directory.
+- Regression test: an otherwise valid profile config outside `.secrets/` is rejected. Existing profile tests now place fixtures under `.secrets/` and assert tokens resolve to `.secrets/tokens/<profile>.json`.
+- Commits: `6c3e35a4905ab8ac69fb7ff57f5204f67d67162a`, `004a2001e4e624334658ac084b0d41f79ae4a1ff`. Exact-head CI pending; no OAuth or upload performed.
+
+
+### Integration dependency blocker — append-only source-rights lineage
+- Security review of the PR #299 base found `SourceRightsRegistry.register()` still uses `ON CONFLICT(source_id) DO UPDATE` and resets `revoked_at=NULL`. This can replace a prior grant and clear its revocation when the same source_id is re-registered.
+- PR #168 contains the append-only duplicate-ID rejection fix, but current PR #168 head is `03ac14cb1d74296870541b68839580c12ed2a84b`, while PR #176 base is `9ff25d7356d5badc39f448c9f5e939cda4048541`; PR #238 is based on PR #176 head `2a83ce65706d0a8ccce0d5eaf56651fb9f5caa69`, and PRs #241/#242 are based on PR #238 head `cdcf7a4bef2728e3299e82bc88d376992ecec39d`. The current append-only PR #168 head is therefore not demonstrated as an ancestor of the #176/#238/#241/#242 stack.
+- Do not treat the #168 fix as integrated into PR #299 or the #241/#242 line. Resolve the ancestry/integration in the canonical Issue #68 stack before enabling any live upload. No rebase, retarget, or merge performed.
+
+
+### Windows CI failure and repository-bound profile path correction
+- Run #45393615753: Ubuntu passed 334 tests and synthetic MP4 validation; Windows failed one assertion because the implementation resolves the config path (normalizing Windows 8.3 short paths) while the test expected an unresolved temporary path. This was a test-path comparison failure, not a media or upload failure.
+- The same review tightened the prior `.secrets` check: the config must now resolve specifically to this repository's `<repo>/.secrets` directory, not merely any directory named `.secrets`. A separate external `.secrets` regression test covers that case. The repository root is injectable only for deterministic tests; production defaults to the repository root derived from the module path.
+- Follow-up commits: `14e7adc5e4510218955710c6983b52cf7334743a`, `8254e9b2e04c306d1d96aa19fa324e48cf029537`, `152de0e3cecbfe2be2569c46db14e5c9c67506a2`, `763d3fc3ee73f93802eacfc97fbb03abc970c74c`. CI for latest code is pending.
+
+
+### Final profile-path gate ordering
+- The loader now validates the resolved config path against this repository's `.secrets/` directory before reading the JSON file. Regression tests patch `Path.read_text` to prove external configs are rejected without being read.
+- Follow-up commits: `716424791e971a27e05b6f0a49a54a5c5008c059`, `15973b3f6d156b7ea51f64c9192020d7607d809c`. CI for this code/test head pending.
+
+
+### Source-rights append-only fix integrated into PR #299
+- The PR #299 branch now directly contains the append-only `SourceRightsRegistry.register()` behavior: duplicate `source_id` inserts are rejected instead of overwriting grant metadata or resetting `revoked_at`.
+- Audit events now retain grantor and evidence reference. Added regressions for duplicate active grants, duplicate registration after revocation, and a separate versioned source ID for a new grant.
+- Commits: `e2cb08feaf5273c2595cf78045b2a47acb26d7f8`, `7b1b120a17fb4ad1dc2228d4571228af9d04d320`. CI pending; no real media or upload used.
+
+
+### Source-rights ancestry concern superseded for PR #299
+- Earlier notes correctly flagged that the append-only fix from the separate PR #168 lineage was not proven to be an ancestor of PR #299's base. To remove that dependency from this branch, the same fail-closed behavior and regression coverage have now been implemented directly on PR #299 in commits `e2cb08feaf5273c2595cf78045b2a47acb26d7f8` and `7b1b120a17fb4ad1dc2228d4571228af9d04d320`.
+- Therefore PR #299 no longer relies on PR #168 ancestry for append-only source-rights behavior. The broader Issue #68 integration/review gates remain open and still require independent review and verified CI.
+
+
+### OAuth token storage hardening (PR #299)
+- OAuth token writes now use a same-directory temporary file, flush/fsync, and atomic replacement; restrictive `0600` permissions are applied where supported.
+- Existing token-file symlinks and a symlinked profile token directory are rejected. Regression tests cover symlink rejection and token-file permissions.
+- First CI run exposed a missing `tempfile` import in the new writer. Fixed in commit `92368c71a6cae96f364cdac1066cdf9e93fe3c43`. The fix is awaiting a fresh CI run; earlier run `45395149052` failed and must not be counted as passing.
+
+
+### OAuth atomic-write failure-path guard (24 Nov 2026)
+- Added regression test proving a failed atomic replace leaves the previous token intact and removes the temporary file.
+- Test commit: `bcdd2355a23ca4a653c76857bc5ff4650f6e1d79`.
+- Fresh CI is required for this exact head; the preceding head `2f801ce8043906829e352733644a01ef01ffc3b1` passed Ubuntu and Windows suites plus synthetic MP4/FFprobe.
+
+
+### Exact-head CI closeout for OAuth atomic-write failure-path guard (24 Nov 2026)
+- Latest PR #299 test commit: `bcdd2355a23ca4a653c76857bc5ff4650f6e1d79`.
+- Associated workflow run #45395778292 completed SUCCESS. Ubuntu job #138452502803 and hosted-Windows job #138452503365 both passed compilation, the same 342-test unittest suite, and synthetic MP4/FFprobe validation.
+- Ubuntu: 342 tests in 5.130s. Windows: 342 tests in 17.488s.
+- Both jobs checked out merge SHA `a6de7b8`, merging the audited PR head into base `cf731cabda8a045d39457f0eef800dbdb051e75e`; raw-head-only checkout is NOT DEMONSTRATED.
+- Logs confirm `upload_performed=false`, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true` on both platforms.
+- This validates the PR merge-ref CI path, not a real GTA 6 media run, OAuth session, or live upload. PR #299 remains OPEN / DRAFT / UNMERGED; independent security review is NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
+
+
+### Rights-report source-bound asset validation (24 Nov 2026)
+- `require_report_publish_permissions` now rejects non-list `assets`, non-object asset entries, and missing/null/non-string/blank `source_id` values on `scope_match_metadata_only` assets.
+- Each valid source-bound asset is independently authorized for `publish` on YouTube, in addition to the primary clip source.
+- Regression tests cover multi-source authorization and malformed report structures. Commits: `fe9af3139d301773102b6c44d0e8a92bd5f08a8f`, `cc4eb2421c4779e7a76391e401d238652a34c75e`.
+- Fresh CI is required for this code and tests; the previous head passed Ubuntu and Windows, but that result does not cover these commits.
+
+
+### Owner-approval evidence path hardening (24 Nov 2026)
+- Independent review found that approval-record reads followed symlinks. The gate now rejects symlinked and non-regular approval paths and opens regular files with `O_NOFOLLOW` where the platform supports it.
+- Added a regression test proving a symlinked approval path is rejected while the external target remains unchanged. Symlink test skips only when the platform cannot create symlinks.
+- Commits: `47b5fbeb9dc405d0c8643de7630b51631f1c4a29`, `a8c3b46a735ed8053d7f913beb6ace3194eaa29b`, `ec12e3ecbae4f34f6a9bd3543d16a58d83fb274b`.
+- Fresh CI is required; earlier successful run `45396612256` predates these changes.
+### Latest-head CI closeout: source-bound rights validation (24 Nov 2026)
+- Current PR #299 head `c57f22a986fa7be64c52849e3d6bc6cfbb8364ce` is associated with Python CI run #45396612256, which completed SUCCESS.
+- Ubuntu job #138453983364 passed compilation, 345 tests in 5.217s, and synthetic MP4/FFprobe validation. Hosted Windows job #138453982906 passed compilation, the same 345 tests in 14.130s, and synthetic MP4/FFprobe validation.
+- Both jobs checked out merge SHA `d12bfbd`, merging the audited head into base `cf731cabda8a045d39457f0eef800dbdb051e75e`; raw-head-only checkout is NOT DEMONSTRATED.
+- Both logs report `upload_performed=false`, `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- This closes the latest-head CI requirement for the current PR #299 code/docs snapshot. It does not establish live OAuth, owner-device acceptance, actual creator/source rights, a real GTA 6 media test, independent security review, or permission to upload. PR #299 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+- Follow-up: check `lstat()` regular-file status before opening, preventing a FIFO/device path from blocking or being read as approval evidence. Commit: `e389430313ecb94149ad042b8541d5a4b57eef5c`.

@@ -11,7 +11,7 @@ from unittest.mock import Mock, patch
 
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
-from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_upload)
+from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, require_report_publish_permissions, resolve_destination_identity, upload_video, validate_upload, _persist_oauth_token)
 
 
 class YouTubeUploadTests(unittest.TestCase):
@@ -171,7 +171,7 @@ class YouTubeUploadTests(unittest.TestCase):
         youtube.channels.return_value.list.return_value.execute.return_value = {
             "items": [{"id": "youtube-channel-456"}]
         }
-        youtube.videos.return_value.insert.return_value.execute.return_value = {"id": "video-123"}
+        youtube.videos.return_value.insert.return_value.execute.return_value = {"id": "video-123", "status": {"privacyStatus": "private"}}
         with patch.dict(sys.modules, self._mock_google_modules(youtube)):
             with patch.dict(os.environ, {"ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123", "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456"}):
                 with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch("backend.app.youtube_owner_approval.verify_authenticated_channel_owner", return_value=self.owner) as verify_owner:
@@ -184,6 +184,71 @@ class YouTubeUploadTests(unittest.TestCase):
                     )
         self.assertEqual(result["video_id"], "video-123")
         self.assertEqual(verify_owner.call_count, 2)
+        youtube.videos.return_value.insert.assert_called_once()
+
+    def test_upload_does_not_report_success_without_private_visibility_confirmation(self):
+        db_path = self.root / "source_rights.sqlite3"
+        self._write_upload_rights(db_path)
+        youtube = Mock()
+        youtube.videos.return_value.insert.return_value.execute.return_value = {
+            "id": "video-456",
+            "status": {"privacyStatus": "unlisted"},
+        }
+        with patch.dict(sys.modules, self._mock_google_modules(youtube)):
+            with patch.dict(os.environ, {
+                "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
+                "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
+            }):
+                with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch(
+                    "backend.app.youtube_owner_approval.verify_authenticated_channel_owner",
+                    return_value=self.owner,
+                ):
+                    with self.assertRaisesRegex(RuntimeError, "did not confirm PRIVATE visibility"):
+                        upload_video(
+                            self.video,
+                            {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                            client_secrets=self.client_secrets,
+                            token_path=self.root / "token.json",
+                            rights_report_path=self.report,
+                            approval_record_path=self.root / "approval.json",
+                            rights_db_path=db_path,
+                            clip_id="clip-1",
+                            source_id="source-1",
+                            owner_approved=True,
+                            rights_confirmed=True,
+                        )
+        youtube.videos.return_value.insert.assert_called_once()
+
+    def test_upload_does_not_report_success_when_response_omits_visibility(self):
+        db_path = self.root / "source_rights.sqlite3"
+        self._write_upload_rights(db_path)
+        youtube = Mock()
+        youtube.videos.return_value.insert.return_value.execute.return_value = {
+            "id": "video-789",
+        }
+        with patch.dict(sys.modules, self._mock_google_modules(youtube)):
+            with patch.dict(os.environ, {
+                "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
+                "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
+            }):
+                with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch(
+                    "backend.app.youtube_owner_approval.verify_authenticated_channel_owner",
+                    return_value=self.owner,
+                ):
+                    with self.assertRaisesRegex(RuntimeError, "did not confirm PRIVATE visibility"):
+                        upload_video(
+                            self.video,
+                            {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                            client_secrets=self.client_secrets,
+                            token_path=self.root / "token.json",
+                            rights_report_path=self.report,
+                            approval_record_path=self.root / "approval.json",
+                            rights_db_path=db_path,
+                            clip_id="clip-1",
+                            source_id="source-1",
+                            owner_approved=True,
+                            rights_confirmed=True,
+                        )
         youtube.videos.return_value.insert.assert_called_once()
 
     def test_revoked_permission_blocks_before_any_upload_api_request(self):
@@ -419,11 +484,94 @@ class YouTubeUploadTests(unittest.TestCase):
         authorize.assert_not_called()
 
 
+class ReportPublishPermissionTests(unittest.TestCase):
+    def setUp(self):
+        self.registry = Mock()
+        self.report = {"source_id": "primary-source", "assets": []}
+
+    def test_every_source_bound_asset_requires_its_own_publish_grant(self):
+        self.report["assets"] = [
+            {"status": "scope_match_metadata_only", "source_id": "asset-source-a"},
+            {"status": "scope_match_metadata_only", "source_id": "asset-source-b"},
+        ]
+        require_report_publish_permissions(self.report, self.registry, "primary-source")
+        self.assertEqual(
+            self.registry.authorize.call_args_list,
+            [
+                unittest.mock.call("asset-source-a", "publish", "youtube"),
+                unittest.mock.call("asset-source-b", "publish", "youtube"),
+                unittest.mock.call("primary-source", "publish", "youtube"),
+            ],
+        )
+
+    def test_source_bound_asset_rejects_missing_null_or_non_string_source_id(self):
+        for invalid_source_id in ("missing", None, 42, "  "):
+            asset = {"status": "scope_match_metadata_only"}
+            if invalid_source_id != "missing":
+                asset["source_id"] = invalid_source_id
+            with self.subTest(source_id=invalid_source_id):
+                self.registry.reset_mock()
+                self.report["assets"] = [asset]
+                with self.assertRaisesRegex(PermissionError, "valid source_id"):
+                    require_report_publish_permissions(self.report, self.registry, "primary-source")
+                self.registry.authorize.assert_not_called()
+
+    def test_malformed_asset_collection_fails_closed(self):
+        for assets in ({"status": "scope_match_metadata_only"}, ["not-an-object"]):
+            with self.subTest(assets=assets):
+                self.registry.reset_mock()
+                self.report["assets"] = assets
+                with self.assertRaises(PermissionError):
+                    require_report_publish_permissions(self.report, self.registry, "primary-source")
+                self.registry.authorize.assert_not_called()
+
+
+class OAuthTokenPersistenceTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp.name)
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def test_token_is_written_atomically_with_restricted_permissions(self):
+        target = self.root / "tokens" / "profile.json"
+        _persist_oauth_token(target, '{"access_token":"test"}')
+        self.assertEqual(json.loads(target.read_text(encoding="utf-8")), {"access_token": "test"})
+        if os.name == "posix":
+            self.assertEqual(target.stat().st_mode & 0o777, 0o600)
+
+    def test_token_symlink_is_rejected_without_modifying_target(self):
+        external = self.root / "external-token.json"
+        external.write_text('{"access_token":"keep"}', encoding="utf-8")
+        target = self.root / "tokens" / "profile.json"
+        target.parent.mkdir()
+        try:
+            target.symlink_to(external)
+        except (OSError, NotImplementedError):
+            self.skipTest("symbolic links are unavailable in this environment")
+        with self.assertRaisesRegex(PermissionError, "symbolic link"):
+            _persist_oauth_token(target, '{"access_token":"replace"}')
+        self.assertEqual(external.read_text(encoding="utf-8"), '{"access_token":"keep"}')
+
+    def test_failed_atomic_replace_preserves_existing_token_and_cleans_temp_file(self):
+        target = self.root / "tokens" / "profile.json"
+        target.parent.mkdir()
+        target.write_text('{"access_token":"old"}', encoding="utf-8")
+        with patch("backend.app.youtube_upload.os.replace", side_effect=OSError("simulated replace failure")):
+            with self.assertRaisesRegex(OSError, "simulated replace failure"):
+                _persist_oauth_token(target, '{"access_token":"new"}')
+        self.assertEqual(target.read_text(encoding="utf-8"), '{"access_token":"old"}')
+        self.assertEqual(list(target.parent.iterdir()), [target])
+
+
 class YouTubeDestinationProfileTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
-        self.config = self.root / "destination_profiles.json"
+        secrets_dir = self.root / ".secrets"
+        secrets_dir.mkdir()
+        self.config = secrets_dir / "destination_profiles.json"
         self.config.write_text(json.dumps({
             "profiles": {
                 "aroanmol7": {
@@ -441,17 +589,44 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
         self.temp.cleanup()
 
     def test_profiles_resolve_to_distinct_channel_and_token_paths(self):
-        first = load_destination_profile(self.config, "aroanmol7")
-        second = load_destination_profile(self.config, "the_arro07")
+        first = load_destination_profile(self.config, "aroanmol7", repository_root=self.root)
+        second = load_destination_profile(self.config, "the_arro07", repository_root=self.root)
         self.assertEqual(first["channel_id"], "UC1234567890abcdef")
         self.assertEqual(second["channel_id"], "UCabcdef1234567890")
         self.assertNotEqual(first["google_subject"], second["google_subject"])
         self.assertNotEqual(first["token_path"], second["token_path"])
-        self.assertEqual(first["token_path"], self.root / "tokens" / "aroanmol7.json")
+        self.assertEqual(first["token_path"], self.root.resolve() / ".secrets" / "tokens" / "aroanmol7.json")
 
     def test_profile_name_cannot_escape_token_directory(self):
         with self.assertRaisesRegex(ValueError, "letters, numbers"):
-            load_destination_profile(self.config, "../outside")
+            load_destination_profile(self.config, "../outside", repository_root=self.root)
+
+    def test_profile_config_outside_ignored_secrets_directory_is_rejected(self):
+        external = self.root / "destination_profiles_external.json"
+        external.write_text(self.config.read_text(encoding="utf-8"), encoding="utf-8")
+        with patch.object(Path, "read_text", side_effect=AssertionError("external config must not be read")):
+            with self.assertRaisesRegex(PermissionError, "must resolve inside"):
+                load_destination_profile(external, "aroanmol7", repository_root=self.root)
+
+    def test_external_directory_named_secrets_is_rejected(self):
+        external_secrets = self.root / "external" / ".secrets"
+        external_secrets.mkdir(parents=True)
+        external = external_secrets / "destination_profiles.json"
+        external.write_text(self.config.read_text(encoding="utf-8"), encoding="utf-8")
+        with patch.object(Path, "read_text", side_effect=AssertionError("external config must not be read")):
+            with self.assertRaisesRegex(PermissionError, "this repository .secrets"):
+                load_destination_profile(external, "aroanmol7", repository_root=self.root)
+
+    def test_symlinked_token_directory_is_rejected(self):
+        external_tokens = self.root / "external-tokens"
+        external_tokens.mkdir()
+        token_dir = self.root / ".secrets" / "tokens"
+        try:
+            token_dir.symlink_to(external_tokens, target_is_directory=True)
+        except (OSError, NotImplementedError):
+            self.skipTest("directory symbolic links are unavailable in this environment")
+        with self.assertRaisesRegex(PermissionError, "token directory must not be a symbolic link"):
+            load_destination_profile(self.config, "aroanmol7", repository_root=self.root)
 
     def test_metadata_dry_run_does_not_require_oauth_profile(self):
         args = [
@@ -478,14 +653,14 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
 
     def test_unknown_profile_fails_closed(self):
         with self.assertRaisesRegex(PermissionError, "unknown destination profile"):
-            load_destination_profile(self.config, "not-a-channel")
+            load_destination_profile(self.config, "not-a-channel", repository_root=self.root)
 
     def test_duplicate_channel_mapping_fails_closed(self):
         payload = json.loads(self.config.read_text(encoding="utf-8"))
         payload["profiles"]["the_arro07"]["channel_id"] = payload["profiles"]["aroanmol7"]["channel_id"]
         self.config.write_text(json.dumps(payload), encoding="utf-8")
         with self.assertRaisesRegex(PermissionError, "unique YouTube channel ID"):
-            load_destination_profile(self.config, "aroanmol7")
+            load_destination_profile(self.config, "aroanmol7", repository_root=self.root)
 
     def test_profile_requires_config_and_name_together(self):
         with self.assertRaisesRegex(PermissionError, "must be supplied together"):
@@ -497,15 +672,15 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
         with self.assertRaisesRegex(PermissionError, "cannot override"):
             resolve_destination_identity(
                 config_path=self.config, profile_name="aroanmol7",
-                token_override=self.root / "shared-token.json",
+                token_override=self.root / "shared-token.json", repository_root=self.root,
             )
 
     def test_profile_resolution_keeps_channels_isolated(self):
         first = resolve_destination_identity(
-            config_path=self.config, profile_name="aroanmol7", token_override=None
+            config_path=self.config, profile_name="aroanmol7", token_override=None, repository_root=self.root
         )
         second = resolve_destination_identity(
-            config_path=self.config, profile_name="the_arro07", token_override=None
+            config_path=self.config, profile_name="the_arro07", token_override=None, repository_root=self.root
         )
         self.assertEqual(first[1], "UC1234567890abcdef")
         self.assertEqual(second[1], "UCabcdef1234567890")
