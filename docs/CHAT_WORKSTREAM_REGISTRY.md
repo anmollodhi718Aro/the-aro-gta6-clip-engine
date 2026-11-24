@@ -1788,3 +1788,15 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Status: IMPLEMENTED (test-only); local tests NOT RUN; this branch's exact-head CI PENDING until its own Actions run is observed. Do not transfer PR #265 run #45373538938 or PR #266 run #45373702165.
 - PR #265 run #45373538938 and PR #266 run #45373702165 are predecessor/related-branch evidence only. No CI status transfers across PRs or SHAs.
 - Issue #68 remains OPEN. Keep live uploads/public publishing disabled; no credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, workflow retry, or destructive action.
+
+
+## Latest continuation — ARO-CHAT-0185 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0185 | PR #269 Exact-Head CI Closeout`; workstream: ARO-GTA-P1-185.
+- Task: documentation-only independent exact-head CI audit of PR #269, the test-only port of the concurrent-output no-overwrite regression into integrated MVP PR #266.
+- Audited PR #269 head: `99ef3bd9211f16c67573600e28cb3b696fdd6f71`; branch: `workstream/aro-chat-0184-pr266-renderer-race-regression-2026-11-24`; base: `feature/authorized-mvp-core-0182`; starting parent head: `25aeede30d0e28296af6e7b6d507e1f6ba96e566`.
+- Exact-head run #45380864718 (run 1185) completed SUCCESS. Ubuntu job #138399217522 and hosted-Windows job #138399217050 each passed compile, the same 28-test suite, and synthetic animation MP4/FFprobe validation. Test durations: 0.193s Ubuntu and 0.435s Windows. Same suite on both platforms, not 56 unique tests.
+- Both jobs checked out `refs/remotes/pull/269/merge` at merge SHA `e95252b8bed6bdfda806ce3ea1a83537bae65112`, merging PR #269 head `99ef3bd9211f16c67573600e28cb3b696fdd6f71` into base `25aeede30d0e28296af6e7b6d507e1f6ba96e566`. Raw-head-only checkout NOT DEMONSTRATED.
+- Combined status had zero entries; PR #269 reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. PR #269 remains OPEN / DRAFT / UNMERGED.
+- Report: `docs/ARO_CHAT_0185_PR269_CI_AUDIT.md`. This is CI evidence for PR #269's audited SHA only. Synthetic media is not real-media acceptance; hosted Windows is not owner-device verification.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
