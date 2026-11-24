@@ -184,6 +184,8 @@ For the current first-test upload priority:
 
 - Current workstream: ARO-CHAT-0198 / ARO-GTA-P1-198. Branch `workstream/aro-chat-0198-canonical-profile-path-regression-2026-11-24`, based directly on current PR #299 head `97250fbb3bf1fd8d9e5e03dfc6ac6a9267b643b5`.
 - Ported only the missing second destination-profile token-path assertion onto the current test API signature (`repository_root=self.root`). Expected path is derived from `self.root.resolve() / ".secrets" / "tokens"`.
-- Code commit: `6031b6dbbaf0745fad8cbc3e74085ab9ac105a23`. Documentation/registry update follows. Exact-head Ubuntu and hosted-Windows CI is pending; no local tests run in this connector session.
+- Code commit: `6031b6dbbaf0745fad8cbc3e74085ab9ac105a23`; final branch head at audit: `4dce542aa59023a7dc0ca9c61badecf4f0734f59`.
+- Exact-head-associated Actions run `45399961380` (run 1285) completed SUCCESS. Ubuntu and hosted Windows each compiled, passed 346 tests, and passed synthetic MP4/FFprobe validation. Both jobs checked out merge commit `d961d60` (PR head merged into base `97250fbb3bf1fd8d9e5e03dfc6ac6a9267b643b5`); raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic test only: no GTA 6 footage or third-party media; publishing disabled; manual review required; no upload performed. CI does not establish owner-device Windows verification or real-media acceptance. Independent review remains NOT RECORDED.
 - PR #300 / ARO-CHAT-0197 remains preserved as OPEN/DRAFT/UNMERGED. It diverged from the current PR #299 head (12 ahead / 43 behind); do not rebase or retarget it. This clean successor is based on current PR #299 instead.
 - No production code changed. No OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains open; live uploads/public publishing stay disabled.
