@@ -283,3 +283,9 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Production commit `87294298cd6f486d906f8964d4c9d590cf09dd9e`; tests commit `5a9ef569c64b77151e60063f2b86cf967e60edd2`.
 - Exact-head CI PENDING / NOT VERIFIED; local tests NOT RUN. Parent PR #350 head `b6d712a6438a132c3d8ca245b0a804bf8b929550` passed run #45442036637, but that result does not validate this new branch.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, network upload, publishing, merge, deployment, or workflow retry/dispatch. Keep live/public upload gates disabled.
+
+### ARO-CHAT-0224 rights-registry regression follow-up — 2026-11-24
+- On branch `workstream/aro-chat-0224-rights-registry-immutability-2026-11-24`, corrected the duplicate-registration test fixture: the original grant is now `analyze`-only and the attempted duplicate broadens it to `publish`. This makes the no-broadening assertion meaningful.
+- Test correction commit `01c3d53229b39e4e294a8cff1ca61303ca7b2f05`.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Do not transfer parent PR #350 CI. PR #352 remains draft; its base has diverged from the advanced PR #350 branch. Do not rebase/retarget automatically.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, network upload, publishing, merge, deployment, or manual workflow retry/dispatch. Keep live/public upload gates disabled.
