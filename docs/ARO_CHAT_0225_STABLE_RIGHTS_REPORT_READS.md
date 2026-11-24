@@ -38,3 +38,12 @@ Draft only. No OAuth, credentials/tokens, real media, upload, publishing, workfl
 ## Test-fixture cleanup — 2026-11-24
 - Corrected the regression fixture to obtain its baseline stat through a context-managed file handle, ensuring the fixture descriptor is closed before the test patches fstat.
 - Production behavior is unchanged by this test-only correction.
+
+
+## Bounded-input follow-up — 2026-11-24
+- Review identified that a regular-file rights report could still be arbitrarily large, causing an unbounded allocation during the final pre-upload read.
+- Added MAX_RIGHTS_REPORT_BYTES = 1 MiB; reject a larger descriptor size before reading and cap the read to limit + 1 bytes so concurrent growth remains bounded.
+- Added a synthetic oversized-report regression. Existing descriptor identity, before/after metadata, byte-count, UTF-8 and JSON checks remain in place.
+- Production commit: 0a0d22e57b3016b0e3bbacec29c71999086045eb. Test commit: 036ada61be8b5e2c03cbfd24e18ff4eeef96a996.
+- Local tests NOT RUN in this connector session. Verify fresh exact-head Ubuntu and hosted-Windows CI; independent security review remains NOT RECORDED.
+- Draft only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment or destructive action.
