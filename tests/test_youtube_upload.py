@@ -11,7 +11,7 @@ from unittest.mock import Mock, patch
 
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
-from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_upload, _persist_oauth_token)
+from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, require_report_publish_permissions, resolve_destination_identity, upload_video, validate_upload, _persist_oauth_token)
 
 
 class YouTubeUploadTests(unittest.TestCase):
@@ -482,6 +482,48 @@ class YouTubeUploadTests(unittest.TestCase):
                     owner_approved=True, rights_confirmed=True,
                 )
         authorize.assert_not_called()
+
+
+class ReportPublishPermissionTests(unittest.TestCase):
+    def setUp(self):
+        self.registry = Mock()
+        self.report = {"source_id": "primary-source", "assets": []}
+
+    def test_every_source_bound_asset_requires_its_own_publish_grant(self):
+        self.report["assets"] = [
+            {"status": "scope_match_metadata_only", "source_id": "asset-source-a"},
+            {"status": "scope_match_metadata_only", "source_id": "asset-source-b"},
+        ]
+        require_report_publish_permissions(self.report, self.registry, "primary-source")
+        self.assertEqual(
+            self.registry.authorize.call_args_list,
+            [
+                unittest.mock.call("asset-source-a", "publish", "youtube"),
+                unittest.mock.call("asset-source-b", "publish", "youtube"),
+                unittest.mock.call("primary-source", "publish", "youtube"),
+            ],
+        )
+
+    def test_source_bound_asset_rejects_missing_null_or_non_string_source_id(self):
+        for invalid_source_id in ("missing", None, 42, "  "):
+            asset = {"status": "scope_match_metadata_only"}
+            if invalid_source_id != "missing":
+                asset["source_id"] = invalid_source_id
+            with self.subTest(source_id=invalid_source_id):
+                self.registry.reset_mock()
+                self.report["assets"] = [asset]
+                with self.assertRaisesRegex(PermissionError, "valid source_id"):
+                    require_report_publish_permissions(self.report, self.registry, "primary-source")
+                self.registry.authorize.assert_not_called()
+
+    def test_malformed_asset_collection_fails_closed(self):
+        for assets in ({"status": "scope_match_metadata_only"}, ["not-an-object"]):
+            with self.subTest(assets=assets):
+                self.registry.reset_mock()
+                self.report["assets"] = assets
+                with self.assertRaises(PermissionError):
+                    require_report_publish_permissions(self.report, self.registry, "primary-source")
+                self.registry.authorize.assert_not_called()
 
 
 class OAuthTokenPersistenceTests(unittest.TestCase):
