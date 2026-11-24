@@ -428,3 +428,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #252 audit head `c5ce5fe3557b89e12b52ac8df3b8b518dad37e63` passed its own run #45314960254: compile, the same 340 tests on Ubuntu/hosted Windows, and synthetic MP4/FFprobe. Both jobs checked out merge SHA `93f8ed47ab657902a173030b548d91412a4a76cb`; raw-head-only checkout NOT DEMONSTRATED.
 - PR #252 remains OPEN / DRAFT / UNMERGED. Independent review NOT RECORDED; owner-device Windows and authorized real-media acceptance NOT VERIFIED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Do not enable live/public uploads. No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment, or workflow retry.
+
+### ARO-CHAT-0171 audit-branch CI closeout — 2026-11-24
+- PR #252 latest head `c5ce5fe3557b89e12b52ac8df3b8b518dad37e63` passed Python CI run #45314960254 (run 1145).
+- Ubuntu job #138179488732 and hosted-Windows job #138179488417 both passed compilation, the same 340 tests, and synthetic MP4/FFprobe validation.
+- Both jobs checked out PR #252 merge ref at `93f8ed47ab657902a173030b548d91412a4a76cb`, merging head `c5ce5fe3557b89e12b52ac8df3b8b518dad37e63` into base `1316c12f4f66305b190f671330682eb535e41ba0`. Raw-head-only CI NOT DEMONSTRATED.
+- Synthetic media only: 8-second generated pattern/tone rendered to 4 seconds; no GTA 6 or third-party media; publishing disabled; manual review required. Combined status returned zero entries; independent review NOT RECORDED.
+- PR #252 remains OPEN / DRAFT / UNMERGED. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED. Keep Issue #68 open and live/public uploads disabled pending owner approval and all security/acceptance gates.
+- This is a documentation-only continuation of ARO-CHAT-0171 on the existing PR #252 branch; no new workstream or PR was created.
