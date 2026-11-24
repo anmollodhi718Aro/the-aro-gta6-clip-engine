@@ -6,36 +6,59 @@ A creator-first workflow for finding and preparing short highlights from **autho
 
 ## Current status
 
-**Stage:** Project foundation and architecture  
-**Not yet implemented:** live monitoring, AI highlight detection, video cutting, dashboard, publishing, or mobile app.
+**Implemented MVP foundation:** synthetic chat-event analysis, explainable candidate clip plans, and a local FFmpeg renderer for review-only clips from media the operator owns or is explicitly authorized to edit.
 
-The first milestone is a small, testable MVP that can analyze permitted chat/event data, rank candidate moments, and produce a reviewable clip plan. Video processing will only use footage the operator owns or is authorized to use.
+**Not yet implemented:** live stream monitoring, automatic platform ingestion, AI highlight detection, dashboard, mobile app, and public publishing.
 
-## MVP goals
+The MVP is intentionally review-first. Candidate moments and rendered clips require human inspection before any separate distribution decision.
 
-1. Register a source and record its permission status.
-2. Ingest supported metadata and chat events through permitted interfaces.
-3. Detect unusual chat activity and score candidate timestamps.
-4. Produce a clip decision list for human review.
-5. Validate an authorized media asset before any local clip rendering.
-6. Keep publishing manual and owner-approved.
+## MVP capabilities
 
-## Non-goals for the first MVP
+1. Validate source permission metadata and supported event records.
+2. Normalize event timestamps and identify unusual chat activity against a rolling baseline.
+3. Produce deterministic candidate timestamps, scores, evidence, and `needs_review` status.
+4. Render a local MP4 from an authorized local video file using FFmpeg.
+5. Require explicit rights confirmation, constrain clip duration to 1–180 seconds, refuse output overwrites, and clean up failed temporary renders.
+6. Run unit tests and a synthetic-video FFmpeg/FFprobe integration test in CI.
+
+## Render an authorized local clip
+
+Install FFmpeg and ensure it is available on PATH. From the repository root:
+
+```bash
+python -m backend.app.render_cli input_video.mp4 review_clip.mp4 --start 12.5 --duration 35 --confirm-rights
+```
+
+The output is a local review file only. This command does not download, upload, or publish media. Use only footage you own or are explicitly authorized to edit.
+
+## Analyze synthetic chat events
+
+With Python 3.11 or newer:
+
+```bash
+python -m backend.app.cli examples/sample_events.json --output clip_plan.json
+python -m unittest discover -s tests -v
+```
+
+The included event fixture is synthetic and produces candidates marked for human review.
+
+## Non-goals and safety
 
 - No scraping, stream ripping, or bypassing platform controls.
-- No automatic public uploads.
+- No automatic public uploads or publishing.
 - No promise of virality, monetization, or unlimited free AI/API usage.
 - No always-on cloud service until cost, quotas, security, and reliability are understood.
+- Creator permission does not automatically clear third-party music, game footage, guests, or other content rights.
+- Public uploads remain disabled until authenticated channel-owner approval, exact clip/source binding, and current rights checks are implemented and independently verified.
 
-## Safety and rights
-
-Only use footage and data that you own or have permission to process. Platform APIs and creator permission do not automatically clear music, game footage, or third-party rights. See [Copyright and Permissions](docs/COPYRIGHT_POLICY.md).
+See [Copyright and Permissions](docs/COPYRIGHT_POLICY.md), [Master Plan](docs/MASTER_PLAN.md), [MVP Usage](docs/MVP_USAGE.md), and [Testing Plan](docs/TESTING_PLAN.md).
 
 ## Repository map
 
 - `docs/`: project plan, architecture, security, testing, rights, and deployment notes.
-- `backend/`: backend implementation (planned).
-- `tests/`: automated tests (planned).
+- `backend/app/`: event analysis, permission checks, and local rendering CLI.
+- `tests/`: unit and synthetic-media integration tests.
+- `examples/`: synthetic event fixtures.
 
 ## Development principles
 
@@ -43,20 +66,4 @@ Only use footage and data that you own or have permission to process. Platform A
 - Build in small, reviewable commits.
 - Keep secrets out of Git; use environment variables and a secrets manager.
 - Test with synthetic data or authorized sample assets first.
-- Automatic recovery may retry bounded, reversible operations. Code changes and production deployment require owner review.
-- Publishing requires an explicit human approval step.
-
-## Getting started
-
-The implementation dependencies and local run instructions will be added with the first executable backend milestone. Start with [the master plan](docs/MASTER_PLAN.md) and [system architecture](docs/SYSTEM_ARCHITECTURE.md).
-
-## Try the synthetic MVP demo
-
-With Python 3.11 or newer, from the repository root:
-
-```bash
-python -m backend.app.cli examples/sample_events.json --output clip_plan.json
-python -m unittest discover -s tests -v
-```
-
-The sample contains synthetic timestamps and events only. It should produce one candidate marked `needs_review`; it cannot publish anything. See [MVP usage](docs/MVP_USAGE.md).
+- Publishing requires explicit human approval and must fail closed when identity or rights cannot be verified.

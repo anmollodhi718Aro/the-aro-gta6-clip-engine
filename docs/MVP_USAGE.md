@@ -1,8 +1,8 @@
 # MVP Usage
 
-The first local milestone analyzes a JSON file of chat events. It does not connect to YouTube, download video, render clips, or publish content.
+The MVP analyzes a JSON file of chat events and can render a short, local review clip from a video file you own or are explicitly authorized to edit. It does not connect to YouTube, download platform video, or publish content.
 
-## Input format
+## Analyze chat events
 
 Create a JSON file with a permission record and event list:
 
@@ -28,15 +28,26 @@ Create a JSON file with a permission record and event list:
 
 Use only data you are allowed to process. The example timestamps and text are synthetic.
 
-## Run
-
-From the repository root:
-
 ```bash
 python -m backend.app.cli sample_events.json --output clip_plan.json
+```
+
+The detector uses 10-second windows by default, compares each window with the previous three windows, and marks unusually active windows as candidates. Output candidates are marked `needs_review`.
+
+## Render an authorized local clip
+
+Install FFmpeg and ensure `ffmpeg` is available on PATH. Then run:
+
+```bash
+python -m backend.app.render_cli input_video.mp4 review_clip.mp4 --start 12.5 --duration 35 --confirm-rights
+```
+
+The command requires the explicit `--confirm-rights` flag, limits clips to 180 seconds, refuses to overwrite an existing output, and writes a local MP4 for human review. It never downloads or uploads media. Review the clip and verify all applicable creator, game, music, guest, and platform rights before any separate distribution decision.
+
+## Tests
+
+```bash
 python -m unittest discover -s tests -v
 ```
 
-The detector uses 10-second windows by default, compares each window with the previous three windows, and marks unusually active windows as candidates. Tune the parameters only after validating them on representative, permitted data.
-
-Output candidates are marked `needs_review`. Publishing is not implemented and remains disabled.
+CI installs FFmpeg and FFprobe and runs a synthetic-video export test. Publishing is not implemented and remains disabled.
