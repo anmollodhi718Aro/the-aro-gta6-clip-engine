@@ -1196,3 +1196,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Base / starting SHA: `4ceba80e02f28c52946d3d143cbb7fa4e31d611e` (PR #355 current recorded head).
 - Status: IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, network upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action. Keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0228 Windows SQLite test-cleanup correction — 2026-11-25
+- PR #359 exact-head run #45464223565 used merge ref `f7c489e5d2675b9c9a06ef019d23426c84c09da2` (PR head `24ddb8fc84fa6e61cbcbfb1b2c38848587d269ee` into base `4ceba80e02f28c52946d3d143cbb7fa4e31d611e`). Ubuntu passed compile, unit tests and synthetic MP4/FFprobe. Hosted Windows compiled, then failed during cleanup of `test_non_duplicate_integrity_error_is_not_misreported_as_duplicate`: SQLite connection remained open and Windows raised WinError 32 while deleting the temp database; render step skipped.
+- Test-only fix commit `bf1e57e180bc08b78bdc0e5c1243850db12ce8df` uses `contextlib.closing` so the trigger-setup SQLite connection is explicitly closed. Production behavior unchanged.
+- Corrected-head CI is PENDING / NOT VERIFIED; local tests NOT RUN in this connector session. Do not transfer the failed run to the corrected head. PR #359 remains DRAFT / OPEN / UNMERGED; independent security review NOT RECORDED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment or destructive action. Keep live uploads/public publishing disabled.
