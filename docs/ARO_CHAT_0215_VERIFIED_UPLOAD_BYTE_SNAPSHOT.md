@@ -8,13 +8,14 @@ The approval record binds consent to a SHA-256 hash of the selected video. The Y
 
 ## Change
 
-- Open the selected source as a regular file, using no-follow semantics where supported.
+- Open the selected source as a regular file, using no-follow and nonblocking semantics where supported; this also rejects a raced FIFO without hanging.
 - Compare the pre-open path identity with the opened descriptor.
 - Copy bytes from that same descriptor into a private temporary staging directory while calculating the snapshot hash.
 - Re-check descriptor metadata and the current source pathname after copying; fail closed if identity, size, modification metadata, or file type changed during the snapshot.
 - Make the snapshot read-only and use that exact snapshot path for both durable approval-hash verification and the MediaFileUpload body.
 - Clean up the temporary snapshot after the upload attempt, including failure paths.
 - Add a regression test that changes the original source immediately before the mocked YouTube insert and verifies the media body still references the original approved bytes.
+- Add a platform-aware regression test proving a raced FIFO source is rejected without blocking.
 
 ## Workstream
 
@@ -30,7 +31,7 @@ The approval record binds consent to a SHA-256 hash of the selected video. The Y
 ## Validation
 
 - Local tests in this connector session: NOT RUN.
-- Exact-head Ubuntu and hosted-Windows CI: PENDING.
+- Initial exact-head CI for the pre-FIFO-follow-up head passed on Ubuntu and hosted Windows: run #45426822957, 341 tests on each platform and synthetic MP4/FFprobe validation. The subsequent FIFO-hardening commits require fresh exact-head CI, currently PENDING.
 - No OAuth credentials, real media, network upload, merge, deployment, or publishing used.
 - Owner-device verification and real-media PRIVATE acceptance: NOT VERIFIED.
 
