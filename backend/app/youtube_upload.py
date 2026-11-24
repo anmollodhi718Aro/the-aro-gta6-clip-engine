@@ -60,7 +60,17 @@ def load_destination_profile(
     selected = profiles.get(profile_name)
     if not isinstance(selected, dict):
         raise PermissionError(f"unknown destination profile: {profile_name}")
-    token_path = path.parent / "tokens" / f"{profile_name}.json"
+    token_dir = path.parent / "tokens"
+    if token_dir.is_symlink():
+        raise PermissionError("OAuth token directory must not be a symbolic link")
+    if token_dir.exists():
+        try:
+            resolved_token_dir = token_dir.resolve(strict=True)
+        except OSError as exc:
+            raise PermissionError("OAuth token directory is missing or unreadable") from exc
+        if resolved_token_dir != expected_secrets_dir / "tokens":
+            raise PermissionError("OAuth token directory must remain inside this repository .secrets directory")
+    token_path = token_dir / f"{profile_name}.json"
     return {
         "profile": profile_name,
         "google_subject": selected["google_subject"].strip(),
