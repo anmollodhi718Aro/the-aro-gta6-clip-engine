@@ -1217,3 +1217,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Ubuntu and hosted Windows each ran the same 365-test suite; Windows skipped 4 platform-unavailable tests. Both passed synthetic MP4/FFprobe validation. Synthetic output is not GTA 6 media.
 - No production rights-registry, uploader, OAuth, media-ingestion, workflow, or publishing behavior changed.
 - PR #362 remains draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+## ARO-CHAT-0232 — atomic revocation/audit rollback regression (2026-11-25)
+- Workstream: ARO-GTA-P1-232; branch `workstream/aro-chat-0232-atomic-revocation-audit-rollback-port-2026-11-25`; base PR #362 branch at starting SHA `a39fd8ed3db36e8aae98cfc902c10f7fe36e7054`.
+- Ported the atomic rollback regression from older draft PR #360 onto the newer rights-registry test line without changing production code.
+- Test asserts a failed `revoked` audit insert propagates the SQLite integrity error, rolls back the preceding rights update, leaves the grant authorizable, and writes no revocation audit event. Trigger fixture uses `contextlib.closing` for Windows cleanup safety.
+- Test commit: `98f20b1a657169b4bd3f6d85d4de7dd4197c655d`; report: `b5786d595a056349d2e31df64167b739dfaf64fe`.
+- Local tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED.
+- PR #360, #362, and #363 remain separate drafts; no rebase, retarget, or merge. PR #363 is a parallel documentation-only branch and is not included in this ancestry.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
