@@ -68,6 +68,29 @@ class SourceRightsRegistryTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.registry.register(invalid)
 
+    def test_duplicate_source_id_cannot_broaden_active_grant(self):
+        original = dict(self.record, allowed_uses=["analyze"])
+        self.registry.register(original)
+        broadened = dict(self.record, allowed_uses=["analyze", "publish"])
+        with self.assertRaisesRegex(PermissionError, "rights already exist"):
+            self.registry.register(broadened)
+        self.registry.authorize("creator-video-1", "analyze", "youtube", at=self.now)
+        with self.assertRaises(PermissionError):
+            self.registry.authorize("creator-video-1", "publish", "youtube", at=self.now)
+        self.assertEqual([e["action"] for e in self.registry.audit_events("creator-video-1")],
+                         ["registered"])
+
+    def test_duplicate_source_id_cannot_reactivate_revoked_grant(self):
+        self.registry.register(self.record)
+        self.registry.revoke("creator-video-1", actor="owner", at=self.now)
+        with self.assertRaisesRegex(PermissionError, "rights already exist"):
+            self.registry.register(self.record)
+        with self.assertRaises(PermissionError):
+            self.registry.authorize("creator-video-1", "publish", "youtube",
+                                    at=self.now + timedelta(minutes=1))
+        self.assertEqual([e["action"] for e in self.registry.audit_events("creator-video-1")],
+                         ["registered", "revoked"])
+
 
 if __name__ == "__main__":
     unittest.main()
