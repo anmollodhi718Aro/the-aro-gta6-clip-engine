@@ -2,6 +2,8 @@
 import sqlite3
 import tempfile
 import unittest
+from concurrent.futures import ThreadPoolExecutor
+from threading import Barrier
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -68,6 +70,39 @@ class SourceRightsRegistryTests(unittest.TestCase):
         invalid = dict(self.record, valid_from="2026-11-19T08:00:00")
         with self.assertRaises(ValueError):
             self.registry.register(invalid)
+
+    def test_rejects_scalar_or_malformed_scope_collections(self):
+        for invalid_uses in ("publish", ["publish", 7], [" "], []):
+            with self.subTest(allowed_uses=invalid_uses):
+                with self.assertRaises(ValueError):
+                    self.registry.register(dict(self.record, allowed_uses=invalid_uses))
+        for invalid_platforms in ("youtube", ["youtube", None], [" "], []):
+            with self.subTest(platforms=invalid_platforms):
+                with self.assertRaises(ValueError):
+                    self.registry.register(dict(self.record, platforms=invalid_platforms))
+
+    def test_rejects_non_string_actor_without_attribute_error(self):
+        with self.assertRaisesRegex(ValueError, "actor is required"):
+            self.registry.register(self.record, actor=None)
+
+    def test_concurrent_duplicate_registration_creates_exactly_one_grant(self):
+        barrier = Barrier(2)
+
+        def attempt_registration(actor):
+            barrier.wait(timeout=5)
+            try:
+                self.registry.register(dict(self.record), actor=actor)
+                return "registered"
+            except PermissionError:
+                return "duplicate"
+
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            outcomes = list(pool.map(attempt_registration, ("worker-a", "worker-b")))
+
+        self.assertCountEqual(outcomes, ["registered", "duplicate"])
+        events = self.registry.audit_events("creator-video-1")
+        self.assertEqual([event["action"] for event in events], ["registered"])
+        self.assertIn(events[0]["actor"], ("worker-a", "worker-b"))
 
     def test_duplicate_source_id_cannot_broaden_active_grant(self):
         original = dict(self.record, allowed_uses=["analyze"])

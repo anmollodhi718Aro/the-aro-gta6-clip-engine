@@ -364,3 +364,15 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Exact-head workflow lookup for the test commit returned zero runs; Ubuntu/hosted-Windows CI remains PENDING / NOT VERIFIED. Local tests NOT RUN; independent security review NOT RECORDED.
 - Current PR #355 ancestry against PR #355's recorded base SHA `600cb7773c8ec9c6cf6288cbe15402444aa2cf46` is DIVERGED (18 ahead / 2 behind; merge base `1d9d478fcfd03e36f6389acca682b3ede57c17fd`). Preserve draft ancestry; no rebase, retarget, or merge.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, deployment, or publishing.
+
+
+## Current continuation — ARO-CHAT-0228 rights-registry validation and concurrency (2026-11-25)
+
+- Workstream: ARO-GTA-P1-228.
+- Branch: `workstream/aro-chat-0228-rights-registry-validation-concurrency-2026-11-25`; base: latest observed PR #355 head `4ceba80e02f28c52946d3d143cbb7fa4e31d611e`.
+- PR #356's collection validation was useful but its branch was based on an older ancestor and retained broad `sqlite3.IntegrityError` translation. PR #357's concurrency test was also based on a stale/diverged parent. Both drafts were preserved unchanged.
+- Ported strict list/tuple/set/frozenset validation for `allowed_uses` and `platforms`, non-empty string member checks, and actor validation. Added synchronized two-worker duplicate registration coverage.
+- Preserved the latest parent's narrow SQLite primary-key/unique-only duplicate translation.
+- Draft PR: [#361](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/361), based on PR #355's latest observed head. Commits: production `318970c09c53e239bdbf89a52e6f154cba1b3745`; tests `15f2d7cd0820e684098cffe095a872ff4a6f37`; report `da5daac9ad2529c0585066bd38e2c171a062e5e8`.
+- Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent security review NOT RECORDED. Do not transfer CI from PRs #355, #356, or #357.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
