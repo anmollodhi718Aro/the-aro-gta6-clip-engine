@@ -1606,3 +1606,12 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #252 remains OPEN / DRAFT / UNMERGED. This audit branch's exact-head CI is verified on its merge ref only; owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
 - No workflow retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or destructive action was performed.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live/public uploads disabled until owner approval, canonical security implementation selection, independent security review, owner-controlled integration, owner-device verification, and separately authorized real-media acceptance are complete.
+
+
+### ARO-CHAT-0171 audit-branch CI closeout — 2026-11-24
+- PR #252 head `c5ce5fe3557b89e12b52ac8df3b8b518dad37e63` passed its own Python CI run #45314960254 (run 1145): Ubuntu and hosted Windows each compiled, ran the same 340 tests, and passed synthetic MP4/FFprobe validation.
+- Both jobs checked out PR #252 merge ref `93f8ed47ab657902a173030b548d91412a4a76cb`, merging that head into base `1316c12f4f66305b190f671330682eb535e41ba0`. Raw-head-only CI NOT DEMONSTRATED.
+- Ubuntu test duration 5.143s; hosted-Windows 15.690s. Synthetic pattern/tone only; 8s source / 4s render; no GTA 6/third-party media; publishing disabled; manual review required; mocked upload false.
+- PR #252 remains OPEN / DRAFT / UNMERGED, mergeable=true; combined status had zero entries; reviews, inline threads, and comments empty. Independent review NOT RECORDED.
+- This supersedes the earlier ARO-CHAT-0171 note that PR #252's own CI was pending. Parent PR #251's run #45314761904 remains a separate result on its own merge ref.
+- Issue #68 remains OPEN. Keep live/public uploads disabled pending independent security review, owner-controlled integration, owner-device verification, device-appropriate upload limit, and authorized real-media acceptance. No workflow retry, OAuth, credentials, media upload, publishing, merge, retarget, deployment, or destructive action.
