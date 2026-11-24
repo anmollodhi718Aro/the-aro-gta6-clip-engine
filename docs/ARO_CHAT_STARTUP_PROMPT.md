@@ -479,3 +479,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Static inspection confirms the empty-port guard and DNS/IPv6 regression cases are present, alongside the existing URL whitespace/control/backslash and authority checks. Static inspection is not execution evidence.
 - No workflow retry/dispatch was initiated. Keep PR #371 DRAFT / OPEN / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
 - No source code, tests, uploader, OAuth, media, or workflow behavior was changed in this audit. No credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action occurred.
+
+
+### Blank-text and falsey-timestamp regression follow-up — 2026-11-25
+
+- Test-only follow-up on the existing ARO-CHAT-0235 branch; no new branch or PR.
+- Added regression cases proving whitespace-only required rights text is rejected for source ID, source URL, grantor, and evidence reference.
+- Added explicit falsey timestamp cases (empty string, False, and 0) for registration valid_from/expires_at and authorize/revoke at parameters. Only None remains the sentinel for selecting the current time in the latter methods.
+- Test commit: 079d9213ab53142c6d085dbfc28597df745a5a2b; current PR #371 head at handoff: same SHA.
+- Local tests NOT RUN in this connector session. Commit-associated workflow lookup returned no run at inspection; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent security review NOT RECORDED.
+- PR #371 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
