@@ -983,17 +983,17 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 | Scope | Ensure the exact bytes approved by the durable per-clip SHA-256 record are the bytes read by the resumable YouTube upload client. |
 | Branch / PR | workstream/aro-chat-0215-verified-upload-byte-snapshot-2026-11-24 / Draft PR pending |
 | Base / starting SHA | PR #311 head 67e6d4290fee795fb8ba6fd0e926107ea7f0eb81 |
-| Code commits | 1fefe87ef47dd4be723cab8ba9424b31156e46c1; f14f00758fad5cd400f4a1efeacb9e04256a279d |
-| Test commit | 7d8fd5c85f4171e702cada1d0e6c9fcece2a494b |
+| Code commits | 1fefe87ef47dd4be723cab8ba9424b31156e46c1; f14f00758fad5cd400f4a1efeacb9e04256a279d; cc5b800686c0754536b59660f08516e2323a4f5e; 80e420cb14bac3d845419de1b5ec3e1b316870fc |
+| Test commit | 7d8fd5c85f4171e702cada1d0e6c9fcece2a494b; 3ac85e2b2f6c4f3912e0164077f72ea8f41e08b2 |
 | Report | docs/ARO_CHAT_0215_VERIFIED_UPLOAD_BYTE_SNAPSHOT.md |
 | Status | IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; no upload |
 
 ### Implementation
-- Open the source once as a regular file with no-follow semantics where available; bind the opened descriptor to the pre-open path identity.
+- Open the source once as a regular file with no-follow and nonblocking semantics where available; bind the opened descriptor to the pre-open path identity.
 - Copy from that descriptor into a private temporary staging directory while calculating bytes; re-check descriptor metadata and source pathname after the copy.
 - Reject a changed source path, non-regular path, changed device/inode, changed size/mtime/ctime, or incomplete copy.
 - Mark the snapshot read-only and use it for both approval-hash verification and MediaFileUpload; remove it after the attempt.
-- Added a regression test that mutates the original source immediately before the mocked insert and verifies the upload media path still contains the approved snapshot bytes.
+- Added a regression test that mutates the original source immediately before the mocked insert and verifies the upload media path still contains the approved snapshot bytes. Added a platform-aware FIFO race test to prove the source open fails closed without blocking.
 
 ### Validation and safety
 - Local tests NOT RUN in this connector session. Exact-head CI PENDING. No OAuth credentials, real media, network upload, merge, deployment, or publishing used.
