@@ -289,6 +289,83 @@ class YouTubeUploadTests(unittest.TestCase):
         self.assertFalse(snapshot_paths[0].exists())
         youtube.videos.return_value.insert.assert_called_once()
 
+    def test_upload_attempts_snapshot_cleanup_when_media_stream_close_fails(self):
+        db_path = self.root / "source_rights.sqlite3"
+        self._write_upload_rights(db_path)
+        youtube = Mock()
+        youtube.videos.return_value.insert.return_value.execute.return_value = {
+            "id": "video-close-failure",
+            "status": {"privacyStatus": "private"},
+        }
+        modules = self._mock_google_modules(youtube)
+        real_temp = tempfile.TemporaryDirectory()
+        snapshot_path = Path(real_temp.name) / "approved.mp4"
+        snapshot_path.write_bytes(self.video.read_bytes())
+        cleanup_calls = []
+        real_streams = []
+
+        class TrackingTemporaryDirectory:
+            name = real_temp.name
+
+            def cleanup(self):
+                cleanup_calls.append(True)
+                real_temp.cleanup()
+
+        class CloseThenRaise:
+            def __init__(self, stream):
+                self.stream = stream
+
+            def close(self):
+                self.stream.close()
+                raise RuntimeError("synthetic media stream close failure")
+
+        def media_file_upload(filename, **kwargs):
+            stream = open(filename, "rb")
+            real_streams.append(stream)
+            return types.SimpleNamespace(
+                filename=filename,
+                _fd=CloseThenRaise(stream),
+            )
+
+        modules["googleapiclient.http"].MediaFileUpload.side_effect = media_file_upload
+        try:
+            with patch.dict(sys.modules, modules):
+                with patch.dict(os.environ, {
+                    "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
+                    "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
+                }):
+                    with patch("backend.app.youtube_upload._authorize_google", return_value=object()), patch(
+                        "backend.app.youtube_owner_approval.verify_authenticated_channel_owner",
+                        return_value=self.owner,
+                    ), patch(
+                        "backend.app.youtube_upload._create_verified_upload_snapshot",
+                        return_value=(snapshot_path, TrackingTemporaryDirectory()),
+                    ):
+                        with self.assertRaisesRegex(
+                            RuntimeError, "synthetic media stream close failure"
+                        ):
+                            upload_video(
+                                self.video,
+                                {"snippet": {"title": "Test"}, "status": {"privacyStatus": "private"}},
+                                client_secrets=self.client_secrets,
+                                token_path=self.root / "token.json",
+                                rights_report_path=self.report,
+                                approval_record_path=self.root / "approval.json",
+                                rights_db_path=db_path,
+                                clip_id="clip-1",
+                                source_id="source-1",
+                                owner_approved=True,
+                                rights_confirmed=True,
+                            )
+
+            self.assertEqual(len(real_streams), 1)
+            self.assertTrue(real_streams[0].closed)
+            self.assertEqual(cleanup_calls, [True])
+            self.assertFalse(snapshot_path.exists())
+            youtube.videos.return_value.insert.assert_called_once()
+        finally:
+            real_temp.cleanup()
+
     def test_upload_does_not_report_success_without_private_visibility_confirmation(self):
         db_path = self.root / "source_rights.sqlite3"
         self._write_upload_rights(db_path)
