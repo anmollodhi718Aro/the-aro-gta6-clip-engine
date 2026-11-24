@@ -1028,19 +1028,19 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Documentation-only. No application/uploader/test/workflow behavior changes, credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
 
 
-## ARO-CHAT-0201 uploader documentation/privacy reconciliation — 2026-11-24
+## ARO-CHAT-0202 uploader documentation/privacy reconciliation — 2026-11-24
 
 | Field | Record |
 |---|---|
-| Chat ID | ARO-CHAT-0201 |
-| Exact title | ARO-CHAT-0201 | Reconcile YouTube uploader documentation with PRIVATE-only implementation |
-| Workstream ID | ARO-GTA-P2-201 |
+| Chat ID | ARO-CHAT-0202 |
+| Exact title | ARO-CHAT-0202 | Reconcile YouTube uploader documentation with PRIVATE-only implementation |
+| Workstream ID | ARO-GTA-P2-202 |
 | Scope | Reconcile README and YouTube uploader instructions with the current PRIVATE-only upload implementation and current CI evidence |
-| Branch | `workstream/aro-chat-0201-uploader-docs-privacy-reconciliation-2026-11-24` |
-| Base / starting SHA | PR #303 head `df66631ff1b8afc7c08f1f15a59067f251f68a5d` |
-| Report | `docs/ARO_CHAT_0201_UPLOADER_DOCS_PRIVACY_RECONCILIATION.md` |
+| Branch | `workstream/aro-chat-0202-uploader-docs-privacy-reconciliation-2026-11-24` |
+| Base / starting SHA | prior draft branch head `ddbb1506df96b5d6c085d735acfeb32315f920ae` |
+| Report | `docs/ARO_CHAT_0202_UPLOADER_DOCS_PRIVACY_RECONCILIATION.md` |
 | Status | IMPLEMENTED (documentation); local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING |
-| Changed files | `README.md`; `docs/YOUTUBE_UPLOAD.md`; `docs/ARO_CHAT_0201_UPLOADER_DOCS_PRIVACY_RECONCILIATION.md`; this registry; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
+| Changed files | `README.md`; `docs/YOUTUBE_UPLOAD.md`; `docs/ARO_CHAT_0202_UPLOADER_DOCS_PRIVACY_RECONCILIATION.md`; this registry; `docs/ARO_CHAT_STARTUP_PROMPT.md` |
 
 ### Finding and changes
 - README incorrectly attributed the current authenticated uploader to PR #83 and cited obsolete 281-test evidence.
