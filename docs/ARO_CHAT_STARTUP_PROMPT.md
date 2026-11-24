@@ -299,3 +299,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Follow-up production commit: `f7a38f535049dbf951d852caa95ad40c1aadbf62`; follow-up test commit: `08a351a88ade454c5de89098dd1a9e29cdfc818c`.
 - Current code/test head: `08a351a88ade454c5de89098dd1a9e29cdfc818c`. Exact-head run #45437884661 is IN PROGRESS; the prior run #45437477812 was cancelled during branch updates and is not validation.
 - No real OAuth token/client secret, login, media, network upload, or publishing was used. PR #342 remains draft/open/unmerged; Issue #68 remains OPEN.
+
+
+## Exact-head CI closeout — 2026-11-24
+- Code/test head `08a351a88ade454c5de89098dd1a9e29cdfc818c` passed commit-associated run [#45437884661](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45437884661).
+- Ubuntu job `138600745960`: compile passed; 356 tests passed; synthetic MP4/FFprobe passed.
+- Hosted-Windows job `138600745153`: compile passed; the same 356-test suite ran, 3 FIFO-only tests skipped because `os.mkfifo` is unavailable; synthetic MP4/FFprobe passed.
+- Both jobs checked out merge ref `4f1ffa8` (PR #342 head merged into base `6204a3979b8753919e3f983ce42a3777b3215d87`). Raw-head-only checkout NOT DEMONSTRATED. This is 356 tests per platform, not 712 unique tests.
+- Logs confirm synthetic-only media (`gta6_footage_used=false`, `third_party_media_used=false`), `upload_performed=false`, `publishing_enabled=false`, `manual_review_required=true`. No real OAuth token, client secret, login, network upload, or publishing.
+- Subsequent commits update only the report, startup handoff, and registry. The resulting documentation-only tip has no associated run returned and is NOT independently CI-VERIFIED; no application code or tests changed after the green code/test head.
+- PR #342 remains OPEN/DRAFT/UNMERGED. Independent security review of the full consolidated uploader/approval lineage is NOT RECORDED. Issue #68 remains OPEN; keep live uploads/public publishing disabled.
