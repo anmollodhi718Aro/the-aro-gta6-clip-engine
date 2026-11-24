@@ -253,6 +253,41 @@ def _persist_oauth_token(token_path: Path, token_json: str) -> None:
             os.unlink(temp_name)
 
 
+def _read_oauth_token_info(token_path: str | Path) -> dict[str, Any]:
+    """Read a token JSON file through a verified no-follow regular-file descriptor."""
+    path = Path(token_path).expanduser()
+    descriptor = -1
+    try:
+        path_before = path.lstat()
+        if not stat.S_ISREG(path_before.st_mode):
+            raise PermissionError("OAuth token path must be a regular file")
+        flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0)
+        descriptor = os.open(path, flags)
+        opened = os.fstat(descriptor)
+        if not stat.S_ISREG(opened.st_mode):
+            raise PermissionError("OAuth token path must be a regular file")
+        if (path_before.st_dev, path_before.st_ino) != (opened.st_dev, opened.st_ino):
+            raise PermissionError("OAuth token path changed while opening")
+        path_after = path.lstat()
+        if not stat.S_ISREG(path_after.st_mode):
+            raise PermissionError("OAuth token path must be a regular file")
+        if (path_after.st_dev, path_after.st_ino) != (opened.st_dev, opened.st_ino):
+            raise PermissionError("OAuth token path changed while opening")
+        with os.fdopen(descriptor, "r", encoding="utf-8") as stream:
+            descriptor = -1
+            payload = json.load(stream)
+    except PermissionError:
+        raise
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PermissionError("OAuth token file is missing or unreadable") from exc
+    finally:
+        if descriptor >= 0:
+            os.close(descriptor)
+    if not isinstance(payload, dict):
+        raise PermissionError("OAuth token file must contain a JSON object")
+    return payload
+
+
 def _authorize_google(client_secrets: Path, token_path: Path):
     try:
         from google.auth.transport.requests import Request
@@ -264,12 +299,19 @@ def _authorize_google(client_secrets: Path, token_path: Path):
         ) from exc
 
     token_path = Path(token_path).expanduser()
-    if token_path.is_symlink():
-        raise PermissionError("OAuth token path must not be a symbolic link")
     credentials = None
-    if token_path.is_file():
+    try:
+        token_path.lstat()
+    except FileNotFoundError:
+        pass
+    else:
         try:
-            credentials = Credentials.from_authorized_user_file(str(token_path), IDENTITY_SCOPES)
+            token_info = _read_oauth_token_info(token_path)
+            credentials = Credentials.from_authorized_user_info(token_info, IDENTITY_SCOPES)
+        except PermissionError:
+            # Path-integrity failures must never fall through to an interactive
+            # OAuth login or be mistaken for an expired/corrupt credential.
+            raise
         except (OSError, ValueError):
             credentials = None
 
