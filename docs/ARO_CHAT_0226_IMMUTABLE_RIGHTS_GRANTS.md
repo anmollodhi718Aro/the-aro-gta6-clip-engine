@@ -52,3 +52,14 @@ No OAuth login, credentials/tokens, real media, network upload, publishing, work
 - Commit-associated workflow lookup returned no runs. Exact-head Ubuntu/hosted-Windows CI remains PENDING / NOT VERIFIED; local tests were NOT RUN in this connector session.
 - PR #355 remains OPEN / DRAFT / UNMERGED. Its base PR #354 advanced independently; comparison reports DIVERGED (10 commits ahead / 2 behind; merge base `1d9d478fcfd03e36f6389acca682b3ede57c17fd`). No rebase, retarget, or merge was performed.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled. No OAuth, credentials, real media, upload, workflow dispatch/retry, deployment, or publishing occurred.
+
+## SQLite error-classification hardening — 2026-11-25
+
+- Static review found the duplicate-source handler translated every `sqlite3.IntegrityError` into a duplicate-grant `PermissionError`, potentially hiding unrelated database integrity failures.
+- Production follow-up now translates only SQLite primary-key/unique constraint codes; all other integrity errors are re-raised unchanged.
+- Production commit: `b8f17e4f7278d4996b931a980a54207b14170f29`.
+- Added a trigger-based regression proving a non-duplicate SQLite integrity failure remains an `sqlite3.IntegrityError` and writes no audit event.
+- Test commit: `b459ad87a0908fd3dc98479b663f7c2695ed12a7`.
+- Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI lookup for test commit returned zero runs; CI PENDING / NOT VERIFIED. Independent security review NOT RECORDED.
+- PR #355 remains draft/open/unmerged. Branch ancestry against current PR #354 head `cac64637a9cdc64eded472ab4d9c6ed0323d4b19` is DIVERGED (15 ahead / 7 behind; merge base `1d9d478fcfd03e36f6389acca682b3ede57c17fd`). No rebase, retarget, or merge.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, deployment, or publishing.
