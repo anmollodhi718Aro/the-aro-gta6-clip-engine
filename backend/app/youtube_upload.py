@@ -193,6 +193,31 @@ def validate_upload(
     return video, body
 
 
+def _persist_oauth_token(token_path: Path, token_json: str) -> None:
+    """Atomically persist an OAuth token with owner-only permissions."""
+    target = Path(token_path).expanduser()
+    target.parent.mkdir(parents=True, exist_ok=True)
+    parent = target.parent.resolve(strict=True)
+    target = parent / target.name
+    if target.is_symlink():
+        raise PermissionError("OAuth token path must not be a symbolic link")
+    fd, temp_name = tempfile.mkstemp(prefix=f".{target.name}.", dir=str(parent))
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as stream:
+            os.chmod(temp_name, 0o600)
+            stream.write(token_json)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temp_name, target)
+        try:
+            os.chmod(target, 0o600)
+        except OSError:
+            pass
+    finally:
+        if os.path.exists(temp_name):
+            os.unlink(temp_name)
+
+
 def _authorize_google(client_secrets: Path, token_path: Path):
     try:
         from google.auth.transport.requests import Request
@@ -203,6 +228,9 @@ def _authorize_google(client_secrets: Path, token_path: Path):
             'Google upload dependencies are missing. Install with: pip install -e ".[youtube-upload]"'
         ) from exc
 
+    token_path = Path(token_path).expanduser()
+    if token_path.is_symlink():
+        raise PermissionError("OAuth token path must not be a symbolic link")
     credentials = None
     if token_path.is_file():
         try:
@@ -225,12 +253,7 @@ def _authorize_google(client_secrets: Path, token_path: Path):
             host="127.0.0.1", port=0, open_browser=True,
             authorization_prompt_message="Authorize THE ARO Studio in your browser: {url}",
         )
-        token_path.parent.mkdir(parents=True, exist_ok=True)
-        token_path.write_text(credentials.to_json(), encoding="utf-8")
-        try:
-            os.chmod(token_path, 0o600)
-        except OSError:
-            pass
+        _persist_oauth_token(token_path, credentials.to_json())
     return credentials
 
 
