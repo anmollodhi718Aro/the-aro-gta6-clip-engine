@@ -1019,3 +1019,5 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #324 review submissions, inline review threads, and conversation comments: zero returned. Independent review NOT RECORDED / PENDING.
 - Report: `docs/ARO_CHAT_0214_PR324_CI_AUDIT.md`. This audit does not treat CI success as independent review or acceptance.
 - PR #324 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
+
+- Live follow-up PR: [#326](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/326), OPEN / DRAFT / UNMERGED; head `38e11dfc525ee7c3e8bdbf94268174de3c802170`. Its commit-associated workflow lookup returned zero runs; PR #326 exact-head CI is PENDING / NOT VERIFIED. Do not transfer PR #324's successful run to PR #326.
