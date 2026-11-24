@@ -1039,3 +1039,15 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - The test asserts exception propagation, stream closure, snapshot-path removal, and exactly one insert attempt.
 - Synthetic local file and mocked API only; no OAuth, real media, network upload, merge, deployment, or publishing.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+
+
+### ARO-CHAT-0217 PR #335 exact-head CI closeout — 2026-11-24
+- Audited PR #335 current head `2779aee7b752433b72753ea77419f8ce3d1ae806`; associated Python CI run #45428127882 (run 1382) completed SUCCESS.
+- Ubuntu job #138565727306 and hosted-Windows job #138565727802 passed compilation, 342 tests each (same suite), and synthetic MP4/FFprobe validation. Durations: 5.277s Ubuntu and 11.214s Windows.
+- Both jobs checked out PR merge ref `refs/remotes/pull/335/merge` at `11f6105`, merging audited head into base `1ba95524b05553665ce3428632a479abba256bcb`; raw-head-only checkout NOT DEMONSTRATED.
+- The request-failure cleanup regression passed on both platforms. Synthetic pattern/tone only; no GTA 6 or third-party media; publishing disabled; manual review required; mocked `upload_performed=false`.
+- Combined legacy commit status returned zero entries. PR #335 reviews and inline threads were empty; independent review NOT RECORDED. Local tests NOT RUN. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- Branch comparison against its recorded ARO-CHAT-0216 base: 4 ahead / 4 behind; merge base `d402b913385d2772b545cae281dc5411c487d016`. No rebase/retarget performed.
+- Status: regression IMPLEMENTED; PR #335 CI_VERIFIED on merge ref only; independent review, owner-device Windows, and real-media acceptance NOT VERIFIED. Preserve draft/open/unmerged.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
