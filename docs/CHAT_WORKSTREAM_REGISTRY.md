@@ -1009,3 +1009,28 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Production code unchanged. Report: `docs/ARO_CHAT_0213_WINDOWS_SAFE_POST_OPEN_RACE_TEST.md`.
 - Exact-head Ubuntu/hosted-Windows CI is PENDING; local tests NOT RUN in this connector session. Do not transfer PR #322's partial CI result to this new head.
 - Draft-only; no workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0215 — bind upload bytes to the approved snapshot (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0215 |
+| Exact chat title | ARO-CHAT-0215 | Bind YouTube Upload to Approved Video Snapshot |
+| Workstream ID | ARO-GTA-P1-215 |
+| Scope | Close the local path time-of-check/time-of-use gap between approval hash validation and the later media upload read. |
+| Branch / PR | `workstream/aro-chat-0215-approved-video-snapshot-2026-11-24` / draft PR pending |
+| Base / starting SHA | PR #324 head `f4cf5766c7f0cad8531919f444d077b2fcdbe0fe` |
+| Status | IMPLEMENTED; exact-head CI PENDING; local tests NOT RUN in this connector session |
+
+### Change
+- Copy the selected video into one private temporary file stream and compute SHA-256 while copying.
+- Validate the durable owner-approval record against that snapshot hash, not a later re-open of the source path.
+- Pass the same open stream to Google API `MediaIoBaseUpload`, so the uploader does not reopen a mutable path after approval checks.
+- Add a regression test that replaces the source path after the final approval check and verifies the original approved bytes are the bytes consumed by the API client.
+
+### Safety and validation
+- PRIVATE-only boundary and all existing identity, source-rights, per-clip approval and response-visibility checks remain in place.
+- Mocked API only; no OAuth, credentials, real media, network upload, publishing, merge, rebase, retarget or deployment.
+- Exact-head Ubuntu and hosted-Windows CI must be inspected after PR creation. Synthetic tests are not real GTA 6 media acceptance.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live upload/public publishing remains disabled.
