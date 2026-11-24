@@ -1774,4 +1774,4 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Branch: feature/authorized-mvp-core-0182; base: feature/local-authorized-ffmpeg-renderer; starting SHA: 065daab77624ce1adb65f61c61eee1dbcadd8303.
 - Parent renderer PR: #263. This is a stacked implementation PR, not a duplicate renderer PR.
 - Safety: no platform scraping, live ingestion, OAuth, uploads, public publishing, deployment, merge, or destructive actions. The uploaded watermarked sample is not project footage; CI uses synthetic generated animation.
-- Initial status: IN_PROGRESS pending exact-head tests and CI.
+- Status: IMPLEMENTED; CI_VERIFIED on exact implementation head d125e58e937b1b50b22b6ba0f5f0435f250156a1. Actions run #45373360816 (run 1175) passed Ubuntu and hosted Windows; each platform ran the same 27-test suite, compile passed, and synthetic moving MP4/FFprobe validation passed. Run #45373184825 (run 1173) exposed one fixture timestamp mismatch; test fixture was corrected before the verified head. PR #266 remains OPEN / DRAFT / UNMERGED; independent review NOT RECORDED. REAL_MEDIA_VERIFIED NOT VERIFIED.
