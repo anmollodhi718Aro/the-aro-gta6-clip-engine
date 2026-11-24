@@ -191,3 +191,22 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Close the media object's retained stream before cleaning the private snapshot directory; keep cleanup in a nested `finally` so it still runs if closing raises.
 - Add a regression test whose mocked media client holds a real open file handle and asserts it is closed and the approved snapshot file is removed before the upload function returns.
 - Branch `workstream/aro-chat-0216-close-upload-media-handle-2026-11-24`, based on PR #328 head `114e5bfc4b154e0da272ed36408ab156cfdc5ab9`. Draft-only; exact-head CI and local tests pending. No OAuth, real media, upload, merge, deployment, or publishing.
+
+
+## ARO-CHAT-0217 continuation — upload cleanup error-path regression (2026-11-24)
+- Add a test-only follow-up to ARO-CHAT-0216's retained MediaFileUpload stream cleanup.
+- A mocked upload request raises a deterministic error; assert the retained stream is closed, the temporary approved-byte snapshot is removed, and the exception propagates.
+- Branch: `workstream/aro-chat-0217-upload-error-cleanup-test-2026-11-24`, based on `workstream/aro-chat-0216-close-upload-media-handle-2026-11-24`.
+- Test commit: `707a7a882fa452bc512cc77062d0e8f0b9801c0d`; report: `docs/ARO_CHAT_0217_UPLOAD_ERROR_CLEANUP_TEST.md`.
+- Production code unchanged. Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING. Synthetic/mock-only, no OAuth, real media, upload, merge, deployment or publishing. Issue #68 remains open; live uploads/public publishing disabled.
+
+
+
+### ARO-CHAT-0217 PR #335 exact-head CI closeout
+- PR #335 head `2779aee7b752433b72753ea77419f8ce3d1ae806` passed associated Python CI run #45428127882 (run 1382).
+- Ubuntu job #138565727306 and hosted-Windows job #138565727802 both passed compilation, the same 342 tests, and synthetic MP4/FFprobe validation. Ubuntu: 342 tests in 5.277s; Windows: 342 tests in 11.214s. These are 342 shared tests run on two platforms, not 684 unique tests.
+- Both jobs checked out `refs/remotes/pull/335/merge` at merge SHA `11f6105`, merging PR #335 head into base `1ba95524b05553665ce3428632a479abba256bcb`. Raw-head-only CI NOT DEMONSTRATED.
+- The new request-failure cleanup regression passed on both platforms. Synthetic media only; no GTA 6/third-party media, no live upload, publishing disabled, manual review required.
+- PR #335 reviews and inline threads returned no entries; independent review NOT RECORDED. Local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED.
+- The branch is 4 commits ahead / 4 behind its recorded ARO-CHAT-0216 base, merge base `d402b913385d2772b545cae281dc5411c487d016`. Do not rebase or retarget automatically.
+- Preserve PR #335 as draft/open/unmerged. Issue #68 remains open; keep live uploads/public publishing disabled.
