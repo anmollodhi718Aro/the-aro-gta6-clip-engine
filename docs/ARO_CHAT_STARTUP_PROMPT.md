@@ -235,3 +235,12 @@ For the current first-test upload priority:
 - Combined status had zero legacy entries; PR reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. Local tests NOT RUN in this connector session.
 - Report: `docs/ARO_CHAT_0203_PR307_CI_AUDIT.md`. PR #307 remains OPEN / DRAFT / UNMERGED; this audit PR requires its own CI and independent review.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or workflow retry.
+
+
+## ARO-CHAT-0204 latest continuation — 2026-11-24
+- Current workstream: ARO-CHAT-0204 / ARO-GTA-P2-204, independent documentation-only exact-head CI audit of PR #308.
+- Audit branch: `workstream/aro-chat-0204-pr308-exact-head-ci-audit-2026-11-24`; base/start SHA: PR #308 head `3eb2add67c339e543a46035ec6a29e2485a424f7`.
+- PR #308-associated run #45402472225 was IN_PROGRESS at initial inspection. Ubuntu job #138474367033 and hosted-Windows job #138474366488 had completed checkout/Python setup and were installing FFmpeg/FFprobe; compile/tests/media validation had not started.
+- No CI pass/fail is claimed. Recheck this exact run and both job logs; do not transfer PR #307 or other-branch results. Local tests NOT RUN in this connector session.
+- Report: `docs/ARO_CHAT_0204_PR308_CI_AUDIT.md`. PR #308 remains OPEN / DRAFT / UNMERGED at initial inspection; independent review and combined status require rechecking.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Documentation-only; no workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
