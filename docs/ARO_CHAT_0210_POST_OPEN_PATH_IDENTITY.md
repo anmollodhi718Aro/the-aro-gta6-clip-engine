@@ -31,3 +31,7 @@ The approval reader compared the pre-open `lstat()` identity with the opened des
 
 ## Safety
 Draft-only security follow-up stacked on PR #317. Keep PR #317 and its parent chain open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled pending complete independent review, owner-controlled integration, owner-device verification, and separately authorized real-media PRIVATE acceptance.
+
+
+## Cross-platform test compatibility follow-up
+- Test commit `d37681e6af75b6ff81da2c47c67cf2001fb55049` makes the symlink-race regression skip only when the host filesystem cannot create symlinks, matching the existing suite's platform-aware behavior. The test still simulates the no-`O_NOFOLLOW` fallback where symlink creation is supported.
