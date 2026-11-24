@@ -30,3 +30,13 @@ The DNS label validator accepted numeric-only host strings such as `127.1` and `
 ## Safety
 
 Draft-only. No workflow retry/dispatch, merge, rebase, retarget, deployment, credentials, OAuth, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## Follow-up: leading-zero numeric suffixes — 2026-11-25
+
+- Static review found that the initial suffix classifier recognized leading-zero labels only when every remaining digit was octal (`0`–`7`). A label such as `09` therefore fell through to ordinary DNS-label validation.
+- Updated `_ends_in_ipv4_number()` to conservatively classify every all-decimal label beginning with zero as numeric-like. Such a suffix is accepted only if the complete hostname parses as canonical four-octet IPv4.
+- Added URL rejection regressions for `example.09` and `example.0008`.
+- Production commit: `8d9812d8c88ad4549e5677a4a3a175b4e75bdd26`; test commit / current branch head: `f6bb501eccf77445509f85e24ec69babbd61e41a`.
+- Commit-associated workflow lookup for the current head returned zero runs. Exact-head CI: PENDING / NOT VERIFIED. Local tests NOT RUN. Independent review NOT RECORDED.
+- PR #376 remains draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
