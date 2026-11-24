@@ -937,3 +937,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Implementation commits: `6c21c0977a6a9ec7643306f14fe7edf26f81d592` (initial guard), `848cdb1447743257e9a00ac7fa84da22c58a9acf` (base-aligned loader), `e10070cc0a9ff167922649ce2293bb6a5a3ab3ae` (fixture root), `a1c785ad7a54121732d3d59289054090ee892d96` (token-directory symlink test).
 - Exact-head Ubuntu and hosted-Windows CI remain PENDING / NOT VERIFIED; local tests have not been run in this connector session.
 - PR #300 remains DRAFT / OPEN / UNMERGED and GitHub currently reports it non-mergeable. Do not merge, rebase, or retarget automatically. Issue #68 remains OPEN; live uploads and public publishing stay disabled.
+
+
+### ARO-CHAT-0197 test-fixture correction — 2026-11-24
+- Static review of the live PR #300 head found that `test_profile_resolution_keeps_channels_isolated` called `resolve_destination_identity()` with a temporary `.secrets/` config but omitted the matching `repository_root=self.root`. The resolver therefore compared the temporary fixture against the actual checkout root and would reject the fixture.
+- Corrected both destination-profile calls to pass the isolated fixture root. Test-only commit: `78b1bfdfa5514aac1ce327e7676f5b885915237f`.
+- Current PR #300 head: `78b1bfdfa5514aac1ce327e7676f5b885915237f`; base SHA: `152de0e3cecbfe2be2569c46db14e5c9c67506a2`.
+- Exact-head workflow lookup returned zero runs; Ubuntu and hosted-Windows CI are PENDING / NOT VERIFIED. Local tests were NOT RUN in this connector session.
+- GitHub reports PR #300 `mergeable=false` / `dirty`; base-to-head comparison is 23 commits ahead and 5 behind, merge base `758ae2d44e04b9a875a2a85aa153f0407a209766`. Do not rebase, retarget, or merge automatically.
+- PR #300 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, public publishing, deployment, or destructive action occurred.
