@@ -222,3 +222,10 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Finding: latest PR #328 head had removed the Windows-safe `MediaFileUpload._fd` close-before-snapshot-cleanup sequence present in stale PR #333; PR #335's request-failure test was stacked on that stale branch.
 - Changes: restore stream close in a nested `finally` before snapshot-directory cleanup; extend the approved-source-mutation test and add a mocked request-failure cleanup regression.
 - Local tests NOT RUN. New-head Ubuntu/hosted-Windows CI must be inspected independently. No OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN; keep live uploads/public publishing disabled.
+
+
+### Current continuation handoff — ARO-CHAT-0218
+- Continue from PR #339 branch `workstream/aro-chat-0218-current-head-media-cleanup-2026-11-24`.
+- Latest test commit: `a07cf1d0e1023f6291cf69bb6998c4f43c972fdf`. Added a mocked close-failure regression proving the nested `finally` removes the approved-byte snapshot even when media stream closure raises.
+- Inspect exact-head Ubuntu and hosted-Windows CI before marking CI_VERIFIED. Local tests, owner-device Windows, OAuth, real-media PRIVATE acceptance, and independent security review are NOT VERIFIED.
+- Do not merge, deploy, access credentials, perform live uploads, or enable public publishing. Issue #68 remains OPEN.
