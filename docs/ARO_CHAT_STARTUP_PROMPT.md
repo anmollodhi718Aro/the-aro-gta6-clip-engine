@@ -349,3 +349,48 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Local tests NOT RUN; this branch's own exact-head Ubuntu/hosted-Windows CI is PENDING (run #45278418962 / run 1115 is QUEUED; jobs not yet available). Draft PR #242 is open at head `414fd4f7da94fdffcdd3261a5ea723b5f03290b3`. Do not transfer PR #238 run #45277658000.
 - No credentials/OAuth, real media, network upload, publishing, merge, retarget, deployment or destructive action.
 - Issue #68 remains OPEN. Keep live/public uploads disabled pending exact-head CI, independent security review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
+
+
+## Latest continuation baseline — ARO-CHAT-0166 (2026-11-24)
+
+- Current workstream: ARO-CHAT-0166 / ARO-GTA-P1-166 | PR #242 exact-head CI audit.
+- Branch: `workstream/aro-chat-0166-pr242-exact-head-ci-audit-2026-11-24`; base and starting SHA: PR #242 head `414fd4f7da94fdffcdd3261a5ea723b5f03290b3`.
+- PR #242 enforces an explicit positive `--max-upload-bytes` for live uploads and direct uploader calls; dry-run and approval-only retain the 256 MiB fallback.
+- Current-head run #45278355448 was cancelled during FFmpeg setup before compile/tests/render. A targeted Ubuntu rerun is queued; hosted Windows rerun remains pending.
+- Earlier-lineage run #45278418962 failed one CLI fixture because the test invocation lacked the explicit limit; do not transfer it to current head. The current branch-tip fixture includes the explicit flag, pending its own CI.
+- Report: `docs/ARO_CHAT_0166_PR242_CI_AUDIT.md`.
+- Issue #68 remains OPEN; keep live/public uploads disabled pending current-head CI, independent review, owner-controlled integration, owner-device verification and authorized real-media acceptance.
+- Documentation-only audit; no OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0166 CI closeout (2026-11-24)
+
+- ARO-CHAT-0166 / ARO-GTA-P1-166 audits PR #242 current head `dfb1e9390490806e44bad93fc661ddff0a551f54`.
+- PR #242 exact-head-associated run #45278668116 (run 1118) passed on Ubuntu and hosted Windows: compile passed; 340 tests passed on each platform; synthetic MP4/FFprobe passed.
+- Both jobs checked out PR #242 merge ref at `ad80436817f46f8f36093ae95dc4eeed6cf0ce7e`, merging current PR head into base `cdcf7a4bef2728e3299e82bc88d376992ecec39d`. Raw-head-only checkout is not demonstrated.
+- Synthetic pattern/tone only, 8s source / 4s output; no GTA 6 or third-party footage; publishing disabled; manual review required. Hosted Windows is not owner-device verification.
+- Earlier run #1113 on the older PR #242 head failed one CLI fixture on both platforms; current-head run #1118 supersedes it. Do not carry the older failure forward as a current-head failure.
+- Bounded static review found explicit CLI/direct-call upload limits fail closed before OAuth and incremental staging enforces the configured limit. No critical defect identified in the reviewed diff; separate human security review remains NOT RECORDED.
+- Report: `docs/ARO_CHAT_0166_PR242_CI_AUDIT.md`; audit PR #246 remains OPEN / DRAFT / UNMERGED.
+- Issue #68 remains OPEN. Keep live/public uploads disabled pending independent human security review, owner-controlled integration, owner-device verification, owner-selected device limit and authorized real-media acceptance.
+
+
+### Latest continuation baseline — ARO-CHAT-0166 CI closeout (2026-11-24)
+- Active workstream: ARO-CHAT-0166 / ARO-GTA-P1-166 | PR #242 exact-head CI audit.
+- PR #242 current head `dfb1e9390490806e44bad93fc661ddff0a551f54`; base `cdcf7a4bef2728e3299e82bc88d376992ecec39d`.
+- Exact-head-associated run #45278668116 passed on the current PR merge ref. Ubuntu and hosted Windows each compiled, passed the same 340 tests, and passed synthetic MP4/FFprobe validation. Raw-head-only checkout is NOT DEMONSTRATED.
+- Synthetic pattern/tone only; no GTA 6 or third-party media; 8s source / 4s output; publishing disabled; manual review required; mocked upload false.
+- PR #242 remains OPEN / DRAFT / UNMERGED; independent review NOT RECORDED. Owner-device Windows and authorized real-media acceptance NOT VERIFIED.
+- Issue #68 remains OPEN and assigned to the project owner. Keep live/public uploads disabled pending independent security review and owner-controlled integration.
+- Report: `docs/ARO_CHAT_0166_PR242_CI_AUDIT.md`. Audit is documentation-only; no application behavior, OAuth, credentials, real media, upload, publishing, retry, merge, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0166 audit PR #246 exact-head CI closeout — 2026-11-24
+- PR #246 current audited documentation head `902767af13caeedff858f6e6472565bd75246080` has exact-head-associated Python CI run #45279477145 (run 1125), completed SUCCESS.
+- Ubuntu job #138059829667 and hosted-Windows job #138059829394 both completed successfully. Both checked out `refs/remotes/pull/246/merge` at merge SHA `9e5243f6e6cccfa2706a5c2715689c88702bc903`, merging audit head `902767af13caeedff858f6e6472565bd75246080` into base `dfb1e9390490806e44bad93fc661ddff0a551f54`. Raw-head-only checkout is NOT DEMONSTRATED.
+- Ubuntu passed Python compilation, 340 unit tests (5.053s), and synthetic MP4/FFprobe validation. Hosted Windows passed Python compilation, the same 340 tests (14.434s), and synthetic MP4/FFprobe validation. These are 340 shared test cases on two platforms, not 680 unique tests.
+- Both synthetic reports used locally generated pattern/tone only, 8-second source and 4-second output; `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`, and mocked `upload_performed=false`. No live upload or publishing occurred.
+- Combined status returned zero entries; the overall run and both jobs concluded SUCCESS. PR #246 review submissions and inline threads were empty; independent review NOT RECORDED.
+- PR #246 CI_VERIFIED on its GitHub merge ref only. Owner-device Windows and real-media acceptance remain NOT VERIFIED. Local tests NOT RUN in this connector session.
+- Scope correction: PR #242 advanced from the original ARO-CHAT-0166 snapshot SHA `414fd4f7da94fdffcdd3261a5ea723b5f03290b3` to later head `dfb1e9390490806e44bad93fc661ddff0a551f54`. Separate ARO-CHAT-0165 audit PRs #243–#245 cover the later parent-head CI evidence; do not transfer those results to the original snapshot. PR #246's successful run is evidence for PR #246 only.
+- Documentation-only. No application/uploader/test/renderer/media-ingestion/workflow behavior changes; no credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action. Keep PR #246 draft-only.
