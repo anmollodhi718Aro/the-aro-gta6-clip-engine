@@ -1335,3 +1335,15 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Report: `docs/ARO_CHAT_0236_STRICT_SOURCE_URL_HOSTNAME_VALIDATION.md`.
 - Exact-head CI and local tests remain NOT VERIFIED until actual execution evidence is available. Parent PR #371's latest workflow failed before exposing steps; root cause remains NOT VERIFIED.
 - Draft-only; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0237 — PR #373 exact-head CI and static audit (2026-11-25)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0237 | ARO-CHAT-0237 \| PR #373 Exact-Head CI and Static Audit | ARO-GTA-P1-237 | Independently inspect PR #373 exact-head CI/status/reviews and bounded DNS/IDNA/IPv6 hostname-validation diff | `workstream/aro-chat-0237-pr373-exact-head-ci-and-static-audit-2026-11-25` / draft PR pending | DOCUMENTATION-ONLY; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; local tests NOT RUN; independent review NOT RECORDED | Starting SHA `ecd35c1c4170f038b57ece0d5df976b80de5c276`; no associated workflow runs or combined status entries |
+
+- PR #373 review submissions and inline threads were empty at inspection. PR #373 remains OPEN / DRAFT / UNMERGED; metadata reported `mergeable=false`, whose cause is not established.
+- Bounded static review found the hostname syntax checks and listed regression cases present. Python's IPv6 parser accepts scoped IPv6 literals; whether these are intended remains a policy question, not a confirmed vulnerability. DNS resolution, destination-IP policy and DNS-rebinding protection are outside this diff.
+- No CI result is transferred from PR #371 or any other branch. Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL and live uploads/public publishing disabled.
+- No source/test behavior, workflow, OAuth, credentials, real media, upload, publishing, retry/dispatch, merge, rebase, retarget, deployment, or destructive action occurred.
