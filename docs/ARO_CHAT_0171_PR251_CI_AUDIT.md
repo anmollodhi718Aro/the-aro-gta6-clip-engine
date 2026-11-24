@@ -47,8 +47,14 @@ Date: 2026-11-24
 - PR #251 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=false at recheck. Reviews, inline threads, and conversation comments remain empty; independent review NOT RECORDED. Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED.
 
 ## This audit PR's own CI
-- PR #252 head `eba4fe0f9bed2a0a01507ab62414cd61ecdb7010` had no commit-associated workflow run at recheck; combined status had zero entries. Its own CI is PENDING / NOT VERIFIED. Do not transfer PR #251's run to this documentation-only audit branch.
-- PR #252 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=true. Reviews, inline threads, and conversation comments were empty at recheck.
+- Latest PR #252 head: `c5ce5fe3557b89e12b52ac8df3b8b518dad37e63`.
+- Commit-associated Python CI run #45314960254 (run 1145) completed SUCCESS. Ubuntu job #138179488732 passed compilation, all 340 unit tests (5.143s), and synthetic MP4/FFprobe validation. Hosted-Windows job #138179488417 passed compilation, the same 340 tests (15.690s), and synthetic MP4/FFprobe validation. These are the same 340 test cases run on two platforms, not 680 unique tests.
+- Both jobs checked out PR #252 merge ref `refs/remotes/pull/252/merge` at merge SHA `93f8ed47ab657902a173030b548d91412a4a76cb`, merging head `c5ce5fe3557b89e12b52ac8df3b8b518dad37e63` into base `1316c12f4f66305b190f671330682eb535e41ba0`. CI_VERIFIED applies to this merge ref; raw-head-only checkout is NOT DEMONSTRATED.
+- Both synthetic-first-clip steps passed using a locally generated pattern/tone only: 8-second source, 4-second rendered MP4; `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. No GTA 6 or third-party footage was used.
+- The repaired CLI upload-limit regression also passed in both suites. No real upload or public publishing occurred.
+- Combined status for both the PR head and merge SHA returned zero status entries; this is not an independent passing signal. The workflow run and job logs are the CI evidence.
+- PR #252 remains OPEN / DRAFT / UNMERGED; GitHub reported mergeable=true. Reviews, inline threads, and conversation comments are empty; independent review NOT RECORDED.
+- Owner-device Windows and authorized real-media acceptance remain NOT VERIFIED. Do not transfer PR #251's CI result to this audit branch.
 
 ## Closeout
 - ARO-CHAT-0171 is IMPLEMENTED (documentation audit) and TESTED only in the sense that the audited parent PR's CI is verified on its merge ref; this audit branch's own CI remains NOT VERIFIED.
