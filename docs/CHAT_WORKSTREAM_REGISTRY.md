@@ -1242,3 +1242,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #369's exact current head had associated Python CI run #45485759897, completed FAILURE. Connector job-step/log inspection returned no steps and log retrieval was unavailable; failure cause remains NOT VERIFIED. This continuation does not claim the parent failure was fixed.
 - New branch requires its own Ubuntu and hosted-Windows CI evidence. No results are transferred from PR #369 or other parent branches.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
+
+
+### ARO-CHAT-0235 source URL validation follow-up — 2026-11-25
+
+- Static review found the source-rights registry accepted strings such as `https://` because it checked only the URL prefix.
+- Added parsed-authority validation: HTTP(S) scheme, non-empty hostname, whitespace-free hostname, valid port syntax/range, and no embedded URL credentials.
+- Regression tests cover malformed authorities/schemes/ports/credentials/hostnames and valid HTTP/HTTPS URLs.
+- This is a continuation of existing PR #371 / ARO-GTA-P1-235, not a new workstream. Local tests NOT RUN; fresh exact-head Ubuntu/hosted-Windows CI PENDING. No CI evidence is transferred from prior commits.
+- Draft-only; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
