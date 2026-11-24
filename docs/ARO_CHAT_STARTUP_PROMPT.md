@@ -141,3 +141,11 @@ For the current first-test upload priority:
 ## PR #299 source-rights integration status
 - The append-only `SourceRightsRegistry.register()` behavior and regression tests are now implemented directly on PR #299, so this branch no longer depends on PR #168 ancestry for that behavior.
 - Earlier ancestry warning remains relevant to the separate #68 stack until that stack is independently reconciled. PR #299 still needs latest-head CI and independent review; no merge or upload authorization is implied.
+
+
+## ARO-CHAT-0135 current continuation — 2026-11-24
+
+- Latest observed PR #299 head: `ca243f3b619ce76096d58b4fc1162d1a6e74315d`.
+- Run #45395149052 Ubuntu job failed because `youtube_upload.py` calls `tempfile.mkstemp()` in atomic OAuth token saving but omitted `import tempfile`; job log #138449136472 confirms the NameError.
+- ARO-CHAT-0135 adds only `import tempfile`; preserve the existing token-save implementation and all owner-approval, source-rights, PRIVATE-only, and no-publication gates.
+- Verify exact-head Ubuntu and hosted-Windows CI. No local tests, OAuth, live upload, merge, or deployment has occurred unless separately evidenced.
