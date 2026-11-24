@@ -1847,3 +1847,27 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Report: `docs/ARO_CHAT_0189_PR278_CI_AUDIT.md`. This report documents CI evidence for PR #278 only. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
 - Documentation-only; no application/workflow behavior changes, workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 - Next action: inspect the newest registry entry and open PRs before reserving new work; independently review the current MVP/source-permission stack. Do not infer review approval or merge authorization from CI success.
+
+
+| ARO-CHAT-0190 | ARO-CHAT-0190 \\| PR #282 CI and PR #279 Source Permission Review | ARO-GTA-P1-190 | Audit PR #282 exact-head CI and independently inspect PR #279 source-permission diff, CI, and review state; documentation-only | `workstream/aro-chat-0190-pr282-ci-pr279-source-permission-review-2026-11-25` / pending PR | PR #282 exact-head CI NOT VERIFIED (zero associated runs/statuses); PR #279 Ubuntu merge-ref CI_VERIFIED (13 tests); Windows and independent review NOT VERIFIED | Starting SHA `36075feef138739b018a0816a0e344051aa806f5`; PR #279 run #45385250632; report `docs/ARO_CHAT_0190_PR282_PR279_AUDIT.md` |
+
+## Latest continuation baseline — ARO-CHAT-0190 (2026-11-25)
+
+- Current chat title: `ARO-CHAT-0190 | PR #282 CI and PR #279 Source Permission Review`; workstream ARO-GTA-P1-190.
+- PR #282 head `36075feef138739b018a0816a0e344051aa806f5`: no associated PR workflow run, zero combined status entries, no reviews or review threads. Exact-head CI NOT VERIFIED; no jobs/logs, compilation/tests NOT VERIFIED.
+- PR #279 head `5921c242b518755fa11d13bd2692459dde6ef94a`: run #45385250632 succeeded on one Ubuntu job; compile passed and 13 tests passed. It checked out merge ref SHA `56aa9df81a85f442774d85445942eae5e62a4687`; raw-head-only and Windows CI NOT DEMONSTRATED. Reviews and inline threads empty.
+- PR #279 bounded review found no critical defect in the fetched diff. In-memory-only/no-audit-log behavior and unproven downstream enforcement remain limitations; this is not a full security certification.
+- Report: `docs/ARO_CHAT_0190_PR282_PR279_AUDIT.md`. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No OAuth, credentials, real media, uploads, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+- Next: obtain PR #282's own exact-head CI evidence; then secure independent review and verify permission enforcement in downstream processing/rendering paths.
+
+
+### ARO-CHAT-0190 audit-branch CI checkpoint — 2026-11-25
+- Draft audit PR #372 head `756d8c09e0633d44714e3d30b046fd12bc534c95`: zero associated PR workflow runs, zero combined status entries, no reviews. Its own CI PENDING / NOT VERIFIED; no jobs/logs. PR #372 remains OPEN / DRAFT / UNMERGED.
+- Do not transfer CI evidence from PR #279, PR #278, or PR #282. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### ARO-CHAT-0190 audit PR #372 exact-head CI follow-up — 2026-11-25
+- Re-fetched PR #372 live head `484c2cfcfe7d579dd25ebaa4188405d64e088f53`; exact-head-associated run #45495116038 completed FAILURE.
+- Ubuntu job #138803418571 and hosted-Windows job #138803418037 both expose no steps (`steps=null`) and no logs (`logs_url=null`). Failure cause NOT VERIFIED; compilation, tests, checkout refs, and synthetic MP4/FFprobe are NOT VERIFIED. Do not attribute this to code or transfer CI from another PR/SHA.
+- Combined commit status has zero entries; reviews and inline threads are empty. PR #372 remains OPEN / DRAFT / UNMERGED; independent review NOT RECORDED.
+- Documentation-only evidence update; no workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing disabled.
