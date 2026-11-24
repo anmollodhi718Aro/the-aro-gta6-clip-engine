@@ -194,3 +194,13 @@ For the current first-test upload priority:
 - A test-only correction simulates the second post-open pathname `lstat()` as a symlink while retaining the real descriptor, avoiding Windows-incompatible rename behavior. Production code unchanged.
 - Report: `docs/ARO_CHAT_0213_WINDOWS_SAFE_POST_OPEN_RACE_TEST.md`. Exact-head Ubuntu and hosted-Windows CI remains PENDING until both jobs/logs for this new PR head are inspected. Local tests NOT RUN in this connector session.
 - Preserve draft-only status. Do not merge/rebase/retarget, dispatch/retry workflows, access OAuth credentials, process real media, upload, publish, or deploy. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled.
+
+
+## Current continuation — ARO-CHAT-0214 (2026-11-24)
+- Latest P1 follow-up: independently close out PR #324 exact-head-associated CI. Audit branch `workstream/aro-chat-0214-pr324-ci-closeout-2026-11-24`, based on PR #324 head `f4cf5766c7f0cad8531919f444d077b2fcdbe0fe`.
+- PR #324 Actions run #45425499575 completed SUCCESS. Ubuntu: compile + 344 tests + synthetic MP4/FFprobe passed. Hosted Windows: compile + 344 tests, 2 skipped + synthetic MP4/FFprobe passed.
+- Both jobs checked out merge SHA `9a6c481cd5897ad4dd6a39b1b4f1d63e938c6350`, merging PR #324 head into PR #322 head `449f0a96fac2b3eacfb1544bf9bc9a329ad02a94`; raw-head-only checkout NOT DEMONSTRATED. Do not call hosted Windows owner-device verification.
+- PR #324 independent review NOT RECORDED; local tests NOT RUN; real-media acceptance NOT VERIFIED. Synthetic logs confirm `gta6_footage_used=false`, `publishing_enabled=false`, `manual_review_required=true`.
+- Continue with evidence-based P1 pipeline work only. Preserve draft/open/unmerged stacks. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, live upload, public publishing, merge, rebase, retarget, deployment, or destructive action without separate explicit approval.
+
+- Documentation audit PR #327 head `fa64b10bb455430080e5df301d04a39bd7c34509`: no associated workflow run/status entries; exact-head CI PENDING / NOT VERIFIED; reviews empty. Do not transfer PR #324's run to #327.

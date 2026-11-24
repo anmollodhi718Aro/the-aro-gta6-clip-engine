@@ -1009,3 +1009,17 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Production code unchanged. Report: `docs/ARO_CHAT_0213_WINDOWS_SAFE_POST_OPEN_RACE_TEST.md`.
 - Exact-head Ubuntu/hosted-Windows CI is PENDING; local tests NOT RUN in this connector session. Do not transfer PR #322's partial CI result to this new head.
 - Draft-only; no workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0214 — PR #324 exact-head CI closeout (2026-11-24)
+
+- Chat ID: ARO-CHAT-0214; Workstream ID: ARO-GTA-P1-214.
+- Documentation-only audit branch: `workstream/aro-chat-0214-pr324-ci-closeout-2026-11-24`, based on PR #324 head `f4cf5766c7f0cad8531919f444d077b2fcdbe0fe`.
+- Audited PR #324 Actions run [#45425499575](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45425499575) completed SUCCESS. Ubuntu: compile passed, 344 tests passed, synthetic MP4/FFprobe passed. Hosted Windows: compile passed, 344 tests ran, 2 skipped, synthetic MP4/FFprobe passed.
+- Both jobs checked out merge ref SHA `9a6c481cd5897ad4dd6a39b1b4f1d63e938c6350`, merging audited head `f4cf5766c7f0cad8531919f444d077b2fcdbe0fe` into base `449f0a96fac2b3eacfb1544bf9bc9a329ad02a94`. Raw-head-only checkout NOT DEMONSTRATED; both platforms ran the same 344-test suite.
+- Synthetic logs: `gta6_footage_used=false`, `publishing_enabled=false`, `manual_review_required=true`. This is not real-media acceptance.
+- PR #324 review submissions empty; independent review NOT RECORDED. Local tests NOT RUN; owner-device Windows NOT VERIFIED; real-media acceptance NOT VERIFIED.
+- PR #324 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+- No application/test/workflow behavior changes, OAuth, credentials, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
+
+- Audit follow-up PR #327 head `fa64b10bb455430080e5df301d04a39bd7c34509` has no associated Actions run or combined status entries; its exact-head CI is PENDING / NOT VERIFIED. Reviews empty; independent review NOT RECORDED. Do not transfer PR #324's CI evidence to PR #327.
