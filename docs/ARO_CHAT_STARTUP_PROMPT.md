@@ -378,3 +378,10 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Workstream ARO-GTA-P1-229; branch `workstream/aro-chat-0229-atomic-revocation-audit-rollback-2026-11-25`; base is PR #359 branch `workstream/aro-chat-0228-atomic-rights-revocation-2026-11-25`.
 - Test-only regression rejects a revocation audit insert through a temporary SQLite trigger, then verifies the failed audit write rolls back the rights update and preserves the registration-only audit history.
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED. Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL and live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0229 Windows CI correction — 2026-11-25
+- Exact-head run `45464585193` passed Ubuntu but failed hosted Windows during cleanup of two SQLite trigger-fixture tests (`WinError 32`). The `sqlite3.Connection` context manager does not close the connection; the tests now wrap those connections in `contextlib.closing`.
+- Test-only correction commit: `d7bec38ad63a33190928d5fdd13ae281c40a171e`. Production rights-registry, uploader, OAuth, and workflow behavior unchanged.
+- Follow-up exact-head Ubuntu/hosted-Windows CI is PENDING / NOT VERIFIED. Do not transfer the initial Ubuntu result as a complete pass for the corrected head.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
