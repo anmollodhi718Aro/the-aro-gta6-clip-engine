@@ -9,10 +9,31 @@ import argparse
 import json
 import os
 import re
+import stat
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+
+
+def _ensure_private_directory(path: Path, label: str) -> None:
+    """Create or tighten a local secret directory without following its final symlink."""
+    if path.is_symlink():
+        raise PermissionError(f"{label} must not be a symlink")
+    path.mkdir(mode=0o700, parents=True, exist_ok=True)
+    metadata = path.lstat()
+    if not stat.S_ISDIR(metadata.st_mode):
+        raise PermissionError(f"{label} must be a directory")
+    if os.name == "posix":
+        if metadata.st_uid != os.getuid():
+            raise PermissionError(f"{label} must be owned by the current user")
+        os.chmod(path, 0o700)
+        metadata = path.lstat()
+        if stat.S_IMODE(metadata.st_mode) != 0o700:
+            raise PermissionError(f"{label} permissions could not be restricted to owner-only")
+    if path.resolve(strict=True) != path:
+        raise PermissionError(f"{label} must remain at its expected local path")
 
 
 def _atomic_private_json(path: Path, payload: dict[str, Any]) -> None:
@@ -53,11 +74,7 @@ def setup_destination(
         raise ValueError("profile name must use 1-64 letters, numbers, underscores or hyphens")
     root = repository_root.resolve(strict=True)
     secrets_dir = root / ".secrets"
-    if secrets_dir.is_symlink():
-        raise PermissionError(".secrets must not be a symlink")
-    secrets_dir.mkdir(mode=0o700, exist_ok=True)
-    if secrets_dir.resolve(strict=True) != secrets_dir:
-        raise PermissionError(".secrets must resolve inside the repository")
+    _ensure_private_directory(secrets_dir, ".secrets")
     config_path = secrets_dir / "destination_profiles.json"
     if config_path.is_symlink():
         raise PermissionError("destination profile configuration must not be a symlink")
@@ -77,11 +94,7 @@ def setup_destination(
     from backend.app.youtube_owner_approval import _verify_google_id_token
 
     token_dir = secrets_dir / "tokens"
-    if token_dir.is_symlink():
-        raise PermissionError("OAuth token directory must not be a symlink")
-    token_dir.mkdir(mode=0o700, exist_ok=True)
-    if token_dir.resolve(strict=True) != secrets_dir / "tokens":
-        raise PermissionError("OAuth token directory must remain inside this repository .secrets directory")
+    _ensure_private_directory(token_dir, "OAuth token directory")
     token_path = token_dir / f"{profile_name}.json"
     if token_path.is_symlink():
         raise PermissionError("OAuth token path must not be a symbolic link")
