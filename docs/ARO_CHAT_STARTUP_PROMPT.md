@@ -123,3 +123,8 @@ For the current first-test upload priority:
 - Latest observed run #45393428557: Ubuntu passed; hosted Windows failed 1 of 334 tests because a test compared a `Path.resolve()` canonical path against an un-resolved temporary path (`RUNNER~1` versus `runneradmin`). The fix updates the test expectation to use the resolved `.secrets` parent; do not weaken production path validation.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No live upload or public publishing until the authenticated owner/channel approval design is selected, integrated, independently reviewed, and locally verified.
 - PR #299 and this follow-up must be validated on their latest exact heads. Synthetic MP4/FFprobe checks are not real GTA 6 media acceptance.
+
+
+### ARO-CHAT-0197 follow-up — 2026-11-24
+- Test-only continuation commit `8269505c423e50c7460335f5ca776f250b695aa0` now asserts canonical token paths for both configured destination profiles, using the resolved `.secrets` parent. Production path enforcement is unchanged.
+- Registry/startup documentation update follows in commit `7dad8ec0bf0140dd522369de846e10efe7436bb6`; exact-head Ubuntu and hosted-Windows CI remains pending.
