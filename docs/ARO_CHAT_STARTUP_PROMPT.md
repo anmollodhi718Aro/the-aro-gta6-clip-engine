@@ -125,3 +125,8 @@ For the current first-test upload priority:
 ## Destination profile path boundary and Windows regression
 - A profile config must resolve specifically to this checkout's `<repo>/.secrets/` directory. A similarly named `.secrets` directory elsewhere is rejected. Production derives the root from the module location; tests can inject a temporary repository root.
 - Windows CI run #45393615753 had 334 tests with one failure: the expected token path used an unresolved temporary path, while the implementation returned the resolved Windows path. Ubuntu's 334 tests and synthetic MP4 validation passed. Follow-up regression changes normalize the expected path and add an external `.secrets` rejection test. Latest-head CI is pending.
+
+
+## Profile config validation order
+- Resolve and validate the config file location against this checkout's `.secrets/` directory before reading any config content. Tests assert that external config files are rejected without a read.
+- Commits: `716424791e971a27e05b6f0a49a54a5c5008c059`, `15973b3f6d156b7ea51f64c9192020d7607d809c`. CI pending.
