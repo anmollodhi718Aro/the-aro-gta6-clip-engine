@@ -17,8 +17,19 @@ from urllib.parse import urlsplit
 ALLOWED_USES = frozenset({"analyze", "edit", "publish"})
 
 
+def _ends_in_ipv4_number(label: str) -> bool:
+    """Match URL-host numeric suffix forms that browsers may parse as IPv4."""
+    lowered = label.lower()
+    if lowered.startswith("0x"):
+        digits = lowered[2:]
+        return not digits or all(character in "0123456789abcdef" for character in digits)
+    if len(lowered) > 1 and lowered.startswith("0"):
+        return all(character in "01234567" for character in lowered[1:])
+    return lowered.isascii() and lowered.isdigit()
+
+
 def _valid_hostname(hostname: str) -> bool:
-    """Accept DNS/IDNA names and IPv6 literals; reject malformed host labels."""
+    """Accept DNS/IDNA names and IP literals without ambiguous IPv4 forms."""
     if ":" in hostname:
         try:
             ipaddress.IPv6Address(hostname)
@@ -34,6 +45,17 @@ def _valid_hostname(hostname: str) -> bool:
         ascii_hostname = ascii_hostname[:-1]
     if not ascii_hostname or len(ascii_hostname) > 253:
         return False
+
+    # URL consumers can interpret shorthand, octal, hexadecimal, or invalid
+    # dotted-decimal numeric hosts differently. Accept only canonical IPv4
+    # literals when the final label has a URL-parser numeric form.
+    if _ends_in_ipv4_number(ascii_hostname.rsplit(".", 1)[-1]):
+        try:
+            ipaddress.IPv4Address(ascii_hostname)
+            return True
+        except ValueError:
+            return False
+
     labels = ascii_hostname.split(".")
     return all(
         label
