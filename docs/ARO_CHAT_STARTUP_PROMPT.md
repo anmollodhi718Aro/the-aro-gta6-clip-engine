@@ -233,3 +233,44 @@ For the current first-test upload priority:
 - PR #330 is a separate draft upload-snapshot branch with CI run #45427507267 QUEUED at this lookup. Do not infer its result.
 - PR #332 (this documentation audit) has no associated workflow run or combined status entries at this lookup; its own CI is PENDING / NOT VERIFIED.
 - PR #328 remains OPEN / DRAFT / UNMERGED. Independent review remains NOT RECORDED; local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## Live continuation — ARO-CHAT-0217 (2026-11-24)
+- Suggested chat title: `ARO-CHAT-0217 | PR #332 Exact-Head CI Audit`.
+- Workstream: ARO-GTA-P1-217; exact-head CI audit of PR #332.
+- Audit branch: `workstream/aro-chat-0217-pr332-exact-head-ci-audit-2026-11-24`, based on PR #332 head `b97b6272356f4ee07d6708ced8fbd37354864194`.
+- PR #332 exact-head run #45427815827 was IN_PROGRESS at the latest observation: hosted Windows job #138564696271 was checking out and Ubuntu job #138564697043 was queued. Exact-head CI remains PENDING / NOT VERIFIED until both jobs complete and their logs are inspected.
+- PR #332 reviews, inline threads and conversation comments returned zero entries; independent review NOT RECORDED. PR #332 remains OPEN / DRAFT / UNMERGED.
+- Continue by rechecking run #45427815827 and auditing the same SHA; do not transfer PR #328's CI evidence. Keep the workstream documentation-only unless a separate implementation task is explicitly authorized.
+- Issue #68 is OPEN and the repository owner is currently assigned. Assignment alone does not approve a canonical security branch or authorize live uploads. Keep live uploads/public publishing disabled.
+- No local tests, workflow retry/dispatch, OAuth, credentials/tokens, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+### ARO-CHAT-0217 latest CI progress
+- Rechecked PR #332 head `b97b6272356f4ee07d6708ced8fbd37354864194`; run #45427815827 remains IN_PROGRESS. Ubuntu is in unit tests; hosted Windows is installing FFmpeg/FFprobe. Compile succeeded on Ubuntu; Windows compile and both synthetic MP4/FFprobe steps remain pending. Do not report CI_VERIFIED until both jobs complete successfully and the final head is unchanged.
+
+
+### ARO-CHAT-0217 PR #332 / PR #336 current status
+- PR #332 head run #45427815827: Ubuntu compile/tests/synthetic MP4/FFprobe steps SUCCESS; exact test counts and logs not exposed. Hosted Windows compile succeeded; unittest is still IN_PROGRESS and synthetic render pending. Overall run still IN_PROGRESS; do not mark CI_VERIFIED yet.
+- Follow-up PR #336 is OPEN / DRAFT / UNMERGED at head `17ef5f78b9b1790f033958a427a1319861c39131`; exact-head workflow lookup and combined status currently return zero entries. Its CI is PENDING / NOT VERIFIED.
+
+
+### ARO-CHAT-0217 PR #332 CI closeout
+- PR #332 exact head `b97b6272356f4ee07d6708ced8fbd37354864194` completed associated run #45427815827 SUCCESS. Ubuntu job #138564697043 and hosted-Windows job #138564696271 both completed compile, full unittest and synthetic MP4/FFprobe steps successfully.
+- Numeric test counts/durations, checkout SHA and synthetic report payload are not exposed. Raw-head-only checkout NOT DEMONSTRATED. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- PR #332 remains OPEN / DRAFT / UNMERGED with no recorded independent review. PR #336 follow-up own CI is PENDING / NOT VERIFIED at its latest observed head; inspect the final head independently.
+
+
+### ARO-CHAT-0217 CI evidence refresh — 2026-11-24
+- PR #332 head `b97b6272356f4ee07d6708ced8fbd37354864194` completed its own run #45427815827 successfully on Ubuntu and hosted Windows for compile, full unittest, and synthetic MP4/FFprobe stages. Numeric counts and raw checkout SHA were not exposed.
+- Follow-up PR #336 head `3d537f9df3830728f63fda4ee6a8133166475dec` completed its own run #45428154454 successfully: Ubuntu 344 tests passed; hosted Windows 344 tests ran with 2 skipped. Both platforms passed compile and synthetic MP4/FFprobe.
+- Related PR #335 test-only head `2779aee7b752433b72753ea77419f8ce3d1ae806` completed run #45428127882 successfully: Ubuntu 342 tests passed; hosted Windows 342 tests ran with 2 skipped. Both platforms passed compile and synthetic MP4/FFprobe.
+- These are separate head-scoped CI results. Hosted Windows is not owner-device verification; synthetic media is not GTA 6 real-media acceptance. No independent review is recorded for PRs #335 or #336.
+- Preserve all draft/open/unmerged PRs. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, OAuth, credentials, real media, live upload, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0217 final-head reconciliation — 2026-11-24
+- PR #336 predecessor head `3d537f9df3830728f63fda4ee6a8133166475dec` passed run #45428154454 (Ubuntu 344 passed; hosted Windows 344 ran, 2 skipped). Three later commits changed only the audit report, startup prompt and registry; current PR #336 head `bd15caca886356fd2850dea653dee0f63699d90d` has no associated workflow run or combined status entry. Final docs head CI is PENDING / NOT VERIFIED.
+- PR #335 predecessor code/test head `2779aee7b752433b72753ea77419f8ce3d1ae806` passed run #45428127882 (Ubuntu 342 passed; hosted Windows 342 ran, 2 skipped). Three later commits changed only documentation; current observed PR #335 head `6d06bf9d4386506420d8e1028018016191fc1fde` has no exact-head run in the current lookup. Do not transfer the predecessor CI result to the later docs head.
+- ARO-CHAT-0218 / ARO-GTA-P1-218 is already reserved by PR #337 for a stream-close-error cleanup regression. Avoid duplicate implementation or registry reservation.
+- Preserve all draft PRs and the Issue #68 owner-approval boundary. No live upload/public publishing, merge, rebase, retarget, deployment or destructive action.

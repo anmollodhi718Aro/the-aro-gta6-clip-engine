@@ -1056,3 +1056,46 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #330 is a separate draft upload-snapshot branch with CI run #45427507267 QUEUED at this lookup. Do not infer its result.
 - PR #332 (this documentation audit) has no associated workflow run or combined status entries at this lookup; its own CI is PENDING / NOT VERIFIED.
 - PR #328 remains OPEN / DRAFT / UNMERGED. Independent review remains NOT RECORDED; local tests NOT RUN; owner-device Windows and real-media acceptance NOT VERIFIED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0217 — PR #332 exact-head CI audit (2026-11-24)
+- Chat title: ARO-CHAT-0217 | PR #332 Exact-Head CI Audit.
+- Workstream ID: ARO-GTA-P1-217; documentation-only exact-head CI audit of PR #332.
+- Branch: `workstream/aro-chat-0217-pr332-exact-head-ci-audit-2026-11-24`; base: PR #332 head `b97b6272356f4ee07d6708ced8fbd37354864194`.
+- PR #332's own head-associated Python CI run [#45427815827](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45427815827) was IN_PROGRESS at inspection. Hosted-Windows job #138564696271 was still checking out; Ubuntu job #138564697043 was QUEUED. Compile, tests, and synthetic MP4/FFprobe are NOT VERIFIED at this snapshot.
+- Combined legacy statuses, PR #332 reviews, inline review threads, and conversation comments returned zero entries. Independent review NOT RECORDED. PR #332 remains OPEN / DRAFT / UNMERGED.
+- Report: `docs/ARO_CHAT_0217_PR332_CI_AUDIT.md`. Do not transfer PR #328 run #45427291297 to PR #332 or this follow-up.
+- Issue #68 remains OPEN; current issue snapshot lists the repository owner as assignee. Assignment is not implementation/canonical-lineage approval. Keep live uploads/public publishing disabled.
+- Documentation-only; local tests NOT RUN. No workflow retry/dispatch, OAuth, credentials/tokens, real media, network upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0217 run progress refresh
+- Rechecked PR #332 head `b97b6272356f4ee07d6708ced8fbd37354864194`; run #45427815827 remains IN_PROGRESS. Ubuntu is running the unittest step after compile succeeded; hosted Windows is still installing FFmpeg/FFprobe. Synthetic render has not started on either platform. Exact-head CI remains PENDING / NOT VERIFIED.
+
+
+### ARO-CHAT-0217 latest recheck
+- PR #332 Ubuntu job #138564697043 completed compile, unit-test and synthetic MP4/FFprobe steps SUCCESS; counts/log payload not exposed. Hosted-Windows job #138564696271 remains in unit tests after compile succeeded; render pending. Run #45427815827 remains IN_PROGRESS, so PR #332 exact-head CI is not yet fully verified.
+- Follow-up PR #336 head `17ef5f78b9b1790f033958a427a1319861c39131` has no associated workflow run or combined status entries yet; its own CI is PENDING. PR #336 is DRAFT / OPEN / UNMERGED.
+
+
+### ARO-CHAT-0217 PR #332 CI closeout
+- PR #332 head `b97b6272356f4ee07d6708ced8fbd37354864194` completed its own run #45427815827 (run 1374) with SUCCESS. Ubuntu job #138564697043 and hosted-Windows job #138564696271 both passed compile, complete unittest-suite, and synthetic MP4/FFprobe steps.
+- Numeric test counts/durations, checkout SHA and synthetic report payload were not exposed; raw-head-only checkout NOT DEMONSTRATED. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- PR #332 reviews, inline threads and conversation comments were empty; independent review NOT RECORDED. PR #332 remains OPEN / DRAFT / UNMERGED.
+- PR #336 is the follow-up audit PR. At the last pre-closeout lookup, its head `0048f822ccacb1e5ae17402136166c5b934b38ac` had no associated run/status entries; its own CI PENDING / NOT VERIFIED.
+
+
+### ARO-CHAT-0217 evidence refresh — 2026-11-24
+- PR #332 exact-head run #45427815827 completed SUCCESS on its own audited head `b97b6272356f4ee07d6708ced8fbd37354864194`; Ubuntu and hosted Windows passed compile, full unittest, and synthetic MP4/FFprobe stages. Counts and checkout SHA were not exposed.
+- Documentation follow-up PR #336 head `3d537f9df3830728f63fda4ee6a8133166475dec` completed run #45428154454 SUCCESS: Ubuntu 344 tests passed; hosted Windows 344 tests ran, 2 skipped; both passed compile and synthetic MP4/FFprobe.
+- Test-only follow-up PR #335 head `2779aee7b752433b72753ea77419f8ce3d1ae806` completed run #45428127882 SUCCESS: Ubuntu 342 tests passed; hosted Windows 342 tests ran, 2 skipped; both passed compile and synthetic MP4/FFprobe.
+- PR #335 and #336 review submissions/inline threads returned zero; independent review NOT RECORDED. All three PRs remain draft/open/unmerged at the observed snapshots.
+- Keep each CI result scoped to its exact commit. Synthetic fixtures and mocked upload interactions do not establish real-media acceptance or a live upload. Hosted Windows is not owner-device verification.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No canonical security-lineage selection or live publishing authorization is inferred. No merge, rebase, retarget, deployment, upload, publishing, workflow retry/dispatch, OAuth, or credential access.
+
+
+### ARO-CHAT-0217 final-head reconciliation — 2026-11-24
+- PR #336 predecessor `3d537f9df3830728f63fda4ee6a8133166475dec` passed run #45428154454 (Ubuntu 344 passed; hosted Windows 344 ran, 2 skipped). Three subsequent commits changed only audit/startup/registry documentation. Current head `bd15caca886356fd2850dea653dee0f63699d90d` has no associated run or combined status; final-head CI PENDING / NOT VERIFIED.
+- PR #335 predecessor code/test head `2779aee7b752433b72753ea77419f8ce3d1ae806` passed run #45428127882 (Ubuntu 342 passed; hosted Windows 342 ran, 2 skipped). Three subsequent commits changed only documentation; current head `6d06bf9d4386506420d8e1028018016191fc1fde` has no exact-head run in the current lookup. Earlier CI remains scoped to the predecessor code/test SHA.
+- ARO-CHAT-0218 / ARO-GTA-P1-218 is already reserved by PR #337 for a test-only cleanup regression when media-handle close raises. Do not duplicate or overwrite that active workstream.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. All PRs remain draft/open/unmerged; no merge, rebase, retarget, upload, publishing, or deployment.
