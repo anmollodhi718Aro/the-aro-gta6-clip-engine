@@ -973,3 +973,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Report: `docs/ARO_CHAT_0207_CASEFOLD_PROFILE_COLLISION_FIX.md`.
 - Local tests NOT RUN in this connector session; exact-head Ubuntu/Windows CI PENDING. Do not transfer PR #311's earlier CI result to this follow-up head.
 - PR #311 remains draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, merge, rebase, retarget, deployment, or destructive action.
+
+
+## ARO-CHAT-0208 | PR #314 exact-head CI closeout — 2026-11-24
+- Documentation-only audit branch `workstream/aro-chat-0208-pr314-ci-closeout-2026-11-24`, based on PR #314 head `13b7a41c68e2a52757854fc6c7cd692535c6cd67`.
+- PR #314 run #45421632805 completed SUCCESS: Ubuntu and hosted Windows each passed compileall, the same 338 tests, and synthetic MP4/FFprobe validation. The case-collision regression test passed on both platforms.
+- Both jobs checked out PR #314 merge ref `a9f9253bf15d431761179586d886a3b0365abb79`; raw-head-only checkout NOT DEMONSTRATED. These are 338 tests on each platform, not 676 unique tests.
+- Synthetic media only; no GTA 6/third-party media, upload, or publishing. Independent review NOT RECORDED; owner-device Windows and real-media acceptance NOT VERIFIED.
+- Report: `docs/ARO_CHAT_0208_PR314_CI_CLOSEOUT.md`. PR #314 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
