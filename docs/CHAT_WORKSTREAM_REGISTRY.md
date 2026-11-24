@@ -939,3 +939,16 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 
 
 - Follow-up: check `lstat()` regular-file status before opening, preventing a FIFO/device path from blocking or being read as approval evidence. Commit: `e389430313ecb94149ad042b8541d5a4b57eef5c`.
+
+
+## ARO-CHAT-0200 | Approval-record open-race hardening (2026-11-24)
+
+- Workstream: `ARO-GTA-P1-200`.
+- Branch: `workstream/aro-chat-0200-approval-record-open-race-hardening-2026-11-24`; PR #305; base PR #299 branch.
+- Starting SHA: `97250fbb3bf1fd8d9e5e03dfc6ac6a9267b643b5`.
+- Code commit: `3e58512dc869e43736ba0ce7cb7fda36181e73cd`.
+- Test commit: `b4eb7f2462579700a8e3d64698b27dcad743925d`.
+- Scope: bind approval-record reads to the file identity observed by `lstat()`, use non-blocking open where supported, and reject path replacement between pre-open check and `fstat()`.
+- Regression coverage: replacement race, directory path, and FIFO path (platform-conditional).
+- Local tests: NOT RUN. Exact-head Ubuntu/Windows CI: PENDING.
+- Draft/open/unmerged. No OAuth, credentials, real media, upload, publishing, merge, deployment, rebase, retarget, or destructive action. Issue #68 remains open; all live-upload/public-publishing gates remain disabled.
