@@ -109,3 +109,9 @@ For the current first-test upload priority:
 - Both jobs used merge SHA `4a22ec0cdf15cbc78b17543c21e3b0f75a8f16b3` with base PR #295 head `cf731cabda8a045d39457f0eef800dbdb051e75e`; raw-head-only checkout NOT DEMONSTRATED.
 - Synthetic-only: no GTA 6 footage or third-party media; publishing disabled; manual review required. PR #299 remains draft/open/unmerged; independent security review NOT RECORDED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live uploads/public publishing remain disabled. OAuth/channel verification, source-rights evidence, per-clip approval, owner-device verification and real private-upload acceptance remain NOT VERIFIED.
+
+
+## Destination profile storage boundary — 2026-11-24
+- Destination profile config must resolve to a file directly inside the repository's `.secrets/` directory. The loader rejects configs whose resolved parent is elsewhere, including symlink targets outside `.secrets/`.
+- Profile-specific OAuth tokens remain under `.secrets/tokens/<profile>.json`. Never commit profile config or token files.
+- Regression test rejects an otherwise valid profile file outside `.secrets/`; CI for this new head is pending.
