@@ -333,3 +333,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Production commit: 0a0d22e57b3016b0e3bbacec29c71999086045eb. Test commit: 036ada61be8b5e2c03cbfd24e18ff4eeef96a996.
 - Local tests NOT RUN in this connector session. Verify fresh exact-head Ubuntu and hosted-Windows CI; independent security review remains NOT RECORDED.
 - Draft only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment or destructive action.
+
+
+## Current continuation — ARO-CHAT-0226 immutable source-rights grants (2026-11-24)
+- Branch: `workstream/aro-chat-0226-rights-grant-no-overwrite-2026-11-24`; based on PR #354's stable-rights-report-read branch.
+- The active PR #354 lineage still had an UPSERT that could replace an existing source grant, broaden scope, and clear revocation. A similar fix on another branch was not part of this branch's ancestry.
+- Changed registration to INSERT-only and fail closed on duplicate source IDs. Added tests proving no active-grant broadening and no revoked-grant reactivation.
+- Production commit: `a9716c4e5d39b79103dfed2ee000cd817db71b0b`; test commit: `8cc3155cf39c75b5a9e28b1f9a17a44a13264530`.
+- Local tests NOT RUN; exact-head CI pending; independent security review not recorded. See `docs/ARO_CHAT_0226_IMMUTABLE_RIGHTS_GRANTS.md`.
+- Draft-only continuation. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget or deployment.
