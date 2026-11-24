@@ -47,3 +47,10 @@ Draft only. No OAuth, credentials/tokens, real media, upload, publishing, workfl
 - Production commit: 0a0d22e57b3016b0e3bbacec29c71999086045eb. Test commit: 036ada61be8b5e2c03cbfd24e18ff4eeef96a996.
 - Local tests NOT RUN in this connector session. Verify fresh exact-head Ubuntu and hosted-Windows CI; independent security review remains NOT RECORDED.
 - Draft only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment or destructive action.
+
+
+## Additional regression — truncated descriptor read
+- Added a test that simulates a short read while descriptor metadata remains unchanged.
+- The test verifies the independent byte-count guard rejects the incomplete payload before UTF-8 decoding or JSON parsing.
+- Test commit: `8143da93904b5ed8d6ba8a18a8fb02ebdf471bbb`.
+- Local tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI must be checked for the new branch head. No test result is inferred.
