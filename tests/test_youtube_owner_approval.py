@@ -290,7 +290,11 @@ class OwnerApprovalTests(unittest.TestCase):
         def replace_with_symlink_then_open(path, flags, *args, **kwargs):
             if Path(path) == self.record:
                 os.replace(self.record, target)
-                self.record.symlink_to(target)
+                try:
+                    self.record.symlink_to(target)
+                except (OSError, NotImplementedError):
+                    os.replace(target, self.record)
+                    self.skipTest("symlink creation is unavailable on this platform")
                 # Simulate a platform where O_NOFOLLOW is unavailable.
                 flags &= ~getattr(os, "O_NOFOLLOW", 0)
             return original_open(path, flags, *args, **kwargs)
