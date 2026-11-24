@@ -1550,3 +1550,17 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #249's own commit-associated workflow lookup returned zero runs and combined status returned zero entries; its CI is PENDING / NOT VERIFIED. Local tests NOT RUN.
 - GitHub currently reports PR #249 mergeable=true; it remains draft-only. No merge requested.
 - Do not transfer PR #248's empty CI observation or any other PR's CI to PR #249. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled.
+
+
+### ARO-CHAT-0169 PR #249 exact-head CI closeout — 2026-11-24
+
+- Audited PR #249 head `75854f6cbead27c42d723a72f883eb7f804665f9`; associated run [#45314464029](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45314464029), run 1135, completed FAILURE.
+- Ubuntu job #138177936952 and hosted-Windows job #138177937472 both passed setup, checkout, Python setup, FFmpeg/FFprobe installation, and compilation; each failed in its unit-test step. Synthetic MP4/FFprobe was skipped on both.
+- Both platforms ran the same 340 tests; exactly one failed on each: `test_cli_passes_exact_clip_and_source_to_upload_boundary` at `tests/test_youtube_upload.py:655`. The test's `--upload` argument list omitted the newly required `--max-upload-bytes`, so the CLI correctly returned 2 with the explicit device-selected limit error. Fix the fixture with a positive test-only limit; do not weaken the production guard.
+- Other explicit-limit and immutable-staging uploader tests in the same suite passed. No render validation is claimed.
+- Combined status returned zero entries (state pending); PR #249 reviews, inline threads, and conversation comments were empty; independent review NOT RECORDED. PR #249 remains OPEN / DRAFT / UNMERGED; mergeable=true at inspection.
+- The CI jobs checked out the PR merge ref; raw-head-only checkout NOT DEMONSTRATED. No workflow retry was initiated. Local tests NOT RUN in this connector session.
+- Concurrent-work check: two ARO-CHAT-0170 branches already exist, one for the PR #249 CLI fixture fix and one for PR #249 exact-head CI audit. Both serial/branch reservations are occupied; do not create or overwrite either. Reconcile the duplicate serial before assigning another workstream.
+- Report: `docs/ARO_CHAT_0169_PR248_CI_AUDIT.md`, updated in commit `cd2dd7428d6589558e3d59008dec8bf575712491`.
+- Documentation-only; no application/test source, workflow configuration, OAuth, credentials, real media, upload, publishing, retry, merge, rebase, retarget, deployment, or destructive action.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending independent security review, owner-controlled integration, owner-device verification, owner-selected device-appropriate upload limit, and separately authorized real-media acceptance.
