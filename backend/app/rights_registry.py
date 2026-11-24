@@ -16,9 +16,12 @@ ALLOWED_USES = frozenset({"analyze", "edit", "publish"})
 
 
 def _time(value: str | datetime) -> datetime:
-    parsed = value if isinstance(value, datetime) else datetime.fromisoformat(
-        value.replace("Z", "+00:00")
-    )
+    if isinstance(value, datetime):
+        parsed = value
+    elif isinstance(value, str):
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    else:
+        raise ValueError("timestamp must be a datetime or ISO-8601 string")
     if parsed.tzinfo is None or parsed.utcoffset() is None:
         raise ValueError("timestamps must include a timezone")
     return parsed
