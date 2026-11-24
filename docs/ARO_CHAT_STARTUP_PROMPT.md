@@ -821,3 +821,11 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Issue #68 is OPEN and assigned to the repository owner, but its implementation remains explicitly WAITING_FOR_OWNER_APPROVAL. Assignment is not implementation approval. Do not begin uploader/OAuth integration or enable publishing without the required explicit implementation approval and canonical security lineage selection.
 - Next action: wait for a naturally associated run on this exact PR #229 head, then inspect the run's merge checkout SHA, Ubuntu and hosted-Windows jobs/logs, compile/tests, synthetic MP4/FFprobe results, and review state. Re-fetch PR metadata first if the head changes.
 - This continuation is an evidence-only documentation refresh. No application code, credentials, OAuth, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
+
+
+### Current continuation handoff — ARO-CHAT-0153 / 2026-11-24
+- Current bounded workstream: ARO-GTA-P1-153; branch `workstream/aro-chat-0153-pr226-exact-head-ci-audit-2026-11-24`; draft PR #229.
+- PR #226 exact merge-ref CI is verified by run #45270941723: Ubuntu and hosted-Windows each passed compilation, 338 tests, and synthetic MP4/FFprobe validation on merge SHA `025c577ecd3f0663cb96c225affe9a971f587da9`. Hosted CI is not owner-device Windows verification; synthetic media is not authorized GTA 6 media.
+- Run #45270942827 used PR #228's merge ref and must not be attributed to PR #226.
+- PR #229 current head `58255a61fdf20eba115bead51d8fada72b74d1bd` has zero associated workflow runs. Wait for its own natural PR-triggered run and inspect both jobs/logs and checkout refs; do not manually dispatch or retry.
+- Issue #68 remains WAITING_FOR_OWNER_APPROVAL. Do not implement OAuth/uploader integration, process unapproved media, upload, publish, merge, retarget, or deploy without the required explicit approval.
