@@ -1221,3 +1221,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - CI evidence for PR #362 remains run [#45465232908](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45465232908), SUCCESS on merge ref `6ca5d4d4572fc566ef0a7281a1e79c06a90d4297` containing head `5709bf02a1ba57b1021520bb4678243fb94abb11`: Ubuntu 365 passed; hosted Windows 365 executed, 361 passed and 4 skipped; both passed synthetic MP4/FFprobe. Same suite, not 730 unique tests; raw-head-only checkout NOT DEMONSTRATED.
 - PR #363 exact-head workflow lookup for `332be0ef6063392388a98608c179a046f4d381be` returned zero associated runs and zero combined status checks. Do not transfer PR #362 CI to PR #363.
 - PR #362 and #363 remain DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
+
+
+
+## ARO-CHAT-0233 — rights-registry API input validation (2026-11-25)
+- Workstream: ARO-GTA-P1-233; branch `workstream/aro-chat-0233-rights-registry-input-validation-2026-11-25`; starting SHA `26b596483197151453121f953061ce6439b78751` (PR #364 head).
+- Hardened `SourceRightsRegistry` public methods against malformed caller values: `register` rejects non-object records; `authorize` validates source/use/platform as non-empty strings before normalization; `revoke` validates source/actor; `audit_events` validates source ID. Invalid values now fail with deliberate `ValueError`, not incidental `AttributeError`.
+- Added regression tests for None, scalar, non-string, and whitespace-only inputs.
+- Production commit `6f401febec441d6ca8511a14fbe2f51c1fa6a0d2`; test commit `73a5a7495b82bb45417b3f10af562f7fea839370`.
+- Local tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI PENDING until observed. Independent security review NOT RECORDED.
+- PR is draft-only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
