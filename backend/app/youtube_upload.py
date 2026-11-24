@@ -308,6 +308,10 @@ def _authorize_google(client_secrets: Path, token_path: Path):
         try:
             token_info = _read_oauth_token_info(token_path)
             credentials = Credentials.from_authorized_user_info(token_info, IDENTITY_SCOPES)
+        except PermissionError:
+            # Path-integrity failures must never fall through to an interactive
+            # OAuth login or be mistaken for an expired/corrupt credential.
+            raise
         except (OSError, ValueError):
             credentials = None
 
