@@ -1635,3 +1635,32 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - PR #253 reviews, inline threads, and conversation comments returned empty arrays; independent review NOT RECORDED. GitHub reported PR #253 OPEN / DRAFT / UNMERGED and mergeable=false at inspection.
 - Report: `docs/ARO_CHAT_0173_PR253_CI_AUDIT.md`. Re-fetch the exact current head and inspect its own run/jobs/logs before any verification claim. Do not transfer PR #252 or predecessor CI evidence.
 - Documentation-only; no workflow retry, application behavior changes, OAuth, credentials/tokens, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Keep Issue #68 open and live/public uploads disabled pending all security and owner-acceptance gates.
+
+
+## Latest continuation baseline — ARO-CHAT-0174 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0174 | PR #254 Exact-Head CI Audit`.
+- Workstream: ARO-GTA-P1-174; branch: `workstream/aro-chat-0174-pr254-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #254 head `5069449aa775b2b8378c3e3ca36c6ec87b479f66`.
+- Task: documentation-only independent audit of PR #254's own exact-head Actions run, both platform jobs/logs, checkout refs, compilation/tests, synthetic MP4/FFprobe, combined status, reviews, inline threads, and conversation comments.
+- PR #254 is OPEN / DRAFT / UNMERGED. Its own Python CI run #45315956237 (run 1150) was IN_PROGRESS at initial inspection; both Ubuntu and hosted-Windows jobs had completed checkout/Python setup and were installing FFmpeg/FFprobe. Compile, tests, and synthetic render were pending.
+- Combined status returned zero entries; reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. Re-fetch the exact PR head and both jobs/logs before closeout; never transfer another PR/SHA's CI.
+- Report: `docs/ARO_CHAT_0174_PR254_CI_AUDIT.md`. This audit branch's own exact-head CI must be inspected separately.
+- Documentation-only; keep Issue #68 open and live/public uploads disabled. No workflow retry, OAuth, credentials/tokens, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0174 exact-head CI closeout — 2026-11-24
+- PR #254 head `5069449aa775b2b8378c3e3ca36c6ec87b479f66` passed its own Python CI run #45315956237 (run 1150).
+- Ubuntu job #138182726018 and hosted-Windows job #138182725577 both passed setup, checkout, Python setup, FFmpeg/FFprobe installation, compilation, unit-test step, and synthetic MP4/FFprobe step.
+- Connector step summaries did not expose test counts or checkout commit refs. Numeric count and merge-ref versus raw-head checkout are NOT VERIFIED; do not claim raw-head-only CI.
+- Synthetic-only validation; not GTA 6/third-party footage, real-media acceptance, or owner-device Windows verification.
+- PR #254 remains OPEN / DRAFT / UNMERGED; reviews, inline threads, and conversation comments empty; independent review NOT RECORDED.
+- Audit PR [#255](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/255) is OPEN / DRAFT / UNMERGED on `workstream/aro-chat-0174-pr254-exact-head-ci-audit-2026-11-24`, based on PR #254 head. Its own CI is PENDING / NOT VERIFIED at last inspection; do not transfer PR #254's run.
+- Report: `docs/ARO_CHAT_0174_PR254_CI_AUDIT.md`.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live/public uploads disabled. Documentation-only; no workflow retry, OAuth, credentials/tokens, real media, upload, publishing, merge, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0174 audit-branch status refresh — 2026-11-24
+- PR #255 latest inspected head: `f9698ee9bd5a144cd8f95874919fbc9f7fe18418`; OPEN / DRAFT / UNMERGED, GitHub reports mergeable=true.
+- Its exact-head workflow lookup returned zero runs; combined status returned zero entries; reviews, inline threads, and conversation comments were empty. Its own CI remains PENDING / NOT VERIFIED.
+- The checked-in workflow declares pull_request events without a base-branch filter, but no run is associated with the latest head at this inspection. No retry was initiated.
+- Next pending action: re-check PR #255's exact-head Actions run/status and inspect both platform jobs/logs if a run appears. Do not transfer PR #254's successful run.
