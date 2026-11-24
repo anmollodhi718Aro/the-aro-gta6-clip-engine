@@ -136,3 +136,8 @@ For the current first-test upload priority:
 - Duplicate `source_id` registration is rejected. Existing grant metadata and revocation cannot be overwritten/reset; a renewed grant must use a new versioned source ID.
 - Audit events retain grantor and evidence reference. Tests cover duplicate active registration, attempted duplicate after revocation, and a new versioned grant.
 - Commits: `e2cb08feaf5273c2595cf78045b2a47acb26d7f8`, `7b1b120a17fb4ad1dc2228d4571228af9d04d320`. CI pending.
+
+
+## PR #299 source-rights integration status
+- The append-only `SourceRightsRegistry.register()` behavior and regression tests are now implemented directly on PR #299, so this branch no longer depends on PR #168 ancestry for that behavior.
+- Earlier ancestry warning remains relevant to the separate #68 stack until that stack is independently reconciled. PR #299 still needs latest-head CI and independent review; no merge or upload authorization is implied.
