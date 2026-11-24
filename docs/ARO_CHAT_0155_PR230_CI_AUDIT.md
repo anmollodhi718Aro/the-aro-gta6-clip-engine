@@ -52,3 +52,16 @@ Audit PR #230's exact head for its own commit-associated Actions run, combined c
 
 ## Follow-up
 Re-fetch PR #230 metadata and its exact current head before any later closeout. If the head changes, audit the new SHA separately. Do not transfer predecessor or alternate-base CI evidence. Preserve the owner-approval gate for Issue #68.
+
+
+
+## Independent live recheck — 2026-11-24
+- Re-fetched the exact audited source SHA `17451dd789aa2c7e1f18893d9f7f2e6b0d8dc9e1` through commit-associated pull-request workflow lookup: one associated Python CI run, #45273696018 (run 1085), conclusion SUCCESS.
+- Re-fetched the run's jobs: Ubuntu job #138039836831 and hosted-Windows job #138039836150 both completed SUCCESS. Every substantive step reported success, including FFmpeg/FFprobe installation, compilation, complete unittest suite, and synthetic MP4 render/verification.
+- Independently fetched both job logs. Both checked out `refs/remotes/pull/230/merge` at merge SHA `363c6f07fda6939d7608edd5ea89422e04869cd0`, with the log identifying merge of PR #230 head `17451dd789aa2c7e1f18893d9f7f2e6b0d8dc9e1` into base `1f703e856d59ca5b41b19e8f8aad65a6d0539547`.
+- Ubuntu log confirms compileall and 338 tests in 3.588s; hosted-Windows log confirms compileall and the same 338 tests in 15.714s. Both logs show successful synthetic MP4/FFprobe validation. This is 338 shared test cases on two platforms, not 676 unique tests.
+- Both logs identify locally generated synthetic pattern/tone, `gta6_footage_used=false`, `publishing_enabled=false`, `manual_review_required=true`, and mocked `upload_performed=false`. No real media or live upload is evidenced.
+- Rechecked combined commit status: zero status entries. This is distinct from, and does not negate, the successful associated workflow run.
+- Rechecked PR #230 review submissions, inline review threads, and conversation comments: all empty. Independent review NOT RECORDED.
+- **Disposition unchanged:** CI_VERIFIED on the PR #230 GitHub merge ref only; raw-head-only checkout NOT DEMONSTRATED; independent review NOT RECORDED; owner-device Windows and authorized real-media acceptance NOT VERIFIED. Local tests NOT RUN in this connector session.
+- No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed. Keep PR #231 draft-only and Issue #68's live-publishing security gate in force.
