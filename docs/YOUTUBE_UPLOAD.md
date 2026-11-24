@@ -146,3 +146,14 @@ Immediately before `videos.insert`, the uploader re-verifies the Google OIDC sub
 ## Post-upload PRIVATE response verification
 
 The upload CLI reports success only when the official `videos.insert(part="snippet,status")` response contains a video ID and `status.privacyStatus == "private"`. If the response omits the status or reports any other visibility, the command exits as unverified and instructs the operator to inspect YouTube Studio. A request body asking for PRIVATE is not, by itself, evidence that YouTube accepted that visibility. Unit tests cover both confirmed-private and unexpected-visibility responses; tests do not upload to YouTube.
+
+
+## Explicit upload byte limit and low-memory staging
+
+- A live upload must include a positive device-selected `--max-upload-bytes` value. The CLI fails before OAuth if this value is missing.
+- Dry-run and approval-only commands use a default validation ceiling of 256 MiB; this is not an automatic live-upload limit and must not be treated as the device owner's selection.
+- Before OAuth, the uploader copies the exact source bytes to a private temporary snapshot in 1 MiB chunks, enforcing the limit during the copy and computing SHA-256 at the same time.
+- The approval record is checked against the snapshot digest. A changed source file cannot silently substitute different bytes after approval.
+- The YouTube resumable upload reads from the disk-backed snapshot with 1 MiB API chunks. The entire video is not loaded into RAM.
+- The temporary snapshot remains available until the API request finishes and is removed on success or failure.
+- The YouTube response must still include a video ID and explicitly confirm `privacyStatus=private` before the CLI reports success.
