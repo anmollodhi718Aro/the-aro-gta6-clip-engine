@@ -304,8 +304,6 @@ class OwnerApprovalTests(unittest.TestCase):
         self.assertTrue(target.is_file())
 
     def test_regular_file_replacement_after_open_is_rejected(self):
-        import backend.app.youtube_owner_approval as approval_module
-
         moved_original = self.root / "opened-original-approval.json"
         replacement = self.root / "replacement-after-open.json"
         replacement.write_text(self.record.read_text(encoding="utf-8"), encoding="utf-8")
