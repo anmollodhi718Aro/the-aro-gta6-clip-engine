@@ -253,3 +253,9 @@ For the current first-test upload priority:
 ### ARO-CHAT-0217 PR #332 / PR #336 current status
 - PR #332 head run #45427815827: Ubuntu compile/tests/synthetic MP4/FFprobe steps SUCCESS; exact test counts and logs not exposed. Hosted Windows compile succeeded; unittest is still IN_PROGRESS and synthetic render pending. Overall run still IN_PROGRESS; do not mark CI_VERIFIED yet.
 - Follow-up PR #336 is OPEN / DRAFT / UNMERGED at head `17ef5f78b9b1790f033958a427a1319861c39131`; exact-head workflow lookup and combined status currently return zero entries. Its CI is PENDING / NOT VERIFIED.
+
+
+### ARO-CHAT-0217 PR #332 CI closeout
+- PR #332 exact head `b97b6272356f4ee07d6708ced8fbd37354864194` completed associated run #45427815827 SUCCESS. Ubuntu job #138564697043 and hosted-Windows job #138564696271 both completed compile, full unittest and synthetic MP4/FFprobe steps successfully.
+- Numeric test counts/durations, checkout SHA and synthetic report payload are not exposed. Raw-head-only checkout NOT DEMONSTRATED. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- PR #332 remains OPEN / DRAFT / UNMERGED with no recorded independent review. PR #336 follow-up own CI is PENDING / NOT VERIFIED at its latest observed head; inspect the final head independently.
