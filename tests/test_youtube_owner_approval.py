@@ -1,5 +1,6 @@
 """Mocked security tests for OAuth-bound, durable YouTube owner approvals."""
 import json
+import os
 import sys
 import tempfile
 import types
@@ -292,6 +293,14 @@ class OwnerApprovalTests(unittest.TestCase):
     def test_future_review_timestamp_is_rejected(self):
         with self.assertRaisesRegex(PermissionError, "invalid review time"):
             self.gate(at=NOW - timedelta(minutes=1))
+
+    def test_fifo_approval_path_is_rejected_without_blocking(self):
+        if not hasattr(os, "mkfifo"):
+            self.skipTest("FIFO creation is unavailable on this platform")
+        fifo_path = self.root / "approval.fifo"
+        os.mkfifo(fifo_path)
+        with self.assertRaisesRegex(PermissionError, "must be a regular file"):
+            self.gate(approval_path=fifo_path)
 
     def test_missing_or_malformed_record_fails_closed(self):
         with self.assertRaisesRegex(PermissionError, "missing or unreadable"):
