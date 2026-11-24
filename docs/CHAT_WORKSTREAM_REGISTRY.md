@@ -1415,3 +1415,15 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Local repository tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT YET CHECKED for this code/test head. Independent security review NOT RECORDED.
 - This is a fail-closed source-rights URL validation change only; no DNS resolution, destination-IP policy, uploader, OAuth, media, workflow configuration, or publishing behavior changed.
 - Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Do not retry/dispatch workflows without owner direction; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0238 — PR #376 exact-head CI audit (2026-11-25)
+
+- Audited exact PR head `af2b5375b33f75630fe896f00f7e2d677b30a9dd`; associated Python CI run #45507885744 completed FAILURE.
+- Ubuntu job `138847271417` and hosted-Windows job `138847271783` both exposed zero steps; both log downloads returned `BlobNotFound`.
+- Failure phase/root cause NOT VERIFIED. No compile or test result is claimed; do not attribute the failure to application code or tests.
+- PR #376 review submissions and inline review threads were empty; independent review NOT RECORDED. Local tests NOT RUN.
+- Bounded static inspection found numeric-like final-host-label rejection, scoped-IPv6-zone rejection, and the listed regression cases. Static inspection is not execution evidence or a complete security audit.
+- Report: `docs/ARO_CHAT_0238_PR376_EXACT_HEAD_CI_AUDIT.md`.
+- PR #376 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- Documentation-only. No workflow retry/dispatch, source/test behavior change, OAuth, credentials, media, upload, publishing, merge, rebase, retarget, or deployment.
