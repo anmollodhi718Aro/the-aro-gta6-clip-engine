@@ -362,5 +362,5 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Production commit `b8f17e4f7278d4996b931a980a54207b14170f29` narrows duplicate-grant translation to SQLite primary-key/unique constraint codes; unrelated integrity errors now propagate unchanged.
 - Test commit `b459ad87a0908fd3dc98479b663f7c2695ed12a7` adds a trigger-based regression and verifies no audit row is written on that failure.
 - Exact-head workflow lookup for the test commit returned zero runs; Ubuntu/hosted-Windows CI remains PENDING / NOT VERIFIED. Local tests NOT RUN; independent security review NOT RECORDED.
-- Current PR #355 ancestry against PR #354 head `cac64637a9cdc64eded472ab4d9c6ed0323d4b19` is DIVERGED (15 ahead / 7 behind; merge base `1d9d478fcfd03e36f6389acca682b3ede57c17fd`). Preserve draft ancestry; no rebase, retarget, or merge.
+- Current PR #355 ancestry against PR #355's recorded base SHA `600cb7773c8ec9c6cf6288cbe15402444aa2cf46` is DIVERGED (18 ahead / 2 behind; merge base `1d9d478fcfd03e36f6389acca682b3ede57c17fd`). Preserve draft ancestry; no rebase, retarget, or merge.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, deployment, or publishing.
