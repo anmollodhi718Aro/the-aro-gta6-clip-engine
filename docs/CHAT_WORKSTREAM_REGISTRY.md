@@ -923,3 +923,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Each valid source-bound asset is independently authorized for `publish` on YouTube, in addition to the primary clip source.
 - Regression tests cover multi-source authorization and malformed report structures. Commits: `fe9af3139d301773102b6c44d0e8a92bd5f08a8f`, `cc4eb2421c4779e7a76391e401d238652a34c75e`.
 - Fresh CI is required for this code and tests; the previous head passed Ubuntu and Windows, but that result does not cover these commits.
+
+
+### Owner-approval evidence path hardening (24 Nov 2026)
+- Independent review found that approval-record reads followed symlinks. The gate now rejects symlinked and non-regular approval paths and opens regular files with `O_NOFOLLOW` where the platform supports it.
+- Added a regression test proving a symlinked approval path is rejected while the external target remains unchanged. Symlink test skips only when the platform cannot create symlinks.
+- Commits: `47b5fbeb9dc405d0c8643de7630b51631f1c4a29`, `a8c3b46a735ed8053d7f913beb6ace3194eaa29b`, `ec12e3ecbae4f34f6a9bd3543d16a58d83fb274b`.
+- Fresh CI is required; earlier successful run `45396612256` predates these changes.
