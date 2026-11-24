@@ -1196,3 +1196,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Base / starting SHA: `4ceba80e02f28c52946d3d143cbb7fa4e31d611e` (PR #355 current recorded head).
 - Status: IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, network upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action. Keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0229 | atomic rights-revocation audit rollback (2026-11-25)
+- Workstream: ARO-GTA-P1-229; branch `workstream/aro-chat-0229-atomic-revocation-audit-rollback-2026-11-25`, stacked on PR #359 branch `workstream/aro-chat-0228-atomic-rights-revocation-2026-11-25`.
+- Test-only regression: a SQLite trigger rejects the revocation audit insert; the test asserts the transaction rolls back the preceding rights update, the grant remains authorizable, and no revocation audit event appears.
+- Production rights-registry, uploader, OAuth, and workflow behavior unchanged.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent security review NOT RECORDED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
