@@ -815,3 +815,25 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 | Evidence | PR #280 run #45385315409 failed both Ubuntu and hosted Windows in test_upload_rejects_unlisted_visibility_before_oauth_or_api: optional googleapiclient import occurred before PRIVATE-only guard. This change moves the guard ahead of optional imports. |
 
 No OAuth, credentials, network upload, merge, deployment, or public publishing was performed. Issue #68 remains open; this fix does not satisfy the authenticated owner/channel approval gate by itself.
+
+
+## ARO-CHAT-0193 | PR #289 exact-head CI audit — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0193 |
+| Exact chat title | ARO-CHAT-0193 | PR #289 Exact-Head CI Audit |
+| Workstream ID | ARO-GTA-P1-193 |
+| Scope | Independently audit PR #289's own commit-associated Actions run, both hosted jobs/logs, checkout refs, test results, synthetic MP4/FFprobe result, combined status and review state. Documentation-only; do not alter the implementation under audit. |
+| Audited PR / head | [PR #289](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/289) / `4e01f16e97b2239c74a2f96c4262b04b57a4ae73` |
+| Audit branch | `workstream/aro-chat-0193-pr289-exact-head-ci-audit-2026-11-24` |
+| Starting SHA | `4e01f16e97b2239c74a2f96c4262b04b57a4ae73` (PR #289 head) |
+| Audit report | `docs/ARO_CHAT_0193_PR289_CI_AUDIT.md` |
+| Status | CI_VERIFIED on audited PR #289 head for hosted Ubuntu and Windows; independent review NOT RECORDED; owner-device Windows and authorized real-media acceptance NOT VERIFIED |
+| Evidence | Run `45386732186` (run 1221) succeeded. Ubuntu job `138419476509` and Windows job `138419476953` each compiled, ran the same 323-test suite successfully, and passed synthetic MP4/FFprobe validation. Both checked out PR #289 merge ref at `c1980d7c5aea879e86a17b1b8b51a7de101bfc28`, not raw-head-only. |
+
+### Findings and boundaries
+- Synthetic logs explicitly report `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Combined status returned zero entries; this is not a separate green status context. PR #289 review/comment timeline was empty; independent review NOT RECORDED.
+- PR #289 remains OPEN / DRAFT / UNMERGED. This audit did not merge, retarget, rebase, deploy, retry workflows, use OAuth/credentials, access real media, upload, or publish.
+- Issue #68 remains OPEN. The PRIVATE-only gate-order fix does not complete canonical authenticated channel-owner approval integration or owner acceptance. Keep live uploads and public publishing disabled pending explicit owner approval and independent security review.
