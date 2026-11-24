@@ -636,3 +636,12 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - Combined status returned zero entries; PR #283 reviews, inline threads, and conversation comments were empty. Independent review NOT RECORDED. PR #283 remains OPEN / DRAFT / UNMERGED.
 - Report: `docs/ARO_CHAT_0191_PR283_CI_AUDIT.md`. Do not transfer CI evidence to this audit PR's own head or any other SHA.
 - Documentation-only. No application/workflow behavior changes, workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### Latest continuation baseline — ARO-CHAT-0192 (2026-11-24)
+- Current chat title: `ARO-CHAT-0192 | PR #286 Exact-Head CI Audit`; workstream ARO-GTA-P1-192.
+- Branch: `workstream/aro-chat-0192-pr286-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #286 head `df310a41d1e54daafef191f671a5949ae4be4c2a`.
+- Task: documentation-only independent audit of PR #286's own exact-head Actions runs/check-runs, combined status, and review state.
+- Initial exact-head workflow-run and check-runs lookups returned zero entries; combined status is pending with zero entries. Reviews and inline review comments are empty. No jobs/logs; compile, tests, checkout refs, and synthetic MP4/FFprobe are NOT VERIFIED / NOT RUN. Local tests NOT RUN; no workflow retry initiated.
+- Report: `docs/ARO_CHAT_0192_PR286_CI_AUDIT.md`. Never transfer CI evidence between PRs or SHAs; this audit branch needs its own exact-head CI inspection.
+- Documentation-only. Keep Issue #68 open and live/public uploads disabled. No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
