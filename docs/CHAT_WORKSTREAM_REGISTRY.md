@@ -1135,3 +1135,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Updated the same-inode symlink-substitution regression to simulate the post-open pathname result via a mocked `Path.lstat()`, matching the established approval-record regression pattern and avoiding a physical rename of an open file on Windows.
 - Test-only correction commit: `6829261261175dd2f4693b0d8c62685f69fb6298`. Production code unchanged.
 - The correction is a portability fix hypothesis pending new exact-head Ubuntu/hosted-Windows CI. Do not claim the previous run passed overall.
+
+
+## ARO-CHAT-0225 — stable rights-report reads (2026-11-24)
+- Workstream: ARO-GTA-P1-225; parent PR #353; branch `workstream/aro-chat-0225-stable-rights-report-read-2026-11-24`; base PR #353 head `03071572e8b59bf3f150617e26ea7fd49ca57212`.
+- Finding: descriptor/path identity checks do not detect same-inode modification during the report read.
+- Change: read from the verified descriptor, compare descriptor device/inode/size/mtime_ns/ctime_ns before and after reading, verify byte count, then parse.
+- Regression: mocked fstat metadata mutation during read must fail closed.
+- Parent PR #353 exact-head CI: no associated workflow run returned; NOT VERIFIED. This branch CI pending; local tests NOT RUN; independent review NOT RECORDED.
+- Draft only; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action.
