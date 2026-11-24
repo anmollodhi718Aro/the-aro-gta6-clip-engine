@@ -312,3 +312,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Updated the same-inode symlink-substitution regression to simulate the post-open pathname result via a mocked `Path.lstat()`, matching the established approval-record regression pattern and avoiding a physical rename of an open file on Windows.
 - Test-only correction commit: `6829261261175dd2f4693b0d8c62685f69fb6298`. Production code unchanged.
 - The correction is a portability fix hypothesis pending new exact-head Ubuntu/hosted-Windows CI. Do not claim the previous run passed overall.
+
+
+### Windows CI root-cause recovery — ARO-CHAT-0224 — 2026-11-24
+- Retrieved the complete Windows job log for failed run #45443443832 (job 138620636802), which was not included in the initial connector summary.
+- The failure is isolated to `test_rights_report_rejects_same_inode_symlink_substitution_after_open`: the test opened the rights-report file, then attempted to rename that still-open file before creating a symlink. Windows rejected the rename with `PermissionError: [WinError 32]`; the assertion consequently received the wrapped open error instead of the expected regular-file rejection. Temporary-directory cleanup also reported the leaked test descriptor as still in use.
+- The production implementation was not shown failing in this run. The Ubuntu job passed; Windows ran 357 tests and reported 1 failure, 1 error, and 4 skips. The synthetic render was skipped on Windows after the unit-test failure.
+- Test-only correction commit `6829261261175dd2f4693b0d8c62685f69fb6298` replaces physical rename/symlink mutation with a mocked post-open `Path.lstat()` result and disables `O_NOFOLLOW` only within that regression to exercise the fallback check deterministically. Production code is unchanged.
+- Corrected commit-associated workflow lookup returned zero runs; current startup-document head `03071572e8b59bf3f150617e26ea7fd49ca57212` has zero combined status entries. Therefore corrected exact-head Ubuntu/hosted-Windows CI remains PENDING / NOT VERIFIED. No rerun or workflow dispatch was initiated.
+- PR #353 remains draft/open/unmerged; independent review remains NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
