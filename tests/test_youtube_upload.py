@@ -124,7 +124,7 @@ class YouTubeUploadTests(unittest.TestCase):
                     client_secrets=self.client_secrets, token_path=self.root / "token.json",
                     rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                     rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
-                    owner_approved=True, rights_confirmed=True,
+                    owner_approved=True, rights_confirmed=True
                 )
         authorize.assert_not_called()
 
@@ -310,7 +310,7 @@ class YouTubeUploadTests(unittest.TestCase):
                         client_secrets=self.client_secrets, token_path=self.root / "token.json",
                         rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                         rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
-                        owner_approved=True, rights_confirmed=True,
+                        owner_approved=True, rights_confirmed=True, max_upload_bytes=1024 * 1024,
                     )
         self.assertEqual(result["video_id"], "video-123")
         self.assertEqual(verify_owner.call_count, 2)
@@ -399,7 +399,7 @@ class YouTubeUploadTests(unittest.TestCase):
                             client_secrets=self.client_secrets, token_path=self.root / "token.json",
                             rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                             rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
-                            owner_approved=True, rights_confirmed=True,
+                            owner_approved=True, rights_confirmed=True, max_upload_bytes=1024 * 1024,
                         )
         youtube.videos.return_value.insert.assert_not_called()
 
@@ -419,7 +419,7 @@ class YouTubeUploadTests(unittest.TestCase):
                             client_secrets=self.client_secrets, token_path=self.root / "token.json",
                             rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                             rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
-                            owner_approved=True, rights_confirmed=True,
+                            owner_approved=True, rights_confirmed=True, max_upload_bytes=1024 * 1024,
                         )
         youtube.videos.return_value.insert.assert_not_called()
 
@@ -550,7 +550,7 @@ class YouTubeUploadTests(unittest.TestCase):
                             client_secrets=self.client_secrets, token_path=self.root / "token.json",
                             rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                             rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
-                            owner_approved=True, rights_confirmed=True,
+                            owner_approved=True, rights_confirmed=True, max_upload_bytes=1024 * 1024,
                         )
         youtube.videos.return_value.insert.assert_not_called()
 
@@ -570,7 +570,7 @@ class YouTubeUploadTests(unittest.TestCase):
                             client_secrets=self.client_secrets, token_path=self.root / "token.json",
                             rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                             rights_db_path=db_path, clip_id="other-clip", source_id="source-1",
-                            owner_approved=True, rights_confirmed=True,
+                            owner_approved=True, rights_confirmed=True, max_upload_bytes=1024 * 1024,
                         )
         youtube.videos.return_value.insert.assert_not_called()
 
@@ -611,7 +611,7 @@ class YouTubeUploadTests(unittest.TestCase):
                     client_secrets=self.client_secrets, token_path=self.root / "token.json",
                     rights_report_path=self.report, approval_record_path=self.root / "approval.json",
                     rights_db_path=db_path, clip_id="clip-1", source_id="source-1",
-                    owner_approved=True, rights_confirmed=True,
+                    owner_approved=True, rights_confirmed=True, max_upload_bytes=1024 * 1024,
                 )
         authorize.assert_not_called()
 
