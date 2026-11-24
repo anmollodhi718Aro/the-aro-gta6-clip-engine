@@ -59,3 +59,23 @@ PR #308's exact merge-ref CI is VERIFIED on run #45402472225. Raw-head-only CI i
 
 ### Safety
 Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled pending independent security review, owner-controlled integration, owner-device verification, and separately authorized real-media PRIVATE acceptance. No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+## Current PR #307 head refresh — 2026-11-24
+
+The initial audit above records the earlier PR #307 head `8671f4708d0d1a8b74dd690d4055a6337805649c` and run #45402036793 only. PR #307 subsequently advanced; the following is the current-head audit and supersedes the earlier head for current status.
+
+- Current PR #307 head: `f31f1c5d9bbd31cba6450052ff398616995019a9` (base `df66631ff1b8afc7c08f1f15a59067f251f68a5d`).
+- Current-head-associated Python CI run [#45402452822](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45402452822), run 1314, completed SUCCESS.
+- Ubuntu job #138474408926 passed compilation, 346 tests (`Ran 346 tests in 3.687s`), and synthetic MP4/FFprobe validation.
+- Hosted-Windows job #138474409883 passed compilation, the same 346 tests (`Ran 346 tests in 19.179s`), and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/307/merge` at merge SHA `247af12b675758a125c40a6a0dcdacc22807233f`, merging current head `f31f1c5d9bbd31cba6450052ff398616995019a9` into base `df66631ff1b8afc7c08f1f15a59067f251f68a5d`. Raw-head-only CI is NOT DEMONSTRATED.
+- Both platforms ran the same 346 test cases, not 692 unique tests. Logs confirm locally generated synthetic pattern/tone only; `gta6_footage_used=false`, `third_party_media_used=false`, `upload_performed=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Combined commit status returned zero legacy status entries. PR #307 reviews, inline review threads, and conversation comments were empty. Independent review NOT RECORDED.
+- PR #307 remains OPEN / DRAFT / UNMERGED. Local tests NOT RUN in this connector session. Owner-device Windows and authorized real-media acceptance NOT VERIFIED.
+
+### Current disposition
+Current PR #307 merge-ref CI is CI_VERIFIED on run #45402452822. The earlier run #45402036793 is predecessor-head evidence only. Raw-head-only CI and independent review remain NOT DEMONSTRATED / NOT RECORDED. Do not transfer either run to PR #308 or a later head.
+
+### Safety
+Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending independent security review, owner-controlled integration, owner-device verification, and separately authorized real-media PRIVATE acceptance. No OAuth, credentials/tokens, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action was performed.
