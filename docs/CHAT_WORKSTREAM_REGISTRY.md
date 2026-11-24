@@ -907,3 +907,48 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added regression test proving a failed atomic replace leaves the previous token intact and removes the temporary file.
 - Test commit: `bcdd2355a23ca4a653c76857bc5ff4650f6e1d79`.
 - Fresh CI is required for this exact head; the preceding head `2f801ce8043906829e352733644a01ef01ffc3b1` passed Ubuntu and Windows suites plus synthetic MP4/FFprobe.
+
+
+## ARO-CHAT-0136 bounded disk-backed private upload staging — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0136 |
+| Workstream ID | ARO-GTA-P1-136 |
+| Scope | Port the explicit upload byte cap and pre-OAuth immutable staging into the current PR #299 private-upload branch, without loading the entire video into RAM. |
+| Branch / PR | workstream/aro-chat-0136-bounded-disk-backed-upload-staging-2026-11-24 / Draft PR pending |
+| Base | PR #299 head `c93925037c031c92e38d80205f3fd0f669935b38` |
+| Status | IMPLEMENTED; CI pending; local tests not run in this connector session |
+| Changed files | backend/app/youtube_upload.py; backend/app/youtube_owner_approval.py; tests/test_youtube_upload.py; docs/YOUTUBE_UPLOAD.md; docs/CHAT_WORKSTREAM_REGISTRY.md; docs/ARO_CHAT_STARTUP_PROMPT.md |
+
+### Implementation
+
+- Actual uploads now require an explicit positive `--max-upload-bytes` value and reject missing, zero, negative, boolean, or non-integer limits before OAuth.
+- Dry-run and approval-only flows default to a conservative 256 MiB validation cap; a user-supplied cap can override it.
+- Before OAuth, the source is copied to a private temporary directory in 1 MiB chunks. The copy stops before writing bytes beyond the configured cap and removes partial snapshots on failure.
+- SHA-256 is computed during the copy. The existing immutable approval record must match that exact staged snapshot digest, not merely a later read of the mutable source path.
+- The resumable API upload uses `MediaIoBaseUpload` over the open disk-backed snapshot with 1 MiB API chunks. The entire video is never loaded into `BytesIO` or a single in-memory byte string.
+- The snapshot remains alive and read-only through the API request, then its temporary directory is cleaned in `finally`.
+- Existing authenticated channel identity, per-clip owner approval, live source-rights checks, PRIVATE-only request/response checks remain fail-closed.
+
+### Why this does not copy PR #242 verbatim
+
+- PR #242 introduced the explicit size limit and staged-copy pattern, but its implementation then called `snapshot_stream.read()` and wrapped the complete video in `io.BytesIO`, which loads the whole clip into RAM.
+- This workstream retains bounded disk copying and uses a file-backed `MediaIoBaseUpload` stream instead. The 1 MiB copy and API chunks bound application memory independently of total clip size.
+
+### Regression coverage and validation
+
+- Tests cover positive integer limits, validation rejection for oversized input, exact snapshot hash, cleanup of partial snapshots, source growth after initial stat, explicit-limit enforcement before OAuth, and source mutation after staging.
+- The source-mutation test verifies the upload stream still contains the approved snapshot bytes and that temporary staging is removed after completion.
+- PR #299 parent head `c93925037c031c92e38d80205f3fd0f669935b38` passed Actions run #45395847022 on Ubuntu and hosted Windows: 342 tests on each platform, compile, synthetic MP4/FFprobe. Logs confirm `gta6_footage_used=false`, `publishing_enabled=false`, `manual_review_required=true`. This is parent evidence only; it does not validate this new branch.
+- This workstream's local tests were not run. Its exact-head Ubuntu and Windows CI remain pending.
+- No OAuth, credential access, live API request, real-media upload, merge, deployment, or public publishing occurred.
+
+### Remaining gates
+
+- Verify this branch's exact-head Ubuntu and hosted-Windows CI.
+- Independently review the integrated uploader security chain and complete owner-device verification.
+- Select an explicit device-appropriate upload byte limit before any live upload; do not infer it from the conservative dry-run default.
+- Verify each target channel through its own authorized OAuth session and exact configured channel ID.
+- Verify creator/source permission and the exact per-clip approval record before private staging.
+- Public publishing remains unauthorized and disabled.
