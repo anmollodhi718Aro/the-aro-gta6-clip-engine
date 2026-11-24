@@ -48,3 +48,13 @@
 - Draft audit PR #372 head `756d8c09e0633d44714e3d30b046fd12bc534c95` was checked after opening.
 - Commit-associated PR workflow lookup returned zero runs; combined status returned zero entries; reviews empty. PR #372's own CI is PENDING / NOT VERIFIED. No jobs/logs exist at this checkpoint.
 - PR #372 remains OPEN / DRAFT / UNMERGED. Do not transfer PR #279 or PR #282 CI evidence to this audit PR.
+
+
+## ARO-CHAT-0190 audit-branch exact-head CI follow-up — 2026-11-25
+
+- Re-fetched PR #372 immediately before this audit: OPEN / DRAFT / UNMERGED; current head `484c2cfcfe7d579dd25ebaa4188405d64e088f53`; base `workstream/aro-chat-0189-pr278-exact-head-ci-audit-2026-11-24`.
+- Exact-head-associated Python CI run [#45495116038](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45495116038) completed FAILURE. Ubuntu job `138803418571` and hosted-Windows job `138803418037` both report failure but expose `steps=null` and `logs_url=null`; no step or log evidence is available. Failure cause is NOT VERIFIED and must not be attributed to source code.
+- Commit-associated workflow lookup returned this run; combined commit status returned zero entries. PR #372 reviews and inline review threads remain empty; independent review NOT RECORDED.
+- Compilation, unit tests, checkout refs, and synthetic MP4/FFprobe validation for head `484c2cfcfe7d579dd25ebaa4188405d64e088f53` are NOT VERIFIED. Do not transfer CI from PR #279, #282, or #278.
+- Documentation-only follow-up. PR #372 remains draft/open/unmerged. No workflow retry/dispatch, application behavior, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+- Next safe step: continue observing for independently generated exact-head CI evidence; do not retry workflows without explicit owner approval. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled.
