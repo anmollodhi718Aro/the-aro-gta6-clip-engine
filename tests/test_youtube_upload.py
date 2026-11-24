@@ -325,12 +325,14 @@ class YouTubeUploadTests(unittest.TestCase):
         class CloseThenRaise:
             def __init__(self, filename):
                 self._stream = open(filename, "rb")
+                self.close_calls = 0
 
             @property
             def closed(self):
                 return self._stream.closed
 
             def close(self):
+                self.close_calls += 1
                 self._stream.close()
                 raise OSError("synthetic media close failure")
 
@@ -367,6 +369,7 @@ class YouTubeUploadTests(unittest.TestCase):
 
         self.assertEqual(len(media_streams), 1)
         self.assertTrue(media_streams[0].closed)
+        self.assertEqual(media_streams[0].close_calls, 1)
         self.assertEqual(len(snapshot_paths), 1)
         self.assertFalse(snapshot_paths[0].exists())
         youtube.videos.return_value.insert.assert_called_once()
