@@ -90,3 +90,17 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - The uploader must verify the Google OIDC subject and destination channel from the same OAuth session, require a durable per-clip approval bound to the exact video hash, Google subject and channel, and re-check live publish permission immediately before the upload API call.
 - A client-supplied reviewer string or legacy boolean is never identity authentication. Fail closed on missing/mismatched channel, clip, source, file hash, approval, permission, expiry or revocation.
 - Use mocked API clients in tests; no test may perform a network upload. Keep public publishing disabled unless every authenticated owner, per-clip approval and source-rights gate passes.
+
+
+## LIVE REPOSITORY UPDATE — 2026-11-24 (ARO-CHAT-0194)
+
+- Latest narrow implementation reviewed: draft PR #289, ARO-CHAT-0132 / ARO-GTA-P1-132, head `4e01f16e97b2239c74a2f96c4262b04b57a4ae73`.
+- Audit: ARO-CHAT-0194 / ARO-GTA-P1-194, branch `workstream/aro-chat-0194-pr289-exact-head-ci-audit-2026-11-24`, report `docs/ARO_CHAT_0194_PR289_CI_AUDIT.md`.
+- PR #289 associated Actions run #45386732186 succeeded. Ubuntu job #138419476509 and hosted-Windows job #138419476953 each passed compilation, the same 323-test suite, and synthetic MP4/FFprobe validation.
+- Both jobs checked out `refs/remotes/pull/289/merge` at merge SHA `c1980d7c5aea879e86a17b1b8b51a7de101bfc28`, merging the audited head into base `20427e0cad2e682076c627343e14b0f6f2f4f4a8`. Raw-head-only checkout is NOT demonstrated.
+- Synthetic reports explicitly state no GTA 6 footage, no third-party media, publishing disabled, and manual review required. Hosted Windows is not owner-device Windows verification.
+- PR #289 remains OPEN / DRAFT / UNMERGED. Combined status returned zero entries; independent review is NOT RECORDED.
+- Attribution collision resolved: ARO-CHAT-0193 remains assigned to the earlier PR #288 audit; PR #289 audit is ARO-CHAT-0194 / ARO-GTA-P1-194. Do not reuse either ID.
+- Issue #68 remains OPEN. This PRIVATE-only guard-order fix does not complete authenticated channel-owner approval or authorize live upload/public publishing. Keep all live uploads and public publishing disabled.
+- No local tests were run in the audit connector session. No workflow retry, OAuth, credentials, real media, upload, publishing, merge, retarget, or deployment was performed.
+- The inspected project master document is `docs/MASTER_PLAN.md`; a separate `MASTER_SCRIPT.md` was not present at the inspected root/docs paths. The canonical registry and startup prompt are branch-specific; always fetch them from the selected branch.
