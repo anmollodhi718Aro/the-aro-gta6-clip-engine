@@ -261,3 +261,12 @@ For the current first-test upload priority:
 - No CI pass/fail conclusion is claimed. Re-fetch this exact run and both job logs; do not transfer PR #308 or other-branch results. Local tests NOT RUN in this connector session.
 - Report: `docs/ARO_CHAT_0205_PR309_CI_AUDIT.md`. PR #309 remains OPEN / DRAFT / UNMERGED at initial inspection; independent review and combined status require rechecking.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Documentation-only; no workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment or destructive action.
+
+### ARO-CHAT-0205 PR #309 CI closeout correction — 2026-11-24
+- Run #45402794811 completed SUCCESS for the earlier PR #309 head `0d673ea56e494cbab73fe12d9957be413c8cfab6`: Ubuntu and hosted Windows each passed compilation, the same 346 tests, and synthetic MP4/FFprobe validation.
+- Both jobs checked out PR merge ref `refs/remotes/pull/309/merge` at `f8b38ecbfe86e298462bfd2b6a5ca7b8d80ddf65`, merging the earlier head into base `3eb2add67c339e543a46035ec6a29e2485a424f7`. Raw-head-only CI NOT DEMONSTRATED.
+- Logs confirm synthetic pattern/tone only, no GTA 6 or third-party media, no upload, publishing disabled, and manual review required. Hosted Windows is not owner-device verification.
+- PR #309 current head subsequently advanced to `896337ddafbdedae788defd37bd8d82e82cd87ba`; no associated PR-triggered run was returned for that current head. Current-head CI remains NOT VERIFIED; do not transfer the earlier successful run.
+- PR #309 reviews, inline threads and comments remain empty; independent review NOT RECORDED. Local tests NOT RUN.
+- Report: `docs/ARO_CHAT_0205_PR309_CI_AUDIT.md`. PR #310 remains OPEN / DRAFT; no run was returned for its current head at inspection and its metadata reported mergeable=false. No rebase, retarget or merge was attempted.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment or destructive action.
