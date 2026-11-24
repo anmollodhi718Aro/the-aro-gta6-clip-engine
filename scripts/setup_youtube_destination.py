@@ -65,7 +65,7 @@ def setup_destination(
         raise ValueError("a destination profile with this name already exists")
 
     from backend.app.youtube_upload import (
-        IDENTITY_SCOPES, UPLOAD_SCOPE, _authorize_google, _oauth_client_id,
+        IDENTITY_SCOPES, _authorize_google, _oauth_client_id,
     )
     from backend.app.youtube_owner_approval import _verify_google_id_token
 
@@ -85,7 +85,7 @@ def setup_destination(
         or (authorized_party is not None and authorized_party != client_id)
     ):
         raise PermissionError("verified Google identity is missing a valid subject, issuer or authorized party")
-    if not credentials.has_scopes(IDENTITY_SCOPES) or UPLOAD_SCOPE not in credentials.scopes:
+    if not callable(getattr(credentials, "has_scopes", None)) or not credentials.has_scopes(IDENTITY_SCOPES):
         raise PermissionError("OAuth session is missing required YouTube upload and identity scopes")
 
     from googleapiclient.discovery import build
