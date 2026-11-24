@@ -9,16 +9,17 @@
 - spike detection on synthetic event sequences
 - candidate score calculation and explanation
 - clip-window bounds and minimum/maximum duration validation
+- local renderer rights confirmation, path validation, overwrite protection, timeout, and failure cleanup
 
 ### Integration tests
 - permitted event adapter to normalized event model
 - permission registry to ingestion gate
 - event batch to candidate list
 - candidate list to human review state
-- authorized asset check to render-job request
+- authorized local asset to review-only MP4 render
 
 ### End-to-end tests
-Use synthetic events and a short, owned or explicitly authorized sample video. Confirm that the workflow creates a candidate clip plan and does not publish anything.
+Use synthetic events and a short synthetic video generated during CI. Confirm that the renderer exports a playable MP4 of the requested duration and does not publish anything. Separately inspect output quality using a video the user owns or is explicitly authorized to provide.
 
 ## Test fixtures
 
@@ -31,6 +32,7 @@ Include:
 - missing timestamps
 - expired, revoked, and out-of-scope permissions
 - inaccessible or unauthorized media asset
+- synthetic video generated at test time, not committed to the repository
 
 Do not include real user tokens, private chat archives, or copyrighted footage without documented permission in fixtures.
 
