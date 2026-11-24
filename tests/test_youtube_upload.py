@@ -11,7 +11,7 @@ from unittest.mock import Mock, patch
 
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
-from backend.app.youtube_upload import build_upload_body, load_rights_report, upload_video, validate_upload
+from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_upload)
 
 
 class YouTubeUploadTests(unittest.TestCase):
@@ -412,6 +412,73 @@ class YouTubeUploadTests(unittest.TestCase):
                     owner_approved=True, rights_confirmed=True,
                 )
         authorize.assert_not_called()
+
+
+class YouTubeDestinationProfileTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp.name)
+        self.config = self.root / "destination_profiles.json"
+        self.config.write_text(json.dumps({
+            "profiles": {
+                "aroanmol7": {
+                    "google_subject": "google-subject-one",
+                    "channel_id": "UC1234567890abcdef",
+                },
+                "the_arro07": {
+                    "google_subject": "google-subject-two",
+                    "channel_id": "UCabcdef1234567890",
+                },
+            }
+        }), encoding="utf-8")
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def test_profiles_resolve_to_distinct_channel_and_token_paths(self):
+        first = load_destination_profile(self.config, "aroanmol7")
+        second = load_destination_profile(self.config, "the_arro07")
+        self.assertEqual(first["channel_id"], "UC1234567890abcdef")
+        self.assertEqual(second["channel_id"], "UCabcdef1234567890")
+        self.assertNotEqual(first["google_subject"], second["google_subject"])
+        self.assertNotEqual(first["token_path"], second["token_path"])
+        self.assertEqual(first["token_path"], self.root / "tokens" / "aroanmol7.json")
+
+    def test_unknown_profile_fails_closed(self):
+        with self.assertRaisesRegex(PermissionError, "unknown destination profile"):
+            load_destination_profile(self.config, "not-a-channel")
+
+    def test_duplicate_channel_mapping_fails_closed(self):
+        payload = json.loads(self.config.read_text(encoding="utf-8"))
+        payload["profiles"]["the_arro07"]["channel_id"] = payload["profiles"]["aroanmol7"]["channel_id"]
+        self.config.write_text(json.dumps(payload), encoding="utf-8")
+        with self.assertRaisesRegex(PermissionError, "unique YouTube channel ID"):
+            load_destination_profile(self.config, "aroanmol7")
+
+    def test_profile_requires_config_and_name_together(self):
+        with self.assertRaisesRegex(PermissionError, "must be supplied together"):
+            resolve_destination_identity(
+                config_path=self.config, profile_name=None, token_override=None
+            )
+
+    def test_profile_token_path_cannot_be_overridden(self):
+        with self.assertRaisesRegex(PermissionError, "cannot override"):
+            resolve_destination_identity(
+                config_path=self.config, profile_name="aroanmol7",
+                token_override=self.root / "shared-token.json",
+            )
+
+    def test_profile_resolution_keeps_channels_isolated(self):
+        first = resolve_destination_identity(
+            config_path=self.config, profile_name="aroanmol7", token_override=None
+        )
+        second = resolve_destination_identity(
+            config_path=self.config, profile_name="the_arro07", token_override=None
+        )
+        self.assertEqual(first[1], "UC1234567890abcdef")
+        self.assertEqual(second[1], "UCabcdef1234567890")
+        self.assertNotEqual(first[2], second[2])
+
 
 
 if __name__ == "__main__":
