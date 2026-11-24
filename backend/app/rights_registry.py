@@ -100,15 +100,16 @@ class SourceRightsRegistry:
         if values[9] and _time(values[9]) <= _time(values[8]):
             raise ValueError("expires_at must be later than valid_from")
         with self._connect() as db:
-            db.execute("""
-                INSERT INTO source_rights VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ON CONFLICT(source_id) DO UPDATE SET
-                    source_url=excluded.source_url, grantor=excluded.grantor,
-                    evidence_ref=excluded.evidence_ref, allowed_uses_json=excluded.allowed_uses_json,
-                    platforms_json=excluded.platforms_json, attribution=excluded.attribution,
-                    disclosure=excluded.disclosure, valid_from=excluded.valid_from,
-                    expires_at=excluded.expires_at, revoked_at=NULL
-            """, values)
+            try:
+                # Source IDs are immutable grant identities. Re-registering an
+                # existing ID must never overwrite evidence or clear revocation.
+                db.execute("""
+                    INSERT INTO source_rights VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, values)
+            except sqlite3.IntegrityError as exc:
+                raise PermissionError(
+                    "rights already exist for this source_id; use a new source_id for a new grant"
+                ) from exc
             db.execute("""
                 INSERT INTO source_rights_audit(source_id, action, actor, occurred_at, details_json)
                 VALUES (?, 'registered', ?, ?, ?)
