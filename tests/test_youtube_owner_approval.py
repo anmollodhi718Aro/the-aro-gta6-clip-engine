@@ -308,36 +308,37 @@ class OwnerApprovalTests(unittest.TestCase):
         self.assertTrue(target.is_file())
 
     def test_path_replaced_after_open_with_same_inode_symlink_is_rejected(self):
+        import stat
         import backend.app.youtube_owner_approval as approval_module
 
-        target = self.root / "approval-opened-target.json"
         original_open = approval_module.os.open
+        original_lstat = Path.lstat
+        lstat_calls = 0
 
-        def open_then_replace_path(path, flags, *args, **kwargs):
-            if Path(path) != self.record:
-                return original_open(path, flags, *args, **kwargs)
-            # Open the original regular file first, then replace only its
-            # pathname with a symlink to the same inode before returning.
-            descriptor = original_open(
-                path, flags & ~getattr(os, "O_NOFOLLOW", 0), *args, **kwargs
-            )
-            os.replace(self.record, target)
-            try:
-                self.record.symlink_to(target)
-            except (OSError, NotImplementedError):
-                os.replace(target, self.record)
-                os.close(descriptor)
-                self.skipTest("symlink creation is unavailable on this platform")
-            return descriptor
+        def open_original_file(path, flags, *args, **kwargs):
+            # Keep the descriptor open normally. Simulate a same-inode symlink
+            # appearing at the pathname after open without renaming an open
+            # file, which Windows correctly refuses while its handle is live.
+            return original_open(path, flags, *args, **kwargs)
 
-        with patch(
-            "backend.app.youtube_owner_approval.os.open",
-            side_effect=open_then_replace_path,
+        def report_symlink_on_post_open_check(path):
+            nonlocal lstat_calls
+            result = original_lstat(path)
+            if Path(path) == self.record:
+                lstat_calls += 1
+                if lstat_calls == 2:
+                    return type(result)(
+                        (stat.S_IFLNK | stat.S_IMODE(result.st_mode), *result[1:])
+                    )
+            return result
+
+        with (
+            patch("backend.app.youtube_owner_approval.os.open", side_effect=open_original_file),
+            patch.object(Path, "lstat", report_symlink_on_post_open_check),
         ):
             with self.assertRaisesRegex(PermissionError, "must be a regular file"):
                 self.gate()
-        self.assertTrue(target.is_file())
-        self.assertTrue(self.record.is_symlink())
+        self.assertEqual(lstat_calls, 2)
 
     def test_directory_approval_path_is_rejected(self):
         directory_path = self.root / "approval-directory"
