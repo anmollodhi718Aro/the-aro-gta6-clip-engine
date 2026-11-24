@@ -999,3 +999,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Draft-only; do not merge/rebase/retarget. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, upload, publishing, or deployment. Keep live uploads/public publishing disabled.
 
 - Test portability follow-up: commit `d37681e6af75b6ff81da2c47c67cf2001fb55049` skips the new symlink substitution test only when symlink creation is unavailable, consistent with existing platform-specific tests.
+
+
+## ARO-CHAT-0212 — PR #319 exact-head CI audit (2026-11-24)
+
+- Chat title: ARO-CHAT-0212 | PR #319 Exact-Head CI Audit.
+- Workstream ID: ARO-GTA-P2-212.
+- Audit branch: `workstream/aro-chat-0212-pr319-exact-head-ci-audit-2026-11-24`; starting from PR #319 audited head `4f5ae5d3115449809feeb109be2134e59ce31959`.
+- Audited PR #319 (ARO-CHAT-0210) current head `4f5ae5d3115449809feeb109be2134e59ce31959`; report: `docs/ARO_CHAT_0212_PR319_CI_AUDIT.md`.
+- Commit-associated workflow lookup returned zero runs; combined legacy statuses returned zero entries; review submissions were empty. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; independent review NOT RECORDED; local tests NOT RUN.
+- Documentation-only. Do not transfer PR #317 or predecessor CI. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+- PR #319 and its parent chain remain OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
