@@ -76,12 +76,22 @@ class SourceRightsRegistry:
         missing = [key for key in required if not record.get(key)]
         if missing:
             raise ValueError("missing required rights fields: " + ", ".join(missing))
-        if not actor.strip():
+        if not isinstance(actor, str) or not actor.strip():
             raise ValueError("actor is required")
-        uses = frozenset(str(x).strip().lower() for x in record["allowed_uses"])
+        raw_uses = record["allowed_uses"]
+        raw_platforms = record["platforms"]
+        if not isinstance(raw_uses, (list, tuple, set, frozenset)):
+            raise ValueError("allowed_uses must be a collection of scope strings")
+        if not isinstance(raw_platforms, (list, tuple, set, frozenset)):
+            raise ValueError("platforms must be a collection of platform strings")
+        if any(not isinstance(item, str) or not item.strip() for item in raw_uses):
+            raise ValueError("allowed_uses must contain non-empty strings")
+        if any(not isinstance(item, str) or not item.strip() for item in raw_platforms):
+            raise ValueError("platforms must contain non-empty strings")
+        uses = frozenset(item.strip().lower() for item in raw_uses)
         if not uses or not uses.issubset(ALLOWED_USES):
             raise ValueError("allowed_uses must contain only analyze, edit, publish")
-        platforms = sorted({str(x).strip().lower() for x in record["platforms"] if str(x).strip()})
+        platforms = sorted({item.strip().lower() for item in raw_platforms})
         if not platforms:
             raise ValueError("at least one permitted platform is required")
         source_url = str(record["source_url"]).strip()
