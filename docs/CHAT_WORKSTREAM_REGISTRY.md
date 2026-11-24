@@ -832,3 +832,40 @@ No OAuth, credentials, network upload, merge, deployment, or public publishing w
 | Security behavior | Profile file is intended under ignored .secrets; no OAuth tokens or client secrets are stored in the profile map; profile channel IDs must be unique; per-profile token files are isolated; profile token override is rejected; existing exact channel and file-hash approval checks remain in force. |
 
 Both target handles must still be verified against exact channel IDs and Google OIDC subjects through their respective authorized OAuth sessions. Never infer IDs from handles. This workstream does not perform either OAuth flow or any upload. Public publishing remains disabled.
+
+
+## ARO-CHAT-0196 | PR #295 profile CLI routing regression — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0196 |
+| Exact chat title | ARO-CHAT-0196 | PR #295 Profile CLI Routing Regression |
+| Workstream ID | ARO-GTA-P1-196 |
+| Scope | Test-only regression coverage proving that selecting a destination profile routes its configured Google subject, exact channel ID, and isolated token path through the upload CLI boundary. |
+| Branch / base | `workstream/aro-chat-0196-pr295-profile-cli-regression-2026-11-24` / PR #295 head `c767f8110049abfaebce62950c293d2afb0fe8b9` |
+| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI NOT VERIFIED |
+| Changed files | `tests/test_youtube_upload.py`; this registry; startup prompt |
+| Safety | Test mocks the upload boundary and performs no OAuth, credential access, network upload, public publishing, merge, retarget, deployment, or destructive action. PR #295 remains the implementation candidate; this branch adds regression coverage only. |
+
+### Regression added
+- Exercise the real CLI argument parsing and profile resolution path with a synthetic local MP4 and a temporary profile map.
+- Mock `upload_video` so no YouTube API or network side effect can occur.
+- Assert that the selected profile's Google subject, exact channel ID, and profile-specific token path are passed to the upload boundary, alongside the exact clip/source and approval-record paths.
+- This test does not establish that either destination profile is owner-controlled. The owner must still verify each channel ID and Google subject in its own authorized OAuth session.
+
+### Pending validation
+- Run the targeted uploader test module and the complete repository suite on this branch.
+- Inspect this branch's own Ubuntu and hosted-Windows CI against its exact head; do not transfer PR #295 CI evidence.
+- Keep Issue #68 OPEN and all live uploads/public publishing disabled until its authenticated owner-approval integration is independently reviewed and explicitly accepted.
+
+
+## ARO-CHAT-0196 exact-head CI closeout — 2026-11-24
+
+- PR #296 head: `43f6ac4240577a6be22ff1c5b1e3592b168f874a`; base PR #295 head: `cf731cabda8a045d39457f0eef800dbdb051e75e`.
+- Exact-head-associated Actions run [#45390172214](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45390172214) completed SUCCESS.
+- Ubuntu job #138431466873 and hosted-Windows job #138431467303 both passed compilation, the same 332-test suite, and synthetic MP4 render/FFprobe validation. Test durations: 4.970s Ubuntu and 15.614s hosted Windows. This is 332 shared tests run on two hosted platforms, not 664 unique tests.
+- Both jobs checked out merge SHA `c7f9af515708b84f0b628a47a18cb0c9084aed13`, merging audited PR #296 head into base `cf731cabda8a045d39457f0eef800dbdb051e75e`. Raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic smoke logs explicitly report `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, and `manual_review_required=true`. No real GTA 6 media or upload was tested.
+- PR #296 remains OPEN / DRAFT / UNMERGED. No PR review submission, inline review comment, or conversation comment was recorded at closeout; independent review NOT RECORDED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled. Owner-device Windows, authorized real-media render/playback, authenticated owner/channel verification, and an accepted private-upload test remain NOT VERIFIED.
+- No OAuth, credential/token access, real media, network upload, publishing, merge, retarget, deployment, or destructive action occurred.

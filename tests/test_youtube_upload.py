@@ -512,6 +512,56 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
         self.assertNotEqual(first[2], second[2])
 
 
+    def test_upload_cli_passes_selected_profile_identity_and_token_path(self):
+        video = self.root / "profile-clip.mp4"
+        video.write_bytes(b"synthetic video bytes")
+        report = self.root / "profile-rights.json"
+        report.write_text(json.dumps({
+            "status": "ready_for_human_review",
+            "platform": "youtube",
+            "assets": [{"status": "declared_original_requires_human_confirmation"}],
+            "errors": [],
+            "clip_id": "profile-clip-1",
+            "source_id": "profile-source-1",
+            "review": {
+                "approved_for_upload": False,
+                "permission_evidence_human_verification_required": True,
+                "all_embedded_music_and_third_party_rights_review_required": True,
+                "original_asset_declarations_human_confirmation_required": True,
+                "human_edit_and_platform_policy_review_required": True,
+            },
+        }), encoding="utf-8")
+        approval = self.root / "approvals" / "aroanmol7" / "profile-clip-1.json"
+        args = [
+            "youtube_upload.py", str(video),
+            "--rights-report", str(report),
+            "--title", "THE ARO profile routing regression",
+            "--not-made-for-kids",
+            "--destination-config", str(self.config),
+            "--destination-profile", "aroanmol7",
+            "--upload", "--owner-approved", "--confirm-rights",
+            "--clip-id", "profile-clip-1",
+            "--source-id", "profile-source-1",
+            "--approval-record", str(approval),
+            "--rights-db", str(self.root / "rights.sqlite3"),
+        ]
+        with patch.object(sys, "argv", args), patch.dict(os.environ, {}, clear=True):
+            with patch("backend.app.youtube_upload.upload_video", return_value={
+                "video_id": "mock-profile-video",
+                "url": "https://youtube.invalid/mock-profile-video",
+            }) as upload:
+                from backend.app.youtube_upload import main
+                self.assertEqual(main(), 0)
+
+        kwargs = upload.call_args.kwargs
+        self.assertEqual(kwargs["expected_google_subject"], "google-subject-one")
+        self.assertEqual(kwargs["expected_channel_id"], "UC1234567890abcdef")
+        self.assertEqual(kwargs["token_path"], self.root / "tokens" / "aroanmol7.json")
+        self.assertEqual(kwargs["clip_id"], "profile-clip-1")
+        self.assertEqual(kwargs["source_id"], "profile-source-1")
+        self.assertEqual(kwargs["approval_record_path"], approval)
+
+
 
 if __name__ == "__main__":
     unittest.main()
