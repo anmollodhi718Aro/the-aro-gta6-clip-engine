@@ -1071,3 +1071,8 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 
 ### ARO-CHAT-0217 run progress refresh
 - Rechecked PR #332 head `b97b6272356f4ee07d6708ced8fbd37354864194`; run #45427815827 remains IN_PROGRESS. Ubuntu is running the unittest step after compile succeeded; hosted Windows is still installing FFmpeg/FFprobe. Synthetic render has not started on either platform. Exact-head CI remains PENDING / NOT VERIFIED.
+
+
+### ARO-CHAT-0217 latest recheck
+- PR #332 Ubuntu job #138564697043 completed compile, unit-test and synthetic MP4/FFprobe steps SUCCESS; counts/log payload not exposed. Hosted-Windows job #138564696271 remains in unit tests after compile succeeded; render pending. Run #45427815827 remains IN_PROGRESS, so PR #332 exact-head CI is not yet fully verified.
+- Follow-up PR #336 head `17ef5f78b9b1790f033958a427a1319861c39131` has no associated workflow run or combined status entries yet; its own CI is PENDING. PR #336 is DRAFT / OPEN / UNMERGED.
