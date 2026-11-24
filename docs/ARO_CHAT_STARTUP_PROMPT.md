@@ -585,3 +585,13 @@ Report each item as one of: RESERVED, IN_PROGRESS, IMPLEMENTED, TESTED, CI_VERIF
 - PR #269 remains OPEN / DRAFT / UNMERGED; independent review NOT RECORDED. Do not merge stacked PRs independently or transfer CI between PRs/SHAs.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled pending all separate security and owner-acceptance gates.
 - Safe next step: inspect the newest registry entry and open PRs before reserving new work; prioritize independent review and owner-controlled integration of the local MVP stack. No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action without the relevant explicit gate.
+
+
+## Latest continuation baseline — ARO-CHAT-0186 (2026-11-24)
+
+- Current chat title: ARO-CHAT-0186 | Bound Event Intake Memory Guard; workstream ARO-GTA-P1-186.
+- Branch: workstream/aro-chat-0186-bounded-event-intake-2026-11-24; base / starting SHA: PR #272 head 6b244904967c2db8a5105e0e0a0ca5fa48b6f091.
+- Bounded follow-up: normalize_event_batch previously converted the full Iterable to a list before checking max_events. Enforce the limit while iterating and test that overflow consumes no more than max_events + 1 records.
+- Files: backend/app/ingestion.py, tests/test_ingestion.py, docs/ARO_CHAT_0186_EVENT_INTAKE_MEMORY_GUARD.md, docs/CHAT_WORKSTREAM_REGISTRY.md, and this startup prompt.
+- Local tests NOT RUN in this connector session. Inspect this branch's own exact-head CI after PR creation; do not transfer CI from PR #269 or PR #272.
+- Keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL and live uploads/public publishing disabled. No credentials/OAuth, real media, uploads, publishing, merge, retarget, deployment, or destructive actions.
