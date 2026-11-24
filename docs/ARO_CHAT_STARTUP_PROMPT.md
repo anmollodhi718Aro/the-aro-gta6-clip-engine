@@ -194,3 +194,11 @@ For the current first-test upload priority:
 - A test-only correction simulates the second post-open pathname `lstat()` as a symlink while retaining the real descriptor, avoiding Windows-incompatible rename behavior. Production code unchanged.
 - Report: `docs/ARO_CHAT_0213_WINDOWS_SAFE_POST_OPEN_RACE_TEST.md`. Exact-head Ubuntu and hosted-Windows CI remains PENDING until both jobs/logs for this new PR head are inspected. Local tests NOT RUN in this connector session.
 - Preserve draft-only status. Do not merge/rebase/retarget, dispatch/retry workflows, access OAuth credentials, process real media, upload, publish, or deploy. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled.
+
+
+### ARO-CHAT-0215 approved-video snapshot continuation — 2026-11-24
+- Branch: `workstream/aro-chat-0215-approved-video-snapshot-2026-11-24`, based on PR #324 head `f4cf5766c7f0cad8531919f444d077b2fcdbe0fe`.
+- Identified a TOCTOU gap: the approval gate hashed the source path, while `MediaFileUpload` later reopened that path when the API client consumed the upload.
+- The follow-up snapshots the source into one private temporary stream, hashes those exact bytes, validates the approval against that hash, and passes the same open stream to `MediaIoBaseUpload`.
+- Regression test replaces the original path after the final approval check and asserts the API client receives the approved snapshot bytes.
+- Status: IMPLEMENTED; local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING until observed. No OAuth, credentials, real media, upload, publishing, merge, rebase, retarget or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
