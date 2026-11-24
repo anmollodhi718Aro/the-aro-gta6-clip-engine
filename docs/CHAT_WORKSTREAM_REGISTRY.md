@@ -1788,3 +1788,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Status: IMPLEMENTED (test-only); local tests NOT RUN; this branch's exact-head CI PENDING until its own Actions run is observed. Do not transfer PR #265 run #45373538938 or PR #266 run #45373702165.
 - PR #265 run #45373538938 and PR #266 run #45373702165 are predecessor/related-branch evidence only. No CI status transfers across PRs or SHAs.
 - Issue #68 remains OPEN. Keep live uploads/public publishing disabled; no credentials/OAuth, real media, upload, publishing, merge, rebase, retarget, deployment, workflow retry, or destructive action.
+
+
+## Latest continuation baseline — ARO-CHAT-0185 (2026-11-24)
+
+- Current chat title: `ARO-CHAT-0185 | PR #269 Exact-Head CI Audit`; workstream: ARO-GTA-P1-185.
+- Branch: `workstream/aro-chat-0185-pr269-exact-head-ci-audit-2026-11-24`; base / starting SHA: PR #269 head `99ef3bd9211f16c67573600e28cb3b696fdd6f71`.
+- Task: documentation-only independent audit of PR #269 exact-head CI, both platform jobs/logs, checkout refs, compile/tests, synthetic MP4/FFprobe, and review state.
+- PR #269 exact-head run #45380864718 (run 1185) passed on Ubuntu and hosted Windows. Both platforms compiled and passed the same 28-test suite plus synthetic animation MP4/FFprobe. Both checked out merge ref `e95252b`, merging audited head `99ef3bd9211f16c67573600e28cb3b696fdd6f71` into base `25aeede30d0e28296af6e7b6d507e1f6ba96e566`; raw-head-only checkout NOT DEMONSTRATED.
+- PR #269 has no review submissions, inline threads, or conversation comments; independent review NOT RECORDED. Hosted-Windows CI is not owner-device Windows verification; real-media acceptance NOT VERIFIED.
+- Report: `docs/ARO_CHAT_0185_PR269_CI_AUDIT.md`. This audit branch's own exact-head CI must be inspected separately; never transfer PR #269's CI result to it.
+- Documentation-only. Keep Issue #68 open and live uploads/public publishing disabled. No credentials/OAuth, real media, upload, publishing, workflow retry, merge, rebase, retarget, deployment, or destructive action.
