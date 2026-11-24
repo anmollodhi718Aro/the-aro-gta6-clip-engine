@@ -1095,3 +1095,23 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #346 run #45441375437 failed identically on Ubuntu and hosted Windows: 352 tests, one assertion failure on each platform (Windows also skipped 3 FIFO-only tests). The rights check correctly raised `no recorded rights for source source-2`; the test expected a stale string missing the second `source`.
 - Test-only fix updates the expected substring; production uploader behavior is unchanged. Commit `9e349ae9fa6d66832b8d030e2ffe3bef55cdf35d`.
 - This follow-up's exact-head CI is PENDING / NOT VERIFIED; local tests NOT RUN. No result is transferred from PR #346. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0224 — independent uploader security lineage audit (2026-11-24)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0224 |
+| Workstream | ARO-GTA-P1-224 |
+| Branch | `workstream/aro-chat-0224-independent-uploader-security-lineage-audit-2026-11-24` |
+| Base / starting SHA | `b6d712a6438a132c3d8ca245b0a804bf8b929550` (PR #350 head) |
+| Scope | Documentation-only independent security review of PR #342 OAuth token loading and PR #344 current-rights-report revalidation |
+| Report | `docs/ARO_CHAT_0224_UPLOADER_SECURITY_LINEAGE_AUDIT.md` |
+| Status | Audit implemented; PR #350 exact-head run #45442036637 passed Ubuntu and hosted Windows; consolidated uploader remains BLOCKED |
+
+### Findings
+- PR #344 / #350 still calls `Credentials.from_authorized_user_file()` after a pathname symlink check. This reopens the token path and leaves a check/open substitution window.
+- The no-follow descriptor token loader is on separate PR #342 lineage and is not present in the inspected PR #344 branch. Do not transfer that fix across branches or assume it is integrated.
+- PR #342 and PR #344 both use ARO-CHAT-0219 attribution but contain distinct changes. Preserve both; require owner selection before consolidation.
+- The rights registry stores operator-supplied metadata; it does not authenticate grantors or determine legal sufficiency. Human permission verification remains mandatory.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, secrets, real media, upload, merge, rebase, retarget, deployment, or publishing occurred. Public publishing stays disabled.
