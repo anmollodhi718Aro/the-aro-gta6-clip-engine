@@ -1076,3 +1076,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 ### ARO-CHAT-0217 latest recheck
 - PR #332 Ubuntu job #138564697043 completed compile, unit-test and synthetic MP4/FFprobe steps SUCCESS; counts/log payload not exposed. Hosted-Windows job #138564696271 remains in unit tests after compile succeeded; render pending. Run #45427815827 remains IN_PROGRESS, so PR #332 exact-head CI is not yet fully verified.
 - Follow-up PR #336 head `17ef5f78b9b1790f033958a427a1319861c39131` has no associated workflow run or combined status entries yet; its own CI is PENDING. PR #336 is DRAFT / OPEN / UNMERGED.
+
+
+### ARO-CHAT-0217 PR #332 CI closeout
+- PR #332 head `b97b6272356f4ee07d6708ced8fbd37354864194` completed its own run #45427815827 (run 1374) with SUCCESS. Ubuntu job #138564697043 and hosted-Windows job #138564696271 both passed compile, complete unittest-suite, and synthetic MP4/FFprobe steps.
+- Numeric test counts/durations, checkout SHA and synthetic report payload were not exposed; raw-head-only checkout NOT DEMONSTRATED. Hosted Windows is not owner-device verification; synthetic media is not real-media acceptance.
+- PR #332 reviews, inline threads and conversation comments were empty; independent review NOT RECORDED. PR #332 remains OPEN / DRAFT / UNMERGED.
+- PR #336 is the follow-up audit PR. At the last pre-closeout lookup, its head `0048f822ccacb1e5ae17402136166c5b934b38ac` had no associated run/status entries; its own CI PENDING / NOT VERIFIED.
