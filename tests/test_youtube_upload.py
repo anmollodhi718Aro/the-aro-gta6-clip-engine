@@ -72,7 +72,7 @@ class YouTubeUploadTests(unittest.TestCase):
     def test_actual_upload_validation_passes_with_both_approvals(self):
         video, body = validate_upload(
             self.video, self.report, title="Approved title",
-            made_for_kids=True, owner_approved=True, rights_confirmed=True, max_upload_bytes=1024 * 1024,
+            made_for_kids=True, owner_approved=True, rights_confirmed=True, max_upload_bytes=1024 * 1024, max_upload_bytes=1024 * 1024,
                             max_upload_bytes=1024 * 1024,
             upload_requested=True, privacy="unlisted",
         )
@@ -163,6 +163,7 @@ class YouTubeUploadTests(unittest.TestCase):
             staged_paths.append(staged_path)
             self.assertTrue(staged_path.is_file())
             self.assertTrue(staged_path.parent.name.startswith("aro-youtube-upload-"))
+            self.assertNotIsInstance(stream, io.BytesIO)
             self.video.write_bytes(b"changed after staging")
             stream.seek(0)
             self.assertEqual(stream.read(), original_payload)
