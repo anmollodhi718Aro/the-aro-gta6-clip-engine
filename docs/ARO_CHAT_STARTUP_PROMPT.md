@@ -174,3 +174,13 @@ For the current first-test upload priority:
 - Code commit: `72f72e26c2a58ce01066275f56b4c4f649ed6bf2`; test commit: `da3d774a14565b3d3bc99d61b8335e92aaf96cff`.
 - Current follow-up status: IMPLEMENTED; local tests NOT RUN; exact-head CI PENDING. Do not transfer PR #305 CI to this new branch.
 - Keep PR #311 and this follow-up draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; no real media or live upload. Keep public publishing disabled.
+
+
+## ARO-CHAT-0210 continuation — post-open approval-path identity verification (2026-11-24)
+
+- Follow-up branch `workstream/aro-chat-0210-post-open-path-identity-check-2026-11-24` is based on PR #317 head `36f9ac70f841715255d917183d24d3b2df2bfc49`.
+- The approval reader now checks pathname regular-file status and device/inode identity again after open, in addition to the pre-open `lstat()`, descriptor `fstat()`, `O_NOFOLLOW` where supported, and `O_NONBLOCK`.
+- A new regression test simulates a platform without `O_NOFOLLOW` and replaces the checked path with a symlink to the same inode.
+- Source commit `07fc209ff4d68b7cc5236c834bcea42de95728f3`; test commit `b37b3d694c4e6dc7f3c291a242f925dabdd0bc3e`.
+- Exact-head Ubuntu and hosted-Windows CI are PENDING; local tests NOT RUN. Do not claim verification until the run and both logs are inspected.
+- PR #317 remains the parent draft; no merge, rebase, retarget, OAuth, credentials, media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
