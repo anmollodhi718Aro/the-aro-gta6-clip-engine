@@ -1809,3 +1809,14 @@ Integrate the existing local YouTube uploader with a verified OAuth-backed chann
 - Reviews, inline threads, and conversation comments are empty; independent review NOT RECORDED. PR #267 remains OPEN / DRAFT / UNMERGED.
 - ARO-CHAT-0184 documentation audit is IMPLEMENTED; audit PR exact-head hosted CI is successful. Independent review, owner-device Windows acceptance, and authorized real-media acceptance remain NOT VERIFIED.
 - No source/test/workflow behavior changes, retries, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, publishing, or destructive actions. Issue #68 remains OPEN; live/public publishing disabled.
+
+
+## Latest continuation baseline — ARO-CHAT-0185 (2026-11-24)
+
+- Exact chat title: `ARO-CHAT-0185 | PR #267 Live-Head CI Audit`; workstream: ARO-GTA-P1-185.
+- Current branch: `workstream/aro-chat-0185-pr267-live-head-ci-audit-refresh-2026-11-24`; base / starting SHA: PR #267 live head `25ebb3731c9aaf159e67f744c4ae33047a013f7a`. An initial branch forked from earlier head `7045b16da92211c8e625eb4a343af303be013916` was superseded after PR #267 advanced; this refresh branch is based on the final audited live head.
+- Task: documentation-only audit of PR #267's current exact head. Earlier ARO-CHAT-0184 closeout CI on `587e6909d99c8db34ade24ca0c0f2392167e5df7` and intermediate run #45380743968 on `7045b16da92211c8e625eb4a343af303be013916` are not evidence for the final SHA.
+- Latest head `25ebb3731c9aaf159e67f744c4ae33047a013f7a` passed Python CI run #45380924403 (run 1187). Ubuntu job #138399418585 and hosted-Windows job #138399418505 both passed setup, checkout, FFmpeg/FFprobe installation, Python setup, compile, and unit/synthetic-media integration-test steps.
+- Numeric unittest output and checkout commit refs were not exposed. Numeric test count NOT VERIFIED; raw-head-only checkout NOT DEMONSTRATED. Combined status returned zero entries.
+- PR #267 remains OPEN / DRAFT / UNMERGED. Review submissions, inline threads, and conversation comments were empty; independent review NOT RECORDED.
+- Documentation-only; no workflow retry, merge, rebase, retarget, deploy, OAuth, credentials, real media, upload, publishing, or destructive action. Keep Issue #68 and live/public publishing gates closed.
