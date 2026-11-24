@@ -1,5 +1,5 @@
 import contextlib,io,json,tempfile,unittest
-from datetime import datetime,timedelta,timezone
+from datetime import datetime,timezone
 from pathlib import Path
 from backend.app.cli import analyze_file
 from backend.app.detection import DetectorConfig
@@ -26,8 +26,9 @@ class CliTests(unittest.TestCase):
    self.assertTrue(data["candidates"][0]["candidate_id"]); self.assertFalse(data["publishing_enabled"])
  def test_registry_is_authoritative(self):
   with tempfile.TemporaryDirectory() as root:
-   src=self.write_input(root,[]); now=datetime.now(timezone.utc)
-   permission=PermissionRecord("demo","creator",frozenset({"analyze_chat"}),now-timedelta(days=1))
+   src=self.write_input(root,[])
+   grant=datetime(2026,11,18,11,59,tzinfo=timezone.utc)
+   permission=PermissionRecord("demo","creator",frozenset({"analyze_chat"}),grant)
    registry=Path(root)/"sources.json"
    SourceRegistry(registry).register(SourceRecord("demo","Creator","fixture://ref",permission))
    with contextlib.redirect_stdout(io.StringIO()):
