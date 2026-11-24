@@ -157,3 +157,11 @@ For the current first-test upload priority:
 - Added tests for config-file, `.secrets` directory, and OAuth `tokens/` directory symlink escapes.
 - Commits: `6c21c0977a6a9ec7643306f14fe7edf26f81d592`, `848cdb1447743257e9a00ac7fa84da22c58a9acf`, `e10070cc0a9ff167922649ce2293bb6a5a3ab3ae`, `a1c785ad7a54121732d3d59289054090ee892d96`.
 - Exact-head Ubuntu/Windows CI is PENDING and local tests are NOT RUN. PR #300 is still DRAFT / OPEN / UNMERGED and currently reported non-mergeable. Do not merge, rebase, or retarget automatically. Issue #68 remains open; keep uploads and public publishing disabled.
+
+
+## ARO-CHAT-0197 test-fixture correction — 2026-11-24
+- Static review found one existing destination-profile test omitted `repository_root=self.root` when resolving a temporary fixture config. Updated both profile-resolution calls in test-only commit `78b1bfdfa5514aac1ce327e7676f5b885915237f`.
+- Registry records the correction in commit `fb81cc3a455df43cff1f53b85938914742c14d51`.
+- Exact-head Ubuntu and hosted-Windows CI has not been observed; local tests were not run in this connector session. Do not report this fix as tested.
+- PR #300 remains OPEN / DRAFT / UNMERGED and GitHub reports a dirty, non-mergeable branch (23 commits ahead / 5 behind the recorded base; merge base `758ae2d44e04b9a875a2a85aa153f0407a209766`). Do not rebase, retarget, or merge automatically.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled; no OAuth, credentials, real media, API upload, deployment, or publishing was performed.
