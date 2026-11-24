@@ -316,7 +316,9 @@ def _persist_oauth_token(token_path: Path, token_json: str) -> None:
             os.unlink(temp_name)
 
 
-def _authorize_google(client_secrets: Path, token_path: Path):
+def _authorize_google(
+    client_secrets: Path, token_path: Path, *, persist_token: bool = True
+):
     try:
         from google.auth.transport.requests import Request
         from google.oauth2.credentials import Credentials
@@ -351,7 +353,8 @@ def _authorize_google(client_secrets: Path, token_path: Path):
             host="127.0.0.1", port=0, open_browser=True,
             authorization_prompt_message="Authorize THE ARO Studio in your browser: {url}",
         )
-        _persist_oauth_token(token_path, credentials.to_json())
+        if persist_token:
+            _persist_oauth_token(token_path, credentials.to_json())
     return credentials
 
 
