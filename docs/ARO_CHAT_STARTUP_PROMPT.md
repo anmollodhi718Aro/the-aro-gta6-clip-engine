@@ -431,3 +431,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Additional parser-hardening review: reject whitespace (including embedded CR/LF/tab), ASCII control characters, DEL, and backslashes anywhere in the raw source URL before URL parsing; these characters can be normalized or interpreted inconsistently by parsers and downstream clients.
 - Follow-up production commit: 0380133cb38d5067b6d6016d41c42b72071babbd; regression test commit: a94b6e6fae9d9789e11f74fa2233a347d0a46701.
 - Local tests NOT RUN. CI must be checked against the final documentation-synchronized branch head; prior run #45486119308 failed with both jobs exposing zero steps and no logs, so the cause is NOT VERIFIED and is not attributed to source changes.
+
+
+### ARO-CHAT-0235 test-fixture correction — 2026-11-25
+
+- Static review found the source-URL tests used escaped backslash-plus-letter sequences where the handoff described literal newline and tab characters.
+- Test-only commit `77adf4b3541792b1151159bc5a2f02ec93a2369c` changes those two inputs to actual newline and tab characters, exercising the existing fail-closed whitespace/control-character guard.
+- No production behavior changed. Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI must be inspected on the final synchronized branch head; earlier run #45486979384 failed with both jobs exposing zero steps and no logs, cause NOT VERIFIED.
+- PR #371 remains draft/open/unmerged; independent review NOT RECORDED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, real media, upload, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing.
