@@ -200,3 +200,9 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Commits: production `e20445398a69e2bffb3d58401f3f5a7b322bf10d`; tests `8f6577db86580d4ea90c55736e619262d02302bc`.
 - Prior run #45426822957 validated the previous head only (341 tests on each hosted OS; synthetic MP4/FFprobe; merge-ref checkout). It does not validate the new commits. Inspect the latest PR head's Actions jobs and logs before claiming CI_VERIFIED.
 - Next: audit exact latest-head Ubuntu/Windows CI and complete independent review of PR #328. Keep PR draft/open/unmerged. Issue #68 remains OPEN. No OAuth, credentials, real media, network upload, merge, deployment or publishing; public publishing remains disabled.
+
+
+### ARO-CHAT-0215 post-open approval-path identity follow-up
+- The durable approval reader now performs a second pathname `lstat()` after open and requires a regular file with the same device/inode as the opened descriptor. This protects the fallback when `O_NOFOLLOW` is unavailable.
+- Added same-inode symlink substitution regression test. Production commit `d40aac24f08ec3ae7f5660fdc3aa73bf0e2598bb`; test commit `57dedee38b353a75e54f7aca89526604d8537b49`.
+- Exact-head Ubuntu/hosted-Windows CI remains PENDING after branch updates. No OAuth, real media, upload, merge, deployment or publishing.
