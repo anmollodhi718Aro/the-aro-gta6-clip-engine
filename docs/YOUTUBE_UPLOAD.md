@@ -96,6 +96,7 @@ python -m backend.app.youtube_upload /path/to/authorized-clip.mp4 \
   --privacy private \
   --destination-config .secrets/youtube_destination_profiles.json \
   --destination-profile channel_one \
+  --client-secrets .secrets/client_secret.json \
   --clip-id CLIP_ID --source-id SOURCE_ID \
   --rights-db aro_studio_data/source_rights.sqlite3 \
   --approval-record .secrets/approvals/channel_one/CLIP_ID.json \
@@ -129,6 +130,7 @@ python -m backend.app.youtube_upload /path/to/authorized-clip.mp4 \
   --privacy private \
   --destination-config .secrets/youtube_destination_profiles.json \
   --destination-profile channel_one \
+  --client-secrets .secrets/client_secret.json \
   --clip-id CLIP_ID --source-id SOURCE_ID \
   --rights-db aro_studio_data/source_rights.sqlite3 \
   --approval-record .secrets/approvals/channel_one/CLIP_ID.json \
