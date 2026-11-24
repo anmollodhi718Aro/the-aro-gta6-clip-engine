@@ -11,7 +11,7 @@ from unittest.mock import Mock, patch
 
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
-from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_upload)
+from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, require_report_publish_permissions, resolve_destination_identity, upload_video, validate_upload, _persist_oauth_token)
 
 
 class YouTubeUploadTests(unittest.TestCase):
@@ -627,3 +627,69 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class YouTubeUploaderStorageAndRightsHardeningTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp.name)
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def test_oauth_token_persistence_writes_complete_json_and_restricts_posix_mode(self):
+        target = self.root / ".secrets" / "tokens" / "channel.json"
+        _persist_oauth_token(target, '{"access_token":"synthetic"}')
+        self.assertEqual(json.loads(target.read_text(encoding="utf-8")), {"access_token": "synthetic"})
+        if os.name == "posix":
+            self.assertEqual(target.stat().st_mode & 0o777, 0o600)
+
+    def test_oauth_token_persistence_rejects_symlink_target(self):
+        outside = self.root / "outside.json"
+        outside.write_text('{"sentinel":true}', encoding="utf-8")
+        target = self.root / ".secrets" / "tokens" / "channel.json"
+        target.parent.mkdir(parents=True)
+        try:
+            target.symlink_to(outside)
+        except (NotImplementedError, OSError) as exc:
+            self.skipTest(f"file symlinks are unavailable on this runner: {exc}")
+        with self.assertRaisesRegex(PermissionError, "must not be a symbolic link"):
+            _persist_oauth_token(target, '{"access_token":"must-not-write"}')
+        self.assertEqual(json.loads(outside.read_text(encoding="utf-8")), {"sentinel": True})
+
+    def test_publish_rights_rejects_non_list_assets_before_registry_access(self):
+        registry = Mock()
+        report = {"source_id": "source-1", "assets": "not-a-list"}
+        with self.assertRaisesRegex(PermissionError, "assets must be a list"):
+            require_report_publish_permissions(report, registry, "source-1")
+        registry.authorize.assert_not_called()
+
+    def test_publish_rights_rejects_non_object_asset_before_registry_access(self):
+        registry = Mock()
+        report = {"source_id": "source-1", "assets": ["invalid-entry"]}
+        with self.assertRaisesRegex(PermissionError, "entries must be objects"):
+            require_report_publish_permissions(report, registry, "source-1")
+        registry.authorize.assert_not_called()
+
+    def test_publish_rights_rejects_missing_source_id_on_scoped_asset(self):
+        registry = Mock()
+        report = {
+            "source_id": "source-1",
+            "assets": [{"status": "scope_match_metadata_only", "source_id": "  "}],
+        }
+        with self.assertRaisesRegex(PermissionError, "missing a valid source_id"):
+            require_report_publish_permissions(report, registry, "source-1")
+        registry.authorize.assert_not_called()
+
+    def test_publish_rights_authorizes_clip_source_and_each_scoped_asset(self):
+        registry = Mock()
+        report = {
+            "source_id": "source-1",
+            "assets": [
+                {"status": "scope_match_metadata_only", "source_id": "source-2"},
+                {"status": "declared_original_requires_human_confirmation"},
+            ],
+        }
+        require_report_publish_permissions(report, registry, "source-1")
+        self.assertEqual(registry.authorize.call_count, 2)
+        registry.authorize.assert_any_call("source-1", "publish", "youtube")
+        registry.authorize.assert_any_call("source-2", "publish", "youtube")
