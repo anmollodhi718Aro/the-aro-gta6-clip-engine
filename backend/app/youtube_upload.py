@@ -79,6 +79,21 @@ def resolve_destination_identity(
     return subject, channel, (token_override or Path("token.json")).expanduser()
 
 
+def validate_destination_approval_path(
+    approval_record_path: Path | None, profile_name: str | None,
+) -> None:
+    """Keep profile-mode approval records in a profile-specific directory."""
+    if profile_name is None:
+        return
+    if approval_record_path is None:
+        raise PermissionError("destination profiles require a profile-specific --approval-record path")
+    resolved_parent = approval_record_path.expanduser().parent.resolve()
+    if resolved_parent.name != profile_name:
+        raise PermissionError(
+            f"approval record must be stored in a directory named for destination profile {profile_name!r}"
+        )
+
+
 def load_rights_report(path: str | Path) -> dict[str, Any]:
     report_path = Path(path).expanduser()
     payload = json.loads(report_path.read_text(encoding="utf-8"))
@@ -396,6 +411,7 @@ def main() -> int:
                 profile_name=args.destination_profile,
                 token_override=args.token,
             )
+            validate_destination_approval_path(args.approval_record, args.destination_profile)
         video, body = validate_upload(
             args.video, args.rights_report, title=args.title,
             description=args.description, tags=tags, privacy=args.privacy,
