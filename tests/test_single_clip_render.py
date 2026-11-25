@@ -1187,6 +1187,25 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["publishing_enabled"])
         self.assertIn("temporary snapshot cleanup failed", report["error"])
 
+    @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
+    @patch(
+        "backend.app.single_clip_render.render_clip",
+        side_effect=ValueError("simulated render-boundary validation failure"),
+    )
+    def test_render_exception_does_not_claim_processing_started(self, render, preflight):
+        report = render_selected_clip(
+            self.source, self.output, 2, 8,
+            execute=True, rights_confirmed=True,
+        )
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIsNone(report["processing_started"])
+        self.assertTrue(report["source_snapshot_created"])
+        self.assertTrue(report["source_snapshot_verified"])
+        self.assertFalse(report["upload_performed"])
+        self.assertFalse(report["publishing_enabled"])
+        render.assert_called_once()
+        self.assertEqual(preflight.call_count, 1)
+
     def test_render_failure_after_snapshot_preserves_verified_snapshot_evidence(self):
         with patch(
             "backend.app.single_clip_render._create_stable_source_snapshot",
