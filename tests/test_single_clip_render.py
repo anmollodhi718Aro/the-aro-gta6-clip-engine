@@ -310,5 +310,29 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(source.read_bytes(), replacement_bytes)
 
 
+    def test_snapshot_refuses_source_destination_alias_without_deleting_source(self):
+        source = self.root / "same-file.mp4"
+        original = b"do not delete the selected source"
+        source.write_bytes(original)
+
+        with self.assertRaisesRegex(ValueError, "destination must differ"):
+            _create_stable_source_snapshot(source, source)
+
+        self.assertEqual(source.read_bytes(), original)
+
+    def test_snapshot_preserves_preexisting_destination_on_exclusive_create_failure(self):
+        source = self.root / "snapshot-source.mp4"
+        snapshot = self.root / "already-existing-snapshot.mp4"
+        source.write_bytes(b"selected source")
+        existing = b"pre-existing destination must survive"
+        snapshot.write_bytes(existing)
+
+        with self.assertRaises(FileExistsError):
+            _create_stable_source_snapshot(source, snapshot)
+
+        self.assertEqual(snapshot.read_bytes(), existing)
+        self.assertEqual(source.read_bytes(), b"selected source")
+
+
 if __name__ == "__main__":
     unittest.main()
