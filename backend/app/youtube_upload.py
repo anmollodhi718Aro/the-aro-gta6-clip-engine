@@ -236,7 +236,7 @@ def _apply_windows_owner_only_acl(path: Path) -> None:
             ["whoami", "/user", "/fo", "csv", "/nh"],
             check=True, capture_output=True, text=True, timeout=15,
         )
-        sid_match = re.search(r"S-1-(?:\\d+-)+\\d+", identity.stdout)
+        sid_match = re.search(r"S-1-(?:\d+-)+\d+", identity.stdout)
         if not sid_match:
             raise PermissionError("could not determine the current Windows user SID")
         sid = sid_match.group(0)
