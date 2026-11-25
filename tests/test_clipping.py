@@ -128,7 +128,7 @@ class ClipRenderTests(unittest.TestCase):
             self.assertTrue(kwargs["check"])
             self.assertEqual(args[0][args[0].index("-t") + 1], "3.000")
             self.assertNotIn("shell", kwargs)
-            self.assertFalse(list(Path(folder).glob(".clip-*.mp4")))
+            self.assertFalse(list(Path(folder).glob(".clip-*")))
 
     def test_concurrent_output_collision_preserves_existing_file(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
@@ -144,7 +144,7 @@ class ClipRenderTests(unittest.TestCase):
                 with self.assertRaisesRegex(FileExistsError, "created by another render"):
                     render_clip(source, output, 0, 2, rights_confirmed=True)
             self.assertEqual(output.read_bytes(), b"second render owns destination")
-            self.assertFalse(list(Path(folder).glob(".clip-*.mp4")))
+            self.assertFalse(list(Path(folder).glob(".clip-*")))
 
     def test_ffmpeg_failure_does_not_delete_concurrent_output(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
@@ -160,7 +160,7 @@ class ClipRenderTests(unittest.TestCase):
                 with self.assertRaisesRegex(ClipRenderError, "synthetic failure"):
                     render_clip(source, output, 0, 2, rights_confirmed=True)
             self.assertEqual(output.read_bytes(), b"another render output")
-            self.assertFalse(list(Path(folder).glob(".clip-*.mp4")))
+            self.assertFalse(list(Path(folder).glob(".clip-*")))
 
     @unittest.skipUnless(shutil.which("ffmpeg"), "FFmpeg is not installed on this runner")
     def test_renders_a_generated_synthetic_video(self) -> None:
