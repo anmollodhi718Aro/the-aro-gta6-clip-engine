@@ -33,3 +33,14 @@ Documentation-only audit of PR #376's current exact head, workflow association, 
 
 ## Safety
 Documentation-only. No source or test behavior, uploader, OAuth, credentials, media, workflow configuration, or publishing behavior changed. No workflow retry/dispatch, merge, rebase, retarget, deployment, real-media processing, upload, or publishing was performed.
+
+
+### Latest exact-head CI recheck — 2026-11-25
+
+- PR #376 current head: `95040a76e26feee5d213496bad5492bfcdee5a99`.
+- Associated Python CI run [#45517364056](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45517364056), run 1551, completed FAILURE.
+- Ubuntu job `138880153717` and hosted-Windows job `138880154002` both completed FAILURE. The jobs endpoint exposed `steps: null` and `logs_url: null` for both jobs.
+- Failure phase and root cause remain NOT VERIFIED. No compile or unit-test result is established; do not attribute the failure to application code or tests.
+- Local repository tests NOT RUN. PR #376 review submissions and inline review threads remain empty; independent review NOT RECORDED.
+- No workflow retry/dispatch was initiated. Preserve PR #376 DRAFT / OPEN / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+- This is a documentation-only evidence update. No source/test behavior, workflow configuration, OAuth, credentials, media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
