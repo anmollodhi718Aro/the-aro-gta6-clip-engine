@@ -1191,3 +1191,7 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - CLI renderer invocation now records ordinary unexpected Python exceptions as terminal `FAIL` JSON, retaining explicit false snapshot verification/creation flags and null actual snapshot digest.
 - Added a regression for unexpected `TypeError`; tests NOT RUN.
 - Implementation: `de3918653b2fd268a1826f962a4dfefa2c78bc27`; test: `4c54daaafc19c2329a2008e087f06792d7e8f27e`.
+
+
+### Latest continuation — ARO-CHAT-0285
+Continue on the existing PR #386 branch. Terminal report JSON is now serialized fully in memory before the reserved report is truncated; if serialization fails, the parseable RUNNING reservation is preserved. Regression coverage was added but NOT RUN. Final filesystem write failure/hard termination can still leave an unknown outcome, so inspect outputs manually. Do not merge, rebase, retarget, dispatch/retry workflows, process real media, upload, publish, or deploy. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
