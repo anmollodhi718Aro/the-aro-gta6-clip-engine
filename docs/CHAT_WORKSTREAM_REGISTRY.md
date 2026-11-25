@@ -1738,3 +1738,15 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Production code unchanged. Repository tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its #383 -> #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+## ARO-CHAT-0250 | Stable snapshot cleanup safety — 2026-11-25
+- Exact chat title: `ARO-CHAT-0250 | Stable Snapshot Cleanup Safety`
+- Workstream: ARO-GTA-P1-250
+- Follow-up to PR #386 / ARO-GTA-P1-244; existing branch and PR preserved.
+- Static review found that snapshot cleanup could unlink a pre-existing destination after exclusive-create failure; source/destination aliasing could also target the selected source itself.
+- Snapshot creation now rejects source/destination path aliases, tracks whether this invocation successfully created the destination, and verifies the created file identity before cleanup. Existing destinations and replaced destination paths are preserved.
+- Production commit: `6e06c7922b8538cf099224fc33e894ee9822d2c5`; regression tests: `88cb993323b78b0717d78b300b86fa8e2f7a62c0`.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 -> #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
