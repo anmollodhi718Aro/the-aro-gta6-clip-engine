@@ -512,7 +512,7 @@ def upload_video(
     require_report_publish_permissions(current_report, rights_registry, source_id)
     require_current_owner_approval(
         approval_record_path, clip_id=clip_id, source_id=source_id,
-        video_path=video_path, owner=owner, privacy=privacy,
+        video_path=video_path, video_sha256=upload_sha256, owner=owner, privacy=privacy,
         rights_registry=rights_registry,
     )
     # Repeat all identity, approval and current-rights checks immediately
@@ -523,7 +523,7 @@ def upload_video(
     )
     require_current_owner_approval(
         approval_record_path, clip_id=clip_id, source_id=source_id,
-        video_path=video_path, owner=owner, privacy=privacy,
+        video_path=video_path, video_sha256=upload_sha256, owner=owner, privacy=privacy,
         rights_registry=rights_registry,
     )
     require_report_publish_permissions(current_report, rights_registry, source_id)
