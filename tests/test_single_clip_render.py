@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from backend.app.clip_pack import write_clip_pack
+from backend.app.clip_pack import map_candidates_to_media, write_clip_pack
 from backend.app.single_clip_render import (
     _create_stable_source_snapshot, load_selected_candidate, main, render_selected_clip,
 )
@@ -39,29 +39,23 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(selected["row_number"], 1)
 
     def test_clip_pack_export_connects_to_exact_renderer_candidate_loader(self):
-        row = {
+        origin = "2026-11-19T12:00:00+00:00"
+        candidate = {
             "source_id": "authorized-demo",
             "score": 80,
             "peak_message_count": 24,
             "peak_window_start": "2026-11-19T12:00:40+00:00",
-            "clip_start_utc": "2026-11-19T12:00:30+00:00",
-            "clip_end_utc": "2026-11-19T12:00:45+00:00",
-            "start_seconds": 30.0,
-            "end_seconds": 45.0,
-            "duration_seconds": 15.0,
-            "renderable": True,
-            "sync_method": "measured_single_origin",
-            "sync_max_residual_seconds": 0.0,
-            "sync_drift_ppm": 0.0,
-            "review_note": "ready for human review",
+            "clip_start": "2026-11-19T12:00:30+00:00",
+            "clip_end": "2026-11-19T12:00:45+00:00",
         }
-        csv_path, _ = write_clip_pack([row], self.root / "clip-pack")
+        mapped_rows = map_candidates_to_media([candidate], origin)
+        self.assertTrue(mapped_rows[0]["renderable"])
+        csv_path, _ = write_clip_pack(mapped_rows, self.root / "clip-pack")
         selected = load_selected_candidate(csv_path, 1)
-        self.assertEqual(selected["source_id"], row["source_id"])
-        self.assertEqual(selected["start_seconds"], row["start_seconds"])
-        self.assertEqual(selected["end_seconds"], row["end_seconds"])
-        self.assertEqual(selected["duration_seconds"], row["duration_seconds"])
-
+        self.assertEqual(selected["source_id"], candidate["source_id"])
+        self.assertEqual(selected["start_seconds"], 30.0)
+        self.assertEqual(selected["end_seconds"], 45.0)
+        self.assertEqual(selected["duration_seconds"], 15.0)
 
     def test_candidate_selection_rejects_unrenderable_row(self):
         pack = self.root / "candidates.csv"
