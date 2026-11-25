@@ -842,3 +842,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
 
 - Final follow-up commit `08aab858763bd4f9057650cb718cc0a13c0a3e6f` adds `O_NONBLOCK` where available so a selected path swapped to a FIFO/special file cannot block before descriptor type validation. Final exact-head CI lookup at `08aab858763bd4f9057650cb718cc0a13c0a3e6f` returned zero associated runs; CI remains NOT VERIFIED.
+
+
+### ARO-CHAT-0248 stable source snapshot mutation regression — 2026-11-25
+- Continued PR #386 / ARO-GTA-P1-244 on its existing branch; no new PR or ancestry change.
+- Added direct regression coverage for in-place source mutation during the descriptor-backed, bounded-chunk snapshot copy. The test asserts the copy fails closed and the partial snapshot is removed; a separate test verifies symlink sources are rejected before snapshot creation.
+- Test commit: `af6e70f15b97714ecc08cc816c8e610a41d1b06f`; focused report: `ce568e37af1421c39f4aa808bc87cf1684cf0fb2`; registry: `f98a187e42e6fe4c0af2991f764e21e635b3fda1`.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED. Independent review NOT RECORDED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 → #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without explicit owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
