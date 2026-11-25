@@ -138,5 +138,33 @@ class MediaBatchPreflightTests(unittest.TestCase):
         self.assertTrue(all(item["error"] for item in report["results"]))
 
 
+    @patch("backend.app.media_batch_preflight.subprocess.run")
+    def test_malformed_stream_metadata_fails_only_its_own_file(self, run):
+        malformed_null = json.dumps({
+            "format": {"duration": "10", "format_name": "mp4"},
+            "streams": None,
+        })
+        malformed_item = json.dumps({
+            "format": {"duration": "10", "format_name": "mp4"},
+            "streams": [None],
+        })
+        run.side_effect = [
+            SimpleNamespace(stdout=malformed_null),
+            SimpleNamespace(stdout=malformed_item),
+            SimpleNamespace(stdout=GOOD_PROBE),
+        ]
+
+        report = inspect_media_directory(self.root, recursive=False)
+
+        self.assertEqual((report["passed"], report["failed"]), (1, 2))
+        self.assertTrue(all(
+            "invalid stream metadata" in item["error"]
+            for item in report["results"][:2]
+        ))
+        self.assertEqual(report["results"][2]["status"], "PASS")
+        self.assertFalse(report["processing_started"])
+        self.assertFalse(report["publishing_enabled"])
+
+
 if __name__ == "__main__":
     unittest.main()
