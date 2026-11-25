@@ -1152,3 +1152,11 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - Added a regression for a case-only candidate source-ID mismatch; CLI rejects it before report reservation.
 - Test commit: `be8f81ca85e235419ece5ad23432b19ae17b2b50`.
 - Tests NOT RUN. Manual source cross-check is still not proof of local file identity.
+
+
+### Latest handoff: ARO-CHAT-0279 — selected-file SHA-256 verification
+- Candidate CSV mode now requires `--source-sha256` from the trusted authorized-media inventory, in addition to exact `--source-id` matching.
+- The selected local file is hashed via a non-following descriptor in bounded chunks; descriptor/path identity is checked before and after. Malformed or mismatched digests, symlinks, and detected changes fail before report reservation or media probing.
+- The digest is recorded in candidate-selection report metadata. It is a byte-identity check against a trusted inventory value, not proof of authorship or rights.
+- Commits: implementation `b7080b15b100ccb1512cd601c68da714ebf75ed7`; tests `ea18bb426b743e124124717c8583185ea048c3c1`, `dc122a4e4e7e6d25d105366d235f3d8beef4d53a`, `80bce215874f3c4dcbfcc117d243624dd211ca58`.
+- Tests NOT RUN. No media processed or published.
