@@ -47,6 +47,17 @@ class ClipRenderTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 render_clip(source, Path(folder) / "clip.mp4", float("nan"), 2, rights_confirmed=True)
 
+    def test_rejects_boolean_clip_bounds_before_invoking_ffmpeg(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            source.write_bytes(b"synthetic")
+            with patch("backend.app.clipping.subprocess.run") as run:
+                for start, end in ((True, 2), (False, 2), (0, True), (0, False)):
+                    with self.subTest(start=start, end=end):
+                        with self.assertRaisesRegex(ValueError, "not booleans"):
+                            render_clip(source, Path(folder) / "clip.mp4", start, end, rights_confirmed=True)
+                run.assert_not_called()
+
     def test_rejects_long_clip(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / "source.mov"
