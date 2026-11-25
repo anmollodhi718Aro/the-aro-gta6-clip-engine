@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import math
 import sys
@@ -40,6 +41,26 @@ def _load_candidates(csv_path: Path) -> list[dict[str, str]]:
         return list(reader)
 
 
+def _media_identity(media: Path) -> dict[str, Any]:
+    """Fingerprint exact local media bytes for safe retry matching."""
+    before = media.stat()
+    digest = hashlib.sha256()
+    with media.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    after = media.stat()
+    if (before.st_size, before.st_mtime_ns, before.st_ino) != (
+        after.st_size, after.st_mtime_ns, after.st_ino
+    ):
+        raise ValueError("local media changed while its identity was being calculated")
+    return {
+        "path": str(media.resolve()),
+        "size_bytes": after.st_size,
+        "mtime_ns": after.st_mtime_ns,
+        "sha256": digest.hexdigest(),
+    }
+
+
 def load_failed_rows(
     report_path: str | Path,
     csv_path: str | Path,
@@ -58,12 +79,7 @@ def load_failed_rows(
         media = Path(media_path).expanduser().resolve()
         if not media.is_file():
             raise FileNotFoundError(f"local media file does not exist: {media}")
-        media_stat = media.stat()
-        current_media_identity = {
-            "path": str(media),
-            "size_bytes": media_stat.st_size,
-            "mtime_ns": media_stat.st_mtime_ns,
-        }
+        current_media_identity = _media_identity(media)
     failed: set[int] = set()
     for item in previous:
         if not isinstance(item, dict) or item.get("status") != "failed":
@@ -139,12 +155,7 @@ def run_batch(
     media = media.resolve()
     if not media.is_file():
         raise FileNotFoundError(f"local media file does not exist: {media}")
-    media_stat = media.stat()
-    media_identity = {
-        "path": str(media),
-        "size_bytes": media_stat.st_size,
-        "mtime_ns": media_stat.st_mtime_ns,
-    }
+    media_identity = _media_identity(media)
     if execute and not rights_confirmed:
         raise PermissionError("execution requires explicit local-media rights confirmation")
 

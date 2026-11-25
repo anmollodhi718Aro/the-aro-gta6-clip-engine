@@ -145,12 +145,8 @@ class BatchRenderTests(unittest.TestCase):
             load_failed_rows(report, self.csv_path)
 
     def test_retry_checks_exact_local_media_identity_when_media_is_supplied(self) -> None:
-        stat = self.media.stat()
-        identity = {
-            "path": str(self.media.resolve()),
-            "size_bytes": stat.st_size,
-            "mtime_ns": stat.st_mtime_ns,
-        }
+        from backend.app.batch_render import _media_identity
+        identity = _media_identity(self.media)
         report = self._write_retry_report([
             {
                 "candidate_row": 1, "source_id": "demo-a",
@@ -168,6 +164,24 @@ class BatchRenderTests(unittest.TestCase):
                 "status": "failed", "media_identity": identity,
             },
         ])
+        with self.assertRaisesRegex(ValueError, "media file changed or differs"):
+            load_failed_rows(report, self.csv_path, self.media)
+
+    def test_retry_rejects_same_size_media_replacement_with_restored_mtime(self) -> None:
+        from backend.app.batch_render import _media_identity
+        identity = _media_identity(self.media)
+        report = self._write_retry_report([
+            {
+                "candidate_row": 1, "source_id": "demo-a",
+                "start_seconds": 10.0, "end_seconds": 25.0,
+                "status": "failed", "media_identity": identity,
+            },
+        ])
+        original_stat = self.media.stat()
+        self.media.write_bytes(b"replacement synthetic media")
+        self.assertEqual(self.media.stat().st_size, original_stat.st_size)
+        import os
+        os.utime(self.media, ns=(original_stat.st_atime_ns, original_stat.st_mtime_ns))
         with self.assertRaisesRegex(ValueError, "media file changed or differs"):
             load_failed_rows(report, self.csv_path, self.media)
 
