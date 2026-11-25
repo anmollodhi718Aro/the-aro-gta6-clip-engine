@@ -892,7 +892,7 @@ class SingleClipRenderTests(unittest.TestCase):
             self.assertEqual(main(), 2)
 
         report_text = report_path.read_text(encoding="utf-8")
-        self.assertTrue(report_text.endswith("\\n"))
+        self.assertTrue(report_text.endswith("\n"))
         report = json.loads(report_text)
         self.assertEqual(report["status"], "RUNNING")
         self.assertIn("not yet been recorded", report["message"])
@@ -1010,10 +1010,10 @@ class SingleClipRenderTests(unittest.TestCase):
 
     def test_terminal_fallback_writes_valid_json_with_real_trailing_newline(self):
         report_path = self.root / "newline-report.json"
-        report_text = json.dumps({"status": "RUNNING"}, indent=2) + "\\n"
+        report_text = json.dumps({"status": "RUNNING"}, indent=2) + "\n"
         fallback_path = _write_exclusive_terminal_fallback(report_path, report_text)
         persisted = fallback_path.read_text(encoding="utf-8")
-        self.assertTrue(persisted.endswith("\\n"))
+        self.assertTrue(persisted.endswith("\n"))
         self.assertEqual(json.loads(persisted), {"status": "RUNNING"})
 
     def test_terminal_fallback_rejects_short_write(self):
@@ -1046,7 +1046,7 @@ class SingleClipRenderTests(unittest.TestCase):
 
         with patch.object(Path, "open", new=open_with_short_write):
             with self.assertRaisesRegex(OSError, "write was incomplete"):
-                _write_exclusive_terminal_fallback(report_path, '{"status":"RENDERED"}\\n')
+                _write_exclusive_terminal_fallback(report_path, '{"status":"RENDERED"}\n')
         self.assertTrue(
             report_path.with_name(report_path.name + ".terminal-fallback.json").exists()
         )
@@ -1056,7 +1056,7 @@ class SingleClipRenderTests(unittest.TestCase):
         output_alias = self.root / (report_path.name + ".terminal-fallback.json")
         with self.assertRaisesRegex(OSError, "aliases the selected source or output"):
             _write_exclusive_terminal_fallback(
-                report_path, '{"status":"RENDERED"}\\n', (self.source, output_alias)
+                report_path, '{"status":"RENDERED"}\n', (self.source, output_alias)
             )
         self.assertFalse(output_alias.exists())
 
