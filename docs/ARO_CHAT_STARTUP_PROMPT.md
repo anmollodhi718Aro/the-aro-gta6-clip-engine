@@ -1235,3 +1235,10 @@ FFmpeg timeout now scales with requested clip duration (10x), bounded from 180 t
 
 ### Latest continuation — ARO-CHAT-0295
 A post-snapshot FFmpeg/FFprobe exception now preserves the fact that the verified source snapshot was created, including its SHA-256; processing-start is unknown if the exception cannot prove whether FFmpeg began. Unexpected exceptions escaping before a structured renderer result now mark snapshot state null/unknown rather than falsely reporting false. Added regression coverage. Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Preserve PR #386 draft/open/unmerged and its existing ancestry. No real media, OAuth, credentials, upload, publishing, merge/rebase/retarget, workflow retry/dispatch, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### Latest handoff: ARO-CHAT-0296 — preserve snapshot evidence on cleanup failure
+- PR #386 static review found a post-snapshot cleanup exception path that could incorrectly report snapshot state as false. The renderer now preserves verified snapshot digest, creation/verification flags, and known render state if temporary-directory cleanup raises.
+- Added a cleanup-failure regression test and updated `docs/SINGLE_CLIP_RENDER.md` plus the workstream registry.
+- Tests NOT RUN; exact-head CI NOT VERIFIED. Run #45701082644 ended after 3 seconds with runner_id 0, no runner name, zero steps, and unavailable logs. Root cause remains unknown; do not call it a test failure.
+- Keep PR #386 DRAFT / OPEN / UNMERGED. Do not rebase/retarget, retry/dispatch CI, process real media, upload, publish, merge, or deploy without required authorization. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
