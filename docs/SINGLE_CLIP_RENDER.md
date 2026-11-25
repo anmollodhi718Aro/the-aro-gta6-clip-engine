@@ -143,3 +143,5 @@ A terminal report filesystem write can fail after truncation has begun, leaving 
 
 
 If writing the reserved report fails after the terminal JSON has been serialized, the CLI attempts an exclusive-create sidecar named `<report>.terminal-fallback.json`. It never overwrites an existing sidecar. A successful sidecar write is flushed and fsynced; the CLI still returns an error because the primary report may be partial. If the sidecar already exists or cannot be written, both errors are reported and manual inspection remains required. This fallback is not a transaction or a guarantee against power loss, filesystem faults, or partial sidecar writes.
+
+The fallback path is also resolved and checked against the selected source and output paths before creation. If it aliases either protected path, fallback creation is refused rather than placing a report where source media or render output belongs.
