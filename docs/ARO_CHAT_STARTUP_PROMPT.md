@@ -1242,3 +1242,10 @@ A post-snapshot FFmpeg/FFprobe exception now preserves the fact that the verifie
 - Added a cleanup-failure regression test and updated `docs/SINGLE_CLIP_RENDER.md` plus the workstream registry.
 - Tests NOT RUN; exact-head CI NOT VERIFIED. Run #45701082644 ended after 3 seconds with runner_id 0, no runner name, zero steps, and unavailable logs. Root cause remains unknown; do not call it a test failure.
 - Keep PR #386 DRAFT / OPEN / UNMERGED. Do not rebase/retarget, retry/dispatch CI, process real media, upload, publish, merge, or deploy without required authorization. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### Latest handoff: ARO-CHAT-0297 — conservative processing-start state
+- The single-clip renderer no longer claims processing started merely because it entered `render_clip()`; that helper validates paths and bounds before FFmpeg. Processing-start remains unknown until the render call returns successfully.
+- Added a regression asserting exceptions at the render boundary do not claim processing started while preserving verified snapshot evidence.
+- Tests NOT RUN; exact-head CI NOT VERIFIED; the preceding CI run failed with no visible steps and unavailable logs. Root cause remains unknown.
+- Preserve PR #386 draft/open/unmerged and existing ancestry. No workflow retry/dispatch, real media, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
