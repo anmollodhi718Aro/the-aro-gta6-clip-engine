@@ -1058,3 +1058,8 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - GitHub Actions run #1774 for exact head `0067a10ef957ed2552c2281f251ca8aca7a2ba37` completed as FAILURE on both Ubuntu and hosted Windows in approximately three seconds. Both jobs reported `steps: null`; both log downloads returned `BlobNotFound`. There is no evidence that checkout, compilation or unit tests started, so this is an infrastructure/log-availability failure of unknown cause, not a code-test result.
 - Run #1771 and its retry on previous head `04e3f334ae9ebcb59ebe0e193006e9dd82221e65` had the same zero-step / missing-log behavior. Do not report either run as a source-code test failure or success.
 - The current PR head includes the disk-backed stream and API-failure cleanup regressions. Exact-head CI is still NOT VERIFIED; local tests were not run in this connector session.
+
+### ARO-CHAT-0201 snapshot short-write hardening — 2026-11-26
+- `_copy_stream_with_limit()` now checks that each snapshot write persisted the complete chunk. A short write raises `OSError` immediately rather than allowing a truncated staged file to proceed.
+- Added a focused regression using a writer that deliberately reports a short write. This is a code/test addition only; exact-head CI and local execution remain unverified because recent Actions jobs terminate with no steps and missing log blobs.
+- Commits: implementation `304d15fe6888bc020c261a86139aec881ad95d18`; regression `d2397452551266187c32a723943299246dad1d79`.
