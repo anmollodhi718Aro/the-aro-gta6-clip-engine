@@ -100,6 +100,7 @@ def _render_selected_clip_from_snapshot(
         report["error"] = output_error
         return report
 
+    # Reject invalid bounds before source identity checks or FFprobe work.
     try:
         source_identity_before = _selected_file_identity(source)
     except (OSError, ValueError) as exc:
