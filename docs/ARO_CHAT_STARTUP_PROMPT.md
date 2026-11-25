@@ -189,3 +189,6 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 
 
 Current Issue #68 continuation: Windows OAuth token persistence now disables inherited ACLs on the per-profile token directory and temporary token file, grants only the current user's SID full control, and verifies the ACL read-back before writing token bytes. Mocked regression tests cover the exact owner-only ACL, extra group ACE rejection, and identity-command failure. Do not claim tests/CI passed until the latest PR #311 head has an associated successful run. Owner-device Windows ACL/OAuth verification and independent security review remain pending. Keep Issue #68 open and all live uploads/public publishing disabled.
+
+
+Issue #68 Windows OAuth ACL verification refinement: ACLs are read back through PowerShell Get-Acl; every ACE principal is translated to a SecurityIdentifier. Acceptance requires exactly one explicit Allow/FullControl ACE for the current user's SID. Extra or inherited ACEs and any command/translation failure reject token persistence and loading. Mocked regression tests were added. Do not mark verified until exact-head CI and owner-device Windows verification both pass; independent review, OAuth/channel acceptance, upload byte limit and authorized real-media acceptance remain pending.
