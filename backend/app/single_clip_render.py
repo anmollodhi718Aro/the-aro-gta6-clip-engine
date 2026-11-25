@@ -549,8 +549,10 @@ def main() -> int:
         description="Dry-run or render exactly one explicitly selected local video clip."
     )
     parser.add_argument("video", type=Path, help="One selected local authorized video file.")
-    parser.add_argument("--start", type=float, required=True, help="Clip start time in seconds.")
-    parser.add_argument("--end", type=float, required=True, help="Clip end time in seconds.")
+    parser.add_argument("--start", type=float, help="Clip start time in seconds.")
+    parser.add_argument("--end", type=float, help="Clip end time in seconds.")
+    parser.add_argument("--candidate-csv", type=Path, help="Review CSV produced by clip_pack.py.")
+    parser.add_argument("--candidate-row", type=int, help="One-based data row to select from --candidate-csv.")
     parser.add_argument("--output", type=Path, default=Path("rendered_clips/single_selected_clip.mp4"))
     parser.add_argument("--report", type=Path, default=Path("single_clip_render_report.json"))
     parser.add_argument("--ffprobe", default="ffprobe")
@@ -558,6 +560,22 @@ def main() -> int:
     parser.add_argument("--execute", action="store_true", help="Actually render; default is a dry-run plan.")
     parser.add_argument("--confirm-rights", action="store_true", help="Confirm processing rights for this exact selected source.")
     args = parser.parse_args()
+
+    direct_bounds = args.start is not None and args.end is not None
+    candidate_selection = args.candidate_csv is not None and args.candidate_row is not None
+    if direct_bounds == candidate_selection or (args.start is None) != (args.end is None) or (args.candidate_csv is None) != (args.candidate_row is None):
+        parser.error("provide either both --start/--end or both --candidate-csv/--candidate-row")
+    selected_candidate = None
+    if candidate_selection:
+        try:
+            selected_candidate = load_selected_candidate(args.candidate_csv, args.candidate_row)
+        except ValueError as exc:
+            parser.error(str(exc))
+        start_seconds = selected_candidate["start_seconds"]
+        end_seconds = selected_candidate["end_seconds"]
+    else:
+        start_seconds = args.start
+        end_seconds = args.end
 
     # Reserve the exclusive report path before any media inspection or rendering.
     # This prevents a completed render from being followed by a report-collision error.
@@ -577,9 +595,10 @@ def main() -> int:
                 "status": "RUNNING",
                 "source_path": str(source_path),
                 "output_path": str(output_path),
-                "start_seconds": args.start,
-                "end_seconds": args.end,
+                "start_seconds": start_seconds,
+                "end_seconds": end_seconds,
                 "execution_requested": bool(args.execute and args.confirm_rights),
+                "candidate_selection": selected_candidate,
                 "upload_performed": False,
                 "publishing_enabled": False,
                 "message": "report reserved; final render result has not yet been recorded",
@@ -593,8 +612,8 @@ def main() -> int:
                 report = render_selected_clip(
                     args.video,
                     args.output,
-                    args.start,
-                    args.end,
+                    start_seconds,
+                    end_seconds,
                     execute=args.execute,
                     rights_confirmed=args.confirm_rights,
                     ffprobe_binary=args.ffprobe,
