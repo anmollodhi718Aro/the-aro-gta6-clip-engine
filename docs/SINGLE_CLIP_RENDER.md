@@ -140,3 +140,6 @@ The CLI prints the same pre-serialized terminal JSON string that it writes to th
 ### Partial terminal report write recovery
 
 A terminal report filesystem write can fail after truncation has begun, leaving the report unreadable even when rendering already completed. The CLI returns a report-write error; that error does **not** establish that rendering failed. Preserve any output file and inspect it manually before retrying or cleaning up. The regression test injects a partial report write after a mocked successful render and verifies that the output bytes are preserved. This test is a failure-mode contract, not proof of filesystem atomicity or real-media correctness.
+
+
+If writing the reserved report fails after the terminal JSON has been serialized, the CLI attempts an exclusive-create sidecar named `<report>.terminal-fallback.json`. It never overwrites an existing sidecar. A successful sidecar write is flushed and fsynced; the CLI still returns an error because the primary report may be partial. If the sidecar already exists or cannot be written, both errors are reported and manual inspection remains required. This fallback is not a transaction or a guarantee against power loss, filesystem faults, or partial sidecar writes.
