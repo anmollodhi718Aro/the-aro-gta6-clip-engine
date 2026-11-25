@@ -83,6 +83,28 @@ class ClipPackTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "does not match"):
             map_candidates_to_media([self.candidate()], clock_sync=sync, source_id="authorized-demo")
 
+    def test_clock_fit_rejects_candidate_with_missing_source_id(self) -> None:
+        anchors = [
+            ClockAnchor("authorized-demo", self.origin + timedelta(seconds=offset), offset)
+            for offset in (0, 60, 120)
+        ]
+        sync = fit_clock_sync(anchors)
+        candidate = self.candidate()
+        candidate.pop("source_id")
+        with self.assertRaisesRegex(ValueError, "missing source_id"):
+            map_candidates_to_media([candidate], clock_sync=sync)
+
+    def test_clock_fit_rejects_blank_candidate_source_id_without_plan_source(self) -> None:
+        anchors = [
+            ClockAnchor("authorized-demo", self.origin + timedelta(seconds=offset), offset)
+            for offset in (0, 60, 120)
+        ]
+        sync = fit_clock_sync(anchors)
+        candidate = self.candidate()
+        candidate["source_id"] = " "
+        with self.assertRaisesRegex(ValueError, "missing source_id"):
+            map_candidates_to_media([candidate], clock_sync=sync)
+
     def test_clock_fit_refuses_candidate_outside_calibrated_interval(self) -> None:
         anchors = [
             ClockAnchor("authorized-demo", self.origin + timedelta(seconds=offset), offset)
