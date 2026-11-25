@@ -2058,3 +2058,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - CI continues to compile `backend`, `tests`, and `THE_ARO_STUDIO.py`, then run `python -m unittest discover -s tests -v` on Python 3.11.
 - Workflow commit: `260b48fc54560c2e713c2caaa32ff5d48ad475f3`.
 - No workflow was dispatched or retried manually. Awaiting a subsequent push-triggered run; tests remain unverified until that run completes.
+
+
+### ARO-CHAT-0274 — CLI-level selected-candidate handoff regression (2026-11-26)
+- Added a CLI-level regression that creates a candidate via `map_candidates_to_media`, exports it via `write_clip_pack`, then invokes the renderer CLI with `--candidate-csv` and `--candidate-row` in default dry-run mode.
+- The test asserts the renderer receives the mapped 30s–45s bounds and the JSON report records the exact source ID and one-based selected row, with upload/publishing flags false.
+- Test commit: `0e8d329d821f0b2a5a605edd9e60f8dcceb6c862`.
+- Tests NOT RUN; the new regression is committed but not yet executed by CI.
