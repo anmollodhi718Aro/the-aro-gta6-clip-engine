@@ -811,8 +811,10 @@ def main() -> int:
                 report = {
                     **initial_report,
                     "status": "FAIL",
-                    "source_snapshot_verified": False,
-                    "source_snapshot_created": False,
+                    # No structured renderer result was returned, so the
+                    # snapshot state is unknown rather than proven absent.
+                    "source_snapshot_verified": None,
+                    "source_snapshot_created": None,
                     "source_sha256": None,
                     "error": str(exc),
                     "message": "render operation failed; inspect any output file before retrying",
