@@ -23,9 +23,14 @@ MAX_REVIEW_SECONDS = 180.0
 
 
 def _number(row: dict[str, Any], field: str) -> float:
+    raw = row.get(field)
+    # bool is an int subclass in Python; accepting True as 1.0 can silently
+    # turn malformed candidate metadata into a plausible score.
+    if isinstance(raw, bool):
+        raise ValueError(f"candidate {field} must be numeric, not boolean")
     try:
-        value = float(row[field])
-    except (KeyError, TypeError, ValueError) as exc:
+        value = float(raw)
+    except (TypeError, ValueError) as exc:
         raise ValueError(f"candidate is missing a valid {field}") from exc
     if not math.isfinite(value):
         raise ValueError(f"candidate {field} must be finite")
@@ -57,7 +62,18 @@ def score_candidate(row: dict[str, Any]) -> dict[str, Any]:
         start = _number(row, "start_seconds")
         end = _number(row, "end_seconds")
         renderable = row.get("renderable") in (True, "True", "true", "1", 1)
-        synchronized = renderable and start >= 0 and end > start and duration <= MAX_REVIEW_SECONDS
+        measured_bounds_duration = end - start
+        bounds_match_duration = math.isclose(
+            measured_bounds_duration, duration, rel_tol=0.0, abs_tol=0.05
+        )
+        synchronized = (
+            renderable
+            and start >= 0
+            and end > start
+            and duration <= MAX_REVIEW_SECONDS
+            and measured_bounds_duration <= MAX_REVIEW_SECONDS
+            and bounds_match_duration
+        )
     except ValueError:
         synchronized = False
 
