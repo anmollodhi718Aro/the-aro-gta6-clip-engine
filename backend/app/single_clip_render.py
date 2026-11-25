@@ -173,10 +173,18 @@ def _render_selected_clip_from_snapshot(
 def _create_stable_source_snapshot(source: Path, snapshot: Path) -> None:
     """Copy one selected regular file from a verified descriptor in bounded chunks.
 
-    FFprobe and FFmpeg consume the same private snapshot, not the mutable
-    caller-controlled pathname. Path and descriptor identity/metadata are
-    checked before and after copying; partial snapshots are removed on failure.
+    Refuse source/destination aliases and never remove a destination that this
+    invocation did not create. Cleanup also verifies the created inode before
+    unlinking, so a replaced destination is not accidentally deleted.
     """
+    source = Path(source)
+    snapshot = Path(snapshot)
+    try:
+        if source.resolve(strict=True) == snapshot.resolve(strict=False):
+            raise ValueError("snapshot destination must differ from the selected source")
+    except OSError as exc:
+        raise ValueError(f"source or snapshot path could not be resolved: {exc}") from exc
+
     before_path = source.lstat()
     if stat.S_ISLNK(before_path.st_mode) or not stat.S_ISREG(before_path.st_mode):
         raise ValueError("selected source must be a regular non-symlink file")
@@ -188,6 +196,8 @@ def _create_stable_source_snapshot(source: Path, snapshot: Path) -> None:
     if hasattr(os, "O_NOFOLLOW"):
         flags |= os.O_NOFOLLOW
     descriptor = os.open(source, flags)
+    snapshot_created = False
+    snapshot_identity = None
     try:
         before_fd = os.fstat(descriptor)
         identity = lambda item: (
@@ -199,6 +209,8 @@ def _create_stable_source_snapshot(source: Path, snapshot: Path) -> None:
         copied = 0
         with os.fdopen(os.dup(descriptor), "rb") as source_handle:
             with snapshot.open("xb") as snapshot_handle:
+                snapshot_created = True
+                snapshot_identity = identity(os.fstat(snapshot_handle.fileno()))
                 while True:
                     chunk = source_handle.read(1024 * 1024)
                     if not chunk:
@@ -214,7 +226,13 @@ def _create_stable_source_snapshot(source: Path, snapshot: Path) -> None:
                 or copied != before_fd.st_size):
             raise RuntimeError("selected source changed while its stable snapshot was copied")
     except Exception:
-        snapshot.unlink(missing_ok=True)
+        if snapshot_created:
+            try:
+                current_snapshot = snapshot.lstat()
+                if snapshot_identity is not None and identity(current_snapshot) == snapshot_identity:
+                    snapshot.unlink()
+            except FileNotFoundError:
+                pass
         raise
     finally:
         os.close(descriptor)
