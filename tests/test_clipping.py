@@ -18,6 +18,21 @@ class ClipRenderTests(unittest.TestCase):
             with self.assertRaises(PermissionError):
                 render_clip(source, Path(folder) / "clip.mp4", 0, 2, rights_confirmed=False)
 
+    def test_rejects_symlink_source_before_invoking_ffmpeg(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            target = root / "source.mov"
+            selected = root / "selected.mov"
+            target.write_bytes(b"synthetic")
+            try:
+                selected.symlink_to(target)
+            except (OSError, NotImplementedError):
+                self.skipTest("symlink creation is unavailable on this runner")
+            with patch("backend.app.clipping.subprocess.run") as run:
+                with self.assertRaisesRegex(ValueError, "symbolic links"):
+                    render_clip(selected, root / "clip.mp4", 0, 2, rights_confirmed=True)
+            run.assert_not_called()
+
     def test_rejects_invalid_duration(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / "source.mov"
