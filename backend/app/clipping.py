@@ -113,6 +113,11 @@ def render_clip(
         str(temporary_output),
     ]
 
+    # Allow slow local CPUs proportionally more time for longer clips. The cap
+    # keeps a stalled encoder from running indefinitely; short clips retain a
+    # bounded three-minute timeout.
+    ffmpeg_timeout_seconds = min(1800, max(180, math.ceil(duration * 10)))
+
     try:
         # Re-check the selected pathname immediately before FFmpeg opens it.
         # This narrows the preflight-to-render replacement window and rejects
@@ -122,7 +127,7 @@ def render_clip(
                 or (current_source.st_dev, current_source.st_ino) != source_identity):
             raise RuntimeError("selected media path changed after source validation")
         try:
-            subprocess.run(command, check=True, capture_output=True, text=True, timeout=180)
+            subprocess.run(command, check=True, capture_output=True, text=True, timeout=ffmpeg_timeout_seconds)
         except FileNotFoundError as exc:
             raise ClipRenderError(f"FFmpeg executable not found: {ffmpeg_binary}") from exc
         except subprocess.TimeoutExpired as exc:
