@@ -22,13 +22,12 @@ def _ends_in_ipv4_number(label: str) -> bool:
     lowered = label.lower()
     if lowered.startswith("0x"):
         digits = lowered[2:]
-        return not digits or all(character in "0123456789abcdef" for character in digits)
-    if len(lowered) > 1 and lowered.startswith("0"):
-        # Reject every all-decimal leading-zero suffix, including forms such
-        # as 09 that some parsers reject as octal but other consumers may
-        # normalize differently.
-        return lowered.isascii() and lowered.isdigit()
-    return lowered.isascii() and lowered.isdigit()
+        if not digits or all(character in "0123456789abcdef" for character in digits):
+            return True
+    # WHATWG-style URL parsers also treat any ASCII-digit-ending final label
+    # as an IPv4 candidate even when its numeric parse fails (for example,
+    # "0xg1" or "label1"). Require the entire host to be canonical IPv4.
+    return lowered.isascii() and lowered[-1:].isdigit()
 
 
 def _valid_hostname(hostname: str) -> bool:
