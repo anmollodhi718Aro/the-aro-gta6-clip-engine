@@ -1256,3 +1256,11 @@ A post-snapshot FFmpeg/FFprobe exception now preserves the fact that the verifie
 - Added regression `test_snapshot_creation_rejects_short_writes_and_cleans_partial_snapshot` and updated render documentation plus registry.
 - Tests NOT RUN in this connector session; exact-head CI pending verification. Do not claim pipeline completion without a validated clip from an owner-authorized real MP4.
 - Continue P0 pipeline work on PR #386. Keep dry-run and human rights confirmation; no unauthorized media, uploads, publishing, merge, rebase, retarget, or deployment.
+
+
+### Latest pipeline handoff: ARO-CHAT-0299 — persisted snapshot read-back verification
+- Snapshot creation now independently reads back the synced snapshot file through a non-following descriptor, checks its identity/size before and after, and compares its persisted-byte SHA-256 with the source-byte digest. A mismatch fails closed and cleans only the invocation's own snapshot.
+- Added regression `test_snapshot_creation_rejects_readback_digest_mismatch_and_cleans_snapshot`.
+- Commits: production `02fb6ad44ddf25a6c131034146d67f513257de9c`; test `4d6659f4b6a27f06f602bf61920bf991b11b16d1`.
+- Tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized MP4 was processed.
+- Continue pipeline work on PR #386. Keep dry-run and rights-confirmation gates; no unauthorized media, upload, publishing, merge, rebase, retarget, or deployment.
