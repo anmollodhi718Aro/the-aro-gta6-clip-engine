@@ -622,6 +622,29 @@ class SingleClipRenderTests(unittest.TestCase):
                 report = render_selected_clip(self.source, self.output, start, end)
                 self.assertEqual(report["status"], "FAIL")
 
+    @patch("backend.app.single_clip_render.inspect_one_video")
+    @patch("backend.app.single_clip_render.render_clip")
+    def test_rejects_output_mutated_after_ffprobe_before_final_hash(self, render, preflight):
+        payload = b"rendered output before probe"
+        def create_output(*args, **kwargs):
+            self.output.write_bytes(payload)
+            return self.output.resolve()
+        def mutate_during_output_probe(path, **kwargs):
+            if Path(path) == self.output.resolve():
+                self.output.write_bytes(b"changed after probe with different length")
+                return {"status": "PASS", "duration_seconds": 6.0}
+            return PASS
+        render.side_effect = create_output
+        preflight.side_effect = mutate_during_output_probe
+        report = render_selected_clip(
+            self.source, self.output, 2, 8, execute=True, rights_confirmed=True,
+        )
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("final identity/SHA-256 verification", report["error"])
+        self.assertIsNone(report["output_sha256"])
+        self.assertTrue(report["manual_cleanup_required"])
+        self.assertEqual(self.output.read_bytes(), b"changed after probe with different length")
+
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     @patch("backend.app.single_clip_render.render_clip")
     def test_rejects_unexpectedly_short_rendered_output(self, render, preflight):
