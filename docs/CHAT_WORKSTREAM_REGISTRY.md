@@ -1703,3 +1703,5 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT YET CHECKED; independent review NOT RECORDED. Do not claim TESTED or CI_VERIFIED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 → #380/#379 ancestry; PR #379 conflicts with the later one-selected-video requirement. No rebase, retarget, merge, or integration without explicit owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+- Final follow-up commit `08aab858763bd4f9057650cb718cc0a13c0a3e6f` adds `O_NONBLOCK` where available so a selected path swapped to a FIFO/special file cannot block before descriptor type validation. Final exact-head CI lookup at `08aab858763bd4f9057650cb718cc0a13c0a3e6f` returned zero associated runs; CI remains NOT VERIFIED.
