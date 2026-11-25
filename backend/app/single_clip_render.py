@@ -238,6 +238,56 @@ def render_selected_clip(
     bytes, eliminating the pathname replacement race between the two tools.
     """
     source = Path(video_path).expanduser()
+    if type(execute) is not bool or type(rights_confirmed) is not bool:
+        return {
+            "status": "FAIL",
+            "source_path": str(source),
+            "output_path": str(Path(output_path).expanduser()),
+            "start_seconds": start_seconds,
+            "end_seconds": end_seconds,
+            "processing_started": False,
+            "source_identity_verified": False,
+            "source_snapshot_verified": False,
+            "upload_performed": False,
+            "publishing_enabled": False,
+            "error": "execute and rights_confirmed must be explicit booleans",
+        }
+
+    # Planning probes the selected original in place; it never duplicates
+    # the complete video merely to produce a dry-run report.
+    if not execute:
+        report = _render_selected_clip_from_snapshot(
+            source,
+            output_path,
+            start_seconds,
+            end_seconds,
+            execute=False,
+            rights_confirmed=rights_confirmed,
+            ffprobe_binary=ffprobe_binary,
+            ffmpeg_binary=ffmpeg_binary,
+        )
+        report["source_path"] = str(source)
+        report["source_snapshot_verified"] = False
+        report["source_snapshot_created"] = False
+        return report
+
+    # Enforce the explicit rights gate before opening or copying any media.
+    if not rights_confirmed:
+        return {
+            "status": "BLOCKED",
+            "source_path": str(source),
+            "output_path": str(Path(output_path).expanduser()),
+            "start_seconds": start_seconds,
+            "end_seconds": end_seconds,
+            "processing_started": False,
+            "source_identity_verified": False,
+            "source_snapshot_verified": False,
+            "source_snapshot_created": False,
+            "upload_performed": False,
+            "publishing_enabled": False,
+            "error": "render execution requires --confirm-rights; no source snapshot was created",
+        }
+
     try:
         with tempfile.TemporaryDirectory(prefix="aro-single-clip-") as temporary_directory:
             snapshot = Path(temporary_directory) / (source.name or "selected-video.mp4")
@@ -247,13 +297,14 @@ def render_selected_clip(
                 output_path,
                 start_seconds,
                 end_seconds,
-                execute=execute,
-                rights_confirmed=rights_confirmed,
+                execute=True,
+                rights_confirmed=True,
                 ffprobe_binary=ffprobe_binary,
                 ffmpeg_binary=ffmpeg_binary,
             )
             report["source_path"] = str(source)
             report["source_snapshot_verified"] = True
+            report["source_snapshot_created"] = True
             return report
     except (OSError, RuntimeError, ValueError) as exc:
         return {
