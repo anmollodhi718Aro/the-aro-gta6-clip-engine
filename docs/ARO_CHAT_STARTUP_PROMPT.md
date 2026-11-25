@@ -1140,3 +1140,9 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - This is an operator cross-check only, not automatic proof of local file identity. Verify the selected file against the authorized source record.
 - Commits: implementation `0aa5e9585a003287c6a208303676bf4559fc5932`; tests `36b4a26f94466128182eb8189ef0445cf8604f19`.
 - Tests NOT RUN. No media processed or published.
+
+
+### Latest handoff: ARO-CHAT-0277 — missing source-ID negative tests
+- Added regression coverage for omitted and whitespace-only `--source-id` in candidate CSV mode. Both must fail before report reservation.
+- Test commit: `6f93cad27336d8714e23c8e9ef7f523c3c4c27d5`.
+- Tests NOT RUN; no media processed or published.
