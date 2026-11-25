@@ -1133,3 +1133,10 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - Confirms the selected bounds reach the renderer and the JSON report preserves source ID/row number; upload and publishing flags remain false.
 - Test commit: `0e8d329d821f0b2a5a605edd9e60f8dcceb6c862`.
 - Test is mocked and NOT RUN. No FFmpeg execution or real-media validation is claimed.
+
+
+### Latest handoff: ARO-CHAT-0275 — candidate source-ID cross-check
+- Candidate CSV CLI mode now requires `--source-id` to match the selected row's source ID; missing/mismatched IDs are rejected before report reservation or media inspection.
+- This is an operator cross-check only, not automatic proof of local file identity. Verify the selected file against the authorized source record.
+- Commits: implementation `0aa5e9585a003287c6a208303676bf4559fc5932`; tests `36b4a26f94466128182eb8189ef0445cf8604f19`.
+- Tests NOT RUN. No media processed or published.
