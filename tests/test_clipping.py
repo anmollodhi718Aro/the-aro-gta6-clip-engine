@@ -48,6 +48,22 @@ class ClipRenderTests(unittest.TestCase):
             with self.assertRaises(FileExistsError):
                 render_clip(source, output, 0, 2, rights_confirmed=True)
 
+    def test_rejects_dangling_symlink_output_without_creating_target(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            source = root / "source.mov"
+            output = root / "clip.mp4"
+            target = root / "redirected.mp4"
+            source.write_bytes(b"synthetic")
+            try:
+                output.symlink_to(target)
+            except (OSError, NotImplementedError):
+                self.skipTest("symlink creation is unavailable on this runner")
+            with self.assertRaisesRegex(FileExistsError, "symbolic link"):
+                render_clip(source, output, 0, 2, rights_confirmed=True)
+            self.assertFalse(target.exists())
+            self.assertTrue(output.is_symlink())
+
     def test_uses_argument_list_without_shell_and_creates_output(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / "source.mov"
