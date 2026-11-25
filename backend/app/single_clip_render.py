@@ -629,6 +629,10 @@ def main() -> int:
                     "message": "render operation failed; inspect any output file before retrying",
                 }
 
+            # Preserve the operator's explicit CSV row selection in the
+            # terminal report as well as the initial RUNNING reservation.
+            if selected_candidate is not None:
+                report["candidate_selection"] = selected_candidate
             handle.seek(0)
             json.dump(report, handle, indent=2, ensure_ascii=False)
             handle.write("\n")
