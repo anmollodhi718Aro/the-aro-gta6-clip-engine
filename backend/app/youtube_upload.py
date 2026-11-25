@@ -510,7 +510,7 @@ def _upload_video_snapshot(
 
     try:
         from googleapiclient.discovery import build
-        from googleapiclient.http import MediaFileUpload
+        from googleapiclient.http import MediaIoBaseUpload
     except ImportError as exc:
         raise RuntimeError(
             'Google upload dependencies are missing. Install with: pip install -e ".[youtube-upload]"'
@@ -533,13 +533,6 @@ def _upload_video_snapshot(
         expected_google_subject=expected_subject, expected_channel_id=expected_channel,
     )
     rights_registry = SourceRightsRegistry(rights_db_path.expanduser())
-    mime_type, _ = mimetypes.guess_type(video_path.name)
-    media = MediaFileUpload(
-        str(video_path),
-        mimetype=mime_type or "application/octet-stream",
-        chunksize=8 * 1024 * 1024,
-        resumable=True,
-    )
     current_report = load_rights_report(rights_report_path)
     if not isinstance(clip_id, str) or not clip_id.strip():
         raise PermissionError("requested clip_id is required")
@@ -565,9 +558,20 @@ def _upload_video_snapshot(
         rights_registry=rights_registry,
     )
     require_report_publish_permissions(current_report, rights_registry, source_id)
-    response = youtube.videos().insert(
-        part="snippet,status", body=body, media_body=media,
-    ).execute(num_retries=3)
+    mime_type, _ = mimetypes.guess_type(video_path.name)
+    # Keep the snapshot stream open for the complete resumable request. Using
+    # an explicit file handle also guarantees Windows can remove the temp dir
+    # immediately after this function returns.
+    with video_path.open("rb") as media_stream:
+        media = MediaIoBaseUpload(
+            media_stream,
+            mimetype=mime_type or "application/octet-stream",
+            chunksize=8 * 1024 * 1024,
+            resumable=True,
+        )
+        response = youtube.videos().insert(
+            part="snippet,status", body=body, media_body=media,
+        ).execute(num_retries=3)
     video_id = str(response.get("id", "")).strip()
     if not video_id:
         raise RuntimeError("YouTube API response did not include a video ID")
