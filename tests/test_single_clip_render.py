@@ -1141,6 +1141,52 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["upload_performed"])
         self.assertFalse(report["publishing_enabled"])
 
+    def test_snapshot_cleanup_failure_preserves_verified_snapshot_and_render_state(self):
+        temporary_snapshot_dir = self.root / "mock-snapshot-directory"
+        temporary_snapshot_dir.mkdir()
+
+        class CleanupFailure:
+            def __enter__(self):
+                return str(temporary_snapshot_dir)
+
+            def __exit__(self, exc_type, exc_value, traceback):
+                raise OSError("simulated temporary snapshot cleanup failure")
+
+        rendered = {
+            "status": "RENDERED",
+            "processing_started": True,
+            "source_preflight": PASS,
+            "rendered_preflight": PASS,
+            "upload_performed": False,
+            "publishing_enabled": False,
+        }
+        with patch(
+            "backend.app.single_clip_render.tempfile.TemporaryDirectory",
+            return_value=CleanupFailure(),
+        ), patch(
+            "backend.app.single_clip_render._create_stable_source_snapshot",
+            return_value="b" * 64,
+        ), patch(
+            "backend.app.single_clip_render._render_selected_clip_from_snapshot",
+            return_value=rendered,
+        ):
+            report = render_selected_clip(
+                self.source, self.output, 2, 8,
+                execute=True, rights_confirmed=True,
+            )
+
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(report["source_snapshot_created"])
+        self.assertTrue(report["source_snapshot_verified"])
+        self.assertEqual(report["source_sha256"], "b" * 64)
+        self.assertEqual(report["processing_started"], True)
+        self.assertEqual(report["render_status_before_cleanup_failure"], "RENDERED")
+        self.assertEqual(report["source_preflight"], PASS)
+        self.assertEqual(report["rendered_preflight"], PASS)
+        self.assertFalse(report["upload_performed"])
+        self.assertFalse(report["publishing_enabled"])
+        self.assertIn("temporary snapshot cleanup failed", report["error"])
+
     def test_render_failure_after_snapshot_preserves_verified_snapshot_evidence(self):
         with patch(
             "backend.app.single_clip_render._create_stable_source_snapshot",
