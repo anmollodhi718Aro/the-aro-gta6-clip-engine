@@ -186,3 +186,6 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Full review report: `docs/ARO_CHAT_0201_PR311_SECURITY_REVIEW.md`.
 - Next task: obtain separate human security review and resolve the Windows token ACL caveat plus owner-selected upload-size gate on an owner-approved continuation. Keep this PR draft-only; no OAuth, real media, upload, merge, or deployment.
 
+
+
+Current Issue #68 continuation: Windows OAuth token persistence now disables inherited ACLs on the per-profile token directory and temporary token file, grants only the current user's SID full control, and verifies the ACL read-back before writing token bytes. Mocked regression tests cover the exact owner-only ACL, extra group ACE rejection, and identity-command failure. Do not claim tests/CI passed until the latest PR #311 head has an associated successful run. Owner-device Windows ACL/OAuth verification and independent security review remain pending. Keep Issue #68 open and all live uploads/public publishing disabled.
