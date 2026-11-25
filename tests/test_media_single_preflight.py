@@ -59,6 +59,18 @@ class MediaSinglePreflightTests(unittest.TestCase):
             self.assertEqual(inspect_one_video(self.video)["status"], "FAIL")
 
     @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_rejects_boolean_duration_instead_of_coercing_it_to_seconds(self, run):
+        for duration in (True, False):
+            with self.subTest(duration=duration):
+                run.return_value = SimpleNamespace(stdout=json.dumps({
+                    "format": {"duration": duration, "format_name": "mp4"},
+                    "streams": [{"codec_type": "video", "codec_name": "h264"}],
+                }))
+                report = inspect_one_video(self.video)
+                self.assertEqual(report["status"], "FAIL")
+                self.assertIn("invalid metadata", report["error"])
+
+    @patch("backend.app.media_single_preflight.subprocess.run")
     def test_rejects_duration_integer_too_large_for_float_conversion(self, run):
         payload = {
             "format": {"duration": 10 ** 400, "format_name": "mp4"},
