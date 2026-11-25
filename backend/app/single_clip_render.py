@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import math
 import os
@@ -92,6 +93,50 @@ def _validate_output_destination(source: Path, destination: Path) -> str | None:
         # for malformed paths; report these as validation failures, not crashes.
         return f"output path could not be validated: {exc}"
     return None
+
+
+
+def sha256_selected_source(path: str | Path) -> str:
+    """Hash one selected regular file through a stable, non-following descriptor."""
+    source = Path(path).expanduser()
+    try:
+        before_path = source.lstat()
+        if stat.S_ISLNK(before_path.st_mode) or not stat.S_ISREG(before_path.st_mode):
+            raise ValueError("selected source must be a regular non-symlink file")
+        flags = os.O_RDONLY
+        if hasattr(os, "O_BINARY"):
+            flags |= os.O_BINARY
+        if hasattr(os, "O_NOFOLLOW"):
+            flags |= os.O_NOFOLLOW
+        descriptor = os.open(source, flags)
+    except OSError as exc:
+        raise ValueError(f"selected source could not be opened for hashing: {exc}") from exc
+
+    try:
+        before_fd = os.fstat(descriptor)
+        identity = lambda item: (
+            item.st_dev, item.st_ino, item.st_size,
+            item.st_mtime_ns, item.st_ctime_ns, stat.S_IFMT(item.st_mode),
+        )
+        if not stat.S_ISREG(before_fd.st_mode) or identity(before_fd) != identity(before_path):
+            raise ValueError("selected source changed while opening for hashing")
+        digest = hashlib.sha256()
+        while True:
+            chunk = os.read(descriptor, 1024 * 1024)
+            if not chunk:
+                break
+            digest.update(chunk)
+        after_fd = os.fstat(descriptor)
+        after_path = source.lstat()
+        if (
+            identity(after_fd) != identity(before_fd)
+            or identity(after_path) != identity(before_fd)
+            or stat.S_ISLNK(after_path.st_mode)
+        ):
+            raise ValueError("selected source changed while it was being hashed")
+        return digest.hexdigest()
+    finally:
+        os.close(descriptor)
 
 
 def _selected_file_identity(path: Path) -> tuple[int, int, int, int, int, int]:
@@ -563,6 +608,7 @@ def main() -> int:
     parser.add_argument("--candidate-csv", type=Path, help="Review CSV produced by clip_pack.py.")
     parser.add_argument("--candidate-row", type=int, help="One-based data row to select from --candidate-csv.")
     parser.add_argument("--source-id", help="Explicitly confirm the selected video source ID for a candidate CSV row.")
+    parser.add_argument("--source-sha256", help="Expected SHA-256 from the trusted authorized-media inventory for candidate CSV mode.")
     parser.add_argument("--output", type=Path, default=Path("rendered_clips/single_selected_clip.mp4"))
     parser.add_argument("--report", type=Path, default=Path("single_clip_render_report.json"))
     parser.add_argument("--ffprobe", default="ffprobe")
@@ -575,8 +621,8 @@ def main() -> int:
     candidate_selection = args.candidate_csv is not None and args.candidate_row is not None
     if direct_bounds == candidate_selection or (args.start is None) != (args.end is None) or (args.candidate_csv is None) != (args.candidate_row is None):
         parser.error("provide either both --start/--end or both --candidate-csv/--candidate-row")
-    if args.source_id is not None and not candidate_selection:
-        parser.error("--source-id is only valid with --candidate-csv/--candidate-row")
+    if (args.source_id is not None or args.source_sha256 is not None) and not candidate_selection:
+        parser.error("--source-id and --source-sha256 are only valid with --candidate-csv/--candidate-row")
     selected_candidate = None
     if candidate_selection:
         try:
@@ -584,10 +630,17 @@ def main() -> int:
         except ValueError as exc:
             parser.error(str(exc))
         if not args.source_id or args.source_id.strip() != selected_candidate["source_id"]:
-            parser.error(
-                "candidate selection requires --source-id matching the selected CSV row; "
-                "this is an operator source-selection check, not automatic media identity proof"
-            )
+            parser.error("candidate selection requires --source-id matching the selected CSV row")
+        expected_digest = (args.source_sha256 or "").strip().lower()
+        if len(expected_digest) != 64 or any(character not in "0123456789abcdef" for character in expected_digest):
+            parser.error("candidate selection requires --source-sha256 with 64 hexadecimal characters from the trusted authorized-media inventory")
+        try:
+            actual_digest = sha256_selected_source(args.video)
+        except (OSError, ValueError) as exc:
+            parser.error(f"selected source could not be verified by SHA-256: {exc}")
+        if actual_digest != expected_digest:
+            parser.error("selected video SHA-256 does not match the trusted authorized-media inventory")
+        selected_candidate["verified_source_sha256"] = actual_digest
         start_seconds = selected_candidate["start_seconds"]
         end_seconds = selected_candidate["end_seconds"]
     else:
