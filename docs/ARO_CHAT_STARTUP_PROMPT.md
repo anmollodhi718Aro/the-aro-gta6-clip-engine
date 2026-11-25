@@ -872,3 +872,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Production code unchanged. Repository tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its #383 -> #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+## ARO-CHAT-0250 current continuation — stable snapshot cleanup safety (2026-11-25)
+- Continue on existing PR #386 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no duplicate PR or branch.
+- Static review found that the snapshot helper's exception cleanup could delete a destination it had not created when exclusive creation failed. A source/snapshot alias could also direct cleanup at the original selected source.
+- The helper now rejects resolved source/destination aliases, records successful exclusive creation, and checks the created snapshot's device/inode/metadata identity before unlinking a partial file. Pre-existing or replaced destination paths are not removed.
+- Production commit: `6e06c7922b8538cf099224fc33e894ee9822d2c5`; regression commit: `88cb993323b78b0717d78b300b86fa8e2f7a62c0`; registry commit: `d587355b00a123a9569c591e70d32ae2e07097dc`.
+- Repository tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Verify only a naturally triggered workflow; no workflow retry/dispatch without owner direction.
+- PR #386 remains DRAFT / OPEN / UNMERGED with existing #383 -> #380/#379 ancestry. PR #379 conflicts with the later one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
