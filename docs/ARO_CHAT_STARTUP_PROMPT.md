@@ -777,3 +777,9 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI PENDING inspection; independent review NOT RECORDED. Do not claim TESTED or CI_VERIFIED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Owner-device Windows and real authorized-media verification remain NOT VERIFIED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
 - No media processed, OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment.
+
+
+### Current ARO-CHAT-0244 static-review follow-up
+- Reject symlink output destinations before resolving the requested path. Resolving first followed dangling symlinks and could redirect a new file to an unintended target.
+- The CLI dry-run guard and low-level FFmpeg renderer now fail closed; regression tests verify no target is created.
+- Exact-head CI and repository tests remain pending; do not claim verification until the new branch head has visible successful CI.
