@@ -228,6 +228,9 @@ class SourceRightsRegistryTests(unittest.TestCase):
             "https://example。１２３/video",
             "https://example．１２３/video",
             "https://example.０ｘ２/video",
+            "https://example.１２３./video",
+            "https://example。１２３./video",
+            "https://example．０ｘ２./video",
             "https://[fe80::1%25eth0]/video",
             "https://[fe80::1%eth0]/video",
             "https://user:password@example.com/video",
@@ -249,6 +252,7 @@ class SourceRightsRegistryTests(unittest.TestCase):
             "https://192.0.2.1/video",
             "https://192.0.2.1./video",
             "https://bücher.example/video",
+            "https://bücher.example./video",
             "https://example.com./video",
         )):
             with self.subTest(source_url=source_url):
