@@ -147,3 +147,5 @@ If writing the reserved report fails after the terminal JSON has been serialized
 The fallback path is also resolved and checked against the selected source and output paths before creation. If it aliases either protected path, fallback creation is refused rather than placing a report where source media or render output belongs.
 
 The fallback writer also checks the text stream's reported character count. A short write is treated as a failed fallback, not as a complete recovery record. The exclusive sidecar may remain incomplete after such a failure; do not overwrite or delete it automatically. Inspect the primary report, sidecar, and any output manually.
+
+The initial `RUNNING` reservation is serialized fully before writing. Its write count is checked, then flushed and fsynced before any media inspection. If the initial write fails or is short, the CLI attempts the same exclusive sidecar recovery and stops before calling the renderer. A fallback containing `RUNNING` means no media processing was started by this invocation; inspect the primary reservation and fallback before retrying.
