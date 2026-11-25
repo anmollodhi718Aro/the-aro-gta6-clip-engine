@@ -44,6 +44,43 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(actual, expected)
         self.assertEqual(snapshot.read_bytes(), self.source.read_bytes())
 
+    def test_snapshot_creation_rejects_short_writes_and_cleans_partial_snapshot(self):
+        snapshot = self.root / "short-write-snapshot.mp4"
+        real_open = Path.open
+
+        class ShortWriteHandle:
+            def __init__(self, handle):
+                self.handle = handle
+
+            def __enter__(self):
+                self.handle.__enter__()
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                return self.handle.__exit__(exc_type, exc, traceback)
+
+            def write(self, data):
+                return self.handle.write(data[:-1])
+
+            def fileno(self):
+                return self.handle.fileno()
+
+            def flush(self):
+                return self.handle.flush()
+
+        def open_with_short_write(path, *args, **kwargs):
+            handle = real_open(path, *args, **kwargs)
+            if path == snapshot and args and args[0] == "xb":
+                return ShortWriteHandle(handle)
+            return handle
+
+        with patch.object(Path, "open", new=open_with_short_write):
+            with self.assertRaisesRegex(OSError, "short write while creating the source snapshot"):
+                _create_stable_source_snapshot(self.source, snapshot)
+
+        self.assertFalse(snapshot.exists())
+        self.assertEqual(self.source.read_bytes(), b"synthetic video")
+
     def test_snapshot_creation_rejects_digest_mismatch_and_cleans_own_snapshot(self):
         snapshot = self.root / "mismatch-snapshot.mp4"
         with self.assertRaisesRegex(ValueError, "SHA-256 does not match"):
