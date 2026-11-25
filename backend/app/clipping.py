@@ -37,7 +37,12 @@ def render_clip(
         raise PermissionError("media processing requires explicit rights confirmation")
 
     source = Path(input_path).expanduser().resolve()
-    destination = Path(output_path).expanduser().resolve()
+    requested_destination = Path(output_path).expanduser()
+    # Check the lexical destination before resolve(): resolve() follows dangling
+    # symlinks, which could redirect a supposedly new output outside this path.
+    if requested_destination.is_symlink():
+        raise FileExistsError(f"output path is a symbolic link: {requested_destination}")
+    destination = requested_destination.resolve()
 
     if not source.is_file():
         raise FileNotFoundError(f"input media file does not exist: {source}")
