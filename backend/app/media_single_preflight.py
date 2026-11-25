@@ -9,6 +9,8 @@ import argparse
 import json
 import math
 import mimetypes
+import os
+import stat
 import subprocess
 import sys
 from pathlib import Path
@@ -16,6 +18,18 @@ from typing import Any
 
 VIDEO_EXTENSIONS = {".mp4", ".mov", ".m4v", ".mkv", ".webm", ".avi", ".mpeg", ".mpg"}
 PROBE_TIMEOUT_SECONDS = 30
+
+
+def _file_identity(file_stat: os.stat_result) -> tuple[int, int, int, int, int, int]:
+    """Fields used to detect replacement or mutation during the metadata probe."""
+    return (
+        file_stat.st_dev,
+        file_stat.st_ino,
+        file_stat.st_size,
+        file_stat.st_mtime_ns,
+        file_stat.st_ctime_ns,
+        stat.S_IFMT(file_stat.st_mode),
+    )
 
 
 def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe") -> dict[str, Any]:
@@ -35,16 +49,17 @@ def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe"
         "manual_review_required": True,
     }
     try:
-        if path.is_symlink():
-            raise ValueError("symbolic links are not accepted as media inputs")
         if path.suffix.lower() not in VIDEO_EXTENSIONS:
             raise ValueError("selected file does not have a supported video extension")
-        before = path.stat()
-        if not path.is_file():
+
+        before_path = path.lstat()
+        if stat.S_ISLNK(before_path.st_mode):
+            raise ValueError("symbolic links are not accepted as media inputs")
+        if not stat.S_ISREG(before_path.st_mode):
             raise ValueError("selected path is not a regular file")
-        if before.st_size <= 0:
+        if before_path.st_size <= 0:
             raise ValueError("selected video file is empty")
-        result["size_bytes"] = before.st_size
+        result["size_bytes"] = before_path.st_size
 
         command = [
             ffprobe_binary, "-v", "error", "-show_entries",
@@ -65,9 +80,15 @@ def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe"
 
         try:
             payload = json.loads(probe.stdout)
-            media_format = payload["format"]
+            if not isinstance(payload, dict):
+                raise ValueError("ffprobe JSON root must be an object")
+            media_format = payload.get("format")
+            streams = payload.get("streams")
+            if not isinstance(media_format, dict) or not isinstance(streams, list):
+                raise ValueError("ffprobe JSON must contain a format object and streams array")
             duration = float(media_format["duration"])
-            streams = payload.get("streams", [])
+            if any(not isinstance(stream, dict) for stream in streams):
+                raise ValueError("ffprobe streams must contain only objects")
         except (json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
             raise ValueError("ffprobe returned incomplete or invalid metadata") from exc
 
@@ -77,10 +98,10 @@ def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe"
         if not video_streams:
             raise ValueError("selected file has no video stream")
 
-        after = path.stat()
-        if (before.st_size, before.st_mtime_ns, before.st_ino) != (
-            after.st_size, after.st_mtime_ns, after.st_ino
-        ):
+        # lstat rejects a path swapped to a symlink; identity also detects a
+        # replacement or ordinary in-place mutation while FFprobe was running.
+        after_path = path.lstat()
+        if stat.S_ISLNK(after_path.st_mode) or _file_identity(before_path) != _file_identity(after_path):
             raise RuntimeError("selected file changed while it was being inspected")
 
         mime_type, _ = mimetypes.guess_type(path.name)
