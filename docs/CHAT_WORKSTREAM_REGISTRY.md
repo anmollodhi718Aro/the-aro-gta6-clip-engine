@@ -993,3 +993,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Report: `docs/ARO_CHAT_0201_PR311_SECURITY_REVIEW.md`. PR #311 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN. Keep live uploads/public publishing disabled.
 - No OAuth, credentials, real media, network upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action occurred.
 
+
+
+### ARO-CHAT-0201 continuation: Windows OAuth token ACL hardening
+- Added fail-closed Windows token persistence: disable inherited ACLs on the profile token directory and temporary token file, grant the current user's SID full control, and verify the read-back ACL contains exactly that one ACE.
+- Token bytes are written only after the temporary file ACL is applied; atomic replacement preserves the secured file ACL. POSIX continues to use mode 0600.
+- Added mocked regression coverage for owner-only ACL acceptance, unexpected group ACE rejection, and identity-command failure.
+- Commits: implementation 4c5ae8aa6a3553a534b8b52ee254bfebf3f09a90; SID/ACL parser correction 1668608f04a1246777ea5224cbd4393a54c1e27a; additional-ACE rejection 5f1ab9193af5af9f32d992d149411577b716514c; tests 09a7b186e1acb6b816a2c7960736eb50c3520377 and fixture correction 2b5c3b67419812da6e6574d3a7f93bf53a03f965; docs update recorded separately.
+- Tests NOT RUN in this connector session. Exact-head CI PENDING. Independent security review and owner-device Windows ACL/OAuth verification remain NOT VERIFIED. Issue #68 remains OPEN; live uploads/public publishing remain disabled.
