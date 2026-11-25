@@ -152,11 +152,16 @@ def _render_selected_clip_from_snapshot(
             report.update(status="FAIL", error="rendered output failed FFprobe verification")
             return report
         rendered_duration = rendered_preflight.get("duration_seconds")
+        expected_duration = end - start
+        # A fixed one-second tolerance can accept a nearly empty output for a
+        # very short requested clip. Scale tolerance to the requested duration,
+        # with a small floor for container/codec timing and a one-second cap.
+        duration_tolerance = min(1.0, max(0.05, expected_duration * 0.02))
         if (isinstance(rendered_duration, bool)
                 or not isinstance(rendered_duration, (int, float))
                 or not math.isfinite(rendered_duration)
-                or rendered_duration < (end - start) - 1.0
-                or rendered_duration > (end - start) + 1.0):
+                or rendered_duration <= 0
+                or abs(rendered_duration - expected_duration) > duration_tolerance):
             report.update(status="FAIL", error="rendered output duration is outside the expected clip bounds")
             return report
         report.update(
