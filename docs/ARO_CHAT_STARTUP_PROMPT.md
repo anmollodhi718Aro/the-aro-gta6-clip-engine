@@ -756,3 +756,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Owner's current workflow requirement is one explicitly selected video per invocation. Do not scan directories, inventory multiple files, or batch process. PR #379's multi-file inventory conflicts with this later requirement; PR #380 is one-file-only in its implementation but is stacked on #379. Preserve the drafts and do not merge/retarget without owner approval.
 - P0 remains the first authorized real GTA 6 clip. This metadata preflight is only a read-only prerequisite, not rendering or upload acceptance.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep uploads/public publishing disabled. No OAuth, credentials, real media, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing without the applicable owner approval.
+
+
+## CURRENT CONTINUATION — ARO-CHAT-0244 (2026-11-25)
+- Active workstream: ARO-GTA-P1-244, branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`, based on PR #383 head `fd0d8925958760ce4b0f0617d64e98cb2b345690`.
+- Implement a one-selected-video local render stage after FFprobe preflight. The command is dry-run by default; actual rendering requires both `--execute` and `--confirm-rights`, enforces a 180-second maximum, checks the selected source duration, and FFprobes the rendered output.
+- No directory enumeration, multi-file inventory, batch processing, OAuth, upload, or publishing. Manual playback/review remains required after rendering.
+- Code/test/docs commits: `1fdb83c39084e03658d84b9866b4d2657f909e4b`, `fcb65d311e2c06f367ffd8735dfa8b120eae9e0c`, `6fff8235ee1ed0fc0193ae386a66afe6504b8326`, `742663f22bb0d638ded7183e26c64acf31f0fdd1`.
+- Repository tests NOT RUN in this connector session. Exact-head CI PENDING until a visible run is inspected. Owner-device Windows and real authorized-media verification NOT VERIFIED.
+- This branch is stacked on PR #383 and inherits the #380/#379 ancestry. PR #379 conflicts with the later one-selected-video owner requirement. Do not merge, rebase, retarget, or integrate the stack without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep all live uploads/public publishing disabled. No OAuth, credentials, real media, upload, or publishing in this task.
