@@ -1494,3 +1494,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added three negative URL regression cases. Production commit 50e007fe5567624a187a64e280ced3ba356dec86; test commit 9a5956a88a075962980524cf126cad8fe2cbf0a0.
 - Repository tests NOT RUN; exact-head CI NOT YET VERIFIED; independent review NOT RECORDED. No validation evidence transfers from prior commits.
 - Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled. No workflow retry/dispatch, merge, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### Post-fix CI evidence and exact-head recheck — 2026-11-25
+- The production/test commit 9a5956a88a075962980524cf126cad8fe2cbf0a0 is associated with Python CI run #45531092780 (run 1560), conclusion FAILURE.
+- Ubuntu job 138926286948 and hosted-Windows job 138926287425 both failed and exposed zero steps. Both job-log downloads returned BlobNotFound. Failure phase/root cause NOT VERIFIED; no compile or test result is established and failure is not attributed to application code.
+- Combined commit status for the code/test commit returned zero status entries. Repository tests NOT RUN locally; independent review NOT RECORDED.
+- After documentation synchronization, PR #376 exact head is 3118b6afdecd42a22f9aab229b4cb3a0b782cf1a. Commit-associated workflow lookup for that exact documentation head returned zero runs. Exact-head CI is PENDING / NOT VERIFIED; no CI evidence transfers from the code/test commit or earlier heads.
+- PR #376 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; owner UNASSIGNED. Keep live uploads/public publishing disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing was performed.
