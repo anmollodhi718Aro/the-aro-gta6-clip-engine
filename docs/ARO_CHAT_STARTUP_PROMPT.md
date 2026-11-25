@@ -1249,3 +1249,10 @@ A post-snapshot FFmpeg/FFprobe exception now preserves the fact that the verifie
 - Added a regression asserting exceptions at the render boundary do not claim processing started while preserving verified snapshot evidence.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; the preceding CI run failed with no visible steps and unavailable logs. Root cause remains unknown.
 - Preserve PR #386 draft/open/unmerged and existing ancestry. No workflow retry/dispatch, real media, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### Latest pipeline handoff: ARO-CHAT-0298 — source snapshot short-write guard
+- Found and fixed a pipeline integrity gap: source snapshot copying previously ignored short-write return values while still hashing/counting the entire input chunk. The copy now fails closed unless every chunk is fully written, before digest/count updates; identity-checked cleanup removes only its partial snapshot.
+- Added regression `test_snapshot_creation_rejects_short_writes_and_cleans_partial_snapshot` and updated render documentation plus registry.
+- Tests NOT RUN in this connector session; exact-head CI pending verification. Do not claim pipeline completion without a validated clip from an owner-authorized real MP4.
+- Continue P0 pipeline work on PR #386. Keep dry-run and human rights confirmation; no unauthorized media, uploads, publishing, merge, rebase, retarget, or deployment.
