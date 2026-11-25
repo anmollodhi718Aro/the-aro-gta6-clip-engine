@@ -54,20 +54,15 @@ def _rendered_output_identity(path: str | Path) -> tuple[int, int, int] | None:
 
 
 def _remove_unverified_output(path: str | Path, identity: tuple[int, int, int] | None) -> bool:
-    """Remove only the exact output inode created by this render invocation."""
-    if identity is None:
-        return False
-    candidate = Path(path)
-    try:
-        metadata = candidate.lstat()
-        current_identity = (metadata.st_dev, metadata.st_ino, stat.S_IFMT(metadata.st_mode))
-        if current_identity != identity:
-            return False
-        candidate.unlink()
-        return True
-    except OSError:
-        # Preserve uncertain/replaced files; cleanup must never broaden deletion.
-        return False
+    """Decline automatic deletion when pathname identity cannot be unlinked atomically.
+
+    A separate lstat() followed by unlink() has a replacement race: another
+    process can swap the directory entry after the identity check, causing
+    unlink() to remove a different file. Python's portable path APIs do not
+    provide an inode-conditional unlink, so preserve the output for manual
+    review rather than risk deleting a replacement.
+    """
+    return False
 
 
 def _validated_clip_bounds(start_seconds: Any, end_seconds: Any) -> tuple[float, float]:
@@ -203,6 +198,7 @@ def _render_selected_clip_from_snapshot(
                 status="FAIL",
                 error=f"rendered output could not be safely identified: {exc}",
                 unverified_output_removed=False,
+                manual_cleanup_required=True,
             )
             return report
         rendered_preflight = inspect_one_video(rendered, ffprobe_binary=ffprobe_binary)
@@ -213,6 +209,7 @@ def _render_selected_clip_from_snapshot(
                 status="FAIL",
                 error="rendered output failed FFprobe verification",
                 unverified_output_removed=removed,
+                manual_cleanup_required=not removed,
             )
             return report
         rendered_duration = rendered_preflight.get("duration_seconds")
@@ -239,6 +236,7 @@ def _render_selected_clip_from_snapshot(
                 status="FAIL",
                 error="rendered output duration is outside the expected clip bounds",
                 unverified_output_removed=removed,
+                manual_cleanup_required=not removed,
             )
             return report
         report.update(
