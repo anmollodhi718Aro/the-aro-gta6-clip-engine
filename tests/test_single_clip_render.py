@@ -287,7 +287,8 @@ class SingleClipRenderTests(unittest.TestCase):
             self.output.write_bytes(b"our unverified render")
             return self.output.resolve()
         def replace_during_verification(path, **kwargs):
-            self.output.unlink()
+            original_output = self.root / "original-unverified.mp4"
+            self.output.rename(original_output)
             self.output.write_bytes(replacement)
             return {"status": "FAIL", "error": "invalid output"}
         render.side_effect = render_own_file
