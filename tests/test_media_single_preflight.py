@@ -67,9 +67,10 @@ class MediaSinglePreflightTests(unittest.TestCase):
             {"format": {"duration": "10"}, "streams": "not-a-list"},
             {"format": {"duration": "10"}, "streams": [None]},
             {"format": {"duration": True}, "streams": []},
+            {"format": {"duration": 10 ** 4000}, "streams": []},
         )
         for payload in malformed_payloads:
-            with self.subTest(payload=payload):
+            with self.subTest(payload_type=type(payload).__name__):
                 run.return_value = SimpleNamespace(stdout=json.dumps(payload))
                 report = inspect_one_video(self.video)
                 self.assertEqual(report["status"], "FAIL")
