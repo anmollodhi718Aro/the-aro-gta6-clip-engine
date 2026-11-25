@@ -1009,8 +1009,8 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; do not create a duplicate branch or PR. Latest task: isolate FFmpeg's intermediate output in a private temporary directory on the destination filesystem, preserving atomic no-overwrite publication. Implementation commit `912cf8a363fc309d15e483bd5576b356bec3647b`; tests `f54d4ad8131960a8c6325c1ab4baabf8473a4a5e`; operator docs `20f7e26131f84a94050e998f740143c87cbb0685`; registry update `7ea010e65473cfd4ead6f3f14fb9f5015c29b691`. Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Inspect naturally triggered CI only. Do not retry/dispatch workflows, merge, rebase, retarget, deploy, process real media, upload, or publish. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
 
 
-## Latest continuation — ARO-CHAT-0258 (2026-11-25)
-- Exact title: `ARO-CHAT-0258 | Remove Unverified Render Outputs Safely`; workstream `ARO-GTA-P1-258`.
+## Latest continuation — ARO-CHAT-0259 (2026-11-25)
+- Exact title: `ARO-CHAT-0259 | Remove Unverified Render Outputs Safely`; workstream `ARO-GTA-P1-259`.
 - Continue existing PR #386 / ARO-GTA-P1-244 branch only. Post-render FFprobe or duration failure now triggers identity-checked cleanup of the output created by that render; replaced or uncertain files are preserved.
 - Regression coverage added for both safe deletion and replacement preservation.
 - Tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
