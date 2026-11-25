@@ -1195,3 +1195,7 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 
 ### Latest continuation — ARO-CHAT-0285
 Continue on the existing PR #386 branch. Terminal report JSON is now serialized fully in memory before the reserved report is truncated; if serialization fails, the parseable RUNNING reservation is preserved. Regression coverage was added but NOT RUN. Final filesystem write failure/hard termination can still leave an unknown outcome, so inspect outputs manually. Do not merge, rebase, retarget, dispatch/retry workflows, process real media, upload, publish, or deploy. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### Latest continuation — ARO-CHAT-0286
+CLI stdout now reuses the exact pre-serialized terminal JSON written to the report file, avoiding a second serialization pass. Regression coverage asserts stdout matches the report exactly. Tests NOT RUN; CI NOT VERIFIED. Preserve PR #386 draft and ancestry; no merge/rebase/retarget, workflow dispatch/retry, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
