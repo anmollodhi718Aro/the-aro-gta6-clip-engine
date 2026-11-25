@@ -13,6 +13,7 @@ import os
 import re
 import sys
 import tempfile
+import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -20,6 +21,27 @@ from typing import Any
 UPLOAD_SCOPE = "https://www.googleapis.com/auth/youtube.upload"
 IDENTITY_SCOPES = ["openid", "https://www.googleapis.com/auth/youtube.readonly", UPLOAD_SCOPE]
 DEFAULT_CATEGORY_ID = "20"  # Gaming
+UPLOAD_COPY_CHUNK_BYTES = 1024 * 1024
+
+
+def _validate_max_upload_bytes(value: int | None) -> int:
+    if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+        raise ValueError("--max-upload-bytes must be a positive integer")
+    return value
+
+
+def _copy_video_snapshot(source: Any, destination: Any, max_upload_bytes: int) -> int:
+    """Copy approved media into a bounded disk snapshot without buffering it in RAM."""
+    limit = _validate_max_upload_bytes(max_upload_bytes)
+    total = 0
+    while True:
+        chunk = source.read(UPLOAD_COPY_CHUNK_BYTES)
+        if not chunk:
+            return total
+        if total + len(chunk) > limit:
+            raise ValueError(f"video exceeds the configured upload limit of {limit} bytes")
+        destination.write(chunk)
+        total += len(chunk)
 
 
 
@@ -205,12 +227,14 @@ def validate_upload(
     owner_approved: bool = False,
     rights_confirmed: bool = False,
     upload_requested: bool = False,
+    max_upload_bytes: int | None = None,
 ) -> tuple[Path, dict[str, Any]]:
     """Validate local media, metadata, rights preflight and explicit approvals."""
     video = Path(video_path).expanduser()
     if not video.is_file():
         raise FileNotFoundError(f"local video file does not exist: {video}")
-    if video.stat().st_size <= 0:
+    video_size = video.stat().st_size
+    if video_size <= 0:
         raise ValueError("video file is empty")
     mime_type, _ = mimetypes.guess_type(video.name)
     if not mime_type or not mime_type.startswith("video/"):
@@ -224,7 +248,68 @@ def validate_upload(
         raise PermissionError("actual upload requires --owner-approved")
     if upload_requested and not rights_confirmed:
         raise PermissionError("actual upload requires --confirm-rights")
+    if upload_requested and privacy != "private":
+        raise PermissionError("actual upload only permits PRIVATE visibility")
+    if upload_requested or max_upload_bytes is not None:
+        limit = _validate_max_upload_bytes(max_upload_bytes)
+        if video_size > limit:
+            raise ValueError(f"video exceeds the configured upload limit of {limit} bytes")
     return video, body
+
+
+def _secure_windows_token_path(
+    path: Path, *, is_directory: bool, platform_name: str | None = None
+) -> None:
+    """Set and verify a Windows DACL limited to the current user and LocalSystem."""
+    if (platform_name or os.name) != "nt":
+        return
+    target = Path(path).resolve(strict=True)
+    script = r'''
+$ErrorActionPreference = 'Stop'
+$path = $env:ARO_TOKEN_ACL_PATH
+$ownerSid = [Security.Principal.WindowsIdentity]::GetCurrent().User
+$systemSid = New-Object Security.Principal.SecurityIdentifier('S-1-5-18')
+$acl = Get-Acl -LiteralPath $path
+$acl.SetAccessRuleProtection($true, $false)
+$acl.SetOwner($ownerSid)
+foreach ($existingRule in @($acl.Access)) { [void]$acl.RemoveAccessRuleSpecific($existingRule) }
+$inheritance = [Security.AccessControl.InheritanceFlags]::None
+if ($env:ARO_TOKEN_ACL_DIRECTORY -eq '1') {
+    $inheritance = [Security.AccessControl.InheritanceFlags]::ContainerInherit -bor [Security.AccessControl.InheritanceFlags]::ObjectInherit
+}
+$propagation = [Security.AccessControl.PropagationFlags]::None
+$allow = [Security.AccessControl.AccessControlType]::Allow
+$full = [Security.AccessControl.FileSystemRights]::FullControl
+$acl.AddAccessRule((New-Object Security.AccessControl.FileSystemAccessRule($ownerSid, $full, $inheritance, $propagation, $allow)))
+$acl.AddAccessRule((New-Object Security.AccessControl.FileSystemAccessRule($systemSid, $full, $inheritance, $propagation, $allow)))
+Set-Acl -LiteralPath $path -AclObject $acl
+$verified = Get-Acl -LiteralPath $path
+if (-not $verified.AreAccessRulesProtected) { throw 'ACL inheritance is still enabled' }
+if ($verified.GetOwner([Security.Principal.SecurityIdentifier]).Value -ne $ownerSid.Value) { throw 'Unexpected token path owner' }
+$rules = @($verified.Access)
+if ($rules.Count -ne 2) { throw 'Unexpected token path ACL entry count' }
+$seen = @{}
+foreach ($rule in $rules) {
+    $sid = $rule.IdentityReference.Translate([Security.Principal.SecurityIdentifier]).Value
+    if ($rule.IsInherited -or $rule.AccessControlType -ne $allow -or $rule.FileSystemRights -ne $full) { throw 'Unexpected token path ACL rule' }
+    if ($sid -ne $ownerSid.Value -and $sid -ne $systemSid.Value) { throw 'Unexpected token path ACL principal' }
+    $seen[$sid] = $true
+}
+if (-not $seen.ContainsKey($ownerSid.Value) -or -not $seen.ContainsKey($systemSid.Value)) { throw 'Required token path ACL principals are missing' }
+Write-Output 'ARO_TOKEN_ACL_VERIFIED'
+'''
+    env = os.environ.copy()
+    env["ARO_TOKEN_ACL_PATH"] = str(target)
+    env["ARO_TOKEN_ACL_DIRECTORY"] = "1" if is_directory else "0"
+    try:
+        result = subprocess.run(
+            ["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", script],
+            check=False, capture_output=True, text=True, timeout=20, env=env,
+        )
+    except (OSError, subprocess.SubprocessError) as exc:
+        raise PermissionError("Windows OAuth token ACL could not be verified") from exc
+    if result.returncode != 0 or "ARO_TOKEN_ACL_VERIFIED" not in result.stdout:
+        raise PermissionError("Windows OAuth token ACL is not restricted to the current user and LocalSystem")
 
 
 def _persist_oauth_token(token_path: Path, token_json: str) -> None:
@@ -232,6 +317,7 @@ def _persist_oauth_token(token_path: Path, token_json: str) -> None:
     target = Path(token_path).expanduser()
     target.parent.mkdir(parents=True, exist_ok=True)
     parent = target.parent.resolve(strict=True)
+    _secure_windows_token_path(parent, is_directory=True)
     target = parent / target.name
     if target.is_symlink():
         raise PermissionError("OAuth token path must not be a symbolic link")
@@ -243,6 +329,7 @@ def _persist_oauth_token(token_path: Path, token_json: str) -> None:
             stream.flush()
             os.fsync(stream.fileno())
         os.replace(temp_name, target)
+        _secure_windows_token_path(target, is_directory=False)
         try:
             os.chmod(target, 0o600)
         except OSError:
@@ -263,10 +350,13 @@ def _authorize_google(client_secrets: Path, token_path: Path):
         ) from exc
 
     token_path = Path(token_path).expanduser()
+    token_path.parent.mkdir(parents=True, exist_ok=True)
+    _secure_windows_token_path(token_path.parent, is_directory=True)
     if token_path.is_symlink():
         raise PermissionError("OAuth token path must not be a symbolic link")
     credentials = None
     if token_path.is_file():
+        _secure_windows_token_path(token_path, is_directory=False)
         try:
             credentials = Credentials.from_authorized_user_file(str(token_path), IDENTITY_SCOPES)
         except (OSError, ValueError):
@@ -350,6 +440,67 @@ def upload_video(
     rights_confirmed: bool,
     expected_google_subject: str | None = None,
     expected_channel_id: str | None = None,
+    max_upload_bytes: int | None = None,
+) -> dict[str, str]:
+    """Upload a bounded disk snapshot so approval and transfer use identical bytes."""
+    if body.get("status", {}).get("privacyStatus") != "private":
+        raise PermissionError("this uploader only permits PRIVATE staging; public visibility is a separate owner action")
+    if owner_approved is not True or rights_confirmed is not True:
+        raise PermissionError("actual upload requires --owner-approved and --confirm-rights")
+    limit = _validate_max_upload_bytes(max_upload_bytes)
+    source_path = Path(video_path).expanduser()
+    if not source_path.is_file():
+        raise FileNotFoundError(f"local video file does not exist: {source_path}")
+    if source_path.stat().st_size <= 0:
+        raise ValueError("video file is empty")
+    if source_path.stat().st_size > limit:
+        raise ValueError(f"video exceeds the configured upload limit of {limit} bytes")
+
+    with tempfile.TemporaryDirectory(prefix="aro-youtube-upload-") as staging_dir:
+        snapshot_path = Path(staging_dir) / "approved-upload.mp4"
+        with source_path.open("rb") as source, snapshot_path.open("xb") as snapshot:
+            copied_bytes = _copy_video_snapshot(source, snapshot, limit)
+            snapshot.flush()
+            os.fsync(snapshot.fileno())
+        if copied_bytes <= 0:
+            raise ValueError("video file is empty")
+        if copied_bytes > limit:
+            raise ValueError(f"video exceeds the configured upload limit of {limit} bytes")
+        try:
+            os.chmod(snapshot_path, 0o400)
+        except OSError:
+            pass
+        return _upload_video_snapshot(
+            snapshot_path, body,
+            client_secrets=client_secrets,
+            token_path=token_path,
+            rights_report_path=rights_report_path,
+            approval_record_path=approval_record_path,
+            rights_db_path=rights_db_path,
+            clip_id=clip_id,
+            source_id=source_id,
+            owner_approved=owner_approved,
+            rights_confirmed=rights_confirmed,
+            expected_google_subject=expected_google_subject,
+            expected_channel_id=expected_channel_id,
+        )
+
+
+def _upload_video_snapshot(
+    video_path: Path,
+    body: dict[str, Any],
+    *,
+    client_secrets: Path,
+    token_path: Path,
+    rights_report_path: Path,
+    approval_record_path: Path,
+    rights_db_path: Path,
+    clip_id: str,
+    source_id: str,
+    owner_approved: bool,
+    rights_confirmed: bool,
+    expected_google_subject: str | None = None,
+    expected_channel_id: str | None = None,
 ) -> dict[str, str]:
     # Enforce the private-only boundary before importing optional Google SDKs,
     # reading credentials, or performing any other OAuth/API-related work.
@@ -361,7 +512,7 @@ def upload_video(
 
     try:
         from googleapiclient.discovery import build
-        from googleapiclient.http import MediaFileUpload
+        from googleapiclient.http import MediaIoBaseUpload
     except ImportError as exc:
         raise RuntimeError(
             'Google upload dependencies are missing. Install with: pip install -e ".[youtube-upload]"'
@@ -384,13 +535,6 @@ def upload_video(
         expected_google_subject=expected_subject, expected_channel_id=expected_channel,
     )
     rights_registry = SourceRightsRegistry(rights_db_path.expanduser())
-    mime_type, _ = mimetypes.guess_type(video_path.name)
-    media = MediaFileUpload(
-        str(video_path),
-        mimetype=mime_type or "application/octet-stream",
-        chunksize=8 * 1024 * 1024,
-        resumable=True,
-    )
     current_report = load_rights_report(rights_report_path)
     if not isinstance(clip_id, str) or not clip_id.strip():
         raise PermissionError("requested clip_id is required")
@@ -416,9 +560,20 @@ def upload_video(
         rights_registry=rights_registry,
     )
     require_report_publish_permissions(current_report, rights_registry, source_id)
-    response = youtube.videos().insert(
-        part="snippet,status", body=body, media_body=media,
-    ).execute(num_retries=3)
+    mime_type, _ = mimetypes.guess_type(video_path.name)
+    # Keep the snapshot stream open for the complete resumable request. Using
+    # an explicit file handle also guarantees Windows can remove the temp dir
+    # immediately after this function returns.
+    with video_path.open("rb") as media_stream:
+        media = MediaIoBaseUpload(
+            media_stream,
+            mimetype=mime_type or "application/octet-stream",
+            chunksize=8 * 1024 * 1024,
+            resumable=True,
+        )
+        response = youtube.videos().insert(
+            part="snippet,status", body=body, media_body=media,
+        ).execute(num_retries=3)
     video_id = str(response.get("id", "")).strip()
     if not video_id:
         raise RuntimeError("YouTube API response did not include a video ID")
@@ -459,6 +614,8 @@ def main() -> int:
     parser.add_argument("--token", type=Path, default=None,
                         help="Legacy single-channel token path; unavailable with destination profiles")
     parser.add_argument("--upload", action="store_true", help="Perform an API upload; default is dry-run only.")
+    parser.add_argument("--max-upload-bytes", type=int, default=None,
+                        help="Required for actual uploads: owner-selected maximum staged video size in bytes; no default is assumed.")
     parser.add_argument("--owner-approved", action="store_true", help="Additional operator acknowledgement; not identity authentication and not a substitute for the OAuth-bound per-clip approval record.")
     parser.add_argument("--confirm-rights", action="store_true", help="Confirm that the exact local video and all included assets are cleared for this upload.")
     parser.add_argument("--approval-record", type=Path,
@@ -491,6 +648,7 @@ def main() -> int:
             owner_approved=args.owner_approved,
             rights_confirmed=args.confirm_rights,
             upload_requested=args.upload,
+            max_upload_bytes=args.max_upload_bytes,
         )
         if args.approve_clip:
             if not args.clip_id or not args.source_id or args.approval_record is None:
@@ -566,6 +724,7 @@ def main() -> int:
             rights_confirmed=args.confirm_rights,
             expected_google_subject=expected_subject,
             expected_channel_id=expected_channel,
+            max_upload_bytes=args.max_upload_bytes,
         )
         print(json.dumps({"status": "uploaded", **result}, indent=2))
         return 0

@@ -146,3 +146,12 @@ Immediately before `videos.insert`, the uploader re-verifies the Google OIDC sub
 ## Post-upload PRIVATE response verification
 
 The upload CLI reports success only when the official `videos.insert(part="snippet,status")` response contains a video ID and `status.privacyStatus == "private"`. If the response omits the status or reports any other visibility, the command exits as unverified and instructs the operator to inspect YouTube Studio. A request body asking for PRIVATE is not, by itself, evidence that YouTube accepted that visibility. Unit tests cover both confirmed-private and unexpected-visibility responses; tests do not upload to YouTube.
+
+
+## Explicit upload size and Windows token storage gates
+
+- An actual upload requires an explicit, positive `--max-upload-bytes` selected for the device. There is deliberately no default limit.
+- Before OAuth, the CLI checks the source size and stages a bounded disk snapshot in a temporary directory using 1 MiB copy chunks. A source that grows beyond the selected limit is rejected. The exact staged snapshot is used for the approval hash and the upload request, preventing a later source-file change from silently changing the approved bytes.
+- The temporary snapshot is removed after the upload attempt. The upload-size gate does not select a safe value for the owner's device; the owner must choose that value before any real upload.
+- On Windows, OAuth token storage applies a protected DACL to the token directory and token file, allowing Full Control only to the current Windows user and LocalSystem. The ACL is read back and verified; inability to set or verify it stops token access/storage. On non-Windows systems, the existing restrictive file mode behavior remains.
+- These controls do not authorize an upload. PRIVATE visibility, authenticated channel-owner approval, current source rights, explicit operator confirmation, and a separate owner-approved real-media acceptance remain required.

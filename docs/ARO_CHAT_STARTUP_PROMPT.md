@@ -186,3 +186,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Full review report: `docs/ARO_CHAT_0201_PR311_SECURITY_REVIEW.md`.
 - Next task: obtain separate human security review and resolve the Windows token ACL caveat plus owner-selected upload-size gate on an owner-approved continuation. Keep this PR draft-only; no OAuth, real media, upload, merge, or deployment.
 
+
+
+## ARO-CHAT-0240 current continuation — 2026-11-25
+
+- Continue on `workstream/aro-chat-0240-private-upload-size-and-windows-token-acl-2026-11-25`, based on PR #311's exact head `e2e04bfe054b10d8fee5d5fe4244aa8dac9d56fa`. This is a draft-only stacked security continuation.
+- Actual uploads now require an explicit positive owner-selected `--max-upload-bytes`; no default limit is chosen. Before OAuth, source bytes are copied in bounded 1 MiB chunks to a temporary disk snapshot; the exact snapshot is used for approval hashing and upload transfer, then cleaned up.
+- Windows OAuth token directory/file ACLs are set to protected DACLs containing only current-user and LocalSystem Full Control, then read back and verified. Failure to set/verify stops token access/storage.
+- Added tests for size limit, bounded snapshot identity/cleanup, and Windows ACL fail-closed behavior. These tests have NOT YET RUN on this continuation. Do not report success until exact-head Ubuntu and hosted-Windows CI show compilation, full unit tests, and synthetic MP4/FFprobe checks.
+- Next: open/inspect the draft follow-up PR, inspect exact-head CI steps/logs, fix only evidence-backed failures, then request independent human security review. Do not run OAuth, access credentials, upload media, enable public publishing, merge, or deploy.
+- Owner-device OAuth/channel verification, selection of a suitable upload byte limit for the owner's device, and authorized real-media/private-upload acceptance remain separate gates.
