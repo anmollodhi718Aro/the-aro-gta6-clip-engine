@@ -2208,3 +2208,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Implementation correction: `6f75ab4e87af6323278fc0b7d68ff298636b78fa`; regression test: `006557f316daa8c188e5f70dc61e73495c1a1683`.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains draft/open/unmerged; no merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0294 — duration-scaled FFmpeg timeout
+- FFmpeg timeout now scales to ten times the requested clip duration, with a 180-second minimum and 1,800-second maximum. Longer local renders are no longer cut off by the same fixed three-minute ceiling as short clips.
+- Regression coverage asserts the short-clip minimum timeout; max-duration behavior remains subject to CI/test execution.
+- Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. PR #386 remains draft/open/unmerged; no merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
