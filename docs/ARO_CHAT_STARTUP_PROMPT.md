@@ -830,3 +830,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Validation remains NOT RUN locally; exact-head CI and independent review NOT VERIFIED / NOT RECORDED. No real media was processed.
 - Important limitation: this path-based guard narrows the replacement window but does not eliminate the race between the final check and FFmpeg opening the path. A descriptor/snapshot-bound boundary remains future work. Do not claim race-free identity.
 - Preserve PR #386 DRAFT / OPEN / UNMERGED and its #383 → #380/#379 ancestry. PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### ARO-CHAT-0247 source snapshot race elimination — 2026-11-25
+- Continued PR #386 / ARO-GTA-P1-244 on its existing branch. No duplicate PR or ancestry changes.
+- A selected source is now opened and copied into a private temporary snapshot using bounded 1 MiB reads. Descriptor and pathname identity, file metadata, and copied byte count are checked before accepting the snapshot.
+- FFprobe and FFmpeg use the same snapshot, eliminating the previous path-replacement gap between preflight and render. Temporary snapshot is deleted after the command; disk use is proportional to the selected file, with no whole-video RAM buffering.
+- Commits: production `29652582a611bec667497b79fac9729e3f0718c5`; tests `fb4d4987e61d6d2af2130318494d394aed0caef6`; docs `5cbb5cfa28b5857aadd5907f2b21f25b0282d91e`; registry `d222c6575f3c4736680564a0308dad87240b0483`.
+- Tests NOT RUN in this connector session; exact-head CI NOT YET CHECKED; independent review NOT RECORDED. Do not claim TESTED or CI_VERIFIED.
+- Keep PR #386 DRAFT / OPEN / UNMERGED and preserve its #383 → #380/#379 ancestry. PR #379 conflicts with the later one-selected-video requirement; no merge/rebase/retarget/integration without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
