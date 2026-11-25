@@ -356,7 +356,9 @@ def _render_selected_clip_from_snapshot(
     return report
 
 
-def _create_stable_source_snapshot(source: Path, snapshot: Path) -> None:
+def _create_stable_source_snapshot(
+    source: Path, snapshot: Path, *, expected_sha256: str | None = None
+) -> str:
     """Copy one selected regular file from a verified descriptor in bounded chunks.
 
     Refuse source/destination aliases and never remove a destination that this
@@ -393,6 +395,7 @@ def _create_stable_source_snapshot(source: Path, snapshot: Path) -> None:
         if not stat.S_ISREG(before_fd.st_mode) or identity(before_fd) != identity(before_path):
             raise RuntimeError("selected source changed while opening its snapshot")
         copied = 0
+        digest = hashlib.sha256()
         with os.fdopen(os.dup(descriptor), "rb") as source_handle:
             with snapshot.open("xb") as snapshot_handle:
                 snapshot_created = True
@@ -403,6 +406,7 @@ def _create_stable_source_snapshot(source: Path, snapshot: Path) -> None:
                     if not chunk:
                         break
                     snapshot_handle.write(chunk)
+                    digest.update(chunk)
                     copied += len(chunk)
                 snapshot_handle.flush()
                 os.fsync(snapshot_handle.fileno())
@@ -412,6 +416,10 @@ def _create_stable_source_snapshot(source: Path, snapshot: Path) -> None:
                 or identity(after_path) != identity(before_path)
                 or copied != before_fd.st_size):
             raise RuntimeError("selected source changed while its stable snapshot was copied")
+        actual_sha256 = digest.hexdigest()
+        if expected_sha256 is not None and actual_sha256 != expected_sha256:
+            raise ValueError("selected source SHA-256 does not match trusted inventory during snapshot creation")
+        return actual_sha256
     except Exception:
         if snapshot_created:
             try:
@@ -438,6 +446,7 @@ def render_selected_clip(
     rights_confirmed: bool = False,
     ffprobe_binary: str = "ffprobe",
     ffmpeg_binary: str = "ffmpeg",
+    expected_source_sha256: str | None = None,
 ) -> dict[str, Any]:
     """Preflight and render one immutable snapshot of the selected source.
 
@@ -567,7 +576,9 @@ def render_selected_clip(
     try:
         with tempfile.TemporaryDirectory(prefix="aro-single-clip-") as temporary_directory:
             snapshot = Path(temporary_directory) / (source.name or "selected-video.mp4")
-            _create_stable_source_snapshot(source, snapshot)
+            snapshot_sha256 = _create_stable_source_snapshot(
+                source, snapshot, expected_sha256=expected_source_sha256
+            )
             report = _render_selected_clip_from_snapshot(
                 snapshot,
                 output_path,
@@ -581,6 +592,7 @@ def render_selected_clip(
             report["source_path"] = str(source)
             report["source_snapshot_verified"] = True
             report["source_snapshot_created"] = True
+            report["source_sha256"] = snapshot_sha256
             return report
     except (OSError, RuntimeError, ValueError) as exc:
         return {
@@ -688,6 +700,7 @@ def main() -> int:
                     rights_confirmed=args.confirm_rights,
                     ffprobe_binary=args.ffprobe,
                     ffmpeg_binary=args.ffmpeg,
+                    expected_source_sha256=expected_digest if candidate_selection else None,
                 )
             except (OSError, RuntimeError, ValueError) as exc:
                 # A normal Python-level failure is final, not an unknown RUNNING
