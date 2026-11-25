@@ -728,10 +728,47 @@ def main() -> int:
                 "publishing_enabled": False,
                 "message": "report reserved; final render result has not yet been recorded",
             }
-            json.dump(initial_report, handle, indent=2, ensure_ascii=False)
-            handle.write("\n")
-            handle.flush()
-            os.fsync(handle.fileno())
+            # Serialize before writing so encoding/serialization errors cannot
+            # leave a partially written reservation.
+            try:
+                initial_report_text = json.dumps(
+                    initial_report, indent=2, ensure_ascii=False
+                ) + "\\n"
+            except Exception as exc:
+                print(
+                    f"Initial RUNNING report could not be serialized; media was not inspected: {exc}",
+                    file=sys.stderr,
+                )
+                return 2
+
+            try:
+                written = handle.write(initial_report_text)
+                if written != len(initial_report_text):
+                    raise OSError(
+                        f"initial report write was incomplete ({written} of {len(initial_report_text)} characters)"
+                    )
+                handle.flush()
+                os.fsync(handle.fileno())
+            except OSError as write_exc:
+                try:
+                    fallback_path = _write_exclusive_terminal_fallback(
+                        report_path, initial_report_text, (source_path, output_path)
+                    )
+                except OSError as fallback_exc:
+                    print(
+                        "Initial RUNNING report write failed; media was not inspected. "
+                        f"The reservation may be partial and fallback creation failed: {fallback_exc}. "
+                        f"Primary write error: {write_exc}",
+                        file=sys.stderr,
+                    )
+                else:
+                    print(
+                        "Initial RUNNING report write failed; media was not inspected. "
+                        f"Complete reservation was preserved at {fallback_path}. "
+                        "Inspect both report paths before retrying.",
+                        file=sys.stderr,
+                    )
+                return 2
 
             try:
                 report = render_selected_clip(
