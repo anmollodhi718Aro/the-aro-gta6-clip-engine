@@ -861,6 +861,38 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["upload_performed"])
         self.assertFalse(report["publishing_enabled"])
 
+    def test_cli_terminal_serialization_failure_preserves_parseable_running_report(self):
+        report_path = self.root / "terminal-serialization-failure.json"
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--start", "2", "--end", "8",
+            "--report", str(report_path),
+        ]
+        original_dumps = json.dumps
+        calls = {"count": 0}
+
+        def fail_terminal_serialization(*args, **kwargs):
+            calls["count"] += 1
+            if calls["count"] == 2:
+                raise TypeError("simulated terminal serialization failure")
+            return original_dumps(*args, **kwargs)
+
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.render_selected_clip",
+            return_value={"status": "PLANNED", "upload_performed": False,
+                          "publishing_enabled": False},
+        ), patch(
+            "backend.app.single_clip_render.json.dumps",
+            side_effect=fail_terminal_serialization,
+        ):
+            self.assertEqual(main(), 2)
+
+        report_text = report_path.read_text(encoding="utf-8")
+        self.assertTrue(report_text.endswith("\\n"))
+        report = json.loads(report_text)
+        self.assertEqual(report["status"], "RUNNING")
+        self.assertIn("not yet been recorded", report["message"])
+
     def test_cli_terminal_failure_marks_snapshot_digest_unverified(self):
         report_path = self.root / "terminal-snapshot-failure.json"
         argv = [
