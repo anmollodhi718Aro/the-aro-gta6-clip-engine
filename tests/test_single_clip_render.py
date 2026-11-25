@@ -518,8 +518,8 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(source.read_bytes(), b"selected source")
 
 
-    def test_cli_leaves_parseable_running_report_if_render_is_interrupted(self):
-        report_path = self.root / "interrupted-report.json"
+    def test_cli_records_terminal_render_failure_in_reserved_report(self):
+        report_path = self.root / "failed-report.json"
         with patch("sys.argv", [
             "single_clip_render", str(self.source), "--start", "1", "--end", "5",
             "--output", str(self.output), "--report", str(report_path),
@@ -527,16 +527,17 @@ class SingleClipRenderTests(unittest.TestCase):
         ]):
             with patch(
                 "backend.app.single_clip_render.render_selected_clip",
-                side_effect=RuntimeError("simulated interruption"),
+                side_effect=RuntimeError("simulated render failure"),
             ):
-                self.assertEqual(main(), 2)
+                self.assertEqual(main(), 1)
 
         report = json.loads(report_path.read_text(encoding="utf-8"))
-        self.assertEqual(report["status"], "RUNNING")
-        self.assertFalse(report["processing_started"])
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(report["execution_requested"])
+        self.assertEqual(report["error"], "simulated render failure")
         self.assertFalse(report["upload_performed"])
         self.assertFalse(report["publishing_enabled"])
-        self.assertIn("not yet been recorded", report["message"])
+        self.assertIn("inspect any output file", report["message"])
         self.assertFalse(self.output.exists())
 
 
