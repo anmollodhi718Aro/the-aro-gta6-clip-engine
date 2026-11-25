@@ -1560,3 +1560,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Audit report: `docs/ARO_CHAT_0238_PR376_CURRENT_HEAD_AUDIT.md`.
 - Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
 - Next safe action: inspect a naturally triggered exact-head run with visible job steps/logs and obtain independent review; no manual workflow retry/dispatch without owner direction.
+
+
+## ARO-CHAT-0238 continuation update — 2026-11-25
+
+- Existing workstream reused: `ARO-GTA-P1-238`, branch `workstream/aro-chat-0238-ambiguous-numeric-hostname-rejection-2026-11-25`, draft PR #376. No duplicate workstream or PR created.
+- Static review identified an over-broad final-label predicate that rejected ordinary DNS labels ending in digits. Production correction: `c9b621afc52b5b9ef84b459d6640b3fa1846fed6`; regression-test update: `f94c2d3d68084e6230fc10096605397fb9a145b6`.
+- Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. PR #376 remains DRAFT / OPEN / UNMERGED.
+- Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
