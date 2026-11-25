@@ -72,11 +72,19 @@ class YouTubeUploadTests(unittest.TestCase):
         video, body = validate_upload(
             self.video, self.report, title="Approved title",
             made_for_kids=True, owner_approved=True, rights_confirmed=True,
-            upload_requested=True, privacy="unlisted", max_upload_bytes=1024,
+            upload_requested=True, privacy="private", max_upload_bytes=1024,
         )
         self.assertEqual(video, self.video)
-        self.assertEqual(body["status"]["privacyStatus"], "unlisted")
+        self.assertEqual(body["status"]["privacyStatus"], "private")
         self.assertTrue(body["status"]["selfDeclaredMadeForKids"])
+
+    def test_actual_upload_rejects_non_private_visibility_during_validation(self):
+        with self.assertRaisesRegex(PermissionError, "only permits PRIVATE"):
+            validate_upload(
+                self.video, self.report, title="Approved title",
+                made_for_kids=False, owner_approved=True, rights_confirmed=True,
+                upload_requested=True, privacy="unlisted", max_upload_bytes=1024,
+            )
 
     def test_blocked_or_missing_rights_report_fails_closed(self):
         blocked = self.root / "blocked.json"

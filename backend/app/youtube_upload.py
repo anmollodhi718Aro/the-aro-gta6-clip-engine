@@ -248,6 +248,8 @@ def validate_upload(
         raise PermissionError("actual upload requires --owner-approved")
     if upload_requested and not rights_confirmed:
         raise PermissionError("actual upload requires --confirm-rights")
+    if upload_requested and privacy != "private":
+        raise PermissionError("actual upload only permits PRIVATE visibility")
     if upload_requested or max_upload_bytes is not None:
         limit = _validate_max_upload_bytes(max_upload_bytes)
         if video_size > limit:
