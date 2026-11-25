@@ -783,3 +783,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Reject symlink output destinations before resolving the requested path. Resolving first followed dangling symlinks and could redirect a new file to an unintended target.
 - The CLI dry-run guard and low-level FFmpeg renderer now fail closed; regression tests verify no target is created.
 - Exact-head CI and repository tests remain pending; do not claim verification until the new branch head has visible successful CI.
+
+
+### ARO-CHAT-0244 latest continuation — exclusive report reservation
+- Continue on the existing PR #386 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; do not create a duplicate PR/workstream.
+- The CLI now exclusively reserves its JSON report path before source inspection/rendering, and rejects report-path aliases to the selected source/output. This prevents a report collision from being discovered only after a render has already completed.
+- Commits: implementation `8bf3faa82d42c0527d9956324333e43e6bc1aa4b`; tests `11297dfaf27d59f848610fcdba5896d2f2fd6048`; operator docs `c9371e4d9fb084c8ddc4ff68647e716f2b0fda0c`.
+- Tests NOT RUN locally; exact-head CI NOT YET VERIFIED; independent review NOT RECORDED. Inspect a naturally triggered run only; do not retry/dispatch workflows without owner direction.
+- Preserve the draft stack. PR #386 inherits PR #383/#380/#379 ancestry; PR #379 conflicts with the later one-selected-video requirement. No merge/rebase/retarget/integration without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep all live uploads/public publishing disabled. No real media, OAuth, credentials, upload, or publishing.
