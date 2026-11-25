@@ -888,6 +888,9 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Continue on existing PR #386 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no duplicate PR or branch.
 - Static review found Python boolean values pass `math.isfinite()` because `bool` subclasses `int`. The low-level `render_clip()` helper now explicitly rejects boolean start/end bounds before numeric validation or media-path work.
 - Production commit: `a329adb4a8232a3bfca2a6d40634b8f64003f126`; regression test: `ff0b081367e57ab1637584017d2828d7cc9557c7`; operator docs: `b0be6062f926d4b5cdcad62207bba92b5c1ab702`; report: `0065c57199967af379963a84a23f5ade2b751311`; registry: `a382d8a9c5911e59ac41f6968e4788569247c6d6`.
+- Implementation commit: `81a59b37fd185f36f2a430764f0ed140f739ea9f`; regression tests: `4ad5873c638c45dbd2efe063a826089d250c4c8e`; operator documentation: `d4fca1b9ab7d5ba8a6c90aa97f78e468bc4c7af1`.
+- Startup handoff update: `108c9a618555f9ca3043a567cb3b98735cf96c7a`; registry update before validation closeout: `96aca282aa450a151da515b197d1b8f6238c1c32`.
+- Latest inspected PR head before this closeout: `96aca282aa450a151da515b197d1b8f6238c1c32`; associated workflow lookup returned zero runs and combined status returned zero checks.
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Inspect naturally triggered CI only; do not retry/dispatch without owner direction.
 - PR #386 remains DRAFT / OPEN / UNMERGED with its existing #383 -> #380/#379 ancestry. PR #379 conflicts with the later one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
