@@ -1906,17 +1906,17 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #386 remains DRAFT / OPEN / UNMERGED with existing ancestry. Do not merge, rebase, retarget, or integrate without explicit owner approval. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
 
 
-## ARO-CHAT-0258 | Harden Single-Video Preflight Path Identity — 2026-11-25
+## ARO-CHAT-0260 | Harden Single-Video Preflight Path Identity — 2026-11-25
 
-- Exact chat title: `ARO-CHAT-0258 | Harden Single-Video Preflight Path Identity`
-- Workstream: `ARO-GTA-P1-258`
+- Exact chat title: `ARO-CHAT-0260 | Harden Single-Video Preflight Path Identity`
+- Workstream: `ARO-GTA-P1-260`
 - Follow-up to PR #386 / ARO-GTA-P1-244 on the existing branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR and no ancestry changes.
-- ARO-CHAT-0257 is already reserved for the rendered-duration overflow guard. This workstream uses the next available serial and preserves the existing 0257 records.
+- ARO-CHAT-0257, ARO-CHAT-0258, and ARO-CHAT-0259 are already reserved by concurrent workstreams. This entry uses the unique ARO-CHAT-0260 allocation and preserves all prior records.
 - Finding: the standalone read-only FFprobe preflight checked the selected path with `is_symlink()` and `stat()`, then compared only size, mtime, and inode after probing. A path could be replaced by a symlink during the probe, and on POSIX an in-place same-size mutation with restored mtime could evade the existing comparison.
 - Change: preflight now uses `lstat()` before and after FFprobe, requires a regular non-symlink file, compares path and followed-file device/inode/type identity, and checks ctime on POSIX to detect in-place mutation even if mtime is restored. Windows ctime is excluded because it represents creation time there.
 - Regression coverage: selected-path replacement with a symlink during mocked FFprobe; POSIX in-place mutation with size and mtime restored. Windows skips only the POSIX ctime-specific case.
-- Changed files: `backend/app/media_single_preflight.py`, `tests/test_media_single_preflight.py`, `docs/SINGLE_CLIP_RENDER.md`, `docs/MEDIA_SINGLE_VIDEO_PREFLIGHT.md`, `docs/ARO_CHAT_0258_PREFLIGHT_PATH_IDENTITY.md`, `docs/ARO_CHAT_STARTUP_PROMPT.md`, and this registry.
-- Commits: production `bef1fc7de56d5ae48d0390b727b43f18ac008716`; regression tests `c7ffdafda71f45fe1af6c725235d33c5bc537c43`; operator docs `dcbc4e4ac5ae552aa22f45e53b3044d0081ec95c` and preflight docs `d75f05cd6b9eda741e2a37548de91a0919f22b67`; canonical report `e86e0f18a889a09c6550b92836c13496351d61c0`; startup handoff `74601b898911300df97ca22e8573cfe8230719d3` (synchronized preflight-doc reference in `1c59c237fa888adbbd71bdf08c2fcb441c7c48a1`).
+- Changed files: `backend/app/media_single_preflight.py`, `tests/test_media_single_preflight.py`, `docs/SINGLE_CLIP_RENDER.md`, `docs/MEDIA_SINGLE_VIDEO_PREFLIGHT.md`, `docs/ARO_CHAT_0260_PREFLIGHT_PATH_IDENTITY.md`, `docs/ARO_CHAT_STARTUP_PROMPT.md`, and this registry.
+- Commits: production `bef1fc7de56d5ae48d0390b727b43f18ac008716`; regression tests `c7ffdafda71f45fe1af6c725235d33c5bc537c43`; final-lstat ordering `c3f3d2de79ecb5db3e485d3c711941730b3239f2`; operator docs `dcbc4e4ac5ae552aa22f45e53b3044d0081ec95c` and preflight docs `d75f05cd6b9eda741e2a37548de91a0919f22b67`; canonical report `c5b2081475a5d3c17a5d87ea4446936a958af704`; startup handoff `f0e4137b7215e18402be9e420955b63134c27454`.
 - Status: IMPLEMENTED. Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows and authorized real-media acceptance NOT VERIFIED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing #383 -> #380/#379 ancestry. No merge, rebase, retarget, integration, workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, or deployment.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
