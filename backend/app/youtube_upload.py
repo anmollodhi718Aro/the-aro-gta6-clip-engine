@@ -510,7 +510,7 @@ def upload_video(
     if owner_approved is not True or rights_confirmed is not True:
         raise PermissionError("actual upload requires --owner-approved and --confirm-rights")
     limit = _validate_max_upload_bytes(max_upload_bytes)
-    snapshot_path, staging = _create_verified_upload_snapshot(source_path, limit)
+    snapshot_path, staging = _create_verified_upload_snapshot(video_path, limit)
     try:
         return _upload_video_snapshot(
             snapshot_path, body,
