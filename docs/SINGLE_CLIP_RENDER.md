@@ -117,3 +117,8 @@ The cross-module regression test exercises the preceding measured timestamp mapp
 ### CLI candidate-selection regression
 
 A CLI-level regression covers the complete metadata handoff from measured candidate mapping through clip-pack CSV export to renderer invocation using `--candidate-csv` and `--candidate-row`. It asserts the selected timestamps reach the renderer and the JSON report retains the exact source ID and selected row number. The test uses a mocked renderer in dry-run mode; it does not execute FFmpeg or validate real media.
+
+
+### Candidate source confirmation
+
+When selecting a clip-pack row from the CLI, provide `--source-id` with the same source ID as the selected CSV row. The CLI rejects a missing or mismatched value before reserving the render report or inspecting media. This is an explicit operator cross-check intended to catch accidental selection of a candidate row from another source. It is **not** cryptographic or automatic proof that the selected local file corresponds to that source ID; operators must independently verify the selected file against their authorized source record.
