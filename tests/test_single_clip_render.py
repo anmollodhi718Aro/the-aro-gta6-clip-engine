@@ -2,6 +2,7 @@
 import hashlib
 import io
 import json
+import os
 import tempfile
 import unittest
 from contextlib import redirect_stdout
@@ -35,7 +36,7 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(sha256_selected_source(self.source), expected)
 
     def test_sha256_selected_source_uses_nonblocking_open_when_available(self):
-        real_open = __import__("os").open
+        real_open = os.open
         observed = {}
 
         def recording_open(path, flags, *args, **kwargs):
@@ -45,8 +46,8 @@ class SingleClipRenderTests(unittest.TestCase):
         with patch("backend.app.single_clip_render.os.open", side_effect=recording_open):
             sha256_selected_source(self.source)
 
-        if hasattr(__import__("os"), "O_NONBLOCK"):
-            self.assertTrue(observed["flags"] & __import__("os").O_NONBLOCK)
+        if hasattr(os, "O_NONBLOCK"):
+            self.assertTrue(observed["flags"] & os.O_NONBLOCK)
 
 
     def test_snapshot_creation_checks_expected_digest_of_copied_bytes(self):
