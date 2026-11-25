@@ -1160,3 +1160,10 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - The digest is recorded in candidate-selection report metadata. It is a byte-identity check against a trusted inventory value, not proof of authorship or rights.
 - Commits: implementation `b7080b15b100ccb1512cd601c68da714ebf75ed7`; tests `ea18bb426b743e124124717c8583185ea048c3c1`, `dc122a4e4e7e6d25d105366d235f3d8beef4d53a`, `80bce215874f3c4dcbfcc117d243624dd211ca58`.
 - Tests NOT RUN. No media processed or published.
+
+
+### Latest handoff: ARO-CHAT-0280: digest bound to render snapshot
+- Confirmed execution now hashes bytes during the stable snapshot copy from the same verified source descriptor, compares that digest with the trusted authorized-media inventory value, and only then permits FFprobe/FFmpeg to consume the snapshot.
+- The snapshot digest is included in the render result. Mismatch fails closed and cleans only the invocation-created snapshot. Dry-run remains non-copying and its initial digest check is only an inventory cross-check, not a race-free execution guarantee.
+- Implementation: f61b1be8a15f4b28c1f5ec6b01ca9323f5230b14; tests: 40612099215f0594190382b61c7bde4eef1557a7, 50ce9ef3940f966c7ece918d2bcb45e5bec79bae; guide: e4e36a69ae94608106e332cf56e2d5c5b5077aaa.
+- Tests NOT RUN. No real media processed or published.
