@@ -1028,3 +1028,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Commits: uploader `c6a0569d1093e7857958767c447a499e019109da`; tests `e095bcb51364558f04fb7ce1be74f945b3891a67`.
 - Local repository tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT YET VERIFIED. PR #378's prior run #45612283558 failed with zero exposed job steps and no log URLs; this gives no compile/test result and is not attributed to application code.
 - Draft only. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
+
+
+### Exact-head CI recheck — 2026-11-25
+- PR #385 head `b8704221f4ba3131d8c6b96e2d091a9530eea5b2` is associated with run #45657905605, conclusion FAILURE.
+- Ubuntu job #139359465979 and hosted-Windows job #139359466345 both expose `steps: null` and `logs_url: null`. No compile/test result is available; failure phase and cause remain UNVERIFIED and are not attributed to application code.
+- Do not blindly rerun or dispatch workflows. Exact-head CI remains NOT VERIFIED; local repository tests NOT RUN.
