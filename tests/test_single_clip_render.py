@@ -33,6 +33,21 @@ class SingleClipRenderTests(unittest.TestCase):
         render.assert_not_called()
         preflight.assert_called_once_with(self.source, ffprobe_binary="ffprobe")
 
+    def test_refuses_source_mutation_during_preflight(self):
+        def mutate_selected_source(path, *, ffprobe_binary):
+            path.write_bytes(b"replacement video bytes")
+            return PASS
+
+        with patch("backend.app.single_clip_render.inspect_one_video", side_effect=mutate_selected_source):
+            with patch("backend.app.single_clip_render.render_clip") as render:
+                report = render_selected_clip(self.source, self.output, 2, 8, execute=True, rights_confirmed=True)
+
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("changed during preflight", report["error"])
+        self.assertFalse(report["processing_started"])
+        self.assertFalse(report["source_identity_verified"])
+        render.assert_not_called()
+
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     def test_execution_requires_explicit_rights_confirmation(self, _preflight):
         report = render_selected_clip(self.source, self.output, 2, 8, execute=True)
