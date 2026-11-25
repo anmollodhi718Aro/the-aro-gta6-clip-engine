@@ -43,3 +43,8 @@ Output and report path resolution fails closed. Symlink-loop and malformed-path 
 ## Validate clip bounds before source snapshot
 
 For confirmed execution, clip bounds are normalized and checked for finite numeric values, valid ordering, and the 180-second maximum before the selected source is copied to temporary storage. Invalid bounds therefore fail without snapshot I/O or FFprobe/FFmpeg invocation. The renderer repeats the same validation at its own boundary.
+
+
+## Reject unrepresentable rendered-duration metadata
+
+The post-render FFprobe duration must be a finite, positive numeric value. Extremely large integer metadata can raise `OverflowError` during `math.isfinite()`; malformed metadata now produces a deterministic `FAIL` report instead of an uncaught exception. The output is not marked `RENDERED`, and upload/publishing remain disabled.
