@@ -2120,3 +2120,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - CLI exception-to-terminal-report handling also records the unverified snapshot flags and null actual digest.
 - Added regressions for digest mismatch metadata and terminal CLI failure metadata. Implementation: `7c96ef41ea54fd362b75e696a6463635b43f3a67`; tests: `3735cf6661d5687d566d1c42d2df4cb4fae8ca12`.
 - Tests NOT RUN; no media processed.
+
+
+### ARO-CHAT-0283: renderer-boundary trusted digest validation (2026-11-26)
+- `render_selected_clip()` now rejects any supplied expected SHA-256 that is not exactly 64 lowercase hexadecimal characters before dry-run probing, snapshot creation, FFprobe, or FFmpeg.
+- Added a regression asserting malformed digest rejection occurs before media tools or output creation.
+- Implementation: `bead52dd6cef555764d5605beb22c5f1c7fe2d9c`; test: `7cd1d015feb7e0fc6f257747c2483440096bf183`.
+- Tests NOT RUN; no media processed.
