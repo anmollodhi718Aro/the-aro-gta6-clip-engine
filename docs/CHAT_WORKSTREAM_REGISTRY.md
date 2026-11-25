@@ -2006,3 +2006,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added focused regression coverage asserting a fitted clock exposes the canonical ID.
 - Implementation commit `0ddfdc48609a391341f06b3956519badbf0fa8d2`; test commit `b4f8656e737729f628f7eaaa67b422eaf1ec9334`.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. PR #386 remains DRAFT / OPEN / UNMERGED; no merge, rebase, retarget, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0269 | Connect reviewed candidate rows to single-clip CLI — 2026-11-26
+
+- Continue existing PR #386 / `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; preserve existing ancestry.
+- Added a strict loader for one explicitly numbered row from the clip-pack CSV. It requires the row to be marked renderable, a nonblank source ID, finite bounds, renderer limits, and duration agreement within 50 ms.
+- Added CLI selection using `--candidate-csv` plus one-based `--candidate-row`. The direct `--start/--end` mode remains available, and mixed/incomplete selection modes are rejected. Selected row/source metadata is included in the report. Dry-run remains default; rendering still requires explicit execute and rights confirmation.
+- Regression coverage added for valid selection, unrenderable rows, duration mismatch, missing source ID, absent row, and CLI argument handoff.
+- Implementation commits `55ee671e0e3c04ad052b7e4f6c71b2054558dd95` and `f1a1eb096d3c9e100a436e9a8bfcb2bb9d7f4f5e`; test commits `546ad09473d0e2aa1e3882037ecf488392486026` and `5eef004a184e9ae7ee6238341aa312de087f25cc`; operator documentation updated.
+- Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. PR #386 remains DRAFT / OPEN / UNMERGED. No merge, rebase, retarget, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
