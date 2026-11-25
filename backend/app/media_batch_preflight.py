@@ -44,6 +44,8 @@ def _probe_video(path: Path, ffprobe_binary: str) -> dict[str, Any]:
     except (json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
         raise ValueError("ffprobe returned incomplete or invalid metadata") from exc
 
+    if not isinstance(streams, list) or any(not isinstance(stream, dict) for stream in streams):
+        raise ValueError("ffprobe returned invalid stream metadata")
     if not math.isfinite(duration) or duration <= 0:
         raise ValueError("duration must be finite and greater than zero")
     video_streams = [stream for stream in streams if stream.get("codec_type") == "video"]
