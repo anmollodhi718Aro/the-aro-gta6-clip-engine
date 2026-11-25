@@ -13,6 +13,7 @@ import os
 import re
 import sys
 import tempfile
+import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -254,11 +255,67 @@ def validate_upload(
     return video, body
 
 
+def _secure_windows_token_path(
+    path: Path, *, is_directory: bool, platform_name: str | None = None
+) -> None:
+    """Set and verify a Windows DACL limited to the current user and LocalSystem."""
+    if (platform_name or os.name) != "nt":
+        return
+    target = Path(path).resolve(strict=True)
+    script = r'''
+$ErrorActionPreference = 'Stop'
+$path = $env:ARO_TOKEN_ACL_PATH
+$ownerSid = [Security.Principal.WindowsIdentity]::GetCurrent().User
+$systemSid = New-Object Security.Principal.SecurityIdentifier('S-1-5-18')
+$acl = Get-Acl -LiteralPath $path
+$acl.SetAccessRuleProtection($true, $false)
+$acl.SetOwner($ownerSid)
+foreach ($existingRule in @($acl.Access)) { [void]$acl.RemoveAccessRuleSpecific($existingRule) }
+$inheritance = [Security.AccessControl.InheritanceFlags]::None
+if ($env:ARO_TOKEN_ACL_DIRECTORY -eq '1') {
+    $inheritance = [Security.AccessControl.InheritanceFlags]::ContainerInherit -bor [Security.AccessControl.InheritanceFlags]::ObjectInherit
+}
+$propagation = [Security.AccessControl.PropagationFlags]::None
+$allow = [Security.AccessControl.AccessControlType]::Allow
+$full = [Security.AccessControl.FileSystemRights]::FullControl
+$acl.AddAccessRule((New-Object Security.AccessControl.FileSystemAccessRule($ownerSid, $full, $inheritance, $propagation, $allow)))
+$acl.AddAccessRule((New-Object Security.AccessControl.FileSystemAccessRule($systemSid, $full, $inheritance, $propagation, $allow)))
+Set-Acl -LiteralPath $path -AclObject $acl
+$verified = Get-Acl -LiteralPath $path
+if (-not $verified.AreAccessRulesProtected) { throw 'ACL inheritance is still enabled' }
+if ($verified.GetOwner([Security.Principal.SecurityIdentifier]).Value -ne $ownerSid.Value) { throw 'Unexpected token path owner' }
+$rules = @($verified.Access)
+if ($rules.Count -ne 2) { throw 'Unexpected token path ACL entry count' }
+$seen = @{}
+foreach ($rule in $rules) {
+    $sid = $rule.IdentityReference.Translate([Security.Principal.SecurityIdentifier]).Value
+    if ($rule.IsInherited -or $rule.AccessControlType -ne $allow -or $rule.FileSystemRights -ne $full) { throw 'Unexpected token path ACL rule' }
+    if ($sid -ne $ownerSid.Value -and $sid -ne $systemSid.Value) { throw 'Unexpected token path ACL principal' }
+    $seen[$sid] = $true
+}
+if (-not $seen.ContainsKey($ownerSid.Value) -or -not $seen.ContainsKey($systemSid.Value)) { throw 'Required token path ACL principals are missing' }
+Write-Output 'ARO_TOKEN_ACL_VERIFIED'
+'''
+    env = os.environ.copy()
+    env["ARO_TOKEN_ACL_PATH"] = str(target)
+    env["ARO_TOKEN_ACL_DIRECTORY"] = "1" if is_directory else "0"
+    try:
+        result = subprocess.run(
+            ["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", script],
+            check=False, capture_output=True, text=True, timeout=20, env=env,
+        )
+    except (OSError, subprocess.SubprocessError) as exc:
+        raise PermissionError("Windows OAuth token ACL could not be verified") from exc
+    if result.returncode != 0 or "ARO_TOKEN_ACL_VERIFIED" not in result.stdout:
+        raise PermissionError("Windows OAuth token ACL is not restricted to the current user and LocalSystem")
+
+
 def _persist_oauth_token(token_path: Path, token_json: str) -> None:
     """Atomically persist an OAuth token with owner-only permissions."""
     target = Path(token_path).expanduser()
     target.parent.mkdir(parents=True, exist_ok=True)
     parent = target.parent.resolve(strict=True)
+    _secure_windows_token_path(parent, is_directory=True)
     target = parent / target.name
     if target.is_symlink():
         raise PermissionError("OAuth token path must not be a symbolic link")
@@ -270,6 +327,7 @@ def _persist_oauth_token(token_path: Path, token_json: str) -> None:
             stream.flush()
             os.fsync(stream.fileno())
         os.replace(temp_name, target)
+        _secure_windows_token_path(target, is_directory=False)
         try:
             os.chmod(target, 0o600)
         except OSError:
@@ -290,10 +348,13 @@ def _authorize_google(client_secrets: Path, token_path: Path):
         ) from exc
 
     token_path = Path(token_path).expanduser()
+    token_path.parent.mkdir(parents=True, exist_ok=True)
+    _secure_windows_token_path(token_path.parent, is_directory=True)
     if token_path.is_symlink():
         raise PermissionError("OAuth token path must not be a symbolic link")
     credentials = None
     if token_path.is_file():
+        _secure_windows_token_path(token_path, is_directory=False)
         try:
             credentials = Credentials.from_authorized_user_file(str(token_path), IDENTITY_SCOPES)
         except (OSError, ValueError):
