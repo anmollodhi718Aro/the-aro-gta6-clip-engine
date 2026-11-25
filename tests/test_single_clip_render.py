@@ -1,4 +1,5 @@
 """Tests for the one-selected-video clip render path."""
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -162,6 +163,9 @@ class SingleClipRenderTests(unittest.TestCase):
         ]):
             self.assertEqual(main(), 0)
         self.assertTrue(report_path.is_file())
+        report_text = report_path.read_text(encoding="utf-8")
+        self.assertTrue(report_text.endswith("\n"))
+        self.assertEqual(json.loads(report_text)["status"], "PLANNED")
         with patch("sys.argv", [
             "single_clip_render", str(self.source), "--start", "1", "--end", "5",
             "--output", str(self.output), "--report", str(report_path),
