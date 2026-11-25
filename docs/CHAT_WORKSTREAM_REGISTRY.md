@@ -2263,3 +2263,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Commits: production `02fb6ad44ddf25a6c131034146d67f513257de9c`; regression `4d6659f4b6a27f06f602bf61920bf991b11b16d1`.
 - Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized MP4 was processed.
 - PR #386 remains OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, upload, publishing, or deployment.
+
+
+## ARO-CHAT-0300 — final rendered-output identity and SHA-256 evidence
+
+- Pipeline review found successful output verification reported FFprobe status and duration but no content digest tied to the output file that was checked. The previous output identity tuple also did not bind the inode to size/mtime/ctime across FFprobe.
+- Added a non-following, descriptor-based SHA-256 read-back helper. It checks regular-file identity and content-relevant metadata before/after reading and compares the final identity with the identity captured immediately after rendering. Output replacement or mutation after FFprobe now fails closed.
+- Successful reports include `output_sha256`, `output_size_bytes`, and `output_identity_verified=true`. Failed final verification leaves hash/size null and preserves the file for manual inspection.
+- Added/updated regressions for successful output hash reporting and output mutation after FFprobe.
+- Commits: production `3c196619598bbc0c1dd03b58af7f528d058dee0e`; success test `40c78ffb8ac638b627246ee2d885b8d9be91b0cb`; stable metadata `3648a674ee82b96493c8bcb670317bd0030cb1f4`; mutation regression `1482ec9e02c5d93b8db4d25ab94b42eead2f32a1`.
+- Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized MP4 was processed.
+- PR #386 remains OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, upload, publishing, or deployment.
