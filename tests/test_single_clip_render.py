@@ -31,7 +31,10 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["upload_performed"])
         self.assertFalse(report["publishing_enabled"])
         render.assert_not_called()
-        preflight.assert_called_once_with(self.source, ffprobe_binary="ffprobe")
+        preflight.assert_called_once()
+        inspected_source = preflight.call_args.args[0]
+        self.assertNotEqual(inspected_source, self.source)
+        self.assertEqual(inspected_source.read_bytes(), self.source.read_bytes())
 
     def test_refuses_source_mutation_during_preflight(self):
         def mutate_selected_source(path, *, ffprobe_binary):
@@ -53,6 +56,21 @@ class SingleClipRenderTests(unittest.TestCase):
         report = render_selected_clip(self.source, self.output, 2, 8, execute=True)
         self.assertEqual(report["status"], "BLOCKED")
         self.assertFalse(report["processing_started"])
+
+    @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
+    @patch("backend.app.single_clip_render.render_clip")
+    def test_preflight_and_renderer_consume_the_same_snapshot(self, render, preflight):
+        render.return_value = self.output.resolve()
+        preflight.side_effect = [PASS, {"status": "PASS", "duration_seconds": 6.0}]
+        report = render_selected_clip(
+            self.source, self.output, 2, 8, execute=True, rights_confirmed=True,
+        )
+        self.assertEqual(report["status"], "RENDERED")
+        inspected_path = preflight.call_args_list[0].args[0]
+        rendered_path = render.call_args.args[0]
+        self.assertEqual(inspected_path, rendered_path)
+        self.assertNotEqual(inspected_path, self.source)
+        self.assertTrue(report["source_snapshot_verified"])
 
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     @patch("backend.app.single_clip_render.render_clip")
