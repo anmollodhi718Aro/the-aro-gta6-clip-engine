@@ -1692,3 +1692,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Validation: repository tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. No media was processed.
 - This is path-based defense in depth only. It narrows the replacement window but does not eliminate the race between the final identity check and FFmpeg opening the path. Do not claim descriptor-bound or race-free input identity.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### ARO-CHAT-0247 source snapshot race elimination — 2026-11-25
+- Continued existing PR #386 / ARO-GTA-P1-244 branch; no new PR or branch and no ancestry changes.
+- Replaced path-only preflight/render identity checks with a verified temporary source snapshot. The CLI opens the single selected regular file (using `O_NOFOLLOW` where available), compares descriptor and pathname identity, copies in bounded 1 MiB chunks, then rechecks descriptor metadata, pathname identity, and copied byte count.
+- Both FFprobe preflight and FFmpeg rendering now consume the exact same snapshot bytes. Snapshot storage is temporary disk, not whole-video RAM buffering; it is cleaned up after the invocation.
+- Added regression coverage that the preflight and renderer receive the same snapshot path and that the dry-run path is also snapshot-backed. Existing mutation-during-preflight coverage now exercises the snapshot identity guard.
+- Production commit: `29652582a611bec667497b79fac9729e3f0718c5`; regression-test commit: `fb4d4987e61d6d2af2130318494d394aed0caef6`; operator documentation commit: `5cbb5cfa28b5857aadd5907f2b21f25b0282d91e`.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT YET CHECKED; independent review NOT RECORDED. Do not claim TESTED or CI_VERIFIED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 → #380/#379 ancestry; PR #379 conflicts with the later one-selected-video requirement. No rebase, retarget, merge, or integration without explicit owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
