@@ -468,43 +468,43 @@ def upload_video(
         if sha256_file(video_path) != upload_sha256:
             raise PermissionError("video changed while creating the bounded upload snapshot")
 
-    # Validate the declared rights report and live source grant before any
-    # OAuth refresh or interactive authorization can occur.
-    from backend.app.rights_registry import SourceRightsRegistry
-    current_report = load_rights_report(rights_report_path)
-    if not isinstance(clip_id, str) or not clip_id.strip():
-        raise PermissionError("requested clip_id is required")
-    if not isinstance(source_id, str) or not source_id.strip():
-        raise PermissionError("requested source_id is required")
-    if current_report.get("clip_id") != clip_id or current_report.get("source_id") != source_id:
-        raise PermissionError("requested clip/source IDs do not match the rights report")
-    rights_registry = SourceRightsRegistry(rights_db_path.expanduser())
-    require_report_publish_permissions(current_report, rights_registry, source_id)
+        # Validate the declared rights report and live source grant before any
+        # OAuth refresh or interactive authorization can occur.
+        from backend.app.rights_registry import SourceRightsRegistry
+        current_report = load_rights_report(rights_report_path)
+        if not isinstance(clip_id, str) or not clip_id.strip():
+            raise PermissionError("requested clip_id is required")
+        if not isinstance(source_id, str) or not source_id.strip():
+            raise PermissionError("requested source_id is required")
+        if current_report.get("clip_id") != clip_id or current_report.get("source_id") != source_id:
+            raise PermissionError("requested clip/source IDs do not match the rights report")
+        rights_registry = SourceRightsRegistry(rights_db_path.expanduser())
+        require_report_publish_permissions(current_report, rights_registry, source_id)
 
-    try:
-        from googleapiclient.discovery import build
-        from googleapiclient.http import MediaIoBaseUpload
-    except ImportError as exc:
-        raise RuntimeError(
-            'Google upload dependencies are missing. Install with: pip install -e ".[youtube-upload]"'
-        ) from exc
+        try:
+            from googleapiclient.discovery import build
+            from googleapiclient.http import MediaIoBaseUpload
+        except ImportError as exc:
+            raise RuntimeError(
+                'Google upload dependencies are missing. Install with: pip install -e ".[youtube-upload]"'
+            ) from exc
 
-    from backend.app.youtube_owner_approval import (
-        verify_authenticated_channel_owner,
-        require_current_owner_approval,
-    )
-    expected_subject = (expected_google_subject or os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "")).strip()
-    expected_channel = (expected_channel_id or os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "")).strip()
-    if not expected_subject or not expected_channel:
-        raise PermissionError("a verified destination profile or owner/channel configuration is required")
-    oauth_client_id = _oauth_client_id(client_secrets)
-    credentials = _authorize_google(client_secrets, token_path)
-    youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)
-    owner = verify_authenticated_channel_owner(
-        credentials, youtube, oauth_client_id=oauth_client_id,
-        expected_google_subject=expected_subject, expected_channel_id=expected_channel,
-    )
-    mime_type, _ = mimetypes.guess_type(video_path.name)
+        from backend.app.youtube_owner_approval import (
+            verify_authenticated_channel_owner,
+            require_current_owner_approval,
+        )
+        expected_subject = (expected_google_subject or os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "")).strip()
+        expected_channel = (expected_channel_id or os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "")).strip()
+        if not expected_subject or not expected_channel:
+            raise PermissionError("a verified destination profile or owner/channel configuration is required")
+        oauth_client_id = _oauth_client_id(client_secrets)
+        credentials = _authorize_google(client_secrets, token_path)
+        youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)
+        owner = verify_authenticated_channel_owner(
+            credentials, youtube, oauth_client_id=oauth_client_id,
+            expected_google_subject=expected_subject, expected_channel_id=expected_channel,
+        )
+        mime_type, _ = mimetypes.guess_type(video_path.name)
         with snapshot_path.open("rb") as upload_stream:
             media = MediaIoBaseUpload(
                 upload_stream,
@@ -512,42 +512,42 @@ def upload_video(
                 chunksize=8 * 1024 * 1024,
                 resumable=True,
             )
-        require_current_owner_approval(
-            approval_record_path, clip_id=clip_id, source_id=source_id,
-            video_path=video_path, video_sha256=upload_sha256, owner=owner, privacy=privacy,
-            rights_registry=rights_registry,
-        )
-        # Repeat all identity, approval and current-rights checks immediately
-        # before the upload API side effect. Any mismatch fails closed.
-        owner = verify_authenticated_channel_owner(
-            credentials, youtube, oauth_client_id=oauth_client_id,
-            expected_google_subject=expected_subject, expected_channel_id=expected_channel,
-        )
-        require_current_owner_approval(
-            approval_record_path, clip_id=clip_id, source_id=source_id,
-            video_path=video_path, video_sha256=upload_sha256, owner=owner, privacy=privacy,
-            rights_registry=rights_registry,
-        )
-        require_report_publish_permissions(current_report, rights_registry, source_id)
-        response = youtube.videos().insert(
-            part="snippet,status", body=body, media_body=media,
-        ).execute(num_retries=3)
-        video_id = str(response.get("id", "")).strip()
-        if not video_id:
-            raise RuntimeError("YouTube API response did not include a video ID")
-        # The request asks YouTube to stage privately. Do not report success unless
-        # the API response itself confirms that exact visibility.
-        returned_status = response.get("status")
-        if not isinstance(returned_status, dict) or returned_status.get("privacyStatus") != "private":
-            raise RuntimeError(
-                "YouTube did not confirm PRIVATE visibility in the upload response; "
-                "treat the upload state as unverified and inspect it in YouTube Studio"
+            require_current_owner_approval(
+                approval_record_path, clip_id=clip_id, source_id=source_id,
+                video_path=video_path, video_sha256=upload_sha256, owner=owner, privacy=privacy,
+                rights_registry=rights_registry,
             )
-        return {
-            "video_id": video_id,
-            "url": f"https://www.youtube.com/watch?v={video_id}",
-            "privacy_status": "private",
-        }
+            # Repeat all identity, approval and current-rights checks immediately
+            # before the upload API side effect. Any mismatch fails closed.
+            owner = verify_authenticated_channel_owner(
+                credentials, youtube, oauth_client_id=oauth_client_id,
+                expected_google_subject=expected_subject, expected_channel_id=expected_channel,
+            )
+            require_current_owner_approval(
+                approval_record_path, clip_id=clip_id, source_id=source_id,
+                video_path=video_path, video_sha256=upload_sha256, owner=owner, privacy=privacy,
+                rights_registry=rights_registry,
+            )
+            require_report_publish_permissions(current_report, rights_registry, source_id)
+            response = youtube.videos().insert(
+                part="snippet,status", body=body, media_body=media,
+            ).execute(num_retries=3)
+            video_id = str(response.get("id", "")).strip()
+            if not video_id:
+                raise RuntimeError("YouTube API response did not include a video ID")
+            # The request asks YouTube to stage privately. Do not report success unless
+            # the API response itself confirms that exact visibility.
+            returned_status = response.get("status")
+            if not isinstance(returned_status, dict) or returned_status.get("privacyStatus") != "private":
+                raise RuntimeError(
+                    "YouTube did not confirm PRIVATE visibility in the upload response; "
+                    "treat the upload state as unverified and inspect it in YouTube Studio"
+                )
+            return {
+                "video_id": video_id,
+                "url": f"https://www.youtube.com/watch?v={video_id}",
+                "privacy_status": "private",
+            }
     finally:
         staging.cleanup()
 
