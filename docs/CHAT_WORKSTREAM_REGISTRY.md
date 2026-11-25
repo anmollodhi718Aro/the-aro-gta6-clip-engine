@@ -2152,3 +2152,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Regression test asserts stdout exactly matches the persisted report bytes. Implementation: `5c743f5376707056aa7cdc9940d09b1920d2c9ba`; test: `2bc04333f1ebff1b6032a493bb399971b82cd9dd`; operator guide: `4ee2d5ec04e7bb6ea7612e76593f723a7fd57c80`.
 - Tests NOT RUN; exact-head CI and independent review NOT VERIFIED / NOT RECORDED.
 - PR remains DRAFT / OPEN / UNMERGED; preserve stacked ancestry. No merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0287 — partial terminal report write failure contract
+- Continued existing PR #386 branch; no new branch/PR.
+- Added a failure-injection regression: after a mocked successful render, the terminal report write is interrupted after a partial write. The CLI returns a report-write error and the rendered output bytes remain untouched for manual review.
+- Regression test: `f26564989ecf674c1e1620a3a16c170a0307cd35`; operator guide: `5dfdd3e66804d3c02c9f257697831e67a97719c3`.
+- The test documents that an unreadable report does not prove rendering failed. It does not make report writes atomic or validate real media.
+- Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains DRAFT / OPEN / UNMERGED; preserve stacked ancestry. No merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
