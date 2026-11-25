@@ -2079,3 +2079,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Updated the existing candidate CLI regression to pass the required source ID and added a direct-mode rejection regression.
 - Implementation: `142a5d56b1269db10a742eb501992f84376d42bb`; tests: `bb8293366813affef02577a14fb25a6d69e987c8`, `62461b4d28c341e05ad72a8b0691213a0ce4ad7d`.
 - Tests NOT RUN. No media processed; upload/publishing remain disabled.
+
+
+### ARO-CHAT-0277 — missing/blank candidate source-ID regression (2026-11-26)
+- Added CLI regressions proving both an omitted `--source-id` and a whitespace-only value fail closed before the report file is reserved.
+- Test commit: `6f93cad27336d8714e23c8e9ef7f523c3c4c27d5`.
+- Tests NOT RUN. No media processed; upload/publishing remain disabled.
