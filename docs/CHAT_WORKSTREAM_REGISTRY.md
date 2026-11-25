@@ -2243,3 +2243,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added a regression where the render boundary raises a validation exception after the source snapshot has been verified; the report must preserve snapshot evidence and leave processing-start unknown.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Latest run #45702616612 for the prior head failed before any visible workflow step with runner_id 0 and unavailable logs; root cause remains UNKNOWN.
 - PR #386 remains OPEN / DRAFT / UNMERGED. No rebase/retarget, workflow retry/dispatch, real media, upload, publishing, merge, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0298 — fail closed on incomplete source snapshot writes
+
+- Pipeline review found `_create_stable_source_snapshot()` ignored the return value from `snapshot_handle.write(chunk)`. A short write could therefore produce a truncated snapshot while the SHA-256 and copied-byte count advanced as though the entire chunk had been persisted.
+- The copy now requires the write count to equal the complete chunk length before updating the digest or byte count. A short write raises `OSError`; existing identity-checked cleanup removes only the partial snapshot created by this invocation.
+- Added `test_snapshot_creation_rejects_short_writes_and_cleans_partial_snapshot`, using an injected writer that deliberately persists and reports one byte fewer than supplied.
+- Files: `backend/app/single_clip_render.py`, `tests/test_single_clip_render.py`, `docs/SINGLE_CLIP_RENDER.md`.
+- Tests NOT RUN in this connector session. CI on the previous exact head failed before visible steps; new exact-head CI status must be checked separately. This change does not authorize processing real media.
+- PR #386 remains OPEN / DRAFT / UNMERGED. Pipeline is not complete until an owner-authorized real MP4 produces a verified clip. No merge, rebase, retarget, upload, publishing, or deployment.
