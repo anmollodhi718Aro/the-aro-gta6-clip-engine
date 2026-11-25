@@ -106,6 +106,11 @@ def sha256_selected_source(path: str | Path) -> str:
         flags = os.O_RDONLY
         if hasattr(os, "O_BINARY"):
             flags |= os.O_BINARY
+        # A path can be replaced between lstat() and open(). Nonblocking
+        # open prevents a raced FIFO/device from hanging the inventory hash
+        # before fstat() gets a chance to reject non-regular files.
+        if hasattr(os, "O_NONBLOCK"):
+            flags |= os.O_NONBLOCK
         if hasattr(os, "O_NOFOLLOW"):
             flags |= os.O_NOFOLLOW
         descriptor = os.open(source, flags)
