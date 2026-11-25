@@ -33,8 +33,17 @@ class SingleClipRenderTests(unittest.TestCase):
         render.assert_not_called()
         preflight.assert_called_once()
         inspected_source = preflight.call_args.args[0]
-        self.assertNotEqual(inspected_source, self.source)
-        self.assertEqual(inspected_source.read_bytes(), self.source.read_bytes())
+        self.assertEqual(inspected_source, self.source)
+        self.assertFalse(report["source_snapshot_verified"])
+        self.assertFalse(report["source_snapshot_created"])
+
+    @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
+    def test_dry_run_never_creates_a_source_snapshot(self, _preflight):
+        with patch("backend.app.single_clip_render._create_stable_source_snapshot") as snapshot:
+            report = render_selected_clip(self.source, self.output, 2, 8)
+        self.assertEqual(report["status"], "PLANNED")
+        self.assertFalse(report["source_snapshot_created"])
+        snapshot.assert_not_called()
 
     def test_refuses_source_mutation_during_preflight(self):
         def mutate_selected_source(path, *, ffprobe_binary):
@@ -51,11 +60,13 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["source_identity_verified"])
         render.assert_not_called()
 
-    @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
-    def test_execution_requires_explicit_rights_confirmation(self, _preflight):
-        report = render_selected_clip(self.source, self.output, 2, 8, execute=True)
+    def test_execution_requires_rights_confirmation_before_snapshot(self):
+        with patch("backend.app.single_clip_render._create_stable_source_snapshot") as snapshot:
+            report = render_selected_clip(self.source, self.output, 2, 8, execute=True)
         self.assertEqual(report["status"], "BLOCKED")
         self.assertFalse(report["processing_started"])
+        self.assertFalse(report["source_snapshot_created"])
+        snapshot.assert_not_called()
 
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     @patch("backend.app.single_clip_render.render_clip")
