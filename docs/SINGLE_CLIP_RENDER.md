@@ -109,3 +109,6 @@ Candidate selection accepts UTF-8 CSV files with or without a byte-order mark, i
 ## Clip-pack handoff regression coverage
 
 The renderer test suite includes a cross-module check that writes a review-ready candidate with the clip-pack exporter, then loads the exact exported CSV row through the renderer's candidate selector. This protects the CSV schema boundary against accidental drift between the two stages. The test must still be executed in CI or a local Python environment before the handoff is considered validated.
+
+
+The cross-module regression test exercises the preceding measured timestamp mapping function as well as CSV export and renderer selection. It verifies that the mapped source ID and media offsets survive the full metadata handoff. Execution of this test suite is still required before treating the integration as validated.
