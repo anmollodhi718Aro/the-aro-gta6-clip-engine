@@ -944,3 +944,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Inspect naturally triggered CI only; do not retry/dispatch without owner direction.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 -> #380/#379 ancestry; no merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+## ARO-CHAT-0256 current continuation — validate clip bounds before snapshot (2026-11-25)
+
+- Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no duplicate PR or branch.
+- Validate finite numeric bounds, ordering, and the 180-second maximum before creating the temporary source snapshot. Reuse the same validator inside the renderer.
+- Commits: implementation `17dff566ca931ce3a19ca1d8adf95a32a59d45d2`; regression tests `2c07fd39f46097bed0cec2fbcb5a5c76b5250db5`.
+- Tests NOT RUN locally; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Check only naturally triggered CI; do not retry/dispatch without owner direction.
+- PR #386 remains DRAFT / OPEN / UNMERGED with existing ancestry. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
