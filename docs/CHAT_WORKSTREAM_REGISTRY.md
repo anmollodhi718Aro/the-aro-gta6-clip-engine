@@ -1013,3 +1013,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - The preceding exact-head workflow run `45698629376` reported both jobs failed, but job metadata exposed no steps and the log endpoint returned `BlobNotFound`; therefore its failure cause remains UNVERIFIED and is not attributed to this regex defect.
 - New-head Actions and combined status lookups currently return no runs/statuses. CI is PENDING; local tests were not run in this connector session.
 - PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. Independent human security sign-off, owner-device Windows ACL/OAuth/channel verification, device-appropriate upload byte limit, and authorized real-media/private-upload acceptance remain pending. Keep live uploads and public publishing disabled.
+
+### ARO-CHAT-0201 explicit upload byte-limit integration — 2026-11-26
+- Static review found the PR #311 branch carried bounded-copy helpers but did not connect them to the live upload CLI or `upload_video()` boundary. A live upload could therefore reach `MediaFileUpload` without an explicit device-selected byte ceiling.
+- Wired `--max-upload-bytes` as a required positive value for `--upload` and direct `upload_video()` calls. Dry-run and approval-only validation retain a conservative 256 MiB ceiling, not a live-upload default.
+- Added pre-OAuth bounded snapshot creation using 1 MiB reads, exact-byte hashing and a source/snapshot consistency check; the API now uploads the immutable snapshot through `MediaIoBaseUpload` rather than reopening the source path.
+- Added tests for oversized validation, source growth beyond the limit, direct-call missing-limit rejection, CLI missing-limit rejection, and propagation of the selected value. Existing mocked upload tests now supply a small synthetic byte budget.
+- Implementation commit: `b24de9e4d9d6226e76f273b58107b54fc5b53126`; test commits: `678cab7917fdaf75e0f87cb9f561169506196896` and `1d91073ecde2bbad1b6479ac6f888fbb2aa853fc`; documentation commit: `00b1dd7d7cb74e19547c71c2486eb4d845f6c9a8`.
+- Exact-head CI is pending; local tests were not run in this connector session. The device-appropriate limit value remains an owner decision. No OAuth, credentials, real media, network upload, merge, deployment or publishing occurred.
+- PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. Independent security sign-off and owner-device verification remain pending. Keep live uploads and public publishing disabled.
