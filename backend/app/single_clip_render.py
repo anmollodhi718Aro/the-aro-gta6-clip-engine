@@ -44,6 +44,32 @@ def _selected_file_identity(path: Path) -> tuple[int, int, int, int, int, int]:
     )
 
 
+def _rendered_output_identity(path: str | Path) -> tuple[int, int, int] | None:
+    """Identify an output created by render_clip without following symlinks."""
+    candidate = Path(path)
+    metadata = candidate.lstat()
+    if stat.S_ISLNK(metadata.st_mode) or not stat.S_ISREG(metadata.st_mode):
+        raise ValueError("rendered output must be a regular non-symlink file")
+    return metadata.st_dev, metadata.st_ino, stat.S_IFMT(metadata.st_mode)
+
+
+def _remove_unverified_output(path: str | Path, identity: tuple[int, int, int] | None) -> bool:
+    """Remove only the exact output inode created by this render invocation."""
+    if identity is None:
+        return False
+    candidate = Path(path)
+    try:
+        metadata = candidate.lstat()
+        current_identity = (metadata.st_dev, metadata.st_ino, stat.S_IFMT(metadata.st_mode))
+        if current_identity != identity:
+            return False
+        candidate.unlink()
+        return True
+    except OSError:
+        # Preserve uncertain/replaced files; cleanup must never broaden deletion.
+        return False
+
+
 def _validated_clip_bounds(start_seconds: Any, end_seconds: Any) -> tuple[float, float]:
     """Normalize finite numeric clip bounds before any source snapshot I/O."""
     if isinstance(start_seconds, bool) or isinstance(end_seconds, bool):
@@ -170,10 +196,24 @@ def _render_selected_clip_from_snapshot(
             rights_confirmed=True,
             ffmpeg_binary=ffmpeg_binary,
         )
+        try:
+            rendered_identity = _rendered_output_identity(rendered)
+        except (OSError, ValueError) as exc:
+            report.update(
+                status="FAIL",
+                error=f"rendered output could not be safely identified: {exc}",
+                unverified_output_removed=False,
+            )
+            return report
         rendered_preflight = inspect_one_video(rendered, ffprobe_binary=ffprobe_binary)
         report["rendered_preflight"] = rendered_preflight
         if rendered_preflight.get("status") != "PASS":
-            report.update(status="FAIL", error="rendered output failed FFprobe verification")
+            removed = _remove_unverified_output(rendered, rendered_identity)
+            report.update(
+                status="FAIL",
+                error="rendered output failed FFprobe verification",
+                unverified_output_removed=removed,
+            )
             return report
         rendered_duration = rendered_preflight.get("duration_seconds")
         expected_duration = end - start
@@ -194,7 +234,12 @@ def _render_selected_clip_from_snapshot(
             valid_rendered_duration = False
         if (not valid_rendered_duration
                 or abs(rendered_duration - expected_duration) > duration_tolerance):
-            report.update(status="FAIL", error="rendered output duration is outside the expected clip bounds")
+            removed = _remove_unverified_output(rendered, rendered_identity)
+            report.update(
+                status="FAIL",
+                error="rendered output duration is outside the expected clip bounds",
+                unverified_output_removed=removed,
+            )
             return report
         report.update(
             status="RENDERED",
