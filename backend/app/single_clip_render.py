@@ -517,7 +517,26 @@ def main() -> int:
             print("Report path must differ from the selected source and output paths.", file=sys.stderr)
             return 2
         report_path.parent.mkdir(parents=True, exist_ok=True)
-        with report_path.open("x", encoding="utf-8") as handle:
+        with report_path.open("x+", encoding="utf-8") as handle:
+            # Persist a valid in-progress record before touching media. If the
+            # process is interrupted during a long render, the reserved report
+            # remains parseable and cannot be mistaken for a completed result.
+            initial_report = {
+                "status": "RUNNING",
+                "source_path": str(source_path),
+                "output_path": str(output_path),
+                "start_seconds": args.start,
+                "end_seconds": args.end,
+                "processing_started": False,
+                "upload_performed": False,
+                "publishing_enabled": False,
+                "message": "report reserved; final render result has not yet been recorded",
+            }
+            json.dump(initial_report, handle, indent=2, ensure_ascii=False)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+
             report = render_selected_clip(
                 args.video,
                 args.output,
@@ -528,8 +547,12 @@ def main() -> int:
                 ffprobe_binary=args.ffprobe,
                 ffmpeg_binary=args.ffmpeg,
             )
+            handle.seek(0)
             json.dump(report, handle, indent=2, ensure_ascii=False)
             handle.write("\n")
+            handle.truncate()
+            handle.flush()
+            os.fsync(handle.fileno())
     except (OSError, RuntimeError, ValueError) as exc:
         print(f"Report could not be reserved/written without overwrite: {exc}", file=sys.stderr)
         return 2
