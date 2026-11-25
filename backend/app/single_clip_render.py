@@ -145,7 +145,7 @@ def main() -> int:
         report_path.parent.mkdir(parents=True, exist_ok=True)
         with report_path.open("x", encoding="utf-8") as handle:
             json.dump(report, handle, indent=2, ensure_ascii=False)
-            handle.write("\\n")
+            handle.write("\n")
     except OSError as exc:
         print(f"Report could not be written without overwrite: {exc}", file=sys.stderr)
         return 2
