@@ -7,6 +7,7 @@ are optional and are imported only when an upload is requested.
 from __future__ import annotations
 
 import argparse
+import base64
 import json
 import mimetypes
 import os
@@ -229,13 +230,13 @@ def validate_upload(
 
 
 def _apply_windows_owner_only_acl(path: Path) -> None:
-    """Disable inherited Windows ACLs and verify the current user is the sole ACE."""
+    """Restrict a Windows path to the current user's sole explicit FullControl ACE."""
     try:
         identity = subprocess.run(
             ["whoami", "/user", "/fo", "csv", "/nh"],
             check=True, capture_output=True, text=True, timeout=15,
         )
-        sid_match = re.search(r"S-1-(?:\d+-)+\d+", identity.stdout)
+        sid_match = re.search(r"S-1-(?:\\d+-)+\\d+", identity.stdout)
         if not sid_match:
             raise PermissionError("could not determine the current Windows user SID")
         sid = sid_match.group(0)
@@ -243,16 +244,33 @@ def _apply_windows_owner_only_acl(path: Path) -> None:
             ["icacls", str(path), "/inheritance:r", "/grant:r", f"*{sid}:(F)"],
             check=True, capture_output=True, text=True, timeout=15,
         )
-        verified = subprocess.run(
-            ["icacls", str(path)],
-            check=True, capture_output=True, text=True, timeout=15,
+
+        # Resolve every ACL principal to its binary-backed SID. icacls display
+        # names are localized and may not print SID strings for known accounts.
+        script = (
+            "$ErrorActionPreference='Stop'; "
+            "$acl=Get-Acl -LiteralPath $env:ARO_TOKEN_ACL_PATH; "
+            "$entries=@($acl.Access | ForEach-Object { "
+            "$sid=$_.IdentityReference.Translate([System.Security.Principal.SecurityIdentifier]).Value; "
+            "[pscustomobject]@{Sid=$sid;Type=$_.AccessControlType.ToString();"
+            "Rights=$_.FileSystemRights.ToString();Inherited=$_.IsInherited} "
+            "}); ConvertTo-Json -InputObject $entries -Compress"
         )
-        entries = re.findall(r"^\s*(.+?):\(([^)]+)\)\s*$",
-                             verified.stdout, flags=re.MULTILINE)
-        normalized = [(entry_sid.lstrip("*"), rights) for entry_sid, rights in entries]
-        if normalized != [(sid, "F")]:
-            raise PermissionError("Windows ACL verification did not show exactly one owner-only full-control entry")
-    except (OSError, subprocess.SubprocessError) as exc:
+        encoded_script = base64.b64encode(script.encode("utf-16le")).decode("ascii")
+        environment = os.environ.copy()
+        environment["ARO_TOKEN_ACL_PATH"] = str(path)
+        verified = subprocess.run(
+            ["powershell.exe", "-NoProfile", "-NonInteractive", "-EncodedCommand", encoded_script],
+            check=True, capture_output=True, text=True, timeout=20, env=environment,
+        )
+        parsed = json.loads(verified.stdout)
+        entries = parsed if isinstance(parsed, list) else [parsed]
+        expected = [{"Sid": sid, "Type": "Allow", "Rights": "FullControl", "Inherited": False}]
+        if entries != expected:
+            raise PermissionError(
+                "Windows ACL verification did not show exactly one explicit owner-only FullControl entry"
+            )
+    except (OSError, subprocess.SubprocessError, ValueError, KeyError, TypeError) as exc:
         raise PermissionError(f"could not enforce owner-only Windows ACL: {exc}") from exc
 
 
