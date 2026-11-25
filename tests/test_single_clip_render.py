@@ -10,8 +10,8 @@ from unittest.mock import patch
 
 from backend.app.clip_pack import map_candidates_to_media, write_clip_pack
 from backend.app.single_clip_render import (
-    _create_stable_source_snapshot, load_selected_candidate, main, render_selected_clip,
-    sha256_selected_source,
+    _create_stable_source_snapshot, _write_exclusive_terminal_fallback,
+    load_selected_candidate, main, render_selected_clip, sha256_selected_source,
 )
 
 
@@ -960,6 +960,15 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(fallback["status"], "RENDERED")
         self.assertFalse(fallback["upload_performed"])
         self.assertFalse(fallback["publishing_enabled"])
+
+    def test_terminal_fallback_rejects_output_path_alias(self):
+        report_path = self.root / "alias-report.json"
+        output_alias = self.root / (report_path.name + ".terminal-fallback.json")
+        with self.assertRaisesRegex(OSError, "aliases the selected source or output"):
+            _write_exclusive_terminal_fallback(
+                report_path, '{"status":"RENDERED"}\\n', (self.source, output_alias)
+            )
+        self.assertFalse(output_alias.exists())
 
     def test_cli_partial_terminal_write_does_not_overwrite_existing_fallback(self):
         report_path = self.root / "fallback-collision.json"
