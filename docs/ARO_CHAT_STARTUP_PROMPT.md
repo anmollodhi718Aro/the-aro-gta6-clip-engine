@@ -1048,3 +1048,10 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - Implementation `a38a34f03c5660e7eb0620362c325249edd7229e`; regression `c50f182a32fe77f6810236d118805b14939cd2ff`; docs `43d580b0c81b2f876e2e20ad63bb5403a6cac476`; registry `6be36ec6656eae397d87982ac45ed2f17b9a9d2c`.
 - Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Do not claim completion based on static changes.
 - Preserve PR #386 DRAFT / OPEN / UNMERGED and existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+## Latest continuation handoff — ARO-CHAT-0264 (2026-11-26)
+- Continue existing PR #386 / `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; do not create a duplicate branch or PR.
+- Candidate review scoring now withholds recording-alignment points unless declared duration matches `end_seconds - start_seconds` within 50 ms, both durations are within the 180-second limit, and bounds are valid. Boolean numeric metadata is rejected.
+- Implementation `5647da26d41f0097063ec7820a08b1bb6bdc6214`; regression tests `63b1b41c1686de0f3fec7f90967ad02c2bab7a75`; operator docs `61a35dc11ca246b4372c64303498af3b5dcef224`; registry `d41853dbd2d10fefac73197491aa52207b434ab8`.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Do not claim test or pipeline completion.
+- Preserve PR #386 DRAFT / OPEN / UNMERGED and existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
