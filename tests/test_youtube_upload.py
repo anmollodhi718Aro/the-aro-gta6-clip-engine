@@ -694,6 +694,12 @@ class WindowsOAuthTokenACLTests(unittest.TestCase):
             with self.assertRaisesRegex(PermissionError, "exactly one explicit owner-only"):
                 _apply_windows_owner_only_acl(Path("C:/tokens/profile.json"))
 
+    def test_windows_acl_rejects_malformed_identity_sid_before_acl_change(self):
+        identity = Mock(stdout='"HOST\\\\user","S-1-5-21-not-a-number"')
+        with patch("backend.app.youtube_upload.subprocess.run", return_value=identity) as run:
+            with self.assertRaisesRegex(PermissionError, "could not determine the current Windows user SID"):
+                _apply_windows_owner_only_acl(Path("C:/tokens/profile.json"))
+        run.assert_called_once()
     def test_windows_acl_fails_closed_when_identity_command_fails(self):
         import subprocess
         with patch(
