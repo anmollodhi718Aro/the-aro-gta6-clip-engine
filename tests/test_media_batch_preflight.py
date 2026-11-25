@@ -115,6 +115,22 @@ class MediaBatchPreflightTests(unittest.TestCase):
         self.assertIn("symbolic links", linked["error"])
 
     @patch("backend.app.media_batch_preflight.subprocess.run")
+    def test_file_mutation_during_probe_is_reported_as_failure(self, run):
+        source = self.root / "a.mp4"
+
+        def mutate_during_probe(*args, **kwargs):
+            source.write_bytes(b"synthetic-a-mutated")
+            return SimpleNamespace(stdout=GOOD_PROBE)
+
+        run.side_effect = mutate_during_probe
+        report = inspect_media_directory(self.root, recursive=False)
+        item = next(row for row in report["results"] if row["path"] == "a.mp4")
+        self.assertEqual(item["status"], "FAIL")
+        self.assertEqual(item["error"], "file changed while it was being inspected")
+        self.assertFalse(report["processing_started"])
+        self.assertFalse(report["publishing_enabled"])
+
+    @patch("backend.app.media_batch_preflight.subprocess.run")
     def test_invalid_metadata_is_a_per_file_failure(self, run):
         run.return_value = SimpleNamespace(stdout='{"format":{"duration":"NaN"}}')
         report = inspect_media_directory(self.root, recursive=False)
