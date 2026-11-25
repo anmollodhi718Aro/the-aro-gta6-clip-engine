@@ -518,5 +518,27 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(source.read_bytes(), b"selected source")
 
 
+    def test_cli_leaves_parseable_running_report_if_render_is_interrupted(self):
+        report_path = self.root / "interrupted-report.json"
+        with patch("sys.argv", [
+            "single_clip_render", str(self.source), "--start", "1", "--end", "5",
+            "--output", str(self.output), "--report", str(report_path),
+            "--execute", "--confirm-rights",
+        ]):
+            with patch(
+                "backend.app.single_clip_render.render_selected_clip",
+                side_effect=RuntimeError("simulated interruption"),
+            ):
+                self.assertEqual(main(), 2)
+
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        self.assertEqual(report["status"], "RUNNING")
+        self.assertFalse(report["processing_started"])
+        self.assertFalse(report["upload_performed"])
+        self.assertFalse(report["publishing_enabled"])
+        self.assertIn("not yet been recorded", report["message"])
+        self.assertFalse(self.output.exists())
+
+
 if __name__ == "__main__":
     unittest.main()
