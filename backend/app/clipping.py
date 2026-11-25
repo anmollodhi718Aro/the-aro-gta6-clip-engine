@@ -34,7 +34,9 @@ def render_clip(
     The verified file is published with an atomic hard link, which fails if
     another render creates the destination first.
     """
-    if not rights_confirmed:
+    if type(rights_confirmed) is not bool:
+        raise TypeError("rights_confirmed must be an explicit boolean")
+    if rights_confirmed is not True:
         raise PermissionError("media processing requires explicit rights confirmation")
 
     requested_source = Path(input_path).expanduser()
