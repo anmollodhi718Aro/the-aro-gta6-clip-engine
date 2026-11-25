@@ -1114,3 +1114,9 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - Added a cross-module regression that writes a clip-pack CSV and loads its selected row through the single-clip renderer candidate loader.
 - Test commit: `f95692f63eadb824c4f8ac228f3721e6ce26ede0`.
 - Tests remain NOT RUN. Next priority remains executable validation of the full candidate-selection-to-renderer path.
+
+
+### Latest handoff: ARO-CHAT-0272 — mapped clip-pack integration test
+- Cross-module regression now exercises `map_candidates_to_media → write_clip_pack → load_selected_candidate` with a source-bound candidate and measured UTC origin.
+- Test commit: `11c9bc7943844d9b1fceda53accbaef917219aae`.
+- Tests NOT RUN. Next step: execute the relevant tests in CI or a local Python environment, then fix actual failures.
