@@ -1579,3 +1579,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Repository unit tests NOT RUN in this connector session. Independent review NOT RECORDED; PR #376 reviews and inline threads were empty at inspection. The code change is IMPLEMENTED, not TESTED or CI_VERIFIED.
 - Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 - No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### ARO-CHAT-0238 IDNA unit-symbol test correction — 2026-11-25
+- Test-only correction on existing PR #376: eight Unicode unit symbols (`㎟`, `㎠`, `㎡`, `㎢`, `㎣`, `㎤`, `㎥`, `㎦`) map through Python IDNA to ordinary alphanumeric DNS labels (`mm2`, `cm2`, `m2`, `km2`, `mm3`, `cm3`, `m3`, `km3`). They are not numeric-only URL-host suffixes and should not be classified as invalid by the current validator.
+- Moved these eight URLs from the malformed-source list into the accepted HTTP(S) URL cases. Production validator unchanged.
+- Test commit: `74041aa14c55cc1686555f6d0e6f44ccc887f70c`.
+- Isolated in-memory probe confirmed all eight IDNA-normalized hostnames pass the existing DNS-label validation. Repository unit tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #376 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
