@@ -77,3 +77,25 @@ before retrying. If the renderer returns or raises a handled `OSError`,
 `RuntimeError`, or `ValueError`, the CLI writes a terminal `FAIL` report with
 the error and a manual-output-inspection warning instead of leaving a stale
 `RUNNING` status. Upload and publishing fields remain false.
+
+
+## Render one explicitly selected clip-pack row
+
+A review-ready row can be handed to the single-clip CLI without manually
+retyping its timestamps:
+
+```bash
+python -m backend.app.single_clip_render "/path/to/one-authorized-video.mp4" \
+  --candidate-csv clip_pack/clip_candidates.csv --candidate-row 1
+```
+
+Candidate row numbers are one-based data rows; the CSV header is not counted.
+The command reads exactly that row and requires `renderable=True`, a nonblank
+source ID, finite start/end/duration values, valid renderer bounds, and duration
+agreement within 50 ms. It records the selected row and source ID in the render
+report. This is still a dry run by default. Actual rendering still requires
+both `--execute` and `--confirm-rights` for the exact selected local source.
+The source ID is traceability metadata, not proof that the local video is the
+same source; the operator must verify that relationship before confirming
+rights. The original `--start` and `--end` interface remains available, but
+the two selection methods cannot be mixed.
