@@ -1,8 +1,10 @@
 """Tests for the one-selected-video clip render path."""
 import hashlib
+import io
 import json
 import tempfile
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
@@ -696,13 +698,15 @@ class SingleClipRenderTests(unittest.TestCase):
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     def test_cli_writes_exclusive_dry_run_report(self, _preflight):
         report_path = self.root / "report.json"
+        stdout = io.StringIO()
         with patch("sys.argv", [
             "single_clip_render", str(self.source), "--start", "1", "--end", "5",
             "--output", str(self.output), "--report", str(report_path),
-        ]):
+        ]), redirect_stdout(stdout):
             self.assertEqual(main(), 0)
         self.assertTrue(report_path.is_file())
         report_text = report_path.read_text(encoding="utf-8")
+        self.assertEqual(stdout.getvalue(), report_text)
         self.assertTrue(report_text.endswith("\n"))
         self.assertEqual(json.loads(report_text)["status"], "PLANNED")
         with patch("sys.argv", [
