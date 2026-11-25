@@ -1024,3 +1024,11 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - Exact-head Actions lookup returned zero associated PR-triggered workflow runs; combined status returned zero entries. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED. Repository tests NOT RUN; independent review NOT RECORDED; owner-device Windows and authorized real-media acceptance NOT VERIFIED.
 - Audit report: `docs/ARO_CHAT_0261_EXACT_HEAD_CI_AUDIT.md`.
 - No runtime code changed. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. PR #386 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## Latest continuation handoff — ARO-CHAT-0262 (2026-11-25)
+- Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; do not create a duplicate branch or PR.
+- The renderer no longer automatically deletes an output after failed FFprobe/duration verification. Separate path identity-check and unlink operations have a replacement race; preserve the unverified output for manual review and report `manual_cleanup_required: true`.
+- Implementation `17415bb8003416e0df5a0142194c5a1afc3e181a`; regression test `11ac9a39d56cf566f61de745b5af34da5837e460`; operator docs `ecab410754fe23f8071ec853e3905e8f61f65752`; registry update `5b53f7fa164774c163ec225d2454e9374ad20a98`.
+- Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Inspect naturally triggered exact-head CI only; do not retry/dispatch workflows.
+- Preserve PR #386 DRAFT / OPEN / UNMERGED and existing ancestry. No merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
