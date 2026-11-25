@@ -503,6 +503,9 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(report["status"], "FAIL")
         self.assertIn("SHA-256 does not match", report["error"])
         self.assertFalse(report["source_snapshot_created"])
+        self.assertFalse(report["source_snapshot_verified"])
+        self.assertEqual(report["expected_source_sha256"], expected)
+        self.assertIsNone(report["source_sha256"])
         preflight.assert_not_called()
         render.assert_not_called()
         self.assertFalse(self.output.exists())
@@ -817,6 +820,27 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(snapshot.read_bytes(), existing)
         self.assertEqual(source.read_bytes(), b"selected source")
 
+
+    def test_cli_terminal_failure_marks_snapshot_digest_unverified(self):
+        report_path = self.root / "terminal-snapshot-failure.json"
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--start", "2", "--end", "8",
+            "--execute", "--confirm-rights",
+            "--report", str(report_path),
+        ]
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.render_selected_clip",
+            side_effect=RuntimeError("snapshot failed"),
+        ):
+            self.assertEqual(main(), 1)
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        self.assertEqual(report["status"], "FAIL")
+        self.assertFalse(report["source_snapshot_verified"])
+        self.assertFalse(report["source_snapshot_created"])
+        self.assertIsNone(report["source_sha256"])
+        self.assertFalse(report["upload_performed"])
+        self.assertFalse(report["publishing_enabled"])
 
     def test_cli_records_terminal_render_failure_in_reserved_report(self):
         report_path = self.root / "failed-report.json"
