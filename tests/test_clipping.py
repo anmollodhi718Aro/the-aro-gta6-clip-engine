@@ -128,6 +128,7 @@ class ClipRenderTests(unittest.TestCase):
             self.assertTrue(kwargs["check"])
             self.assertEqual(args[0][args[0].index("-t") + 1], "3.000")
             self.assertNotIn("shell", kwargs)
+            self.assertEqual(kwargs["timeout"], 180)
             self.assertFalse(list(Path(folder).glob(".clip-*")))
 
     def test_concurrent_output_collision_preserves_existing_file(self) -> None:
