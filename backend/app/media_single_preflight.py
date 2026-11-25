@@ -70,7 +70,13 @@ def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe"
             media_format = payload.get("format")
             if not isinstance(media_format, dict):
                 raise ValueError("ffprobe format metadata must be an object")
-            duration = float(media_format["duration"])
+            raw_duration = media_format["duration"]
+            # JSON booleans are Python integers, and float(True/False) silently
+            # becomes 1.0/0.0. FFprobe duration must be numeric text or a
+            # non-boolean number; never coerce a boolean into valid media time.
+            if isinstance(raw_duration, bool):
+                raise ValueError("ffprobe duration must not be a boolean")
+            duration = float(raw_duration)
             streams = payload.get("streams", [])
             if not isinstance(streams, list) or any(not isinstance(stream, dict) for stream in streams):
                 raise ValueError("ffprobe stream metadata must be a list of objects")
