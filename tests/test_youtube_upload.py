@@ -72,7 +72,6 @@ class YouTubeUploadTests(unittest.TestCase):
         video, body = validate_upload(
             self.video, self.report, title="Approved title",
             made_for_kids=True, owner_approved=True, rights_confirmed=True,
-                        max_upload_bytes=1024,
             upload_requested=True, privacy="unlisted", max_upload_bytes=1024,
         )
         self.assertEqual(video, self.video)
