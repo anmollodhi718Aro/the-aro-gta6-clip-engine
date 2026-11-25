@@ -904,3 +904,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 ### ARO-CHAT-0250 cleanup identity correction
 - Follow-up production commit `3b7aa9f0c2905479b38000b87738bec9a4592577` records only stable device/inode/file-type identity for cleanup ownership. Size and timestamps are intentionally excluded because they change while a partial snapshot is being written.
 - Repository tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Preserve the existing PR #386 draft stack and all upload/publishing gates.
+
+## ARO-CHAT-0252 current continuation — pre-snapshot output validation (2026-11-25)
+- Continue on existing PR #386 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no duplicate PR or branch.
+- Confirmed execution previously copied the entire selected source into a temporary snapshot before rejecting an invalid output destination. This wasted temporary disk space and I/O for an operation that could be rejected immediately.
+- Added shared output validation and run it before source snapshot creation and again before render. Existing destinations, symlink destinations, non-MP4 destinations, and source/output aliases fail before source copying. Lower-level renderer checks and atomic no-overwrite publication remain in place.
+- Production commit: `19e880baa11e8aecef37f012dbcaad2446cd35be`; tests: `329cc0e0c8f6b8e3ab48338fe7f0fc2d0ea93287`; operator docs: `e07c76031ee0cebc687802f42c5eec104e50de81`; registry: `68423bc2d3f97d1622118f16c54f3eaf6f6d3e6a`.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows and real authorized media NOT VERIFIED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 -> #380/#379 ancestry; PR #379 conflicts with the later one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
