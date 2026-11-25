@@ -73,8 +73,12 @@ def render_clip(
     # Reject booleans explicitly rather than silently treating them as 1s/0s.
     if isinstance(start_seconds, bool) or isinstance(end_seconds, bool):
         raise ValueError("clip bounds must be numeric values, not booleans")
-    if not math.isfinite(start_seconds) or not math.isfinite(end_seconds):
-        raise ValueError("clip bounds must be finite numbers")
+    try:
+        bounds_are_finite = math.isfinite(start_seconds) and math.isfinite(end_seconds)
+    except (TypeError, OverflowError) as exc:
+        raise ValueError("clip bounds must be finite numeric values") from exc
+    if not bounds_are_finite:
+        raise ValueError("clip bounds must be finite numeric values")
     if start_seconds < 0 or end_seconds <= start_seconds:
         raise ValueError("clip bounds must satisfy 0 <= start < end")
     duration = end_seconds - start_seconds
