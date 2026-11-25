@@ -897,6 +897,53 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(report["status"], "RUNNING")
         self.assertIn("not yet been recorded", report["message"])
 
+    def test_cli_partial_initial_running_report_write_uses_fallback_and_skips_media(self):
+        report_path = self.root / "partial-initial-report.json"
+        original_open = Path.open
+
+        class FailingWriteProxy:
+            def __init__(self, handle):
+                self.handle = handle
+
+            def __enter__(self):
+                self.handle.__enter__()
+                return self
+
+            def __exit__(self, *args):
+                return self.handle.__exit__(*args)
+
+            def __getattr__(self, name):
+                return getattr(self.handle, name)
+
+            def write(self, value):
+                self.handle.write(value[:12])
+                raise OSError("simulated partial initial report write")
+
+        def open_with_initial_write_failure(path, *args, **kwargs):
+            handle = original_open(path, *args, **kwargs)
+            if path == report_path:
+                return FailingWriteProxy(handle)
+            return handle
+
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--start", "2", "--end", "8",
+            "--execute", "--confirm-rights",
+            "--output", str(self.output), "--report", str(report_path),
+        ]
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.render_selected_clip"
+        ) as render, patch.object(
+            Path, "open", new=open_with_initial_write_failure
+        ):
+            self.assertEqual(main(), 2)
+
+        render.assert_not_called()
+        fallback_path = report_path.with_name(report_path.name + ".terminal-fallback.json")
+        fallback = json.loads(fallback_path.read_text(encoding="utf-8"))
+        self.assertEqual(fallback["status"], "RUNNING")
+        self.assertFalse(self.output.exists())
+
     def test_cli_partial_terminal_report_write_preserves_rendered_output_for_manual_review(self):
         report_path = self.root / "partial-terminal-write.json"
         original_open = Path.open
