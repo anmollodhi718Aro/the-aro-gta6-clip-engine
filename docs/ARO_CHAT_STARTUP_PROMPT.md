@@ -766,3 +766,5 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Repository tests NOT RUN in this connector session. Exact-head CI PENDING until a visible run is inspected. Owner-device Windows and real authorized-media verification NOT VERIFIED.
 - This branch is stacked on PR #383 and inherits the #380/#379 ancestry. PR #379 conflicts with the later one-selected-video owner requirement. Do not merge, rebase, retarget, or integrate the stack without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep all live uploads/public publishing disabled. No OAuth, credentials, real media, upload, or publishing in this task.
+
+- Output-path hardening follow-up: production commit `1995d9e5207acc40b04abbffe4130c07318f8dee`; tests `3df7a4ed77620754ae2b89c02889b65add8dd1b2`. Dry-run now rejects same-source output, non-MP4 output and existing destinations.
