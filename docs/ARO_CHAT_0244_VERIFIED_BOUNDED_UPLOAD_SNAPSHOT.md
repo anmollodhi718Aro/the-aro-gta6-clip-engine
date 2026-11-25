@@ -38,3 +38,4 @@ Close the gap between the bounded temporary snapshot in PR #378 and the stronger
 ## Safety
 
 Draft-only code change. No OAuth, credentials, real media, upload, public publishing, merge, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled. Independent security review, owner-device OAuth/channel verification, owner-selected upload limit, and authorized real-media PRIVATE acceptance remain separate gates.
+
