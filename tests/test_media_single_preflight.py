@@ -58,6 +58,33 @@ class MediaSinglePreflightTests(unittest.TestCase):
             }))
             self.assertEqual(inspect_one_video(self.video)["status"], "FAIL")
 
+    @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_rejects_malformed_ffprobe_json_shapes(self, run):
+        malformed = (
+            "[]",
+            json.dumps({"format": [], "streams": []}),
+            json.dumps({"format": {"duration": "10"}, "streams": {}}),
+            json.dumps({"format": {"duration": "10"}, "streams": ["not-a-stream"]}),
+        )
+        for payload in malformed:
+            run.return_value = SimpleNamespace(stdout=payload)
+            report = inspect_one_video(self.video)
+            self.assertEqual(report["status"], "FAIL")
+            self.assertIn("invalid metadata", report["error"])
+
+    @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_rejects_path_replaced_while_probe_runs(self, run):
+        replacement = self.root / "replacement.mp4"
+        replacement.write_bytes(b"different-video")
+        def replace_then_return(*args, **kwargs):
+            self.video.unlink()
+            replacement.rename(self.video)
+            return SimpleNamespace(stdout=GOOD_PROBE)
+        run.side_effect = replace_then_return
+        report = inspect_one_video(self.video)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("changed while", report["error"])
+
     def test_rejects_missing_empty_and_unsupported_files(self):
         self.assertEqual(inspect_one_video(self.root / "missing.mp4")["status"], "FAIL")
         empty = self.root / "empty.mp4"
