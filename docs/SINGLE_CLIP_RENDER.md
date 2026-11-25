@@ -217,3 +217,8 @@ as a verified render. A successful report includes `output_sha256`,
 `output_size_bytes`, and `output_identity_verified=true`. If final verification
 fails, the report is FAIL, hash/size are null, and the output is preserved for
 manual inspection rather than automatically deleted.
+
+
+### Selected-source inventory hashing: nonblocking open
+
+Candidate-mode source SHA-256 verification now requests nonblocking descriptor open where the platform supports it. This closes a lstat-to-open race in which a replaced FIFO or device could otherwise block the hashing process before descriptor type validation. The descriptor is still required to identify a regular non-symlink file. Regression coverage checks the open flags on platforms exposing O_NONBLOCK. This is a defensive path-race guard, not proof of media ownership or processing rights.
