@@ -34,6 +34,20 @@ class SingleClipRenderTests(unittest.TestCase):
         expected = hashlib.sha256(self.source.read_bytes()).hexdigest()
         self.assertEqual(sha256_selected_source(self.source), expected)
 
+    def test_sha256_selected_source_uses_nonblocking_open_when_available(self):
+        real_open = __import__("os").open
+        observed = {}
+
+        def recording_open(path, flags, *args, **kwargs):
+            observed["flags"] = flags
+            return real_open(path, flags, *args, **kwargs)
+
+        with patch("backend.app.single_clip_render.os.open", side_effect=recording_open):
+            sha256_selected_source(self.source)
+
+        if hasattr(__import__("os"), "O_NONBLOCK"):
+            self.assertTrue(observed["flags"] & __import__("os").O_NONBLOCK)
+
 
     def test_snapshot_creation_checks_expected_digest_of_copied_bytes(self):
         expected = hashlib.sha256(self.source.read_bytes()).hexdigest()
