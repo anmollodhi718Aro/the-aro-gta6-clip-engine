@@ -619,3 +619,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Local repository tests NOT RUN. PR #376 review submissions and inline review threads remain empty; independent review NOT RECORDED.
 - No workflow retry/dispatch was initiated. Preserve PR #376 DRAFT / OPEN / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
 - This is a documentation-only evidence update. No source/test behavior, workflow configuration, OAuth, credentials, media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+### Current continuation — ARO-CHAT-0238 IDNA leading-zero regression (2026-11-25)
+- Continued existing draft PR #376 / ARO-GTA-P1-238 on its existing branch.
+- Added test-only cases for fullwidth IDNA-normalized leading-zero numeric suffixes `０９` and `０００８`; test commit `b46c369076a082f709b38384c2789a3bd882b45b`.
+- Repository unit tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Do not transfer CI evidence from predecessor commits.
+- Keep PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
