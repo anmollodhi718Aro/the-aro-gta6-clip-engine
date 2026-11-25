@@ -1920,3 +1920,6 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Status: IMPLEMENTED. Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows and authorized real-media acceptance NOT VERIFIED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing #383 -> #380/#379 ancestry. No merge, rebase, retarget, integration, workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, or deployment.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+
+| ARO-CHAT-0261 | ARO-CHAT-0261 | Exact-Head CI and Single-Clip Source Audit | ARO-GTA-P1-261 | Audit exact-head CI availability and inspect the selected-video render/preflight implementation without changing runtime behavior | `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25` / [PR #386](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/386) | IMPLEMENTED (audit documentation); tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED | Starting SHA `5fd9100218fd8d8abb5c8e4e43e03f31a0f2ba9a`; report `docs/ARO_CHAT_0261_EXACT_HEAD_CI_AUDIT.md`; zero associated workflow runs and zero combined status entries |
