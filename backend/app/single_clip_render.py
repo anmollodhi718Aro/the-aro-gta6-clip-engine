@@ -4,12 +4,25 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
+import stat
 import sys
 from pathlib import Path
 from typing import Any
 
 from .clipping import MAX_CLIP_SECONDS, render_clip
 from .media_single_preflight import inspect_one_video
+
+
+def _selected_file_identity(path: Path) -> tuple[int, int, int, int, int, int]:
+    """Return a stable identity for one regular, non-symlink selected file."""
+    metadata = path.lstat()
+    if stat.S_ISLNK(metadata.st_mode) or not stat.S_ISREG(metadata.st_mode):
+        raise ValueError("selected source must remain a regular non-symlink file")
+    return (
+        metadata.st_dev, metadata.st_ino, metadata.st_size,
+        metadata.st_mtime_ns, metadata.st_ctime_ns, metadata.st_mode,
+    )
 
 
 def render_selected_clip(
@@ -37,6 +50,7 @@ def render_selected_clip(
         "start_seconds": start_seconds,
         "end_seconds": end_seconds,
         "processing_started": False,
+        "source_identity_verified": False,
         "upload_performed": False,
         "publishing_enabled": False,
     }
@@ -60,11 +74,26 @@ def render_selected_clip(
         report["error"] = f"output path could not be validated: {exc}"
         return report
 
+    try:
+        source_identity_before = _selected_file_identity(source)
+    except (OSError, ValueError) as exc:
+        report["error"] = f"selected source could not be safely identified: {exc}"
+        return report
+
     preflight = inspect_one_video(source, ffprobe_binary=ffprobe_binary)
     report["source_preflight"] = preflight
     if preflight.get("status") != "PASS":
         report["error"] = "selected source did not pass single-video metadata preflight"
         return report
+    try:
+        source_identity_after = _selected_file_identity(source)
+    except (OSError, ValueError) as exc:
+        report["error"] = f"selected source changed or became unsafe during preflight: {exc}"
+        return report
+    if source_identity_after != source_identity_before:
+        report["error"] = "selected source changed during preflight; refusing to render a different file"
+        return report
+    report["source_identity_verified"] = True
 
     if isinstance(start_seconds, bool) or isinstance(end_seconds, bool):
         report["error"] = "clip bounds must be finite numbers"
@@ -101,6 +130,9 @@ def render_selected_clip(
         return report
 
     try:
+        if _selected_file_identity(source) != source_identity_after:
+            report["error"] = "selected source changed after preflight; refusing to render a different file"
+            return report
         report["processing_started"] = True
         rendered = render_clip(
             source,
