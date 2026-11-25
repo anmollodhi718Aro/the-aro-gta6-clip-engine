@@ -2144,3 +2144,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Regression test added but NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - This protects against serialization failure before truncation, not partial filesystem writes or hard process termination during the final write. Such reports remain unknown outcomes requiring manual review; do not delete outputs based on report-write failure.
 - Preserve PR #386 DRAFT / OPEN / UNMERGED and existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live publishing remains disabled.
+
+
+## ARO-CHAT-0286 — reuse persisted terminal JSON for stdout
+- Follow-up on existing PR #386 branch; no new branch/PR.
+- CLI stdout now prints the exact pre-serialized terminal JSON string already written to the report, rather than serializing the result a second time after the durable write.
+- Regression test asserts stdout exactly matches the persisted report bytes. Implementation: `5c743f5376707056aa7cdc9940d09b1920d2c9ba`; test: `2bc04333f1ebff1b6032a493bb399971b82cd9dd`; operator guide: `4ee2d5ec04e7bb6ea7612e76593f723a7fd57c80`.
+- Tests NOT RUN; exact-head CI and independent review NOT VERIFIED / NOT RECORDED.
+- PR remains DRAFT / OPEN / UNMERGED; preserve stacked ancestry. No merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
