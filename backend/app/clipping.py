@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import math
 import os
+import stat
 import subprocess
 import tempfile
 from pathlib import Path
@@ -36,7 +37,23 @@ def render_clip(
     if not rights_confirmed:
         raise PermissionError("media processing requires explicit rights confirmation")
 
-    source = Path(input_path).expanduser().resolve()
+    requested_source = Path(input_path).expanduser()
+    # Validate the lexical source before resolve(): resolve() follows symlinks,
+    # including links introduced after the read-only preflight has completed.
+    try:
+        source_metadata = requested_source.lstat()
+    except OSError as exc:
+        raise FileNotFoundError(f"input media file does not exist: {requested_source}") from exc
+    if stat.S_ISLNK(source_metadata.st_mode):
+        raise ValueError("symbolic links are not accepted as media inputs")
+    if not stat.S_ISREG(source_metadata.st_mode):
+        raise ValueError("selected media input must be a regular file")
+    source = requested_source.resolve()
+    resolved_metadata = source.stat()
+    source_identity = (source_metadata.st_dev, source_metadata.st_ino)
+    if source_identity != (resolved_metadata.st_dev, resolved_metadata.st_ino):
+        raise RuntimeError("selected media path changed during source validation")
+
     requested_destination = Path(output_path).expanduser()
     # Check the lexical destination before resolve(): resolve() follows dangling
     # symlinks, which could redirect a supposedly new output outside this path.
@@ -44,8 +61,6 @@ def render_clip(
         raise FileExistsError(f"output path is a symbolic link: {requested_destination}")
     destination = requested_destination.resolve()
 
-    if not source.is_file():
-        raise FileNotFoundError(f"input media file does not exist: {source}")
     if source == destination:
         raise ValueError("output path must differ from input path")
     if destination.suffix.lower() != ".mp4":
@@ -90,6 +105,13 @@ def render_clip(
     ]
 
     try:
+        # Re-check the selected pathname immediately before FFmpeg opens it.
+        # This narrows the preflight-to-render replacement window and rejects
+        # a symlink or non-regular replacement instead of following it.
+        current_source = requested_source.lstat()
+        if (not stat.S_ISREG(current_source.st_mode)
+                or (current_source.st_dev, current_source.st_ino) != source_identity):
+            raise RuntimeError("selected media path changed after source validation")
         try:
             subprocess.run(command, check=True, capture_output=True, text=True, timeout=180)
         except FileNotFoundError as exc:
@@ -117,4 +139,3 @@ def render_clip(
         temporary_output.unlink(missing_ok=True)
 
     return destination
-
