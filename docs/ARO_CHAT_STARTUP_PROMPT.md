@@ -821,3 +821,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Important limitation: identity checks detect replacement/mutation across preflight and at the final pre-render check, but do not eliminate the race between that check and FFmpeg opening the path. A stable snapshot or descriptor-bound render input is still required before claiming race-free source identity.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Keep its existing ancestry; PR #379 conflicts with the one-selected-video owner requirement. No rebase, retarget, merge, or integration without explicit owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live uploads/public publishing remain disabled. No OAuth, credentials, media, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+### ARO-CHAT-0245 low-level renderer source-path guard — 2026-11-25
+- Continued PR #386 / ARO-GTA-P1-244 on its existing branch; no new branch or PR.
+- The low-level `render_clip()` helper now independently rejects symbolic-link and non-regular source paths, checks lexical/resolved device/inode identity, and rechecks the selected path immediately before FFmpeg invocation.
+- Commits: implementation `4a6f8208c51e6e4462c17053cb1950370859153d`; regression `76a98dae124176f8c187210ac1a95ca78a05addf`; operator docs `724e77730b1389dbcf20188b43498b409c848c33`; registry `67bc5d83aa0ee04d13db1ac1adb50a9842f4bfc6`.
+- Validation remains NOT RUN locally; exact-head CI and independent review NOT VERIFIED / NOT RECORDED. No real media was processed.
+- Important limitation: this path-based guard narrows the replacement window but does not eliminate the race between the final check and FFmpeg opening the path. A descriptor/snapshot-bound boundary remains future work. Do not claim race-free identity.
+- Preserve PR #386 DRAFT / OPEN / UNMERGED and its #383 → #380/#379 ancestry. PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
