@@ -172,3 +172,13 @@ preserved. The command reports `FAIL` because temporary cleanup did not
 complete; inspect the output and temporary files manually before retrying.
 Upload and publishing remain disabled. A cleanup failure is not evidence that
 rendering never started or that an already-created output is absent.
+
+
+### Conservative processing-start reporting
+
+The renderer does not mark `processing_started=true` merely because it entered
+the lower-level `render_clip()` function. That function performs additional
+path and bounds validation before launching FFmpeg. The report therefore keeps
+the state unknown while that call is in progress and sets it true only after
+`render_clip()` returns successfully. If the call raises, the report does not
+claim that processing started when the exact subprocess state is unavailable.
