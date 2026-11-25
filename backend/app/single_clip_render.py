@@ -180,10 +180,18 @@ def _render_selected_clip_from_snapshot(
         # very short requested clip. Scale tolerance to the requested duration,
         # with a small floor for container/codec timing and a one-second cap.
         duration_tolerance = min(1.0, max(0.05, expected_duration * 0.02))
-        if (isinstance(rendered_duration, bool)
-                or not isinstance(rendered_duration, (int, float))
-                or not math.isfinite(rendered_duration)
-                or rendered_duration <= 0
+        try:
+            valid_rendered_duration = (
+                not isinstance(rendered_duration, bool)
+                and isinstance(rendered_duration, (int, float))
+                and math.isfinite(rendered_duration)
+                and rendered_duration > 0
+            )
+        except (OverflowError, TypeError, ValueError):
+            # Malformed FFprobe metadata must not escape the render boundary.
+            # In particular, math.isfinite() can overflow on enormous integers.
+            valid_rendered_duration = False
+        if (not valid_rendered_duration
                 or abs(rendered_duration - expected_duration) > duration_tolerance):
             report.update(status="FAIL", error="rendered output duration is outside the expected clip bounds")
             return report
