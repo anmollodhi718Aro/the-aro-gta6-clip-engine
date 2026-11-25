@@ -1894,9 +1894,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, or publishing.
 
 
-## ARO-CHAT-0258 | Safely remove unverified rendered outputs — 2026-11-25
-- Exact chat title: `ARO-CHAT-0258 | Remove Unverified Render Outputs Safely`
-- Workstream: `ARO-GTA-P1-258`
+## ARO-CHAT-0259 | Safely remove unverified rendered outputs — 2026-11-25
+- Exact chat title: `ARO-CHAT-0259 | Remove Unverified Render Outputs Safely`
+- Workstream: `ARO-GTA-P1-259`
 - Continuation of PR #386 / ARO-GTA-P1-244 on the existing branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR and no ancestry changes.
 - Static review found that a clip could remain at its final destination after post-render FFprobe failure or a duration mismatch. That stale, unverified MP4 also prevented a safe retry because output overwrite is prohibited.
 - Change: capture the rendered regular file's device/inode/type immediately after `render_clip()`. On verification failure, unlink only if the destination still identifies that exact inode. Symlinks, replacements, and uncertain files are preserved. The report records whether cleanup succeeded.
