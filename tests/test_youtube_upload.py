@@ -215,6 +215,20 @@ class YouTubeUploadTests(unittest.TestCase):
         with self.assertRaisesRegex(PermissionError, "regular file"):
             _create_verified_upload_snapshot(fifo, 1024)
 
+    def test_verified_snapshot_rejects_source_growth_past_configured_limit(self):
+        from backend.app.youtube_upload import _create_verified_upload_snapshot, _copy_video_snapshot
+
+        def grow_during_copy(source, destination, limit):
+            first = source.read(5)
+            destination.write(first)
+            with self.video.open("ab") as growth:
+                growth.write(b"additional-bytes-that-exceed-the-limit")
+            return len(first) + _copy_video_snapshot(source, destination, limit - len(first))
+
+        with patch("backend.app.youtube_upload._copy_video_snapshot", side_effect=grow_during_copy):
+            with self.assertRaisesRegex(ValueError, "configured upload limit"):
+                _create_verified_upload_snapshot(self.video, 30)
+
     def test_verified_snapshot_rejects_source_mutation_during_copy(self):
         from backend.app.youtube_upload import _create_verified_upload_snapshot, _copy_video_snapshot
 
