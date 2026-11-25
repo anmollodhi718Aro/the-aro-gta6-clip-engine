@@ -377,6 +377,35 @@ def render_selected_clip(
             "error": output_error,
         }
 
+    # Reject invalid clip bounds before copying a potentially large source file.
+    # The lower-level renderer repeats these checks at its own boundary.
+    try:
+        if isinstance(start_seconds, bool) or isinstance(end_seconds, bool):
+            raise ValueError("clip bounds must be finite numeric values")
+        start = float(start_seconds)
+        end = float(end_seconds)
+        if not math.isfinite(start) or not math.isfinite(end):
+            raise ValueError("clip bounds must be finite numeric values")
+        if start < 0 or end <= start or end - start > MAX_CLIP_SECONDS:
+            raise ValueError(
+                f"clip bounds must satisfy 0 <= start < end and duration <= {MAX_CLIP_SECONDS:g}s"
+            )
+    except (TypeError, ValueError, OverflowError) as exc:
+        return {
+            "status": "FAIL",
+            "source_path": str(source),
+            "output_path": str(destination),
+            "start_seconds": start_seconds,
+            "end_seconds": end_seconds,
+            "processing_started": False,
+            "source_identity_verified": False,
+            "source_snapshot_verified": False,
+            "source_snapshot_created": False,
+            "upload_performed": False,
+            "publishing_enabled": False,
+            "error": str(exc),
+        }
+
     try:
         with tempfile.TemporaryDirectory(prefix="aro-single-clip-") as temporary_directory:
             snapshot = Path(temporary_directory) / (source.name or "selected-video.mp4")
