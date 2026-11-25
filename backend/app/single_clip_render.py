@@ -409,9 +409,14 @@ def _create_stable_source_snapshot(
                     chunk = source_handle.read(1024 * 1024)
                     if not chunk:
                         break
-                    snapshot_handle.write(chunk)
+                    written = snapshot_handle.write(chunk)
+                    if written != len(chunk):
+                        raise OSError(
+                            "short write while creating the source snapshot "
+                            f"({written} of {len(chunk)} bytes)"
+                        )
                     digest.update(chunk)
-                    copied += len(chunk)
+                    copied += written
                 snapshot_handle.flush()
                 os.fsync(snapshot_handle.fileno())
         after_fd = os.fstat(descriptor)
