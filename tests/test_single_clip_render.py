@@ -76,6 +76,32 @@ class SingleClipRenderTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "does not exist"):
             load_selected_candidate(pack, 1)
 
+    def test_cli_uses_explicit_reviewed_candidate_row(self):
+        pack = self.root / "candidates.csv"
+        pack.write_text(
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
+            "authorized-demo,12.5,27.5,15.0,True\\n",
+            encoding="utf-8",
+        )
+        report_path = self.root / "report.json"
+        with patch("sys.argv", [
+            "single_clip_render", str(self.source),
+            "--candidate-csv", str(pack), "--candidate-row", "1",
+            "--output", str(self.output), "--report", str(report_path),
+        ]):
+            with patch(
+                "backend.app.single_clip_render.render_selected_clip",
+                return_value={
+                    "status": "PLANNED", "start_seconds": 12.5, "end_seconds": 27.5,
+                    "upload_performed": False, "publishing_enabled": False,
+                },
+            ) as render:
+                self.assertEqual(main(), 0)
+        self.assertEqual(render.call_args.args[2:4], (12.5, 27.5))
+        saved = json.loads(report_path.read_text(encoding="utf-8"))
+        self.assertEqual(saved["candidate_selection"]["source_id"], "authorized-demo")
+        self.assertEqual(saved["candidate_selection"]["row_number"], 1)
+
     def test_dry_run_reports_path_resolution_runtime_error(self):
         with patch("pathlib.Path.resolve", side_effect=RuntimeError("symlink loop")):
             report = render_selected_clip(self.source, self.output, 1, 4)
