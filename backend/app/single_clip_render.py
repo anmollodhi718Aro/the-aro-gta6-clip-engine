@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import math
 import os
@@ -13,6 +14,57 @@ from typing import Any
 
 from .clipping import MAX_CLIP_SECONDS, render_clip
 from .media_single_preflight import inspect_one_video
+
+
+
+def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, Any]:
+    """Load one explicitly numbered, review-ready candidate from a clip-pack CSV.
+
+    Row numbers are one-based data rows (the header is not counted). This
+    function only reads review metadata; it never selects or opens media.
+    """
+    if isinstance(row_number, bool) or not isinstance(row_number, int) or row_number < 1:
+        raise ValueError("candidate row must be a positive one-based integer")
+    path = Path(csv_path).expanduser()
+    try:
+        with path.open("r", encoding="utf-8", newline="") as handle:
+            reader = csv.DictReader(handle)
+            required = {"source_id", "start_seconds", "end_seconds", "duration_seconds", "renderable"}
+            if not reader.fieldnames or not required.issubset(set(reader.fieldnames)):
+                raise ValueError("candidate CSV is missing required review columns")
+            selected = None
+            for number, row in enumerate(reader, start=1):
+                if number == row_number:
+                    selected = row
+                    break
+    except (OSError, csv.Error) as exc:
+        raise ValueError(f"candidate CSV could not be read: {exc}") from exc
+    if selected is None:
+        raise ValueError(f"candidate row {row_number} does not exist")
+    if str(selected.get("renderable", "")).strip().lower() != "true":
+        raise ValueError(f"candidate row {row_number} is not marked renderable")
+    source_id = str(selected.get("source_id", "")).strip()
+    if not source_id:
+        raise ValueError(f"candidate row {row_number} has no source_id")
+    try:
+        start = float(selected["start_seconds"])
+        end = float(selected["end_seconds"])
+        duration = float(selected["duration_seconds"])
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ValueError(f"candidate row {row_number} has invalid clip bounds") from exc
+    if not all(math.isfinite(value) for value in (start, end, duration)):
+        raise ValueError(f"candidate row {row_number} has non-finite clip bounds")
+    if start < 0 or end <= start or end - start > MAX_CLIP_SECONDS:
+        raise ValueError(f"candidate row {row_number} has clip bounds outside renderer limits")
+    if duration <= 0 or abs((end - start) - duration) > 0.05:
+        raise ValueError(f"candidate row {row_number} duration does not match its clip bounds")
+    return {
+        "row_number": row_number,
+        "source_id": source_id,
+        "start_seconds": start,
+        "end_seconds": end,
+        "duration_seconds": duration,
+    }
 
 
 def _validate_output_destination(source: Path, destination: Path) -> str | None:
