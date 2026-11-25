@@ -575,6 +575,8 @@ def main() -> int:
     candidate_selection = args.candidate_csv is not None and args.candidate_row is not None
     if direct_bounds == candidate_selection or (args.start is None) != (args.end is None) or (args.candidate_csv is None) != (args.candidate_row is None):
         parser.error("provide either both --start/--end or both --candidate-csv/--candidate-row")
+    if args.source_id is not None and not candidate_selection:
+        parser.error("--source-id is only valid with --candidate-csv/--candidate-row")
     selected_candidate = None
     if candidate_selection:
         try:
