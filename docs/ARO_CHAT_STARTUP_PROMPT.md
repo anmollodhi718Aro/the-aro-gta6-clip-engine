@@ -768,3 +768,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep all live uploads/public publishing disabled. No OAuth, credentials, real media, upload, or publishing in this task.
 
 - Output-path hardening follow-up: production commit `1995d9e5207acc40b04abbffe4130c07318f8dee`; tests `3df7a4ed77620754ae2b89c02889b65add8dd1b2`. Dry-run now rejects same-source output, non-MP4 output and existing destinations.
+
+
+### ARO-CHAT-0244 rendered-duration verification follow-up — 2026-11-25
+- Static review found the output FFprobe gate accepted any positive duration up to requested duration + 1 second, so a severely truncated output could be reported as RENDERED.
+- Tightened acceptance to require rendered duration within ±1.0 second of the requested clip duration; added a mocked regression where a 6-second request yields a valid 1-second FFprobe output and must FAIL.
+- Production commit: fd9bd98dff3efad45c11f582341c1f37a7a7b29f; regression-test commit / current branch head: f7124c9c82d4bc11fa6ec1424d80af788ba73982.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI PENDING inspection; independent review NOT RECORDED. Do not claim TESTED or CI_VERIFIED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Owner-device Windows and real authorized-media verification remain NOT VERIFIED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+- No media processed, OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment.
