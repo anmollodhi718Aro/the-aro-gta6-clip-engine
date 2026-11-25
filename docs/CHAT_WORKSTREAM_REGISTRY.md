@@ -2177,3 +2177,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Implementation: `ae3d99ffdbb8e69ee3de76f30062d7f8eedbb74c`; test: `1c26d3f8715ba45823f241d05658e67bde5f31a7`.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. This guards resolved path aliases but is not a complete defense against concurrent directory/path replacement.
 - PR #386 remains draft/open/unmerged; no merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0290 — detect incomplete terminal fallback writes
+- The exclusive fallback writer now verifies that the text stream reports the full character count before flush/fsync; short writes raise an error instead of being treated as successful recovery.
+- Added regression coverage simulating a short write. The exclusive sidecar may remain partial after failure and is intentionally not auto-deleted.
+- Implementation: `4bfd8ce89869124566f3160708f948b5c5e64663`; test: `fe49b35bf3edcf379f8164af655de76c02c7c7a6`.
+- Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains draft/open/unmerged; no merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
