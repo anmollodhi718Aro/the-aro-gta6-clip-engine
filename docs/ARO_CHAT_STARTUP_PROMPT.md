@@ -1199,3 +1199,7 @@ Continue on the existing PR #386 branch. Terminal report JSON is now serialized 
 
 ### Latest continuation — ARO-CHAT-0286
 CLI stdout now reuses the exact pre-serialized terminal JSON written to the report file, avoiding a second serialization pass. Regression coverage asserts stdout matches the report exactly. Tests NOT RUN; CI NOT VERIFIED. Preserve PR #386 draft and ancestry; no merge/rebase/retarget, workflow dispatch/retry, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### Latest continuation — ARO-CHAT-0287
+Added regression coverage for a partial terminal report write after a mocked successful render. CLI returns a report-write error and preserves output bytes for manual review; unreadable report is an unknown outcome, not proof of render failure. Test NOT RUN. CI NOT VERIFIED. Preserve PR #386 draft and ancestry; no merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
