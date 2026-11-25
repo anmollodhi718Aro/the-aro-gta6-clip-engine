@@ -62,3 +62,13 @@ Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Its owner
 - After documentation synchronization, PR #376 exact head is 3118b6afdecd42a22f9aab229b4cb3a0b782cf1a. Commit-associated workflow lookup for that exact documentation head returned zero runs. Exact-head CI is PENDING / NOT VERIFIED; no CI evidence transfers from the code/test commit or earlier heads.
 - PR #376 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; owner UNASSIGNED. Keep live uploads/public publishing disabled.
 - No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing was performed.
+
+
+### IDNA numeric compatibility-digit regression follow-up — 2026-11-25
+
+- Static review enumerated Unicode characters accepted by Python's built-in IDNA codec that normalize to ASCII numeric suffixes. Existing tests covered superscript and single circled digits but did not cover subscript digits, mathematical styled digits, or multi-digit circled numerals.
+- Added five test-only rejection cases: `example.₁`, `example.𝟙`, `example.⑩`, `example.㉑`, and `example.⁰`.
+- An isolated probe using the current hostname-validation logic confirmed IDNA normalization to `example.1`, `example.1`, `example.10`, `example.21`, and `example.0`, respectively, and rejection of all five. This is not a repository unit-test run.
+- Test commit: `1bc36c0d74cda85771c748801253a9fe0cb3e4c7`.
+- Repository unit tests NOT RUN. Commit-associated exact-head CI lookup returned zero runs at the immediate post-commit check. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent review NOT RECORDED.
+- No production code, uploader, OAuth, media, workflow configuration, or publishing behavior changed. Preserve PR #376 DRAFT / OPEN / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, credentials, real media, upload, or publishing.
