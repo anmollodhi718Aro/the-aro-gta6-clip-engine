@@ -32,6 +32,24 @@ class SingleClipRenderTests(unittest.TestCase):
         expected = hashlib.sha256(self.source.read_bytes()).hexdigest()
         self.assertEqual(sha256_selected_source(self.source), expected)
 
+
+    def test_snapshot_creation_checks_expected_digest_of_copied_bytes(self):
+        expected = hashlib.sha256(self.source.read_bytes()).hexdigest()
+        snapshot = self.root / "snapshot.mp4"
+        actual = _create_stable_source_snapshot(
+            self.source, snapshot, expected_sha256=expected
+        )
+        self.assertEqual(actual, expected)
+        self.assertEqual(snapshot.read_bytes(), self.source.read_bytes())
+
+    def test_snapshot_creation_rejects_digest_mismatch_and_cleans_own_snapshot(self):
+        snapshot = self.root / "mismatch-snapshot.mp4"
+        with self.assertRaisesRegex(ValueError, "SHA-256 does not match"):
+            _create_stable_source_snapshot(
+                self.source, snapshot, expected_sha256="0" * 64
+            )
+        self.assertFalse(snapshot.exists())
+
     def test_sha256_selected_source_rejects_symbolic_link(self):
         link = self.root / "selected-link.mp4"
         try:
