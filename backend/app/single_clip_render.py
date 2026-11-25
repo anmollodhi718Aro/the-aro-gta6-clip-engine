@@ -594,12 +594,16 @@ def render_selected_clip(
             "error": str(exc),
         }
 
+    snapshot_created = False
+    snapshot_sha256: str | None = None
+    render_report: dict[str, Any] | None = None
     try:
         with tempfile.TemporaryDirectory(prefix="aro-single-clip-") as temporary_directory:
             snapshot = Path(temporary_directory) / (source.name or "selected-video.mp4")
             snapshot_sha256 = _create_stable_source_snapshot(
                 source, snapshot, expected_sha256=expected_source_sha256
             )
+            snapshot_created = True
             try:
                 report = _render_selected_clip_from_snapshot(
                     snapshot,
@@ -615,7 +619,7 @@ def render_selected_clip(
                 # Snapshot creation and digest verification already succeeded.
                 # Keep that evidence even if FFprobe/FFmpeg or a later render
                 # step raises unexpectedly; do not misreport it as absent.
-                return {
+                render_report = {
                     "status": "FAIL",
                     "source_path": str(source),
                     "output_path": str(destination),
@@ -632,16 +636,52 @@ def render_selected_clip(
                     "error": str(exc),
                     "message": "render failed after source snapshot verification; inspect any output file before retrying",
                 }
+                return render_report
             report["source_path"] = str(source)
             report["source_snapshot_verified"] = True
             report["source_snapshot_created"] = True
             report["source_sha256"] = snapshot_sha256
+            render_report = report
             return report
-    except (OSError, RuntimeError, ValueError) as exc:
+    except Exception as exc:
+        if snapshot_created:
+            # TemporaryDirectory cleanup can fail after the render result is
+            # already known. Preserve snapshot evidence and any known render
+            # state instead of falling through to the pre-snapshot failure
+            # report. The output may exist and must be inspected manually.
+            return {
+                "status": "FAIL",
+                "source_path": str(source),
+                "output_path": str(destination),
+                "start_seconds": start_seconds,
+                "end_seconds": end_seconds,
+                "processing_started": (
+                    render_report.get("processing_started")
+                    if render_report is not None else None
+                ),
+                "source_identity_verified": True,
+                "source_snapshot_verified": True,
+                "source_snapshot_created": True,
+                "expected_source_sha256": expected_source_sha256,
+                "source_sha256": snapshot_sha256,
+                "render_status_before_cleanup_failure": (
+                    render_report.get("status") if render_report is not None else None
+                ),
+                "source_preflight": (
+                    render_report.get("source_preflight") if render_report is not None else None
+                ),
+                "rendered_preflight": (
+                    render_report.get("rendered_preflight") if render_report is not None else None
+                ),
+                "upload_performed": False,
+                "publishing_enabled": False,
+                "error": f"post-snapshot render or temporary cleanup failed: {exc}",
+                "message": "verified source snapshot was created; inspect any output and temporary files before retrying",
+            }
         return {
             "status": "FAIL",
             "source_path": str(source),
-            "output_path": str(Path(output_path).expanduser()),
+            "output_path": str(destination),
             "start_seconds": start_seconds,
             "end_seconds": end_seconds,
             "processing_started": False,
