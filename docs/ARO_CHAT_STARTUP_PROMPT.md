@@ -201,3 +201,4 @@ Issue #68 Windows OAuth ACL verification refinement: ACLs are read back through 
 ### Bounded-memory uploader requirement
 - Keep the bounded immutable upload snapshot on disk for the full API request. Pass an open binary file stream to `MediaIoBaseUpload`; never call `read_bytes()` or wrap the complete video in `BytesIO`.
 - Ensure the stream and temporary staging directory are closed/removed in `finally`, including API failures. Add a mocked API test that reads the staged stream while the upload call is active.
+- When writing the bounded snapshot, verify every write returns the full chunk length. Abort on a short write before computing approval hashes or starting OAuth.
