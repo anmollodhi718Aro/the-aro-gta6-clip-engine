@@ -19,3 +19,8 @@ python -m backend.app.single_clip_render "/path/to/one-authorized-video.mp4" --s
 The output is rendered locally through the existing collision-safe FFmpeg helper, then checked again with FFprobe. A successful render is still only a local artifact and requires manual playback/review. This command does not authenticate, upload, schedule, or publish.
 
 Use only a source file that the owner has explicitly authorized for this processing scope. The confirmation flag is a workflow guardrail, not independent legal verification. Never use this command with scraped, ripped, or otherwise unapproved third-party media.
+
+
+## Source-path safety
+
+The low-level FFmpeg renderer independently rejects symbolic-link and non-regular source paths before resolving the selected path. It captures the selected file's device/inode identity and rechecks that identity immediately before invoking FFmpeg. This is defense in depth alongside the single-video FFprobe preflight; it narrows the path-replacement window but does not eliminate the residual race between the final check and FFmpeg opening the path. Do not describe this path-based flow as descriptor-bound or race-free.
