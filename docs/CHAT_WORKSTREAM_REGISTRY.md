@@ -1037,3 +1037,5 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - The authenticated owner approval and current rights grant are still rechecked immediately before the API side effect. Added a regression assertion that a clip/source mismatch does not call `_authorize_google()`.
 - Commits: uploader `e4a4902971dbdbd30c191d23dbc779f2df5641f2`; regression test `0509cf3cd2bd5489a2b166e717868081681cb8e6`; documentation `27ae5570e6c729f18a39da7d0c2d0929594f5650`.
 - Latest exact-head Actions lookup still returns no run or status; local tests are not run in this connector session. PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. Keep live uploads and public publishing disabled.
+
+- Additional race regression: commit `b3cd0d777a6ef005812b147f76d1988242df1b56` mutates the original source after snapshot creation during mocked authorization and asserts the upload stream still contains the originally approved bytes. This exercises the snapshot-hash approval binding end to end without OAuth or network upload.
