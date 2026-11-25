@@ -146,3 +146,10 @@ Immediately before `videos.insert`, the uploader re-verifies the Google OIDC sub
 ## Post-upload PRIVATE response verification
 
 The upload CLI reports success only when the official `videos.insert(part="snippet,status")` response contains a video ID and `status.privacyStatus == "private"`. If the response omits the status or reports any other visibility, the command exits as unverified and instructs the operator to inspect YouTube Studio. A request body asking for PRIVATE is not, by itself, evidence that YouTube accepted that visibility. Unit tests cover both confirmed-private and unexpected-visibility responses; tests do not upload to YouTube.
+
+
+## Windows OAuth token ACL enforcement
+
+On Windows, token persistence disables inherited ACLs on the profile token directory and the temporary token file, grants full control only to the current process user's SID, and reads the resulting ACL back with icacls. Persistence fails closed unless the read-back contains exactly that one full-control ACE. The temporary file receives its restricted ACL before token bytes are written; atomic replacement preserves that file's ACL. The token directory is also restricted so other principals cannot replace profile token files through the directory. On non-Windows platforms, token files retain mode 0600.
+
+This is an application-level ACL check, not a substitute for owner-device verification. Confirm the actual Windows account, filesystem, effective ACL behavior, and token-directory access on the owner's device before enabling OAuth. If whoami or icacls is unavailable, fails, or returns an unexpected ACL, token persistence is rejected. No live OAuth or upload is performed by the regression tests.
