@@ -1609,3 +1609,18 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Tests in this connector session: NOT RUN. Exact-head CI: NOT YET VERIFIED. Independent review: NOT RECORDED. No real media processed.
 - Preserve PR #380 and follow-up PR #381 as DRAFT / OPEN / UNMERGED. PR #379 remains a conflicting multi-file draft and must not be integrated without owner direction.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+
+
+## ARO-CHAT-0244 | Single-selected-video local clip render
+- Exact chat title: `ARO-CHAT-0244 | Continue GTA 6 Clipping Pipeline`
+- Workstream: ARO-GTA-P1-244
+- Branch: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`
+- Base / starting SHA: PR #383 head `fd0d8925958760ce4b0f0617d64e98cb2b345690`
+- Scope: add a dry-run-first CLI that accepts exactly one explicitly selected local video, runs the single-video FFprobe preflight, validates finite clip bounds and source duration, renders only when both `--execute` and `--confirm-rights` are supplied, then verifies the rendered output with FFprobe. No directory scan, batch processing, OAuth, upload, or publishing.
+- Files: `backend/app/single_clip_render.py`, `tests/test_single_clip_render.py`, `docs/SINGLE_CLIP_RENDER.md`.
+- Commits: implementation `1fdb83c39084e03658d84b9866b4d2657f909e4b`; tests `fcb65d311e2c06f367ffd8735dfa8b120eae9e0c`; docs `6fff8235ee1ed0fc0193ae386a66afe6504b8326`; report-newline correction `742663f22bb0d638ded7183e26c64acf31f0fdd1`.
+- Validation: repository tests NOT RUN in this connector session; exact-head CI PENDING until a draft PR run is visible; owner-device Windows and real authorized media NOT VERIFIED. No media was processed.
+- Dependency note: this branch is stacked on PR #383, whose ancestry includes PR #380/#379. PR #379 conflicts with the later one-selected-video owner requirement. Preserve all drafts; do not merge, retarget, rebase, or integrate this ancestry without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep uploader authentication gates fail-closed and all live uploads/public publishing disabled.
+- Status: IMPLEMENTED; TESTED / CI_VERIFIED / WINDOWS_VERIFIED / REAL_MEDIA_VERIFIED NOT CLAIMED.
