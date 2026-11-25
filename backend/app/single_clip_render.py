@@ -44,6 +44,24 @@ def _selected_file_identity(path: Path) -> tuple[int, int, int, int, int, int]:
     )
 
 
+def _validated_clip_bounds(start_seconds: Any, end_seconds: Any) -> tuple[float, float]:
+    """Normalize finite numeric clip bounds before any source snapshot I/O."""
+    if isinstance(start_seconds, bool) or isinstance(end_seconds, bool):
+        raise ValueError("clip bounds must be finite numbers")
+    try:
+        start = float(start_seconds)
+        end = float(end_seconds)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ValueError("clip bounds must be finite numbers") from exc
+    if not math.isfinite(start) or not math.isfinite(end):
+        raise ValueError("clip bounds must be finite numbers")
+    if start < 0 or end <= start or end - start > MAX_CLIP_SECONDS:
+        raise ValueError(
+            f"clip bounds must satisfy 0 <= start < end and duration <= {MAX_CLIP_SECONDS:g}s"
+        )
+    return start, end
+
+
 def _render_selected_clip_from_snapshot(
     video_path: str | Path,
     output_path: str | Path,
@@ -103,20 +121,10 @@ def _render_selected_clip_from_snapshot(
         return report
     report["source_identity_verified"] = True
 
-    if isinstance(start_seconds, bool) or isinstance(end_seconds, bool):
-        report["error"] = "clip bounds must be finite numbers"
-        return report
     try:
-        start = float(start_seconds)
-        end = float(end_seconds)
-    except (TypeError, ValueError, OverflowError):
-        report["error"] = "clip bounds must be finite numbers"
-        return report
-    if not math.isfinite(start) or not math.isfinite(end):
-        report["error"] = "clip bounds must be finite numbers"
-        return report
-    if start < 0 or end <= start or end - start > MAX_CLIP_SECONDS:
-        report["error"] = f"clip bounds must satisfy 0 <= start < end and duration <= {MAX_CLIP_SECONDS:g}s"
+        start, end = _validated_clip_bounds(start_seconds, end_seconds)
+    except ValueError as exc:
+        report["error"] = str(exc)
         return report
 
     duration = preflight.get("duration_seconds")
@@ -317,6 +325,27 @@ def render_selected_clip(
             "upload_performed": False,
             "publishing_enabled": False,
             "error": "render execution requires --confirm-rights; no source snapshot was created",
+        }
+
+    # Reject malformed or excessive bounds before copying a potentially large
+    # source file into temporary storage. The lower-level path repeats this
+    # validation at the actual preflight/render boundary.
+    try:
+        _validated_clip_bounds(start_seconds, end_seconds)
+    except ValueError as exc:
+        return {
+            "status": "FAIL",
+            "source_path": str(source),
+            "output_path": str(Path(output_path).expanduser()),
+            "start_seconds": start_seconds,
+            "end_seconds": end_seconds,
+            "processing_started": False,
+            "source_identity_verified": False,
+            "source_snapshot_verified": False,
+            "source_snapshot_created": False,
+            "upload_performed": False,
+            "publishing_enabled": False,
+            "error": str(exc),
         }
 
     destination = Path(output_path).expanduser()
