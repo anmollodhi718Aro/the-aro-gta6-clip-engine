@@ -1126,3 +1126,10 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - Updated the existing Python CI workflow to trigger on `workstream/**` pushes as well as pull requests.
 - Workflow commit: `260b48fc54560c2e713c2caaa32ff5d48ad475f3`.
 - This should provide automatic CI evidence on the next branch push; no manual workflow dispatch or retry was performed. Verify the exact resulting head run before treating tests as passed.
+
+
+### Latest handoff: ARO-CHAT-0274 — CLI candidate selection
+- Added a CLI-level dry-run regression for `map_candidates_to_media → write_clip_pack → single_clip_render.main` using `--candidate-csv` and `--candidate-row`.
+- Confirms the selected bounds reach the renderer and the JSON report preserves source ID/row number; upload and publishing flags remain false.
+- Test commit: `0e8d329d821f0b2a5a605edd9e60f8dcceb6c862`.
+- Test is mocked and NOT RUN. No FFmpeg execution or real-media validation is claimed.
