@@ -149,24 +149,31 @@ def main() -> int:
     parser.add_argument("--confirm-rights", action="store_true", help="Confirm processing rights for this exact selected source.")
     args = parser.parse_args()
 
-    report = render_selected_clip(
-        args.video,
-        args.output,
-        args.start,
-        args.end,
-        execute=args.execute,
-        rights_confirmed=args.confirm_rights,
-        ffprobe_binary=args.ffprobe,
-        ffmpeg_binary=args.ffmpeg,
-    )
+    # Reserve the exclusive report path before any media inspection or rendering.
+    # This prevents a completed render from being followed by a report-collision error.
     try:
         report_path = args.report.expanduser()
+        source_path = args.video.expanduser()
+        output_path = args.output.expanduser()
+        if report_path.resolve() in {source_path.resolve(), output_path.resolve()}:
+            print("Report path must differ from the selected source and output paths.", file=sys.stderr)
+            return 2
         report_path.parent.mkdir(parents=True, exist_ok=True)
         with report_path.open("x", encoding="utf-8") as handle:
+            report = render_selected_clip(
+                args.video,
+                args.output,
+                args.start,
+                args.end,
+                execute=args.execute,
+                rights_confirmed=args.confirm_rights,
+                ffprobe_binary=args.ffprobe,
+                ffmpeg_binary=args.ffmpeg,
+            )
             json.dump(report, handle, indent=2, ensure_ascii=False)
             handle.write("\\n")
     except OSError as exc:
-        print(f"Report could not be written without overwrite: {exc}", file=sys.stderr)
+        print(f"Report could not be reserved/written without overwrite: {exc}", file=sys.stderr)
         return 2
 
     print(json.dumps(report, indent=2, ensure_ascii=False))
