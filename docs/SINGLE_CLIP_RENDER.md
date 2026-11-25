@@ -182,3 +182,13 @@ path and bounds validation before launching FFmpeg. The report therefore keeps
 the state unknown while that call is in progress and sets it true only after
 `render_clip()` returns successfully. If the call raises, the report does not
 claim that processing started when the exact subprocess state is unavailable.
+
+
+## Fail closed on incomplete source snapshot writes
+
+Every bounded source-snapshot chunk must be fully written before its bytes are
+included in the snapshot digest and copied-byte count. A short write raises an
+I/O failure immediately, and the snapshot helper removes only the partial file
+created by that invocation after verifying its file identity. It never reports
+a digest for a partially written snapshot as though the complete source had
+been copied. The selected original remains untouched.
