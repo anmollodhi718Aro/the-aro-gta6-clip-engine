@@ -57,6 +57,42 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(selected["end_seconds"], 45.0)
         self.assertEqual(selected["duration_seconds"], 15.0)
 
+
+    def test_candidate_csv_cli_records_exact_selected_row_in_dry_run_report(self):
+        origin = "2026-11-19T12:00:00+00:00"
+        candidate = {
+            "source_id": "authorized-demo",
+            "score": 80,
+            "peak_message_count": 24,
+            "peak_window_start": "2026-11-19T12:00:40+00:00",
+            "clip_start": "2026-11-19T12:00:30+00:00",
+            "clip_end": "2026-11-19T12:00:45+00:00",
+        }
+        mapped_rows = map_candidates_to_media([candidate], origin)
+        csv_path, _ = write_clip_pack(mapped_rows, self.root / "cli-clip-pack")
+        report_path = self.root / "cli-report.json"
+        expected = {
+            "status": "PLANNED",
+            "upload_performed": False,
+            "publishing_enabled": False,
+        }
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--candidate-csv", str(csv_path), "--candidate-row", "1",
+            "--report", str(report_path),
+        ]
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.render_selected_clip", return_value=expected
+        ) as render:
+            self.assertEqual(main(), 0)
+        render.assert_called_once()
+        self.assertEqual(render.call_args.args[2:4], (30.0, 45.0))
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        self.assertEqual(report["candidate_selection"]["source_id"], "authorized-demo")
+        self.assertEqual(report["candidate_selection"]["row_number"], 1)
+        self.assertFalse(report["upload_performed"])
+        self.assertFalse(report["publishing_enabled"])
+
     def test_candidate_selection_rejects_unrenderable_row(self):
         pack = self.root / "candidates.csv"
         pack.write_text(
