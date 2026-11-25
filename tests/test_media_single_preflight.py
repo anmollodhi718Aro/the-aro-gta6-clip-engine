@@ -58,6 +58,36 @@ class MediaSinglePreflightTests(unittest.TestCase):
             }))
             self.assertEqual(inspect_one_video(self.video)["status"], "FAIL")
 
+    @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_rejects_malformed_stream_metadata_without_crashing(self, run):
+        run.return_value = SimpleNamespace(stdout=json.dumps({
+            "format": {"duration": "10", "format_name": "mp4"},
+            "streams": ["not-a-stream-object"],
+        }))
+        report = inspect_one_video(self.video)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("stream metadata", report["error"])
+
+    @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_rejects_file_changed_during_probe(self, run):
+        def mutate_file(*args, **kwargs):
+            self.video.write_bytes(b"changed-after-preflight-start")
+            return SimpleNamespace(stdout=GOOD_PROBE)
+        run.side_effect = mutate_file
+        report = inspect_one_video(self.video)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("changed while", report["error"])
+
+    def test_rejects_symbolic_link_when_supported(self):
+        link = self.root / "linked.mp4"
+        try:
+            link.symlink_to(self.video)
+        except (OSError, NotImplementedError):
+            self.skipTest("symbolic links are unavailable in this environment")
+        report = inspect_one_video(link)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("symbolic links", report["error"])
+
     def test_rejects_missing_empty_and_unsupported_files(self):
         self.assertEqual(inspect_one_video(self.root / "missing.mp4")["status"], "FAIL")
         empty = self.root / "empty.mp4"
