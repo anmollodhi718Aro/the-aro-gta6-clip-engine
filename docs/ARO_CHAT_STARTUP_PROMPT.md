@@ -953,3 +953,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Commits: implementation `17dff566ca931ce3a19ca1d8adf95a32a59d45d2`; regression tests `2c07fd39f46097bed0cec2fbcb5a5c76b5250db5`.
 - Tests NOT RUN locally; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Check only naturally triggered CI; do not retry/dispatch without owner direction.
 - PR #386 remains DRAFT / OPEN / UNMERGED with existing ancestry. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+
+### ARO-CHAT-0254 follow-up — CLI ValueError regression
+- Existing PR #386 / ARO-GTA-P1-244 branch and ancestry preserved.
+- Added test commit `faa659234b061201b4b694d9fe3ea87da4ac8edd` covering a `ValueError` from CLI report-path resolution; expected behavior is controlled exit code 2 and no report artifact.
+- Registry update: `ee35bfd3917dd3e22b17a1867a947cd1b3120a2f`.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. No workflow retry/dispatch, merge, rebase, retarget, real media, OAuth, upload, publishing, or deployment.
