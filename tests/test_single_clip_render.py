@@ -582,14 +582,21 @@ class SingleClipRenderTests(unittest.TestCase):
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     @patch("backend.app.single_clip_render.render_clip")
     def test_renders_one_clip_and_verifies_output(self, render, preflight):
+        payload = b"verified rendered mp4 bytes"
         rendered = self.output.resolve()
-        render.return_value = rendered
+        def create_rendered_output(*args, **kwargs):
+            self.output.write_bytes(payload)
+            return rendered
+        render.side_effect = create_rendered_output
         preflight.side_effect = [PASS, {"status": "PASS", "duration_seconds": 6.0}]
         report = render_selected_clip(
             self.source, self.output, 2, 8, execute=True, rights_confirmed=True,
         )
         self.assertEqual(report["status"], "RENDERED")
         self.assertTrue(report["processing_started"])
+        self.assertTrue(report["output_identity_verified"])
+        self.assertEqual(report["output_sha256"], hashlib.sha256(payload).hexdigest())
+        self.assertEqual(report["output_size_bytes"], len(payload))
         self.assertFalse(report["upload_performed"])
         self.assertFalse(report["publishing_enabled"])
         render.assert_called_once()
