@@ -9,6 +9,8 @@ import argparse
 import json
 import math
 import mimetypes
+import os
+import stat
 import subprocess
 import sys
 from pathlib import Path
@@ -35,13 +37,18 @@ def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe"
         "manual_review_required": True,
     }
     try:
-        if path.is_symlink():
-            raise ValueError("symbolic links are not accepted as media inputs")
         if path.suffix.lower() not in VIDEO_EXTENSIONS:
             raise ValueError("selected file does not have a supported video extension")
-        before = path.stat()
-        if not path.is_file():
+        before_path = path.lstat()
+        if stat.S_ISLNK(before_path.st_mode):
+            raise ValueError("symbolic links are not accepted as media inputs")
+        if not stat.S_ISREG(before_path.st_mode):
             raise ValueError("selected path is not a regular file")
+        before = path.stat()
+        if (before.st_dev, before.st_ino, stat.S_IFMT(before.st_mode)) != (
+            before_path.st_dev, before_path.st_ino, stat.S_IFMT(before_path.st_mode)
+        ):
+            raise RuntimeError("selected path changed while it was being opened")
         if before.st_size <= 0:
             raise ValueError("selected video file is empty")
         result["size_bytes"] = before.st_size
@@ -89,9 +96,28 @@ def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe"
         if not video_streams:
             raise ValueError("selected file has no video stream")
 
+        after_path = path.lstat()
+        if stat.S_ISLNK(after_path.st_mode) or not stat.S_ISREG(after_path.st_mode):
+            raise RuntimeError("selected path became unsafe while it was being inspected")
         after = path.stat()
-        if (before.st_size, before.st_mtime_ns, before.st_ino) != (
-            after.st_size, after.st_mtime_ns, after.st_ino
+        before_identity = (
+            before.st_dev, before.st_ino, before.st_size,
+            before.st_mtime_ns, stat.S_IFMT(before.st_mode),
+        )
+        after_identity = (
+            after.st_dev, after.st_ino, after.st_size,
+            after.st_mtime_ns, stat.S_IFMT(after.st_mode),
+        )
+        # On POSIX, ctime changes for in-place writes even if an application
+        # restores mtime. Windows exposes creation time as st_ctime, so do not
+        # treat it as a modification timestamp there.
+        if os.name != "nt":
+            before_identity += (before.st_ctime_ns,)
+            after_identity += (after.st_ctime_ns,)
+        if before_identity != after_identity or (
+            after_path.st_dev, after_path.st_ino, stat.S_IFMT(after_path.st_mode)
+        ) != (
+            before_path.st_dev, before_path.st_ino, stat.S_IFMT(before_path.st_mode)
         ):
             raise RuntimeError("selected file changed while it was being inspected")
 
