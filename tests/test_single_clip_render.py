@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from backend.app.single_clip_render import main, render_selected_clip
+from backend.app.single_clip_render import _create_stable_source_snapshot, main, render_selected_clip
 
 
 PASS = {"status": "PASS", "duration_seconds": 20.0, "video_streams": [{"codec": "h264"}]}
@@ -204,6 +204,57 @@ class SingleClipRenderTests(unittest.TestCase):
             "--output", str(self.output), "--report", str(report_path),
         ]):
             self.assertEqual(main(), 2)
+
+
+    def test_snapshot_fails_closed_on_in_place_mutation_during_copy(self):
+        source = self.root / "changing-source.mp4"
+        snapshot = self.root / "snapshot.mp4"
+        source.write_bytes(b"A" * (2 * 1024 * 1024))
+        real_fdopen = __import__("os").fdopen
+
+        class MutatingReader:
+            def __init__(self, handle):
+                self.handle = handle
+                self.changed = False
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                self.handle.close()
+
+            def read(self, size=-1):
+                data = self.handle.read(size)
+                if not self.changed:
+                    self.changed = True
+                    source.write_bytes(b"B" * (2 * 1024 * 1024))
+                return data
+
+        def fdopen_and_mutate(descriptor, mode):
+            return MutatingReader(real_fdopen(descriptor, mode))
+
+        with patch("backend.app.single_clip_render.os.fdopen", side_effect=fdopen_and_mutate):
+            with self.assertRaisesRegex(RuntimeError, "changed while its stable snapshot was copied"):
+                _create_stable_source_snapshot(source, snapshot)
+
+        self.assertFalse(snapshot.exists())
+        self.assertEqual(source.read_bytes(), b"B" * (2 * 1024 * 1024))
+
+    def test_snapshot_rejects_symlink_source_before_creating_snapshot(self):
+        target = self.root / "actual-source.mp4"
+        selected = self.root / "selected-link.mp4"
+        snapshot = self.root / "snapshot.mp4"
+        target.write_bytes(b"authorized source bytes")
+        try:
+            selected.symlink_to(target)
+        except (OSError, NotImplementedError):
+            self.skipTest("symlink creation is unavailable on this runner")
+
+        with self.assertRaisesRegex(ValueError, "regular non-symlink"):
+            _create_stable_source_snapshot(selected, snapshot)
+
+        self.assertFalse(snapshot.exists())
+        self.assertTrue(selected.is_symlink())
 
 
 if __name__ == "__main__":
