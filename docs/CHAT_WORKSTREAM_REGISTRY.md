@@ -1726,3 +1726,15 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing stacked ancestry; PR #379 conflicts with the one-selected-video requirement. No merge/rebase/retarget/integration without explicit owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live uploads/public publishing remain disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+
+## ARO-CHAT-0249 | Stable snapshot selected-path replacement regression
+- Exact chat title: `ARO-CHAT-0249 | Stable Snapshot Path Replacement Regression`
+- Workstream: ARO-GTA-P1-249
+- Follow-up to PR #386 / ARO-GTA-P1-244; existing branch, PR, and ancestry preserved.
+- Added a regression that replaces the selected pathname with a different regular file during descriptor-backed snapshot copying. It asserts fail-closed behavior, removal of the partial snapshot, and preservation of both the original opened bytes and replacement-path bytes.
+- Test commit: `f344d134ad0d330366a0d7fb2b0dac785a9dfff9`; report commit: `954e751ac55619b371f0b87402a6a3b51b94a99f`.
+- Production code unchanged. Repository tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its #383 -> #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
