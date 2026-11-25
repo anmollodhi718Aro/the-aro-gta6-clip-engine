@@ -1167,3 +1167,9 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - The snapshot digest is included in the render result. Mismatch fails closed and cleans only the invocation-created snapshot. Dry-run remains non-copying and its initial digest check is only an inventory cross-check, not a race-free execution guarantee.
 - Implementation: f61b1be8a15f4b28c1f5ec6b01ca9323f5230b14; tests: 40612099215f0594190382b61c7bde4eef1557a7, 50ce9ef3940f966c7ece918d2bcb45e5bec79bae; guide: e4e36a69ae94608106e332cf56e2d5c5b5077aaa.
 - Tests NOT RUN. No real media processed or published.
+
+
+### Latest handoff: ARO-CHAT-0281: render-boundary digest tests
+- The exact-snapshot render test now asserts the trusted SHA-256 is the digest recorded from the snapshot used by FFprobe/FFmpeg.
+- Added a fail-closed execution test: a digest mismatch prevents FFprobe, FFmpeg, and output creation.
+- Test commit: 6b7093a96196b512cb45922f6951d9d7d1d55458. Tests NOT RUN; no real media processed or published.
