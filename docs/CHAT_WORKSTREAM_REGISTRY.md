@@ -1630,3 +1630,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added dry-run output validation so the command rejects source/output identity, non-MP4 output paths, and pre-existing output files before reporting a plan.
 - Production commit: `1995d9e5207acc40b04abbffe4130c07318f8dee`; regression-test commit: `3df7a4ed77620754ae2b89c02889b65add8dd1b2`.
 - Tests remain NOT RUN locally; exact-head CI PENDING. This is IMPLEMENTED only.
+
+
+### ARO-CHAT-0244 rendered-duration verification follow-up
+- Tightened rendered FFprobe acceptance to within ±1.0 second of requested duration; added regression for unexpectedly short output.
+- Production commit: fd9bd98dff3efad45c11f582341c1f37a7a7b29f; test commit: f7124c9c82d4bc11fa6ec1424d80af788ba73982.
+- Repository tests NOT RUN; exact-head CI PENDING; independent review NOT RECORDED. PR #386 remains DRAFT / OPEN / UNMERGED. No media/upload/publishing. Issue #68 remains WAITING_FOR_OWNER_APPROVAL.
