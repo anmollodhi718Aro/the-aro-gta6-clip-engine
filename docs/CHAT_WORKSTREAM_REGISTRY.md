@@ -1762,3 +1762,8 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its #383 -> #380/#379 ancestry; PR #379 conflicts with the later one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+### ARO-CHAT-0250 cleanup identity correction
+- Follow-up production commit `3b7aa9f0c2905479b38000b87738bec9a4592577` compares the partial snapshot's stable device/inode/file-type identity during cleanup. It deliberately does not compare size or timestamps, which change during a legitimate partial copy and would otherwise prevent cleanup.
+- The two regression tests continue to cover source/destination alias preservation and pre-existing destination preservation. Repository tests remain NOT RUN; exact-head CI and independent review remain NOT VERIFIED / NOT RECORDED.
