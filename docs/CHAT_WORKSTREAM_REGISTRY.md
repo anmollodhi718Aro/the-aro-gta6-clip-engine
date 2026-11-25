@@ -1767,3 +1767,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 ### ARO-CHAT-0250 cleanup identity correction
 - Follow-up production commit `3b7aa9f0c2905479b38000b87738bec9a4592577` compares the partial snapshot's stable device/inode/file-type identity during cleanup. It deliberately does not compare size or timestamps, which change during a legitimate partial copy and would otherwise prevent cleanup.
 - The two regression tests continue to cover source/destination alias preservation and pre-existing destination preservation. Repository tests remain NOT RUN; exact-head CI and independent review remain NOT VERIFIED / NOT RECORDED.
+
+
+### ARO-CHAT-0251 continuation — duplicate regression cleanup (2026-11-25)
+- Follow-up to ARO-GTA-P1-244 / PR #386; existing branch and ancestry preserved.
+- Removed a redundant snapshot-collision test introduced during a concurrent continuation because ARO-CHAT-0250 already covers preservation of pre-existing snapshot destinations. The existing comprehensive regression remains in place.
+- Cleanup commit: `06bae2c7886a16dcef2b07e76d385fee48e51a2f`.
+- No production behavior changed. Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
