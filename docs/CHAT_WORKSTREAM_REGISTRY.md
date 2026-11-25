@@ -1820,3 +1820,18 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Latest inspected PR head before this closeout: `96aca282aa450a151da515b197d1b8f6238c1c32`; associated workflow lookup returned zero runs and combined status returned zero checks.
 - Status: IMPLEMENTED; repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve the existing #383 -> #380/#379 ancestry. No merge, rebase, retarget, or integration without owner approval. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0256 | Validate clip bounds before source snapshot — 2026-11-25
+
+- Exact chat title: `ARO-CHAT-0256 | Validate Clip Bounds Before Snapshot`
+- Workstream: `ARO-GTA-P1-256`
+- Follow-up to PR #386 / ARO-GTA-P1-244 on the existing branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR and no ancestry changes.
+- Static review found that confirmed execution created a complete temporary source snapshot before validating clip-bound types, finiteness, ordering, and the 180-second limit. Malformed or excessive bounds could therefore trigger avoidable full-source disk I/O before rejection.
+- Added shared finite numeric-bound normalization and invoke it before snapshot creation. The renderer repeats the validation at its own preflight/render boundary. Invalid bounds fail closed without snapshot creation, FFprobe, or FFmpeg.
+- Added regression coverage for booleans, strings, extremely large integers, infinity, negative/reversed bounds, and over-limit duration.
+- Changed files: `backend/app/single_clip_render.py`, `tests/test_single_clip_render.py`, `docs/SINGLE_CLIP_RENDER.md`, this registry, and `docs/ARO_CHAT_STARTUP_PROMPT.md`.
+- Implementation commit: `17dff566ca931ce3a19ca1d8adf95a32a59d45d2`; regression commit: `2c07fd39f46097bed0cec2fbcb5a5c76b5250db5`.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows and real authorized media NOT VERIFIED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing #383 -> #380/#379 ancestry. No merge, rebase, retarget, or integration without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
