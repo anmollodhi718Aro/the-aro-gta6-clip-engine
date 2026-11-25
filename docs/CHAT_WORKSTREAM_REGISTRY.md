@@ -1987,3 +1987,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Commits: implementation `336545688b5b181f60b37904a310d46063490c91`; tests `4c1390499c1281aea39a63d234cf918411988261`; docs `f663208bb30b6016b21181da2e3faa9b75a33d83`.
 - Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+## ARO-CHAT-0267 | Normalize candidate source identity before calibrated clock validation — 2026-11-26
+
+- Continue existing PR #386 / branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR.
+- Follow-up review of ARO-CHAT-0266 found a subtle validation mismatch: whitespace-only candidate IDs are truthy in Python and were rejected as a generic mismatch rather than recognized as missing identity. The existing regression expected a missing-ID error.
+- Candidate source identity is now selected explicitly, converted to text, and stripped before calibrated-clock validation. Blank/whitespace-only values fail closed; nonblank IDs still must exactly match the measured source.
+- Existing regression covers whitespace-only identity. Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- Commit: implementation `c9a11af6e9454f7ce0c6d1b036b295107e58f5f1`.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
