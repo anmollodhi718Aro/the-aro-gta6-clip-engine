@@ -165,6 +165,7 @@ class SingleClipRenderTests(unittest.TestCase):
         with patch("sys.argv", [
             "single_clip_render", str(self.source),
             "--candidate-csv", str(pack), "--candidate-row", "1",
+            "--source-id", "authorized-demo",
             "--output", str(self.output), "--report", str(report_path),
         ]):
             with patch(
