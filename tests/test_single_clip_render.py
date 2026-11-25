@@ -479,8 +479,10 @@ class SingleClipRenderTests(unittest.TestCase):
     def test_preflight_and_renderer_consume_the_same_snapshot(self, render, preflight):
         render.side_effect = lambda *args, **kwargs: (self.output.write_bytes(b"rendered mp4"), self.output.resolve())[1]
         preflight.side_effect = [PASS, {"status": "PASS", "duration_seconds": 6.0}]
+        expected = hashlib.sha256(self.source.read_bytes()).hexdigest()
         report = render_selected_clip(
             self.source, self.output, 2, 8, execute=True, rights_confirmed=True,
+            expected_source_sha256=expected,
         )
         self.assertEqual(report["status"], "RENDERED")
         inspected_path = preflight.call_args_list[0].args[0]
@@ -488,6 +490,22 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(inspected_path, rendered_path)
         self.assertNotEqual(inspected_path, self.source)
         self.assertTrue(report["source_snapshot_verified"])
+        self.assertEqual(report["source_sha256"], expected)
+
+    @patch("backend.app.single_clip_render.inspect_one_video")
+    @patch("backend.app.single_clip_render.render_clip")
+    def test_execution_digest_mismatch_stops_before_ffprobe_or_ffmpeg(self, render, preflight):
+        expected = "0" * 64
+        report = render_selected_clip(
+            self.source, self.output, 2, 8, execute=True, rights_confirmed=True,
+            expected_source_sha256=expected,
+        )
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("SHA-256 does not match", report["error"])
+        self.assertFalse(report["source_snapshot_created"])
+        preflight.assert_not_called()
+        render.assert_not_called()
+        self.assertFalse(self.output.exists())
 
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     @patch("backend.app.single_clip_render.render_clip")
