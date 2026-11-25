@@ -648,28 +648,50 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
 
 
 class WindowsOAuthTokenACLTests(unittest.TestCase):
+    def _owner_ace(self, sid):
+        return {"Sid": sid, "Type": "Allow", "Rights": "FullControl", "Inherited": False}
+
     def test_windows_acl_requires_exactly_current_user_full_control(self):
         sid = "S-1-5-21-111-222-333-1001"
         responses = [
-            Mock(stdout=f'"HOST\\user","{sid}"'),
+            Mock(stdout=f'"HOST\\\\user","{sid}"'),
             Mock(stdout=""),
-            Mock(stdout=f"  *{sid}:(F)\n"),
+            Mock(stdout=json.dumps([self._owner_ace(sid)])),
         ]
         with patch("backend.app.youtube_upload.subprocess.run", side_effect=responses) as run:
             _apply_windows_owner_only_acl(Path("C:/tokens/profile.json"))
         self.assertEqual(run.call_count, 3)
         self.assertIn("/inheritance:r", run.call_args_list[1].args[0])
         self.assertIn(f"*{sid}:(F)", run.call_args_list[1].args[0])
+        self.assertIn("-EncodedCommand", run.call_args_list[2].args[0])
+        self.assertEqual(run.call_args_list[2].kwargs["env"]["ARO_TOKEN_ACL_PATH"], "C:/tokens/profile.json")
 
     def test_windows_acl_rejects_additional_group_access(self):
         sid = "S-1-5-21-111-222-333-1001"
+        entries = [
+            self._owner_ace(sid),
+            {"Sid": "S-1-5-32-545", "Type": "Allow", "Rights": "ReadAndExecute", "Inherited": False},
+        ]
         responses = [
-            Mock(stdout=f'"HOST\\user","{sid}"'),
+            Mock(stdout=f'"HOST\\\\user","{sid}"'),
             Mock(stdout=""),
-            Mock(stdout=f"  *{sid}:(F)\n  BUILTIN\\Users:(RX)\n"),
+            Mock(stdout=json.dumps(entries)),
         ]
         with patch("backend.app.youtube_upload.subprocess.run", side_effect=responses):
-            with self.assertRaisesRegex(PermissionError, "exactly one owner-only"):
+            with self.assertRaisesRegex(PermissionError, "exactly one explicit owner-only"):
+                _apply_windows_owner_only_acl(Path("C:/tokens/profile.json"))
+
+    def test_windows_acl_rejects_inherited_owner_ace(self):
+        sid = "S-1-5-21-111-222-333-1001"
+        inherited = self._owner_ace(sid)
+        inherited["Inherited"] = True
+        responses = [
+            Mock(stdout=f'"HOST\\\\user","{sid}"'),
+            Mock(stdout=""),
+            Mock(stdout=json.dumps([inherited])),
+        ]
+        with patch("backend.app.youtube_upload.subprocess.run", side_effect=responses):
+            with self.assertRaisesRegex(PermissionError, "exactly one explicit owner-only"):
                 _apply_windows_owner_only_acl(Path("C:/tokens/profile.json"))
 
     def test_windows_acl_fails_closed_when_identity_command_fails(self):
