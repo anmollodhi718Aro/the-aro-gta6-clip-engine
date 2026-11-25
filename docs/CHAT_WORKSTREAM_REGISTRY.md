@@ -1602,3 +1602,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Test commit: `019ccf37eb2afafa307584f86f8388630e9f0e03`; moved ordinary alphanumeric DNS labels into positive URL cases and added numeric-form negative cases (`0x`, `00`, `077`).
 - A focused isolated predicate probe passed 16 numeric/non-numeric classification cases. This is NOT a repository unit-test run. Repository unit tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
 - Preserve PR #376 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled.
+
+
+### ARO-CHAT-0238 exact-head CI recheck after WHATWG correction — 2026-11-25
+- Current PR #376 head: `0dfa003c7cb923c6e034ee9608549d82a5ff00a2` (documentation synchronization after production/test commits).
+- Python CI run #45668850752 (run 1624) completed FAILURE. Ubuntu job `139398317841` and hosted-Windows job `139398318523` both reported FAILURE; the jobs endpoint exposed `steps: []` and `logs_url: null`. Both log downloads returned `BlobNotFound`.
+- Failure phase/root cause NOT VERIFIED. No compile or repository test result is established; failure is not attributed to the code or tests.
+- The production commit `f1e562824f2fd165249258bf454a2ad886c3255d` and test commit `019ccf37eb2afafa307584f86f8388630e9f0e03` each also have naturally triggered Python CI runs #45668772916 and #45668788732, both concluded FAILURE. Their failures are not evidence of a source-code failure without exposed steps/logs.
+- Exact-head workflow lookup returned run #45668850752; no workflow retry/dispatch was initiated. Repository unit tests NOT RUN. Focused isolated predicate probe passed 16 cases only. Independent review NOT RECORDED.
+- Preserve PR #376 OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
