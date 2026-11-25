@@ -762,7 +762,9 @@ def main() -> int:
         print(f"Report could not be reserved/written without overwrite: {exc}", file=sys.stderr)
         return 2
 
-    print(json.dumps(report, indent=2, ensure_ascii=False))
+    # Reuse the exact serialized payload already persisted to disk; avoid a
+    # second serialization path that could disagree with or fail after the write.
+    print(terminal_report_text, end="")
     return 0 if report["status"] in {"PLANNED", "RENDERED"} else 1
 
 
