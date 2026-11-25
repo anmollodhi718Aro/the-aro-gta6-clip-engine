@@ -151,3 +151,7 @@ The fallback writer also checks the text stream's reported character count. A sh
 The initial `RUNNING` reservation is serialized fully before writing. Its write count is checked, then flushed and fsynced before any media inspection. If the initial write fails or is short, the CLI attempts the same exclusive sidecar recovery and stops before calling the renderer. A fallback containing `RUNNING` means no media processing was started by this invocation; inspect the primary reservation and fallback before retrying.
 
 Terminal report replacement also verifies the write character count before truncating the old reservation. A short write is treated as failure and triggers exclusive fallback recovery, rather than being accepted as a completed terminal report. This check does not make the in-place update atomic against power loss or filesystem faults.
+
+
+### Report newline encoding correction
+The initial and terminal report payloads, plus the exclusive fallback writer, use actual newline characters rather than literal backslash-plus-n text. This keeps the report valid JSON with a conventional trailing newline. A regression test checks both the trailing newline and successful JSON parsing of the fallback payload.
