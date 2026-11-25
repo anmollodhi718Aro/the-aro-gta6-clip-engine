@@ -132,3 +132,6 @@ Candidate CSV CLI mode also requires `--source-sha256`. Supply the expected 64-c
 ### Terminal report serialization safety
 
 The CLI fully serializes the terminal JSON report in memory before seeking to or truncating the exclusively reserved report file. If serialization fails, the existing newline-terminated `RUNNING` reservation is preserved for manual review instead of being partially overwritten. This does not make subsequent filesystem writes atomic: an I/O failure during the final write or hard process termination can still leave an incomplete report. Treat any non-terminal or unreadable report as an unknown outcome and inspect the output manually before retrying. A report-write failure never authorizes deleting or overwriting a rendered output.
+
+
+The CLI prints the same pre-serialized terminal JSON string that it writes to the report file. It does not serialize the report a second time after the durable write, avoiding a second serialization failure or stdout/file representation drift.
