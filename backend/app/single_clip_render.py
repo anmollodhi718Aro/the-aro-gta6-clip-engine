@@ -114,7 +114,7 @@ def render_selected_clip(
         if (isinstance(rendered_duration, bool)
                 or not isinstance(rendered_duration, (int, float))
                 or not math.isfinite(rendered_duration)
-                or rendered_duration <= 0
+                or rendered_duration < (end - start) - 1.0
                 or rendered_duration > (end - start) + 1.0):
             report.update(status="FAIL", error="rendered output duration is outside the expected clip bounds")
             return report
