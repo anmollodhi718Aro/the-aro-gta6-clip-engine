@@ -1,5 +1,8 @@
 """Tests for explainable candidate review scoring."""
 import unittest
+import tempfile
+from pathlib import Path
+from unittest.mock import patch
 
 from backend.app.candidate_quality import score_candidate, score_rows
 
@@ -75,6 +78,41 @@ class CandidateQualityTests(unittest.TestCase):
     def test_boolean_clip_bound_is_not_scored_as_numeric(self):
         result = score_candidate(self.candidate(start_seconds=True))
         self.assertEqual(result["sync_points"], 0)
+
+
+class CandidateQualityCliSafetyTests(unittest.TestCase):
+    def _write_candidates(self, path):
+        path.write_text(
+            "peak_message_count,duration_seconds,start_seconds,end_seconds,renderable\\n"
+            "20,45,10,55,true\\n",
+            encoding="utf-8",
+        )
+
+    def test_cli_refuses_to_overwrite_input_even_via_relative_alias(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "candidates.csv"
+            self._write_candidates(source)
+            original = source.read_text(encoding="utf-8")
+            with patch("sys.argv", [
+                "candidate_quality", str(source),
+                "--output", str(source.parent / "." / source.name),
+            ]):
+                from backend.app.candidate_quality import main
+                self.assertEqual(main(), 2)
+            self.assertEqual(source.read_text(encoding="utf-8"), original)
+
+    def test_cli_refuses_to_overwrite_existing_review_output(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "candidates.csv"
+            output = Path(directory) / "scored.csv"
+            self._write_candidates(source)
+            output.write_text("keep-this-review\\n", encoding="utf-8")
+            with patch("sys.argv", [
+                "candidate_quality", str(source), "--output", str(output),
+            ]):
+                from backend.app.candidate_quality import main
+                self.assertEqual(main(), 2)
+            self.assertEqual(output.read_text(encoding="utf-8"), "keep-this-review\\n")
 
 
 if __name__ == "__main__":
