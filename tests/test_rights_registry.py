@@ -220,6 +220,9 @@ class SourceRightsRegistryTests(unittest.TestCase):
             "https://example.123/video",
             "https://example.0x2/video",
             "https://example.012/video",
+            "https://example.0xg1/video",
+            "https://example.abc1/video",
+            "https://example.0a9/video",
             "https://example.09/video",
             "https://example.0008/video",
             "https://example.123./video",
@@ -280,9 +283,6 @@ class SourceRightsRegistryTests(unittest.TestCase):
             "https://example.com./video",
             "https://example.label1/video",
             "https://example.com1/video",
-            "https://example.0xg1/video",
-            "https://example.abc1/video",
-            "https://example.0a9/video",
         )):
             with self.subTest(source_url=source_url):
                 record = dict(self.record, source_id=f"url-source-{index}", source_url=source_url)
