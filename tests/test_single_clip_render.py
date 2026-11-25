@@ -621,5 +621,46 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(self.output.exists())
 
 
+    def test_candidate_csv_accepts_utf8_bom_from_spreadsheet_export(self):
+        pack = self.root / "bom-candidates.csv"
+        pack.write_text(
+            "\\ufeffsource_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
+            "authorized-demo,2,8,6,True\\n",
+            encoding="utf-8",
+        )
+        selected = load_selected_candidate(pack, 1)
+        self.assertEqual(selected["source_id"], "authorized-demo")
+
+    def test_candidate_csv_rejects_duplicate_required_headers(self):
+        pack = self.root / "duplicate-headers.csv"
+        pack.write_text(
+            "source_id,source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
+            "one,two,2,8,6,True\\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(ValueError, "duplicate column names"):
+            load_selected_candidate(pack, 1)
+
+    def test_candidate_csv_rejects_selected_row_with_extra_values(self):
+        pack = self.root / "extra-values.csv"
+        pack.write_text(
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
+            "authorized-demo,2,8,6,True,unexpected\\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(ValueError, "more values than its header"):
+            load_selected_candidate(pack, 1)
+
+    def test_candidate_csv_rejects_selected_row_missing_required_value(self):
+        pack = self.root / "missing-value.csv"
+        pack.write_text(
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
+            "authorized-demo,2,8,,True\\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(ValueError, "missing required values"):
+            load_selected_candidate(pack, 1)
+
+
 if __name__ == "__main__":
     unittest.main()
