@@ -298,6 +298,11 @@ def _authorize_google(client_secrets: Path, token_path: Path):
     token_path = Path(token_path).expanduser()
     if token_path.is_symlink():
         raise PermissionError("OAuth token path must not be a symbolic link")
+    if os.name == "nt" and token_path.is_file():
+        # Existing tokens may predate strict ACL enforcement. Restrict and
+        # verify both the containing directory and file before reading bytes.
+        _apply_windows_owner_only_acl(token_path.parent.resolve(strict=True))
+        _apply_windows_owner_only_acl(token_path.resolve(strict=True))
     credentials = None
     if token_path.is_file():
         try:
