@@ -2037,3 +2037,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Implementation commit: `043a4b550eb31f4f81e4024dc8bd65c09dfa7bc1`.
 - Test commits: `07c042c2eccaa01e94ed2783ecd26573c04f9521`, `3502bd9b645413a110b11dd367dbadb8e343b181`.
 - No media was rendered; upload/publishing remain disabled.
+
+
+### ARO-CHAT-0271 — clip-pack to renderer integration regression (2026-11-26)
+- Added a cross-module regression test that writes a review-ready row through `write_clip_pack` and loads that exact CSV row through `load_selected_candidate`.
+- Verifies source ID and clip timing/duration survive the export/import boundary without manual timestamp re-entry.
+- Test commit: `f95692f63eadb824c4f8ac228f3721e6ce26ede0`.
+- Test suite NOT RUN; this is a regression test addition, not a validated end-to-end execution. No media rendered.
