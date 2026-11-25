@@ -1636,3 +1636,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Tightened rendered FFprobe acceptance to within ±1.0 second of requested duration; added regression for unexpectedly short output.
 - Production commit: fd9bd98dff3efad45c11f582341c1f37a7a7b29f; test commit: f7124c9c82d4bc11fa6ec1424d80af788ba73982.
 - Repository tests NOT RUN; exact-head CI PENDING; independent review NOT RECORDED. PR #386 remains DRAFT / OPEN / UNMERGED. No media/upload/publishing. Issue #68 remains WAITING_FOR_OWNER_APPROVAL.
+
+
+### ARO-CHAT-0244 static-review hardening — symlink output redirection
+- Static review found that resolving the requested output path before checking `is_symlink()` followed dangling symlinks. This could redirect a new output to a different target path.
+- Both the CLI dry-run guard and the underlying FFmpeg renderer now reject a symlink at the requested destination before path resolution.
+- Added regressions proving the dangling-link target is not created and the symlink remains untouched.
+- Implementation/test commits are recorded in this PR history. Repository tests and exact-head CI remain pending until executed and observed; no media was rendered.
