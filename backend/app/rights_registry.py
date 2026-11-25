@@ -24,10 +24,11 @@ def _ends_in_ipv4_number(label: str) -> bool:
         digits = lowered[2:]
         if not digits or all(character in "0123456789abcdef" for character in digits):
             return True
-    # A decimal-only final label is an IPv4 candidate even when its
-    # numeric value is invalid (for example, "09"). A non-decimal label
-    # such as "label1" or malformed hex "0xg1" remains an ordinary DNS label.
-    return lowered.isascii() and lowered.isdecimal()
+    # WHATWG-style URL parsers classify a final label ending in an
+    # ASCII digit as an IPv4 candidate, even when numeric parsing later
+    # fails (for example, "label1", "0xg1", or "0a9"). Require the
+    # complete hostname to be canonical IPv4 in those cases.
+    return lowered.isascii() and lowered[-1:].isdigit()
 
 
 def _valid_hostname(hostname: str) -> bool:
