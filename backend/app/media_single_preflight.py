@@ -65,9 +65,18 @@ def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe"
 
         try:
             payload = json.loads(probe.stdout)
-            media_format = payload["format"]
-            duration = float(media_format["duration"])
+            if not isinstance(payload, dict):
+                raise ValueError("ffprobe root value must be an object")
+            media_format = payload.get("format")
+            if not isinstance(media_format, dict):
+                raise ValueError("ffprobe format metadata must be an object")
+            raw_duration = media_format.get("duration")
+            if isinstance(raw_duration, bool) or raw_duration is None:
+                raise ValueError("ffprobe duration must be a number or numeric string")
+            duration = float(raw_duration)
             streams = payload.get("streams", [])
+            if not isinstance(streams, list) or any(not isinstance(stream, dict) for stream in streams):
+                raise ValueError("ffprobe stream metadata must be a list of objects")
         except (json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
             raise ValueError("ffprobe returned incomplete or invalid metadata") from exc
 
