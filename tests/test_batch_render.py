@@ -178,7 +178,7 @@ class BatchRenderTests(unittest.TestCase):
             },
         ])
         original_stat = self.media.stat()
-        self.media.write_bytes(b"replacement synthetic media")
+        self.media.write_bytes(b"local synthetic video")
         self.assertEqual(self.media.stat().st_size, original_stat.st_size)
         import os
         os.utime(self.media, ns=(original_stat.st_atime_ns, original_stat.st_mtime_ns))
