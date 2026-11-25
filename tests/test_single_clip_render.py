@@ -114,6 +114,19 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(self.output.read_bytes(), b"preserve me")
 
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
+    def test_dry_run_rejects_dangling_symlink_output(self, preflight):
+        target = self.root / "redirected.mp4"
+        try:
+            self.output.symlink_to(target)
+        except (OSError, NotImplementedError):
+            self.skipTest("symlink creation is unavailable on this runner")
+        report = render_selected_clip(self.source, self.output, 1, 4)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("symbolic link", report["error"])
+        self.assertFalse(target.exists())
+        preflight.assert_not_called()
+
+    @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     def test_cli_writes_exclusive_dry_run_report(self, _preflight):
         report_path = self.root / "report.json"
         with patch("sys.argv", [
