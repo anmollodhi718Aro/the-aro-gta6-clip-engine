@@ -1108,3 +1108,9 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - Candidate CSV loader now accepts UTF-8 BOM exports and rejects duplicate/blank headers, missing required cells, and extra selected-row values.
 - Implementation: `043a4b550eb31f4f81e4024dc8bd65c09dfa7bc1`; tests: `07c042c2eccaa01e94ed2783ecd26573c04f9521`, `3502bd9b645413a110b11dd367dbadb8e343b181`.
 - Tests NOT RUN. Verify fixtures and execute the full relevant test suite in a real environment before treating this as validated.
+
+
+### Latest handoff: ARO-CHAT-0271 — clip-pack/renderer integration test
+- Added a cross-module regression that writes a clip-pack CSV and loads its selected row through the single-clip renderer candidate loader.
+- Test commit: `f95692f63eadb824c4f8ac228f3721e6ce26ede0`.
+- Tests remain NOT RUN. Next priority remains executable validation of the full candidate-selection-to-renderer path.
