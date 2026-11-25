@@ -811,7 +811,11 @@ def main() -> int:
 
             try:
                 handle.seek(0)
-                handle.write(terminal_report_text)
+                written = handle.write(terminal_report_text)
+                if written != len(terminal_report_text):
+                    raise OSError(
+                        f"terminal report write was incomplete ({written} of {len(terminal_report_text)} characters)"
+                    )
                 handle.truncate()
                 handle.flush()
                 os.fsync(handle.fileno())
