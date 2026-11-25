@@ -1539,3 +1539,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Repository unit tests NOT RUN; independent review NOT RECORDED (PR #376 reviews and inline threads empty at inspection).
 - Report: `docs/ARO_CHAT_0238_IDNA_NUMERIC_MAPPING_REGRESSION.md`. Preserve PR #376 OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; owner UNASSIGNED. Keep live uploads/public publishing disabled.
 - No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### ARO-CHAT-0238 latest continuation — PR #376 exact-head static review (2026-11-25)
+- Current inspected PR head before this handoff update: `62d07a4b23d62bb2d73428abeaf5384a40df4146`.
+- Exact-head Python CI run #45537558568 (run 1570) concluded FAILURE on Ubuntu and hosted Windows. Both jobs exposed `steps: null` and `logs_url: null`; failure phase/root cause NOT VERIFIED. No compile/test result is claimed and failure is not attributed to application code.
+- PR #376 review submissions and inline review threads are empty; independent review NOT RECORDED. Local repository tests NOT RUN.
+- Bounded static review re-inspected `backend/app/rights_registry.py` and `tests/test_rights_registry.py`. No additional concrete defect was identified in the current hostname helper/test matrix. This is not a complete URL-parser, DNS-resolution, destination-IP, or DNS-rebinding review.
+- Audit report: `docs/ARO_CHAT_0238_PR376_CURRENT_HEAD_AUDIT.md`.
+- Keep PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- No workflow retry/dispatch, source/test behavior change, OAuth, credentials, media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+- Next safe work: inspect a naturally triggered exact-head run with visible job steps/logs and obtain independent review. Do not manually retry/dispatch without owner direction.
