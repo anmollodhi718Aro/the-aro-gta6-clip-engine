@@ -1892,3 +1892,15 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Do not infer test success from commits.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing #383 -> #380/#379 ancestry. No merge, rebase, retarget, integration, workflow retry/dispatch, or deployment without explicit owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, or publishing.
+
+
+## ARO-CHAT-0258 | Safely remove unverified rendered outputs — 2026-11-25
+- Exact chat title: `ARO-CHAT-0258 | Remove Unverified Render Outputs Safely`
+- Workstream: `ARO-GTA-P1-258`
+- Continuation of PR #386 / ARO-GTA-P1-244 on the existing branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR and no ancestry changes.
+- Static review found that a clip could remain at its final destination after post-render FFprobe failure or a duration mismatch. That stale, unverified MP4 also prevented a safe retry because output overwrite is prohibited.
+- Change: capture the rendered regular file's device/inode/type immediately after `render_clip()`. On verification failure, unlink only if the destination still identifies that exact inode. Symlinks, replacements, and uncertain files are preserved. The report records whether cleanup succeeded.
+- Added regressions for removing the invocation's own unverified output and preserving a replacement file.
+- Source and test commits are recorded by the GitHub update results for this continuation; documentation updated in `docs/SINGLE_CLIP_RENDER.md`.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows and real authorized media NOT VERIFIED.
+- PR #386 remains DRAFT / OPEN / UNMERGED with existing ancestry. Do not merge, rebase, retarget, or integrate without explicit owner approval. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
