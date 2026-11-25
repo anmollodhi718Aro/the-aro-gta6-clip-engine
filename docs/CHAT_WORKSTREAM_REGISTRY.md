@@ -2065,3 +2065,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - The test asserts the renderer receives the mapped 30s–45s bounds and the JSON report records the exact source ID and one-based selected row, with upload/publishing flags false.
 - Test commit: `0e8d329d821f0b2a5a605edd9e60f8dcceb6c862`.
 - Tests NOT RUN; the new regression is committed but not yet executed by CI.
+
+
+### ARO-CHAT-0275 — explicit candidate source-ID confirmation (2026-11-26)
+- Static review found that candidate CSV source IDs were preserved in reports but not cross-checked against the operator's selected local video at CLI invocation.
+- Candidate CSV mode now requires `--source-id` and rejects a missing/mismatched value before report reservation or media inspection. The check is explicitly documented as an operator cross-check, not cryptographic file identity proof.
+- Implementation: `0aa5e9585a003287c6a208303676bf4559fc5932`; tests: `36b4a26f94466128182eb8189ef0445cf8604f19`.
+- Tests NOT RUN. No media processed; no upload/publishing enabled.
