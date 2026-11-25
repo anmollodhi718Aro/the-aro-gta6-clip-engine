@@ -167,3 +167,6 @@ Before OAuth refresh or interactive authorization, the uploader copies the sourc
 Choose the byte limit for the actual device and available memory before any real upload. Hosted CI or a default value does not make that owner decision. This gate does not authorize an upload or enable public publishing.
 
 Before OAuth, the uploader also validates the rights report, exact clip/source identifiers, and current source publish grant. It repeats current publish-rights and authenticated-owner approval checks immediately before the API request. A rights-report mismatch or missing/revoked source grant therefore stops before OAuth is opened.
+
+### Bounded-memory upload stream
+The bounded snapshot remains on disk for the complete upload operation. The uploader opens that staged file as a binary stream and passes the file handle to `MediaIoBaseUpload`; it never calls `read_bytes()` or constructs a full-video `BytesIO` payload. The stream and temporary directory are closed/removed after the API operation returns or fails. Peak application buffering is therefore bounded by the copy chunk and the Google client's configured resumable chunking, rather than the full video size.
