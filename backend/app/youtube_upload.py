@@ -14,6 +14,7 @@ import re
 import sys
 import tempfile
 import subprocess
+import stat
 from pathlib import Path
 from typing import Any
 
@@ -42,6 +43,67 @@ def _copy_video_snapshot(source: Any, destination: Any, max_upload_bytes: int) -
             raise ValueError(f"video exceeds the configured upload limit of {limit} bytes")
         destination.write(chunk)
         total += len(chunk)
+
+
+def _create_verified_upload_snapshot(
+    video_path: str | Path, max_upload_bytes: int
+) -> tuple[Path, Any]:
+    """Create a bounded snapshot from one verified regular-file descriptor."""
+    limit = _validate_max_upload_bytes(max_upload_bytes)
+    source = Path(video_path).expanduser()
+    try:
+        path_before = source.lstat()
+        if not stat.S_ISREG(path_before.st_mode):
+            raise PermissionError("upload source must be a regular file")
+        flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0)
+        descriptor = os.open(source, flags)
+    except PermissionError:
+        raise
+    except OSError as exc:
+        raise PermissionError("upload source is missing, unreadable, or linked") from exc
+
+    staging = None
+    try:
+        opened = os.fstat(descriptor)
+        if not stat.S_ISREG(opened.st_mode):
+            raise PermissionError("upload source must be a regular file")
+        if (path_before.st_dev, path_before.st_ino) != (opened.st_dev, opened.st_ino):
+            raise PermissionError("upload source changed while opening")
+        if opened.st_size <= 0:
+            raise ValueError("video file is empty")
+        if opened.st_size > limit:
+            raise ValueError(f"video exceeds the configured upload limit of {limit} bytes")
+
+        staging = tempfile.TemporaryDirectory(prefix="aro-youtube-upload-")
+        snapshot = Path(staging.name) / f"approved-upload{source.suffix}"
+        output_fd = os.open(snapshot, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        with os.fdopen(os.dup(descriptor), "rb") as source_stream, os.fdopen(output_fd, "wb") as output_stream:
+            copied = _copy_video_snapshot(source_stream, output_stream, limit)
+            output_stream.flush()
+            os.fsync(output_stream.fileno())
+
+        after = os.fstat(descriptor)
+        path_after = source.lstat()
+        def identity(item: os.stat_result) -> tuple[int, int, int, int, int]:
+            return (
+                item.st_dev, item.st_ino, item.st_size,
+                getattr(item, "st_mtime_ns", int(item.st_mtime * 1_000_000_000)),
+                getattr(item, "st_ctime_ns", int(item.st_ctime * 1_000_000_000)),
+            )
+        if not stat.S_ISREG(path_after.st_mode):
+            raise PermissionError("upload source pathname changed to a non-regular file")
+        if (path_after.st_dev, path_after.st_ino) != (after.st_dev, after.st_ino):
+            raise PermissionError("upload source pathname changed while snapshotting")
+        if identity(opened) != identity(after) or copied != opened.st_size:
+            raise PermissionError("upload source changed while snapshotting")
+        os.chmod(snapshot, 0o400)
+        return snapshot, staging
+    except Exception:
+        if staging is not None:
+            staging.cleanup()
+        raise
+    finally:
+        os.close(descriptor)
 
 
 
@@ -448,28 +510,8 @@ def upload_video(
     if owner_approved is not True or rights_confirmed is not True:
         raise PermissionError("actual upload requires --owner-approved and --confirm-rights")
     limit = _validate_max_upload_bytes(max_upload_bytes)
-    source_path = Path(video_path).expanduser()
-    if not source_path.is_file():
-        raise FileNotFoundError(f"local video file does not exist: {source_path}")
-    if source_path.stat().st_size <= 0:
-        raise ValueError("video file is empty")
-    if source_path.stat().st_size > limit:
-        raise ValueError(f"video exceeds the configured upload limit of {limit} bytes")
-
-    with tempfile.TemporaryDirectory(prefix="aro-youtube-upload-") as staging_dir:
-        snapshot_path = Path(staging_dir) / "approved-upload.mp4"
-        with source_path.open("rb") as source, snapshot_path.open("xb") as snapshot:
-            copied_bytes = _copy_video_snapshot(source, snapshot, limit)
-            snapshot.flush()
-            os.fsync(snapshot.fileno())
-        if copied_bytes <= 0:
-            raise ValueError("video file is empty")
-        if copied_bytes > limit:
-            raise ValueError(f"video exceeds the configured upload limit of {limit} bytes")
-        try:
-            os.chmod(snapshot_path, 0o400)
-        except OSError:
-            pass
+    snapshot_path, staging = _create_verified_upload_snapshot(source_path, limit)
+    try:
         return _upload_video_snapshot(
             snapshot_path, body,
             client_secrets=client_secrets,
@@ -484,6 +526,8 @@ def upload_video(
             expected_google_subject=expected_google_subject,
             expected_channel_id=expected_channel_id,
         )
+    finally:
+        staging.cleanup()
 
 
 def _upload_video_snapshot(
