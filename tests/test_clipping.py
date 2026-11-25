@@ -47,6 +47,23 @@ class ClipRenderTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 render_clip(source, Path(folder) / "clip.mp4", float("nan"), 2, rights_confirmed=True)
 
+    def test_rejects_unrepresentable_and_non_numeric_clip_bounds(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            source.write_bytes(b"synthetic")
+            with patch("backend.app.clipping.subprocess.run") as run:
+                invalid_bounds = (
+                    (10 ** 400, 2),
+                    (0, 10 ** 400),
+                    ("1", 2),
+                    (0, "2"),
+                )
+                for start, end in invalid_bounds:
+                    with self.subTest(start_type=type(start).__name__, end_type=type(end).__name__):
+                        with self.assertRaisesRegex(ValueError, "finite numeric"):
+                            render_clip(source, Path(folder) / "clip.mp4", start, end, rights_confirmed=True)
+                run.assert_not_called()
+
     def test_rejects_boolean_clip_bounds_before_invoking_ffmpeg(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / "source.mov"
