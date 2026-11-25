@@ -884,14 +884,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
 
 
-## ARO-CHAT-0251 current continuation — strict clip-bound types (2026-11-25)
+## ARO-CHAT-0254 current continuation — strict clip-bound types (2026-11-25)
 - Continue on existing PR #386 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no duplicate PR or branch.
 - Static review found Python boolean values pass `math.isfinite()` because `bool` subclasses `int`. The low-level `render_clip()` helper now explicitly rejects boolean start/end bounds before numeric validation or media-path work.
-- Production commit: `a329adb4a8232a3bfca2a6d40634b8f64003f126`; regression test: `ff0b081367e57ab1637584017d2828d7cc9557c7`; operator docs: `b0be6062f926d4b5cdcad62207bba92b5c1ab702`; report: `9f1338d30b2cd51dfcc3027fd1b402be1adebd68`; registry: `afbba291e3641b9ea87a6a8a21989ef1ef7b5f6e`.
+- Production commit: `a329adb4a8232a3bfca2a6d40634b8f64003f126`; regression test: `ff0b081367e57ab1637584017d2828d7cc9557c7`; operator docs: `b0be6062f926d4b5cdcad62207bba92b5c1ab702`; report: `0065c57199967af379963a84a23f5ade2b751311`; registry: `a382d8a9c5911e59ac41f6968e4788569247c6d6`.
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Inspect naturally triggered CI only; do not retry/dispatch without owner direction.
 - PR #386 remains DRAFT / OPEN / UNMERGED with its existing #383 -> #380/#379 ancestry. PR #379 conflicts with the later one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
-
 
 ### ARO-CHAT-0251 continuation — duplicate regression cleanup (2026-11-25)
 - Follow-up to ARO-GTA-P1-244 / PR #386; existing branch and ancestry preserved.
