@@ -955,6 +955,69 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(self.output.read_bytes(), b"completed render output")
         with self.assertRaises(json.JSONDecodeError):
             json.loads(report_path.read_text(encoding="utf-8"))
+        fallback_path = report_path.with_name(report_path.name + ".terminal-fallback.json")
+        fallback = json.loads(fallback_path.read_text(encoding="utf-8"))
+        self.assertEqual(fallback["status"], "RENDERED")
+        self.assertFalse(fallback["upload_performed"])
+        self.assertFalse(fallback["publishing_enabled"])
+
+    def test_cli_partial_terminal_write_does_not_overwrite_existing_fallback(self):
+        report_path = self.root / "fallback-collision.json"
+        fallback_path = report_path.with_name(report_path.name + ".terminal-fallback.json")
+        fallback_path.write_text("operator-owned sentinel", encoding="utf-8")
+        original_open = Path.open
+
+        class FailingWriteProxy:
+            def __init__(self, handle):
+                self.handle = handle
+                self.write_calls = 0
+
+            def __enter__(self):
+                self.handle.__enter__()
+                return self
+
+            def __exit__(self, *args):
+                return self.handle.__exit__(*args)
+
+            def __getattr__(self, name):
+                return getattr(self.handle, name)
+
+            def write(self, value):
+                self.write_calls += 1
+                if self.write_calls == 3:
+                    self.handle.write(value[:8])
+                    raise OSError("simulated partial terminal report write")
+                return self.handle.write(value)
+
+        def open_with_failure(path, *args, **kwargs):
+            handle = original_open(path, *args, **kwargs)
+            if path == report_path:
+                return FailingWriteProxy(handle)
+            return handle
+
+        def simulated_completed_render(*args, **kwargs):
+            self.output.write_bytes(b"completed render output")
+            return {
+                "status": "RENDERED",
+                "output_path": str(self.output),
+                "upload_performed": False,
+                "publishing_enabled": False,
+            }
+
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--start", "2", "--end", "8",
+            "--execute", "--confirm-rights",
+            "--output", str(self.output), "--report", str(report_path),
+        ]
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.render_selected_clip",
+            side_effect=simulated_completed_render,
+        ), patch.object(Path, "open", new=open_with_failure):
+            self.assertEqual(main(), 2)
+
+        self.assertEqual(fallback_path.read_text(encoding="utf-8"), "operator-owned sentinel")
+        self.assertEqual(self.output.read_bytes(), b"completed render output")
 
     def test_cli_terminal_failure_marks_snapshot_digest_unverified(self):
         report_path = self.root / "terminal-snapshot-failure.json"
