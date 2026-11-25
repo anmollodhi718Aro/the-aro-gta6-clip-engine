@@ -2044,3 +2044,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Verifies source ID and clip timing/duration survive the export/import boundary without manual timestamp re-entry.
 - Test commit: `f95692f63eadb824c4f8ac228f3721e6ce26ede0`.
 - Test suite NOT RUN; this is a regression test addition, not a validated end-to-end execution. No media rendered.
+
+
+### ARO-CHAT-0272 — mapped-candidate integration regression (2026-11-26)
+- Strengthened the clip-pack/renderer integration test: it now calls `map_candidates_to_media` with a timezone-aware media origin and a source-bound candidate, writes the mapped row through `write_clip_pack`, then loads that exact CSV row through `load_selected_candidate`.
+- Verifies the expected source ID, 30s start, 45s end, and 15s duration across the actual mapping/export/import functions.
+- Test commit: `11c9bc7943844d9b1fceda53accbaef917219aae`.
+- Tests NOT RUN; no CI result or real render is claimed.
