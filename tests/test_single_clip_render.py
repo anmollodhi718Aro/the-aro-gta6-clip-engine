@@ -116,6 +116,33 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report_path.exists())
 
 
+
+    def test_candidate_csv_cli_requires_nonblank_source_id_before_report_reservation(self):
+        mapped_rows = map_candidates_to_media(
+            [{
+                "source_id": "authorized-demo",
+                "clip_start": "2026-11-19T12:00:30+00:00",
+                "clip_end": "2026-11-19T12:00:45+00:00",
+            }],
+            "2026-11-19T12:00:00+00:00",
+        )
+        csv_path, _ = write_clip_pack(mapped_rows, self.root / "missing-id-pack")
+        for suffix, extra_args in (
+            ("missing", []),
+            ("blank", ["--source-id", "   "]),
+        ):
+            with self.subTest(source_id=suffix):
+                report_path = self.root / f"{suffix}-source-id-report.json"
+                argv = [
+                    "single_clip_render.py", str(self.source),
+                    "--candidate-csv", str(csv_path), "--candidate-row", "1",
+                    *extra_args, "--report", str(report_path),
+                ]
+                with patch("sys.argv", argv), self.assertRaises(SystemExit) as raised:
+                    main()
+                self.assertEqual(raised.exception.code, 2)
+                self.assertFalse(report_path.exists())
+
     def test_source_id_option_is_rejected_in_direct_bounds_mode(self):
         report_path = self.root / "unexpected-source-id-report.json"
         with patch("sys.argv", [
