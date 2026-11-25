@@ -1465,3 +1465,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Local repository tests NOT RUN; PR #376 reviews and inline threads empty; independent review NOT RECORDED.
 - No retry/dispatch. Keep PR #376 DRAFT / OPEN / UNMERGED, Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL, and live uploads/public publishing disabled.
 - Documentation-only recheck; no source/test/workflow behavior, OAuth, credentials, media, upload, publishing, merge, rebase, retarget, or deployment changed/performed.
+
+
+### ARO-CHAT-0238 IDNA leading-zero numeric suffix regression — 2026-11-25
+- Test-only continuation on the existing PR #376 branch; no duplicate workstream or PR.
+- Added rejection cases for IDNA-normalized fullwidth leading-zero decimal suffixes `０９` and `０００８`, complementing the existing ASCII `09` / `0008` and fullwidth decimal/hex cases.
+- Test commit: `b46c369076a082f709b38384c2789a3bd882b45b`.
+- Repository unit tests NOT RUN in this session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED for this commit; independent review NOT RECORDED.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
