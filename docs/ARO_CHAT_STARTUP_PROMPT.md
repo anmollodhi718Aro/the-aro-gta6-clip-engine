@@ -639,3 +639,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Preserve PR #376 OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; owner UNASSIGNED. Keep live uploads/public publishing disabled.
 - No manual workflow retry/dispatch, source/test behavior change, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
 - Next task: continue bounded static review of the current PR #376 validation patch, identify only concrete uncovered input classes, and add narrowly scoped regression coverage only when justified. Re-audit the new exact head; do not transfer prior CI evidence.
+
+
+### Current continuation — ARO-CHAT-0238 digit-ending numeric-label rejection (2026-11-25)
+- Continue the existing draft PR #376 / ARO-GTA-P1-238 branch; do not create a duplicate workstream.
+- Static review found invalid numeric-looking final labels ending in ASCII digits (including 0xg1, abc1, and 0a9) could fall through to DNS-label validation despite URL parsers treating digit-ending labels as IPv4 candidates.
+- Updated _ends_in_ipv4_number() to classify ASCII-digit-ending labels as numeric-like while retaining valid hexadecimal-prefix handling; the complete host must parse as canonical four-octet IPv4.
+- Added three negative regressions. Production commit 50e007fe5567624a187a64e280ced3ba356dec86; test commit 9a5956a88a075962980524cf126cad8fe2cbf0a0.
+- Repository tests NOT RUN. Exact-head CI NOT YET VERIFIED. Independent review NOT RECORDED. Re-audit only the new exact head; do not transfer predecessor CI results.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
