@@ -1039,3 +1039,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Latest exact-head Actions lookup still returns no run or status; local tests are not run in this connector session. PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. Keep live uploads and public publishing disabled.
 
 - Additional race regression: commit `b3cd0d777a6ef005812b147f76d1988242df1b56` mutates the original source after snapshot creation during mocked authorization and asserts the upload stream still contains the originally approved bytes. This exercises the snapshot-hash approval binding end to end without OAuth or network upload.
+
+### ARO-CHAT-0201 bounded-memory stream correction — 2026-11-26
+- Review caught that the previous bounded snapshot implementation then called `read_bytes()` and wrapped the complete video in `BytesIO`, which reintroduced full-file RAM consumption and was unsuitable for the owner's low-memory laptop.
+- Replaced full-file materialization with a disk-backed `MediaIoBaseUpload` stream. The temporary snapshot directory now remains alive for the entire API operation and is cleaned in `finally`; the stream is closed after success or failure.
+- Added a regression test that consumes the staged stream inside the mocked API execution, verifies the original approved bytes are sent even after the source changes, and verifies the stream is closed after the operation.
+- Commits: disk-stream implementation `17fd32259d809bc2bb63e7fe49f5dd79d149f93b`; lifetime/indentation correction `1a7760f519645d10e76aae11bcf041ec8ca60663`; stream regression `bfca655c36c64bccc5bacb63ca3c85f194df0536`.
+- Exact-head CI and local tests remain unverified. Do not claim this code is tested until a successful run on the exact PR head is visible.
