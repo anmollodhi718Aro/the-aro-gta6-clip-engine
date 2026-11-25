@@ -1967,3 +1967,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Commits: implementation `5647da26d41f0097063ec7820a08b1bb6bdc6214`; tests `63b1b41c1686de0f3fec7f90967ad02c2bab7a75`; docs `61a35dc11ca246b4372c64303498af3b5dcef224`.
 - Repository tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+## ARO-CHAT-0265 | Protect candidate scoring input and prior review outputs — 2026-11-26
+
+- Continue existing PR #386 / branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR.
+- Static audit found the candidate scoring CLI opened its output in write mode. Choosing the input CSV as output could destroy the source review pack, and choosing an existing output silently replaced an earlier review artifact.
+- CLI now resolves source/output paths and rejects aliases to the same file. Output is opened with exclusive creation (`x`) so an existing file is never silently overwritten, including a check/open race.
+- Regression tests cover same-file path aliases and preservation of existing output content. Operator documentation updated.
+- Commits: implementation `e13da2884c7a0f3899beae0679e657cc4d785924`; tests `2371bb700a6e3f46c738da221ff183fa2ee35a4f`; docs `2c5fc01a5ab2bcde2a8c6c9626f99a01fbe75bdd`.
+- Repository tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
