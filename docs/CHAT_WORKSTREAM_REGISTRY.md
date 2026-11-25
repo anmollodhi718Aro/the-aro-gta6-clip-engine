@@ -2091,3 +2091,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added a negative CLI regression proving source IDs are compared exactly and case-sensitively; a case-only mismatch is rejected before report reservation.
 - Test commit: `be8f81ca85e235419ece5ad23432b19ae17b2b50`.
 - Tests NOT RUN. This does not establish local-file identity; no media processed and upload/publishing remain disabled.
+
+
+### ARO-CHAT-0279 — trusted source SHA-256 confirmation (2026-11-26)
+- Added descriptor-based SHA-256 hashing for the exact selected regular file, using bounded 1 MiB reads and before/after descriptor plus path identity checks; symlink inputs are rejected.
+- Candidate CSV CLI mode now requires a 64-hex `--source-sha256` digest and compares it to the selected file before report reservation or media probing. The expected value must come from the trusted authorized-media inventory. Verified digest is included in candidate-selection report metadata.
+- Added digest helper tests, symlink rejection coverage, and malformed-digest CLI rejection. Existing candidate CLI tests now supply a digest.
+- Implementation: `b7080b15b100ccb1512cd601c68da714ebf75ed7`; tests: `ea18bb426b743e124124717c8583185ea048c3c1`, `dc122a4e4e7e6d25d105366d235f3d8beef4d53a`, `80bce215874f3c4dcbfcc117d243624dd211ca58`.
+- Tests NOT RUN. No media processed; upload/publishing remain disabled.
