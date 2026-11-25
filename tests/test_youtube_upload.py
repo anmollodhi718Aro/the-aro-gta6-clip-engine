@@ -11,7 +11,7 @@ from unittest.mock import Mock, patch
 
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
-from backend.app.youtube_upload import (build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_destination_approval_path, validate_upload)
+from backend.app.youtube_upload import (_apply_windows_owner_only_acl, build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_destination_approval_path, validate_upload)
 
 
 class YouTubeUploadTests(unittest.TestCase):
@@ -645,6 +645,41 @@ class YouTubeDestinationProfileTests(unittest.TestCase):
         self.assertEqual(second[1], "UCabcdef1234567890")
         self.assertNotEqual(first[2], second[2])
 
+
+
+class WindowsOAuthTokenACLTests(unittest.TestCase):
+    def test_windows_acl_requires_exactly_current_user_full_control(self):
+        sid = "S-1-5-21-111-222-333-1001"
+        responses = [
+            Mock(stdout=f'"HOST\\\\user","{sid}"'),
+            Mock(stdout="Successfully processed 1 files; Failed processing 0 files"),
+            Mock(stdout=f"C:\\\\tokens\\\\profile.json\\n  *{sid}:(F)\\n"),
+        ]
+        with patch("backend.app.youtube_upload.subprocess.run", side_effect=responses) as run:
+            _apply_windows_owner_only_acl(Path("C:/tokens/profile.json"))
+        self.assertEqual(run.call_count, 3)
+        self.assertIn("/inheritance:r", run.call_args_list[1].args[0])
+        self.assertIn(f"*{sid}:(F)", run.call_args_list[1].args[0])
+
+    def test_windows_acl_rejects_additional_group_access(self):
+        sid = "S-1-5-21-111-222-333-1001"
+        responses = [
+            Mock(stdout=f'"HOST\\\\user","{sid}"'),
+            Mock(stdout="Successfully processed 1 files; Failed processing 0 files"),
+            Mock(stdout=f"C:\\\\tokens\\\\profile.json\\n  *{sid}:(F)\\n  BUILTIN\\\\Users:(RX)\\n"),
+        ]
+        with patch("backend.app.youtube_upload.subprocess.run", side_effect=responses):
+            with self.assertRaisesRegex(PermissionError, "exactly one owner-only"):
+                _apply_windows_owner_only_acl(Path("C:/tokens/profile.json"))
+
+    def test_windows_acl_fails_closed_when_identity_command_fails(self):
+        import subprocess
+        with patch(
+            "backend.app.youtube_upload.subprocess.run",
+            side_effect=subprocess.CalledProcessError(1, ["whoami"]),
+        ):
+            with self.assertRaisesRegex(PermissionError, "could not enforce owner-only"):
+                _apply_windows_owner_only_acl(Path("C:/tokens/profile.json"))
 
 
 if __name__ == "__main__":
