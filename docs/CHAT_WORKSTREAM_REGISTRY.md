@@ -2161,3 +2161,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - The test documents that an unreadable report does not prove rendering failed. It does not make report writes atomic or validate real media.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED; preserve stacked ancestry. No merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0288 — exclusive terminal report fallback
+- Added an exclusive-create sidecar fallback when the reserved terminal report fails during its final in-place write. The fallback is flushed and fsynced; existing fallback paths are never overwritten.
+- Added regression coverage for successful fallback persistence and fallback-path collision preservation after a simulated partial primary write.
+- Implementation: `ecd4b7cd31e976cbddc1a4bbbc66e8d5ae044609`; tests: `4059e72e35b2c3beb3d0dc10763d98f8de282f04`.
+- CLI still returns an error because the primary report may be partial. The sidecar is a recovery aid, not atomicity or crash-durability proof. Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains draft/open/unmerged; preserve stacked ancestry. No merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
