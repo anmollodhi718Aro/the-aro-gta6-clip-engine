@@ -1671,3 +1671,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
 - Preserve PR #386 DRAFT / OPEN / UNMERGED and its existing ancestry. PR #379 conflicts with the later one-selected-video owner requirement; no merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+### ARO-CHAT-0245 selected-source identity guard — 2026-11-25
+- Continued PR #386 / ARO-GTA-P1-244 on its existing branch; no new branch or PR.
+- Static review found a gap between the one-file FFprobe preflight and FFmpeg rendering: the selected path could be replaced or modified after preflight, so the renderer might consume bytes other than the file that passed inspection.
+- Added regular-file/non-symlink identity capture (device, inode, size, mtime, ctime, and mode) before and after preflight, plus a final identity recheck immediately before rendering. A changed source now fails closed; no batch or directory processing was added.
+- Production commit: `0254c9e9ac79e06411a06a45e1679d3695da9d84`; regression-test commit: `bc698ce766d949b0039e40fc0275a86d2d06fdf6`.
+- Validation: repository tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. No media was processed.
+- Scope limitation: this narrows and detects source changes across preflight, but a residual race remains between the final path identity check and FFmpeg opening the source. Do not describe this as descriptor-bound or race-free; a stable snapshot/descriptor-based render boundary remains future work.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve the existing #383 → #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. Do not rebase, retarget, merge, or integrate without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment.
