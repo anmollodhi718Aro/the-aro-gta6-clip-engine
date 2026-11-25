@@ -1435,3 +1435,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - An isolated in-memory probe of the four new URL forms plus two existing numeric-suffix controls produced the expected rejection results. This is not the repository unit-test suite.
 - Local repository tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI for the new head NOT YET VERIFIED; independent review NOT RECORDED.
 - Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### ARO-CHAT-0238 trailing-dot IDNA regression follow-up — 2026-11-25
+- Test-only continuation on existing PR #376 and branch; no duplicate workstream or PR.
+- Added rejection regressions for IDNA-normalized numeric suffixes with a trailing DNS root dot and alternate Unicode dot separators: fullwidth decimal digits, ideographic dot, and fullwidth hexadecimal-prefix form.
+- Added a positive acceptance regression for an IDNA DNS hostname with a trailing root dot.
+- Test commit: 370291c61dae242eb21f1626e817800533b9e93b.
+- Local repository tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT YET VERIFIED for this commit; independent review NOT RECORDED. No CI result transfers from earlier heads.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+- No workflow retry/dispatch, production-code change, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
