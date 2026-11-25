@@ -84,6 +84,22 @@ class MediaBatchPreflightTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             inspect_media_directory(self.root / "ignore.txt")
 
+    def test_reports_skipped_symlink_directories(self):
+        target = self.root / "nested"
+        link = self.root / "linked-directory"
+        try:
+            link.symlink_to(target, target_is_directory=True)
+        except (OSError, NotImplementedError):
+            self.skipTest("directory symlinks unavailable on this platform")
+        report = inspect_media_directory(self.root)
+        self.assertTrue(any(
+            "symbolic-link directory skipped" in error
+            and "linked-directory" in error
+            for error in report["traversal_errors"]
+        ))
+        self.assertFalse(report["processing_started"])
+        self.assertFalse(report["publishing_enabled"])
+
     @patch("backend.app.media_batch_preflight.subprocess.run")
     def test_symlinked_video_is_reported_as_failure(self, run):
         target = self.root / "a.mp4"
