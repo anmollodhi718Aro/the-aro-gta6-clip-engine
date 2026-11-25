@@ -1776,12 +1776,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - No production behavior changed. Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
 
-## ARO-CHAT-0251 | Scale rendered clip duration tolerance — 2026-11-25
-- Exact chat title: `ARO-CHAT-0251 | Scale Rendered Clip Duration Tolerance`
+## ARO-CHAT-0253 | Scale rendered clip duration tolerance — 2026-11-25
+- Exact chat title: `ARO-CHAT-0253 | Scale Rendered Clip Duration Tolerance`
 - Workstream: `ARO-GTA-P1-244` continuation; existing PR #386 and branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25` preserved.
 - Static review found the fixed ±1-second post-render duration tolerance could accept a nearly empty output for a very short requested clip.
 - The verifier now requires a finite positive duration and applies a tolerance of 2% of the requested duration, bounded to 0.05–1.0 seconds. Added a regression rejecting a 0.01-second output for a requested 0.1-second clip.
-- Production commit: `844d080a0b40e822253287adf943bedef456769a`; regression test: `853b93e43a2228d26b66cc914eeca7922db1a9ab`; report: `c7456f3029effa3d137a0b41594a1798110a530f`.
+- Production commit: `844d080a0b40e822253287adf943bedef456769a`; regression test: `853b93e43a2228d26b66cc914eeca7922db1a9ab`; report: `e9b1b2ebf4fc7fc87cb507754359c7dfcf1ca072`.
 - Repository tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing #383 -> #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
