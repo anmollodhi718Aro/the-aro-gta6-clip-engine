@@ -7,6 +7,7 @@ import math
 import os
 import stat
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -25,7 +26,7 @@ def _selected_file_identity(path: Path) -> tuple[int, int, int, int, int, int]:
     )
 
 
-def render_selected_clip(
+def _render_selected_clip_from_snapshot(
     video_path: str | Path,
     output_path: str | Path,
     start_seconds: float,
@@ -167,6 +168,105 @@ def render_selected_clip(
     except (OSError, PermissionError, RuntimeError, ValueError) as exc:
         report.update(status="FAIL", error=str(exc))
     return report
+
+
+def _create_stable_source_snapshot(source: Path, snapshot: Path) -> None:
+    """Copy one selected regular file from a verified descriptor in bounded chunks.
+
+    FFprobe and FFmpeg consume the same private snapshot, not the mutable
+    caller-controlled pathname. Path and descriptor identity/metadata are
+    checked before and after copying; partial snapshots are removed on failure.
+    """
+    before_path = source.lstat()
+    if stat.S_ISLNK(before_path.st_mode) or not stat.S_ISREG(before_path.st_mode):
+        raise ValueError("selected source must be a regular non-symlink file")
+    flags = os.O_RDONLY
+    if hasattr(os, "O_BINARY"):
+        flags |= os.O_BINARY
+    if hasattr(os, "O_NOFOLLOW"):
+        flags |= os.O_NOFOLLOW
+    descriptor = os.open(source, flags)
+    try:
+        before_fd = os.fstat(descriptor)
+        identity = lambda item: (
+            item.st_dev, item.st_ino, item.st_size,
+            item.st_mtime_ns, item.st_ctime_ns, stat.S_IFMT(item.st_mode),
+        )
+        if not stat.S_ISREG(before_fd.st_mode) or identity(before_fd) != identity(before_path):
+            raise RuntimeError("selected source changed while opening its snapshot")
+        copied = 0
+        with os.fdopen(os.dup(descriptor), "rb") as source_handle:
+            with snapshot.open("xb") as snapshot_handle:
+                while True:
+                    chunk = source_handle.read(1024 * 1024)
+                    if not chunk:
+                        break
+                    snapshot_handle.write(chunk)
+                    copied += len(chunk)
+                snapshot_handle.flush()
+                os.fsync(snapshot_handle.fileno())
+        after_fd = os.fstat(descriptor)
+        after_path = source.lstat()
+        if (identity(after_fd) != identity(before_fd)
+                or identity(after_path) != identity(before_path)
+                or copied != before_fd.st_size):
+            raise RuntimeError("selected source changed while its stable snapshot was copied")
+    except Exception:
+        snapshot.unlink(missing_ok=True)
+        raise
+    finally:
+        os.close(descriptor)
+
+
+def render_selected_clip(
+    video_path: str | Path,
+    output_path: str | Path,
+    start_seconds: float,
+    end_seconds: float,
+    *,
+    execute: bool = False,
+    rights_confirmed: bool = False,
+    ffprobe_binary: str = "ffprobe",
+    ffmpeg_binary: str = "ffmpeg",
+) -> dict[str, Any]:
+    """Preflight and render one immutable snapshot of the selected source.
+
+    The original path is copied once from a verified file descriptor using
+    bounded disk I/O. FFprobe and FFmpeg then consume those exact snapshot
+    bytes, eliminating the pathname replacement race between the two tools.
+    """
+    source = Path(video_path).expanduser()
+    try:
+        with tempfile.TemporaryDirectory(prefix="aro-single-clip-") as temporary_directory:
+            snapshot = Path(temporary_directory) / (source.name or "selected-video.mp4")
+            _create_stable_source_snapshot(source, snapshot)
+            report = _render_selected_clip_from_snapshot(
+                snapshot,
+                output_path,
+                start_seconds,
+                end_seconds,
+                execute=execute,
+                rights_confirmed=rights_confirmed,
+                ffprobe_binary=ffprobe_binary,
+                ffmpeg_binary=ffmpeg_binary,
+            )
+            report["source_path"] = str(source)
+            report["source_snapshot_verified"] = True
+            return report
+    except (OSError, RuntimeError, ValueError) as exc:
+        return {
+            "status": "FAIL",
+            "source_path": str(source),
+            "output_path": str(Path(output_path).expanduser()),
+            "start_seconds": start_seconds,
+            "end_seconds": end_seconds,
+            "processing_started": False,
+            "source_identity_verified": False,
+            "source_snapshot_verified": False,
+            "upload_performed": False,
+            "publishing_enabled": False,
+            "error": f"selected source snapshot failed closed: {exc}",
+        }
 
 
 def main() -> int:
