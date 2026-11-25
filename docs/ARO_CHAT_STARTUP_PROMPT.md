@@ -705,3 +705,14 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Audit report: `docs/ARO_CHAT_0238_PR376_CURRENT_HEAD_AUDIT.md`. Registry contains this handoff.
 - Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled.
 - Next safe action: inspect a naturally triggered exact-head CI run with visible job steps/logs and obtain independent review. No manual workflow retry/dispatch without owner direction. No merge, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### Latest continuation — ARO-CHAT-0238 PR #376 exact-head reconciliation (2026-11-25)
+- Continue on existing PR #376 / `ARO-GTA-P1-238` branch only; do not create a duplicate branch or PR.
+- Live PR head at this audit: `dc18af438161356266843edc04d7aceb7f9f72c0`; PR remains DRAFT / OPEN / UNMERGED.
+- Exact-head Python CI run #45541566724 (run 1577) failed on Ubuntu job `138961085105` and hosted-Windows job `138961084835`. Both exposed `steps: null` and `logs_url: null`; combined status returned zero entries. Failure phase/root cause NOT VERIFIED. No compile/test result is established; do not attribute failure to source code.
+- Local repository tests NOT RUN. PR reviews and inline review threads are empty; independent review NOT RECORDED.
+- Bounded static review re-read `backend/app/rights_registry.py` and `tests/test_rights_registry.py`; no additional concrete defect was identified in the hostname-validation path and current test matrix. This is not a complete URL-parser/DNS/destination-IP/DNS-rebinding security review.
+- Audit report: `docs/ARO_CHAT_0238_PR376_CURRENT_HEAD_AUDIT.md`; registry synchronized.
+- Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+- Next safe action: inspect a naturally triggered exact-head run with visible steps/logs and obtain independent review. Do not manually retry/dispatch workflows without owner direction. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
