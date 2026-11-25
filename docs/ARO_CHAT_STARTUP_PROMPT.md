@@ -206,3 +206,9 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - PR #378's latest observed CI run #45612283558 failed with both Ubuntu and hosted-Windows jobs exposing `steps: null` and no logs URL. This provides no compile/test result; failure phase and cause remain unverified. Do not attribute it to application code or claim tests passed.
 - Next: inspect the new draft PR's exact-head Ubuntu/Windows run and fix only evidence-backed failures. Keep all PRs draft/open/unmerged pending the owner's later review request. No OAuth, credentials, real media, live upload, public publishing, merge, or deployment.
 - Remaining owner gates: independent security review; owner-device OAuth/channel verification; owner-selected byte limit; authorized real-media PRIVATE acceptance.
+
+
+### Exact-head CI recheck — 2026-11-25
+- PR #385 head `b8704221f4ba3131d8c6b96e2d091a9530eea5b2` is associated with run #45657905605, conclusion FAILURE.
+- Ubuntu job #139359465979 and hosted-Windows job #139359466345 both expose `steps: null` and `logs_url: null`. No compile/test result is available; failure phase and cause remain UNVERIFIED and are not attributed to application code.
+- Do not blindly rerun or dispatch workflows. Exact-head CI remains NOT VERIFIED; local repository tests NOT RUN.
