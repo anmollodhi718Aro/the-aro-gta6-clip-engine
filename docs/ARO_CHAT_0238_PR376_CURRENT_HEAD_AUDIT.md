@@ -144,3 +144,13 @@ Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Its owner
 - Repository tests NOT RUN locally. Independent review NOT RECORDED. PR #376 reviews and inline review threads were empty at inspection.
 - PR #376 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; owner UNASSIGNED. Keep live uploads/public publishing disabled.
 - No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing was performed.
+
+
+## ARO-CHAT-0238 WHATWG numeric-suffix correction — 2026-11-25
+
+- Standards reference: WHATWG URL Standard §3.5, especially the ends-in-a-number checker and IPv4 number parser. The checker returns true for all-ASCII-decimal final labels or labels successfully parsed as an IPv4 number. The latter includes `0x`-prefixed hexadecimal and leading-zero octal forms; arbitrary alphanumeric strings ending in digits are not numeric candidates.
+- Concrete defect: `_ends_in_ipv4_number()` treated every ASCII-digit-ending label as numeric, rejecting valid DNS-style names such as `example.label1`, `example.abc1`, and `example.0a9`.
+- Production fix commit: `f1e562824f2fd165249258bf454a2ad886c3255d`.
+- Regression test commit: `019ccf37eb2afafa307584f86f8388630e9f0e03`. Positive cases now include ordinary alphanumeric labels; negative cases include decimal, octal, and hexadecimal suffix forms that must fail unless the full host is canonical IPv4.
+- Focused isolated predicate probe passed 16 cases. This is not a repository test run. Repository unit tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- Keep PR #376 OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live uploads/public publishing remain disabled. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, or deployment was performed.
