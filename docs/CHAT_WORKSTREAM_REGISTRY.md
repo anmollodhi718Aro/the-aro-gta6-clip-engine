@@ -2253,3 +2253,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Files: `backend/app/single_clip_render.py`, `tests/test_single_clip_render.py`, `docs/SINGLE_CLIP_RENDER.md`.
 - Tests NOT RUN in this connector session. CI on the previous exact head failed before visible steps; new exact-head CI status must be checked separately. This change does not authorize processing real media.
 - PR #386 remains OPEN / DRAFT / UNMERGED. Pipeline is not complete until an owner-authorized real MP4 produces a verified clip. No merge, rebase, retarget, upload, publishing, or deployment.
+
+
+## ARO-CHAT-0299 — verify persisted source snapshot bytes
+
+- Follow-up review found the snapshot digest was computed from source chunks passed to the writer. Even with full-length write-return checks, that did not independently verify the bytes subsequently readable from the snapshot file.
+- After flush/fsync, the helper now reopens the created snapshot with a non-following read descriptor, checks regular-file identity and size, hashes the persisted bytes, and rechecks descriptor/path identity and metadata. The persisted digest must match the source-chunk digest; otherwise the operation fails closed and identity-checked cleanup removes only its own snapshot.
+- Added regression `test_snapshot_creation_rejects_readback_digest_mismatch_and_cleans_snapshot` with injected read-back corruption.
+- Commits: production `02fb6ad44ddf25a6c131034146d67f513257de9c`; regression `4d6659f4b6a27f06f602bf61920bf991b11b16d1`.
+- Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized MP4 was processed.
+- PR #386 remains OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, upload, publishing, or deployment.
