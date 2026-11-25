@@ -150,16 +150,19 @@ def _selected_file_identity(path: Path) -> tuple[int, int, int, int, int, int]:
     )
 
 
-def _rendered_output_identity(path: str | Path) -> tuple[int, int, int] | None:
-    """Identify an output created by render_clip without following symlinks."""
+def _rendered_output_identity(path: str | Path) -> tuple[int, int, int, int, int, int]:
+    """Identify output inode and content-relevant metadata without following symlinks."""
     candidate = Path(path)
     metadata = candidate.lstat()
     if stat.S_ISLNK(metadata.st_mode) or not stat.S_ISREG(metadata.st_mode):
         raise ValueError("rendered output must be a regular non-symlink file")
-    return metadata.st_dev, metadata.st_ino, stat.S_IFMT(metadata.st_mode)
+    return (
+        metadata.st_dev, metadata.st_ino, metadata.st_size,
+        metadata.st_mtime_ns, metadata.st_ctime_ns, stat.S_IFMT(metadata.st_mode),
+    )
 
 
-def _sha256_verified_regular_file(path: str | Path) -> tuple[str, int, tuple[int, int, int]]:
+def _sha256_verified_regular_file(path: str | Path) -> tuple[str, int, tuple[int, int, int, int, int, int]]:
     """Hash bytes read from one stable regular file without following symlinks."""
     candidate = Path(path)
     flags = os.O_RDONLY
@@ -173,11 +176,18 @@ def _sha256_verified_regular_file(path: str | Path) -> tuple[str, int, tuple[int
     try:
         before = os.fstat(descriptor)
         before_path = candidate.lstat()
-        identity = (before.st_dev, before.st_ino, stat.S_IFMT(before.st_mode))
+        identity = (
+            before.st_dev, before.st_ino, before.st_size,
+            before.st_mtime_ns, before.st_ctime_ns, stat.S_IFMT(before.st_mode),
+        )
         if (
             not stat.S_ISREG(before.st_mode)
             or stat.S_ISLNK(before_path.st_mode)
-            or identity != (before_path.st_dev, before_path.st_ino, stat.S_IFMT(before_path.st_mode))
+            or identity != (
+                before_path.st_dev, before_path.st_ino, before_path.st_size,
+                before_path.st_mtime_ns, before_path.st_ctime_ns,
+                stat.S_IFMT(before_path.st_mode),
+            )
         ):
             raise ValueError("verified output must remain a regular non-symlink file")
         digest = hashlib.sha256()
@@ -191,7 +201,10 @@ def _sha256_verified_regular_file(path: str | Path) -> tuple[str, int, tuple[int
         after = os.fstat(descriptor)
         after_path = candidate.lstat()
         if (
-            (after.st_dev, after.st_ino, stat.S_IFMT(after.st_mode)) != identity
+            (
+                after.st_dev, after.st_ino, after.st_size,
+                after.st_mtime_ns, after.st_ctime_ns, stat.S_IFMT(after.st_mode),
+            ) != identity
             or after.st_size != before.st_size
             or after.st_mtime_ns != before.st_mtime_ns
             or after.st_ctime_ns != before.st_ctime_ns
