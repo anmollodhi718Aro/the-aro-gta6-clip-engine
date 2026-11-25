@@ -218,6 +218,28 @@ class YouTubeUploadTests(unittest.TestCase):
             "googleapiclient.http": http,
         }
 
+    def test_windows_token_acl_helper_sets_and_verifies_restricted_acl(self):
+        from backend.app.youtube_upload import _secure_windows_token_path
+
+        with patch("backend.app.youtube_upload.subprocess.run", return_value=Mock(
+            returncode=0, stdout="ARO_TOKEN_ACL_VERIFIED", stderr=""
+        )) as run:
+            _secure_windows_token_path(self.root, is_directory=True, platform_name="nt")
+        args, kwargs = run.call_args
+        self.assertEqual(args[0][0], "powershell.exe")
+        self.assertIn("SetAccessRuleProtection", args[0][-1])
+        self.assertIn("GetOwner", args[0][-1])
+        self.assertEqual(kwargs["env"]["ARO_TOKEN_ACL_DIRECTORY"], "1")
+
+    def test_windows_token_acl_helper_fails_closed_when_verification_fails(self):
+        from backend.app.youtube_upload import _secure_windows_token_path
+
+        with patch("backend.app.youtube_upload.subprocess.run", return_value=Mock(
+            returncode=1, stdout="", stderr="access denied"
+        )):
+            with self.assertRaisesRegex(PermissionError, "ACL is not restricted"):
+                _secure_windows_token_path(self.root, is_directory=False, platform_name="nt")
+
     def test_upload_rechecks_oauth_owner_and_live_rights_before_api_insert(self):
         db_path = self.root / "source_rights.sqlite3"
         self._write_upload_rights(db_path)
