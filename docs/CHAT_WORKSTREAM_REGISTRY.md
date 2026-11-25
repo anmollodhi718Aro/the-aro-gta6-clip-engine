@@ -2022,3 +2022,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - A final-report audit found that the CLI initially stored candidate selection metadata in the flushed `RUNNING` record but replaced it with the renderer result on completion. The terminal report now also preserves the selected CSV row and source ID.
 - Follow-up implementation commit: `9380cd9af2578d5e3143fcf2de0ab437f03fed32`.
 - Regression assertion already checks that the terminal JSON report retains candidate row/source metadata. Tests NOT RUN; exact-head CI NOT VERIFIED.
+
+
+### ARO-CHAT-0269 test-fixture correction — 2026-11-26
+- Static source inspection caught that the newly added candidate CSV tests used escaped backslash-n text rather than actual newline separators. The fixture would therefore not represent a valid multi-line CSV.
+- Corrected all 11 affected newline escapes in the candidate-selection fixtures.
+- Test-file correction commit: `1ab587464f8f383ffc1e912d96bfccec72d0cd57`.
+- This was caught by static inspection only. Tests remain NOT RUN; do not mark this regression suite validated until executed.
