@@ -26,7 +26,9 @@ def _validate_output_destination(source: Path, destination: Path) -> str | None:
             return "output path must use the .mp4 extension"
         if destination.exists() or destination.is_symlink():
             return "output already exists; existing files are never overwritten"
-    except OSError as exc:
+    except (OSError, RuntimeError, ValueError) as exc:
+        # Path.resolve() can raise RuntimeError for symlink loops and ValueError
+        # for malformed paths; report these as validation failures, not crashes.
         return f"output path could not be validated: {exc}"
     return None
 
@@ -407,7 +409,7 @@ def main() -> int:
             )
             json.dump(report, handle, indent=2, ensure_ascii=False)
             handle.write("\n")
-    except OSError as exc:
+    except (OSError, RuntimeError, ValueError) as exc:
         print(f"Report could not be reserved/written without overwrite: {exc}", file=sys.stderr)
         return 2
 
