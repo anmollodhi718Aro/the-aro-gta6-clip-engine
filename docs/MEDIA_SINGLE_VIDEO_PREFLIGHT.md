@@ -8,6 +8,6 @@ Run:
 python -m backend.app.media_single_preflight "/path/to/one-authorized-video.mp4" --output reports/selected-video-preflight.json
 ```
 
-The command checks the selected file's existence, supported video extension, non-zero size, FFprobe duration, container format, video codec and dimensions. A PASS requires a finite positive duration and at least one video stream. A FAIL includes the reason. The report is created exclusively so an earlier report cannot be overwritten.
+The command checks the selected file's existence, supported video extension, regular-file status, non-zero size, FFprobe duration, container format, video codec and dimensions. A PASS requires valid FFprobe JSON, a finite positive duration, and at least one video stream. Malformed metadata, non-object stream entries, symlinks, and file replacement or ordinary mutation detected during inspection fail closed.
 
-This step is read-only. It does not render, transcode, authenticate with Google, upload, publish, or modify the selected video. A PASS means only that the selected file passed metadata preflight. Human review and exact-source rights confirmation remain separate gates. The next file must be selected explicitly in a separate invocation.
+The report is created exclusively so an earlier report cannot be overwritten. This step is read-only. It does not render, transcode, authenticate with Google, upload, publish, or modify the selected video. A PASS means only that the selected file passed metadata preflight. Human review and exact-source rights confirmation remain separate gates. The next file must be selected explicitly in a separate invocation.
