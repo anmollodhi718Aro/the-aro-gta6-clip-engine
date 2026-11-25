@@ -39,12 +39,12 @@ def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe"
     try:
         if path.suffix.lower() not in VIDEO_EXTENSIONS:
             raise ValueError("selected file does not have a supported video extension")
+        before = path.stat()
         before_path = path.lstat()
         if stat.S_ISLNK(before_path.st_mode):
             raise ValueError("symbolic links are not accepted as media inputs")
         if not stat.S_ISREG(before_path.st_mode):
             raise ValueError("selected path is not a regular file")
-        before = path.stat()
         if (before.st_dev, before.st_ino, stat.S_IFMT(before.st_mode)) != (
             before_path.st_dev, before_path.st_ino, stat.S_IFMT(before_path.st_mode)
         ):
@@ -96,10 +96,10 @@ def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe"
         if not video_streams:
             raise ValueError("selected file has no video stream")
 
+        after = path.stat()
         after_path = path.lstat()
         if stat.S_ISLNK(after_path.st_mode) or not stat.S_ISREG(after_path.st_mode):
             raise RuntimeError("selected path became unsafe while it was being inspected")
-        after = path.stat()
         before_identity = (
             before.st_dev, before.st_ino, before.st_size,
             before.st_mtime_ns, stat.S_IFMT(before.st_mode),
