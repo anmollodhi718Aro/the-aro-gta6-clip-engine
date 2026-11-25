@@ -604,6 +604,9 @@ def render_selected_clip(
             "processing_started": False,
             "source_identity_verified": False,
             "source_snapshot_verified": False,
+            "source_snapshot_created": False,
+            "expected_source_sha256": expected_source_sha256,
+            "source_sha256": None,
             "upload_performed": False,
             "publishing_enabled": False,
             "error": f"selected source snapshot failed closed: {exc}",
@@ -708,6 +711,9 @@ def main() -> int:
                 report = {
                     **initial_report,
                     "status": "FAIL",
+                    "source_snapshot_verified": False,
+                    "source_snapshot_created": False,
+                    "source_sha256": None,
                     "error": str(exc),
                     "message": "render operation failed; inspect any output file before retrying",
                 }
