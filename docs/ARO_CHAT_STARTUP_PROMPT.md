@@ -992,3 +992,14 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Exact-head Actions lookup returned zero runs; combined status returned zero entries. CI NOT VERIFIED. Repository tests NOT RUN in this connector session. Independent review NOT RECORDED.
 - Inspect naturally triggered CI only; do not retry/dispatch without owner direction. Preserve PR #386 DRAFT / OPEN / UNMERGED and #383 -> #380/#379 ancestry. No merge, rebase, retarget, integration, or deployment without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, or publishing.
+
+
+## ARO-CHAT-0258 current continuation — selected-video preflight path identity (2026-11-25)
+
+- Exact chat title: `ARO-CHAT-0258 | Harden Single-Video Preflight Path Identity`; workstream: `ARO-GTA-P1-258`.
+- Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR and no ancestry changes. ARO-CHAT-0257 is already reserved for the rendered-duration overflow guard; do not reuse that ID.
+- Standalone FFprobe preflight now checks the selected path with `lstat()` before and after probing, rejects symlinks/non-regular files, compares path identity with followed-file metadata, and checks POSIX ctime to detect in-place mutation even when size and mtime are restored. Windows ctime is excluded because it represents creation time there.
+- Production commit: `bef1fc7de56d5ae48d0390b727b43f18ac008716`; regression commit: `c7ffdafda71f45fe1af6c725235d33c5bc537c43`; operator docs: `dcbc4e4ac5ae552aa22f45e53b3044d0081ec95c`; canonical report: `docs/ARO_CHAT_0258_PREFLIGHT_PATH_IDENTITY.md`.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows and authorized real-media acceptance NOT VERIFIED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing #383 -> #380/#379 ancestry; no merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, or deployment.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
