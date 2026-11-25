@@ -72,3 +72,29 @@ Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Its owner
 - Test commit: `1bc36c0d74cda85771c748801253a9fe0cb3e4c7`.
 - Repository unit tests NOT RUN. Commit-associated exact-head CI lookup returned zero runs at the immediate post-commit check. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent review NOT RECORDED.
 - No production code, uploader, OAuth, media, workflow configuration, or publishing behavior changed. Preserve PR #376 DRAFT / OPEN / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, credentials, real media, upload, or publishing.
+
+
+## Latest continuation audit — exact PR head 62d07a4b23d62bb2d73428abeaf5384a40df4146 (2026-11-25)
+
+### Exact-head CI
+- PR #376 current head at inspection: `62d07a4b23d62bb2d73428abeaf5384a40df4146`.
+- Associated Python CI run #45537558568 (run 1570) completed FAILURE.
+- Ubuntu job `138947788081` and hosted-Windows job `138947787726` both concluded FAILURE; the jobs endpoint exposed `steps: null` and `logs_url: null`.
+- Failure phase and root cause are NOT VERIFIED. No compilation or test result is established. Do not attribute the failure to application code or tests.
+- Local repository tests NOT RUN in this connector session. PR #376 review submissions and inline review threads remain empty; independent review NOT RECORDED.
+
+### Bounded static review
+- Re-inspected `backend/app/rights_registry.py` and `tests/test_rights_registry.py` at the current PR branch.
+- The hostname helper now classifies any ASCII-digit-ending final label as an IPv4 candidate, including invalid hexadecimal-looking labels; empty `0x` suffixes are also treated as numeric candidates.
+- The complete host must parse as canonical four-octet IPv4 when the final label is numeric-like. The code strips one terminal DNS dot before applying this rule.
+- The regression matrix covers shorthand/integer, malformed dotted, octal/hex-like, numeric-ending DNS, trailing-dot, IDNA compatibility-digit, and scoped-IPv6-zone inputs, with positive canonical IPv4, ordinary IPv6, and DNS/IDNA controls.
+- No additional concrete defect was identified in this bounded review of the hostname helper and listed cases. This is NOT a complete URL-parser, DNS-resolution, destination-IP, or DNS-rebinding security review.
+- No repository tests were executed; static inspection is not test evidence.
+
+### Disposition
+- Preserve PR #376 OPEN / DRAFT / UNMERGED.
+- Exact-head CI is FAILED / NOT VERIFIED; no compile/test result is claimed.
+- Independent review remains NOT RECORDED.
+- Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
+- No workflow retry/dispatch, source/test behavior change, OAuth, credentials, media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
+- Next safe step: obtain exact-head CI with visible job steps/logs through the normal workflow path and arrange independent review; do not retry/dispatch workflows without owner direction.
