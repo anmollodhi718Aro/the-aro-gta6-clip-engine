@@ -1016,3 +1016,35 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Code commits: `911217838f205534dab3eeafc9132feb4aeedad5` (private-only validation + regression test), `6c3cb1966edb36200cf2047d55b9abca204af1d2` (media SHA-256 retry identity), `027973c3e21cd2599919a8b8d40ad1aaf80f97bf` (constant-size fixture correction).
 - Latest branch head: `027973c3e21cd2599919a8b8d40ad1aaf80f97bf`. The commit-associated workflow lookup currently returns no run; exact-head Ubuntu/Windows CI is NOT VERIFIED. Local tests were NOT RUN in this session.
 - These are code hardening changes only. No OAuth, credential access, media upload, merge, deployment or publishing occurred. PR #378 remains OPEN / DRAFT / UNMERGED; issue #68 and independent security review remain open.
+
+
+### ARO-CHAT-0244 — Verified bounded upload source snapshot — 2026-11-25
+
+- Branch: `workstream/aro-chat-0244-verified-bounded-upload-snapshot-2026-11-25`; parent PR #378.
+- Combined the explicit positive `--max-upload-bytes` bound from PR #378 with descriptor-based source identity verification previously implemented on PR #328.
+- Source must be a regular file. Reject symlinks and special files; compare lstat identity to the opened descriptor; copy from the descriptor in bounded 1 MiB chunks; re-check descriptor device/inode/size/mtime/ctime and pathname identity after copying; reject source growth or mutation.
+- The verified temporary snapshot is passed to the existing approval/hash and resumable-upload path and cleaned in a finally block.
+- Added tests for symlink/FIFO rejection, in-place source mutation during copy, and source growth beyond the configured byte limit. Existing size-limit and snapshot cleanup tests remain.
+- Commits: uploader `c6a0569d1093e7857958767c447a499e019109da`; tests `e095bcb51364558f04fb7ce1be74f945b3891a67`.
+- Local repository tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT YET VERIFIED. PR #378's prior run #45612283558 failed with zero exposed job steps and no log URLs; this gives no compile/test result and is not attributed to application code.
+- Draft only. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
+
+
+### Exact-head CI recheck — 2026-11-25
+- PR #385 head `b8704221f4ba3131d8c6b96e2d091a9530eea5b2` is associated with run #45657905605, conclusion FAILURE.
+- Ubuntu job #139359465979 and hosted-Windows job #139359466345 both expose `steps: null` and `logs_url: null`. No compile/test result is available; failure phase and cause remain UNVERIFIED and are not attributed to application code.
+- Do not blindly rerun or dispatch workflows. Exact-head CI remains NOT VERIFIED; local repository tests NOT RUN.
+
+
+## ARO-CHAT-0245 — PR #385 exact-head CI failure triage — 2026-11-25
+
+- Chat title: `ARO-CHAT-0245 | GTA 6 Upload Pipeline CI Failure Fix`.
+- Workstream: `ARO-GTA-P1-245`; documentation-only evidence triage on existing branch `workstream/aro-chat-0244-verified-bounded-upload-snapshot-2026-11-25` and existing draft PR #385. No duplicate PR or branch created.
+- Live PR #385 head at inspection: `b8704221f4ba3131d8c6b96e2d091a9530eea5b2`; base SHA: `77a19ebe59d84c36c240fb665a2bebe3d7173482`.
+- Exact-head-associated Actions run #45657905605 (run 1616) concluded FAILURE. Ubuntu job 139359465979 and hosted-Windows job 139359466345 both exposed `steps: null` and `logs_url: null`. Combined commit status returned no entries.
+- No checkout/setup/compile/test/FFmpeg/FFprobe result is observable. Failure phase and root cause are UNVERIFIED; do not attribute the failure to application code or claim tests passed. Earlier run #45657746782 is stale for the live head and likewise exposed no steps/logs.
+- Bounded static review of the snapshot helper and regression tests found no CI-evidenced defect. Local tests were NOT RUN. No speculative production-code changes made.
+- Report: `docs/ARO_CHAT_0245_PR385_CI_FAILURE_TRIAGE.md`.
+- Status: IMPLEMENTED source/tests; TESTED NOT VERIFIED; CI_VERIFIED NO; WINDOWS_VERIFIED NO; REAL_MEDIA_VERIFIED NO; COMPLETE NO.
+- Next: inspect a subsequent automatic run only if usable job steps/logs are exposed; fix only reproducible or evidence-backed defects. Keep PR #385 OPEN / DRAFT / UNMERGED.
+- No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled. Independent human security review, owner-device OAuth/channel verification, owner-selected byte limit, and authorized real-media PRIVATE acceptance remain pending.

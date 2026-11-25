@@ -155,3 +155,8 @@ The upload CLI reports success only when the official `videos.insert(part="snipp
 - The temporary snapshot is removed after the upload attempt. The upload-size gate does not select a safe value for the owner's device; the owner must choose that value before any real upload.
 - On Windows, OAuth token storage applies a protected DACL to the token directory and token file, allowing Full Control only to the current Windows user and LocalSystem. The ACL is read back and verified; inability to set or verify it stops token access/storage. On non-Windows systems, the existing restrictive file mode behavior remains.
 - These controls do not authorize an upload. PRIVATE visibility, authenticated channel-owner approval, current source rights, explicit operator confirmation, and a separate owner-approved real-media acceptance remain required.
+
+
+## Verified bounded upload snapshot
+
+Before OAuth or the YouTube API call, the uploader now opens the selected source as a regular file without following symlinks where the platform supports that flag. It compares the path's pre-open identity with the opened descriptor, copies from that descriptor in bounded 1 MiB chunks, and checks descriptor identity/size/timestamps plus the pathname identity again after copying. A linked, replaced, non-regular, mutated, or over-limit source fails closed. The upload approval hash and resumable transfer both use this same read-only temporary snapshot, which is removed after the attempt. This is synthetic-testable behavior only; it does not authorize a live upload.
