@@ -38,3 +38,8 @@ The execution path validates the requested output destination before creating th
 ## Path-resolution failures
 
 Output and report path resolution fails closed. Symlink-loop and malformed-path resolution errors are reported as validation failures rather than escaping as uncaught exceptions; the CLI exits without leaving a reserved report file when path validation fails.
+
+
+## Validate clip bounds before source snapshot
+
+For confirmed execution, clip bounds are normalized and checked for finite numeric values, valid ordering, and the 180-second maximum before the selected source is copied to temporary storage. Invalid bounds therefore fail without snapshot I/O or FFprobe/FFmpeg invocation. The renderer repeats the same validation at its own boundary.
