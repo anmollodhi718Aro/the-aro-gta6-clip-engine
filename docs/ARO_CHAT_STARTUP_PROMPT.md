@@ -970,3 +970,15 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Do not infer test success from commits.
 - Preserve PR #386 DRAFT / OPEN / UNMERGED and its existing #383 -> #380/#379 ancestry. No merge, rebase, retarget, integration, workflow retry/dispatch, or deployment without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, or publishing.
+
+
+## ARO-CHAT-0257 current continuation — rendered duration overflow guard (2026-11-25)
+
+- Exact chat title: `ARO-CHAT-0257 | Reject Unrepresentable Rendered Duration`.
+- Workstream: `ARO-GTA-P1-257`; continuation of PR #386 / ARO-GTA-P1-244 on the existing branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`. No duplicate PR/branch and no ancestry changes.
+- Static review found the post-render FFprobe duration check called `math.isfinite()` without catching `OverflowError`. A huge integer duration could escape the renderer instead of producing a deterministic FAIL report.
+- The post-render duration is now validated inside an exception boundary; malformed/unrepresentable values fail closed. Added a regression for a mocked post-render FFprobe duration of `10 ** 400`.
+- Commits: production `7456890f0563cf69b7d843b784bbfcf8c12fa59d`; tests `01e308f77423809eb35897c60ddef78fde55f8d3`; operator docs `a487fa3fa4ea13cafdbfa3f9cf2f38f62ab955d1`; report `0f49d2bf662e431f6fd262e7fa1d93c0345037a1`.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Do not infer test success from commits.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 -> #380/#379 ancestry. The live parent branch has advanced and the branches diverge; no rebase, retarget, merge, or integration without explicit owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, or deployment.
