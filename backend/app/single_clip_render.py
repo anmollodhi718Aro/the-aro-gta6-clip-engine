@@ -41,6 +41,20 @@ def render_selected_clip(
         "publishing_enabled": False,
     }
 
+    try:
+        if source.resolve() == destination.resolve():
+            report["error"] = "output path must differ from the selected source"
+            return report
+        if destination.suffix.lower() != ".mp4":
+            report["error"] = "output path must use the .mp4 extension"
+            return report
+        if destination.exists() or destination.is_symlink():
+            report["error"] = "output already exists; existing files are never overwritten"
+            return report
+    except OSError as exc:
+        report["error"] = f"output path could not be validated: {exc}"
+        return report
+
     preflight = inspect_one_video(source, ffprobe_binary=ffprobe_binary)
     report["source_preflight"] = preflight
     if preflight.get("status") != "PASS":
