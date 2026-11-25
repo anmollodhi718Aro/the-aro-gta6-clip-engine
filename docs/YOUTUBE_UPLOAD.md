@@ -170,3 +170,5 @@ Before OAuth, the uploader also validates the rights report, exact clip/source i
 
 ### Bounded-memory upload stream
 The bounded snapshot remains on disk for the complete upload operation. The uploader opens that staged file as a binary stream and passes the file handle to `MediaIoBaseUpload`; it never calls `read_bytes()` or constructs a full-video `BytesIO` payload. The stream and temporary directory are closed/removed after the API operation returns or fails. Peak application buffering is therefore bounded by the copy chunk and the Google client's configured resumable chunking, rather than the full video size.
+
+Snapshot integrity: the bounded-copy helper checks every file-write return value. A short write aborts staging immediately with an error; the uploader will not hash, approve or upload a partial snapshot.
