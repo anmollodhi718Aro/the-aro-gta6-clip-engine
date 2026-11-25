@@ -86,10 +86,12 @@ def map_candidates_to_media(
             raise ValueError(f"candidate {index} has clip_end <= clip_start")
 
         raw_candidate_source = candidate.get("source_id")
-        candidate_source = str(raw_candidate_source or source_id or "")
+        candidate_source = str(
+            raw_candidate_source if raw_candidate_source is not None else source_id or ""
+        ).strip()
         if clock_sync:
             # A calibrated clock is valid only for the exact source measured
-            # by its anchors. Missing IDs must fail closed just like mismatches.
+            # by its anchors. Missing or whitespace-only IDs fail closed.
             if not candidate_source:
                 raise ValueError(
                     f"candidate {index} is missing source_id required by the calibrated clock"
