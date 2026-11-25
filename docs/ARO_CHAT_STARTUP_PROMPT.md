@@ -1041,3 +1041,10 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - Static audit confirms dry-run default, explicit execute+rights gate, one selected source/clip, bounded stable source snapshot, FFprobe/FFmpeg same bytes, 180-second maximum, private staging, no-overwrite output, post-render verification, upload/publishing disabled.
 - Audit caveat: identity-check then pathname unlink for failed-output cleanup is not atomic against a concurrent directory-entry replacement. See `docs/ARO_CHAT_0261_EXACT_HEAD_CI_AUDIT.md`; runtime code was not changed.
 - Tests NOT RUN; independent review NOT RECORDED; owner-device Windows and authorized real-media acceptance NOT VERIFIED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+## Latest continuation handoff — ARO-CHAT-0263 (2026-11-26)
+- Continue on existing PR #386 / `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; do not create a duplicate branch or PR.
+- Single-clip CLI now writes terminal `FAIL` JSON for handled renderer exceptions instead of leaving stale `RUNNING` reports. The initial report records whether both `--execute` and `--confirm-rights` were supplied. Hard process termination can still leave a parseable `RUNNING` report, which means outcome unknown and requires manual output inspection.
+- Implementation `a38a34f03c5660e7eb0620362c325249edd7229e`; regression `c50f182a32fe77f6810236d118805b14939cd2ff`; docs `43d580b0c81b2f876e2e20ad63bb5403a6cac476`; registry `6be36ec6656eae397d87982ac45ed2f17b9a9d2c`.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Do not claim completion based on static changes.
+- Preserve PR #386 DRAFT / OPEN / UNMERGED and existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
