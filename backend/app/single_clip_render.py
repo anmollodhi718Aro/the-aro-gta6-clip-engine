@@ -54,6 +54,9 @@ def render_selected_clip(
         "upload_performed": False,
         "publishing_enabled": False,
     }
+    if type(execute) is not bool or type(rights_confirmed) is not bool:
+        report["error"] = "execute and rights_confirmed must be explicit booleans"
+        return report
 
     try:
         # Inspect the requested path before resolve(), which follows dangling
