@@ -726,3 +726,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Do not claim validation from static inspection.
 - Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
 - Do not manually retry/dispatch workflows, merge, rebase, retarget, deploy, authenticate OAuth, handle credentials, use real media, upload, or publish without the required explicit owner authorization.
+
+
+### ARO-CHAT-0238 latest continuation — numeric-ending URL-host parser alignment (2026-11-25)
+- Continue the existing PR #376 / ARO-GTA-P1-238 branch only; do not create a duplicate workstream.
+- Corrected the previous predicate narrowing: ASCII alphanumeric final labels ending in digits (for example `label1`, `abc1`, `0xg1`, and `0a9`) must be rejected at this URL-validation boundary because WHATWG-style URL-host parsing treats ASCII-digit-ending labels as IPv4 candidates and invalid IPv4 parsing does not make them ordinary DNS hosts.
+- Production commit: `9aa2c4b9bdcbfb8efd25bc2138656d581befa9f6`; regression-test commit: `07cc72d5bcba2fbf093de3d2ef2a98bfa876e928`.
+- Commit-associated workflow lookup for the test commit returned zero runs. Prior test commit `f94c2d3d68084e6230fc10096605397fb9a145b6` run #45654439835 failed on Ubuntu and hosted Windows with `steps: null` and `logs_url: null`; failure phase/root cause NOT VERIFIED.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Code is IMPLEMENTED only, not TESTED or CI_VERIFIED.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+- Do not manually retry/dispatch workflows, merge, rebase, retarget, deploy, authenticate OAuth, handle credentials, use real media, upload, or publish without required explicit owner authorization.
