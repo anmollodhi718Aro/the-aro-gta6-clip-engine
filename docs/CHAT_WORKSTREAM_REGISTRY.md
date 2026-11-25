@@ -2185,3 +2185,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Implementation: `4bfd8ce89869124566f3160708f948b5c5e64663`; test: `fe49b35bf3edcf379f8164af655de76c02c7c7a6`.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains draft/open/unmerged; no merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0291 — initial RUNNING report write recovery
+- Initial reservation JSON is serialized before writing; write character count is checked before flush/fsync.
+- On initial write error/short write, CLI attempts exclusive sidecar fallback and exits before media inspection/render. Added a regression test proving renderer is not called and fallback retains a parseable RUNNING report.
+- Implementation: `d86b2e45fbdc82c7cc7e6e306a83cff06f1c17b5`; test: `73d81e90b449ddf7f6b42abc975e8908d516067f`.
+- Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains draft/open/unmerged; no merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
