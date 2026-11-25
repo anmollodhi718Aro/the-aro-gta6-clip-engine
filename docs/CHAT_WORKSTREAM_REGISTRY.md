@@ -1053,3 +1053,8 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - CI run #1771 on head `04e3f334ae9ebcb59ebe0e193006e9dd82221e65` failed on Ubuntu and Windows in under 3 seconds with zero reported steps; both job log downloads returned `BlobNotFound`. A retry was queued, but it also failed before exposing any steps. The failure cause is unverified and cannot be attributed to the source code.
 - The cleanup regression commits advanced the branch after run #1771. Exact-head CI for the current branch tip remains pending. No local tests were run in this connector session.
 - PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. No OAuth, credentials, real media, network upload, merge, deployment or publishing occurred.
+
+### ARO-CHAT-0201 exact-head CI retry outcome — 2026-11-26
+- GitHub Actions run #1774 for exact head `0067a10ef957ed2552c2281f251ca8aca7a2ba37` completed as FAILURE on both Ubuntu and hosted Windows in approximately three seconds. Both jobs reported `steps: null`; both log downloads returned `BlobNotFound`. There is no evidence that checkout, compilation or unit tests started, so this is an infrastructure/log-availability failure of unknown cause, not a code-test result.
+- Run #1771 and its retry on previous head `04e3f334ae9ebcb59ebe0e193006e9dd82221e65` had the same zero-step / missing-log behavior. Do not report either run as a source-code test failure or success.
+- The current PR head includes the disk-backed stream and API-failure cleanup regressions. Exact-head CI is still NOT VERIFIED; local tests were not run in this connector session.
