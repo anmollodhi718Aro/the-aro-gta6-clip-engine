@@ -1,4 +1,4 @@
-""""Read-only FFprobe preflight for exactly one owner-selected video file.
+"""Read-only FFprobe preflight for exactly one owner-selected video file.
 
 This module never enumerates directories, renders media, authenticates, uploads,
 publishes, deletes, or modifies the selected video.
