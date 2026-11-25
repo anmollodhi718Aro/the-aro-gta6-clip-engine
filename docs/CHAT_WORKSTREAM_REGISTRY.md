@@ -1024,7 +1024,7 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Combined the explicit positive `--max-upload-bytes` bound from PR #378 with descriptor-based source identity verification previously implemented on PR #328.
 - Source must be a regular file. Reject symlinks and special files; compare lstat identity to the opened descriptor; copy from the descriptor in bounded 1 MiB chunks; re-check descriptor device/inode/size/mtime/ctime and pathname identity after copying; reject source growth or mutation.
 - The verified temporary snapshot is passed to the existing approval/hash and resumable-upload path and cleaned in a finally block.
-- Added tests for symlink/FIFO rejection and in-place source mutation during copy. Existing size-limit and snapshot cleanup tests remain.
+- Added tests for symlink/FIFO rejection, in-place source mutation during copy, and source growth beyond the configured byte limit. Existing size-limit and snapshot cleanup tests remain.
 - Commits: uploader `c6a0569d1093e7857958767c447a499e019109da`; tests `e095bcb51364558f04fb7ce1be74f945b3891a67`.
 - Local repository tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT YET VERIFIED. PR #378's prior run #45612283558 failed with zero exposed job steps and no log URLs; this gives no compile/test result and is not attributed to application code.
 - Draft only. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
