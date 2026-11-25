@@ -2224,3 +2224,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added regression coverage for both post-snapshot render failure and an unexpected renderer exception.
 - Repository tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains OPEN / DRAFT / UNMERGED. No real media, OAuth, credentials, upload, publishing, merge, rebase, retarget, workflow retry/dispatch, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0296 — preserve snapshot evidence on temporary cleanup failure
+
+- Static review of PR #386 found that an exception from `TemporaryDirectory.__exit__` after a verified snapshot and completed render was caught by the outer pre-snapshot handler, incorrectly reporting snapshot creation and verification as false.
+- The renderer now tracks snapshot creation/digest and the structured render result across the temporary-directory context. Any ordinary post-snapshot exception reports snapshot creation/verification as true, preserves the SHA-256 and any known processing/preflight state, and returns a terminal FAIL requiring manual inspection.
+- Added a failure-injection regression for temporary-directory cleanup failure after a mocked successful render. The test asserts snapshot evidence and known render state survive, while upload/publishing remain false.
+- Files: `backend/app/single_clip_render.py`, `tests/test_single_clip_render.py`, `docs/SINGLE_CLIP_RENDER.md`.
+- Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. CI run #45701082644 failed in 3 seconds with runner_id 0, no runner name, zero steps, and unavailable logs (`BlobNotFound`); this does not establish a test failure or its root cause.
+- PR #386 remains OPEN / DRAFT / UNMERGED. Its branch compares as 353 commits ahead and 5 behind the base; do not rebase, retarget, or restructure without owner approval. No workflow retry/dispatch, real media, upload, publishing, merge, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
