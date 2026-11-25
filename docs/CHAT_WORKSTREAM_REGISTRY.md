@@ -1009,7 +1009,7 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 ### ARO-CHAT-0201 Windows SID matcher correction — 2026-11-26
 - Static inspection found the Windows account-SID regex had doubled backslashes inside a raw string, so it matched literal `\d` text rather than decimal SID components. This would reject valid `whoami /user` output before ACL verification.
 - Corrected the matcher to recognize numeric SID components. The existing mocked owner-only ACL test exercises a representative `S-1-5-21-...` SID and serves as regression coverage.
-- Implementation commit: `05336f2f529ad90c2755f799c0597ed92c0d4a1b`.
+- Implementation commit: `05336f2f529ad90c2755f799c0597ed92c0d4a1b`; regression-test commit: `2013c4c452267925fe230fd4e46cad6fc067d5fc` adds explicit malformed-SID rejection coverage.
 - The preceding exact-head workflow run `45698629376` reported both jobs failed, but job metadata exposed no steps and the log endpoint returned `BlobNotFound`; therefore its failure cause remains UNVERIFIED and is not attributed to this regex defect.
 - New-head Actions and combined status lookups currently return no runs/statuses. CI is PENDING; local tests were not run in this connector session.
 - PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. Independent human security sign-off, owner-device Windows ACL/OAuth/channel verification, device-appropriate upload byte limit, and authorized real-media/private-upload acceptance remain pending. Keep live uploads and public publishing disabled.
