@@ -122,3 +122,15 @@ Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Its owner
 - Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; owner assignment/approval is still a separate gate. Keep live uploads and public publishing disabled.
 - No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
 - Next safe action: inspect a naturally triggered exact-head run only if it exposes meaningful job steps/logs, and obtain independent security review. Do not manually retry/dispatch workflows without owner direction.
+
+
+## ARO-CHAT-0238 continuation: numeric-suffix over-rejection correction — 2026-11-25
+
+- Static review of the current helper found an over-broad predicate: treating every final DNS label ending in an ASCII digit as an IPv4 candidate rejects ordinary DNS names such as `example.label1`, and malformed hex-like labels such as `0xg1` are not IPv4 numbers under the WHATWG IPv4-number parsing rules.
+- Corrected `_ends_in_ipv4_number()` so it recognizes valid `0x`-prefixed hexadecimal forms and ASCII decimal-only labels, but does not classify arbitrary alphanumeric labels merely because their last character is a digit.
+- Moved `example.0xg1`, `example.abc1`, and `example.0a9` from rejection cases into accepted DNS regression cases; added positive controls `example.label1` and `example.com1`.
+- Production commit: `c9b621afc52b5b9ef84b459d6640b3fa1846fed6`; test commit: `f94c2d3d68084e6230fc10096605397fb9a145b6`.
+- This is an implementation and test-source change only. Repository unit tests NOT RUN in this connector session; no test pass is claimed. Exact-head CI and independent review NOT VERIFIED / NOT RECORDED.
+- Latest previously inspected exact PR head `77c05e767d198d19c82b4452dbf6cd6e6758d552` had Python CI run `45555803080` conclude FAILURE; Ubuntu and hosted-Windows jobs both exposed `steps: null` and `logs_url: null`. Failure phase/root cause NOT VERIFIED; no compile/test result is established and failure is not attributed to application code.
+- Preserve PR #376 OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL, owner UNASSIGNED. Keep live uploads/public publishing disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing was performed.
