@@ -961,6 +961,41 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(fallback["upload_performed"])
         self.assertFalse(fallback["publishing_enabled"])
 
+    def test_terminal_fallback_rejects_short_write(self):
+        report_path = self.root / "short-write-report.json"
+        original_open = Path.open
+
+        class ShortWriteProxy:
+            def __init__(self, handle):
+                self.handle = handle
+
+            def __enter__(self):
+                self.handle.__enter__()
+                return self
+
+            def __exit__(self, *args):
+                return self.handle.__exit__(*args)
+
+            def __getattr__(self, name):
+                return getattr(self.handle, name)
+
+            def write(self, value):
+                self.handle.write(value[:-1])
+                return len(value) - 1
+
+        def open_with_short_write(path, *args, **kwargs):
+            handle = original_open(path, *args, **kwargs)
+            if path == report_path.with_name(report_path.name + ".terminal-fallback.json"):
+                return ShortWriteProxy(handle)
+            return handle
+
+        with patch.object(Path, "open", new=open_with_short_write):
+            with self.assertRaisesRegex(OSError, "write was incomplete"):
+                _write_exclusive_terminal_fallback(report_path, '{"status":"RENDERED"}\\n')
+        self.assertTrue(
+            report_path.with_name(report_path.name + ".terminal-fallback.json").exists()
+        )
+
     def test_terminal_fallback_rejects_output_path_alias(self):
         report_path = self.root / "alias-report.json"
         output_alias = self.root / (report_path.name + ".terminal-fallback.json")
