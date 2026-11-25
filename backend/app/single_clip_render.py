@@ -95,12 +95,18 @@ def _render_selected_clip_from_snapshot(
         report["error"] = "execute and rights_confirmed must be explicit booleans"
         return report
 
+    # Reject invalid bounds before filesystem identity checks or FFprobe work.
+    try:
+        start, end = _validated_clip_bounds(start_seconds, end_seconds)
+    except ValueError as exc:
+        report["error"] = str(exc)
+        return report
+
     output_error = _validate_output_destination(source, destination)
     if output_error:
         report["error"] = output_error
         return report
 
-    # Reject invalid bounds before source identity checks or FFprobe work.
     try:
         source_identity_before = _selected_file_identity(source)
     except (OSError, ValueError) as exc:
@@ -121,12 +127,6 @@ def _render_selected_clip_from_snapshot(
         report["error"] = "selected source changed during preflight; refusing to render a different file"
         return report
     report["source_identity_verified"] = True
-
-    try:
-        start, end = _validated_clip_bounds(start_seconds, end_seconds)
-    except ValueError as exc:
-        report["error"] = str(exc)
-        return report
 
     duration = preflight.get("duration_seconds")
     try:
