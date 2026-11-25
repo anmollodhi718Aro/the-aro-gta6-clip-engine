@@ -54,6 +54,14 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["source_snapshot_verified"])
         self.assertFalse(report["source_snapshot_created"])
 
+    def test_dry_run_rejects_invalid_bounds_before_ffprobe(self):
+        with patch("backend.app.single_clip_render.inspect_one_video") as preflight:
+            report = render_selected_clip(self.source, self.output, "not-a-time", 4)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("clip bounds must be finite numbers", report["error"])
+        self.assertFalse(report["processing_started"])
+        preflight.assert_not_called()
+
     def test_rejects_unrepresentable_source_duration_without_crashing(self):
         invalid_preflight = {
             "status": "PASS",
