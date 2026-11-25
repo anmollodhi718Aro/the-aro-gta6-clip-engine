@@ -1977,3 +1977,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Commits: implementation `e13da2884c7a0f3899beae0679e657cc4d785924`; tests `2371bb700a6e3f46c738da221ff183fa2ee35a4f`; docs `2c5fc01a5ab2bcde2a8c6c9626f99a01fbe75bdd`.
 - Repository tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+## ARO-CHAT-0266 | Fail closed on missing candidate source identity during clock calibration — 2026-11-26
+
+- Continue existing PR #386 / branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR.
+- Static review found multi-anchor mapping accepted candidates with missing/blank `source_id` when no plan-level ID was supplied. This weakened the exact-source binding of a measured calibration.
+- Mapping now requires every candidate to resolve to the exact non-empty source ID used by the anchor fit (candidate ID or plan envelope). Missing/blank IDs fail closed; mismatches continue to fail.
+- Added regression tests for absent and whitespace-only candidate IDs; documented the rule.
+- Commits: implementation `336545688b5b181f60b37904a310d46063490c91`; tests `4c1390499c1281aea39a63d234cf918411988261`; docs `f663208bb30b6016b21181da2e3faa9b75a33d83`.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
