@@ -1084,3 +1084,11 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - Implementation commit `0ddfdc48609a391341f06b3956519badbf0fa8d2`; regression test commit `b4f8656e737729f628f7eaaa67b422eaf1ec9334`; operator documentation commit `86ea65f15567cbaed022b2a3bb9282113837348a`; registry commit `590310ff9e8905302ca2e0aa9ce82e0a7ac19e70`.
 - Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Do not claim pipeline completion.
 - Preserve PR #386 DRAFT / OPEN / UNMERGED and existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## Latest continuation handoff — ARO-CHAT-0269 (2026-11-26)
+- Continue existing PR #386 / `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; do not create a duplicate branch or alter ancestry.
+- Candidate review CSV can now feed the single-clip CLI through `--candidate-csv` and one-based `--candidate-row`. The selected row is strictly validated and recorded in the report. Direct `--start/--end` remains supported. Dry-run default and explicit rights gate are unchanged.
+- Implementation commits: `55ee671e0e3c04ad052b7e4f6c71b2054558dd95`, `f1a1eb096d3c9e100a436e9a8bfcb2bb9d7f4f5e`; tests: `546ad09473d0e2aa1e3882037ecf488392486026`, `5eef004a184e9ae7ee6238341aa312de087f25cc`.
+- Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Do not claim pipeline completion.
+- Preserve PR #386 DRAFT / OPEN / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
