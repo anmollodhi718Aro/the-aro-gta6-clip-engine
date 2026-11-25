@@ -1032,3 +1032,12 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - Implementation `17415bb8003416e0df5a0142194c5a1afc3e181a`; regression test `11ac9a39d56cf566f61de745b5af34da5837e460`; operator docs `ecab410754fe23f8071ec853e3905e8f61f65752`; registry update `5b53f7fa164774c163ec225d2454e9374ad20a98`.
 - Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Inspect naturally triggered exact-head CI only; do not retry/dispatch workflows.
 - Preserve PR #386 DRAFT / OPEN / UNMERGED and existing ancestry. No merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0261 audit closeout — 2026-11-25
+- Existing PR #386 / branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR and no runtime changes.
+- Latest audited head `1ae6da85595086880caf7b47eae962df0151264f`; exact-head workflow lookup returned zero runs and combined status returned pending with zero entries. Ubuntu/hosted-Windows CI NOT VERIFIED.
+- PR #386 remains OPEN / DRAFT / UNMERGED, non-mergeable; base comparison DIVERGED (187 ahead / 5 behind). Do not rebase, retarget, or merge automatically.
+- Static audit confirms dry-run default, explicit execute+rights gate, one selected source/clip, bounded stable source snapshot, FFprobe/FFmpeg same bytes, 180-second maximum, private staging, no-overwrite output, post-render verification, upload/publishing disabled.
+- Audit caveat: identity-check then pathname unlink for failed-output cleanup is not atomic against a concurrent directory-entry replacement. See `docs/ARO_CHAT_0261_EXACT_HEAD_CI_AUDIT.md`; runtime code was not changed.
+- Tests NOT RUN; independent review NOT RECORDED; owner-device Windows and authorized real-media acceptance NOT VERIFIED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
