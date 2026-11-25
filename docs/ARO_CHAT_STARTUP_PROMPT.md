@@ -197,3 +197,7 @@ Issue #68 Windows OAuth ACL verification refinement: ACLs are read back through 
 - A live YouTube upload must receive an explicit positive device-selected `--max-upload-bytes` value. The CLI and direct uploader both fail closed when it is missing.
 - Before OAuth, copy the exact source into a temporary snapshot using bounded 1 MiB reads; abort if the configured ceiling is exceeded. Verify the snapshot hash matches the approved source and upload only the snapshot bytes.
 - The conservative dry-run ceiling is not an owner-selected live-upload budget. Do not infer a device limit from CI or choose one on the owner's behalf.
+
+### Bounded-memory uploader requirement
+- Keep the bounded immutable upload snapshot on disk for the full API request. Pass an open binary file stream to `MediaIoBaseUpload`; never call `read_bytes()` or wrap the complete video in `BytesIO`.
+- Ensure the stream and temporary staging directory are closed/removed in `finally`, including API failures. Add a mocked API test that reads the staged stream while the upload call is active.
