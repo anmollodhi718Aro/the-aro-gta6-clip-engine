@@ -182,6 +182,17 @@ class YouTubeUploadTests(unittest.TestCase):
             _copy_stream_with_limit(source, snapshot, 1024 * 1024)
         self.assertLessEqual(snapshot.tell(), 1024 * 1024)
 
+    def test_bounded_copy_rejects_short_snapshot_writes(self):
+        import io
+        from backend.app.youtube_upload import _copy_stream_with_limit
+
+        class ShortWriter:
+            def write(self, data):
+                return max(0, len(data) - 1)
+
+        with self.assertRaisesRegex(OSError, "short write"):
+            _copy_stream_with_limit(io.BytesIO(b"authorized bytes"), ShortWriter(), 1024)
+
     def test_direct_upload_requires_explicit_device_byte_limit(self):
         with self.assertRaisesRegex(PermissionError, "explicit device-selected --max-upload-bytes"):
             upload_video(
