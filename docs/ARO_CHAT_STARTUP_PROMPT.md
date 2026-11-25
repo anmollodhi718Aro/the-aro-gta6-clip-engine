@@ -840,3 +840,5 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Tests NOT RUN in this connector session; exact-head CI NOT YET CHECKED; independent review NOT RECORDED. Do not claim TESTED or CI_VERIFIED.
 - Keep PR #386 DRAFT / OPEN / UNMERGED and preserve its #383 → #380/#379 ancestry. PR #379 conflicts with the later one-selected-video requirement; no merge/rebase/retarget/integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+- Final follow-up commit `08aab858763bd4f9057650cb718cc0a13c0a3e6f` adds `O_NONBLOCK` where available so a selected path swapped to a FIFO/special file cannot block before descriptor type validation. Final exact-head CI lookup at `08aab858763bd4f9057650cb718cc0a13c0a3e6f` returned zero associated runs; CI remains NOT VERIFIED.
