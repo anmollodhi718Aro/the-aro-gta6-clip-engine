@@ -1624,3 +1624,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Dependency note: this branch is stacked on PR #383, whose ancestry includes PR #380/#379. PR #379 conflicts with the later one-selected-video owner requirement. Preserve all drafts; do not merge, retarget, rebase, or integrate this ancestry without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep uploader authentication gates fail-closed and all live uploads/public publishing disabled.
 - Status: IMPLEMENTED; TESTED / CI_VERIFIED / WINDOWS_VERIFIED / REAL_MEDIA_VERIFIED NOT CLAIMED.
+
+
+### ARO-CHAT-0244 implementation follow-up — output path guard
+- Added dry-run output validation so the command rejects source/output identity, non-MP4 output paths, and pre-existing output files before reporting a plan.
+- Production commit: `1995d9e5207acc40b04abbffe4130c07318f8dee`; regression-test commit: `3df7a4ed77620754ae2b89c02889b65add8dd1b2`.
+- Tests remain NOT RUN locally; exact-head CI PENDING. This is IMPLEMENTED only.
