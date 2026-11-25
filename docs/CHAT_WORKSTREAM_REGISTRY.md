@@ -1609,3 +1609,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Tests in this connector session: NOT RUN. Exact-head CI: NOT YET VERIFIED. Independent review: NOT RECORDED. No real media processed.
 - Preserve PR #380 and follow-up PR #381 as DRAFT / OPEN / UNMERGED. PR #379 remains a conflicting multi-file draft and must not be integrated without owner direction.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0243 continuation — boolean FFprobe duration rejection (2026-11-25)
+- Continued existing workstream ARO-GTA-P1-243 and draft PR #383; no new branch or PR.
+- Rejected JSON boolean duration values before numeric conversion (`float(True)` would otherwise be accepted as `1.0`).
+- Production commit `81405f1047dd79bfa7c92db11b48302d659a9bbd`; regression-test commit `e2d59ab0c75f3b1ae9df6b3b29769d01f3d64bb0`.
+- Repository tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING; independent review NOT RECORDED. Do not transfer earlier CI evidence.
+- Preserve PR #383 DRAFT / OPEN / UNMERGED and its stacked ancestry. One selected video only. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live upload/public publishing disabled.
