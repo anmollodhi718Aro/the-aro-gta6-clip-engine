@@ -2016,3 +2016,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Regression coverage added for valid selection, unrenderable rows, duration mismatch, missing source ID, absent row, and CLI argument handoff.
 - Implementation commits `55ee671e0e3c04ad052b7e4f6c71b2054558dd95` and `f1a1eb096d3c9e100a436e9a8bfcb2bb9d7f4f5e`; test commits `546ad09473d0e2aa1e3882037ecf488392486026` and `5eef004a184e9ae7ee6238341aa312de087f25cc`; operator documentation updated.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. PR #386 remains DRAFT / OPEN / UNMERGED. No merge, rebase, retarget, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### ARO-CHAT-0269 follow-up audit
+- A final-report audit found that the CLI initially stored candidate selection metadata in the flushed `RUNNING` record but replaced it with the renderer result on completion. The terminal report now also preserves the selected CSV row and source ID.
+- Follow-up implementation commit: `9380cd9af2578d5e3143fcf2de0ab437f03fed32`.
+- Regression assertion already checks that the terminal JSON report retains candidate row/source metadata. Tests NOT RUN; exact-head CI NOT VERIFIED.
