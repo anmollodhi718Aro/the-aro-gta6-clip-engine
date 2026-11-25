@@ -235,14 +235,6 @@ def validate_upload(
     video_size = video.stat().st_size
     if video_size <= 0:
         raise ValueError("video file is empty")
-    if upload_requested:
-        limit = _validate_max_upload_bytes(max_upload_bytes)
-        if video_size > limit:
-            raise ValueError(f"video exceeds the configured upload limit of {limit} bytes")
-    elif max_upload_bytes is not None:
-        limit = _validate_max_upload_bytes(max_upload_bytes)
-        if video_size > limit:
-            raise ValueError(f"video exceeds the configured upload limit of {limit} bytes")
     mime_type, _ = mimetypes.guess_type(video.name)
     if not mime_type or not mime_type.startswith("video/"):
         raise ValueError("video path must have a recognized video file extension")
@@ -255,6 +247,10 @@ def validate_upload(
         raise PermissionError("actual upload requires --owner-approved")
     if upload_requested and not rights_confirmed:
         raise PermissionError("actual upload requires --confirm-rights")
+    if upload_requested or max_upload_bytes is not None:
+        limit = _validate_max_upload_bytes(max_upload_bytes)
+        if video_size > limit:
+            raise ValueError(f"video exceeds the configured upload limit of {limit} bytes")
     return video, body
 
 
