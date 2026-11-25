@@ -749,3 +749,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 ### ARO-CHAT-0238 accepted-list placement correction — 2026-11-25
 - Follow-up commit `0e6233c10f698313bc0c8fa82a287f5ee180cbb4` corrects the test-list placement from the preceding test-only commit: the eight IDNA unit-symbol URLs are now absent from `invalid_urls` and present in `test_register_accepts_http_and_https_source_urls`.
 - The prior isolated validator probe showed all eight normalize to ordinary DNS labels and are accepted. Repository unit tests remain NOT RUN; exact-head CI and independent review remain NOT VERIFIED / NOT RECORDED.
+
+
+### ARO-CHAT-0238 WHATWG numeric-suffix correction handoff — 2026-11-25
+- Continue the existing `ARO-GTA-P1-238` workstream on PR #376; do not create a duplicate branch or PR.
+- Standards review of WHATWG URL Standard §3.5 corrected an over-broad predicate that rejected all ASCII-digit-ending DNS labels. Numeric suffix detection now recognizes decimal-only labels, valid `0x` hexadecimal forms (including empty suffix), and valid leading-zero octal forms; arbitrary alphanumeric labels such as `label1`, `abc1`, and `0a9` remain DNS candidates.
+- Production commit `f1e562824f2fd165249258bf454a2ad886c3255d`; regression test commit `019ccf37eb2afafa307584f86f8388630e9f0e03`.
+- Focused isolated predicate probe: 16 cases passed. Repository unit tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Do not represent the probe as repository test evidence.
+- Preserve PR #376 OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; no OAuth, credentials, real media, uploads, public publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment.
