@@ -1816,5 +1816,7 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Finding: `Path.resolve()` can raise `RuntimeError` for symlink loops and `ValueError` for malformed paths. The output validator and CLI report-path boundary previously caught only `OSError`, allowing these validation failures to escape as uncaught exceptions.
 - Change: convert `OSError`, `RuntimeError`, and `ValueError` into deterministic fail-closed path-validation errors. Added dry-run and CLI regressions; CLI path-resolution failure must not leave an empty/reserved report file.
 - Changed files: `backend/app/single_clip_render.py`, `tests/test_single_clip_render.py`, `docs/SINGLE_CLIP_RENDER.md`, `docs/ARO_CHAT_STARTUP_PROMPT.md`, and this registry.
-- Status: implementation/test/docs commits pending below; repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- Commits: implementation `81a59b37fd185f36f2a430764f0ed140f739ea9f`; tests `4ad5873c638c45dbd2efe063a826089d250c4c8e`; operator docs `d4fca1b9ab7d5ba8a6c90aa97f78e468bc4c7af1`; startup handoff `108c9a618555f9ca3043a567cb3b98735cf96c7a`; registry `96aca282aa450a151da515b197d1b8f6238c1c32`.
+- Latest inspected PR head before this closeout: `96aca282aa450a151da515b197d1b8f6238c1c32`; associated workflow lookup returned zero runs and combined status returned zero checks.
+- Status: IMPLEMENTED; repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve the existing #383 -> #380/#379 ancestry. No merge, rebase, retarget, or integration without owner approval. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
