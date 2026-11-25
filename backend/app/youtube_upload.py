@@ -7,11 +7,14 @@ are optional and are imported only when an upload is requested.
 from __future__ import annotations
 
 import argparse
+import base64
 import json
 import mimetypes
 import os
 import re
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -19,14 +22,53 @@ from typing import Any
 UPLOAD_SCOPE = "https://www.googleapis.com/auth/youtube.upload"
 IDENTITY_SCOPES = ["openid", "https://www.googleapis.com/auth/youtube.readonly", UPLOAD_SCOPE]
 DEFAULT_CATEGORY_ID = "20"  # Gaming
+DEFAULT_MAX_UPLOAD_BYTES = 256 * 1024 * 1024
+UPLOAD_COPY_CHUNK_BYTES = 1024 * 1024
+
+
+def _validate_max_upload_bytes(value: int) -> int:
+    if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+        raise ValueError("max_upload_bytes must be a positive integer")
+    return value
+
+
+def _copy_stream_with_limit(source: Any, snapshot: Any, max_upload_bytes: int) -> int:
+    """Copy a source into a private snapshot without exceeding its byte budget."""
+    limit = _validate_max_upload_bytes(max_upload_bytes)
+    total = 0
+    while True:
+        chunk = source.read(UPLOAD_COPY_CHUNK_BYTES)
+        if not chunk:
+            return total
+        if total + len(chunk) > limit:
+            raise ValueError(f"video exceeds the configured upload limit of {limit} bytes")
+        written = snapshot.write(chunk)
+        if written != len(chunk):
+            raise OSError("short write while creating the bounded upload snapshot")
+        total += written
 
 
 
-def load_destination_profile(config_path: str | Path, profile_name: str) -> dict[str, Any]:
+
+
+def load_destination_profile(
+    config_path: str | Path, profile_name: str, *, repository_root: str | Path | None = None
+) -> dict[str, Any]:
     """Load one non-secret destination identity; OAuth tokens stay in separate local files."""
     if not isinstance(profile_name, str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", profile_name):
         raise ValueError("destination profile name must use 1-64 letters, numbers, underscores or hyphens")
-    path = Path(config_path).expanduser()
+    configured_path = Path(config_path).expanduser()
+    if configured_path.parent.is_symlink():
+        raise PermissionError("destination profile configuration directory must not be a symlink")
+    path = configured_path
+    try:
+        path = path.resolve(strict=True)
+        root = Path(repository_root).resolve(strict=True) if repository_root is not None else Path(__file__).resolve().parents[2]
+        expected_secrets_dir = root / ".secrets"
+    except OSError as exc:
+        raise PermissionError("destination profile configuration or repository root is missing or unreadable") from exc
+    if path.parent != expected_secrets_dir:
+        raise PermissionError("destination profile configuration must resolve inside this repository .secrets directory")
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
@@ -55,7 +97,17 @@ def load_destination_profile(config_path: str | Path, profile_name: str) -> dict
     selected = profiles.get(profile_name)
     if not isinstance(selected, dict):
         raise PermissionError(f"unknown destination profile: {profile_name}")
-    token_path = path.parent / "tokens" / f"{profile_name}.json"
+    token_dir = path.parent / "tokens"
+    if token_dir.is_symlink():
+        raise PermissionError("OAuth token directory must not be a symbolic link")
+    if token_dir.exists():
+        try:
+            resolved_token_dir = token_dir.resolve(strict=True)
+        except OSError as exc:
+            raise PermissionError("OAuth token directory is missing or unreadable") from exc
+        if resolved_token_dir != expected_secrets_dir / "tokens":
+            raise PermissionError("OAuth token directory must remain inside this repository .secrets directory")
+    token_path = token_dir / f"{profile_name}.json"
     return {
         "profile": profile_name,
         "google_subject": selected["google_subject"].strip(),
@@ -67,13 +119,14 @@ def load_destination_profile(config_path: str | Path, profile_name: str) -> dict
 def resolve_destination_identity(
     *, config_path: Path | None, profile_name: str | None,
     token_override: Path | None,
+    repository_root: str | Path | None = None,
 ) -> tuple[str, str, Path]:
     if bool(config_path) != bool(profile_name):
         raise PermissionError("--destination-config and --destination-profile must be supplied together")
     if config_path and profile_name:
         if token_override is not None:
             raise PermissionError("--token cannot override a destination profile's isolated token path")
-        profile = load_destination_profile(config_path, profile_name)
+        profile = load_destination_profile(config_path, profile_name, repository_root=repository_root)
         return profile["google_subject"], profile["channel_id"], profile["token_path"]
     subject = os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "").strip()
     channel = os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "").strip()
@@ -180,6 +233,7 @@ def validate_upload(
     owner_approved: bool = False,
     rights_confirmed: bool = False,
     upload_requested: bool = False,
+    max_upload_bytes: int = DEFAULT_MAX_UPLOAD_BYTES,
 ) -> tuple[Path, dict[str, Any]]:
     """Validate local media, metadata, rights preflight and explicit approvals."""
     video = Path(video_path).expanduser()
@@ -187,6 +241,9 @@ def validate_upload(
         raise FileNotFoundError(f"local video file does not exist: {video}")
     if video.stat().st_size <= 0:
         raise ValueError("video file is empty")
+    limit = _validate_max_upload_bytes(max_upload_bytes)
+    if video.stat().st_size > limit:
+        raise ValueError(f"video exceeds the configured upload limit of {limit} bytes")
     mime_type, _ = mimetypes.guess_type(video.name)
     if not mime_type or not mime_type.startswith("video/"):
         raise ValueError("video path must have a recognized video file extension")
@@ -202,6 +259,80 @@ def validate_upload(
     return video, body
 
 
+def _apply_windows_owner_only_acl(path: Path) -> None:
+    """Restrict a Windows path to the current user's sole explicit FullControl ACE."""
+    try:
+        identity = subprocess.run(
+            ["whoami", "/user", "/fo", "csv", "/nh"],
+            check=True, capture_output=True, text=True, timeout=15,
+        )
+        sid_match = re.search(r"S-1-(?:\d+-)+\d+", identity.stdout)
+        if not sid_match:
+            raise PermissionError("could not determine the current Windows user SID")
+        sid = sid_match.group(0)
+        subprocess.run(
+            ["icacls", str(path), "/inheritance:r", "/grant:r", f"*{sid}:(F)"],
+            check=True, capture_output=True, text=True, timeout=15,
+        )
+
+        # Resolve every ACL principal to its binary-backed SID. icacls display
+        # names are localized and may not print SID strings for known accounts.
+        script = (
+            "$ErrorActionPreference='Stop'; "
+            "$acl=Get-Acl -LiteralPath $env:ARO_TOKEN_ACL_PATH; "
+            "$entries=@($acl.Access | ForEach-Object { "
+            "$sid=$_.IdentityReference.Translate([System.Security.Principal.SecurityIdentifier]).Value; "
+            "[pscustomobject]@{Sid=$sid;Type=$_.AccessControlType.ToString();"
+            "Rights=$_.FileSystemRights.ToString();Inherited=$_.IsInherited} "
+            "}); ConvertTo-Json -InputObject $entries -Compress"
+        )
+        encoded_script = base64.b64encode(script.encode("utf-16le")).decode("ascii")
+        environment = os.environ.copy()
+        environment["ARO_TOKEN_ACL_PATH"] = str(path)
+        verified = subprocess.run(
+            ["powershell.exe", "-NoProfile", "-NonInteractive", "-EncodedCommand", encoded_script],
+            check=True, capture_output=True, text=True, timeout=20, env=environment,
+        )
+        parsed = json.loads(verified.stdout)
+        entries = parsed if isinstance(parsed, list) else [parsed]
+        expected = [{"Sid": sid, "Type": "Allow", "Rights": "FullControl", "Inherited": False}]
+        if entries != expected:
+            raise PermissionError(
+                "Windows ACL verification did not show exactly one explicit owner-only FullControl entry"
+            )
+    except (OSError, subprocess.SubprocessError, ValueError, KeyError, TypeError) as exc:
+        raise PermissionError(f"could not enforce owner-only Windows ACL: {exc}") from exc
+
+
+def _persist_oauth_token(token_path: Path, token_json: str) -> None:
+    """Atomically persist an OAuth token with verified owner-only permissions."""
+    target = Path(token_path).expanduser()
+    target.parent.mkdir(parents=True, exist_ok=True)
+    parent = target.parent.resolve(strict=True)
+    target = parent / target.name
+    if target.is_symlink():
+        raise PermissionError("OAuth token path must not be a symbolic link")
+    windows = os.name == "nt"
+    if windows:
+        _apply_windows_owner_only_acl(parent)
+    fd, temp_name = tempfile.mkstemp(prefix=f".{target.name}.", dir=str(parent))
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as stream:
+            if windows:
+                _apply_windows_owner_only_acl(Path(temp_name))
+            else:
+                os.chmod(temp_name, 0o600)
+            stream.write(token_json)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temp_name, target)
+        if not windows:
+            os.chmod(target, 0o600)
+    finally:
+        if os.path.exists(temp_name):
+            os.unlink(temp_name)
+
+
 def _authorize_google(client_secrets: Path, token_path: Path):
     try:
         from google.auth.transport.requests import Request
@@ -212,6 +343,14 @@ def _authorize_google(client_secrets: Path, token_path: Path):
             'Google upload dependencies are missing. Install with: pip install -e ".[youtube-upload]"'
         ) from exc
 
+    token_path = Path(token_path).expanduser()
+    if token_path.is_symlink():
+        raise PermissionError("OAuth token path must not be a symbolic link")
+    if os.name == "nt" and token_path.is_file():
+        # Existing tokens may predate strict ACL enforcement. Restrict and
+        # verify both the containing directory and file before reading bytes.
+        _apply_windows_owner_only_acl(token_path.parent.resolve(strict=True))
+        _apply_windows_owner_only_acl(token_path.resolve(strict=True))
     credentials = None
     if token_path.is_file():
         try:
@@ -234,12 +373,7 @@ def _authorize_google(client_secrets: Path, token_path: Path):
             host="127.0.0.1", port=0, open_browser=True,
             authorization_prompt_message="Authorize THE ARO Studio in your browser: {url}",
         )
-        token_path.parent.mkdir(parents=True, exist_ok=True)
-        token_path.write_text(credentials.to_json(), encoding="utf-8")
-        try:
-            os.chmod(token_path, 0o600)
-        except OSError:
-            pass
+        _persist_oauth_token(token_path, credentials.to_json())
     return credentials
 
 
@@ -261,15 +395,22 @@ def require_report_publish_permissions(
     report: dict[str, Any], rights_registry: Any, source_id: str
 ) -> None:
     """Recheck the clip source and all source-bound assets against current publish grants."""
+    if not isinstance(report, dict) or not isinstance(source_id, str) or not source_id.strip():
+        raise PermissionError("a valid rights report and source_id are required")
     if report.get("source_id") != source_id:
         raise PermissionError("requested source_id does not match the rights report")
+    assets = report.get("assets", [])
+    if not isinstance(assets, list):
+        raise PermissionError("rights report assets must be a list")
     source_ids = {source_id}
-    for asset in report.get("assets", []):
+    for asset in assets:
+        if not isinstance(asset, dict):
+            raise PermissionError("rights report asset entries must be objects")
         if asset.get("status") == "scope_match_metadata_only":
-            asset_source_id = str(asset.get("source_id", "")).strip()
-            if not asset_source_id:
-                raise PermissionError("source-bound rights report asset is missing source_id")
-            source_ids.add(asset_source_id)
+            asset_source_id = asset.get("source_id")
+            if not isinstance(asset_source_id, str) or not asset_source_id.strip():
+                raise PermissionError("source-bound rights report asset is missing a valid source_id")
+            source_ids.add(asset_source_id.strip())
     for current_source_id in sorted(source_ids):
         rights_registry.authorize(current_source_id, "publish", "youtube")
 
@@ -293,6 +434,7 @@ def upload_video(
     source_id: str,
     owner_approved: bool,
     rights_confirmed: bool,
+    max_upload_bytes: int | None = None,
     expected_google_subject: str | None = None,
     expected_channel_id: str | None = None,
 ) -> dict[str, str]:
@@ -303,71 +445,113 @@ def upload_video(
         raise PermissionError("this uploader only permits PRIVATE staging; public visibility is a separate owner action")
     if owner_approved is not True or rights_confirmed is not True:
         raise PermissionError("actual upload requires --owner-approved and --confirm-rights")
+    if max_upload_bytes is None:
+        raise PermissionError("actual upload requires an explicit device-selected --max-upload-bytes value")
+    max_upload_bytes = _validate_max_upload_bytes(max_upload_bytes)
+    video_path = Path(video_path)
+    if not video_path.is_file() or video_path.stat().st_size <= 0:
+        raise ValueError("video file must exist and be non-empty")
+    if video_path.stat().st_size > max_upload_bytes:
+        raise ValueError(f"video exceeds the configured upload limit of {max_upload_bytes} bytes")
 
+    # Keep the staged upload on disk for the entire operation. Never read the
+    # complete video into memory; MediaIoBaseUpload streams from this file.
+    staging = tempfile.TemporaryDirectory(prefix="aro-youtube-upload-")
     try:
-        from googleapiclient.discovery import build
-        from googleapiclient.http import MediaFileUpload
-    except ImportError as exc:
-        raise RuntimeError(
-            'Google upload dependencies are missing. Install with: pip install -e ".[youtube-upload]"'
-        ) from exc
+        snapshot_path = Path(staging.name) / "approved-upload.mp4"
+        with video_path.open("rb") as source, snapshot_path.open("xb") as snapshot_file:
+            copied_bytes = _copy_stream_with_limit(source, snapshot_file, max_upload_bytes)
+            snapshot_file.flush()
+            os.fsync(snapshot_file.fileno())
+        if copied_bytes <= 0:
+            raise ValueError("video file is empty")
+        from backend.app.youtube_owner_approval import sha256_file
+        upload_sha256 = sha256_file(snapshot_path)
+        if sha256_file(video_path) != upload_sha256:
+            raise PermissionError("video changed while creating the bounded upload snapshot")
 
-    from backend.app.youtube_owner_approval import (
-        verify_authenticated_channel_owner,
-        require_current_owner_approval,
-    )
-    from backend.app.rights_registry import SourceRightsRegistry
-    expected_subject = (expected_google_subject or os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "")).strip()
-    expected_channel = (expected_channel_id or os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "")).strip()
-    if not expected_subject or not expected_channel:
-        raise PermissionError("a verified destination profile or owner/channel configuration is required")
-    oauth_client_id = _oauth_client_id(client_secrets)
-    credentials = _authorize_google(client_secrets, token_path)
-    youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)
-    owner = verify_authenticated_channel_owner(
-        credentials, youtube, oauth_client_id=oauth_client_id,
-        expected_google_subject=expected_subject, expected_channel_id=expected_channel,
-    )
-    rights_registry = SourceRightsRegistry(rights_db_path.expanduser())
-    mime_type, _ = mimetypes.guess_type(video_path.name)
-    media = MediaFileUpload(
-        str(video_path),
-        mimetype=mime_type or "application/octet-stream",
-        chunksize=8 * 1024 * 1024,
-        resumable=True,
-    )
-    current_report = load_rights_report(rights_report_path)
-    if not isinstance(clip_id, str) or not clip_id.strip():
-        raise PermissionError("requested clip_id is required")
-    if not isinstance(source_id, str) or not source_id.strip():
-        raise PermissionError("requested source_id is required")
-    if current_report.get("clip_id") != clip_id or current_report.get("source_id") != source_id:
-        raise PermissionError("requested clip/source IDs do not match the rights report")
-    require_report_publish_permissions(current_report, rights_registry, source_id)
-    require_current_owner_approval(
-        approval_record_path, clip_id=clip_id, source_id=source_id,
-        video_path=video_path, owner=owner, privacy=privacy,
-        rights_registry=rights_registry,
-    )
-    # Repeat all identity, approval and current-rights checks immediately
-    # before the upload API side effect. Any mismatch fails closed.
-    owner = verify_authenticated_channel_owner(
-        credentials, youtube, oauth_client_id=oauth_client_id,
-        expected_google_subject=expected_subject, expected_channel_id=expected_channel,
-    )
-    require_current_owner_approval(
-        approval_record_path, clip_id=clip_id, source_id=source_id,
-        video_path=video_path, owner=owner, privacy=privacy,
-        rights_registry=rights_registry,
-    )
-    require_report_publish_permissions(current_report, rights_registry, source_id)
-    response = youtube.videos().insert(
-        part="snippet,status", body=body, media_body=media,
-    ).execute(num_retries=3)
-    video_id = str(response.get("id", "")).strip()
-    if not video_id:
-        raise RuntimeError("YouTube API response did not include a video ID")
-    return {"video_id": video_id, "url": f"https://www.youtube.com/watch?v={video_id}"}
+        # Validate the declared rights report and live source grant before any
+        # OAuth refresh or interactive authorization can occur.
+        from backend.app.rights_registry import SourceRightsRegistry
+        current_report = load_rights_report(rights_report_path)
+        if not isinstance(clip_id, str) or not clip_id.strip():
+            raise PermissionError("requested clip_id is required")
+        if not isinstance(source_id, str) or not source_id.strip():
+            raise PermissionError("requested source_id is required")
+        if current_report.get("clip_id") != clip_id or current_report.get("source_id") != source_id:
+            raise PermissionError("requested clip/source IDs do not match the rights report")
+        rights_registry = SourceRightsRegistry(rights_db_path.expanduser())
+        require_report_publish_permissions(current_report, rights_registry, source_id)
+
+        try:
+            from googleapiclient.discovery import build
+            from googleapiclient.http import MediaIoBaseUpload
+        except ImportError as exc:
+            raise RuntimeError(
+                'Google upload dependencies are missing. Install with: pip install -e ".[youtube-upload]"'
+            ) from exc
+
+        from backend.app.youtube_owner_approval import (
+            verify_authenticated_channel_owner,
+            require_current_owner_approval,
+        )
+        expected_subject = (expected_google_subject or os.environ.get("ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT", "")).strip()
+        expected_channel = (expected_channel_id or os.environ.get("ARO_YOUTUBE_CHANNEL_ID", "")).strip()
+        if not expected_subject or not expected_channel:
+            raise PermissionError("a verified destination profile or owner/channel configuration is required")
+        oauth_client_id = _oauth_client_id(client_secrets)
+        credentials = _authorize_google(client_secrets, token_path)
+        youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)
+        owner = verify_authenticated_channel_owner(
+            credentials, youtube, oauth_client_id=oauth_client_id,
+            expected_google_subject=expected_subject, expected_channel_id=expected_channel,
+        )
+        mime_type, _ = mimetypes.guess_type(video_path.name)
+        with snapshot_path.open("rb") as upload_stream:
+            media = MediaIoBaseUpload(
+                upload_stream,
+                mimetype=mime_type or "application/octet-stream",
+                chunksize=8 * 1024 * 1024,
+                resumable=True,
+            )
+            require_current_owner_approval(
+                approval_record_path, clip_id=clip_id, source_id=source_id,
+                video_path=video_path, video_sha256=upload_sha256, owner=owner, privacy=privacy,
+                rights_registry=rights_registry,
+            )
+            # Repeat all identity, approval and current-rights checks immediately
+            # before the upload API side effect. Any mismatch fails closed.
+            owner = verify_authenticated_channel_owner(
+                credentials, youtube, oauth_client_id=oauth_client_id,
+                expected_google_subject=expected_subject, expected_channel_id=expected_channel,
+            )
+            require_current_owner_approval(
+                approval_record_path, clip_id=clip_id, source_id=source_id,
+                video_path=video_path, video_sha256=upload_sha256, owner=owner, privacy=privacy,
+                rights_registry=rights_registry,
+            )
+            require_report_publish_permissions(current_report, rights_registry, source_id)
+            response = youtube.videos().insert(
+                part="snippet,status", body=body, media_body=media,
+            ).execute(num_retries=3)
+            video_id = str(response.get("id", "")).strip()
+            if not video_id:
+                raise RuntimeError("YouTube API response did not include a video ID")
+            # The request asks YouTube to stage privately. Do not report success unless
+            # the API response itself confirms that exact visibility.
+            returned_status = response.get("status")
+            if not isinstance(returned_status, dict) or returned_status.get("privacyStatus") != "private":
+                raise RuntimeError(
+                    "YouTube did not confirm PRIVATE visibility in the upload response; "
+                    "treat the upload state as unverified and inspect it in YouTube Studio"
+                )
+            return {
+                "video_id": video_id,
+                "url": f"https://www.youtube.com/watch?v={video_id}",
+                "privacy_status": "private",
+            }
+    finally:
+        staging.cleanup()
 
 
 def main() -> int:
@@ -392,6 +576,8 @@ def main() -> int:
     parser.add_argument("--token", type=Path, default=None,
                         help="Legacy single-channel token path; unavailable with destination profiles")
     parser.add_argument("--upload", action="store_true", help="Perform an API upload; default is dry-run only.")
+    parser.add_argument("--max-upload-bytes", type=int, default=None,
+                        help="Required for --upload: choose a positive byte limit appropriate for this device. Dry-run and approval-only commands use the conservative default.")
     parser.add_argument("--owner-approved", action="store_true", help="Additional operator acknowledgement; not identity authentication and not a substitute for the OAuth-bound per-clip approval record.")
     parser.add_argument("--confirm-rights", action="store_true", help="Confirm that the exact local video and all included assets are cleared for this upload.")
     parser.add_argument("--approval-record", type=Path,
@@ -405,6 +591,10 @@ def main() -> int:
     args = parser.parse_args()
 
     try:
+        if args.upload and args.max_upload_bytes is None:
+            raise PermissionError("--upload requires an explicit device-selected --max-upload-bytes value")
+        max_upload_bytes = args.max_upload_bytes if args.max_upload_bytes is not None else DEFAULT_MAX_UPLOAD_BYTES
+        _validate_max_upload_bytes(max_upload_bytes)
         tags = [tag.strip() for tag in args.tags.split(",") if tag.strip()]
         if args.approve_clip and args.upload:
             raise PermissionError("--approve-clip and --upload must be separate invocations")
@@ -424,6 +614,7 @@ def main() -> int:
             owner_approved=args.owner_approved,
             rights_confirmed=args.confirm_rights,
             upload_requested=args.upload,
+            max_upload_bytes=max_upload_bytes,
         )
         if args.approve_clip:
             if not args.clip_id or not args.source_id or args.approval_record is None:
@@ -497,6 +688,7 @@ def main() -> int:
             source_id=args.source_id,
             owner_approved=args.owner_approved,
             rights_confirmed=args.confirm_rights,
+            max_upload_bytes=args.max_upload_bytes,
             expected_google_subject=expected_subject,
             expected_channel_id=expected_channel,
         )

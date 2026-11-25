@@ -170,6 +170,7 @@ def require_current_owner_approval(
     clip_id: str,
     source_id: str,
     video_path: str | Path,
+    video_sha256: str | None = None,
     owner: AuthenticatedChannelOwner,
     privacy: str,
     rights_registry: SourceRightsRegistry,
@@ -182,12 +183,22 @@ def require_current_owner_approval(
         raise PermissionError("durable owner approval record is missing or unreadable") from exc
     if not isinstance(record, dict) or record.get("schema_version") != 1:
         raise PermissionError("owner approval record has an unsupported schema")
+    if video_sha256 is None:
+        approved_video_sha256 = sha256_file(video_path)
+    elif (
+        not isinstance(video_sha256, str)
+        or len(video_sha256) != 64
+        or any(character not in "0123456789abcdef" for character in video_sha256)
+    ):
+        raise PermissionError("upload snapshot hash must be a lowercase SHA-256 digest")
+    else:
+        approved_video_sha256 = video_sha256
     expected = {
         "decision": "approved",
         "clip_id": clip_id,
         "source_id": source_id,
         "privacy": privacy,
-        "source_sha256": sha256_file(video_path),
+        "source_sha256": approved_video_sha256,
         "reviewer_google_subject": owner.google_subject,
         "reviewer_channel_id": owner.channel_id,
         "destination_channel_id": owner.channel_id,

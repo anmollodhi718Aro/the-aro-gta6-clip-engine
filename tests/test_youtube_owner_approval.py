@@ -217,6 +217,12 @@ class OwnerApprovalTests(unittest.TestCase):
                 video_path=self.video, owner=OWNER, privacy="private", confirmed=True, at=NOW,
             )
 
+    def test_approval_can_be_checked_against_exact_snapshot_hash(self):
+        self.gate(video_sha256=sha256_file(self.video))
+        with self.assertRaisesRegex(PermissionError, "does not match"):
+            self.gate(video_sha256="f" * 64)
+        with self.assertRaisesRegex(PermissionError, "lowercase SHA-256 digest"):
+            self.gate(video_sha256="not-a-hash")
     def test_approval_is_bound_to_exact_video_hash(self):
         self.video.write_bytes(b"substituted video")
         with self.assertRaisesRegex(PermissionError, "does not match"):

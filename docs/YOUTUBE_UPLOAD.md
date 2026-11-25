@@ -40,7 +40,7 @@ For separate destinations, create a local file at `.secrets/youtube_destination_
 }
 ```
 
-Replace every placeholder only after checking the exact channel ID and Google account identity in that channel's own authorized OAuth session. Do not infer a channel ID from its public handle. Profile names must be unique without regard to letter case (to avoid collisions on Windows filesystems), and every profile must map to a distinct YouTube channel ID. Each profile gets its own token file under `.secrets/tokens/<profile>.json`; the CLI refuses a shared-token override when a profile is selected. In profile mode, the approval record is also isolated: `--approval-record` must be stored beneath a directory whose resolved final name exactly matches the selected profile (for example, `local_approvals/aroanmol7/clip-001.json`). This prevents two destination profiles from pointing at the same approval-record directory.
+Replace every placeholder only after checking the exact channel ID and Google account identity in that channel's own authorized OAuth session. Do not infer a channel ID from its public handle. Profile names must be unique without regard to letter case (to avoid collisions on case-insensitive filesystems), and every profile must map to a distinct YouTube channel ID. Each profile gets its own token file under `.secrets/tokens/<profile>.json`; the CLI refuses a shared-token override when a profile is selected. In profile mode, the approval record is also isolated: `--approval-record` must be stored beneath a directory whose resolved final name exactly matches the selected profile (for example, `local_approvals/aroanmol7/clip-001.json`). This prevents two destination profiles from pointing at the same approval-record directory.
 
 Use one profile per approval and upload invocation:
 
@@ -141,3 +141,34 @@ Immediately before `videos.insert`, the uploader re-verifies the Google OIDC sub
 - A private or unlisted approval cannot authorize a public upload. Public approval requires the distinct phrase PUBLISH PUBLIC CLIP_ID.
 - Immediately before videos.insert, the uploader rechecks the current publish grant for the clip source and every source-bound asset in the rights report.
 - Tests use synthetic files and mocked YouTube/OAuth clients only. They never perform a real upload.
+
+
+## Post-upload PRIVATE response verification
+
+The upload CLI reports success only when the official `videos.insert(part="snippet,status")` response contains a video ID and `status.privacyStatus == "private"`. If the response omits the status or reports any other visibility, the command exits as unverified and instructs the operator to inspect YouTube Studio. A request body asking for PRIVATE is not, by itself, evidence that YouTube accepted that visibility. Unit tests cover both confirmed-private and unexpected-visibility responses; tests do not upload to YouTube.
+
+
+## Windows OAuth token ACL enforcement
+
+On Windows, token persistence disables inherited ACLs on the profile token directory and the temporary token file, grants full control only to the current process user's SID, and reads the resulting ACL back with icacls. Persistence fails closed unless the read-back contains exactly that one full-control ACE. The temporary file receives its restricted ACL before token bytes are written; atomic replacement preserves that file's ACL. The token directory is also restricted so other principals cannot replace profile token files through the directory. On non-Windows platforms, token files retain mode 0600.
+
+This is an application-level ACL check, not a substitute for owner-device verification. Confirm the actual Windows account, filesystem, effective ACL behavior, and token-directory access on the owner's device before enabling OAuth. If whoami or icacls is unavailable, fails, or returns an unexpected ACL, token persistence is rejected. No live OAuth or upload is performed by the regression tests.
+
+Existing Windows token files are checked before credentials are loaded: the profile token directory and token file must both pass the same owner-only ACL read-back. A legacy token with additional explicit principals is rejected rather than read or silently trusted. This prevents the stricter write path from leaving an older, broadly accessible token usable.
+
+Windows ACL read-back now uses PowerShell Get-Acl and translates every Access Control Entry principal to a SecurityIdentifier before comparison. This avoids relying on localized icacls display names. The check accepts exactly one explicit Allow ACE for the current user's SID with FullControl; inherited entries, extra principals, deny entries, partial rights, command failures, and unreadable ACLs all fail closed. PowerShell is invoked with an encoded script and the target path passed through an environment variable rather than interpolated into command text.
+
+## Explicit device upload-size limit
+
+Every live `--upload` invocation must provide `--max-upload-bytes` with a positive, device-selected value. The CLI and direct `upload_video()` boundary both reject a missing value; no live-upload default is inferred. Dry-run and approval-only validation may use the conservative 256 MiB validation ceiling, which is not accepted as a live-upload selection.
+
+Before OAuth refresh or interactive authorization, the uploader copies the source into a private temporary snapshot in bounded 1 MiB reads and stops if the configured limit would be exceeded. It hashes the snapshot and verifies that it matches the source at snapshot time. Both owner-approval checks compare the durable approval record directly against that exact snapshot SHA-256, not merely a later read of the original path. The upload request uses that immutable snapshot rather than reopening the original path, so later source-file changes cannot silently alter the bytes sent. The temporary snapshot is removed when the upload operation exits.
+
+Choose the byte limit for the actual device and available memory before any real upload. Hosted CI or a default value does not make that owner decision. This gate does not authorize an upload or enable public publishing.
+
+Before OAuth, the uploader also validates the rights report, exact clip/source identifiers, and current source publish grant. It repeats current publish-rights and authenticated-owner approval checks immediately before the API request. A rights-report mismatch or missing/revoked source grant therefore stops before OAuth is opened.
+
+### Bounded-memory upload stream
+The bounded snapshot remains on disk for the complete upload operation. The uploader opens that staged file as a binary stream and passes the file handle to `MediaIoBaseUpload`; it never calls `read_bytes()` or constructs a full-video `BytesIO` payload. The stream and temporary directory are closed/removed after the API operation returns or fails. Peak application buffering is therefore bounded by the copy chunk and the Google client's configured resumable chunking, rather than the full video size.
+
+Snapshot integrity: the bounded-copy helper checks every file-write return value. A short write aborts staging immediately with an error; the uploader will not hash, approve or upload a partial snapshot.

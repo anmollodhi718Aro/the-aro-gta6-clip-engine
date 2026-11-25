@@ -828,30 +828,238 @@ No OAuth, credentials, network upload, merge, deployment, or public publishing w
 | Branch / PR | workstream/aro-chat-0133-multichannel-private-profiles-2026-11-24 / [Draft PR #295](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/295) |
 | Starting SHA | 4e01f16e97b2239c74a2f96c4262b04b57a4ae73 (PR #289 exact head) |
 | Scope | Add local named destination profiles mapping a verified Google OIDC subject and exact YouTube channel ID to a profile-specific OAuth token path; require explicit profile selection for each approval/upload; document local-only config. |
-| Status | IMPLEMENTED; TESTED (334 tests per platform); CI_VERIFIED on exact PR head `8a3eecb446402d4a86c3c3951e9b99307afefa75` via run `45401275694`; Ubuntu and hosted Windows passed; no OAuth, upload, merge or publish performed |
+| Status | IMPLEMENTED; TESTED; CI_VERIFIED on exact head `cf731cabda8a045d39457f0eef800dbdb051e75e` (Ubuntu + hosted Windows); no OAuth or upload performed |
 | Security behavior | Profile file is intended under ignored .secrets; no OAuth tokens or client secrets are stored in the profile map; profile channel IDs must be unique; per-profile token files are isolated; profile token override is rejected; existing exact channel and file-hash approval checks remain in force. |
 
 Both target handles must still be verified against exact channel IDs and Google OIDC subjects through their respective authorized OAuth sessions. Never infer IDs from handles. This workstream does not perform either OAuth flow or any upload. Public publishing remains disabled.
 
 
-### ARO-CHAT-0133 exact-head CI verification — 2026-11-24
+## ARO-CHAT-0134 implementation — 2026-11-24
 
-- PR [#295](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/295) implementation head at run time `cf731cabda8a045d39457f0eef800dbdb051e75e` was associated with GitHub Actions run [45390003956](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45390003956), workflow `Python CI`.
-- Ubuntu job `138430897019` and hosted Windows job `138430897645` both completed successfully. Each compiled source/tests, ran the complete 331-test unittest suite (`Ran 331 tests`; success), and generated/verified a locally generated synthetic MP4 with FFmpeg/FFprobe.
-- This is CI_VERIFIED on the exact implementation SHA, including hosted Windows CI. It is not owner-device Windows verification and the synthetic media is not GTA 6 footage or real-media acceptance.
-- PR #295 remains OPEN / DRAFT / UNMERGED and independent review is pending. No OAuth, credential/token access, YouTube API upload, merge, deployment, or public publishing occurred. Public visibility remains prohibited.
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0134 |
+| Exact chat title | ARO-CHAT-0134 | Verify YouTube PRIVATE Upload Response |
+| Workstream ID | ARO-GTA-P1-134 |
+| Scope | Harden the final upload result boundary: the CLI must not report success unless YouTube's videos.insert response returns a video ID and explicitly confirms privacyStatus=private. Add regression coverage and update the operating instructions. |
+| Branch / PR | workstream/aro-chat-0134-private-upload-response-verification-2026-11-24 / PR pending |
+| Starting SHA | cf731cabda8a045d39457f0eef800dbdb051e75e (PR #295 head) |
+| Status | IMPLEMENTED; exact-head CI pending; no OAuth, real upload, merge, deployment or publishing performed |
+| Changed files | backend/app/youtube_upload.py; tests/test_youtube_upload.py; docs/YOUTUBE_UPLOAD.md; docs/CHAT_WORKSTREAM_REGISTRY.md; docs/ARO_CHAT_STARTUP_PROMPT.md |
 
-- Registry-only follow-up commit `461bf01df87923378c6ebf6b3b8d460391c80737` is the current branch tip at this audit. No PR-triggered workflow run is associated with that docs-only SHA; retain the distinction between implementation CI evidence and current-tip CI status.
+The uploader requests PRIVATE and now additionally requires the official upload response to explicitly confirm PRIVATE before reporting success. Missing or unexpected visibility is reported as UNVERIFIED; the code does not silently claim a successful private staging operation.
 
 
-### ARO-CHAT-0133 approval-path isolation hardening — 2026-11-24
+## ARO-CHAT-0134 exact-head CI closeout — 2026-11-24
 
-- Follow-up implementation commit `99f39a3182abd2c7cd44dabaa229fd48ea41def1` adds a fail-closed guard requiring profile-mode approval records to live beneath a directory whose resolved final component equals the selected destination profile.
-- Regression tests in commit `67b3f7008769f59d2116031f4e95fddd8ad255e2` cover the matching profile directory, rejection of a shared/mismatched directory, and missing approval-record paths. Documentation updated in `07359368c7322e9da021bfac448619c4e1b34828`.
-- The approval-path isolation hardening was extended to reject profile names that collide case-insensitively, preventing token/approval path collisions on Windows filesystems. Regression test `test_case_colliding_profile_names_fail_closed` was added.
-- Exact PR head `8a3eecb446402d4a86c3c3951e9b99307afefa75` passed Actions run [45401275694](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45401275694). Ubuntu job `138470235452` and hosted Windows job `138470235170` each passed compilation, all 334 unit tests, and synthetic MP4 render/FFprobe verification. Status: CI_VERIFIED on this exact SHA.
-- PR #295 remains draft/open/unmerged. No OAuth, credential access, upload, merge, deployment or publishing was performed.
+- PR #299 audited implementation head: `d4ca7042ff8bfbd00070f801d374b6292feddfda`; base PR #295 head: `cf731cabda8a045d39457f0eef800dbdb051e75e`.
+- Exact-head-associated Actions run [#45391987858](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45391987858) completed SUCCESS.
+- Ubuntu job #138437817592 and hosted-Windows job #138437817026 both passed compilation, the same 332-test suite, and synthetic MP4/FFprobe validation (3.716s Ubuntu; 14.442s Windows).
+- Both jobs checked out merge SHA `4a22ec0cdf15cbc78b17543c21e3b0f75a8f16b3`, merging audited head `d4ca7042ff8bfbd00070f801d374b6292feddfda` into base `cf731cabda8a045d39457f0eef800dbdb051e75e`; raw-head-only checkout NOT DEMONSTRATED.
+- Synthetic logs: `gta6_footage_used=false`, `third_party_media_used=false`, `publishing_enabled=false`, `manual_review_required=true`. No real GTA 6 footage or live upload was used.
+- PR #299 remains OPEN / DRAFT / UNMERGED. No review submissions, inline review comments, or conversation comments were recorded; independent security review NOT RECORDED.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. Local OAuth owner/channel verification, source-rights evidence, exact per-clip approval, owner-device verification, and an accepted private-upload test remain NOT VERIFIED.
+- No OAuth, credential/token access, real media, network upload, publishing, merge, deployment, or destructive action occurred.
 
-- Windows log confirms both new regression tests passed and `Ran 333 tests in 13.660s`; Ubuntu log confirms the same two tests passed and `Ran 333 tests in 4.990s`. Synthetic fixture render/FFprobe passed on both runners.
 
-- Log evidence: Ubuntu `Ran 334 tests in 5.068s`; hosted Windows `Ran 334 tests in 14.136s`. The new case-collision and profile-specific approval-path tests passed on both platforms. Both synthetic MP4/FFprobe smoke steps passed.
+### Additional security hardening — destination profile storage boundary
+- Review finding: profile config selected an isolated token path relative to its own parent, while docs required `.secrets/` but code did not enforce that boundary. A config outside `.secrets/` could therefore place OAuth token files outside the ignored secrets directory.
+- Fix: resolve the profile config path strictly and reject it unless its resolved parent directory is exactly `.secrets`; this also rejects config-file or directory symlinks resolving outside that directory.
+- Regression test: an otherwise valid profile config outside `.secrets/` is rejected. Existing profile tests now place fixtures under `.secrets/` and assert tokens resolve to `.secrets/tokens/<profile>.json`.
+- Commits: `6c3e35a4905ab8ac69fb7ff57f5204f67d67162a`, `004a2001e4e624334658ac084b0d41f79ae4a1ff`. Exact-head CI pending; no OAuth or upload performed.
+
+
+## ARO-CHAT-0197 Windows path regression fix — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0197 |
+| Exact chat title | ARO-CHAT-0197 | PR #299 Windows Path Regression Fix |
+| Workstream ID | ARO-GTA-P1-197 |
+| Scope | Fix the Windows-only destination-profile token-path assertion exposed by the latest PR #299 CI run. Keep the production path canonicalization/security behavior unchanged. |
+| Branch / PR | `workstream/aro-chat-0197-pr299-windows-path-regression-fix-2026-11-24` / [Draft PR #300](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/300) OPEN / UNMERGED |
+| Base | workstream/aro-chat-0134-private-upload-response-verification-2026-11-24 (PR #299 head) |
+| Starting SHA | 758ae2d44e04b9a875a2a85aa153f0407a209766 |
+| Status | IMPLEMENTED; CI pending; no OAuth, real media, network upload, merge, deployment, or publishing performed |
+| Changed files | tests/test_youtube_upload.py; docs/CHAT_WORKSTREAM_REGISTRY.md; docs/ARO_CHAT_STARTUP_PROMPT.md |
+
+### Evidence and rationale
+
+- PR #299 current head `758ae2d44e04b9a875a2a85aa153f0407a209766` triggered Actions run [#45393428557](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45393428557).
+- Ubuntu test job passed; hosted-Windows test job failed one of 334 tests: `test_profiles_resolve_to_distinct_channel_and_token_paths`.
+- The assertion compared a canonicalized path returned by `Path.resolve()` against an un-resolved temporary path. Windows normalized the user directory from its short form `RUNNER~1` to `runneradmin`, causing a representation-only mismatch.
+- The regression fix compares the returned token path against the resolved `.secrets` parent, preserving the production requirement that profile config resolves inside `.secrets/`.
+- No uploader runtime behavior or security gate is weakened. No OAuth, credentials, API calls, media processing, or upload is used by this test.
+- Validation status remains pending until the new branch's exact-head Ubuntu and hosted-Windows CI runs are inspected.
+
+
+
+### ARO-CHAT-0197 test-coverage continuation — 2026-11-24
+- Follow-up commit `8269505c423e50c7460335f5ca776f250b695aa0` adds an explicit canonical token-path assertion for the second destination profile as well as the first. Both expected paths derive from the strictly resolved `.secrets` parent; production path validation is unchanged.
+- Test-only implementation commit: `8269505c423e50c7460335f5ca776f250b695aa0`; subsequent documentation commits bring the current PR #300 head to `02b5e7c16077d31e9cee1950cc5c379339c5baff`.
+- Exact-head Ubuntu and hosted-Windows CI: PENDING. No local test execution is claimed in this connector session.
+
+
+### ARO-CHAT-0197 PR #300 continuation refresh — 2026-11-24
+- Draft PR #300 is OPEN / UNMERGED on `workstream/aro-chat-0197-pr299-windows-path-regression-fix-2026-11-24`.
+- Current PR head: `02b5e7c16077d31e9cee1950cc5c379339c5baff`; base PR #299 branch head recorded by PR metadata as `152de0e3cecbfe2be2569c46db14e5c9c67506a2`.
+- Changed files remain test-only (`tests/test_youtube_upload.py`) plus this registry and startup prompt. Production uploader path enforcement is unchanged.
+- Commit-associated workflow lookup for current head returned no runs. Exact-head Ubuntu/hosted-Windows CI is PENDING; do not transfer PR #299's earlier green Ubuntu result or failing Windows result as validation of PR #300.
+- PR #300 reviews and inline review threads are empty; independent review NOT RECORDED. No local tests run in this connector session.
+- Keep PR #300 draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; no OAuth, credentials, real media, API upload, publishing, merge, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0197 live-head reconciliation — 2026-11-24
+- Re-fetched live Draft PR #300 metadata: branch `workstream/aro-chat-0197-pr299-windows-path-regression-fix-2026-11-24`, current head `83445d763ebce065140a0f7a19ac75c42a761d48`, base branch `workstream/aro-chat-0134-private-upload-response-verification-2026-11-24`, recorded base SHA `152de0e3cecbfe2be2569c46db14e5c9c67506a2`.
+- The prior `02b5e7c16077d31e9cee1950cc5c379339c5baff` value is an earlier documentation commit, not the live PR head. Commit `83445d763ebce065140a0f7a19ac75c42a761d48` only refreshes `docs/ARO_CHAT_STARTUP_PROMPT.md`.
+- Changed PR files remain `tests/test_youtube_upload.py`, `docs/CHAT_WORKSTREAM_REGISTRY.md`, and `docs/ARO_CHAT_STARTUP_PROMPT.md`; test assertion compares both profile token paths against the strictly resolved `.secrets` parent. Production code is unchanged by this workstream.
+- Exact-live-head workflow lookup and combined status for `83445d763ebce065140a0f7a19ac75c42a761d48` returned no runs/status checks. CI is PENDING, not passed. No local test execution is claimed.
+- PR #300 remains OPEN / DRAFT / UNMERGED; independent review is not recorded. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Keep uploads and public publishing disabled; do not merge, retarget, or deploy.
+
+
+### ARO-CHAT-0197 latest live-head reconciliation — 2026-11-24
+- Re-read live PR #300 metadata: OPEN / DRAFT / UNMERGED; head branch `workstream/aro-chat-0197-pr299-windows-path-regression-fix-2026-11-24`; exact current head `68b62198572117d22fe4072a8e3a48abf05cadd6`; base branch `workstream/aro-chat-0134-private-upload-response-verification-2026-11-24`; recorded base SHA `152de0e3cecbfe2be2569c46db14e5c9c67506a2`.
+- The earlier registry note naming `83445d763ebce065140a0f7a19ac75c42a761d48` is stale. The current branch tip has moved to `68b62198572117d22fe4072a8e3a48abf05cadd6`.
+- Compare from the recorded PR base to the live head reports 10 commits ahead and 5 behind, with merge base `758ae2d44e04b9a875a2a85aa153f0407a209766`. Do not rebase or retarget automatically; preserve the draft stack for owner review.
+- The live head's commit-associated workflow lookup returned zero runs. Exact-head Ubuntu and hosted-Windows CI remain PENDING / NOT VERIFIED. No test results are inferred from PR #299 or any other SHA.
+- Current PR diff remains limited to `tests/test_youtube_upload.py`, `docs/CHAT_WORKSTREAM_REGISTRY.md`, and `docs/ARO_CHAT_STARTUP_PROMPT.md`. The test asserts both profile token paths against the resolved `.secrets` parent; production uploader path enforcement is unchanged.
+- Review submissions and inline review threads are empty; independent review NOT RECORDED. Local tests NOT RUN in this connector session.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, real media, API upload, publishing, merge, rebase, retarget, deployment, or destructive action. Keep live uploads and public publishing disabled.
+
+
+### ARO-CHAT-0197 security-regression coverage — 2026-11-24
+
+
+### ARO-CHAT-0197 path-boundary hardening continuation — 2026-11-24
+- Added a fail-closed check rejecting a symlinked `.secrets` parent before resolving the destination config path. The loader retains the base branch's exact resolved repository-root/.secrets comparison and OAuth token-directory symlink containment checks.
+- Synced the loader implementation with the current PR #299 base branch so the stacked PR does not carry an older profile-loader variant.
+- Added regression tests for config-file symlink escape, `.secrets` directory symlink escape, and OAuth `tokens/` directory symlink escape. Destination-profile tests now pass an explicit isolated `repository_root` fixture.
+- Implementation commits: `6c21c0977a6a9ec7643306f14fe7edf26f81d592` (initial guard), `848cdb1447743257e9a00ac7fa84da22c58a9acf` (base-aligned loader), `e10070cc0a9ff167922649ce2293bb6a5a3ab3ae` (fixture root), `a1c785ad7a54121732d3d59289054090ee892d96` (token-directory symlink test).
+- Exact-head Ubuntu and hosted-Windows CI remain PENDING / NOT VERIFIED; local tests have not been run in this connector session.
+- PR #300 remains DRAFT / OPEN / UNMERGED and GitHub currently reports it non-mergeable. Do not merge, rebase, or retarget automatically. Issue #68 remains OPEN; live uploads and public publishing stay disabled.
+
+
+## ARO-CHAT-0201 consolidated private-upload security continuation — 2026-11-24
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0201 |
+| Workstream ID | ARO-GTA-P1-201 |
+| Scope | Consolidate PR #299 private-response verification and PR #300 Windows/profile-path hardening directly on the current PR #295 base, avoiding the stale and diverged stacked branch chain. |
+| Branch / PR | `workstream/aro-chat-0201-consolidated-private-upload-security-2026-11-24` / [Draft PR #311](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/311) |
+| Base | PR #295 head `9f6cdc10bc77e99d6a9399f3c8a1505e18a87ab0` |
+| Initial consolidated head | `a95d1cbc22fd2d0653ba8c7b09ea227e76b29edb` |
+| Status | IMPLEMENTED IN DRAFT; exact-head CI pending; no real OAuth, upload, merge, deployment or publishing performed |
+
+### Included changes
+- Require a non-empty YouTube video ID and an explicit `status.privacyStatus == private` in the API response before reporting private-upload success.
+- Enforce the private-only staging boundary before OAuth/API work.
+- Reject destination-profile configuration and token-directory symlink escapes and keep per-profile token paths inside repository `.secrets/`.
+- Preserve the authenticated OIDC subject + OAuth-backed channel verification, durable exact-clip/source/hash approval, and live source-bound publish-rights checks already present in the PR #295 base.
+- Add Windows canonical-path assertions and update upload documentation.
+
+### Validation and blockers
+- PR #295 base exact-head CI run #45401529491 passed its Ubuntu and Windows jobs, including compile, unit tests and synthetic MP4/FFprobe validation. This validates the base only, not PR #311.
+- PR #311 exact-head CI for `a95d1cbc22fd2d0653ba8c7b09ea227e76b29edb` was not yet visible at the initial post-creation lookup. Do not claim it passed until the final head's Actions jobs are inspected.
+- Issue #68 implementation is present in the base ancestry and its OIDC verifier is non-recursive there; the older PR #83 head still contains the historical recursive helper and must not be treated as the current implementation.
+- Issue #68 remains OPEN pending independent review and owner-device OAuth/channel verification. No real YouTube upload has occurred. Public publishing remains disabled.
+
+
+### ARO-CHAT-0201 independent security review correction — 2026-11-24
+- Review of the first CI-green PR #311 head found two regressions relative to its PR #295 base: case-insensitive profile-name uniqueness had been removed, allowing names such as `aroanmol7` and `AROANMOL7` to collide on case-insensitive filesystems and share a token path; and profile-specific approval-record directory validation had been removed from the CLI.
+- Restored `casefold()` uniqueness validation and restored `validate_destination_approval_path()` enforcement before approval/upload work.
+- Added regression tests for case-insensitive profile-name collisions, valid profile-specific approval directories, mismatched/shared approval directories, and missing approval-record paths.
+- Code commits: `30229510555805bb9c723c66403bb5695ffa726f` (production guards) and `566e19440add291fd0ceedc48aee662e314cf697` (regression tests).
+- The earlier PR #311 CI run #45418114502 passed Ubuntu and hosted Windows on the PRE-FIX head only; it does NOT validate these new commits. Re-run/inspect exact-head CI after the documentation updates.
+- PR #311 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN. No OAuth, credentials, real media, upload, public publishing, merge, or deployment was performed.
+
+
+### ARO-CHAT-0201 exact-head CI closeout — 2026-11-24
+- Re-fetched live PR #311 metadata after the security corrections: OPEN / DRAFT / UNMERGED; branch `workstream/aro-chat-0201-consolidated-private-upload-security-2026-11-24`; exact implementation head `67e6d4290fee795fb8ba6fd0e926107ea7f0eb81`; base PR #295 head `9f6cdc10bc77e99d6a9399f3c8a1505e18a87ab0`.
+- Commit-associated GitHub Actions run [#45425734650](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45425734650) is SUCCESS for that exact implementation head. Ubuntu job `138557269851` and hosted Windows job `138557269281` both completed checkout, Python setup, FFmpeg/FFprobe setup, source compilation, full unittest suite, and synthetic MP4 render/FFprobe verification.
+- Both platforms report `Ran 340 tests`; Ubuntu completed in 3.702s and hosted Windows in 15.788s. The case-insensitive profile-name regression and profile-specific approval-record path tests passed on both platforms.
+- CI evidence is exact-head for the code SHA above. It is hosted Windows CI, not owner-device Windows verification. The MP4 is locally generated synthetic test media, not GTA 6 footage and not real-media acceptance.
+- The latest independent security comment's case-collision and approval-path findings were addressed in commits `30229510555805bb9c723c66403bb5695ffa726f` and `566e19440add291fd0ceedc48aee662e314cf697`; this exact-head CI includes those corrections.
+- PR #311 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN; independent security review and owner-device OAuth/channel verification are not established by CI. No OAuth session, credential access, real media, network upload, merge, deployment, or publishing occurred. Keep live uploads and public publishing disabled.
+
+## ARO-CHAT-0201 PR #311 exact-head CI and security review — 2026-11-25
+- Re-fetched live PR #311 metadata: OPEN / DRAFT / UNMERGED; current head `4aa3c524560c42c42d2b46a50e477ad778286910`; base `9f6cdc10bc77e99d6a9399f3c8a1505e18a87ab0`. Earlier head values in the PR body and previous handoff are stale; live PR metadata is authoritative.
+- Exact-head-associated Actions run [#45465185543](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45465185543) completed SUCCESS. Ubuntu job `138698094520` and hosted-Windows job `138698094978` both checked out `refs/remotes/pull/311/merge` at merge SHA `909d685311ab40972861ee9239e40b0eb50bb491`, merging the live PR #311 head into the stated base.
+- Both jobs passed compile, the same 340 tests, and synthetic MP4/FFprobe validation (Ubuntu 5.683s; hosted Windows 16.803s). This is 340 shared tests on two platforms, not 680 unique tests. Synthetic reports show locally generated pattern/tone only, no GTA 6 footage, `upload_performed=false`, `publishing_enabled=false`, and `manual_review_required=true`.
+- Bounded static review covered all five changed files and the uploader/approval flow. No new direct authentication, approval, rights-check, or public-visibility bypass was identified in the changed paths reviewed. This is not independent human security sign-off or exhaustive formal verification.
+- **Remaining caveat:** `_persist_oauth_token()` uses `os.chmod(..., 0o600)`; Python's Windows chmod does not establish POSIX owner-only ACLs and the final chmod error is ignored. The token file relies on the parent directory's inherited ACL. Owner-device `.secrets/tokens` ACL verification or a separately reviewed Windows ACL implementation is required before OAuth/token storage.
+- PR #311 does not include PR #242's explicit `--max-upload-bytes` enforcement. Keep the device-appropriate upload-size decision separate and unresolved; the 8 MiB chunk size is not a total upload limit.
+- PR #311 GitHub review submissions and inline threads are empty; independent human security sign-off NOT RECORDED. Owner-device OAuth/channel verification, owner-device Windows ACL verification, device-appropriate byte limit, and authorized real-media/private-upload acceptance remain NOT VERIFIED / PENDING.
+- Report: `docs/ARO_CHAT_0201_PR311_SECURITY_REVIEW.md`. PR #311 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN. Keep live uploads/public publishing disabled.
+- No OAuth, credentials, real media, network upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action occurred.
+
+
+
+### ARO-CHAT-0201 continuation: Windows OAuth token ACL hardening
+- Added fail-closed Windows token persistence: disable inherited ACLs on the profile token directory and temporary token file, grant the current user's SID full control, and verify the read-back ACL contains exactly that one ACE.
+- Token bytes are written only after the temporary file ACL is applied; atomic replacement preserves the secured file ACL. POSIX continues to use mode 0600.
+- Added mocked regression coverage for owner-only ACL acceptance, unexpected group ACE rejection, and identity-command failure.
+- Commits: implementation 4c5ae8aa6a3553a534b8b52ee254bfebf3f09a90; SID/ACL parser correction 1668608f04a1246777ea5224cbd4393a54c1e27a; additional-ACE rejection 5f1ab9193af5af9f32d992d149411577b716514c; tests 09a7b186e1acb6b816a2c7960736eb50c3520377 and fixture correction 2b5c3b67419812da6e6574d3a7f93bf53a03f965; docs update recorded separately.
+- Tests NOT RUN in this connector session. Exact-head CI PENDING. Independent security review and owner-device Windows ACL/OAuth verification remain NOT VERIFIED. Issue #68 remains OPEN; live uploads/public publishing remain disabled.
+
+- Follow-up: existing Windows OAuth token files are now ACL-checked together with their profile token directory before credential loading; legacy tokens with additional explicit principals fail closed. Added persistence regressions proving the ACL check precedes token bytes and that a failed temporary-file ACL leaves no token file. Commits: existing-token read guard 7efe32918537b5135a5f6e0d1c8caba334501836; persistence tests 76ca28fb6b9acea9c83ebb662d121ee2949e91c7; docs 9917dbedf2607502bd4aa78c03650d6b6b71a1a0.
+
+- Security refinement: replaced localized icacls output parsing with PowerShell Get-Acl read-back and SecurityIdentifier translation for every ACE. Exact acceptance is one explicit Allow/FullControl ACE for the current user's SID; inherited ACEs and additional principals fail closed. Added tests for extra group and inherited ACE rejection. Commits: implementation 33fd8164057c68b3de80b30753a1df1ca127f92e; tests 8f6598dea4b0bb80009ffc543038a643fe0d0f7d; documentation update recorded separately.
+
+### ARO-CHAT-0201 Windows SID matcher correction — 2026-11-26
+- Static inspection found the Windows account-SID regex had doubled backslashes inside a raw string, so it matched literal `\d` text rather than decimal SID components. This would reject valid `whoami /user` output before ACL verification.
+- Corrected the matcher to recognize numeric SID components. The existing mocked owner-only ACL test exercises a representative `S-1-5-21-...` SID and serves as regression coverage.
+- Implementation commit: `05336f2f529ad90c2755f799c0597ed92c0d4a1b`; regression-test commit: `2013c4c452267925fe230fd4e46cad6fc067d5fc` adds explicit malformed-SID rejection coverage.
+- The preceding exact-head workflow run `45698629376` reported both jobs failed, but job metadata exposed no steps and the log endpoint returned `BlobNotFound`; therefore its failure cause remains UNVERIFIED and is not attributed to this regex defect.
+- New-head Actions and combined status lookups currently return no runs/statuses. CI is PENDING; local tests were not run in this connector session.
+- PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. Independent human security sign-off, owner-device Windows ACL/OAuth/channel verification, device-appropriate upload byte limit, and authorized real-media/private-upload acceptance remain pending. Keep live uploads and public publishing disabled.
+
+### ARO-CHAT-0201 explicit upload byte-limit integration — 2026-11-26
+- Static review found the PR #311 branch carried bounded-copy helpers but did not connect them to the live upload CLI or `upload_video()` boundary. A live upload could therefore reach `MediaFileUpload` without an explicit device-selected byte ceiling.
+- Wired `--max-upload-bytes` as a required positive value for `--upload` and direct `upload_video()` calls. Dry-run and approval-only validation retain a conservative 256 MiB ceiling, not a live-upload default.
+- Added pre-OAuth bounded snapshot creation using 1 MiB reads, exact-byte hashing and a source/snapshot consistency check; the API now uploads the immutable snapshot through `MediaIoBaseUpload` rather than reopening the source path.
+- Added tests for oversized validation, source growth beyond the limit, direct-call missing-limit rejection, CLI missing-limit rejection, and propagation of the selected value. Existing mocked upload tests now supply a small synthetic byte budget.
+- Implementation commit: `b24de9e4d9d6226e76f273b58107b54fc5b53126`; test commits: `678cab7917fdaf75e0f87cb9f561169506196896` and `1d91073ecde2bbad1b6479ac6f888fbb2aa853fc`; documentation commit: `00b1dd7d7cb74e19547c71c2486eb4d845f6c9a8`.
+- Exact-head CI is pending; local tests were not run in this connector session. The device-appropriate limit value remains an owner decision. No OAuth, credentials, real media, network upload, merge, deployment or publishing occurred.
+- PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. Independent security sign-off and owner-device verification remain pending. Keep live uploads and public publishing disabled.
+
+- Follow-on startup guidance commit: `6420cd028b347e8305e05c52c7f7e343e6c7bb16`. The live PR head advanced after the registry entry; exact-head CI lookup returned no runs or statuses at that time. The prior rerun of run `45699035944` again failed with zero exposed steps and `BlobNotFound` job logs, so it provides no actionable test diagnosis.
+
+### ARO-CHAT-0201 immutable snapshot approval binding — 2026-11-26
+- Follow-up race review found that validating the source file after snapshot creation was not sufficient by itself: the durable approval verifier also needed to compare its recorded SHA-256 directly with the bytes actually staged for upload.
+- Extended `require_current_owner_approval()` with a strict lowercase SHA-256 input while preserving the existing path-hash behavior for other callers. Both pre-upload approval checks now compare the approval record to the immutable snapshot digest.
+- Added regression coverage for matching snapshot digest, mismatched digest and malformed digest. Updated upload documentation to describe the exact binding.
+- Commits: approval verifier `58b81ee40142a44ad40c752bb8a0e9aa11eef1b2`; uploader integration `0705eee3187e0ef6fd8c7f0aad6d247f8a8f2f33`; tests `296dacff43d3f6385d90c6a0218c938e3be1b681`; docs `7f65f69f6cd89ff7dd599f60d80bd61a0cdf878c`; signature correction `87190f2b63980da11a84f7758419b903e2f0b544`.
+- Exact-head CI and local test execution remain pending. PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. No OAuth, credentials, real media, network upload, merge, deployment or publishing occurred.
+
+### ARO-CHAT-0201 pre-OAuth rights preflight ordering — 2026-11-26
+- Review of the updated uploader found that the live source grant and exact clip/source report checks still occurred after OAuth. Moved rights-report parsing, clip/source equality checks, and current publish-grant authorization ahead of optional Google SDK imports and OAuth.
+- The authenticated owner approval and current rights grant are still rechecked immediately before the API side effect. Added a regression assertion that a clip/source mismatch does not call `_authorize_google()`.
+- Commits: uploader `e4a4902971dbdbd30c191d23dbc779f2df5641f2`; regression test `0509cf3cd2bd5489a2b166e717868081681cb8e6`; documentation `27ae5570e6c729f18a39da7d0c2d0929594f5650`.
+- Latest exact-head Actions lookup still returns no run or status; local tests are not run in this connector session. PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. Keep live uploads and public publishing disabled.
+
+- Additional race regression: commit `b3cd0d777a6ef005812b147f76d1988242df1b56` mutates the original source after snapshot creation during mocked authorization and asserts the upload stream still contains the originally approved bytes. This exercises the snapshot-hash approval binding end to end without OAuth or network upload.
+
+### ARO-CHAT-0201 bounded-memory stream correction — 2026-11-26
+- Review caught that the previous bounded snapshot implementation then called `read_bytes()` and wrapped the complete video in `BytesIO`, which reintroduced full-file RAM consumption and was unsuitable for the owner's low-memory laptop.
+- Replaced full-file materialization with a disk-backed `MediaIoBaseUpload` stream. The temporary snapshot directory now remains alive for the entire API operation and is cleaned in `finally`; the stream is closed after success or failure.
+- Added a regression test that consumes the staged stream inside the mocked API execution, verifies the original approved bytes are sent even after the source changes, and verifies the stream is closed after the operation.
+- Commits: disk-stream implementation `17fd32259d809bc2bb63e7fe49f5dd79d149f93b`; lifetime/indentation correction `1a7760f519645d10e76aae11bcf041ec8ca60663`; stream regression `bfca655c36c64bccc5bacb63ca3c85f194df0536`.
+- Exact-head CI and local tests remain unverified. Do not claim this code is tested until a successful run on the exact PR head is visible.
+### ARO-CHAT-0201 disk-backed upload stream and cleanup regression — 2026-11-26
+- The uploader now retains the immutable bounded snapshot on disk and streams it through an open binary file handle to `MediaIoBaseUpload`. Full-file `read_bytes()`/`BytesIO` buffering is removed; stream and temporary directory cleanup run in `finally`.
+- Added a regression that mutates the original source after staging and consumes the exact staged bytes at the mocked API insert boundary. Added a second regression verifying the stream closes and the temporary snapshot is removed when the mocked API request raises.
+- Commits: `17fd32259d809bc2bb63e7fe49f5dd79d149f93b`, `1a7760f519645d10e76aae11bcf041ec8ca60663`, `bfca655c36c64bccc5bacb63ca3c85f194df0536`, `04e3f334ae9ebcb59ebe0e193006e9dd82221e65`, `bdcc5b07e9e517ce655e883bc77941ff90ecece2`, `b88d405229c043c42073d93ae892e52448da8b30`.
+- CI run #1771 on head `04e3f334ae9ebcb59ebe0e193006e9dd82221e65` failed on Ubuntu and Windows in under 3 seconds with zero reported steps; both job log downloads returned `BlobNotFound`. A retry was queued, but it also failed before exposing any steps. The failure cause is unverified and cannot be attributed to the source code.
+- The cleanup regression commits advanced the branch after run #1771. Exact-head CI for the current branch tip remains pending. No local tests were run in this connector session.
+- PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. No OAuth, credentials, real media, network upload, merge, deployment or publishing occurred.
+
+### ARO-CHAT-0201 exact-head CI retry outcome — 2026-11-26
+- GitHub Actions run #1774 for exact head `0067a10ef957ed2552c2281f251ca8aca7a2ba37` completed as FAILURE on both Ubuntu and hosted Windows in approximately three seconds. Both jobs reported `steps: null`; both log downloads returned `BlobNotFound`. There is no evidence that checkout, compilation or unit tests started, so this is an infrastructure/log-availability failure of unknown cause, not a code-test result.
+- Run #1771 and its retry on previous head `04e3f334ae9ebcb59ebe0e193006e9dd82221e65` had the same zero-step / missing-log behavior. Do not report either run as a source-code test failure or success.
+- The current PR head includes the disk-backed stream and API-failure cleanup regressions. Exact-head CI is still NOT VERIFIED; local tests were not run in this connector session.
+
+### ARO-CHAT-0201 snapshot short-write hardening — 2026-11-26
+- `_copy_stream_with_limit()` now checks that each snapshot write persisted the complete chunk. A short write raises `OSError` immediately rather than allowing a truncated staged file to proceed.
+- Added a focused regression using a writer that deliberately reports a short write. This is a code/test addition only; exact-head CI and local execution remain unverified because recent Actions jobs terminate with no steps and missing log blobs.
+- Commits: implementation `304d15fe6888bc020c261a86139aec881ad95d18`; regression `d2397452551266187c32a723943299246dad1d79`.
