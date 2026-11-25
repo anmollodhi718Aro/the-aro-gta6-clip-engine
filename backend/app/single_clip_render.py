@@ -171,7 +171,7 @@ def main() -> int:
                 ffmpeg_binary=args.ffmpeg,
             )
             json.dump(report, handle, indent=2, ensure_ascii=False)
-            handle.write("\\n")
+            handle.write("\n")
     except OSError as exc:
         print(f"Report could not be reserved/written without overwrite: {exc}", file=sys.stderr)
         return 2
