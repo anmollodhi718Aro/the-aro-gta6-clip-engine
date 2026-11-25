@@ -1592,3 +1592,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 ### ARO-CHAT-0238 accepted-list placement correction — 2026-11-25
 - Follow-up commit `0e6233c10f698313bc0c8fa82a287f5ee180cbb4` corrects the test-list placement from the preceding test-only commit: the eight IDNA unit-symbol URLs are now absent from `invalid_urls` and present in `test_register_accepts_http_and_https_source_urls`.
 - The prior isolated validator probe showed all eight normalize to ordinary DNS labels and are accepted. Repository unit tests remain NOT RUN; exact-head CI and independent review remain NOT VERIFIED / NOT RECORDED.
+
+
+### ARO-CHAT-0238 WHATWG numeric-suffix over-rejection correction — 2026-11-25
+- Continued the existing ARO-GTA-P1-238 / PR #376 branch; no duplicate workstream or PR.
+- Standards cross-check against the WHATWG URL Standard §3.5 (`ends in a number checker`, lines 478–494; IPv4 number parser, lines 539–567) found the current ASCII-digit-ending fallback was over-broad. The standard recognizes all-decimal final labels and labels parseable as IPv4 numbers (including `0x` hexadecimal and leading-zero octal forms), not arbitrary labels such as `label1`, `abc1`, or `0a9`.
+- Production helper now follows those suffix categories: decimal-only, valid `0x` hexadecimal (including empty suffix), and valid leading-zero octal. The complete hostname must still parse as canonical four-octet IPv4 whenever the suffix is numeric-like.
+- Production commit: `f1e562824f2fd165249258bf454a2ad886c3255d`.
+- Test commit: `019ccf37eb2afafa307584f86f8388630e9f0e03`; moved ordinary alphanumeric DNS labels into positive URL cases and added numeric-form negative cases (`0x`, `00`, `077`).
+- A focused isolated predicate probe passed 16 numeric/non-numeric classification cases. This is NOT a repository unit-test run. Repository unit tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
+- Preserve PR #376 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled.
