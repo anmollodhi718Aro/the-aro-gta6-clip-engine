@@ -1264,3 +1264,12 @@ A post-snapshot FFmpeg/FFprobe exception now preserves the fact that the verifie
 - Commits: production `02fb6ad44ddf25a6c131034146d67f513257de9c`; test `4d6659f4b6a27f06f602bf61920bf991b11b16d1`.
 - Tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized MP4 was processed.
 - Continue pipeline work on PR #386. Keep dry-run and rights-confirmation gates; no unauthorized media, upload, publishing, merge, rebase, retarget, or deployment.
+
+
+### Latest pipeline handoff: ARO-CHAT-0300 — rendered output identity and SHA-256
+- Final output verification now hashes the rendered file through a non-following descriptor and checks file identity/size/mtime/ctime before and after reading. It compares this final identity to the identity captured immediately after FFmpeg, so a mutation/replacement during FFprobe is rejected.
+- Successful report fields: `output_sha256`, `output_size_bytes`, `output_identity_verified=true`. Failed final verification returns FAIL with null hash/size and preserves the output for manual inspection.
+- Added regressions for successful output hash evidence and output mutation after FFprobe.
+- Commits: production `3c196619598bbc0c1dd03b58af7f528d058dee0e`; tests `40c78ffb8ac638b627246ee2d885b8d9be91b0cb`, `1482ec9e02c5d93b8db4d25ab94b42eead2f32a1`; metadata hardening `3648a674ee82b96493c8bcb670317bd0030cb1f4`.
+- Tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized MP4 processed.
+- Continue P0 pipeline work on PR #386. Preserve dry-run and human rights confirmation; no unauthorized media, upload, publishing, merge, rebase, retarget, or deployment.
