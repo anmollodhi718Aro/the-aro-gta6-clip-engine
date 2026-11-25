@@ -46,3 +46,8 @@ The scoring CLI refuses to write over the candidate input (including a path
 that resolves to the same file) or an existing output file. Choose a new
 review-output path for each scoring run so earlier review artifacts remain
 available for comparison.
+
+For multi-anchor calibration, every candidate must carry the exact non-empty
+`source_id` used by the measured anchors (or inherit that exact ID from the
+clip-plan envelope). Missing or blank candidate identity is rejected; it is
+never treated as a wildcard.
