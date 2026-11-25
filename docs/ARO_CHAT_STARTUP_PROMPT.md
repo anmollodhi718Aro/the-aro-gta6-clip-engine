@@ -1223,3 +1223,7 @@ Initial RUNNING report is now serialized before writing and checks for short wri
 
 ### Latest continuation — ARO-CHAT-0292
 Terminal report replacement checks write character count before truncating the prior RUNNING report. Short writes are now treated as failures and routed through exclusive fallback recovery. Regression coverage simulates a short write return. Tests NOT RUN; exact-head CI NOT VERIFIED; PR #386 remains draft/unmerged; no real media, upload, publish, or deploy; Issue #68 remains awaiting owner approval.
+
+
+### Latest continuation — ARO-CHAT-0293
+Corrected newline escaping in report persistence so initial, terminal and fallback JSON use actual newline characters. Added regression coverage for a valid parseable fallback with a real trailing newline. Tests NOT RUN; exact-head CI NOT VERIFIED; PR #386 remains draft/unmerged; no real media, upload, publish, or deploy; Issue #68 remains awaiting owner approval.
