@@ -2274,3 +2274,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Commits: production `3c196619598bbc0c1dd03b58af7f528d058dee0e`; success test `40c78ffb8ac638b627246ee2d885b8d9be91b0cb`; stable metadata `3648a674ee82b96493c8bcb670317bd0030cb1f4`; mutation regression `1482ec9e02c5d93b8db4d25ab94b42eead2f32a1`.
 - Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized MP4 was processed.
 - PR #386 remains OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, upload, publishing, or deployment.
+
+
+## ARO-CHAT-0301 — nonblocking selected-source inventory hashing
+- Static review found `sha256_selected_source()` checked the selected path with `lstat()` and then opened it without `O_NONBLOCK`. If the path were replaced with a FIFO/device in that interval, the open could block before the subsequent descriptor-type check.
+- The hash helper now requests `O_NONBLOCK` where supported, then retains its descriptor/path identity and regular-file checks. Added a regression asserting the flag is passed on platforms that expose it.
+- Commits: production `70d7f43f021ca1227a99c8fc5f3b4fe6c4db3767`; regression `6b52e4687c5cdb2270e64f999e6b034a3987ad70`; test readability `1dfc50ce7fc751ce20d5dbb7594eab9b3091bc74`; operator docs `0f4d79626e831ee3ae502d2f26fb071d7fbee490`.
+- Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized media processed. PR #386 remains OPEN / DRAFT / UNMERGED; no merge, rebase, retarget, workflow retry/dispatch, upload, publishing, or deployment. Issue #68 remains deferred / WAITING_FOR_OWNER_APPROVAL.
