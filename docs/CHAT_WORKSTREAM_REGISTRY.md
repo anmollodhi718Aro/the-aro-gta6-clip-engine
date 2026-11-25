@@ -1024,3 +1024,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. Independent security sign-off and owner-device verification remain pending. Keep live uploads and public publishing disabled.
 
 - Follow-on startup guidance commit: `6420cd028b347e8305e05c52c7f7e343e6c7bb16`. The live PR head advanced after the registry entry; exact-head CI lookup returned no runs or statuses at that time. The prior rerun of run `45699035944` again failed with zero exposed steps and `BlobNotFound` job logs, so it provides no actionable test diagnosis.
+
+### ARO-CHAT-0201 immutable snapshot approval binding — 2026-11-26
+- Follow-up race review found that validating the source file after snapshot creation was not sufficient by itself: the durable approval verifier also needed to compare its recorded SHA-256 directly with the bytes actually staged for upload.
+- Extended `require_current_owner_approval()` with a strict lowercase SHA-256 input while preserving the existing path-hash behavior for other callers. Both pre-upload approval checks now compare the approval record to the immutable snapshot digest.
+- Added regression coverage for matching snapshot digest, mismatched digest and malformed digest. Updated upload documentation to describe the exact binding.
+- Commits: approval verifier `58b81ee40142a44ad40c752bb8a0e9aa11eef1b2`; uploader integration `0705eee3187e0ef6fd8c7f0aad6d247f8a8f2f33`; tests `296dacff43d3f6385d90c6a0218c938e3be1b681`; docs `7f65f69f6cd89ff7dd599f60d80bd61a0cdf878c`; signature correction `87190f2b63980da11a84f7758419b903e2f0b544`.
+- Exact-head CI and local test execution remain pending. PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. No OAuth, credentials, real media, network upload, merge, deployment or publishing occurred.
