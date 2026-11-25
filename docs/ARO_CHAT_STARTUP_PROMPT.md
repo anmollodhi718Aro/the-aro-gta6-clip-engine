@@ -716,3 +716,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Audit report: `docs/ARO_CHAT_0238_PR376_CURRENT_HEAD_AUDIT.md`; registry synchronized.
 - Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
 - Next safe action: inspect a naturally triggered exact-head run with visible steps/logs and obtain independent review. Do not manually retry/dispatch workflows without owner direction. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+## ARO-CHAT-0238 continuation handoff — 2026-11-25
+
+- Continue the existing PR #376 and workstream `ARO-GTA-P1-238`; do not create a duplicate branch or PR.
+- Latest bounded finding: `_ends_in_ipv4_number()` must not classify every alphanumeric DNS label ending in a digit as an IPv4 number. Keep the guard limited to numeric forms actually recognized by the URL-host IPv4-number algorithm.
+- Production fix commit: `c9b621afc52b5b9ef84b459d6640b3fa1846fed6`; regression-test commit: `f94c2d3d68084e6230fc10096605397fb9a145b6`.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Do not claim validation from static inspection.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+- Do not manually retry/dispatch workflows, merge, rebase, retarget, deploy, authenticate OAuth, handle credentials, use real media, upload, or publish without the required explicit owner authorization.
