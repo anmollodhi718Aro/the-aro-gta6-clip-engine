@@ -115,6 +115,19 @@ python -m backend.app.review_dashboard \
 
 Open the HTML file locally. It is read-only and has no remote assets or network requests.
 
+### 7. Render one explicitly selected clip
+
+For a single-file workflow, use the dry-run-first renderer:
+
+```bash
+python -m backend.app.single_clip_render "/path/to/authorized-local-recording.mp4" \
+  --start 12 --end 28 \
+  --output rendered_clips/clip-001.mp4 \
+  --report rendered_clips/clip-001-report.json
+```
+
+Dry-run is the default and performs metadata preflight without rendering or copying the source. Actual rendering requires both `--execute` and `--confirm-rights`. The selected source is snapshotted from a verified file descriptor so FFprobe and FFmpeg consume the same bytes. The command processes one file and one clip only; it does not upload or publish. Output and report paths are never overwritten.
+
 ## Original THE ARO content studio
 
 Prepare a sourced, original commentary package from operator-supplied research:
