@@ -217,7 +217,8 @@ def _create_stable_source_snapshot(source: Path, snapshot: Path) -> None:
         with os.fdopen(os.dup(descriptor), "rb") as source_handle:
             with snapshot.open("xb") as snapshot_handle:
                 snapshot_created = True
-                snapshot_identity = identity(os.fstat(snapshot_handle.fileno()))
+                snapshot_stat = os.fstat(snapshot_handle.fileno())
+                snapshot_identity = (snapshot_stat.st_dev, snapshot_stat.st_ino, stat.S_IFMT(snapshot_stat.st_mode))
                 while True:
                     chunk = source_handle.read(1024 * 1024)
                     if not chunk:
@@ -236,7 +237,10 @@ def _create_stable_source_snapshot(source: Path, snapshot: Path) -> None:
         if snapshot_created:
             try:
                 current_snapshot = snapshot.lstat()
-                if snapshot_identity is not None and identity(current_snapshot) == snapshot_identity:
+                if snapshot_identity is not None and (
+                        current_snapshot.st_dev, current_snapshot.st_ino,
+                        stat.S_IFMT(current_snapshot.st_mode),
+                    ) == snapshot_identity:
                     snapshot.unlink()
             except FileNotFoundError:
                 pass
