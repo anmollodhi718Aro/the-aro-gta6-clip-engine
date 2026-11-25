@@ -726,9 +726,10 @@ def main() -> int:
                     ffmpeg_binary=args.ffmpeg,
                     expected_source_sha256=expected_digest if candidate_selection else None,
                 )
-            except (OSError, RuntimeError, ValueError) as exc:
-                # A normal Python-level failure is final, not an unknown RUNNING
-                # state. Preserve RUNNING only for hard process termination.
+            except Exception as exc:
+                # Any ordinary Python exception is a terminal failure, not an
+                # unknown RUNNING state. Preserve RUNNING only for hard process
+                # termination (KeyboardInterrupt/SystemExit or process death).
                 report = {
                     **initial_report,
                     "status": "FAIL",
