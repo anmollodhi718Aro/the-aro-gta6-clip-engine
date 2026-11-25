@@ -86,6 +86,15 @@ class YouTubeUploadTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "empty"):
             validate_upload(empty, self.report, title="Short", made_for_kids=False)
 
+    def test_rejects_symlink_upload_input(self):
+        alias = self.root / "linked.mp4"
+        try:
+            alias.symlink_to(self.video)
+        except (OSError, NotImplementedError):
+            self.skipTest("symlink creation is unavailable on this runner")
+        with self.assertRaisesRegex(ValueError, "symbolic links"):
+            validate_upload(alias, self.report, title="Short", made_for_kids=False)
+
 
 if __name__ == "__main__":
     unittest.main()

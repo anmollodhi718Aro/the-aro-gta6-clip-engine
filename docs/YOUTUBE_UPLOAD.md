@@ -65,7 +65,7 @@ The default privacy setting is private. Choose unlisted/public only after checki
 
 ## Limits
 
-- The source file must already exist locally and be authorized for this use.
+- The source file must already exist locally, be a regular file (not a symlink), and be authorized for this use.
 - The adapter never downloads or extracts YouTube or Kick livestream video.
 - A YouTube API key is not a substitute for the OAuth upload scope.
 - OAuth client secrets and refresh tokens must remain local and out of Git.

@@ -10,6 +10,7 @@ import argparse
 import json
 import mimetypes
 import os
+import stat
 import sys
 from pathlib import Path
 from typing import Any
@@ -83,9 +84,15 @@ def validate_upload(
 ) -> tuple[Path, dict[str, Any]]:
     """Validate local media, metadata, rights preflight and explicit approvals."""
     video = Path(video_path).expanduser()
-    if not video.is_file():
-        raise FileNotFoundError(f"local video file does not exist: {video}")
-    if video.stat().st_size <= 0:
+    try:
+        video_info = video.lstat()
+    except FileNotFoundError:
+        raise FileNotFoundError(f"local video file does not exist: {video}") from None
+    if stat.S_ISLNK(video_info.st_mode):
+        raise ValueError("symbolic links are not accepted as upload inputs")
+    if not stat.S_ISREG(video_info.st_mode):
+        raise ValueError("upload input must be a regular local file")
+    if video_info.st_size <= 0:
         raise ValueError("video file is empty")
     mime_type, _ = mimetypes.guess_type(video.name)
     if not mime_type or not mime_type.startswith("video/"):
