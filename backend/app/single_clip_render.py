@@ -744,9 +744,17 @@ def main() -> int:
             # terminal report as well as the initial RUNNING reservation.
             if selected_candidate is not None:
                 report["candidate_selection"] = selected_candidate
+
+            # Serialize completely before modifying the durable RUNNING record.
+            # A serialization error must not truncate the only trustworthy report.
+            try:
+                terminal_report_text = json.dumps(report, indent=2, ensure_ascii=False) + "\n"
+            except Exception as exc:
+                print(f"Terminal report could not be serialized; reserved RUNNING report preserved: {exc}", file=sys.stderr)
+                return 2
+
             handle.seek(0)
-            json.dump(report, handle, indent=2, ensure_ascii=False)
-            handle.write("\n")
+            handle.write(terminal_report_text)
             handle.truncate()
             handle.flush()
             os.fsync(handle.fileno())
