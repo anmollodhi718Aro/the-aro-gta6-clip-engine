@@ -125,6 +125,7 @@ class SingleClipRenderTests(unittest.TestCase):
         argv = [
             "single_clip_render.py", str(self.source),
             "--candidate-csv", str(csv_path), "--candidate-row", "1",
+            "--source-sha256", hashlib.sha256(self.source.read_bytes()).hexdigest(),
             "--source-id", "different-source", "--report", str(report_path),
         ]
         with patch("sys.argv", argv), self.assertRaises(SystemExit) as raised:
@@ -153,6 +154,7 @@ class SingleClipRenderTests(unittest.TestCase):
                 argv = [
                     "single_clip_render.py", str(self.source),
                     "--candidate-csv", str(csv_path), "--candidate-row", "1",
+                    "--source-sha256", hashlib.sha256(self.source.read_bytes()).hexdigest(),
                     *extra_args, "--report", str(report_path),
                 ]
                 with patch("sys.argv", argv), self.assertRaises(SystemExit) as raised:
@@ -175,6 +177,7 @@ class SingleClipRenderTests(unittest.TestCase):
         argv = [
             "single_clip_render.py", str(self.source),
             "--candidate-csv", str(csv_path), "--candidate-row", "1",
+            "--source-sha256", hashlib.sha256(self.source.read_bytes()).hexdigest(),
             "--source-id", "authorized-demo", "--report", str(report_path),
         ]
         with patch("sys.argv", argv), self.assertRaises(SystemExit) as raised:
@@ -266,6 +269,7 @@ class SingleClipRenderTests(unittest.TestCase):
         with patch("sys.argv", [
             "single_clip_render", str(self.source),
             "--candidate-csv", str(pack), "--candidate-row", "1",
+            "--source-sha256", hashlib.sha256(self.source.read_bytes()).hexdigest(),
             "--source-id", "authorized-demo",
             "--output", str(self.output), "--report", str(report_path),
         ]):
