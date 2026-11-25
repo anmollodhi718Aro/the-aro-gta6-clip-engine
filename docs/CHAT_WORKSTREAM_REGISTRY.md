@@ -1996,3 +1996,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Existing regression covers whitespace-only identity. Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - Commit: implementation `c9a11af6e9454f7ce0c6d1b036b295107e58f5f1`.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0268 | Canonicalize measured clock anchor source IDs — 2026-11-26
+
+- Continue existing PR #386 / `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; preserve existing ancestry.
+- Static review found that `ClockAnchor` accepted IDs with surrounding whitespace but retained the untrimmed value. Candidate mapping trims its source ID, so a measured anchor such as ` stream-1 ` could never match the equivalent candidate `stream-1` even though both identify the same supplied source.
+- `ClockAnchor` now stores the stripped non-empty source ID. Exact matching remains required after normalization; blank IDs are still rejected.
+- Added focused regression coverage asserting a fitted clock exposes the canonical ID.
+- Implementation commit `0ddfdc48609a391341f06b3956519badbf0fa8d2`; test commit `b4f8656e737729f628f7eaaa67b422eaf1ec9334`.
+- Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. PR #386 remains DRAFT / OPEN / UNMERGED; no merge, rebase, retarget, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
