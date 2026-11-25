@@ -666,3 +666,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Test commit: `c03fb62bb2f268d174f89a51973cb985b9473b45`. An isolated in-memory probe confirmed the IDNA mappings and expected validator rejection; this is not a repository test run.
 - Repository unit tests NOT RUN. Commit-associated exact-head workflow lookup returned zero runs. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent review NOT RECORDED; PR review submissions and inline threads remain empty.
 - Continue on existing draft PR #376 only. Preserve DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### Latest continuation — ARO-CHAT-0238 IDNA numeric compatibility-digit tests (2026-11-25)
+- Continued existing draft PR #376 / ARO-GTA-P1-238 on its existing branch; no duplicate workstream or PR.
+- Static review found uncovered IDNA compatibility characters: subscript digits, mathematical styled digits, and multi-digit circled numerals. The built-in IDNA codec maps these to ASCII numeric suffixes, so they must be rejected by the canonical-IPv4-only suffix rule.
+- Added five test-only cases for `example.₁`, `example.𝟙`, `example.⑩`, `example.㉑`, and `example.⁰`. Test commit: `1bc36c0d74cda85771c748801253a9fe0cb3e4c7`.
+- Isolated in-memory probe confirmed expected IDNA mappings and rejection. Repository unit tests NOT RUN; commit-associated exact-head CI lookup returned zero runs at the immediate check; exact-head CI PENDING / NOT VERIFIED; independent review NOT RECORDED.
+- Continue bounded static review on PR #376 only; do not transfer CI evidence from earlier heads.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
