@@ -267,17 +267,21 @@ class SingleClipRenderTests(unittest.TestCase):
 
     @patch("backend.app.single_clip_render.inspect_one_video")
     @patch("backend.app.single_clip_render.render_clip")
-    def test_removes_own_output_when_post_render_ffprobe_fails(self, render, preflight):
+    def test_preserves_own_unverified_output_for_manual_cleanup(self, render, preflight):
+        payload = b"unverified render"
         render.side_effect = lambda *args, **kwargs: (
-            self.output.write_bytes(b"unverified render") and self.output.resolve()
+            self.output.write_bytes(payload) and self.output.resolve()
         )
         preflight.side_effect = [PASS, {"status": "FAIL", "error": "invalid output"}]
-        report = render_selected_clip(
-            self.source, self.output, 1, 5, execute=True, rights_confirmed=True,
-        )
+        with patch.object(Path, "unlink", wraps=Path.unlink) as unlink:
+            report = render_selected_clip(
+                self.source, self.output, 1, 5, execute=True, rights_confirmed=True,
+            )
         self.assertEqual(report["status"], "FAIL")
-        self.assertTrue(report["unverified_output_removed"])
-        self.assertFalse(self.output.exists())
+        self.assertFalse(report["unverified_output_removed"])
+        self.assertTrue(report["manual_cleanup_required"])
+        self.assertEqual(self.output.read_bytes(), payload)
+        unlink.assert_not_called()
 
     @patch("backend.app.single_clip_render.inspect_one_video")
     @patch("backend.app.single_clip_render.render_clip")
