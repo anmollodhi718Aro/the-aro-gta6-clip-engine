@@ -79,7 +79,7 @@ class SingleClipRenderTests(unittest.TestCase):
         argv = [
             "single_clip_render.py", str(self.source),
             "--candidate-csv", str(csv_path), "--candidate-row", "1",
-            "--report", str(report_path),
+            "--source-id", "authorized-demo", "--report", str(report_path),
         ]
         with patch("sys.argv", argv), patch(
             "backend.app.single_clip_render.render_selected_clip", return_value=expected
@@ -92,6 +92,28 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(report["candidate_selection"]["row_number"], 1)
         self.assertFalse(report["upload_performed"])
         self.assertFalse(report["publishing_enabled"])
+
+
+    def test_candidate_csv_cli_rejects_mismatched_source_id_before_report_reservation(self):
+        mapped_rows = map_candidates_to_media(
+            [{
+                "source_id": "authorized-demo",
+                "clip_start": "2026-11-19T12:00:30+00:00",
+                "clip_end": "2026-11-19T12:00:45+00:00",
+            }],
+            "2026-11-19T12:00:00+00:00",
+        )
+        csv_path, _ = write_clip_pack(mapped_rows, self.root / "mismatch-pack")
+        report_path = self.root / "mismatch-report.json"
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--candidate-csv", str(csv_path), "--candidate-row", "1",
+            "--source-id", "different-source", "--report", str(report_path),
+        ]
+        with patch("sys.argv", argv), self.assertRaises(SystemExit) as raised:
+            main()
+        self.assertEqual(raised.exception.code, 2)
+        self.assertFalse(report_path.exists())
 
     def test_candidate_selection_rejects_unrenderable_row(self):
         pack = self.root / "candidates.csv"
