@@ -802,3 +802,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Repository tests NOT RUN in this connector session. Exact-head CI PENDING / NOT VERIFIED; independent review NOT RECORDED.
 - Preserve PR #386 DRAFT / OPEN / UNMERGED and its existing ancestry. PR #379 conflicts with the later one-selected-video requirement; no merge, rebase, or retarget without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+## ARO-CHAT-0246 | FFprobe duration conversion overflow regression — 2026-11-25
+- Follow-up to PR #386 / ARO-GTA-P1-244 on the existing branch; no new branch or PR.
+- Static review found that valid JSON containing an extremely large integer duration can make `float(...)` raise `OverflowError`. The preflight caught common malformed-metadata exceptions but not this conversion overflow, allowing malformed FFprobe output to escape the intended FAIL report.
+- Added `OverflowError` to the metadata-validation failure boundary and a regression using a 401-digit integer duration. The expected result is a deterministic FAIL report with no media processing.
+- Production commit: `7b9f05fdbe479018351c93e31025762550364312`; regression-test commit: `7456ff5beb5a63893654c0867d5f4676514ee071`.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
+- Preserve PR #386 DRAFT / OPEN / UNMERGED and its existing ancestry. PR #379 conflicts with the later one-selected-video owner requirement; no merge, rebase, retarget, or integration without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
