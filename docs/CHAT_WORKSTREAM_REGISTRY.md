@@ -1945,3 +1945,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Static review confirmed dry-run-first, explicit execute+rights gate, one-selected-source flow, bounded stable snapshot, shared FFprobe/FFmpeg snapshot bytes, 180-second bound, private FFmpeg staging, atomic no-overwrite publication, post-render verification, and disabled upload/publishing.
 - Residual caveat: unverified-output cleanup performs lstat/identity comparison followed by pathname unlink; these are not atomic together against a process able to replace the destination directory entry between operations. Recorded in `docs/ARO_CHAT_0261_EXACT_HEAD_CI_AUDIT.md`; no runtime change made.
 - Repository tests NOT RUN; independent review NOT RECORDED; owner-device Windows and authorized real-media acceptance NOT VERIFIED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+## ARO-CHAT-0263 | Make single-clip CLI failure reports terminal — 2026-11-26
+
+- Continue existing PR #386 / branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR and no ancestry changes.
+- Static review found that handled renderer exceptions left the previously flushed report at `RUNNING`, making a completed failure indistinguishable from hard process termination.
+- The CLI now writes a terminal `FAIL` report for handled `OSError`, `RuntimeError`, and `ValueError` exceptions, preserves the error text, and warns operators to inspect any output before retrying. The initial report records whether both execution and rights-confirmation flags were supplied; `RUNNING` is retained only when the process terminates before it can record a final state.
+- Regression test verifies terminal failure status, execution-request metadata, disabled upload/publishing, and no unexpected output.
+- Operator documentation updated in `docs/SINGLE_CLIP_RENDER.md`.
+- Commits: implementation `a38a34f03c5660e7eb0620362c325249edd7229e`; regression test `c50f182a32fe77f6810236d118805b14939cd2ff`; operator documentation `43d580b0c81b2f876e2e20ad63bb5403a6cac476`.
+- Repository tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Existing ancestry is preserved. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
