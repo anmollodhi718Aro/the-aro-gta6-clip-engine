@@ -961,3 +961,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Added test commit `faa659234b061201b4b694d9fe3ea87da4ac8edd` covering a `ValueError` from CLI report-path resolution; expected behavior is controlled exit code 2 and no report artifact.
 - Registry update: `ee35bfd3917dd3e22b17a1867a947cd1b3120a2f`.
 - Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. No workflow retry/dispatch, merge, rebase, retarget, real media, OAuth, upload, publishing, or deployment.
+
+
+## ARO-CHAT-0256 current continuation — source duration overflow guard
+- Continue on existing PR #386 / ARO-GTA-P1-244 branch; no duplicate branch or PR.
+- Static review found an unrepresentably large integer returned as `duration_seconds` by the preflight boundary could make `math.isfinite()` raise `OverflowError`. The renderer now treats `OverflowError`, `TypeError`, and `ValueError` as invalid duration metadata and returns a deterministic FAIL report.
+- Production commit: `918b14c05d17e3eadbf4f95aee82a60f74891134`; regression test: `44ed0d25553c43ba7c635e1f168bb544b98aeec7`; implementation report: `f9a260a3389d6ae17f802b5fbbaa71d00e4d3d68`; registry: `a054fba0c8d1788df09e5faac0fc09f770045376`.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Do not infer test success from commits.
+- Preserve PR #386 DRAFT / OPEN / UNMERGED and its existing #383 -> #380/#379 ancestry. No merge, rebase, retarget, integration, workflow retry/dispatch, or deployment without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, or publishing.
