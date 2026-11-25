@@ -41,3 +41,15 @@ Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Its owner
 - No workflow retry or manual dispatch was initiated.
 - No source/test behavior, workflow configuration, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
 - Next safe work remains bounded static review and evidence-based handoff. Any code change requires a narrowly scoped finding and must remain isolated from the Issue #68 owner-approval gate.
+
+
+## Follow-up: digit-ending invalid numeric labels — 2026-11-25
+
+- Static review found _ends_in_ipv4_number() accepted only valid hexadecimal-style labels beginning with 0x, decimal labels, and selected leading-zero decimal forms. It missed invalid numeric-looking labels that still end in an ASCII digit, such as 0xg1, abc1, and 0a9.
+- URL parsers using the WHATWG “ends in a number” rule can classify a final label ending in an ASCII digit as an IPv4 candidate even when parsing that label as an IPv4 number fails. Such hosts must not fall through to ordinary DNS-label acceptance.
+- Updated the helper to conservatively treat ASCII-digit-ending labels as numeric candidates, while retaining valid hexadecimal-prefix handling including the empty 0x suffix. The full hostname must still parse as canonical four-octet IPv4.
+- Added negative regressions for example.0xg1, example.abc1, and example.0a9.
+- Production commit: 50e007fe5567624a187a64e280ced3ba356dec86; test commit / current code-test head: 9a5956a88a075962980524cf126cad8fe2cbf0a0.
+- Repository unit tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI and independent review NOT YET VERIFIED / NOT RECORDED. This is a static finding and source/test edit, not execution evidence or a complete URL-parser security audit.
+- No DNS resolution, destination-IP filtering, or DNS-rebinding protection is implemented or claimed. Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing was performed.
