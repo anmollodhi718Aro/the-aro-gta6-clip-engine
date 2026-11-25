@@ -1273,3 +1273,7 @@ A post-snapshot FFmpeg/FFprobe exception now preserves the fact that the verifie
 - Commits: production `3c196619598bbc0c1dd03b58af7f528d058dee0e`; tests `40c78ffb8ac638b627246ee2d885b8d9be91b0cb`, `1482ec9e02c5d93b8db4d25ab94b42eead2f32a1`; metadata hardening `3648a674ee82b96493c8bcb670317bd0030cb1f4`.
 - Tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized MP4 processed.
 - Continue P0 pipeline work on PR #386. Preserve dry-run and human rights confirmation; no unauthorized media, upload, publishing, merge, rebase, retarget, or deployment.
+
+
+### Latest continuation — ARO-CHAT-0301
+Continue the single-selected-clip pipeline on existing PR #386. Candidate-mode selected-source SHA-256 hashing now requests nonblocking open where supported, preventing a raced FIFO/device path from hanging before descriptor type validation. Added a regression for the open flag and updated operator docs/registry. Commits: production `70d7f43f021ca1227a99c8fc5f3b4fe6c4db3767`; tests `6b52e4687c5cdb2270e64f999e6b034a3987ad70`, cleanup/readability `1dfc50ce7fc751ce20d5dbb7594eab9b3091bc74`; docs `0f4d79626e831ee3ae502d2f26fb071d7fbee490`; registry `7c4ec74ff781b3a4b2ebeabb8fb1bbef4c9f6857`. Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized MP4 processed. Preserve PR #386 OPEN/DRAFT/UNMERGED and its existing base. No merge, rebase, retarget, workflow retry/dispatch, upload, publishing, or deployment. Issue #68 remains deferred.
