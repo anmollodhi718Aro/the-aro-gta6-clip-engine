@@ -1007,3 +1007,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Repository tests and CI for this continuation: NOT RUN / NOT VERIFIED at the time of this entry. No test pass is claimed. Inspect exact-head Ubuntu and hosted-Windows CI after opening the draft follow-up PR; verify the PowerShell ACL code on Windows CI before treating the caveat as resolved.
 - Remaining separate gates: independent human security sign-off; owner-device OAuth/channel verification; owner-selected byte-limit value for the device; authorized real-media/private-upload acceptance. No live OAuth, credentials, real media, network upload, public publishing, merge, or deployment.
 - Keep all upload/publishing gates disabled. This continuation changes code only; it does not authorize an actual upload.
+
+
+### ARO-CHAT-0240 follow-up hardening — 2026-11-25
+- Added an explicit private-visibility check inside `validate_upload`, before the OAuth/API boundary. The validation success fixture now uses `private`; a regression test confirms `unlisted` is rejected.
+- Hardened batch-render retry identity: media identity now includes a streaming SHA-256 digest in addition to canonical path, size and modification time. Retry refuses a same-size replacement even when its original modification time is restored.
+- Media hashing reads in 1 MiB chunks and checks file size, modification time and inode before/after hashing; a detected concurrent change fails closed.
+- Code commits: `911217838f205534dab3eeafc9132feb4aeedad5` (private-only validation + regression test), `6c3cb1966edb36200cf2047d55b9abca204af1d2` (media SHA-256 retry identity), `027973c3e21cd2599919a8b8d40ad1aaf80f97bf` (constant-size fixture correction).
+- Latest branch head: `027973c3e21cd2599919a8b8d40ad1aaf80f97bf`. The commit-associated workflow lookup currently returns no run; exact-head Ubuntu/Windows CI is NOT VERIFIED. Local tests were NOT RUN in this session.
+- These are code hardening changes only. No OAuth, credential access, media upload, merge, deployment or publishing occurred. PR #378 remains OPEN / DRAFT / UNMERGED; issue #68 and independent security review remain open.
