@@ -22,6 +22,23 @@ class SingleClipRenderTests(unittest.TestCase):
     def tearDown(self):
         self.temp.cleanup()
 
+    def test_dry_run_reports_path_resolution_runtime_error(self):
+        with patch("pathlib.Path.resolve", side_effect=RuntimeError("symlink loop")):
+            report = render_selected_clip(self.source, self.output, 1, 4)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("output path could not be validated", report["error"])
+        self.assertFalse(report["processing_started"])
+
+    def test_cli_handles_path_resolution_runtime_error_without_leaving_report(self):
+        report_path = self.root / "report.json"
+        with patch("sys.argv", [
+            "single_clip_render", str(self.source), "--start", "1", "--end", "5",
+            "--output", str(self.output), "--report", str(report_path),
+        ]):
+            with patch("pathlib.Path.resolve", side_effect=RuntimeError("symlink loop")):
+                self.assertEqual(main(), 2)
+        self.assertFalse(report_path.exists())
+
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     def test_dry_run_plans_exactly_one_clip_without_rendering(self, preflight):
         with patch("backend.app.single_clip_render.render_clip") as render:
