@@ -57,3 +57,17 @@ Documentation-only. No source or test behavior, uploader, OAuth, credentials, me
 - Local repository tests NOT RUN in this connector session. Exact-head CI is FAILED / NOT VERIFIED.
 - No workflow retry/dispatch was initiated. PR #376 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
 - Documentation-only audit. No source/test/workflow behavior, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was changed/performed.
+
+
+### Latest live exact-head CI investigation — 2026-11-25
+
+- Live PR #376 head at inspection: `74041aa14c55cc1686555f6d0e6f44ccc887f70c`; PR remains OPEN / DRAFT / UNMERGED.
+- Associated Python CI run [#45655644112](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45655644112), run number 1599, completed FAILURE.
+- Ubuntu job `139351448958` and hosted-Windows job `139351449596` both concluded FAILURE. The jobs endpoint returned `steps: null` and `logs_url: null` for both jobs. Independent step lookup returned empty arrays; both log-download requests returned `BlobNotFound`.
+- Combined commit status returned zero status entries. This is not a passing signal.
+- The checked-in `.github/workflows/ci.yml` on the PR branch has the expected `pull_request` triggers (`opened`, `synchronize`, `reopened`, `ready_for_review`) and defines explicit checkout, Python setup, FFmpeg setup, compile, unit-test, and synthetic-MP4 steps for both Ubuntu and hosted Windows. The workflow file therefore does not explain the missing step metadata by an absent job/steps definition. This does not establish why GitHub reported the jobs as failed before exposing steps.
+- Failure phase and root cause remain NOT VERIFIED. No compile, unit-test, FFmpeg, or synthetic-render result is established. Do not attribute this to application code, tests, or a specific runner fault.
+- PR #376 review submissions and inline review threads remain empty; independent review NOT RECORDED. Repository unit tests NOT RUN in this connector session.
+- No workflow retry/dispatch was initiated, consistent with the existing owner-approval boundary. No source/test/workflow change, merge, rebase, retarget, deployment, OAuth, credentials, real-media processing, upload, or publishing was performed.
+- Preserve PR #376 OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads and public publishing disabled.
+- Next safe evidence: a naturally triggered run with populated job steps/logs, or owner-authorized CI investigation. Do not infer a root cause from empty logs.
