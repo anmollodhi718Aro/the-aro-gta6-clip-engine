@@ -455,6 +455,27 @@ def render_selected_clip(
     bytes, eliminating the pathname replacement race between the two tools.
     """
     source = Path(video_path).expanduser()
+    if expected_source_sha256 is not None and (
+        not isinstance(expected_source_sha256, str)
+        or len(expected_source_sha256) != 64
+        or any(character not in "0123456789abcdef" for character in expected_source_sha256)
+    ):
+        return {
+            "status": "FAIL",
+            "source_path": str(source),
+            "output_path": str(Path(output_path).expanduser()),
+            "start_seconds": start_seconds,
+            "end_seconds": end_seconds,
+            "processing_started": False,
+            "source_identity_verified": False,
+            "source_snapshot_verified": False,
+            "source_snapshot_created": False,
+            "expected_source_sha256": expected_source_sha256,
+            "source_sha256": None,
+            "upload_performed": False,
+            "publishing_enabled": False,
+            "error": "expected_source_sha256 must be 64 lowercase hexadecimal characters",
+        }
     if type(execute) is not bool or type(rights_confirmed) is not bool:
         return {
             "status": "FAIL",
