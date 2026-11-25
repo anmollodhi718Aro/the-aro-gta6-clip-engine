@@ -115,6 +115,18 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(raised.exception.code, 2)
         self.assertFalse(report_path.exists())
 
+
+    def test_source_id_option_is_rejected_in_direct_bounds_mode(self):
+        report_path = self.root / "unexpected-source-id-report.json"
+        with patch("sys.argv", [
+            "single_clip_render.py", str(self.source),
+            "--start", "1", "--end", "5", "--source-id", "authorized-demo",
+            "--report", str(report_path),
+        ]), self.assertRaises(SystemExit) as raised:
+            main()
+        self.assertEqual(raised.exception.code, 2)
+        self.assertFalse(report_path.exists())
+
     def test_candidate_selection_rejects_unrenderable_row(self):
         pack = self.root / "candidates.csv"
         pack.write_text(
