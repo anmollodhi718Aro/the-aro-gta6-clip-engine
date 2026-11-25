@@ -675,3 +675,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Isolated in-memory probe confirmed expected IDNA mappings and rejection. Repository unit tests NOT RUN; commit-associated exact-head CI lookup returned zero runs at the immediate check; exact-head CI PENDING / NOT VERIFIED; independent review NOT RECORDED.
 - Continue bounded static review on PR #376 only; do not transfer CI evidence from earlier heads.
 - Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### ARO-CHAT-0238 additional IDNA numeric compatibility regressions — 2026-11-25
+- Continued the existing PR #376 / ARO-GTA-P1-238 branch; no new workstream or PR.
+- Added five test-only malformed URL cases for IDNA compatibility characters that normalize to numeric suffixes: circled zero `⓪`, superscript nine `⁹`, subscript nine `₉`, mathematical bold nine `𝟗`, and circled fifty `㊿`.
+- Test commit: `40a62b790a5b820e7aee08e6a8c140cfa65fa99f`.
+- An isolated probe using the current hostname validator confirmed all five map to ASCII numeric suffixes and are rejected unless the complete host is canonical IPv4. This is not a repository unit-test run.
+- Repository unit tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. No CI evidence transfers from prior commits.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
