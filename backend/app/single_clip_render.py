@@ -634,9 +634,14 @@ def render_selected_clip(
         }
 
 
-def _write_exclusive_terminal_fallback(report_path: Path, report_text: str) -> Path:
+def _write_exclusive_terminal_fallback(
+    report_path: Path, report_text: str, protected_paths: tuple[Path, ...] = ()
+) -> Path:
     """Persist a terminal report beside a damaged reservation without overwriting."""
     fallback_path = report_path.with_name(report_path.name + ".terminal-fallback.json")
+    fallback_resolved = fallback_path.resolve()
+    if any(fallback_resolved == protected.resolve() for protected in protected_paths):
+        raise OSError("terminal fallback path aliases the selected source or output path")
     with fallback_path.open("x", encoding="utf-8", newline="\\n") as fallback:
         fallback.write(report_text)
         fallback.flush()
@@ -775,7 +780,7 @@ def main() -> int:
                 # replace a path that may have been created by another actor.
                 try:
                     fallback_path = _write_exclusive_terminal_fallback(
-                        args.report, terminal_report_text
+                        args.report, terminal_report_text, (source_path, output_path)
                     )
                 except OSError as fallback_exc:
                     print(
