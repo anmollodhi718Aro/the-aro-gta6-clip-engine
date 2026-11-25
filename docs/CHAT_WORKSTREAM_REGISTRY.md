@@ -1519,3 +1519,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Isolated in-memory probe confirmed each normalized to an ASCII numeric suffix and was rejected by the current validation logic. This is not a repository unit-test run.
 - Test commit: `1bc36c0d74cda85771c748801253a9fe0cb3e4c7`. Repository unit tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; independent review NOT RECORDED.
 - Continue on existing PR #376 only. Preserve DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### ARO-CHAT-0238 additional IDNA numeric compatibility regressions — 2026-11-25
+- Continued the existing PR #376 / ARO-GTA-P1-238 branch; no new workstream or PR.
+- Added five test-only malformed URL cases for IDNA compatibility characters that normalize to numeric suffixes: circled zero `⓪`, superscript nine `⁹`, subscript nine `₉`, mathematical bold nine `𝟗`, and circled fifty `㊿`.
+- Test commit: `40a62b790a5b820e7aee08e6a8c140cfa65fa99f`.
+- An isolated probe using the current hostname validator confirmed all five map to ASCII numeric suffixes and are rejected unless the complete host is canonical IPv4. This is not a repository unit-test run.
+- Repository unit tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. No CI evidence transfers from prior commits.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
