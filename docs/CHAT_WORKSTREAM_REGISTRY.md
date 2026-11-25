@@ -1682,3 +1682,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Scope limitation: this narrows and detects source changes across preflight, but a residual race remains between the final path identity check and FFmpeg opening the source. Do not describe this as descriptor-bound or race-free; a stable snapshot/descriptor-based render boundary remains future work.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve the existing #383 → #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. Do not rebase, retarget, merge, or integrate without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment.
+
+
+### ARO-CHAT-0245 low-level renderer source-path guard — 2026-11-25
+- Defense-in-depth follow-up on existing PR #386; no new branch or PR.
+- The low-level `render_clip()` helper now rejects symbolic-link and non-regular source paths before resolution, compares lexical and resolved device/inode identity, and rechecks the selected path identity immediately before invoking FFmpeg.
+- Added a regression proving a symlink source is rejected before FFmpeg is invoked.
+- Commits: implementation `4a6f8208c51e6e4462c17053cb1950370859153d`; regression test `76a98dae124176f8c187210ac1a95ca78a05addf`; operator documentation `724e77730b1389dbcf20188b43498b409c848c33`.
+- Validation: repository tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. No media was processed.
+- This is path-based defense in depth only. It narrows the replacement window but does not eliminate the race between the final identity check and FFmpeg opening the path. Do not claim descriptor-bound or race-free input identity.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
