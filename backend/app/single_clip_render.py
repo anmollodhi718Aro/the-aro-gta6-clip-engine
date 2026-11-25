@@ -288,7 +288,10 @@ def _render_selected_clip_from_snapshot(
         if _selected_file_identity(source) != source_identity_after:
             report["error"] = "selected source changed after preflight; refusing to render a different file"
             return report
-        report["processing_started"] = True
+        # Entering render_clip does not prove FFmpeg was launched: that
+        # function performs additional path and bounds validation first.
+        # Keep the state unknown until render_clip returns successfully.
+        report["processing_started"] = None
         rendered = render_clip(
             source,
             destination,
@@ -297,6 +300,7 @@ def _render_selected_clip_from_snapshot(
             rights_confirmed=True,
             ffmpeg_binary=ffmpeg_binary,
         )
+        report["processing_started"] = True
         try:
             rendered_identity = _rendered_output_identity(rendered)
         except (OSError, ValueError) as exc:
