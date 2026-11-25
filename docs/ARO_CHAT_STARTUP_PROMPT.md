@@ -756,3 +756,10 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Owner's current workflow requirement is one explicitly selected video per invocation. Do not scan directories, inventory multiple files, or batch process. PR #379's multi-file inventory conflicts with this later requirement; PR #380 is one-file-only in its implementation but is stacked on #379. Preserve the drafts and do not merge/retarget without owner approval.
 - P0 remains the first authorized real GTA 6 clip. This metadata preflight is only a read-only prerequisite, not rendering or upload acceptance.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep uploads/public publishing disabled. No OAuth, credentials, real media, workflow retry/dispatch, merge, rebase, retarget, deployment, or publishing without the applicable owner approval.
+
+
+### ARO-CHAT-0243 latest continuation — boolean FFprobe duration rejection (2026-11-25)
+- Continue existing ARO-GTA-P1-243 / PR #383 branch `workstream/aro-chat-0243-single-video-preflight-schema-guard-2026-11-25`; do not allocate a duplicate workstream.
+- Production commit `81405f1047dd79bfa7c92db11b48302d659a9bbd` rejects JSON boolean durations before float conversion; test commit `e2d59ab0c75f3b1ae9df6b3b29769d01f3d64bb0` covers true/false values.
+- Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI PENDING automatic PR execution; independent review NOT RECORDED. Do not claim TESTED or CI_VERIFIED, and do not transfer prior CI results.
+- Preserve one explicitly selected video per invocation. No directory scan, batch processing, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Do not merge, retarget, deploy, release, or publish without explicit owner approval.
