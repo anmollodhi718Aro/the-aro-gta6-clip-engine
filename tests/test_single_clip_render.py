@@ -474,6 +474,24 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["source_snapshot_created"])
         snapshot.assert_not_called()
 
+    def test_render_api_rejects_malformed_expected_digest_before_media_tools(self):
+        with patch("backend.app.single_clip_render.inspect_one_video") as preflight, patch(
+            "backend.app.single_clip_render._create_stable_source_snapshot"
+        ) as snapshot:
+            report = render_selected_clip(
+                self.source, self.output, 2, 8,
+                execute=True, rights_confirmed=True,
+                expected_source_sha256="not-a-sha256",
+            )
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("64 lowercase hexadecimal", report["error"])
+        self.assertFalse(report["source_snapshot_created"])
+        self.assertFalse(report["source_snapshot_verified"])
+        self.assertIsNone(report["source_sha256"])
+        preflight.assert_not_called()
+        snapshot.assert_not_called()
+        self.assertFalse(self.output.exists())
+
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     @patch("backend.app.single_clip_render.render_clip")
     def test_preflight_and_renderer_consume_the_same_snapshot(self, render, preflight):
