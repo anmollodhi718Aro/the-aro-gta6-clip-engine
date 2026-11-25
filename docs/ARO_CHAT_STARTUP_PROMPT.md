@@ -792,3 +792,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Tests NOT RUN locally; exact-head CI NOT YET VERIFIED; independent review NOT RECORDED. Inspect a naturally triggered run only; do not retry/dispatch workflows without owner direction.
 - Preserve the draft stack. PR #386 inherits PR #383/#380/#379 ancestry; PR #379 conflicts with the later one-selected-video requirement. No merge/rebase/retarget/integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep all live uploads/public publishing disabled. No real media, OAuth, credentials, upload, or publishing.
+
+
+## CURRENT CONTINUATION — ARO-CHAT-0245 (2026-11-25)
+- Follow-up to PR #386 / ARO-GTA-P1-244 on the existing branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new PR or branch created.
+- Fixed the CLI report writer to terminate the JSON document with an actual newline rather than literal backslash+n characters.
+- Added a regression assertion that reads the report, checks newline termination, and parses it with `json.loads()`.
+- Commits: production `0bf47e1d7354e9a75d2de5883d89a473400b9cee`; test `a1ba536bc192aa4ae0349916ed6130fe697baddb`; report `1c04141434affeeec7e9d61be20e3bd91c12a5fa`; registry `e96f3013947985f5aae9f48cb2d2493acb1c08c7`.
+- Repository tests NOT RUN in this connector session. Exact-head CI PENDING / NOT VERIFIED; independent review NOT RECORDED.
+- Preserve PR #386 DRAFT / OPEN / UNMERGED and its existing ancestry. PR #379 conflicts with the later one-selected-video requirement; no merge, rebase, or retarget without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
