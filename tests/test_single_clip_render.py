@@ -62,6 +62,32 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["source_snapshot_created"])
         snapshot.assert_not_called()
 
+    def test_invalid_clip_bounds_fail_before_source_snapshot(self):
+        invalid_bounds = [
+            (True, 4),
+            (1, False),
+            ("not-a-time", 4),
+            (1, "not-a-time"),
+            (10 ** 10000, 10 ** 10000 + 1),
+            (float("inf"), 4),
+            (-1, 4),
+            (4, 4),
+            (1, 182),
+        ]
+        for start, end in invalid_bounds:
+            with self.subTest(start_type=type(start).__name__, end_type=type(end).__name__):
+                with patch("backend.app.single_clip_render._create_stable_source_snapshot") as snapshot:
+                    with patch("backend.app.single_clip_render.inspect_one_video") as preflight:
+                        report = render_selected_clip(
+                            self.source, self.output, start, end,
+                            execute=True, rights_confirmed=True,
+                        )
+                self.assertEqual(report["status"], "FAIL")
+                self.assertFalse(report["processing_started"])
+                self.assertFalse(report["source_snapshot_created"])
+                snapshot.assert_not_called()
+                preflight.assert_not_called()
+
     def test_refuses_source_mutation_during_preflight(self):
         def mutate_selected_source(path, *, ffprobe_binary):
             path.write_bytes(b"replacement video bytes")
