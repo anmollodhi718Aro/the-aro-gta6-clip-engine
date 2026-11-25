@@ -899,3 +899,8 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Cleanup commit: `06bae2c7886a16dcef2b07e76d385fee48e51a2f`.
 - No production behavior changed. Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### ARO-CHAT-0250 cleanup identity correction
+- Follow-up production commit `3b7aa9f0c2905479b38000b87738bec9a4592577` records only stable device/inode/file-type identity for cleanup ownership. Size and timestamps are intentionally excluded because they change while a partial snapshot is being written.
+- Repository tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Preserve the existing PR #386 draft stack and all upload/publishing gates.
