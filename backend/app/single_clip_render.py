@@ -128,7 +128,18 @@ def _render_selected_clip_from_snapshot(
         return report
 
     duration = preflight.get("duration_seconds")
-    if isinstance(duration, bool) or not isinstance(duration, (int, float)) or not math.isfinite(duration) or duration <= 0:
+    try:
+        valid_duration = (
+            not isinstance(duration, bool)
+            and isinstance(duration, (int, float))
+            and math.isfinite(duration)
+            and duration > 0
+        )
+    except (OverflowError, TypeError, ValueError):
+        # A huge integer can overflow during float conversion inside isfinite().
+        # Treat malformed preflight metadata as a deterministic validation failure.
+        valid_duration = False
+    if not valid_duration:
         report["error"] = "source preflight did not provide a valid media duration"
         return report
     if end > duration:
