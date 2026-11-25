@@ -192,3 +192,8 @@ Current Issue #68 continuation: Windows OAuth token persistence now disables inh
 
 
 Issue #68 Windows OAuth ACL verification refinement: ACLs are read back through PowerShell Get-Acl; every ACE principal is translated to a SecurityIdentifier. Acceptance requires exactly one explicit Allow/FullControl ACE for the current user's SID. Extra or inherited ACEs and any command/translation failure reject token persistence and loading. Mocked regression tests were added. Do not mark verified until exact-head CI and owner-device Windows verification both pass; independent review, OAuth/channel acceptance, upload byte limit and authorized real-media acceptance remain pending.
+
+### Mandatory upload-size gate
+- A live YouTube upload must receive an explicit positive device-selected `--max-upload-bytes` value. The CLI and direct uploader both fail closed when it is missing.
+- Before OAuth, copy the exact source into a temporary snapshot using bounded 1 MiB reads; abort if the configured ceiling is exceeded. Verify the snapshot hash matches the approved source and upload only the snapshot bytes.
+- The conservative dry-run ceiling is not an owner-selected live-upload budget. Do not infer a device limit from CI or choose one on the owner's behalf.
