@@ -42,6 +42,11 @@ def render_selected_clip(
     }
 
     try:
+        # Inspect the requested path before resolve(), which follows dangling
+        # symlinks and could otherwise redirect a new output unexpectedly.
+        if destination.is_symlink():
+            report["error"] = "output path is a symbolic link; symbolic-link destinations are rejected"
+            return report
         if source.resolve() == destination.resolve():
             report["error"] = "output path must differ from the selected source"
             return report
