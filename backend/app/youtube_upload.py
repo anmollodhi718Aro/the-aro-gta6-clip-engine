@@ -8,8 +8,6 @@ from __future__ import annotations
 
 import argparse
 import base64
-import hashlib
-import io
 import json
 import mimetypes
 import os
@@ -454,21 +452,21 @@ def upload_video(
     if video_path.stat().st_size > max_upload_bytes:
         raise ValueError(f"video exceeds the configured upload limit of {max_upload_bytes} bytes")
 
-    # Freeze the exact bounded bytes before OAuth can refresh credentials or
-    # open an interactive authorization flow. Later upload uses this snapshot.
-    from backend.app.youtube_owner_approval import sha256_file
-    with tempfile.TemporaryDirectory(prefix="aro-youtube-upload-") as staging_dir:
-        snapshot_path = Path(staging_dir) / "approved-upload.mp4"
-        with video_path.open("rb") as source, snapshot_path.open("xb") as snapshot:
-            copied_bytes = _copy_stream_with_limit(source, snapshot, max_upload_bytes)
-            snapshot.flush()
-            os.fsync(snapshot.fileno())
+    # Keep the staged upload on disk for the entire operation. Never read the
+    # complete video into memory; MediaIoBaseUpload streams from this file.
+    staging = tempfile.TemporaryDirectory(prefix="aro-youtube-upload-")
+    try:
+        snapshot_path = Path(staging.name) / "approved-upload.mp4"
+        with video_path.open("rb") as source, snapshot_path.open("xb") as snapshot_file:
+            copied_bytes = _copy_stream_with_limit(source, snapshot_file, max_upload_bytes)
+            snapshot_file.flush()
+            os.fsync(snapshot_file.fileno())
         if copied_bytes <= 0:
             raise ValueError("video file is empty")
-        upload_bytes = snapshot_path.read_bytes()
-    upload_sha256 = hashlib.sha256(upload_bytes).hexdigest()
-    if sha256_file(video_path) != upload_sha256:
-        raise PermissionError("video changed while creating the bounded upload snapshot")
+        from backend.app.youtube_owner_approval import sha256_file
+        upload_sha256 = sha256_file(snapshot_path)
+        if sha256_file(video_path) != upload_sha256:
+            raise PermissionError("video changed while creating the bounded upload snapshot")
 
     # Validate the declared rights report and live source grant before any
     # OAuth refresh or interactive authorization can occur.
@@ -507,48 +505,51 @@ def upload_video(
         expected_google_subject=expected_subject, expected_channel_id=expected_channel,
     )
     mime_type, _ = mimetypes.guess_type(video_path.name)
-    media = MediaIoBaseUpload(
-        io.BytesIO(upload_bytes),
-        mimetype=mime_type or "application/octet-stream",
-        chunksize=8 * 1024 * 1024,
-        resumable=True,
-    )
-    require_current_owner_approval(
-        approval_record_path, clip_id=clip_id, source_id=source_id,
-        video_path=video_path, video_sha256=upload_sha256, owner=owner, privacy=privacy,
-        rights_registry=rights_registry,
-    )
-    # Repeat all identity, approval and current-rights checks immediately
-    # before the upload API side effect. Any mismatch fails closed.
-    owner = verify_authenticated_channel_owner(
-        credentials, youtube, oauth_client_id=oauth_client_id,
-        expected_google_subject=expected_subject, expected_channel_id=expected_channel,
-    )
-    require_current_owner_approval(
-        approval_record_path, clip_id=clip_id, source_id=source_id,
-        video_path=video_path, video_sha256=upload_sha256, owner=owner, privacy=privacy,
-        rights_registry=rights_registry,
-    )
-    require_report_publish_permissions(current_report, rights_registry, source_id)
-    response = youtube.videos().insert(
-        part="snippet,status", body=body, media_body=media,
-    ).execute(num_retries=3)
-    video_id = str(response.get("id", "")).strip()
-    if not video_id:
-        raise RuntimeError("YouTube API response did not include a video ID")
-    # The request asks YouTube to stage privately. Do not report success unless
-    # the API response itself confirms that exact visibility.
-    returned_status = response.get("status")
-    if not isinstance(returned_status, dict) or returned_status.get("privacyStatus") != "private":
-        raise RuntimeError(
-            "YouTube did not confirm PRIVATE visibility in the upload response; "
-            "treat the upload state as unverified and inspect it in YouTube Studio"
+        with snapshot_path.open("rb") as upload_stream:
+            media = MediaIoBaseUpload(
+                upload_stream,
+                mimetype=mime_type or "application/octet-stream",
+                chunksize=8 * 1024 * 1024,
+                resumable=True,
+            )
+        require_current_owner_approval(
+            approval_record_path, clip_id=clip_id, source_id=source_id,
+            video_path=video_path, video_sha256=upload_sha256, owner=owner, privacy=privacy,
+            rights_registry=rights_registry,
         )
-    return {
-        "video_id": video_id,
-        "url": f"https://www.youtube.com/watch?v={video_id}",
-        "privacy_status": "private",
-    }
+        # Repeat all identity, approval and current-rights checks immediately
+        # before the upload API side effect. Any mismatch fails closed.
+        owner = verify_authenticated_channel_owner(
+            credentials, youtube, oauth_client_id=oauth_client_id,
+            expected_google_subject=expected_subject, expected_channel_id=expected_channel,
+        )
+        require_current_owner_approval(
+            approval_record_path, clip_id=clip_id, source_id=source_id,
+            video_path=video_path, video_sha256=upload_sha256, owner=owner, privacy=privacy,
+            rights_registry=rights_registry,
+        )
+        require_report_publish_permissions(current_report, rights_registry, source_id)
+        response = youtube.videos().insert(
+            part="snippet,status", body=body, media_body=media,
+        ).execute(num_retries=3)
+        video_id = str(response.get("id", "")).strip()
+        if not video_id:
+            raise RuntimeError("YouTube API response did not include a video ID")
+        # The request asks YouTube to stage privately. Do not report success unless
+        # the API response itself confirms that exact visibility.
+        returned_status = response.get("status")
+        if not isinstance(returned_status, dict) or returned_status.get("privacyStatus") != "private":
+            raise RuntimeError(
+                "YouTube did not confirm PRIVATE visibility in the upload response; "
+                "treat the upload state as unverified and inspect it in YouTube Studio"
+            )
+        return {
+            "video_id": video_id,
+            "url": f"https://www.youtube.com/watch?v={video_id}",
+            "privacy_status": "private",
+        }
+    finally:
+        staging.cleanup()
 
 
 def main() -> int:
