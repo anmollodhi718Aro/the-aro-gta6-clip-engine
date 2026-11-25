@@ -11,6 +11,7 @@ import json
 import mimetypes
 import os
 import re
+import subprocess
 import sys
 import tempfile
 from pathlib import Path
@@ -227,26 +228,58 @@ def validate_upload(
     return video, body
 
 
+def _apply_windows_owner_only_acl(path: Path) -> None:
+    """Disable inherited Windows ACLs and verify the current user is the sole ACE."""
+    try:
+        identity = subprocess.run(
+            ["whoami", "/user", "/fo", "csv", "/nh"],
+            check=True, capture_output=True, text=True, timeout=15,
+        )
+        sid_match = re.search(r"S-1-(?:\\d+-)+\\d+", identity.stdout)
+        if not sid_match:
+            raise PermissionError("could not determine the current Windows user SID")
+        sid = sid_match.group(0)
+        subprocess.run(
+            ["icacls", str(path), "/inheritance:r", "/grant:r", f"*{sid}:(F)"],
+            check=True, capture_output=True, text=True, timeout=15,
+        )
+        verified = subprocess.run(
+            ["icacls", str(path)],
+            check=True, capture_output=True, text=True, timeout=15,
+        )
+        entries = re.findall(r"^\\s*(\\*?S-1-[\\d-]+):\\(([^)]+)\\)\\s*$",
+                             verified.stdout, flags=re.MULTILINE)
+        normalized = [(entry_sid.lstrip("*"), rights) for entry_sid, rights in entries]
+        if normalized != [(sid, "F")]:
+            raise PermissionError("Windows ACL verification did not show exactly one owner-only full-control entry")
+    except (OSError, subprocess.SubprocessError) as exc:
+        raise PermissionError(f"could not enforce owner-only Windows ACL: {exc}") from exc
+
+
 def _persist_oauth_token(token_path: Path, token_json: str) -> None:
-    """Atomically persist an OAuth token with owner-only permissions."""
+    """Atomically persist an OAuth token with verified owner-only permissions."""
     target = Path(token_path).expanduser()
     target.parent.mkdir(parents=True, exist_ok=True)
     parent = target.parent.resolve(strict=True)
     target = parent / target.name
     if target.is_symlink():
         raise PermissionError("OAuth token path must not be a symbolic link")
+    windows = os.name == "nt"
+    if windows:
+        _apply_windows_owner_only_acl(parent)
     fd, temp_name = tempfile.mkstemp(prefix=f".{target.name}.", dir=str(parent))
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as stream:
-            os.chmod(temp_name, 0o600)
+            if windows:
+                _apply_windows_owner_only_acl(Path(temp_name))
+            else:
+                os.chmod(temp_name, 0o600)
             stream.write(token_json)
             stream.flush()
             os.fsync(stream.fileno())
         os.replace(temp_name, target)
-        try:
+        if not windows:
             os.chmod(target, 0o600)
-        except OSError:
-            pass
     finally:
         if os.path.exists(temp_name):
             os.unlink(temp_name)
