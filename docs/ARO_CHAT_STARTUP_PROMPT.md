@@ -1179,3 +1179,9 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - Snapshot failure now reports `source_snapshot_created=false`, `source_snapshot_verified=false`, and `source_sha256=null`. Expected inventory digest is separate metadata, not represented as a verified snapshot hash.
 - Terminal CLI exception reports preserve the same explicit unverified state. Regression coverage added for both direct mismatch and CLI failure report paths.
 - Implementation: `7c96ef41ea54fd362b75e696a6463635b43f3a67`; tests: `3735cf6661d5687d566d1c42d2df4cb4fae8ca12`. Tests NOT RUN; no media processed or published.
+
+
+### Latest handoff: ARO-CHAT-0283: trusted digest boundary validation
+- The renderer API now rejects malformed supplied SHA-256 values before probing or snapshot creation, even when called directly rather than through the CLI.
+- Regression test added for fail-closed behavior and absence of media-tool/output activity.
+- Implementation: `bead52dd6cef555764d5605beb22c5f1c7fe2d9c`; test: `7cd1d015feb7e0fc6f257747c2483440096bf183`. Tests NOT RUN.
