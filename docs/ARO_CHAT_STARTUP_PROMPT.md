@@ -922,3 +922,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Do not claim TESTED or CI_VERIFIED.
 - PR #386 remains DRAFT / OPEN / UNMERGED with existing #383 -> #380/#379 ancestry. PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+## ARO-CHAT-0255 current continuation — strict numeric clip-bound validation (2026-11-25)
+- Continue on existing PR #386 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no duplicate branch or PR.
+- The low-level renderer's finite-number check could leak `OverflowError` for huge integers and `TypeError` for strings. It now fails closed with a clear `ValueError` before invoking FFmpeg.
+- Regression coverage checks huge integer values in either bound and non-numeric strings. README documents the single-selected-clip CLI and its dry-run/rights gates.
+- Production commit: `7fe27534ff04581d759869b70bfc01adda66415e`; regression commit: `032619776eb329cba692adce24bf4e954866d161`; README commit: `1c6978ea1a46b787862ddeed77579424159b1c18`; registry commit: `69017ac55d790196feca8c9d4deafe1101a44258`.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Inspect only naturally triggered CI; do not retry/dispatch workflows without owner direction.
+- Preserve PR #386 DRAFT / OPEN / UNMERGED and its #383 -> #380/#379 ancestry. No merge, rebase, retarget, or integration without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, or deployment.
