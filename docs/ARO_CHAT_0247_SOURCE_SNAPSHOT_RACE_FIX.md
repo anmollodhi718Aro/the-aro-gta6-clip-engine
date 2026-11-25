@@ -41,3 +41,5 @@ This avoids whole-video RAM buffering. Temporary disk use is proportional to the
 PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing ancestry through PR #383 and PRs #380/#379. PR #379's multi-file inventory conflicts with the later one-selected-video requirement; do not merge, rebase, retarget, or integrate without explicit owner approval.
 
 Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled. No OAuth, credentials, real media, upload, publishing, workflow retry/dispatch, merge, or deployment occurred.
+
+- Final source-open hardening commit `08aab858763bd4f9057650cb718cc0a13c0a3e6f` adds `O_NONBLOCK` where available, preventing a path swapped to a FIFO/special file from hanging before the descriptor type check.
