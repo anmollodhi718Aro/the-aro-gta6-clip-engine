@@ -212,3 +212,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - PR #385 head `b8704221f4ba3131d8c6b96e2d091a9530eea5b2` is associated with run #45657905605, conclusion FAILURE.
 - Ubuntu job #139359465979 and hosted-Windows job #139359466345 both expose `steps: null` and `logs_url: null`. No compile/test result is available; failure phase and cause remain UNVERIFIED and are not attributed to application code.
 - Do not blindly rerun or dispatch workflows. Exact-head CI remains NOT VERIFIED; local repository tests NOT RUN.
+
+
+## ARO-CHAT-0245 PR #385 exact-head CI failure triage — 2026-11-25
+
+- Current continuation is documentation-only on the existing ARO-CHAT-0244 branch and draft PR #385; do not create a duplicate PR or branch.
+- Live PR #385 head at audit: `b8704221f4ba3131d8c6b96e2d091a9530eea5b2`; exact-head Actions run #45657905605 failed, but both Ubuntu job 139359465979 and hosted-Windows job 139359466345 exposed `steps: null` and `logs_url: null`.
+- This provides no checkout, setup, compile, test, or synthetic-media evidence. Failure phase/root cause are UNVERIFIED and must not be attributed to application code. Combined commit status returned no entries; local tests were NOT RUN.
+- Bounded static review did not establish a reproducible production-code defect. Do not make speculative changes or blindly retry/dispatch workflows. Inspect a later automatic run only if usable job steps/logs are available; then fix only evidence-backed defects.
+- Report: `docs/ARO_CHAT_0245_PR385_CI_FAILURE_TRIAGE.md`; registry entry: ARO-CHAT-0245 / ARO-GTA-P1-245.
+- Keep PR #385 OPEN / DRAFT / UNMERGED. No OAuth, credentials, real media, upload, publishing, merge, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled. Independent human security review, owner-device OAuth/channel verification, owner-selected upload byte limit, and authorized real-media PRIVATE acceptance remain separate gates.
