@@ -132,6 +132,17 @@ class SingleClipRenderTests(unittest.TestCase):
 
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     @patch("backend.app.single_clip_render.render_clip")
+    def test_rejects_nearly_empty_output_for_short_clip(self, render, preflight):
+        render.return_value = self.output.resolve()
+        preflight.side_effect = [PASS, {"status": "PASS", "duration_seconds": 0.01}]
+        report = render_selected_clip(
+            self.source, self.output, 2, 2.1, execute=True, rights_confirmed=True,
+        )
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("expected clip bounds", report["error"])
+
+    @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
+    @patch("backend.app.single_clip_render.render_clip")
     def test_rejects_output_that_fails_post_render_verification(self, render, preflight):
         render.return_value = self.output.resolve()
         preflight.side_effect = [PASS, {"status": "FAIL", "error": "invalid output"}]
