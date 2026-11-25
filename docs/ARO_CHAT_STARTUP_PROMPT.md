@@ -1185,3 +1185,9 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - The renderer API now rejects malformed supplied SHA-256 values before probing or snapshot creation, even when called directly rather than through the CLI.
 - Regression test added for fail-closed behavior and absence of media-tool/output activity.
 - Implementation: `bead52dd6cef555764d5605beb22c5f1c7fe2d9c`; test: `7cd1d015feb7e0fc6f257747c2483440096bf183`. Tests NOT RUN.
+
+
+### Latest handoff: ARO-CHAT-0284: terminal report on unexpected exceptions
+- CLI renderer invocation now records ordinary unexpected Python exceptions as terminal `FAIL` JSON, retaining explicit false snapshot verification/creation flags and null actual snapshot digest.
+- Added a regression for unexpected `TypeError`; tests NOT RUN.
+- Implementation: `de3918653b2fd268a1826f962a4dfefa2c78bc27`; test: `4c54daaafc19c2329a2008e087f06792d7e8f27e`.
