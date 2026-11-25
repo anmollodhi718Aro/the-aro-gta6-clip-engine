@@ -2,6 +2,7 @@
 import sqlite3
 import tempfile
 import unittest
+import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import closing
 from threading import Barrier
@@ -333,6 +334,30 @@ class SourceRightsRegistryTests(unittest.TestCase):
             with self.subTest(operation="revoke", value=repr(invalid)):
                 with self.assertRaises(ValueError):
                     self.registry.revoke("creator-video-1", actor="owner", at=invalid)
+
+    def test_register_rejects_all_idna_numeric_compatibility_characters(self):
+        # IDNA compatibility mappings can turn Unicode numeric characters
+        # into ASCII digits. Exercise every numeric-category character that
+        # the active Python IDNA codec maps to an ASCII-only numeric label.
+        candidates = []
+        for codepoint in range(128, 0x110000):
+            character = chr(codepoint)
+            if not unicodedata.category(character).startswith("N"):
+                continue
+            try:
+                mapped = character.encode("idna").decode("ascii")
+            except UnicodeError:
+                continue
+            if mapped and mapped.isascii() and mapped.isdecimal():
+                candidates.append(character)
+
+        self.assertTrue(candidates, "expected IDNA numeric compatibility mappings")
+        for character in candidates:
+            source_url = f"https://example.{character}/video"
+            with self.subTest(codepoint=f"U+{ord(character):04X}", source_url=source_url):
+                with self.assertRaises(ValueError):
+                    self.registry.register(dict(self.record, source_url=source_url))
+
 
 if __name__ == "__main__":
     unittest.main()
