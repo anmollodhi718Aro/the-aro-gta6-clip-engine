@@ -891,3 +891,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Inspect naturally triggered CI only; do not retry/dispatch without owner direction.
 - PR #386 remains DRAFT / OPEN / UNMERGED with its existing #383 -> #380/#379 ancestry. PR #379 conflicts with the later one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+### ARO-CHAT-0251 continuation — duplicate regression cleanup (2026-11-25)
+- Follow-up to ARO-GTA-P1-244 / PR #386; existing branch and ancestry preserved.
+- Removed a redundant snapshot-collision test introduced during a concurrent continuation because ARO-CHAT-0250 already covers preservation of pre-existing snapshot destinations. The existing comprehensive regression remains in place.
+- Cleanup commit: `06bae2c7886a16dcef2b07e76d385fee48e51a2f`.
+- No production behavior changed. Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
