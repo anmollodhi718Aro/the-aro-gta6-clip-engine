@@ -53,3 +53,13 @@ The post-render FFprobe duration must be a finite, positive numeric value. Extre
 ## Selected-video preflight path identity
 
 The standalone one-video FFprobe preflight checks the selected path with `lstat()` before and after probing. It rejects symlinks and non-regular files, compares path identity with followed-file metadata, and detects replacement while FFprobe is running. On POSIX it also compares change time so an in-place same-size mutation is rejected even if modification time is restored. Windows creation-time semantics are handled separately; hosted Windows CI is not owner-device verification.
+
+
+## Unverified output cleanup
+
+If FFprobe rejects a newly rendered clip or its duration is outside the requested
+bounds, the renderer attempts to remove only the exact regular-file inode
+created by that invocation. If the output path has been replaced, changed type,
+or cannot be safely inspected, it is preserved and the report records
+`unverified_output_removed: false`. A failed verification must never leave an
+apparently acceptable output silently in the normal destination path.
