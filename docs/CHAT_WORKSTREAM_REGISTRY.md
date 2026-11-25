@@ -1503,3 +1503,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - After documentation synchronization, PR #376 exact head is 3118b6afdecd42a22f9aab229b4cb3a0b782cf1a. Commit-associated workflow lookup for that exact documentation head returned zero runs. Exact-head CI is PENDING / NOT VERIFIED; no CI evidence transfers from the code/test commit or earlier heads.
 - PR #376 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; owner UNASSIGNED. Keep live uploads/public publishing disabled.
 - No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing was performed.
+
+
+### ARO-CHAT-0238 IDNA compatibility-digit regression follow-up — 2026-11-25
+- Static review found IDNA compatibility mappings can turn superscript and circled digits into ASCII numeric URL-host suffixes (for example, `²` → `2`, `①` → `1`, `⑨` → `9`). The numeric-suffix guard then rejects these ambiguous hosts unless the entire hostname is canonical IPv4.
+- Added test-only rejection cases for `example.²`, `example.①`, and `example.⑨` in `tests/test_rights_registry.py`.
+- Test commit: `c03fb62bb2f268d174f89a51973cb985b9473b45`. An isolated in-memory probe confirmed the IDNA mappings and expected validator rejection; this is not a repository test run.
+- Repository unit tests NOT RUN. Commit-associated exact-head workflow lookup returned zero runs. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent review NOT RECORDED; PR review submissions and inline threads remain empty.
+- Continue on existing draft PR #376 only. Preserve DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
