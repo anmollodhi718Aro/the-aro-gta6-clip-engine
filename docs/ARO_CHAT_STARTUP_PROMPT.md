@@ -196,3 +196,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Added tests for size limit, bounded snapshot identity/cleanup, and Windows ACL fail-closed behavior. These tests have NOT YET RUN on this continuation. Do not report success until exact-head Ubuntu and hosted-Windows CI show compilation, full unit tests, and synthetic MP4/FFprobe checks.
 - Next: open/inspect the draft follow-up PR, inspect exact-head CI steps/logs, fix only evidence-backed failures, then request independent human security review. Do not run OAuth, access credentials, upload media, enable public publishing, merge, or deploy.
 - Owner-device OAuth/channel verification, selection of a suitable upload byte limit for the owner's device, and authorized real-media/private-upload acceptance remain separate gates.
+
+
+## ARO-CHAT-0244 current continuation — 2026-11-25
+
+- Continue on `workstream/aro-chat-0244-verified-bounded-upload-snapshot-2026-11-25`, stacked on PR #378's private-upload size/Windows-token-ACL work.
+- Ported the verified descriptor-based source snapshot boundary into the bounded uploader: reject symlinks/non-regular files, detect path replacement and in-place mutation during copy, enforce the explicit owner-selected byte limit while copying, and use the same temporary snapshot for approval hashing and transfer.
+- Added regressions for symlink/FIFO inputs and source mutation during snapshot creation. Source and tests are committed; exact-head CI and repository test execution remain pending.
+- PR #378's latest observed CI run #45612283558 failed with both Ubuntu and hosted-Windows jobs exposing `steps: null` and no logs URL. This provides no compile/test result; failure phase and cause remain unverified. Do not attribute it to application code or claim tests passed.
+- Next: inspect the new draft PR's exact-head Ubuntu/Windows run and fix only evidence-backed failures. Keep all PRs draft/open/unmerged pending the owner's later review request. No OAuth, credentials, real media, live upload, public publishing, merge, or deployment.
+- Remaining owner gates: independent security review; owner-device OAuth/channel verification; owner-selected byte limit; authorized real-media PRIVATE acceptance.
