@@ -122,3 +122,8 @@ A CLI-level regression covers the complete metadata handoff from measured candid
 ### Candidate source confirmation
 
 When selecting a clip-pack row from the CLI, provide `--source-id` with the same source ID as the selected CSV row. The CLI rejects a missing or mismatched value before reserving the render report or inspecting media. This is an explicit operator cross-check intended to catch accidental selection of a candidate row from another source. It is **not** cryptographic or automatic proof that the selected local file corresponds to that source ID; operators must independently verify the selected file against their authorized source record.
+
+
+### Trusted source digest confirmation
+
+Candidate CSV CLI mode also requires `--source-sha256`. Supply the expected 64-character SHA-256 digest from the trusted authorized-media inventory, not a digest calculated from an unverified copy at the moment of invocation. The CLI hashes the selected local file through a non-following file descriptor, in bounded 1 MiB reads, and checks descriptor/path identity before and after hashing. A mismatch, malformed digest, symlink, or detected file change fails before report reservation and media probing. The report records the verified digest with the selected candidate metadata. This check binds the chosen bytes to the trusted inventory digest; it does not establish who created the file or grant processing rights. The rights confirmation gate remains separate.
