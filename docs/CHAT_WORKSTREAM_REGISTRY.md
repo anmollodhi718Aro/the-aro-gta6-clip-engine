@@ -1511,3 +1511,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Test commit: `c03fb62bb2f268d174f89a51973cb985b9473b45`. An isolated in-memory probe confirmed the IDNA mappings and expected validator rejection; this is not a repository test run.
 - Repository unit tests NOT RUN. Commit-associated exact-head workflow lookup returned zero runs. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent review NOT RECORDED; PR review submissions and inline threads remain empty.
 - Continue on existing draft PR #376 only. Preserve DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### ARO-CHAT-0238 IDNA numeric compatibility-digit regression follow-up — 2026-11-25
+- Static review identified additional IDNA compatibility characters not yet represented in the regression suite: subscript digits, mathematical styled digits, and multi-digit circled numerals. Python's built-in IDNA codec normalizes these to ASCII numeric suffixes, which must not fall through to DNS-label acceptance.
+- Added five test-only invalid URL cases: `example.₁`, `example.𝟙`, `example.⑩`, `example.㉑`, and `example.⁰`.
+- Isolated in-memory probe confirmed each normalized to an ASCII numeric suffix and was rejected by the current validation logic. This is not a repository unit-test run.
+- Test commit: `1bc36c0d74cda85771c748801253a9fe0cb3e4c7`. Repository unit tests NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; independent review NOT RECORDED.
+- Continue on existing PR #376 only. Preserve DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
