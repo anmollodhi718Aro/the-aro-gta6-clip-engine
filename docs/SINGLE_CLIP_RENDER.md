@@ -160,3 +160,15 @@ The initial and terminal report payloads, plus the exclusive fallback writer, us
 ### Unexpected exceptions after snapshot verification
 
 If FFprobe/FFmpeg or a later render step raises after the selected source has been copied and its digest verified, the terminal FAIL report retains `source_snapshot_created=true`, `source_snapshot_verified=true`, and the verified `source_sha256`. The processing-start state is marked unknown when the exception does not establish whether FFmpeg began. If the CLI itself receives an unexpected exception before it gets a structured renderer result, snapshot fields are null (unknown), not false. Inspect any output before retrying.
+
+
+### Temporary snapshot cleanup failure
+
+If temporary-directory cleanup raises after snapshot creation, the terminal
+failure report retains `source_snapshot_created=true`, the verified snapshot
+SHA-256, and `source_snapshot_verified=true`. If a structured render result
+was already returned, its known processing state and preflight evidence are
+preserved. The command reports `FAIL` because temporary cleanup did not
+complete; inspect the output and temporary files manually before retrying.
+Upload and publishing remain disabled. A cleanup failure is not evidence that
+rendering never started or that an already-created output is absent.
