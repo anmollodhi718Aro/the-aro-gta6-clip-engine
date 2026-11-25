@@ -76,6 +76,17 @@ class SingleClipRenderTests(unittest.TestCase):
 
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     @patch("backend.app.single_clip_render.render_clip")
+    def test_rejects_unexpectedly_short_rendered_output(self, render, preflight):
+        render.return_value = self.output.resolve()
+        preflight.side_effect = [PASS, {"status": "PASS", "duration_seconds": 1.0}]
+        report = render_selected_clip(
+            self.source, self.output, 2, 8, execute=True, rights_confirmed=True,
+        )
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("expected clip bounds", report["error"])
+
+    @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
+    @patch("backend.app.single_clip_render.render_clip")
     def test_rejects_output_that_fails_post_render_verification(self, render, preflight):
         render.return_value = self.output.resolve()
         preflight.side_effect = [PASS, {"status": "FAIL", "error": "invalid output"}]
