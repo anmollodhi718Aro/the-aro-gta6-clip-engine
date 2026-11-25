@@ -86,6 +86,23 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertIn("FFprobe verification", report["error"])
 
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
+    def test_rejects_same_source_and_non_mp4_output_paths(self, _preflight):
+        same = render_selected_clip(self.source, self.source, 1, 4)
+        wrong_extension = render_selected_clip(self.source, self.root / "clip.mov", 1, 4)
+        self.assertEqual(same["status"], "FAIL")
+        self.assertIn("differ", same["error"])
+        self.assertEqual(wrong_extension["status"], "FAIL")
+        self.assertIn(".mp4", wrong_extension["error"])
+
+    @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
+    def test_refuses_existing_output_even_during_dry_run(self, _preflight):
+        self.output.write_bytes(b"preserve me")
+        report = render_selected_clip(self.source, self.output, 1, 4)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("never overwritten", report["error"])
+        self.assertEqual(self.output.read_bytes(), b"preserve me")
+
+    @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     def test_cli_writes_exclusive_dry_run_report(self, _preflight):
         report_path = self.root / "report.json"
         with patch("sys.argv", [
