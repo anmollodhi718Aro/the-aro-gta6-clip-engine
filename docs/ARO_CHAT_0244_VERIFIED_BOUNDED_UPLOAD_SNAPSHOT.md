@@ -39,3 +39,9 @@ Close the gap between the bounded temporary snapshot in PR #378 and the stronger
 
 Draft-only code change. No OAuth, credentials, real media, upload, public publishing, merge, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled. Independent security review, owner-device OAuth/channel verification, owner-selected upload limit, and authorized real-media PRIVATE acceptance remain separate gates.
 
+
+
+### Exact-head CI recheck — 2026-11-25
+- PR #385 head `b8704221f4ba3131d8c6b96e2d091a9530eea5b2` is associated with run #45657905605, conclusion FAILURE.
+- Ubuntu job #139359465979 and hosted-Windows job #139359466345 both expose `steps: null` and `logs_url: null`. No compile/test result is available; failure phase and cause remain UNVERIFIED and are not attributed to application code.
+- Do not blindly rerun or dispatch workflows. Exact-head CI remains NOT VERIFIED; local repository tests NOT RUN.
