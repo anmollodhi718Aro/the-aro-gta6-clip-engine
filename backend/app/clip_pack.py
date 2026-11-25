@@ -85,9 +85,16 @@ def map_candidates_to_media(
         if end <= start:
             raise ValueError(f"candidate {index} has clip_end <= clip_start")
 
-        candidate_source = str(candidate.get("source_id") or source_id or "")
+        raw_candidate_source = candidate.get("source_id")
+        candidate_source = str(raw_candidate_source or source_id or "")
         if clock_sync:
-            if candidate_source and candidate_source != clock_sync.source_id:
+            # A calibrated clock is valid only for the exact source measured
+            # by its anchors. Missing IDs must fail closed just like mismatches.
+            if not candidate_source:
+                raise ValueError(
+                    f"candidate {index} is missing source_id required by the calibrated clock"
+                )
+            if candidate_source != clock_sync.source_id:
                 raise ValueError(f"candidate {index} belongs to a different clock source")
             start_seconds = clock_sync.map_chat_time(start)
             end_seconds = clock_sync.map_chat_time(end)
