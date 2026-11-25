@@ -441,6 +441,10 @@ def upload_video(
     max_upload_bytes: int | None = None,
 ) -> dict[str, str]:
     """Upload a bounded disk snapshot so approval and transfer use identical bytes."""
+    if body.get("status", {}).get("privacyStatus") != "private":
+        raise PermissionError("this uploader only permits PRIVATE staging; public visibility is a separate owner action")
+    if owner_approved is not True or rights_confirmed is not True:
+        raise PermissionError("actual upload requires --owner-approved and --confirm-rights")
     limit = _validate_max_upload_bytes(max_upload_bytes)
     source_path = Path(video_path).expanduser()
     if not source_path.is_file():
