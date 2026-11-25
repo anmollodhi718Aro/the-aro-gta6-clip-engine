@@ -182,6 +182,29 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(raised.exception.code, 2)
         self.assertFalse(report_path.exists())
 
+
+    def test_candidate_cli_rejects_invalid_trusted_sha256_before_report_reservation(self):
+        mapped_rows = map_candidates_to_media(
+            [{
+                "source_id": "authorized-demo",
+                "clip_start": "2026-11-19T12:00:30+00:00",
+                "clip_end": "2026-11-19T12:00:45+00:00",
+            }],
+            "2026-11-19T12:00:00+00:00",
+        )
+        csv_path, _ = write_clip_pack(mapped_rows, self.root / "bad-digest-pack")
+        report_path = self.root / "bad-digest-report.json"
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--candidate-csv", str(csv_path), "--candidate-row", "1",
+            "--source-id", "authorized-demo", "--source-sha256", "not-a-digest",
+            "--report", str(report_path),
+        ]
+        with patch("sys.argv", argv), self.assertRaises(SystemExit) as raised:
+            main()
+        self.assertEqual(raised.exception.code, 2)
+        self.assertFalse(report_path.exists())
+
     def test_source_id_option_is_rejected_in_direct_bounds_mode(self):
         report_path = self.root / "unexpected-source-id-report.json"
         with patch("sys.argv", [
