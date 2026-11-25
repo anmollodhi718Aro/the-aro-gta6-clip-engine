@@ -1215,3 +1215,7 @@ Terminal fallback creation now refuses a resolved path that aliases the selected
 
 ### Latest continuation — ARO-CHAT-0290
 Fallback writes now verify the reported character count and fail closed on short writes. A partial sidecar may remain and must be manually inspected; no automatic deletion/overwrite is attempted. Regression test added but NOT RUN. CI NOT VERIFIED. PR #386 remains draft/unmerged; no real media, upload, publish, or deploy; Issue #68 remains awaiting owner approval.
+
+
+### Latest continuation — ARO-CHAT-0291
+Initial RUNNING report is now serialized before writing and checks for short writes before flush/fsync. If reservation write fails, exclusive sidecar recovery is attempted and execution stops before media inspection. Regression test verifies renderer is not called and fallback remains parseable. Tests NOT RUN; CI NOT VERIFIED; PR #386 remains draft/unmerged; no real media, upload, publish, or deploy; Issue #68 remains awaiting owner approval.
