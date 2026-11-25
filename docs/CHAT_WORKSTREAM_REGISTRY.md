@@ -1529,3 +1529,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Repository unit tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. No CI evidence transfers from prior commits.
 - Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing disabled.
 - No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### Exhaustive IDNA numeric-mapping regression — 2026-11-25
+- Continued the existing PR #376 / ARO-GTA-P1-238 branch; no duplicate workstream or PR.
+- Added a test-only enumeration of Unicode numeric-category characters whose active Python IDNA codec maps them to ASCII decimal labels. Each resulting numeric-suffix URL must be rejected. Commit: `bbffafc8fe976915bcc3cabbcb050016751e2797`.
+- An isolated in-memory probe enumerated 131 mappings; all 131 were rejected, while canonical IPv4 with and without a trailing root dot remained accepted. This is not a repository unit-test run.
+- Exact-head Python CI run #45538802378 completed FAILURE. Ubuntu job `138951930368` and hosted-Windows job `138951930049` exposed `steps: null` and `logs_url: null`. Failure phase/root cause NOT VERIFIED; no compile/test result is claimed and failure is not attributed to application code.
+- Repository unit tests NOT RUN; independent review NOT RECORDED (PR #376 reviews and inline threads empty at inspection).
+- Report: `docs/ARO_CHAT_0238_IDNA_NUMERIC_MAPPING_REGRESSION.md`. Preserve PR #376 OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; owner UNASSIGNED. Keep live uploads/public publishing disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
