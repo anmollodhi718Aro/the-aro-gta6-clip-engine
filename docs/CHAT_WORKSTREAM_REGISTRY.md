@@ -1956,3 +1956,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Commits: implementation `a38a34f03c5660e7eb0620362c325249edd7229e`; regression test `c50f182a32fe77f6810236d118805b14939cd2ff`; operator documentation `43d580b0c81b2f876e2e20ad63bb5403a6cac476`.
 - Repository tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Existing ancestry is preserved. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+## ARO-CHAT-0264 | Validate candidate score alignment against clip bounds — 2026-11-26
+
+- Continue existing PR #386 / branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR.
+- Static review found candidate scoring could award recording-alignment points when declared `duration_seconds` did not match `end_seconds - start_seconds`, or when boolean metadata was accepted as numeric by Python's `float(True)`.
+- Alignment points now require valid non-negative start/end bounds, a positive duration no greater than 180 seconds, measured bounds no greater than 180 seconds, and agreement between measured and declared duration within 50 ms. Boolean numeric metadata is rejected.
+- Regression coverage added for duration mismatch, over-limit bounds, boolean message count, and boolean clip start.
+- Operator documentation updated in `docs/CLIP_CANDIDATE_PACK.md`.
+- Commits: implementation `5647da26d41f0097063ec7820a08b1bb6bdc6214`; tests `63b1b41c1686de0f3fec7f90967ad02c2bab7a75`; docs `61a35dc11ca246b4372c64303498af3b5dcef224`.
+- Repository tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
