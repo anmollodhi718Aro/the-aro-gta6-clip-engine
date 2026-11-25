@@ -1207,3 +1207,7 @@ Added regression coverage for a partial terminal report write after a mocked suc
 
 ### Latest continuation — ARO-CHAT-0288
 A failed in-place terminal report write now triggers an exclusive-create sidecar fallback at `<report>.terminal-fallback.json`. Existing fallback files are never overwritten. The sidecar is flushed and fsynced, but the CLI returns an error because the primary report may be partial. If fallback creation fails or collides, inspect both paths and any output manually. This is not atomicity or crash-durability proof. Tests NOT RUN; CI NOT VERIFIED; no media/upload/publish/deploy. PR #386 remains draft and unmerged; Issue #68 remains awaiting owner approval.
+
+
+### Latest continuation — ARO-CHAT-0289
+Terminal fallback creation now refuses a resolved path that aliases the selected source or output. A regression test verifies the output alias is not created. This is a narrow path-alias guard, not complete protection against concurrent parent-directory replacement. Tests NOT RUN; CI NOT VERIFIED; PR #386 remains draft/unmerged; no media, upload, publish, or deploy; Issue #68 remains awaiting owner approval.
