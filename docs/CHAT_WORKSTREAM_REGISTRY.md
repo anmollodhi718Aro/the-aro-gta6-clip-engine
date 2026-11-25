@@ -2169,3 +2169,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Implementation: `ecd4b7cd31e976cbddc1a4bbbc66e8d5ae044609`; tests: `4059e72e35b2c3beb3d0dc10763d98f8de282f04`.
 - CLI still returns an error because the primary report may be partial. The sidecar is a recovery aid, not atomicity or crash-durability proof. Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains draft/open/unmerged; preserve stacked ancestry. No merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0289 — fallback path alias guard
+- The terminal fallback helper now resolves its destination and refuses creation if it aliases the selected source or output path.
+- Added a regression test asserting that an output-path alias is rejected and no file is created.
+- Implementation: `ae3d99ffdbb8e69ee3de76f30062d7f8eedbb74c`; test: `1c26d3f8715ba45823f241d05658e67bde5f31a7`.
+- Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. This guards resolved path aliases but is not a complete defense against concurrent directory/path replacement.
+- PR #386 remains draft/open/unmerged; no merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
