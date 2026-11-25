@@ -1015,3 +1015,12 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - Regression coverage added for both safe deletion and replacement preservation.
 - Tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - Preserve draft/unmerged status and existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0261 current continuation — exact-head CI and source audit
+- Exact title: `ARO-CHAT-0261 | Exact-Head CI and Single-Clip Source Audit`; workstream: `ARO-GTA-P1-261`.
+- Continue on existing PR #386 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR.
+- Starting head audited: `5fd9100218fd8d8abb5c8e4e43e03f31a0f2ba9a`. Current renderer/preflight and their regression tests were inspected. Dry-run remains the default; actual rendering requires both `--execute` and `--confirm-rights`.
+- Exact-head Actions lookup returned zero associated PR-triggered workflow runs; combined status returned zero entries. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED. Repository tests NOT RUN; independent review NOT RECORDED; owner-device Windows and authorized real-media acceptance NOT VERIFIED.
+- Audit report: `docs/ARO_CHAT_0261_EXACT_HEAD_CI_AUDIT.md`.
+- No runtime code changed. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. PR #386 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
