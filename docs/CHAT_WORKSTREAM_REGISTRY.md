@@ -1568,3 +1568,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Static review identified an over-broad final-label predicate that rejected ordinary DNS labels ending in digits. Production correction: `c9b621afc52b5b9ef84b459d6640b3fa1846fed6`; regression-test update: `f94c2d3d68084e6230fc10096605397fb9a145b6`.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. PR #376 remains DRAFT / OPEN / UNMERGED.
 - Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0238 numeric-ending URL-host parser alignment — 2026-11-25
+- Continued the existing PR #376 / ARO-GTA-P1-238 branch; no duplicate workstream or PR.
+- Re-reviewed the previous narrowing of _ends_in_ipv4_number(). It incorrectly allowed ASCII alphanumeric final labels ending in digits (including `label1`, `abc1`, `0xg1`, and `0a9`) even though WHATWG-style URL-host parsing treats an ASCII-digit-ending final label as an IPv4 candidate; failed IPv4 parsing makes that host invalid rather than an ordinary DNS hostname.
+- Restored the ASCII-digit-ending fallback while retaining explicit hexadecimal-prefix handling. Added negative regression cases for `example.0xg1`, `example.abc1`, and `example.0a9`; removed these from the accepted DNS-label controls.
+- Production commit: `9aa2c4b9bdcbfb8efd25bc2138656d581befa9f6`. Test commit: `07cc72d5bcba2fbf093de3d2ef2a98bfa876e928`.
+- Commit-associated workflow lookup for test commit `07cc72d5bcba2fbf093de3d2ef2a98bfa876e928` returned zero runs. Previous test commit `f94c2d3d68084e6230fc10096605397fb9a145b6` had run #45654439835; Ubuntu and hosted-Windows jobs both failed with `steps: null` and `logs_url: null`. Failure phase/root cause NOT VERIFIED; no compile/test result is established and failure is not attributed to application code.
+- Repository unit tests NOT RUN in this connector session. Independent review NOT RECORDED; PR #376 reviews and inline threads were empty at inspection. The code change is IMPLEMENTED, not TESTED or CI_VERIFIED.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
