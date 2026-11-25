@@ -1219,3 +1219,7 @@ Fallback writes now verify the reported character count and fail closed on short
 
 ### Latest continuation — ARO-CHAT-0291
 Initial RUNNING report is now serialized before writing and checks for short writes before flush/fsync. If reservation write fails, exclusive sidecar recovery is attempted and execution stops before media inspection. Regression test verifies renderer is not called and fallback remains parseable. Tests NOT RUN; CI NOT VERIFIED; PR #386 remains draft/unmerged; no real media, upload, publish, or deploy; Issue #68 remains awaiting owner approval.
+
+
+### Latest continuation — ARO-CHAT-0292
+Terminal report replacement checks write character count before truncating the prior RUNNING report. Short writes are now treated as failures and routed through exclusive fallback recovery. Regression coverage simulates a short write return. Tests NOT RUN; exact-head CI NOT VERIFIED; PR #386 remains draft/unmerged; no real media, upload, publish, or deploy; Issue #68 remains awaiting owner approval.
