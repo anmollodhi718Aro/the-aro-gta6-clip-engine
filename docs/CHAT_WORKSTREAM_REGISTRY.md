@@ -1935,3 +1935,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows and authorized real-media acceptance NOT VERIFIED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing #383 -> #380/#379 ancestry. No merge, rebase, retarget, integration, workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, or deployment.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0261 audit closeout — 2026-11-25
+- Existing workstream `ARO-GTA-P1-261`; continuation of PR #386 on the existing branch. No new branch/PR and no runtime behavior changes.
+- Latest audited PR head: `1ae6da85595086880caf7b47eae962df0151264f`; base `e6dffa5dabdd81f401f6189957c632fd49aad4bc`.
+- Exact-head PR workflow lookup returned zero runs; combined status is pending with zero entries. Ubuntu/hosted-Windows CI NOT VERIFIED. Reviews and inline comments are empty; one owner-authored conversation note is not independent review.
+- PR #386 is OPEN / DRAFT / UNMERGED and reports non-mergeable. Base comparison is DIVERGED (187 ahead / 5 behind); no rebase, retarget, or merge.
+- Static review confirmed dry-run-first, explicit execute+rights gate, one-selected-source flow, bounded stable snapshot, shared FFprobe/FFmpeg snapshot bytes, 180-second bound, private FFmpeg staging, atomic no-overwrite publication, post-render verification, and disabled upload/publishing.
+- Residual caveat: unverified-output cleanup performs lstat/identity comparison followed by pathname unlink; these are not atomic together against a process able to replace the destination directory entry between operations. Recorded in `docs/ARO_CHAT_0261_EXACT_HEAD_CI_AUDIT.md`; no runtime change made.
+- Repository tests NOT RUN; independent review NOT RECORDED; owner-device Windows and authorized real-media acceptance NOT VERIFIED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
