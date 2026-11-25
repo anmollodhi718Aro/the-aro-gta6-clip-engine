@@ -425,10 +425,62 @@ def _create_stable_source_snapshot(
                 or identity(after_path) != identity(before_path)
                 or copied != before_fd.st_size):
             raise RuntimeError("selected source changed while its stable snapshot was copied")
-        actual_sha256 = digest.hexdigest()
-        if expected_sha256 is not None and actual_sha256 != expected_sha256:
+        source_sha256 = digest.hexdigest()
+        if expected_sha256 is not None and source_sha256 != expected_sha256:
             raise ValueError("selected source SHA-256 does not match trusted inventory during snapshot creation")
-        return actual_sha256
+
+        # Verify the bytes persisted on disk, not only the chunks supplied to
+        # write(). This catches storage/filesystem anomalies and write wrappers
+        # that report a full write without persisting the complete data.
+        snapshot_flags = os.O_RDONLY
+        if hasattr(os, "O_BINARY"):
+            snapshot_flags |= os.O_BINARY
+        if hasattr(os, "O_NOFOLLOW"):
+            snapshot_flags |= os.O_NOFOLLOW
+        snapshot_descriptor = os.open(snapshot, snapshot_flags)
+        try:
+            snapshot_before = os.fstat(snapshot_descriptor)
+            snapshot_path_before = snapshot.lstat()
+            snapshot_identity_now = (
+                snapshot_before.st_dev, snapshot_before.st_ino,
+                stat.S_IFMT(snapshot_before.st_mode),
+            )
+            if (
+                not stat.S_ISREG(snapshot_before.st_mode)
+                or snapshot_identity_now != snapshot_identity
+                or snapshot_identity_now != (
+                    snapshot_path_before.st_dev, snapshot_path_before.st_ino,
+                    stat.S_IFMT(snapshot_path_before.st_mode),
+                )
+                or snapshot_before.st_size != before_fd.st_size
+            ):
+                raise RuntimeError("source snapshot identity or size changed before read-back verification")
+            persisted_digest = hashlib.sha256()
+            while True:
+                persisted_chunk = os.read(snapshot_descriptor, 1024 * 1024)
+                if not persisted_chunk:
+                    break
+                persisted_digest.update(persisted_chunk)
+            snapshot_after = os.fstat(snapshot_descriptor)
+            snapshot_path_after = snapshot.lstat()
+            if (
+                snapshot_after.st_dev != snapshot_before.st_dev
+                or snapshot_after.st_ino != snapshot_before.st_ino
+                or snapshot_after.st_size != snapshot_before.st_size
+                or snapshot_after.st_mtime_ns != snapshot_before.st_mtime_ns
+                or snapshot_after.st_ctime_ns != snapshot_before.st_ctime_ns
+                or snapshot_path_after.st_dev != snapshot_before.st_dev
+                or snapshot_path_after.st_ino != snapshot_before.st_ino
+                or stat.S_ISLNK(snapshot_path_after.st_mode)
+            ):
+                raise RuntimeError("source snapshot changed during read-back verification")
+            persisted_sha256 = persisted_digest.hexdigest()
+        finally:
+            os.close(snapshot_descriptor)
+
+        if persisted_sha256 != source_sha256:
+            raise OSError("source snapshot read-back SHA-256 does not match copied source bytes")
+        return persisted_sha256
     except Exception:
         if snapshot_created:
             try:
