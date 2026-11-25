@@ -16,7 +16,7 @@ Actual local rendering requires both explicit flags:
 python -m backend.app.single_clip_render "/path/to/one-authorized-video.mp4" --start 12.5 --end 27.0 --execute --confirm-rights
 ```
 
-The low-level renderer also rejects boolean clip bounds explicitly. Python treats booleans as integers, so values such as `True` must not silently become a one-second timestamp when the helper is called directly. The output is rendered locally through the existing collision-safe FFmpeg helper, then checked again with FFprobe. A successful render is still only a local artifact and requires manual playback/review. This command does not authenticate, upload, schedule, or publish.
+FFmpeg writes its intermediate MP4 inside a newly created private temporary directory on the destination filesystem. This avoids exposing an unreserved temporary filename in a shared output directory; the verified result is still published with an atomic no-overwrite hard link, and the private staging directory is removed afterward. The low-level renderer also rejects boolean clip bounds explicitly. Python treats booleans as integers, so values such as `True` must not silently become a one-second timestamp when the helper is called directly. The output is rendered locally through the existing collision-safe FFmpeg helper, then checked again with FFprobe. A successful render is still only a local artifact and requires manual playback/review. This command does not authenticate, upload, schedule, or publish.
 
 Use only a source file that the owner has explicitly authorized for this processing scope. The confirmation flag is a workflow guardrail, not independent legal verification. Never use this command with scraped, ripped, or otherwise unapproved third-party media.
 
