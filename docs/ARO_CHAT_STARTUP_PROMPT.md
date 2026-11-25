@@ -744,3 +744,8 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Test commit: `74041aa14c55cc1686555f6d0e6f44ccc887f70c`.
 - Isolated in-memory probe confirmed all eight IDNA-normalized hostnames pass the existing DNS-label validation. Repository unit tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #376 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### ARO-CHAT-0238 accepted-list placement correction — 2026-11-25
+- Follow-up commit `0e6233c10f698313bc0c8fa82a287f5ee180cbb4` corrects the test-list placement from the preceding test-only commit: the eight IDNA unit-symbol URLs are now absent from `invalid_urls` and present in `test_register_accepts_http_and_https_source_urls`.
+- The prior isolated validator probe showed all eight normalize to ordinary DNS labels and are accepted. Repository unit tests remain NOT RUN; exact-head CI and independent review remain NOT VERIFIED / NOT RECORDED.
