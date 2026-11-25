@@ -1005,3 +1005,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Follow-up: existing Windows OAuth token files are now ACL-checked together with their profile token directory before credential loading; legacy tokens with additional explicit principals fail closed. Added persistence regressions proving the ACL check precedes token bytes and that a failed temporary-file ACL leaves no token file. Commits: existing-token read guard 7efe32918537b5135a5f6e0d1c8caba334501836; persistence tests 76ca28fb6b9acea9c83ebb662d121ee2949e91c7; docs 9917dbedf2607502bd4aa78c03650d6b6b71a1a0.
 
 - Security refinement: replaced localized icacls output parsing with PowerShell Get-Acl read-back and SecurityIdentifier translation for every ACE. Exact acceptance is one explicit Allow/FullControl ACE for the current user's SID; inherited ACEs and additional principals fail closed. Added tests for extra group and inherited ACE rejection. Commits: implementation 33fd8164057c68b3de80b30753a1df1ca127f92e; tests 8f6598dea4b0bb80009ffc543038a643fe0d0f7d; documentation update recorded separately.
+
+### ARO-CHAT-0201 Windows SID matcher correction — 2026-11-26
+- Static inspection found the Windows account-SID regex had doubled backslashes inside a raw string, so it matched literal `\d` text rather than decimal SID components. This would reject valid `whoami /user` output before ACL verification.
+- Corrected the matcher to recognize numeric SID components. The existing mocked owner-only ACL test exercises a representative `S-1-5-21-...` SID and serves as regression coverage.
+- Implementation commit: `05336f2f529ad90c2755f799c0597ed92c0d4a1b`.
+- The preceding exact-head workflow run `45698629376` reported both jobs failed, but job metadata exposed no steps and the log endpoint returned `BlobNotFound`; therefore its failure cause remains UNVERIFIED and is not attributed to this regex defect.
+- New-head Actions and combined status lookups currently return no runs/statuses. CI is PENDING; local tests were not run in this connector session.
+- PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. Independent human security sign-off, owner-device Windows ACL/OAuth/channel verification, device-appropriate upload byte limit, and authorized real-media/private-upload acceptance remain pending. Keep live uploads and public publishing disabled.
