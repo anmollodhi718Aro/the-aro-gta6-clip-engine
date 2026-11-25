@@ -812,3 +812,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
 - Preserve PR #386 DRAFT / OPEN / UNMERGED and its existing ancestry. PR #379 conflicts with the later one-selected-video owner requirement; no merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+### ARO-CHAT-0245 continuation handoff — 2026-11-25
+- Continue PR #386 / ARO-GTA-P1-244 on its existing branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; do not create a duplicate PR or alter ancestry.
+- Added selected-source identity checks around FFprobe preflight and immediately before FFmpeg invocation. Production commit: `0254c9e9ac79e06411a06a45e1679d3695da9d84`; regression test: `bc698ce766d949b0039e40fc0275a86d2d06fdf6`; registry: `a6602e3c40f5bde0ef72cd81ec442c134a3a3ede`.
+- Exact current branch head after this handoff update must be re-read from GitHub. Repository tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
+- Important limitation: identity checks detect replacement/mutation across preflight and at the final pre-render check, but do not eliminate the race between that check and FFmpeg opening the path. A stable snapshot or descriptor-bound render input is still required before claiming race-free source identity.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Keep its existing ancestry; PR #379 conflicts with the one-selected-video owner requirement. No rebase, retarget, merge, or integration without explicit owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live uploads/public publishing remain disabled. No OAuth, credentials, media, upload, publishing, workflow retry/dispatch, or deployment.
