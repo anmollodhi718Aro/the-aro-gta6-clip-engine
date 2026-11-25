@@ -1650,3 +1650,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Production commit: `8bf3faa82d42c0527d9956324333e43e6bc1aa4b`; test commit: `11297dfaf27d59f848610fcdba5896d2f2fd6048`; docs commit: `c9371e4d9fb084c8ddc4ff68647e716f2b0fda0c`.
 - Repository tests NOT RUN in this connector session. Exact-head CI NOT YET VERIFIED; no prior CI result transfers to this new head. Independent review NOT RECORDED. PR #386 remains DRAFT / OPEN / UNMERGED.
 - No media was processed; no OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0245 | Single-clip renderer JSON report regression — 2026-11-25
+- Exact chat title: `ARO-CHAT-0245 | Single-Clip Renderer Security Review`
+- Follow-up to PR #386 / ARO-GTA-P1-244; no new PR or branch created. Existing branch ancestry preserved.
+- Static review found the CLI wrote literal backslash+n characters after the JSON object, so the emitted report was not parseable as standalone JSON. The previous test checked only file existence.
+- Corrected the report terminator to a real newline and extended the CLI regression to check newline termination and parse the report with `json.loads()`.
+- Production commit: `0bf47e1d7354e9a75d2de5883d89a473400b9cee`; test commit: `a1ba536bc192aa4ae0349916ed6130fe697baddb`; report commit: `1c04141434affeeec7e9d61be20e3bd91c12a5fa`.
+- Repository tests NOT RUN in this connector session. Exact-head CI PENDING / NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve the existing #383 → #380/#379 ancestry; PR #379 conflicts with the later one-selected-video owner requirement. No rebase, retarget, merge, or integration.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
