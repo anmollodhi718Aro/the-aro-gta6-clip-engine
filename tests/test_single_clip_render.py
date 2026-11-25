@@ -265,6 +265,38 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(report["status"], "FAIL")
         self.assertIn("expected clip bounds", report["error"])
 
+    @patch("backend.app.single_clip_render.inspect_one_video")
+    @patch("backend.app.single_clip_render.render_clip")
+    def test_removes_own_output_when_post_render_ffprobe_fails(self, render, preflight):
+        render.side_effect = lambda *args, **kwargs: (
+            self.output.write_bytes(b"unverified render") and self.output.resolve()
+        )
+        preflight.side_effect = [PASS, {"status": "FAIL", "error": "invalid output"}]
+        report = render_selected_clip(
+            self.source, self.output, 1, 5, execute=True, rights_confirmed=True,
+        )
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(report["unverified_output_removed"])
+        self.assertFalse(self.output.exists())
+
+    @patch("backend.app.single_clip_render.inspect_one_video")
+    @patch("backend.app.single_clip_render.render_clip")
+    def test_preserves_replaced_output_when_post_render_ffprobe_fails(self, render, preflight):
+        replacement = b"replacement must not be deleted"
+        def render_then_replace(*args, **kwargs):
+            self.output.write_bytes(b"our unverified render")
+            self.output.unlink()
+            self.output.write_bytes(replacement)
+            return self.output.resolve()
+        render.side_effect = render_then_replace
+        preflight.side_effect = [PASS, {"status": "FAIL", "error": "invalid output"}]
+        report = render_selected_clip(
+            self.source, self.output, 1, 5, execute=True, rights_confirmed=True,
+        )
+        self.assertEqual(report["status"], "FAIL")
+        self.assertFalse(report["unverified_output_removed"])
+        self.assertEqual(self.output.read_bytes(), replacement)
+
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     @patch("backend.app.single_clip_render.render_clip")
     def test_rejects_output_that_fails_post_render_verification(self, render, preflight):
