@@ -41,6 +41,14 @@ class ClockSyncTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "at least three"):
             fit_clock_sync(self.anchors()[:2])
 
+    def test_normalizes_anchor_source_identity_whitespace(self):
+        anchors = [
+            ClockAnchor(" stream-1 ", self.origin + timedelta(seconds=offset), media)
+            for offset, media in zip((0, 60, 120), (5, 65, 125))
+        ]
+        sync = fit_clock_sync(anchors)
+        self.assertEqual(sync.source_id, "stream-1")
+
     def test_rejects_inconsistent_source_ids(self):
         anchors = self.anchors()
         anchors[-1] = ClockAnchor("other-stream", anchors[-1].chat_time, 125)
