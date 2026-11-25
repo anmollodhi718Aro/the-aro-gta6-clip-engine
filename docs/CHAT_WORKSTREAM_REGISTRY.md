@@ -2099,3 +2099,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added digest helper tests, symlink rejection coverage, and malformed-digest CLI rejection. Existing candidate CLI tests now supply a digest.
 - Implementation: `b7080b15b100ccb1512cd601c68da714ebf75ed7`; tests: `ea18bb426b743e124124717c8583185ea048c3c1`, `dc122a4e4e7e6d25d105366d235f3d8beef4d53a`, `80bce215874f3c4dcbfcc117d243624dd211ca58`.
 - Tests NOT RUN. No media processed; upload/publishing remain disabled.
+
+
+### ARO-CHAT-0280: bind trusted digest to render snapshot (2026-11-26)
+- Closed the hash-to-render gap: the stable snapshot helper now computes SHA-256 while copying from the same verified descriptor used to create the snapshot, and compares it to the trusted inventory digest before FFprobe/FFmpeg receive the snapshot.
+- The verified snapshot digest is included in the render result. A mismatch fails closed and removes only the snapshot inode created by this invocation.
+- Added success and mismatch/cleanup tests; all candidate CLI fixtures now pass the required trusted digest. Updated the render guide to distinguish dry-run cross-checking from execution-time snapshot binding.
+- Implementation: f61b1be8a15f4b28c1f5ec6b01ca9323f5230b14; tests: 40612099215f0594190382b61c7bde4eef1557a7, 50ce9ef3940f966c7ece918d2bcb45e5bec79bae; docs: e4e36a69ae94608106e332cf56e2d5c5b5077aaa.
+- Tests NOT RUN. No real media processed or published.
