@@ -1752,17 +1752,16 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
 
 
-## ARO-CHAT-0251 | Reject Boolean Clip Bounds
-- Exact chat title: `ARO-CHAT-0251 | Reject Boolean Clip Bounds`
-- Workstream: ARO-GTA-P1-251
+## ARO-CHAT-0254 | Reject Boolean Clip Bounds
+- Exact chat title: `ARO-CHAT-0254 | Reject Boolean Clip Bounds`
+- Workstream: ARO-GTA-P1-254
 - Follow-up to PR #386 / ARO-GTA-P1-244; existing branch and PR preserved.
 - Static review found that Python's `bool` is a subclass of `int`, allowing `True` / `False` to pass `math.isfinite()` in direct calls to the low-level `render_clip()` helper.
 - Added an explicit boolean rejection before numeric clip-bound validation and regression cases for both boolean values in both start/end positions; FFmpeg must not be invoked.
-- Production commit: `a329adb4a8232a3bfca2a6d40634b8f64003f126`; test commit: `ff0b081367e57ab1637584017d2828d7cc9557c7`; operator docs: `b0be6062f926d4b5cdcad62207bba92b5c1ab702`; report: `9f1338d30b2cd51dfcc3027fd1b402be1adebd68`.
+- Production commit: `a329adb4a8232a3bfca2a6d40634b8f64003f126`; test commit: `ff0b081367e57ab1637584017d2828d7cc9557c7`; operator docs: `b0be6062f926d4b5cdcad62207bba92b5c1ab702`; report: `0065c57199967af379963a84a23f5ade2b751311`.
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
-- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its #383 -> #380/#379 ancestry; PR #379 conflicts with the later one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its #383 -> #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
-
 
 ### ARO-CHAT-0250 cleanup identity correction
 - Follow-up production commit `3b7aa9f0c2905479b38000b87738bec9a4592577` compares the partial snapshot's stable device/inode/file-type identity during cleanup. It deliberately does not compare size or timestamps, which change during a legitimate partial copy and would otherwise prevent cleanup.
