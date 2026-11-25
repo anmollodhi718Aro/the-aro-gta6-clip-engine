@@ -497,6 +497,7 @@ class YouTubeUploadTests(unittest.TestCase):
             with patch("backend.app.youtube_upload.upload_video", return_value={"video_id": "mock-id", "url": "https://youtube.invalid/mock-id"}) as upload:
                 from backend.app.youtube_upload import main
                 self.assertEqual(main(), 0)
+        self.assertEqual(upload.call_args.kwargs["max_upload_bytes"], 1024)
         self.assertEqual(upload.call_args.kwargs["clip_id"], "clip-1")
         self.assertEqual(upload.call_args.kwargs["source_id"], "source-1")
         self.assertEqual(upload.call_args.kwargs["expected_google_subject"], "google-subject-123")
@@ -504,6 +505,25 @@ class YouTubeUploadTests(unittest.TestCase):
         self.assertTrue(upload.call_args.kwargs["owner_approved"])
         self.assertTrue(upload.call_args.kwargs["rights_confirmed"])
 
+
+    def test_cli_rejects_live_upload_without_device_selected_byte_limit(self):
+        db_path = self.root / "source_rights.sqlite3"
+        self._write_upload_rights(db_path)
+        args = [
+            "youtube_upload.py", str(self.video), "--rights-report", str(self.report),
+            "--title", "THE ARO test", "--not-made-for-kids", "--upload",
+            "--owner-approved", "--confirm-rights", "--clip-id", "clip-1",
+            "--source-id", "source-1", "--approval-record", str(self.root / "approval.json"),
+            "--rights-db", str(db_path),
+        ]
+        with patch.object(sys, "argv", args), patch.dict(os.environ, {
+            "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
+            "ARO_YOUTUBE_CHANNEL_ID": "youtube-channel-456",
+        }):
+            with patch("backend.app.youtube_upload.upload_video") as upload:
+                from backend.app.youtube_upload import main
+                self.assertEqual(main(), 2)
+        upload.assert_not_called()
 
     def test_upload_rejects_unlisted_visibility_before_oauth_or_api(self):
         db_path = self.root / "source_rights.sqlite3"
