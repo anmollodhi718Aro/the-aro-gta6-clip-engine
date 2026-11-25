@@ -562,6 +562,7 @@ def main() -> int:
     parser.add_argument("--end", type=float, help="Clip end time in seconds.")
     parser.add_argument("--candidate-csv", type=Path, help="Review CSV produced by clip_pack.py.")
     parser.add_argument("--candidate-row", type=int, help="One-based data row to select from --candidate-csv.")
+    parser.add_argument("--source-id", help="Explicitly confirm the selected video source ID for a candidate CSV row.")
     parser.add_argument("--output", type=Path, default=Path("rendered_clips/single_selected_clip.mp4"))
     parser.add_argument("--report", type=Path, default=Path("single_clip_render_report.json"))
     parser.add_argument("--ffprobe", default="ffprobe")
@@ -580,6 +581,11 @@ def main() -> int:
             selected_candidate = load_selected_candidate(args.candidate_csv, args.candidate_row)
         except ValueError as exc:
             parser.error(str(exc))
+        if not args.source_id or args.source_id.strip() != selected_candidate["source_id"]:
+            parser.error(
+                "candidate selection requires --source-id matching the selected CSV row; "
+                "this is an operator source-selection check, not automatic media identity proof"
+            )
         start_seconds = selected_candidate["start_seconds"]
         end_seconds = selected_candidate["end_seconds"]
     else:
