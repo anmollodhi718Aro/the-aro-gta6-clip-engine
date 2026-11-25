@@ -86,14 +86,13 @@ def render_clip(
         raise ValueError(f"clip duration cannot exceed {MAX_CLIP_SECONDS:g} seconds")
 
     destination.parent.mkdir(parents=True, exist_ok=True)
-    descriptor, temporary_name = tempfile.mkstemp(
-        prefix=f".{destination.stem}-", suffix=".mp4", dir=destination.parent
+    # Keep FFmpeg's staging path inside a private directory. Unlinking a
+    # mkstemp placeholder before FFmpeg opens it creates a pathname race in a
+    # shared output directory, even when the filename was initially unique.
+    temporary_directory = tempfile.TemporaryDirectory(
+        prefix=f".{destination.stem}-", dir=destination.parent
     )
-    os.close(descriptor)
-    temporary_output = Path(temporary_name)
-    # FFmpeg refuses to write to an existing path with -n, so reserve a unique
-    # name with mkstemp and remove only that placeholder before invoking FFmpeg.
-    temporary_output.unlink()
+    temporary_output = Path(temporary_directory.name) / "render.mp4"
 
     command = [
         ffmpeg_binary,
@@ -146,6 +145,6 @@ def render_clip(
                 "could not safely publish the clip without overwriting an existing output"
             ) from exc
     finally:
-        temporary_output.unlink(missing_ok=True)
+        temporary_directory.cleanup()
 
     return destination
