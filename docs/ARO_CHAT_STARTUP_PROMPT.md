@@ -1146,3 +1146,9 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - Added regression coverage for omitted and whitespace-only `--source-id` in candidate CSV mode. Both must fail before report reservation.
 - Test commit: `6f93cad27336d8714e23c8e9ef7f523c3c4c27d5`.
 - Tests NOT RUN; no media processed or published.
+
+
+### Latest handoff: ARO-CHAT-0278 — exact source-ID comparison
+- Added a regression for a case-only candidate source-ID mismatch; CLI rejects it before report reservation.
+- Test commit: `be8f81ca85e235419ece5ad23432b19ae17b2b50`.
+- Tests NOT RUN. Manual source cross-check is still not proof of local file identity.
