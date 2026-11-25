@@ -994,7 +994,7 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, or publishing.
 
 
-## ARO-CHAT-0258 current continuation — selected-video preflight path identity (2026-11-25)
+## ARO-CHAT-0260 current continuation — selected-video preflight path identity (2026-11-25)
 
 - Exact chat title: `ARO-CHAT-0258 | Harden Single-Video Preflight Path Identity`; workstream: `ARO-GTA-P1-258`.
 - Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR and no ancestry changes. ARO-CHAT-0257 is already reserved for the rendered-duration overflow guard; do not reuse that ID.
