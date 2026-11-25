@@ -197,6 +197,39 @@ class YouTubeUploadTests(unittest.TestCase):
         self.assertEqual(captured["bytes"], self.video.read_bytes())
         self.assertFalse(captured["path"].exists(), "temporary approved snapshot must be removed")
 
+    def test_verified_snapshot_rejects_symlink_and_non_regular_sources(self):
+        from backend.app.youtube_upload import _create_verified_upload_snapshot
+
+        linked = self.root / "linked.mp4"
+        try:
+            linked.symlink_to(self.video)
+        except (NotImplementedError, OSError) as exc:
+            self.skipTest(f"symlinks unavailable: {exc}")
+        with self.assertRaisesRegex(PermissionError, "regular file"):
+            _create_verified_upload_snapshot(linked, 1024)
+
+        if not hasattr(os, "mkfifo"):
+            self.skipTest("FIFO creation unavailable on this platform")
+        fifo = self.root / "pipe.mp4"
+        os.mkfifo(fifo)
+        with self.assertRaisesRegex(PermissionError, "regular file"):
+            _create_verified_upload_snapshot(fifo, 1024)
+
+    def test_verified_snapshot_rejects_source_mutation_during_copy(self):
+        from backend.app.youtube_upload import _create_verified_upload_snapshot, _copy_video_snapshot
+
+        original = self.video.read_bytes()
+        original_stat = self.video.stat()
+        def mutate_after_copy(source, destination, limit):
+            copied = _copy_video_snapshot(source, destination, limit)
+            self.video.write_bytes(b"X" * len(original))
+            os.utime(self.video, ns=(original_stat.st_atime_ns, original_stat.st_mtime_ns))
+            return copied
+
+        with patch("backend.app.youtube_upload._copy_video_snapshot", side_effect=mutate_after_copy):
+            with self.assertRaisesRegex(PermissionError, "changed while snapshotting"):
+                _create_verified_upload_snapshot(self.video, 1024)
+
     def test_upload_rejects_oversized_source_before_oauth_or_api_import(self):
         from backend.app.youtube_upload import upload_video
 
