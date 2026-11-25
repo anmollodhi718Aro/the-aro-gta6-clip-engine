@@ -27,14 +27,23 @@ def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, 
         raise ValueError("candidate row must be a positive one-based integer")
     path = Path(csv_path).expanduser()
     try:
-        with path.open("r", encoding="utf-8", newline="") as handle:
+        # Accept an optional UTF-8 BOM from spreadsheet exports while keeping
+        # the generated clip-pack CSV format unchanged.
+        with path.open("r", encoding="utf-8-sig", newline="") as handle:
             reader = csv.DictReader(handle)
             required = {"source_id", "start_seconds", "end_seconds", "duration_seconds", "renderable"}
-            if not reader.fieldnames or not required.issubset(set(reader.fieldnames)):
+            headers = reader.fieldnames
+            if not headers or not required.issubset(set(headers)):
                 raise ValueError("candidate CSV is missing required review columns")
+            if any(not str(header).strip() for header in headers) or len(headers) != len(set(headers)):
+                raise ValueError("candidate CSV contains blank or duplicate column names")
             selected = None
             for number, row in enumerate(reader, start=1):
                 if number == row_number:
+                    if None in row:
+                        raise ValueError(f"candidate row {row_number} has more values than its header")
+                    if any(row.get(column) is None for column in required):
+                        raise ValueError(f"candidate row {row_number} is missing required values")
                     selected = row
                     break
     except (OSError, csv.Error) as exc:
