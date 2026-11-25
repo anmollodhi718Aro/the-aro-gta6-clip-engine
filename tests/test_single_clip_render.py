@@ -5,7 +5,9 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from backend.app.single_clip_render import _create_stable_source_snapshot, main, render_selected_clip
+from backend.app.single_clip_render import (
+    _create_stable_source_snapshot, load_selected_candidate, main, render_selected_clip,
+)
 
 
 PASS = {"status": "PASS", "duration_seconds": 20.0, "video_streams": [{"codec": "h264"}]}
@@ -21,6 +23,58 @@ class SingleClipRenderTests(unittest.TestCase):
 
     def tearDown(self):
         self.temp.cleanup()
+
+    def test_loads_exact_selected_review_ready_candidate(self):
+        pack = self.root / "candidates.csv"
+        pack.write_text(
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
+            "authorized-demo,12.5,27.5,15.0,True\\n",
+            encoding="utf-8",
+        )
+        selected = load_selected_candidate(pack, 1)
+        self.assertEqual(selected["source_id"], "authorized-demo")
+        self.assertEqual(selected["start_seconds"], 12.5)
+        self.assertEqual(selected["end_seconds"], 27.5)
+        self.assertEqual(selected["row_number"], 1)
+
+    def test_candidate_selection_rejects_unrenderable_row(self):
+        pack = self.root / "candidates.csv"
+        pack.write_text(
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
+            "authorized-demo,12,27,15,False\\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(ValueError, "not marked renderable"):
+            load_selected_candidate(pack, 1)
+
+    def test_candidate_selection_rejects_duration_mismatch(self):
+        pack = self.root / "candidates.csv"
+        pack.write_text(
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
+            "authorized-demo,12,27,14,True\\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(ValueError, "duration does not match"):
+            load_selected_candidate(pack, 1)
+
+    def test_candidate_selection_rejects_missing_source_identity(self):
+        pack = self.root / "candidates.csv"
+        pack.write_text(
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
+            ",12,27,15,True\\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(ValueError, "no source_id"):
+            load_selected_candidate(pack, 1)
+
+    def test_candidate_selection_rejects_nonexistent_row(self):
+        pack = self.root / "candidates.csv"
+        pack.write_text(
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(ValueError, "does not exist"):
+            load_selected_candidate(pack, 1)
 
     def test_dry_run_reports_path_resolution_runtime_error(self):
         with patch("pathlib.Path.resolve", side_effect=RuntimeError("symlink loop")):
