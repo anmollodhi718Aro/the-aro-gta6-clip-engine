@@ -18,17 +18,22 @@ ALLOWED_USES = frozenset({"analyze", "edit", "publish"})
 
 
 def _ends_in_ipv4_number(label: str) -> bool:
-    """Match URL-host numeric suffix forms that browsers may parse as IPv4."""
+    """Match the WHATWG URL Standard's IPv4-number suffix forms."""
     lowered = label.lower()
+    if not lowered.isascii():
+        return False
+    # The URL Standard first recognizes all-decimal labels (including
+    # malformed octal-looking values such as "09", which fail later when
+    # the complete host is parsed as IPv4).
+    if lowered.isdecimal():
+        return True
+    # Its IPv4-number parser also accepts 0x-prefixed hexadecimal forms,
+    # including the empty suffix ("0x"), and leading-zero octal forms.
     if lowered.startswith("0x"):
-        digits = lowered[2:]
-        if not digits or all(character in "0123456789abcdef" for character in digits):
-            return True
-    # WHATWG-style URL parsers classify a final label ending in an
-    # ASCII digit as an IPv4 candidate, even when numeric parsing later
-    # fails (for example, "label1", "0xg1", or "0a9"). Require the
-    # complete hostname to be canonical IPv4 in those cases.
-    return lowered.isascii() and lowered[-1:].isdigit()
+        return all(character in "0123456789abcdef" for character in lowered[2:])
+    if len(lowered) > 1 and lowered.startswith("0"):
+        return all(character in "01234567" for character in lowered[1:])
+    return False
 
 
 def _valid_hostname(hostname: str) -> bool:
