@@ -694,3 +694,14 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Exact-head Python CI run #45538802378 completed FAILURE; Ubuntu and hosted-Windows jobs exposed no steps/log URLs. Failure phase/root cause NOT VERIFIED; no compile/test result is claimed. Local repository tests NOT RUN; independent review NOT RECORDED.
 - Report: `docs/ARO_CHAT_0238_IDNA_NUMERIC_MAPPING_REGRESSION.md`. Keep PR #376 OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; owner UNASSIGNED. Keep live uploads/public publishing disabled.
 - No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### Latest handoff — ARO-CHAT-0238 / PR #376 (2026-11-25)
+- Continue from PR #376 on `workstream/aro-chat-0238-ambiguous-numeric-hostname-rejection-2026-11-25`; do not create a duplicate workstream.
+- Latest audited application/test head: `62d07a4b23d62bb2d73428abeaf5384a40df4146`. The subsequent handoff commits update only the audit report, registry, and this startup prompt.
+- Exact-head Python CI run #45537558568 (run 1570) failed on Ubuntu and hosted Windows; both jobs exposed `steps: null` and `logs_url: null`. Failure phase/root cause NOT VERIFIED. No compile/test result is established; do not attribute failure to application code.
+- Local repository tests NOT RUN. PR #376 reviews and inline review threads empty; independent review NOT RECORDED.
+- Bounded static review of `backend/app/rights_registry.py` and `tests/test_rights_registry.py` found no additional concrete gap in the reviewed hostname helper/test matrix. This does not establish complete URL-parser/DNS/destination-IP/DNS-rebinding security.
+- Audit report: `docs/ARO_CHAT_0238_PR376_CURRENT_HEAD_AUDIT.md`. Registry contains this handoff.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled.
+- Next safe action: inspect a naturally triggered exact-head CI run with visible job steps/logs and obtain independent review. No manual workflow retry/dispatch without owner direction. No merge, deployment, OAuth, credentials, real media, upload, or publishing.
