@@ -651,9 +651,9 @@ class WindowsOAuthTokenACLTests(unittest.TestCase):
     def test_windows_acl_requires_exactly_current_user_full_control(self):
         sid = "S-1-5-21-111-222-333-1001"
         responses = [
-            Mock(stdout=f'"HOST\\\\user","{sid}"'),
-            Mock(stdout="Successfully processed 1 files; Failed processing 0 files"),
-            Mock(stdout=f"C:\\\\tokens\\\\profile.json\\n  *{sid}:(F)\\n"),
+            Mock(stdout=f'"HOST\\user","{sid}"'),
+            Mock(stdout=""),
+            Mock(stdout=f"  *{sid}:(F)\n"),
         ]
         with patch("backend.app.youtube_upload.subprocess.run", side_effect=responses) as run:
             _apply_windows_owner_only_acl(Path("C:/tokens/profile.json"))
@@ -664,9 +664,9 @@ class WindowsOAuthTokenACLTests(unittest.TestCase):
     def test_windows_acl_rejects_additional_group_access(self):
         sid = "S-1-5-21-111-222-333-1001"
         responses = [
-            Mock(stdout=f'"HOST\\\\user","{sid}"'),
-            Mock(stdout="Successfully processed 1 files; Failed processing 0 files"),
-            Mock(stdout=f"C:\\\\tokens\\\\profile.json\\n  *{sid}:(F)\\n  BUILTIN\\\\Users:(RX)\\n"),
+            Mock(stdout=f'"HOST\\user","{sid}"'),
+            Mock(stdout=""),
+            Mock(stdout=f"  *{sid}:(F)\n  BUILTIN\\Users:(RX)\n"),
         ]
         with patch("backend.app.youtube_upload.subprocess.run", side_effect=responses):
             with self.assertRaisesRegex(PermissionError, "exactly one owner-only"):
@@ -680,7 +680,6 @@ class WindowsOAuthTokenACLTests(unittest.TestCase):
         ):
             with self.assertRaisesRegex(PermissionError, "could not enforce owner-only"):
                 _apply_windows_owner_only_acl(Path("C:/tokens/profile.json"))
-
 
 if __name__ == "__main__":
     unittest.main()
