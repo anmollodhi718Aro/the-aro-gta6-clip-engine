@@ -1203,3 +1203,7 @@ CLI stdout now reuses the exact pre-serialized terminal JSON written to the repo
 
 ### Latest continuation — ARO-CHAT-0287
 Added regression coverage for a partial terminal report write after a mocked successful render. CLI returns a report-write error and preserves output bytes for manual review; unreadable report is an unknown outcome, not proof of render failure. Test NOT RUN. CI NOT VERIFIED. Preserve PR #386 draft and ancestry; no merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### Latest continuation — ARO-CHAT-0288
+A failed in-place terminal report write now triggers an exclusive-create sidecar fallback at `<report>.terminal-fallback.json`. Existing fallback files are never overwritten. The sidecar is flushed and fsynced, but the CLI returns an error because the primary report may be partial. If fallback creation fails or collides, inspect both paths and any output manually. This is not atomicity or crash-durability proof. Tests NOT RUN; CI NOT VERIFIED; no media/upload/publish/deploy. PR #386 remains draft and unmerged; Issue #68 remains awaiting owner approval.
