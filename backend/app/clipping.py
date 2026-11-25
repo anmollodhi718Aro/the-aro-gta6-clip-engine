@@ -69,6 +69,10 @@ def render_clip(
         raise ValueError("output path must use the .mp4 extension")
     if destination.exists() or destination.is_symlink():
         raise FileExistsError(f"output already exists: {destination}")
+    # bool is a subclass of int in Python, so math.isfinite(True) succeeds.
+    # Reject booleans explicitly rather than silently treating them as 1s/0s.
+    if isinstance(start_seconds, bool) or isinstance(end_seconds, bool):
+        raise ValueError("clip bounds must be numeric values, not booleans")
     if not math.isfinite(start_seconds) or not math.isfinite(end_seconds):
         raise ValueError("clip bounds must be finite numbers")
     if start_seconds < 0 or end_seconds <= start_seconds:
