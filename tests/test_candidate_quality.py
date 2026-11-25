@@ -57,6 +57,25 @@ class CandidateQualityTests(unittest.TestCase):
         self.assertEqual(result["source_id"], "demo")
         self.assertIn("quality_score", result)
 
+    def test_duration_mismatch_does_not_claim_recording_alignment(self):
+        result = score_candidate(self.candidate(end_seconds=90))
+        self.assertEqual(result["sync_points"], 0)
+        self.assertIn("not verified", result["quality_reasons"][2])
+
+    def test_bounds_over_review_limit_do_not_claim_alignment(self):
+        result = score_candidate(self.candidate(
+            duration_seconds=181, end_seconds=191
+        ))
+        self.assertEqual(result["sync_points"], 0)
+
+    def test_boolean_numeric_metadata_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, "not boolean"):
+            score_candidate(self.candidate(peak_message_count=True))
+
+    def test_boolean_clip_bound_is_not_scored_as_numeric(self):
+        result = score_candidate(self.candidate(start_seconds=True))
+        self.assertEqual(result["sync_points"], 0)
+
 
 if __name__ == "__main__":
     unittest.main()
