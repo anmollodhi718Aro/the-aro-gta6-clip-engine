@@ -2135,3 +2135,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added a regression using an unexpected `TypeError` and asserting terminal status, unverified snapshot metadata, and disabled upload/publishing.
 - Implementation: `de3918653b2fd268a1826f962a4dfefa2c78bc27`; test: `4c54daaafc19c2329a2008e087f06792d7e8f27e`.
 - Tests NOT RUN; no media processed.
+
+
+## ARO-CHAT-0285 — preserve reserved report on serialization failure
+- Continued the existing PR #386 branch; no new branch or PR.
+- The CLI now serializes the complete terminal report in memory before seeking to or truncating the reserved `RUNNING` report. If terminal serialization raises an ordinary exception, the original parseable reservation remains available for manual review.
+- Implementation: `b4a277b98773667151989920dc90d9fff3a69fa8`; regression test: `0d1b0fa7e8c3821455784fe588e6507e0b09d5ae`; operator guide: `735553d22579d5c8b709708d16a314768f97169f`.
+- Regression test added but NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- This protects against serialization failure before truncation, not partial filesystem writes or hard process termination during the final write. Such reports remain unknown outcomes requiring manual review; do not delete outputs based on report-write failure.
+- Preserve PR #386 DRAFT / OPEN / UNMERGED and existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live publishing remains disabled.
