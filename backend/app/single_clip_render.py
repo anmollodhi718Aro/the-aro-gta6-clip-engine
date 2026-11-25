@@ -67,7 +67,7 @@ def render_selected_clip(
     try:
         start = float(start_seconds)
         end = float(end_seconds)
-    except (TypeError, ValueError):
+    except (TypeError, ValueError, OverflowError):
         report["error"] = "clip bounds must be finite numbers"
         return report
     if not math.isfinite(start) or not math.isfinite(end):
@@ -159,7 +159,7 @@ def main() -> int:
         report_path.parent.mkdir(parents=True, exist_ok=True)
         with report_path.open("x", encoding="utf-8") as handle:
             json.dump(report, handle, indent=2, ensure_ascii=False)
-            handle.write("\n")
+            handle.write("\\n")
     except OSError as exc:
         print(f"Report could not be written without overwrite: {exc}", file=sys.stderr)
         return 2
