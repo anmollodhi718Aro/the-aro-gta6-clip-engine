@@ -345,5 +345,14 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(source.read_bytes(), b"selected source")
 
 
+    def test_snapshot_collision_preserves_preexisting_destination(self):
+        snapshot = self.root / "already-present-snapshot.mp4"
+        original_bytes = b"do not delete or overwrite this file"
+        snapshot.write_bytes(original_bytes)
+        with self.assertRaises(FileExistsError):
+            _create_stable_source_snapshot(self.source, snapshot)
+        self.assertEqual(snapshot.read_bytes(), original_bytes)
+
+
 if __name__ == "__main__":
     unittest.main()
