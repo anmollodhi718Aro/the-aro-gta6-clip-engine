@@ -2113,3 +2113,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Strengthened the existing same-snapshot test to supply the trusted expected SHA-256 and assert the render report contains the digest of the exact snapshot consumed by FFprobe/FFmpeg.
 - Added an execution-boundary regression proving a trusted digest mismatch fails before FFprobe, FFmpeg, or output creation.
 - Test commit: 6b7093a96196b512cb45922f6951d9d7d1d55458. Tests NOT RUN; no real media processed.
+
+
+### ARO-CHAT-0282: explicit unverified digest state on snapshot failure (2026-11-26)
+- Snapshot failure reports now explicitly set `source_snapshot_created=false`, `source_snapshot_verified=false`, and `source_sha256=null`; the expected inventory digest is labeled separately and never presented as the digest of a verified snapshot.
+- CLI exception-to-terminal-report handling also records the unverified snapshot flags and null actual digest.
+- Added regressions for digest mismatch metadata and terminal CLI failure metadata. Implementation: `7c96ef41ea54fd362b75e696a6463635b43f3a67`; tests: `3735cf6661d5687d566d1c42d2df4cb4fae8ca12`.
+- Tests NOT RUN; no media processed.
