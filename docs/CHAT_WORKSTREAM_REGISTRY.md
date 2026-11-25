@@ -2200,3 +2200,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Updated the partial-terminal-write regression to simulate a short return (not only an exception) and verify recovery behavior.
 - Implementation: `9ad66034bec59c380faf32de7e103ac52c7b70a0`; test: `9bffcfe7058acd6df5e656cdf1e96a188a2c0d34`.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. PR #386 remains draft/open/unmerged; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0293 — correct report newline encoding
+- Corrected source literals in initial report serialization and exclusive fallback file opening so they use actual newline characters, not literal backslash-n text.
+- Added a regression test confirming the fallback JSON ends in a real newline and remains parseable. Also corrected escaped newline literals in existing tests where the same issue was present.
+- Implementation correction: `6f75ab4e87af6323278fc0b7d68ff298636b78fa`; regression test: `006557f316daa8c188e5f70dc61e73495c1a1683`.
+- Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains draft/open/unmerged; no merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
