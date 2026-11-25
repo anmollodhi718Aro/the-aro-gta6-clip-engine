@@ -1022,3 +1022,5 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Implementation commit: `b24de9e4d9d6226e76f273b58107b54fc5b53126`; test commits: `678cab7917fdaf75e0f87cb9f561169506196896` and `1d91073ecde2bbad1b6479ac6f888fbb2aa853fc`; documentation commit: `00b1dd7d7cb74e19547c71c2486eb4d845f6c9a8`.
 - Exact-head CI is pending; local tests were not run in this connector session. The device-appropriate limit value remains an owner decision. No OAuth, credentials, real media, network upload, merge, deployment or publishing occurred.
 - PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. Independent security sign-off and owner-device verification remain pending. Keep live uploads and public publishing disabled.
+
+- Follow-on startup guidance commit: `6420cd028b347e8305e05c52c7f7e343e6c7bb16`. The live PR head advanced after the registry entry; exact-head CI lookup returned no runs or statuses at that time. The prior rerun of run `45699035944` again failed with zero exposed steps and `BlobNotFound` job logs, so it provides no actionable test diagnosis.
