@@ -1097,3 +1097,8 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 ### ARO-CHAT-0269 terminal-report follow-up
 - Fixed a report lifecycle omission: selected candidate row/source metadata is now copied into the final render report, not only the initial `RUNNING` reservation.
 - Commit: `9380cd9af2578d5e3143fcf2de0ab437f03fed32`. Tests remain NOT RUN and exact-head CI NOT VERIFIED.
+
+
+### ARO-CHAT-0269 test-fixture correction
+- Fixed 11 escaped newline sequences in candidate CSV test fixtures so the tests write actual multi-line CSV content.
+- Commit: `1ab587464f8f383ffc1e912d96bfccec72d0cd57`. Static correction only; tests have NOT been executed.
