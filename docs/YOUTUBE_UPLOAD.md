@@ -157,3 +157,11 @@ This is an application-level ACL check, not a substitute for owner-device verifi
 Existing Windows token files are checked before credentials are loaded: the profile token directory and token file must both pass the same owner-only ACL read-back. A legacy token with additional explicit principals is rejected rather than read or silently trusted. This prevents the stricter write path from leaving an older, broadly accessible token usable.
 
 Windows ACL read-back now uses PowerShell Get-Acl and translates every Access Control Entry principal to a SecurityIdentifier before comparison. This avoids relying on localized icacls display names. The check accepts exactly one explicit Allow ACE for the current user's SID with FullControl; inherited entries, extra principals, deny entries, partial rights, command failures, and unreadable ACLs all fail closed. PowerShell is invoked with an encoded script and the target path passed through an environment variable rather than interpolated into command text.
+
+## Explicit device upload-size limit
+
+Every live `--upload` invocation must provide `--max-upload-bytes` with a positive, device-selected value. The CLI and direct `upload_video()` boundary both reject a missing value; no live-upload default is inferred. Dry-run and approval-only validation may use the conservative 256 MiB validation ceiling, which is not accepted as a live-upload selection.
+
+Before OAuth refresh or interactive authorization, the uploader copies the source into a private temporary snapshot in bounded 1 MiB reads and stops if the configured limit would be exceeded. It hashes the snapshot and verifies that it matches the approved local source before continuing. The upload request uses that immutable snapshot rather than reopening the original path, so later source-file changes cannot silently alter the bytes sent. The temporary snapshot is removed when the upload operation exits.
+
+Choose the byte limit for the actual device and available memory before any real upload. Hosted CI or a default value does not make that owner decision. This gate does not authorize an upload or enable public publishing.
