@@ -967,7 +967,7 @@ class SingleClipRenderTests(unittest.TestCase):
                 self.write_calls += 1
                 if self.write_calls == 3:
                     self.handle.write(value[:10])
-                    raise OSError("simulated partial terminal report write")
+                    return 10
                 return self.handle.write(value)
 
         def open_with_terminal_write_failure(path, *args, **kwargs):
