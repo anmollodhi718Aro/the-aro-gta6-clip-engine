@@ -2085,3 +2085,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added CLI regressions proving both an omitted `--source-id` and a whitespace-only value fail closed before the report file is reserved.
 - Test commit: `6f93cad27336d8714e23c8e9ef7f523c3c4c27d5`.
 - Tests NOT RUN. No media processed; upload/publishing remain disabled.
+
+
+### ARO-CHAT-0278 — source-ID case-sensitive comparison regression (2026-11-26)
+- Added a negative CLI regression proving source IDs are compared exactly and case-sensitively; a case-only mismatch is rejected before report reservation.
+- Test commit: `be8f81ca85e235419ece5ad23432b19ae17b2b50`.
+- Tests NOT RUN. This does not establish local-file identity; no media processed and upload/publishing remain disabled.
