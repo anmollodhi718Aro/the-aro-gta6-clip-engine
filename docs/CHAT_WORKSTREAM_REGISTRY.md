@@ -1795,3 +1795,15 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows and real authorized media NOT VERIFIED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 -> #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+## ARO-CHAT-0255 | Reject unrepresentable clip-bound values
+- Exact chat title: `ARO-CHAT-0255 | Reject Unrepresentable Clip Bounds`
+- Workstream: ARO-GTA-P1-255
+- Follow-up to PR #386 / ARO-GTA-P1-244 on the existing branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR and no ancestry changes.
+- Static review found the low-level `render_clip()` helper allowed malformed direct-call values to escape its validation boundary: extremely large Python integers can raise `OverflowError` inside `math.isfinite()`, while strings raise `TypeError`.
+- Numeric-bound validation now converts these failures into a deterministic `ValueError` before FFmpeg is invoked.
+- Production commit: `7fe27534ff04581d759869b70bfc01adda66415e`; regression tests: `032619776eb329cba692adce24bf4e954866d161`; README documentation commit: `1c6978ea1a46b787862ddeed77579424159b1c18`.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 -> #380/#379 ancestry. No merge, rebase, retarget, workflow retry/dispatch, or integration without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, or deployment.
