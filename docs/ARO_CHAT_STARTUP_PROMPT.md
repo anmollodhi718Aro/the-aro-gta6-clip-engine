@@ -1120,3 +1120,9 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - Cross-module regression now exercises `map_candidates_to_media → write_clip_pack → load_selected_candidate` with a source-bound candidate and measured UTC origin.
 - Test commit: `11c9bc7943844d9b1fceda53accbaef917219aae`.
 - Tests NOT RUN. Next step: execute the relevant tests in CI or a local Python environment, then fix actual failures.
+
+
+### Latest handoff: ARO-CHAT-0273 — workstream push CI trigger
+- Updated the existing Python CI workflow to trigger on `workstream/**` pushes as well as pull requests.
+- Workflow commit: `260b48fc54560c2e713c2caaa32ff5d48ad475f3`.
+- This should provide automatic CI evidence on the next branch push; no manual workflow dispatch or retry was performed. Verify the exact resulting head run before treating tests as passed.
