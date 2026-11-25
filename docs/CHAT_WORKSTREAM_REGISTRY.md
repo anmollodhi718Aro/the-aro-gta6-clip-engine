@@ -2193,3 +2193,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Implementation: `d86b2e45fbdc82c7cc7e6e306a83cff06f1c17b5`; test: `73d81e90b449ddf7f6b42abc975e8908d516067f`.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains draft/open/unmerged; no merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0292 — terminal report short-write detection
+- Terminal report replacement now checks the returned write count before truncating the previous RUNNING record; short writes raise and enter the existing exclusive fallback path.
+- Updated the partial-terminal-write regression to simulate a short return (not only an exception) and verify recovery behavior.
+- Implementation: `9ad66034bec59c380faf32de7e103ac52c7b70a0`; test: `9bffcfe7058acd6df5e656cdf1e96a188a2c0d34`.
+- Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. PR #386 remains draft/open/unmerged; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
