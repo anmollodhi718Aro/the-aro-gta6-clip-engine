@@ -159,6 +159,53 @@ def _rendered_output_identity(path: str | Path) -> tuple[int, int, int] | None:
     return metadata.st_dev, metadata.st_ino, stat.S_IFMT(metadata.st_mode)
 
 
+def _sha256_verified_regular_file(path: str | Path) -> tuple[str, int, tuple[int, int, int]]:
+    """Hash bytes read from one stable regular file without following symlinks."""
+    candidate = Path(path)
+    flags = os.O_RDONLY
+    if hasattr(os, "O_BINARY"):
+        flags |= os.O_BINARY
+    if hasattr(os, "O_NONBLOCK"):
+        flags |= os.O_NONBLOCK
+    if hasattr(os, "O_NOFOLLOW"):
+        flags |= os.O_NOFOLLOW
+    descriptor = os.open(candidate, flags)
+    try:
+        before = os.fstat(descriptor)
+        before_path = candidate.lstat()
+        identity = (before.st_dev, before.st_ino, stat.S_IFMT(before.st_mode))
+        if (
+            not stat.S_ISREG(before.st_mode)
+            or stat.S_ISLNK(before_path.st_mode)
+            or identity != (before_path.st_dev, before_path.st_ino, stat.S_IFMT(before_path.st_mode))
+        ):
+            raise ValueError("verified output must remain a regular non-symlink file")
+        digest = hashlib.sha256()
+        size = 0
+        while True:
+            chunk = os.read(descriptor, 1024 * 1024)
+            if not chunk:
+                break
+            digest.update(chunk)
+            size += len(chunk)
+        after = os.fstat(descriptor)
+        after_path = candidate.lstat()
+        if (
+            (after.st_dev, after.st_ino, stat.S_IFMT(after.st_mode)) != identity
+            or after.st_size != before.st_size
+            or after.st_mtime_ns != before.st_mtime_ns
+            or after.st_ctime_ns != before.st_ctime_ns
+            or after_path.st_dev != before.st_dev
+            or after_path.st_ino != before.st_ino
+            or stat.S_ISLNK(after_path.st_mode)
+            or size != before.st_size
+        ):
+            raise RuntimeError("rendered output changed during SHA-256 verification")
+        return digest.hexdigest(), size, identity
+    finally:
+        os.close(descriptor)
+
+
 def _remove_unverified_output(path: str | Path, identity: tuple[int, int, int] | None) -> bool:
     """Decline automatic deletion when pathname identity cannot be unlinked atomically.
 
@@ -349,11 +396,27 @@ def _render_selected_clip_from_snapshot(
                 manual_cleanup_required=not removed,
             )
             return report
+        try:
+            output_sha256, output_size_bytes, verified_output_identity = _sha256_verified_regular_file(rendered)
+            if verified_output_identity != rendered_identity:
+                raise RuntimeError("rendered output identity changed before final hash verification")
+        except (OSError, ValueError, RuntimeError) as exc:
+            report.update(
+                status="FAIL",
+                error=f"rendered output failed final identity/SHA-256 verification: {exc}",
+                output_sha256=None,
+                output_size_bytes=None,
+                manual_cleanup_required=True,
+            )
+            return report
         report.update(
             status="RENDERED",
             output_path=str(rendered),
             rendered_duration_seconds=float(rendered_duration),
-            message="one local clip rendered and passed FFprobe verification; manual review required",
+            output_sha256=output_sha256,
+            output_size_bytes=output_size_bytes,
+            output_identity_verified=True,
+            message="one local clip rendered and passed FFprobe plus final identity/SHA-256 verification; manual review required",
         )
     except (OSError, PermissionError, RuntimeError, ValueError) as exc:
         report.update(status="FAIL", error=str(exc))
