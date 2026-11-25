@@ -1076,3 +1076,11 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - Commit `c9a11af6e9454f7ce0c6d1b036b295107e58f5f1`; registry `ae53b71c3b2328596b77e1ce87d7b1c82b0794cb`.
 - Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Existing whitespace-only regression has not been executed in this environment.
 - Preserve PR #386 DRAFT / OPEN / UNMERGED and existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## Latest continuation handoff — ARO-CHAT-0268 (2026-11-26)
+- Continue existing PR #386 / `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; do not create a duplicate branch or PR.
+- Canonicalized measured clock anchor source IDs by trimming surrounding whitespace at `ClockAnchor` construction. Blank IDs remain invalid and exact matching remains required after normalization.
+- Implementation commit `0ddfdc48609a391341f06b3956519badbf0fa8d2`; regression test commit `b4f8656e737729f628f7eaaa67b422eaf1ec9334`; operator documentation commit `86ea65f15567cbaed022b2a3bb9282113837348a`; registry commit `590310ff9e8905302ca2e0aa9ce82e0a7ac19e70`.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Do not claim pipeline completion.
+- Preserve PR #386 DRAFT / OPEN / UNMERGED and existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
