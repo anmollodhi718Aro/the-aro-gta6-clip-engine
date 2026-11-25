@@ -1,5 +1,6 @@
 """Tests for one-selected-video read-only preflight."""
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -38,6 +39,43 @@ class MediaSinglePreflightTests(unittest.TestCase):
         self.assertFalse(report["upload_performed"])
         self.assertFalse(report["publishing_enabled"])
         run.assert_called_once()
+
+    @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_rejects_selected_path_replaced_with_symlink_during_probe(self, run):
+        target = self.root / "original-target.mp4"
+        selected_original = self.root / "selected-original.mp4"
+        target.write_bytes(self.video.read_bytes())
+        selected_original.write_bytes(self.video.read_bytes())
+
+        def replace_with_symlink(*_args, **_kwargs):
+            self.video.unlink()
+            try:
+                self.video.symlink_to(target)
+            except (OSError, NotImplementedError):
+                selected_original.rename(self.video)
+                self.skipTest("symlink creation is unavailable on this runner")
+            return SimpleNamespace(stdout=GOOD_PROBE)
+
+        run.side_effect = replace_with_symlink
+        report = inspect_one_video(self.video)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("became unsafe", report["error"])
+        self.assertTrue(self.video.is_symlink())
+
+    @unittest.skipIf(os.name == "nt", "Windows st_ctime is creation time, not change time")
+    @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_rejects_in_place_mutation_even_when_size_and_mtime_are_restored(self, run):
+        before = self.video.stat()
+
+        def mutate_during_probe(*_args, **_kwargs):
+            self.video.write_bytes(b"X" * before.st_size)
+            os.utime(self.video, ns=(before.st_atime_ns, before.st_mtime_ns))
+            return SimpleNamespace(stdout=GOOD_PROBE)
+
+        run.side_effect = mutate_during_probe
+        report = inspect_one_video(self.video)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("changed while it was being inspected", report["error"])
 
     @patch("backend.app.media_single_preflight.subprocess.run")
     def test_rejects_audio_only_file(self, run):
