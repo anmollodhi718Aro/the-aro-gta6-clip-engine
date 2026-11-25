@@ -2127,3 +2127,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added a regression asserting malformed digest rejection occurs before media tools or output creation.
 - Implementation: `bead52dd6cef555764d5605beb22c5f1c7fe2d9c`; test: `7cd1d015feb7e0fc6f257747c2483440096bf183`.
 - Tests NOT RUN; no media processed.
+
+
+### ARO-CHAT-0284: finalize terminal reports for unexpected exceptions (2026-11-26)
+- The CLI now converts any ordinary `Exception` raised by the renderer boundary into a terminal `FAIL` report instead of leaving the reserved JSON report at `RUNNING`.
+- `KeyboardInterrupt`, `SystemExit`, and hard process termination remain outside this catch, preserving the distinction between controlled failure and interruption.
+- Added a regression using an unexpected `TypeError` and asserting terminal status, unverified snapshot metadata, and disabled upload/publishing.
+- Implementation: `de3918653b2fd268a1826f962a4dfefa2c78bc27`; test: `4c54daaafc19c2329a2008e087f06792d7e8f27e`.
+- Tests NOT RUN; no media processed.
