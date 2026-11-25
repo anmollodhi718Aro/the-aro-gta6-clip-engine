@@ -126,6 +126,33 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(target.exists())
         preflight.assert_not_called()
 
+    def test_cli_existing_report_blocks_before_render_and_preserves_file(self):
+        report_path = self.root / "report.json"
+        report_path.write_text("keep this report", encoding="utf-8")
+        with patch("sys.argv", [
+            "single_clip_render", str(self.source), "--start", "1", "--end", "5",
+            "--output", str(self.output), "--report", str(report_path),
+            "--execute", "--confirm-rights",
+        ]):
+            with patch("backend.app.single_clip_render.render_selected_clip") as render:
+                self.assertEqual(main(), 2)
+        render.assert_not_called()
+        self.assertEqual(report_path.read_text(encoding="utf-8"), "keep this report")
+        self.assertFalse(self.output.exists())
+
+    def test_cli_report_path_cannot_alias_source_or_output(self):
+        for report_path in (self.source, self.output):
+            with self.subTest(report_path=report_path):
+                with patch("sys.argv", [
+                    "single_clip_render", str(self.source), "--start", "1", "--end", "5",
+                    "--output", str(self.output), "--report", str(report_path),
+                    "--execute", "--confirm-rights",
+                ]):
+                    with patch("backend.app.single_clip_render.render_selected_clip") as render:
+                        self.assertEqual(main(), 2)
+                render.assert_not_called()
+                self.assertFalse(self.output.exists())
+
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     def test_cli_writes_exclusive_dry_run_report(self, _preflight):
         report_path = self.root / "report.json"
