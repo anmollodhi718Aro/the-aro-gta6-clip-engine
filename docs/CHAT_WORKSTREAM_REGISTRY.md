@@ -1717,3 +1717,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 → #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+## ARO-CHAT-0247 | Dry-run media-copy and rights-gate correction — 2026-11-25
+- Continuation of PR #386 / ARO-GTA-P1-244 on existing branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new PR or branch.
+- Dry-run now FFprobes the single selected source in place and does not create a temporary full-video snapshot. `--execute` without `--confirm-rights` returns BLOCKED before opening/copying media. Only confirmed execution creates the descriptor-verified snapshot consumed by both FFprobe and FFmpeg.
+- Regression tests assert snapshot creation is never called in dry-run or unconfirmed execution. Operator documentation updated.
+- Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing stacked ancestry; PR #379 conflicts with the one-selected-video requirement. No merge/rebase/retarget/integration without explicit owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live uploads/public publishing remain disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
