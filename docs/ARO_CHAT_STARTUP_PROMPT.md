@@ -1092,3 +1092,8 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - Implementation commits: `55ee671e0e3c04ad052b7e4f6c71b2054558dd95`, `f1a1eb096d3c9e100a436e9a8bfcb2bb9d7f4f5e`; tests: `546ad09473d0e2aa1e3882037ecf488392486026`, `5eef004a184e9ae7ee6238341aa312de087f25cc`.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Do not claim pipeline completion.
 - Preserve PR #386 DRAFT / OPEN / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### ARO-CHAT-0269 terminal-report follow-up
+- Fixed a report lifecycle omission: selected candidate row/source metadata is now copied into the final render report, not only the initial `RUNNING` reservation.
+- Commit: `9380cd9af2578d5e3143fcf2de0ab437f03fed32`. Tests remain NOT RUN and exact-head CI NOT VERIFIED.
