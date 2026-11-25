@@ -1,0 +1,73 @@
+# ARO-CHAT-0238 | PR #376 exact-head CI audit
+
+Date: 2026-11-25
+
+## Scope
+Documentation-only audit of PR #376's current exact head, workflow association, job execution metadata, review state, and the bounded source-rights URL hostname-validation diff.
+
+## Exact-head evidence
+- PR: [#376](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/376)
+- Head branch: `workstream/aro-chat-0238-ambiguous-numeric-hostname-rejection-2026-11-25`
+- Audited head: `af2b5375b33f75630fe896f00f7e2d677b30a9dd`
+- Associated Python CI run: [#45507885744](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45507885744), run number 1545.
+- Run conclusion: FAILURE.
+- Ubuntu job `138847271417` and hosted-Windows job `138847271783` both concluded FAILURE.
+- Both jobs exposed zero workflow steps (`steps: []`).
+- Both job-log downloads returned `BlobNotFound`.
+- The available evidence does not establish whether failure occurred during runner/workflow initialization or before the first step. Root cause is NOT VERIFIED; no compile or unit-test result is claimed and failure is not attributed to application code.
+- PR #376 review submissions and inline review threads were empty at inspection. Independent review NOT RECORDED.
+
+## Bounded static inspection
+- The reviewed diff adds URL-host final-label classification for decimal, hexadecimal-style, and leading-zero numeric suffixes; numeric-like hosts are accepted only when the complete hostname parses as canonical IPv4.
+- Scoped IPv6 zone identifiers are rejected before IPv6 parsing; ordinary IPv6 literals remain accepted.
+- Regression cases cover shorthand/integer IPv4, malformed dotted quads, numeric-looking DNS suffixes (including trailing dots), scoped IPv6 zone identifiers, and canonical IPv4 acceptance.
+- Static inspection is not execution evidence and is not a complete security audit.
+- DNS resolution, destination-IP filtering, and DNS-rebinding protection are not implemented by this helper and are not claimed.
+
+## Validation and disposition
+- Exact-head CI: FAILED / NOT VERIFIED (jobs did not expose steps).
+- Local repository tests: NOT RUN in this connector session.
+- Independent review: NOT RECORDED.
+- PR #376 remains OPEN / DRAFT / UNMERGED. Do not transfer CI evidence from parent or sibling PRs.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
+
+## Safety
+Documentation-only. No source or test behavior, uploader, OAuth, credentials, media, workflow configuration, or publishing behavior changed. No workflow retry/dispatch, merge, rebase, retarget, deployment, real-media processing, upload, or publishing was performed.
+
+
+### Latest exact-head CI recheck — 2026-11-25
+
+- PR #376 current head: `95040a76e26feee5d213496bad5492bfcdee5a99`.
+- Associated Python CI run [#45517364056](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45517364056), run 1551, completed FAILURE.
+- Ubuntu job `138880153717` and hosted-Windows job `138880154002` both completed FAILURE. The jobs endpoint exposed `steps: null` and `logs_url: null` for both jobs.
+- Failure phase and root cause remain NOT VERIFIED. No compile or unit-test result is established; do not attribute the failure to application code or tests.
+- Local repository tests NOT RUN. PR #376 review submissions and inline review threads remain empty; independent review NOT RECORDED.
+- No workflow retry/dispatch was initiated. Preserve PR #376 DRAFT / OPEN / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+- This is a documentation-only evidence update. No source/test behavior, workflow configuration, OAuth, credentials, media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+### Exact-head CI recheck — commit 4347f66 (2026-11-25)
+
+- PR #376 head at inspection: `4347f66b5d29f877acb6fad9124fac88cf9e3edb`.
+- Exact-commit Python CI run [#45521261164](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45521261164), run 1553, completed FAILURE.
+- Ubuntu job `138893405593` and hosted-Windows job `138893406184` both completed FAILURE. The jobs endpoint returned `steps: null` and `logs_url: null` for both jobs.
+- Combined commit status returned zero status entries. This is not a passing signal.
+- PR #376 review submissions and inline review threads were empty at inspection; independent review NOT RECORDED.
+- Failure phase/root cause remain NOT VERIFIED. No compile or unit-test result is established; the failure is not attributed to application code or tests.
+- Local repository tests NOT RUN in this connector session. Exact-head CI is FAILED / NOT VERIFIED.
+- No workflow retry/dispatch was initiated. PR #376 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+- Documentation-only audit. No source/test/workflow behavior, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was changed/performed.
+
+
+### Latest live exact-head CI investigation — 2026-11-25
+
+- Live PR #376 head at inspection: `74041aa14c55cc1686555f6d0e6f44ccc887f70c`; PR remains OPEN / DRAFT / UNMERGED.
+- Associated Python CI run [#45655644112](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45655644112), run number 1599, completed FAILURE.
+- Ubuntu job `139351448958` and hosted-Windows job `139351449596` both concluded FAILURE. The jobs endpoint returned `steps: null` and `logs_url: null` for both jobs. Independent step lookup returned empty arrays; both log-download requests returned `BlobNotFound`.
+- Combined commit status returned zero status entries. This is not a passing signal.
+- The checked-in `.github/workflows/ci.yml` on the PR branch has the expected `pull_request` triggers (`opened`, `synchronize`, `reopened`, `ready_for_review`) and defines explicit checkout, Python setup, FFmpeg setup, compile, unit-test, and synthetic-MP4 steps for both Ubuntu and hosted Windows. The workflow file therefore does not explain the missing step metadata by an absent job/steps definition. This does not establish why GitHub reported the jobs as failed before exposing steps.
+- Failure phase and root cause remain NOT VERIFIED. No compile, unit-test, FFmpeg, or synthetic-render result is established. Do not attribute this to application code, tests, or a specific runner fault.
+- PR #376 review submissions and inline review threads remain empty; independent review NOT RECORDED. Repository unit tests NOT RUN in this connector session.
+- No workflow retry/dispatch was initiated, consistent with the existing owner-approval boundary. No source/test/workflow change, merge, rebase, retarget, deployment, OAuth, credentials, real-media processing, upload, or publishing was performed.
+- Preserve PR #376 OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads and public publishing disabled.
+- Next safe evidence: a naturally triggered run with populated job steps/logs, or owner-authorized CI investigation. Do not infer a root cause from empty logs.

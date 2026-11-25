@@ -2,6 +2,7 @@
 import sqlite3
 import tempfile
 import unittest
+import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import closing
 from threading import Barrier
@@ -211,6 +212,46 @@ class SourceRightsRegistryTests(unittest.TestCase):
             "https://example-.com/video",
             "https://exa_mple.com/video",
             "https://%65xample.com/video",
+            "https://999.999.999.999/video",
+            "https://127.1/video",
+            "https://2130706433/video",
+            "https://0177.0.0.1/video",
+            "https://0x7f.0.0.1/video",
+            "https://example.123/video",
+            "https://example.0x2/video",
+            "https://example.012/video",
+            "https://example.0x/video",
+            "https://example.00/video",
+            "https://example.077/video",
+            "https://example.09/video",
+            "https://example.0008/video",
+            "https://example.123./video",
+            "https://example.0x2./video",
+            "https://example.09./video",
+            "https://example.１２３/video",
+            "https://example.²/video",
+            "https://example.①/video",
+            "https://example.⑨/video",
+            "https://example.₁/video",
+            "https://example.𝟙/video",
+            "https://example.⑩/video",
+            "https://example.㉑/video",
+            "https://example.⁰/video",
+            "https://example.⓪/video",
+            "https://example.⁹/video",
+            "https://example.₉/video",
+            "https://example.𝟗/video",
+            "https://example.㊿/video",
+            "https://example。１２３/video",
+            "https://example．１２３/video",
+            "https://example.０ｘ２/video",
+            "https://example.０９/video",
+            "https://example.０００８/video",
+            "https://example.１２３./video",
+            "https://example。１２３./video",
+            "https://example．０ｘ２./video",
+            "https://[fe80::1%25eth0]/video",
+            "https://[fe80::1%eth0]/video",
             "https://user:password@example.com/video",
             "https://exa mple.com/video",
             "https://exa\nmple.com/video",
@@ -226,9 +267,26 @@ class SourceRightsRegistryTests(unittest.TestCase):
         for index, source_url in enumerate((
             "http://example.com/video",
             "https://example.com/video",
+            "https://example.0xg1/video",
+            "https://example.abc1/video",
+            "https://example.0a9/video",
+            "https://example.0xg/video",
+            "https://example.label1/video",
+            "https://example.com1/video",
             "https://[::1]/video",
+            "https://192.0.2.1/video",
+            "https://192.0.2.1./video",
             "https://bücher.example/video",
+            "https://bücher.example./video",
             "https://example.com./video",
+            "https://example.㎟/video",
+            "https://example.㎠/video",
+            "https://example.㎡/video",
+            "https://example.㎢/video",
+            "https://example.㎣/video",
+            "https://example.㎤/video",
+            "https://example.㎥/video",
+            "https://example.㎦/video",
         )):
             with self.subTest(source_url=source_url):
                 record = dict(self.record, source_id=f"url-source-{index}", source_url=source_url)
@@ -290,6 +348,30 @@ class SourceRightsRegistryTests(unittest.TestCase):
             with self.subTest(operation="revoke", value=repr(invalid)):
                 with self.assertRaises(ValueError):
                     self.registry.revoke("creator-video-1", actor="owner", at=invalid)
+
+    def test_register_rejects_all_idna_numeric_compatibility_characters(self):
+        # IDNA compatibility mappings can turn Unicode numeric characters
+        # into ASCII digits. Exercise every numeric-category character that
+        # the active Python IDNA codec maps to an ASCII-only numeric label.
+        candidates = []
+        for codepoint in range(128, 0x110000):
+            character = chr(codepoint)
+            if not unicodedata.category(character).startswith("N"):
+                continue
+            try:
+                mapped = character.encode("idna").decode("ascii")
+            except UnicodeError:
+                continue
+            if mapped and mapped.isascii() and mapped.isdecimal():
+                candidates.append(character)
+
+        self.assertTrue(candidates, "expected IDNA numeric compatibility mappings")
+        for character in candidates:
+            source_url = f"https://example.{character}/video"
+            with self.subTest(codepoint=f"U+{ord(character):04X}", source_url=source_url):
+                with self.assertRaises(ValueError):
+                    self.registry.register(dict(self.record, source_url=source_url))
+
 
 if __name__ == "__main__":
     unittest.main()

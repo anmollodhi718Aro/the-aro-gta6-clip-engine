@@ -508,3 +508,261 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - PR #373 exact-head workflow lookup returned zero runs; combined status returned zero entries; reviews and inline threads were empty. Ubuntu/hosted-Windows CI, local tests and independent review are NOT VERIFIED / NOT RUN / NOT RECORDED respectively.
 - Bounded review confirms syntax-level DNS/IDNA/IPv6 checks and listed regressions. Scoped IPv6 zone identifiers are accepted by Python's IPv6 parser; intended policy remains an owner/design question. DNS resolution, destination-IP filtering and DNS-rebinding protection are not implemented by this helper.
 - Keep PR #373 draft/open/unmerged. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, OAuth, credentials, real media, upload, merge, retarget, deployment or publishing.
+
+
+## Current continuation — ARO-CHAT-0238 ambiguous numeric URL hosts (2026-11-25)
+
+- Chat title: `ARO-CHAT-0238 | Reject Ambiguous Numeric URL Hosts`; workstream: ARO-GTA-P1-238.
+- Branch: `workstream/aro-chat-0238-ambiguous-numeric-hostname-rejection-2026-11-25`; base PR #374 head `bd458946572ca5cec66f4ea55064d8596bf4ad3c`.
+- Reject numeric-only URL hosts unless they are canonical four-octet IPv4 literals. This prevents shorthand forms such as `127.1` and integer-form addresses from passing hostname syntax checks despite parser-dependent interpretation.
+- Production and regression-test changes are committed; local tests NOT RUN, exact-head Ubuntu/hosted-Windows CI PENDING, independent review NOT RECORDED.
+- Preserve PR #373/#374 ancestry and draft state. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### ARO-CHAT-0238 PR #376 handoff (2026-11-25)
+
+- Draft PR #376 is open/unmerged at head `320d236609248e9fcf5fbad99483212f07a4ccb2`.
+- Initial exact-head workflow lookup returned no runs; combined status returned no entries. CI PENDING / NOT VERIFIED. Local tests NOT RUN; independent review NOT RECORDED.
+- Do not transfer results from PR #373 or #374. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0238 numeric URL suffix hardening follow-up — 2026-11-25
+- Static comparison against the parallel canonical-IPv4 implementation found PR #376 only rejected hosts made entirely of digits and dots. DNS-looking hosts with URL-parser numeric final labels, such as `example.123`, `example.0x2`, and `example.012`, still passed its DNS-label path.
+- Ported a conservative final-label numeric-form check into `backend/app/rights_registry.py`. When the final label has a URL-parser numeric form, the entire hostname must parse as canonical four-octet IPv4; ambiguous suffix hosts are rejected. Canonical IPv4, DNS/IDNA, FQDN trailing-dot and IPv6 paths remain covered by existing behavior.
+- Added regressions for octal/hex dotted forms and numeric-ending DNS labels in `tests/test_rights_registry.py`.
+- Production commit: `e9a3b0d77aae6c48aac5f34db66114f86839a1fd`; test commit: `3b4cf33873e1982493fb7b0a37b5f9d031379b05`.
+- PR #376's earlier head `320d236609248e9fcf5fbad99483212f07a4ccb2` had associated run #45495596246: Ubuntu and hosted Windows both failed before exposing any workflow steps; both job-log downloads returned BlobNotFound. Root cause NOT VERIFIED; this is not attributed to application code or tests. The new commits have not yet been validated by local tests or exact-head CI.
+- PR remains draft/open/unmerged. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### ARO-CHAT-0238 continuation update — 2026-11-25
+
+- Follow-up production commit `8d9812d8c88ad4549e5677a4a3a175b4e75bdd26` conservatively rejects every all-decimal URL hostname suffix beginning with zero unless the complete hostname is canonical four-octet IPv4.
+- Regression test commit and current branch head: `f6bb501eccf77445509f85e24ec69babbd61e41a`; added `example.09` and `example.0008` rejection cases.
+- Current-head associated workflow lookup returned zero runs. Exact-head CI PENDING / NOT VERIFIED; local tests NOT RUN; independent review NOT RECORDED.
+- PR #376 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+
+
+### Current handoff — ARO-CHAT-0238 trailing-dot regression follow-up (2026-11-25)
+
+- Continue existing draft PR #376 on `workstream/aro-chat-0238-ambiguous-numeric-hostname-rejection-2026-11-25`; do not create a duplicate branch or PR.
+- Latest test-only commit: `4cde1bb1b12ab95fd9779171f95d93f78621760e`. It covers rejection of numeric-like DNS suffixes with trailing dots and acceptance of canonical IPv4 with a trailing dot.
+- Production code unchanged. Local tests NOT RUN; exact-head CI NOT YET CHECKED; independent review NOT RECORDED.
+- Preserve draft/open/unmerged state. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Keep live uploads/public publishing disabled.
+
+
+## Exact-head CI recheck — 2026-11-25
+
+- Audited commit `4cde1bb1b12ab95fd9779171f95d93f78621760e`, the trailing-dot regression test commit.
+- Associated Python CI run [#45506152240](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45506152240) completed FAILURE.
+- Ubuntu job `138841778044` and hosted-Windows job `138841778291` both completed FAILURE and exposed zero workflow steps. Both job-log downloads returned `BlobNotFound`.
+- Failure phase/root cause NOT VERIFIED. The available evidence does not establish whether the jobs failed during runner/workflow initialization or before the first step. Do not attribute the failure to application code or tests.
+- Local repository tests NOT RUN in this connector session. No compile or test count is claimed. Exact-head CI is FAILED / NOT VERIFIED. Independent security review NOT RECORDED; PR #376 review submissions and inline threads were empty at inspection.
+- No workflow retry/dispatch was initiated. PR #376 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- No source code, test behavior, uploader, OAuth, media, workflow configuration, merge, rebase, retarget, deployment, upload, or publishing behavior was changed during this audit.
+
+
+### Scoped IPv6 zone-identifier rejection follow-up — 2026-11-25
+
+- Static comparison with the current strict-hostname policy found this branch still accepted scoped IPv6 URL hostnames because Python's `ipaddress.IPv6Address` accepts zone identifiers.
+- Production change: `_valid_hostname()` now rejects any percent sign in the parsed hostname before IPv6 parsing. Scoped IPv6 zone identifiers are unsupported at this registry boundary; ordinary IPv6 literals remain accepted.
+- Added negative regressions for URI-encoded `%25` and raw `%` zone delimiters.
+- Production commit: `7306d114dc50bbfe79d5ef2699b3df907f871e04`; test commit: `475a55732d710332a2751c0012c780b75f081ed3`.
+- Local repository tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT YET CHECKED for this code/test head. Independent security review NOT RECORDED.
+- This is a fail-closed source-rights URL validation change only; no DNS resolution, destination-IP policy, uploader, OAuth, media, workflow configuration, or publishing behavior changed.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Do not retry/dispatch workflows without owner direction; keep live uploads/public publishing disabled.
+
+
+## Latest verified handoff — ARO-CHAT-0238 PR #376 exact-head audit (2026-11-25)
+
+- Current PR #376 head inspected: `af2b5375b33f75630fe896f00f7e2d677b30a9dd`; exact-head Python CI run #45507885744 completed FAILURE.
+- Ubuntu job `138847271417` and hosted-Windows job `138847271783` exposed zero steps; both log downloads returned `BlobNotFound`. Failure phase/root cause NOT VERIFIED; no compile/test result is claimed and failure is not attributed to application code.
+- PR #376 reviews and inline review threads were empty. Independent review NOT RECORDED; local tests NOT RUN.
+- Bounded static review covered numeric-like URL-host suffixes, canonical IPv4 handling, scoped IPv6 zone rejection, and regression coverage. This is not execution evidence or a full security audit.
+- Audit report: `docs/ARO_CHAT_0238_PR376_EXACT_HEAD_CI_AUDIT.md`; registry updated.
+- Continue from the existing PR #376 branch only. Keep PR OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled.
+- Do not retry/dispatch workflows without owner direction. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### Latest continuation — ARO-CHAT-0238 IDNA numeric-host regression (2026-11-25)
+- Continued existing PR #376 / ARO-GTA-P1-238 on its existing branch; no duplicate workstream or PR.
+- Added four URL rejection regressions for IDNA-normalized fullwidth digits, ideographic/fullwidth dot separators, and a fullwidth hexadecimal prefix. Test commit: `c8a0c210d3bccedfd7678a5fda20fe2b01b1a275`.
+- An isolated in-memory probe passed the four new malformed URL cases plus two existing numeric-suffix controls. Repository unit tests NOT RUN; exact-head CI NOT YET VERIFIED; independent review NOT RECORDED.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### ARO-CHAT-0238 trailing-dot IDNA regression follow-up — 2026-11-25
+- Test-only continuation on existing PR #376 and branch; no duplicate workstream or PR.
+- Added rejection regressions for IDNA-normalized numeric suffixes with a trailing DNS root dot and alternate Unicode dot separators: fullwidth decimal digits, ideographic dot, and fullwidth hexadecimal-prefix form.
+- Added a positive acceptance regression for an IDNA DNS hostname with a trailing root dot.
+- Test commit: 370291c61dae242eb21f1626e817800533b9e93b.
+- Local repository tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT YET VERIFIED for this commit; independent review NOT RECORDED. No CI result transfers from earlier heads.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+- No workflow retry/dispatch, production-code change, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+### Latest ARO-CHAT-0238 CI handoff — 2026-11-25
+- Test commit `370291c61dae242eb21f1626e817800533b9e93b` is associated with Python CI run #45514632951, which completed FAILURE on Ubuntu and hosted Windows.
+- Both jobs exposed no step details (`steps: null`) and no job log URLs. Failure phase/root cause NOT VERIFIED; no compile/test result is claimed and no failure is attributed to application code.
+- Combined status had zero entries; PR #376 reviews and inline threads were empty. Local tests NOT RUN; independent review NOT RECORDED.
+- No workflow retry/dispatch. Keep PR #376 DRAFT / OPEN / UNMERGED, Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL, and live uploads/public publishing disabled.
+- Continue on the existing ARO-CHAT-0238 branch only. Do not merge, rebase, retarget, deploy, use OAuth/credentials, process real media, upload, or publish without the applicable explicit owner approval.
+
+
+### Latest exact-head CI recheck — 2026-11-25
+
+- PR #376 current head: `95040a76e26feee5d213496bad5492bfcdee5a99`.
+- Associated Python CI run [#45517364056](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45517364056), run 1551, completed FAILURE.
+- Ubuntu job `138880153717` and hosted-Windows job `138880154002` both completed FAILURE. The jobs endpoint exposed `steps: null` and `logs_url: null` for both jobs.
+- Failure phase and root cause remain NOT VERIFIED. No compile or unit-test result is established; do not attribute the failure to application code or tests.
+- Local repository tests NOT RUN. PR #376 review submissions and inline review threads remain empty; independent review NOT RECORDED.
+- No workflow retry/dispatch was initiated. Preserve PR #376 DRAFT / OPEN / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+- This is a documentation-only evidence update. No source/test behavior, workflow configuration, OAuth, credentials, media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+### Current continuation — ARO-CHAT-0238 IDNA leading-zero regression (2026-11-25)
+- Continued existing draft PR #376 / ARO-GTA-P1-238 on its existing branch.
+- Added test-only cases for fullwidth IDNA-normalized leading-zero numeric suffixes `０９` and `０００８`; test commit `b46c369076a082f709b38384c2789a3bd882b45b`.
+- Repository unit tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Do not transfer CI evidence from predecessor commits.
+- Keep PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+
+## Latest continuation — ARO-CHAT-0238 PR #376 current exact-head audit (2026-11-25)
+- Audited current exact head `33dc5cc461909bea41c21c361979ab9b1caae0e4`; associated Python CI run [#45528776849](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45528776849), run 1556, completed FAILURE.
+- Ubuntu job `138918585212` and hosted-Windows job `138918585633` both failed; the jobs endpoint exposed `steps: null` and `logs_url: null`. Combined commit status had zero entries.
+- Failure phase/root cause NOT VERIFIED. No compile or test result is claimed; do not attribute failure to application code or tests.
+- PR #376 review submissions and inline threads were empty. Independent review NOT RECORDED; local repository tests NOT RUN.
+- Audit report: `docs/ARO_CHAT_0238_PR376_CURRENT_HEAD_AUDIT.md`; registry synchronized.
+- Preserve PR #376 OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; owner UNASSIGNED. Keep live uploads/public publishing disabled.
+- No manual workflow retry/dispatch, source/test behavior change, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+- Next task: continue bounded static review of the current PR #376 validation patch, identify only concrete uncovered input classes, and add narrowly scoped regression coverage only when justified. Re-audit the new exact head; do not transfer prior CI evidence.
+
+
+### Current continuation — ARO-CHAT-0238 digit-ending numeric-label rejection (2026-11-25)
+- Continue the existing draft PR #376 / ARO-GTA-P1-238 branch; do not create a duplicate workstream.
+- Static review found invalid numeric-looking final labels ending in ASCII digits (including 0xg1, abc1, and 0a9) could fall through to DNS-label validation despite URL parsers treating digit-ending labels as IPv4 candidates.
+- Updated _ends_in_ipv4_number() to classify ASCII-digit-ending labels as numeric-like while retaining valid hexadecimal-prefix handling; the complete host must parse as canonical four-octet IPv4.
+- Added three negative regressions. Production commit 50e007fe5567624a187a64e280ced3ba356dec86; test commit 9a5956a88a075962980524cf126cad8fe2cbf0a0.
+- Repository tests NOT RUN. Exact-head CI NOT YET VERIFIED. Independent review NOT RECORDED. Re-audit only the new exact head; do not transfer predecessor CI results.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### Post-fix CI evidence and exact-head recheck — 2026-11-25
+- The production/test commit 9a5956a88a075962980524cf126cad8fe2cbf0a0 is associated with Python CI run #45531092780 (run 1560), conclusion FAILURE.
+- Ubuntu job 138926286948 and hosted-Windows job 138926287425 both failed and exposed zero steps. Both job-log downloads returned BlobNotFound. Failure phase/root cause NOT VERIFIED; no compile or test result is established and failure is not attributed to application code.
+- Combined commit status for the code/test commit returned zero status entries. Repository tests NOT RUN locally; independent review NOT RECORDED.
+- After documentation synchronization, PR #376 exact head is 3118b6afdecd42a22f9aab229b4cb3a0b782cf1a. Commit-associated workflow lookup for that exact documentation head returned zero runs. Exact-head CI is PENDING / NOT VERIFIED; no CI evidence transfers from the code/test commit or earlier heads.
+- PR #376 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; owner UNASSIGNED. Keep live uploads/public publishing disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing was performed.
+
+
+### ARO-CHAT-0238 IDNA compatibility-digit regression follow-up — 2026-11-25
+- Static review found IDNA compatibility mappings can turn superscript and circled digits into ASCII numeric URL-host suffixes (for example, `²` → `2`, `①` → `1`, `⑨` → `9`). The numeric-suffix guard then rejects these ambiguous hosts unless the entire hostname is canonical IPv4.
+- Added test-only rejection cases for `example.²`, `example.①`, and `example.⑨` in `tests/test_rights_registry.py`.
+- Test commit: `c03fb62bb2f268d174f89a51973cb985b9473b45`. An isolated in-memory probe confirmed the IDNA mappings and expected validator rejection; this is not a repository test run.
+- Repository unit tests NOT RUN. Commit-associated exact-head workflow lookup returned zero runs. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent review NOT RECORDED; PR review submissions and inline threads remain empty.
+- Continue on existing draft PR #376 only. Preserve DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### Latest continuation — ARO-CHAT-0238 IDNA numeric compatibility-digit tests (2026-11-25)
+- Continued existing draft PR #376 / ARO-GTA-P1-238 on its existing branch; no duplicate workstream or PR.
+- Static review found uncovered IDNA compatibility characters: subscript digits, mathematical styled digits, and multi-digit circled numerals. The built-in IDNA codec maps these to ASCII numeric suffixes, so they must be rejected by the canonical-IPv4-only suffix rule.
+- Added five test-only cases for `example.₁`, `example.𝟙`, `example.⑩`, `example.㉑`, and `example.⁰`. Test commit: `1bc36c0d74cda85771c748801253a9fe0cb3e4c7`.
+- Isolated in-memory probe confirmed expected IDNA mappings and rejection. Repository unit tests NOT RUN; commit-associated exact-head CI lookup returned zero runs at the immediate check; exact-head CI PENDING / NOT VERIFIED; independent review NOT RECORDED.
+- Continue bounded static review on PR #376 only; do not transfer CI evidence from earlier heads.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### ARO-CHAT-0238 additional IDNA numeric compatibility regressions — 2026-11-25
+- Continued the existing PR #376 / ARO-GTA-P1-238 branch; no new workstream or PR.
+- Added five test-only malformed URL cases for IDNA compatibility characters that normalize to numeric suffixes: circled zero `⓪`, superscript nine `⁹`, subscript nine `₉`, mathematical bold nine `𝟗`, and circled fifty `㊿`.
+- Test commit: `40a62b790a5b820e7aee08e6a8c140cfa65fa99f`.
+- An isolated probe using the current hostname validator confirmed all five map to ASCII numeric suffixes and are rejected unless the complete host is canonical IPv4. This is not a repository unit-test run.
+- Repository unit tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. No CI evidence transfers from prior commits.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### Latest continuation — ARO-CHAT-0238 exhaustive IDNA numeric-mapping regression (2026-11-25)
+- Continued existing draft PR #376 / ARO-GTA-P1-238 on its existing branch.
+- Added test-only enumeration of every Unicode numeric-category character whose active Python IDNA codec maps to an ASCII decimal label; every resulting numeric-suffix URL must be rejected. Test commit: `bbffafc8fe976915bcc3cabbcb050016751e2797`.
+- Isolated in-memory probe: 131 mapped characters enumerated and rejected; canonical IPv4 with and without trailing root dot accepted. This is not a repository test run.
+- Exact-head Python CI run #45538802378 completed FAILURE; Ubuntu and hosted-Windows jobs exposed no steps/log URLs. Failure phase/root cause NOT VERIFIED; no compile/test result is claimed. Local repository tests NOT RUN; independent review NOT RECORDED.
+- Report: `docs/ARO_CHAT_0238_IDNA_NUMERIC_MAPPING_REGRESSION.md`. Keep PR #376 OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; owner UNASSIGNED. Keep live uploads/public publishing disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### Latest handoff — ARO-CHAT-0238 / PR #376 (2026-11-25)
+- Continue from PR #376 on `workstream/aro-chat-0238-ambiguous-numeric-hostname-rejection-2026-11-25`; do not create a duplicate workstream.
+- Latest audited application/test head: `62d07a4b23d62bb2d73428abeaf5384a40df4146`. The subsequent handoff commits update only the audit report, registry, and this startup prompt.
+- Exact-head Python CI run #45537558568 (run 1570) failed on Ubuntu and hosted Windows; both jobs exposed `steps: null` and `logs_url: null`. Failure phase/root cause NOT VERIFIED. No compile/test result is established; do not attribute failure to application code.
+- Local repository tests NOT RUN. PR #376 reviews and inline review threads empty; independent review NOT RECORDED.
+- Bounded static review of `backend/app/rights_registry.py` and `tests/test_rights_registry.py` found no additional concrete gap in the reviewed hostname helper/test matrix. This does not establish complete URL-parser/DNS/destination-IP/DNS-rebinding security.
+- Audit report: `docs/ARO_CHAT_0238_PR376_CURRENT_HEAD_AUDIT.md`. Registry contains this handoff.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing stay disabled.
+- Next safe action: inspect a naturally triggered exact-head CI run with visible job steps/logs and obtain independent review. No manual workflow retry/dispatch without owner direction. No merge, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### Latest continuation — ARO-CHAT-0238 PR #376 exact-head reconciliation (2026-11-25)
+- Continue on existing PR #376 / `ARO-GTA-P1-238` branch only; do not create a duplicate branch or PR.
+- Live PR head at this audit: `dc18af438161356266843edc04d7aceb7f9f72c0`; PR remains DRAFT / OPEN / UNMERGED.
+- Exact-head Python CI run #45541566724 (run 1577) failed on Ubuntu job `138961085105` and hosted-Windows job `138961084835`. Both exposed `steps: null` and `logs_url: null`; combined status returned zero entries. Failure phase/root cause NOT VERIFIED. No compile/test result is established; do not attribute failure to source code.
+- Local repository tests NOT RUN. PR reviews and inline review threads are empty; independent review NOT RECORDED.
+- Bounded static review re-read `backend/app/rights_registry.py` and `tests/test_rights_registry.py`; no additional concrete defect was identified in the hostname-validation path and current test matrix. This is not a complete URL-parser/DNS/destination-IP/DNS-rebinding security review.
+- Audit report: `docs/ARO_CHAT_0238_PR376_CURRENT_HEAD_AUDIT.md`; registry synchronized.
+- Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
+- Next safe action: inspect a naturally triggered exact-head run with visible steps/logs and obtain independent review. Do not manually retry/dispatch workflows without owner direction. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+## ARO-CHAT-0238 continuation handoff — 2026-11-25
+
+- Continue the existing PR #376 and workstream `ARO-GTA-P1-238`; do not create a duplicate branch or PR.
+- Latest bounded finding: `_ends_in_ipv4_number()` must not classify every alphanumeric DNS label ending in a digit as an IPv4 number. Keep the guard limited to numeric forms actually recognized by the URL-host IPv4-number algorithm.
+- Production fix commit: `c9b621afc52b5b9ef84b459d6640b3fa1846fed6`; regression-test commit: `f94c2d3d68084e6230fc10096605397fb9a145b6`.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Do not claim validation from static inspection.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+- Do not manually retry/dispatch workflows, merge, rebase, retarget, deploy, authenticate OAuth, handle credentials, use real media, upload, or publish without the required explicit owner authorization.
+
+
+### ARO-CHAT-0238 latest continuation — numeric-ending URL-host parser alignment (2026-11-25)
+- Continue the existing PR #376 / ARO-GTA-P1-238 branch only; do not create a duplicate workstream.
+- Corrected the previous predicate narrowing: ASCII alphanumeric final labels ending in digits (for example `label1`, `abc1`, `0xg1`, and `0a9`) must be rejected at this URL-validation boundary because WHATWG-style URL-host parsing treats ASCII-digit-ending labels as IPv4 candidates and invalid IPv4 parsing does not make them ordinary DNS hosts.
+- Production commit: `9aa2c4b9bdcbfb8efd25bc2138656d581befa9f6`; initial regression-test commit: `07cc72d5bcba2fbf093de3d2ef2a98bfa876e928`; follow-up regression-test commit: `ac3c6a546f4215d625b319ae1525bf15be17c57e` (also moves `example.label1` and `example.com1` into rejection coverage).
+- Commit-associated workflow lookup for the test commit returned zero runs. Prior test commit `f94c2d3d68084e6230fc10096605397fb9a145b6` run #45654439835 failed on Ubuntu and hosted Windows with `steps: null` and `logs_url: null`; failure phase/root cause NOT VERIFIED.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Code is IMPLEMENTED only, not TESTED or CI_VERIFIED.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+- Do not manually retry/dispatch workflows, merge, rebase, retarget, deploy, authenticate OAuth, handle credentials, use real media, upload, or publish without required explicit owner authorization.
+
+
+### ARO-CHAT-0238 IDNA unit-symbol test correction — 2026-11-25
+- Test-only correction on existing PR #376: eight Unicode unit symbols (`㎟`, `㎠`, `㎡`, `㎢`, `㎣`, `㎤`, `㎥`, `㎦`) map through Python IDNA to ordinary alphanumeric DNS labels (`mm2`, `cm2`, `m2`, `km2`, `mm3`, `cm3`, `m3`, `km3`). They are not numeric-only URL-host suffixes and should not be classified as invalid by the current validator.
+- Moved these eight URLs from the malformed-source list into the accepted HTTP(S) URL cases. Production validator unchanged.
+- Test commit: `74041aa14c55cc1686555f6d0e6f44ccc887f70c`.
+- Isolated in-memory probe confirmed all eight IDNA-normalized hostnames pass the existing DNS-label validation. Repository unit tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #376 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### ARO-CHAT-0238 accepted-list placement correction — 2026-11-25
+- Follow-up commit `0e6233c10f698313bc0c8fa82a287f5ee180cbb4` corrects the test-list placement from the preceding test-only commit: the eight IDNA unit-symbol URLs are now absent from `invalid_urls` and present in `test_register_accepts_http_and_https_source_urls`.
+- The prior isolated validator probe showed all eight normalize to ordinary DNS labels and are accepted. Repository unit tests remain NOT RUN; exact-head CI and independent review remain NOT VERIFIED / NOT RECORDED.
+
+
+### ARO-CHAT-0238 WHATWG numeric-suffix correction handoff — 2026-11-25
+- Continue the existing `ARO-GTA-P1-238` workstream on PR #376; do not create a duplicate branch or PR.
+- Standards review of WHATWG URL Standard §3.5 corrected an over-broad predicate that rejected all ASCII-digit-ending DNS labels. Numeric suffix detection now recognizes decimal-only labels, valid `0x` hexadecimal forms (including empty suffix), and valid leading-zero octal forms; arbitrary alphanumeric labels such as `label1`, `abc1`, and `0a9` remain DNS candidates.
+- Production commit `f1e562824f2fd165249258bf454a2ad886c3255d`; regression test commit `019ccf37eb2afafa307584f86f8388630e9f0e03`.
+- Focused isolated predicate probe: 16 cases passed. Repository unit tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Do not represent the probe as repository test evidence.
+- Preserve PR #376 OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; no OAuth, credentials, real media, uploads, public publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment.
+
+
+### ARO-CHAT-0238 exact-head CI recheck after WHATWG correction — 2026-11-25
+- Current PR #376 head: `0dfa003c7cb923c6e034ee9608549d82a5ff00a2` (documentation synchronization after production/test commits).
+- Python CI run #45668850752 (run 1624) completed FAILURE. Ubuntu job `139398317841` and hosted-Windows job `139398318523` both reported FAILURE; the jobs endpoint exposed `steps: []` and `logs_url: null`. Both log downloads returned `BlobNotFound`.
+- Failure phase/root cause NOT VERIFIED. No compile or repository test result is established; failure is not attributed to the code or tests.
+- The production commit `f1e562824f2fd165249258bf454a2ad886c3255d` and test commit `019ccf37eb2afafa307584f86f8388630e9f0e03` each also have naturally triggered Python CI runs #45668772916 and #45668788732, both concluded FAILURE. Their failures are not evidence of a source-code failure without exposed steps/logs.
+- Exact-head workflow lookup returned run #45668850752; no workflow retry/dispatch was initiated. Repository unit tests NOT RUN. Focused isolated predicate probe passed 16 cases only. Independent review NOT RECORDED.
+- Preserve PR #376 OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.

@@ -17,8 +17,32 @@ from urllib.parse import urlsplit
 ALLOWED_USES = frozenset({"analyze", "edit", "publish"})
 
 
+def _ends_in_ipv4_number(label: str) -> bool:
+    """Match the WHATWG URL Standard's IPv4-number suffix forms."""
+    lowered = label.lower()
+    if not lowered.isascii():
+        return False
+    # The URL Standard first recognizes all-decimal labels (including
+    # malformed octal-looking values such as "09", which fail later when
+    # the complete host is parsed as IPv4).
+    if lowered.isdecimal():
+        return True
+    # Its IPv4-number parser also accepts 0x-prefixed hexadecimal forms,
+    # including the empty suffix ("0x"), and leading-zero octal forms.
+    if lowered.startswith("0x"):
+        return all(character in "0123456789abcdef" for character in lowered[2:])
+    if len(lowered) > 1 and lowered.startswith("0"):
+        return all(character in "01234567" for character in lowered[1:])
+    return False
+
+
 def _valid_hostname(hostname: str) -> bool:
-    """Accept DNS/IDNA names and IPv6 literals; reject malformed host labels."""
+    """Accept DNS/IDNA names and IP literals without ambiguous forms."""
+    # Scoped IPv6 literals are deliberately unsupported at this registry
+    # boundary. Different URL consumers handle encoded/raw zone identifiers
+    # inconsistently, so reject percent signs before invoking the IP parser.
+    if "%" in hostname:
+        return False
     if ":" in hostname:
         try:
             ipaddress.IPv6Address(hostname)
@@ -34,6 +58,17 @@ def _valid_hostname(hostname: str) -> bool:
         ascii_hostname = ascii_hostname[:-1]
     if not ascii_hostname or len(ascii_hostname) > 253:
         return False
+
+    # URL consumers can interpret shorthand, octal, hexadecimal, or invalid
+    # dotted-decimal numeric hosts differently. Accept only canonical IPv4
+    # literals when the final label has a URL-parser numeric form.
+    if _ends_in_ipv4_number(ascii_hostname.rsplit(".", 1)[-1]):
+        try:
+            ipaddress.IPv4Address(ascii_hostname)
+            return True
+        except ValueError:
+            return False
+
     labels = ascii_hostname.split(".")
     return all(
         label
