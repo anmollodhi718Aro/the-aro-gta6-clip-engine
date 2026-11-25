@@ -2051,3 +2051,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Verifies the expected source ID, 30s start, 45s end, and 15s duration across the actual mapping/export/import functions.
 - Test commit: `11c9bc7943844d9b1fceda53accbaef917219aae`.
 - Tests NOT RUN; no CI result or real render is claimed.
+
+
+### ARO-CHAT-0273 — workstream push CI coverage (2026-11-26)
+- Updated `.github/workflows/ci.yml` so pushes to `workstream/**` branches also trigger the existing Python CI job, in addition to the pull-request trigger.
+- CI continues to compile `backend`, `tests`, and `THE_ARO_STUDIO.py`, then run `python -m unittest discover -s tests -v` on Python 3.11.
+- Workflow commit: `260b48fc54560c2e713c2caaa32ff5d48ad475f3`.
+- No workflow was dispatched or retried manually. Awaiting a subsequent push-triggered run; tests remain unverified until that run completes.
