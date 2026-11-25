@@ -99,3 +99,8 @@ The source ID is traceability metadata, not proof that the local video is the
 same source; the operator must verify that relationship before confirming
 rights. The original `--start` and `--end` interface remains available, but
 the two selection methods cannot be mixed.
+
+
+## Candidate CSV structure validation
+
+Candidate selection accepts UTF-8 CSV files with or without a byte-order mark, including common spreadsheet exports. The selected row is rejected if the header contains blank or duplicate column names, if required cells are missing, or if the row contains extra values beyond its header. These checks prevent ambiguous column mapping and malformed selected-row data. They do not establish that the operator's local video is the source identified by the CSV metadata.
