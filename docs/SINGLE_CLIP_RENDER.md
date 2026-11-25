@@ -204,3 +204,16 @@ The persisted-byte digest must match the digest of the selected source bytes.
 A mismatch fails closed and triggers identity-checked cleanup of the partial or
 untrusted snapshot. This verifies the bytes actually readable from the snapshot,
 not merely the buffers passed to the writer.
+
+
+## Final rendered-output integrity evidence
+
+After FFprobe and duration validation, the renderer hashes the output bytes
+through a non-following read descriptor. It verifies regular-file identity,
+size, modification/change metadata, and path identity before and after the
+read. The metadata captured immediately after FFmpeg must still match after
+FFprobe, preventing a post-probe replacement or mutation from being reported
+as a verified render. A successful report includes `output_sha256`,
+`output_size_bytes`, and `output_identity_verified=true`. If final verification
+fails, the report is FAIL, hash/size are null, and the output is preserved for
+manual inspection rather than automatically deleted.
