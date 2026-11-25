@@ -58,6 +58,23 @@ class MediaSinglePreflightTests(unittest.TestCase):
             }))
             self.assertEqual(inspect_one_video(self.video)["status"], "FAIL")
 
+    @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_rejects_malformed_ffprobe_json_shapes(self, run):
+        malformed_payloads = (
+            [],
+            {"format": [], "streams": []},
+            {"format": {"duration": "10"}, "streams": None},
+            {"format": {"duration": "10"}, "streams": "not-a-list"},
+            {"format": {"duration": "10"}, "streams": [None]},
+            {"format": {"duration": True}, "streams": []},
+        )
+        for payload in malformed_payloads:
+            with self.subTest(payload=payload):
+                run.return_value = SimpleNamespace(stdout=json.dumps(payload))
+                report = inspect_one_video(self.video)
+                self.assertEqual(report["status"], "FAIL")
+                self.assertIn("invalid metadata", report["error"])
+
     def test_rejects_missing_empty_and_unsupported_files(self):
         self.assertEqual(inspect_one_video(self.root / "missing.mp4")["status"], "FAIL")
         empty = self.root / "empty.mp4"
