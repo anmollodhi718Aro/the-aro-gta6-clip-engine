@@ -86,7 +86,13 @@ def inspect_media_directory(
     if recursive:
         for current, dirs, files in os.walk(root, followlinks=False, onerror=on_walk_error):
             current_path = Path(current)
-            dirs[:] = sorted(name for name in dirs if not (current_path / name).is_symlink())
+            symlink_dirs = sorted(name for name in dirs if (current_path / name).is_symlink())
+            for name in symlink_dirs:
+                skipped = (current_path / name).relative_to(root).as_posix()
+                traversal_errors.append(
+                    f"symbolic-link directory skipped (not traversed): {skipped}"
+                )
+            dirs[:] = sorted(name for name in dirs if name not in symlink_dirs)
             candidates.extend(current_path / name for name in files)
     else:
         try:
