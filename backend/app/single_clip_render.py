@@ -642,7 +642,7 @@ def _write_exclusive_terminal_fallback(
     fallback_resolved = fallback_path.resolve()
     if any(fallback_resolved == protected.resolve() for protected in protected_paths):
         raise OSError("terminal fallback path aliases the selected source or output path")
-    with fallback_path.open("x", encoding="utf-8", newline="\\n") as fallback:
+    with fallback_path.open("x", encoding="utf-8", newline="\n") as fallback:
         written = fallback.write(report_text)
         if written != len(report_text):
             raise OSError(
@@ -733,7 +733,7 @@ def main() -> int:
             try:
                 initial_report_text = json.dumps(
                     initial_report, indent=2, ensure_ascii=False
-                ) + "\\n"
+                ) + "\n"
             except Exception as exc:
                 print(
                     f"Initial RUNNING report could not be serialized; media was not inspected: {exc}",
