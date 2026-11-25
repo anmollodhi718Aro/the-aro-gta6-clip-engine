@@ -685,3 +685,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Repository unit tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. No CI evidence transfers from prior commits.
 - Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing disabled.
 - No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
+
+
+### Latest continuation — ARO-CHAT-0238 exhaustive IDNA numeric-mapping regression (2026-11-25)
+- Continued existing draft PR #376 / ARO-GTA-P1-238 on its existing branch.
+- Added test-only enumeration of every Unicode numeric-category character whose active Python IDNA codec maps to an ASCII decimal label; every resulting numeric-suffix URL must be rejected. Test commit: `bbffafc8fe976915bcc3cabbcb050016751e2797`.
+- Isolated in-memory probe: 131 mapped characters enumerated and rejected; canonical IPv4 with and without trailing root dot accepted. This is not a repository test run.
+- Exact-head Python CI run #45538802378 completed FAILURE; Ubuntu and hosted-Windows jobs exposed no steps/log URLs. Failure phase/root cause NOT VERIFIED; no compile/test result is claimed. Local repository tests NOT RUN; independent review NOT RECORDED.
+- Report: `docs/ARO_CHAT_0238_IDNA_NUMERIC_MAPPING_REGRESSION.md`. Keep PR #376 OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; owner UNASSIGNED. Keep live uploads/public publishing disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
