@@ -112,3 +112,8 @@ The renderer test suite includes a cross-module check that writes a review-ready
 
 
 The cross-module regression test exercises the preceding measured timestamp mapping function as well as CSV export and renderer selection. It verifies that the mapped source ID and media offsets survive the full metadata handoff. Execution of this test suite is still required before treating the integration as validated.
+
+
+### CLI candidate-selection regression
+
+A CLI-level regression covers the complete metadata handoff from measured candidate mapping through clip-pack CSV export to renderer invocation using `--candidate-csv` and `--candidate-row`. It asserts the selected timestamps reach the renderer and the JSON report retains the exact source ID and selected row number. The test uses a mocked renderer in dry-run mode; it does not execute FFmpeg or validate real media.
