@@ -192,3 +192,15 @@ I/O failure immediately, and the snapshot helper removes only the partial file
 created by that invocation after verifying its file identity. It never reports
 a digest for a partially written snapshot as though the complete source had
 been copied. The selected original remains untouched.
+
+
+## Verify persisted source snapshot bytes
+
+After the snapshot writer flushes and syncs the file, the renderer reopens the
+created snapshot through a non-following read descriptor and hashes the bytes
+read back from storage. It checks the snapshot file identity and size before
+reading, then checks descriptor/path identity and metadata again afterward.
+The persisted-byte digest must match the digest of the selected source bytes.
+A mismatch fails closed and triggers identity-checked cleanup of the partial or
+untrusted snapshot. This verifies the bytes actually readable from the snapshot,
+not merely the buffers passed to the writer.
