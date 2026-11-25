@@ -2107,3 +2107,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added success and mismatch/cleanup tests; all candidate CLI fixtures now pass the required trusted digest. Updated the render guide to distinguish dry-run cross-checking from execution-time snapshot binding.
 - Implementation: f61b1be8a15f4b28c1f5ec6b01ca9323f5230b14; tests: 40612099215f0594190382b61c7bde4eef1557a7, 50ce9ef3940f966c7ece918d2bcb45e5bec79bae; docs: e4e36a69ae94608106e332cf56e2d5c5b5077aaa.
 - Tests NOT RUN. No real media processed or published.
+
+
+### ARO-CHAT-0281: render-boundary digest regression coverage (2026-11-26)
+- Strengthened the existing same-snapshot test to supply the trusted expected SHA-256 and assert the render report contains the digest of the exact snapshot consumed by FFprobe/FFmpeg.
+- Added an execution-boundary regression proving a trusted digest mismatch fails before FFprobe, FFmpeg, or output creation.
+- Test commit: 6b7093a96196b512cb45922f6951d9d7d1d55458. Tests NOT RUN; no real media processed.
