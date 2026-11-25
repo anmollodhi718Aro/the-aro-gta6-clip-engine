@@ -156,7 +156,7 @@ class YouTubeUploadTests(unittest.TestCase):
         discovery = types.ModuleType("googleapiclient.discovery")
         http = types.ModuleType("googleapiclient.http")
         discovery.build = Mock(return_value=youtube)
-        http.MediaIoBaseUpload = Mock(return_value=object())
+        http.MediaIoBaseUpload = Mock(side_effect=lambda stream, **kwargs: stream)
         package.discovery = discovery
         package.http = http
         return {
@@ -219,9 +219,12 @@ class YouTubeUploadTests(unittest.TestCase):
         db_path = self.root / "source_rights.sqlite3"
         self._write_upload_rights(db_path)
         youtube = Mock()
-        youtube.videos.return_value.insert.return_value.execute.return_value = {
-            "id": "snapshot-video", "status": {"privacyStatus": "private"},
-        }
+        uploaded_payload = {}
+        def consume_stream(**kwargs):
+            stream = kwargs["media_body"]
+            uploaded_payload["bytes"] = stream.read()
+            return {"id": "snapshot-video", "status": {"privacyStatus": "private"}}
+        youtube.videos.return_value.insert.return_value.execute.side_effect = consume_stream
         modules = self._mock_google_modules(youtube)
         media_uploader = modules["googleapiclient.http"].MediaIoBaseUpload
         def authorize_then_change_source(*args):
@@ -244,7 +247,9 @@ class YouTubeUploadTests(unittest.TestCase):
                 )
         self.assertEqual(result["video_id"], "snapshot-video")
         uploaded_stream = media_uploader.call_args.args[0]
-        self.assertEqual(uploaded_stream.getvalue(), b"synthetic video bytes")
+        self.assertTrue(hasattr(uploaded_stream, "fileno"))
+        self.assertEqual(uploaded_payload["bytes"], b"synthetic video bytes")
+        self.assertTrue(uploaded_stream.closed)
         self.assertEqual(self.video.read_bytes(), b"changed after the immutable snapshot was made")
 
     def test_upload_does_not_report_success_without_private_visibility_confirmation(self):
