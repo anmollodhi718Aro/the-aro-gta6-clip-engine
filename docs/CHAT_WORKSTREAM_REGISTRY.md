@@ -1031,3 +1031,9 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added regression coverage for matching snapshot digest, mismatched digest and malformed digest. Updated upload documentation to describe the exact binding.
 - Commits: approval verifier `58b81ee40142a44ad40c752bb8a0e9aa11eef1b2`; uploader integration `0705eee3187e0ef6fd8c7f0aad6d247f8a8f2f33`; tests `296dacff43d3f6385d90c6a0218c938e3be1b681`; docs `7f65f69f6cd89ff7dd599f60d80bd61a0cdf878c`; signature correction `87190f2b63980da11a84f7758419b903e2f0b544`.
 - Exact-head CI and local test execution remain pending. PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. No OAuth, credentials, real media, network upload, merge, deployment or publishing occurred.
+
+### ARO-CHAT-0201 pre-OAuth rights preflight ordering — 2026-11-26
+- Review of the updated uploader found that the live source grant and exact clip/source report checks still occurred after OAuth. Moved rights-report parsing, clip/source equality checks, and current publish-grant authorization ahead of optional Google SDK imports and OAuth.
+- The authenticated owner approval and current rights grant are still rechecked immediately before the API side effect. Added a regression assertion that a clip/source mismatch does not call `_authorize_google()`.
+- Commits: uploader `e4a4902971dbdbd30c191d23dbc779f2df5641f2`; regression test `0509cf3cd2bd5489a2b166e717868081681cb8e6`; documentation `27ae5570e6c729f18a39da7d0c2d0929594f5650`.
+- Latest exact-head Actions lookup still returns no run or status; local tests are not run in this connector session. PR #311 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN. Keep live uploads and public publishing disabled.
