@@ -643,7 +643,11 @@ def _write_exclusive_terminal_fallback(
     if any(fallback_resolved == protected.resolve() for protected in protected_paths):
         raise OSError("terminal fallback path aliases the selected source or output path")
     with fallback_path.open("x", encoding="utf-8", newline="\\n") as fallback:
-        fallback.write(report_text)
+        written = fallback.write(report_text)
+        if written != len(report_text):
+            raise OSError(
+                f"terminal fallback write was incomplete ({written} of {len(report_text)} characters)"
+            )
         fallback.flush()
         os.fsync(fallback.fileno())
     return fallback_path
