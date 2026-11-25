@@ -59,6 +59,20 @@ class MediaSinglePreflightTests(unittest.TestCase):
             self.assertEqual(inspect_one_video(self.video)["status"], "FAIL")
 
     @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_rejects_boolean_duration_values(self, run):
+        for duration in (True, False):
+            with self.subTest(duration=duration):
+                run.return_value = SimpleNamespace(stdout=json.dumps({
+                    "format": {"duration": duration, "format_name": "mp4"},
+                    "streams": [{"codec_type": "video", "codec_name": "h264"}],
+                }))
+                report = inspect_one_video(self.video)
+                self.assertEqual(report["status"], "FAIL")
+                self.assertIn("invalid metadata", report["error"])
+                self.assertFalse(report["upload_performed"])
+                self.assertFalse(report["publishing_enabled"])
+
+    @patch("backend.app.media_single_preflight.subprocess.run")
     def test_rejects_malformed_ffprobe_metadata_shapes(self, run):
         malformed_payloads = (
             [],
