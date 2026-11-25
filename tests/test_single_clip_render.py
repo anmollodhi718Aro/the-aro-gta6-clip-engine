@@ -301,6 +301,16 @@ class SingleClipRenderTests(unittest.TestCase):
             self.assertEqual(main(), 2)
 
 
+    def test_cli_handles_path_resolution_value_error_without_leaving_report(self):
+        report_path = self.root / "report.json"
+        with patch("sys.argv", [
+            "single_clip_render", str(self.source), "--start", "1", "--end", "5",
+            "--output", str(self.output), "--report", str(report_path),
+        ]):
+            with patch("pathlib.Path.resolve", side_effect=ValueError("invalid path")):
+                self.assertEqual(main(), 2)
+        self.assertFalse(report_path.exists())
+
     def test_snapshot_fails_closed_on_in_place_mutation_during_copy(self):
         source = self.root / "changing-source.mp4"
         snapshot = self.root / "snapshot.mp4"
