@@ -57,3 +57,9 @@ python -m unittest discover -s tests -p "test_clock_sync.py" -v
 
 The feature does not fetch, download, or publish video. Existing human review
 and rights-confirmation requirements remain unchanged.
+
+
+Source identifiers are trimmed when each `ClockAnchor` is created. This keeps
+measured anchors and candidate rows on one canonical identity: surrounding
+whitespace cannot create a false source mismatch, and blank identifiers remain
+invalid. IDs are otherwise compared exactly; no fuzzy matching is performed.
