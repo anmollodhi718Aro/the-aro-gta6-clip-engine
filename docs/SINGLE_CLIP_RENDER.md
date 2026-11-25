@@ -65,3 +65,15 @@ process could replace the directory entry between those operations, causing
 cleanup to delete a different file. The portable implementation therefore
 does not automatically delete unverified output. Inspect the failed output
 manually before removing it; existing destinations are never overwritten.
+
+
+## Durable CLI execution reports
+
+Before media inspection or rendering, the CLI exclusively creates and flushes a valid
+`RUNNING` report. It records whether both execution and rights-confirmation flags
+were supplied. If the process is forcibly terminated, that report remains a
+parseable indication that the final outcome is unknown; inspect the destination
+before retrying. If the renderer returns or raises a handled `OSError`,
+`RuntimeError`, or `ValueError`, the CLI writes a terminal `FAIL` report with
+the error and a manual-output-inspection warning instead of leaving a stale
+`RUNNING` status. Upload and publishing fields remain false.
