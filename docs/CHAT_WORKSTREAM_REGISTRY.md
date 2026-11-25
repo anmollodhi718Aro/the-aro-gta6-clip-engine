@@ -1485,3 +1485,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; owner UNASSIGNED. Keep live uploads/public publishing disabled.
 - Audit report: `docs/ARO_CHAT_0238_PR376_CURRENT_HEAD_AUDIT.md`.
 - Documentation-only. No manual workflow retry/dispatch, source/test behavior change, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+### ARO-CHAT-0238 digit-ending invalid numeric-label follow-up — 2026-11-25
+- Continued the existing PR #376 / ARO-GTA-P1-238 branch; no duplicate workstream or PR.
+- Static review found invalid numeric-looking final labels ending in ASCII digits (for example 0xg1, abc1, and 0a9) that URL parsers may still classify as IPv4 candidates.
+- Updated _ends_in_ipv4_number() to retain valid hexadecimal-prefix handling and also classify any ASCII-digit-ending final label as numeric-like; require the complete hostname to parse as canonical IPv4.
+- Added three negative URL regression cases. Production commit 50e007fe5567624a187a64e280ced3ba356dec86; test commit 9a5956a88a075962980524cf126cad8fe2cbf0a0.
+- Repository tests NOT RUN; exact-head CI NOT YET VERIFIED; independent review NOT RECORDED. No validation evidence transfers from prior commits.
+- Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled. No workflow retry/dispatch, merge, deployment, OAuth, credentials, real media, upload, or publishing.
