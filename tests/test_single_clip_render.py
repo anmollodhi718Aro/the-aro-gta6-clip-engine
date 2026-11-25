@@ -60,6 +60,36 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["source_identity_verified"])
         render.assert_not_called()
 
+    def test_execution_rejects_existing_output_before_source_snapshot(self):
+        self.output.write_bytes(b"preserve existing output")
+        with patch("backend.app.single_clip_render._create_stable_source_snapshot") as snapshot:
+            report = render_selected_clip(
+                self.source, self.output, 2, 8, execute=True, rights_confirmed=True,
+            )
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("never overwritten", report["error"])
+        self.assertFalse(report["processing_started"])
+        self.assertFalse(report["source_snapshot_created"])
+        snapshot.assert_not_called()
+        self.assertEqual(self.output.read_bytes(), b"preserve existing output")
+
+    def test_execution_rejects_symlink_output_before_source_snapshot(self):
+        target = self.root / "redirected.mp4"
+        try:
+            self.output.symlink_to(target)
+        except (OSError, NotImplementedError):
+            self.skipTest("symlink creation is unavailable on this runner")
+        with patch("backend.app.single_clip_render._create_stable_source_snapshot") as snapshot:
+            report = render_selected_clip(
+                self.source, self.output, 2, 8, execute=True, rights_confirmed=True,
+            )
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("symbolic link", report["error"])
+        self.assertFalse(report["processing_started"])
+        snapshot.assert_not_called()
+        self.assertFalse(target.exists())
+        self.assertTrue(self.output.is_symlink())
+
     def test_execution_requires_rights_confirmation_before_snapshot(self):
         with patch("backend.app.single_clip_render._create_stable_source_snapshot") as snapshot:
             report = render_selected_clip(self.source, self.output, 2, 8, execute=True)
