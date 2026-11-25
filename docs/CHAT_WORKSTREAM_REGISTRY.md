@@ -1807,3 +1807,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 -> #380/#379 ancestry. No merge, rebase, retarget, workflow retry/dispatch, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, or deployment.
+
+
+## ARO-CHAT-0254 — Fail-Closed Path-Resolution Errors
+- Exact chat title: `ARO-CHAT-0254 | Fail-Closed Path-Resolution Errors`
+- Workstream: ARO-GTA-P1-254
+- Continue on existing PR #386 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR.
+- Finding: `Path.resolve()` can raise `RuntimeError` for symlink loops and `ValueError` for malformed paths. The output validator and CLI report-path boundary previously caught only `OSError`, allowing these validation failures to escape as uncaught exceptions.
+- Change: convert `OSError`, `RuntimeError`, and `ValueError` into deterministic fail-closed path-validation errors. Added dry-run and CLI regressions; CLI path-resolution failure must not leave an empty/reserved report file.
+- Changed files: `backend/app/single_clip_render.py`, `tests/test_single_clip_render.py`, `docs/SINGLE_CLIP_RENDER.md`, `docs/ARO_CHAT_STARTUP_PROMPT.md`, and this registry.
+- Status: implementation/test/docs commits pending below; repository tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve the existing #383 -> #380/#379 ancestry. No merge, rebase, retarget, or integration without owner approval. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
