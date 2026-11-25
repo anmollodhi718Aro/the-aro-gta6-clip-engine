@@ -104,3 +104,8 @@ the two selection methods cannot be mixed.
 ## Candidate CSV structure validation
 
 Candidate selection accepts UTF-8 CSV files with or without a byte-order mark, including common spreadsheet exports. The selected row is rejected if the header contains blank or duplicate column names, if required cells are missing, or if the row contains extra values beyond its header. These checks prevent ambiguous column mapping and malformed selected-row data. They do not establish that the operator's local video is the source identified by the CSV metadata.
+
+
+## Clip-pack handoff regression coverage
+
+The renderer test suite includes a cross-module check that writes a review-ready candidate with the clip-pack exporter, then loads the exact exported CSV row through the renderer's candidate selector. This protects the CSV schema boundary against accidental drift between the two stages. The test must still be executed in CI or a local Python environment before the handoff is considered validated.
