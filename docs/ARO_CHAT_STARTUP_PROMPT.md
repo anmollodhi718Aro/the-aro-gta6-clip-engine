@@ -1173,3 +1173,9 @@ Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-s
 - The exact-snapshot render test now asserts the trusted SHA-256 is the digest recorded from the snapshot used by FFprobe/FFmpeg.
 - Added a fail-closed execution test: a digest mismatch prevents FFprobe, FFmpeg, and output creation.
 - Test commit: 6b7093a96196b512cb45922f6951d9d7d1d55458. Tests NOT RUN; no real media processed or published.
+
+
+### Latest handoff: ARO-CHAT-0282: truthful snapshot failure reporting
+- Snapshot failure now reports `source_snapshot_created=false`, `source_snapshot_verified=false`, and `source_sha256=null`. Expected inventory digest is separate metadata, not represented as a verified snapshot hash.
+- Terminal CLI exception reports preserve the same explicit unverified state. Regression coverage added for both direct mismatch and CLI failure report paths.
+- Implementation: `7c96ef41ea54fd362b75e696a6463635b43f3a67`; tests: `3735cf6661d5687d566d1c42d2df4cb4fae8ca12`. Tests NOT RUN; no media processed or published.
