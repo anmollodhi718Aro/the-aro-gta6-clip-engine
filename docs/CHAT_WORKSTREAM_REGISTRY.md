@@ -1643,3 +1643,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Both the CLI dry-run guard and the underlying FFmpeg renderer now reject a symlink at the requested destination before path resolution.
 - Added regressions proving the dangling-link target is not created and the symlink remains untouched.
 - Implementation/test commits are recorded in this PR history. Repository tests and exact-head CI remain pending until executed and observed; no media was rendered.
+### ARO-CHAT-0244 exclusive report reservation follow-up
+- Static review found the CLI could finish rendering and only afterward discover that the exclusive JSON report path already existed. That could leave a rendered local artifact while returning a report-write error.
+- The CLI now reserves the report path with exclusive-create mode before source preflight or rendering, rejects report-path aliases to the selected source/output, and keeps the report handle open while writing the result.
+- Added regressions proving an existing report is preserved and blocks before rendering, and report/source/output path collisions block before rendering.
+- Production commit: `8bf3faa82d42c0527d9956324333e43e6bc1aa4b`; test commit: `11297dfaf27d59f848610fcdba5896d2f2fd6048`; docs commit: `c9371e4d9fb084c8ddc4ff68647e716f2b0fda0c`.
+- Repository tests NOT RUN in this connector session. Exact-head CI NOT YET VERIFIED; no prior CI result transfers to this new head. Independent review NOT RECORDED. PR #386 remains DRAFT / OPEN / UNMERGED.
+- No media was processed; no OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
