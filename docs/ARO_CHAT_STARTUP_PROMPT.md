@@ -851,3 +851,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED. Independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 → #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without explicit owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+### ARO-CHAT-0247 | Avoid media copies during dry-run and unconfirmed execution — 2026-11-25
+- Continue the existing PR #386 / ARO-GTA-P1-244 branch; no new branch or PR.
+- Static review found `render_selected_clip()` created a full temporary source snapshot even for a dry-run and for `--execute` without `--confirm-rights`. This caused unnecessary disk I/O and copied media before the explicit rights guard.
+- Dry-run now probes the selected original in place without snapshot creation. Execution without rights confirmation returns BLOCKED before opening/copying the source. Confirmed execution retains the descriptor-verified snapshot consumed by both FFprobe and FFmpeg.
+- Added regressions proving dry-run and unconfirmed execution never call the snapshot creator.
+- Tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. No media processed.
+- Preserve PR #386 DRAFT / OPEN / UNMERGED and its existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
