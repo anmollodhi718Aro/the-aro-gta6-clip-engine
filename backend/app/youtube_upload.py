@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import argparse
 import base64
+import hashlib
+import io
 import json
 import mimetypes
 import os
@@ -22,6 +24,30 @@ from typing import Any
 UPLOAD_SCOPE = "https://www.googleapis.com/auth/youtube.upload"
 IDENTITY_SCOPES = ["openid", "https://www.googleapis.com/auth/youtube.readonly", UPLOAD_SCOPE]
 DEFAULT_CATEGORY_ID = "20"  # Gaming
+DEFAULT_MAX_UPLOAD_BYTES = 256 * 1024 * 1024
+UPLOAD_COPY_CHUNK_BYTES = 1024 * 1024
+
+
+def _validate_max_upload_bytes(value: int) -> int:
+    if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+        raise ValueError("max_upload_bytes must be a positive integer")
+    return value
+
+
+def _copy_stream_with_limit(source: Any, snapshot: Any, max_upload_bytes: int) -> int:
+    """Copy a source into a private snapshot without exceeding its byte budget."""
+    limit = _validate_max_upload_bytes(max_upload_bytes)
+    total = 0
+    while True:
+        chunk = source.read(UPLOAD_COPY_CHUNK_BYTES)
+        if not chunk:
+            return total
+        if total + len(chunk) > limit:
+            raise ValueError(f"video exceeds the configured upload limit of {limit} bytes")
+        snapshot.write(chunk)
+        total += len(chunk)
+
+
 
 
 
@@ -207,6 +233,7 @@ def validate_upload(
     owner_approved: bool = False,
     rights_confirmed: bool = False,
     upload_requested: bool = False,
+    max_upload_bytes: int = DEFAULT_MAX_UPLOAD_BYTES,
 ) -> tuple[Path, dict[str, Any]]:
     """Validate local media, metadata, rights preflight and explicit approvals."""
     video = Path(video_path).expanduser()
@@ -214,6 +241,9 @@ def validate_upload(
         raise FileNotFoundError(f"local video file does not exist: {video}")
     if video.stat().st_size <= 0:
         raise ValueError("video file is empty")
+    limit = _validate_max_upload_bytes(max_upload_bytes)
+    if video.stat().st_size > limit:
+        raise ValueError(f"video exceeds the configured upload limit of {limit} bytes")
     mime_type, _ = mimetypes.guess_type(video.name)
     if not mime_type or not mime_type.startswith("video/"):
         raise ValueError("video path must have a recognized video file extension")
@@ -404,6 +434,7 @@ def upload_video(
     source_id: str,
     owner_approved: bool,
     rights_confirmed: bool,
+    max_upload_bytes: int | None = None,
     expected_google_subject: str | None = None,
     expected_channel_id: str | None = None,
 ) -> dict[str, str]:
@@ -414,10 +445,34 @@ def upload_video(
         raise PermissionError("this uploader only permits PRIVATE staging; public visibility is a separate owner action")
     if owner_approved is not True or rights_confirmed is not True:
         raise PermissionError("actual upload requires --owner-approved and --confirm-rights")
+    if max_upload_bytes is None:
+        raise PermissionError("actual upload requires an explicit device-selected --max-upload-bytes value")
+    max_upload_bytes = _validate_max_upload_bytes(max_upload_bytes)
+    video_path = Path(video_path)
+    if not video_path.is_file() or video_path.stat().st_size <= 0:
+        raise ValueError("video file must exist and be non-empty")
+    if video_path.stat().st_size > max_upload_bytes:
+        raise ValueError(f"video exceeds the configured upload limit of {max_upload_bytes} bytes")
+
+    # Freeze the exact bounded bytes before OAuth can refresh credentials or
+    # open an interactive authorization flow. Later upload uses this snapshot.
+    from backend.app.youtube_owner_approval import sha256_file
+    with tempfile.TemporaryDirectory(prefix="aro-youtube-upload-") as staging_dir:
+        snapshot_path = Path(staging_dir) / "approved-upload.mp4"
+        with video_path.open("rb") as source, snapshot_path.open("xb") as snapshot:
+            copied_bytes = _copy_stream_with_limit(source, snapshot, max_upload_bytes)
+            snapshot.flush()
+            os.fsync(snapshot.fileno())
+        if copied_bytes <= 0:
+            raise ValueError("video file is empty")
+        upload_bytes = snapshot_path.read_bytes()
+    upload_sha256 = hashlib.sha256(upload_bytes).hexdigest()
+    if sha256_file(video_path) != upload_sha256:
+        raise PermissionError("video changed while creating the bounded upload snapshot")
 
     try:
         from googleapiclient.discovery import build
-        from googleapiclient.http import MediaFileUpload
+        from googleapiclient.http import MediaIoBaseUpload
     except ImportError as exc:
         raise RuntimeError(
             'Google upload dependencies are missing. Install with: pip install -e ".[youtube-upload]"'
@@ -441,8 +496,8 @@ def upload_video(
     )
     rights_registry = SourceRightsRegistry(rights_db_path.expanduser())
     mime_type, _ = mimetypes.guess_type(video_path.name)
-    media = MediaFileUpload(
-        str(video_path),
+    media = MediaIoBaseUpload(
+        io.BytesIO(upload_bytes),
         mimetype=mime_type or "application/octet-stream",
         chunksize=8 * 1024 * 1024,
         resumable=True,
@@ -515,6 +570,8 @@ def main() -> int:
     parser.add_argument("--token", type=Path, default=None,
                         help="Legacy single-channel token path; unavailable with destination profiles")
     parser.add_argument("--upload", action="store_true", help="Perform an API upload; default is dry-run only.")
+    parser.add_argument("--max-upload-bytes", type=int, default=None,
+                        help="Required for --upload: choose a positive byte limit appropriate for this device. Dry-run and approval-only commands use the conservative default.")
     parser.add_argument("--owner-approved", action="store_true", help="Additional operator acknowledgement; not identity authentication and not a substitute for the OAuth-bound per-clip approval record.")
     parser.add_argument("--confirm-rights", action="store_true", help="Confirm that the exact local video and all included assets are cleared for this upload.")
     parser.add_argument("--approval-record", type=Path,
@@ -528,6 +585,10 @@ def main() -> int:
     args = parser.parse_args()
 
     try:
+        if args.upload and args.max_upload_bytes is None:
+            raise PermissionError("--upload requires an explicit device-selected --max-upload-bytes value")
+        max_upload_bytes = args.max_upload_bytes if args.max_upload_bytes is not None else DEFAULT_MAX_UPLOAD_BYTES
+        _validate_max_upload_bytes(max_upload_bytes)
         tags = [tag.strip() for tag in args.tags.split(",") if tag.strip()]
         if args.approve_clip and args.upload:
             raise PermissionError("--approve-clip and --upload must be separate invocations")
@@ -547,6 +608,7 @@ def main() -> int:
             owner_approved=args.owner_approved,
             rights_confirmed=args.confirm_rights,
             upload_requested=args.upload,
+            max_upload_bytes=max_upload_bytes,
         )
         if args.approve_clip:
             if not args.clip_id or not args.source_id or args.approval_record is None:
@@ -620,6 +682,7 @@ def main() -> int:
             source_id=args.source_id,
             owner_approved=args.owner_approved,
             rights_confirmed=args.confirm_rights,
+            max_upload_bytes=args.max_upload_bytes,
             expected_google_subject=expected_subject,
             expected_channel_id=expected_channel,
         )
