@@ -1855,3 +1855,17 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 -> #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+## ARO-CHAT-0257 | Reject unrepresentable rendered duration metadata — 2026-11-25
+
+- Exact chat title: `ARO-CHAT-0257 | Reject Unrepresentable Rendered Duration`
+- Workstream: `ARO-GTA-P1-257`
+- Parent pipeline: PR #386 / ARO-GTA-P1-244.
+- Existing branch preserved: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`. No duplicate PR/branch and no ancestry changes.
+- Static review finding: the post-render FFprobe duration check called `math.isfinite()` without catching `OverflowError`; an enormous integer could escape the renderer instead of producing a FAIL report.
+- Change: validate rendered duration inside an exception boundary; treat `OverflowError`, `TypeError`, and `ValueError` as invalid metadata. Add a regression for `10 ** 400` returned by mocked post-render FFprobe.
+- Commits: production `7456890f0563cf69b7d843b784bbfcf8c12fa59d`; tests `01e308f77423809eb35897c60ddef78fde55f8d3`; operator docs `a487fa3fa4ea13cafdbfa3f9cf2f38f62ab955d1`; report `0f49d2bf662e431f6fd262e7fa1d93c0345037a1`; startup `57753141e9b43beda9bbe5421980e525d16f3e82`.
+- Status: IMPLEMENTED. Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; real authorized media NOT PROCESSED / NOT VERIFIED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 -> #380/#379 ancestry. The live parent branch has advanced and the branches diverge; no rebase, retarget, merge, or integration without explicit owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, or deployment.
