@@ -78,6 +78,24 @@ class MediaSinglePreflightTests(unittest.TestCase):
         self.assertIn("changed while it was being inspected", report["error"])
 
     @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_rejects_selected_path_replaced_with_different_regular_file_during_probe(self, run):
+        replacement = self.root / "replacement.mp4"
+        replacement_bytes = b"different regular file bytes"
+        replacement.write_bytes(replacement_bytes)
+
+        def replace_selected_path(*_args, **_kwargs):
+            self.video.unlink()
+            replacement.rename(self.video)
+            return SimpleNamespace(stdout=GOOD_PROBE)
+
+        run.side_effect = replace_selected_path
+        report = inspect_one_video(self.video)
+
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("changed while it was being inspected", report["error"])
+        self.assertEqual(self.video.read_bytes(), replacement_bytes)
+
+    @patch("backend.app.media_single_preflight.subprocess.run")
     def test_rejects_audio_only_file(self, run):
         run.return_value = SimpleNamespace(stdout=json.dumps({
             "format": {"duration": "10", "format_name": "mp4"},
