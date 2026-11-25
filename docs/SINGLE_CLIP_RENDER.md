@@ -135,3 +135,8 @@ The CLI fully serializes the terminal JSON report in memory before seeking to or
 
 
 The CLI prints the same pre-serialized terminal JSON string that it writes to the report file. It does not serialize the report a second time after the durable write, avoiding a second serialization failure or stdout/file representation drift.
+
+
+### Partial terminal report write recovery
+
+A terminal report filesystem write can fail after truncation has begun, leaving the report unreadable even when rendering already completed. The CLI returns a report-write error; that error does **not** establish that rendering failed. Preserve any output file and inspect it manually before retrying or cleaning up. The regression test injects a partial report write after a mocked successful render and verifies that the output bytes are preserved. This test is a failure-mode contract, not proof of filesystem atomicity or real-media correctness.
