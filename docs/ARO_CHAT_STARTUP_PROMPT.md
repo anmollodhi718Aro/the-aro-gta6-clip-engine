@@ -600,3 +600,11 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Local repository tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT YET VERIFIED for this commit; independent review NOT RECORDED. No CI result transfers from earlier heads.
 - Preserve PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
 - No workflow retry/dispatch, production-code change, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+
+
+### Latest ARO-CHAT-0238 CI handoff — 2026-11-25
+- Test commit `370291c61dae242eb21f1626e817800533b9e93b` is associated with Python CI run #45514632951, which completed FAILURE on Ubuntu and hosted Windows.
+- Both jobs exposed no step details (`steps: null`) and no job log URLs. Failure phase/root cause NOT VERIFIED; no compile/test result is claimed and no failure is attributed to application code.
+- Combined status had zero entries; PR #376 reviews and inline threads were empty. Local tests NOT RUN; independent review NOT RECORDED.
+- No workflow retry/dispatch. Keep PR #376 DRAFT / OPEN / UNMERGED, Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL, and live uploads/public publishing disabled.
+- Continue on the existing ARO-CHAT-0238 branch only. Do not merge, rebase, retarget, deploy, use OAuth/credentials, process real media, upload, or publish without the applicable explicit owner approval.
