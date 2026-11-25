@@ -42,8 +42,10 @@ def _copy_stream_with_limit(source: Any, snapshot: Any, max_upload_bytes: int) -
             return total
         if total + len(chunk) > limit:
             raise ValueError(f"video exceeds the configured upload limit of {limit} bytes")
-        snapshot.write(chunk)
-        total += len(chunk)
+        written = snapshot.write(chunk)
+        if written != len(chunk):
+            raise OSError("short write while creating the bounded upload snapshot")
+        total += written
 
 
 
