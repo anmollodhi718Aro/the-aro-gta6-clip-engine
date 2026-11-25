@@ -30,3 +30,10 @@ PR #379 introduces multi-file inventory and conflicts with the later owner requi
 
 ## Safety
 Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, or deployment.
+### Boolean duration rejection follow-up — 2026-11-25
+
+- Static review found Python accepts `float(True) == 1.0` and `float(False) == 0.0`; JSON boolean values must not be accepted as FFprobe media durations.
+- Production fix: reject boolean duration values before numeric conversion. Commit `81405f1047dd79bfa7c92db11b48302d659a9bbd`.
+- Regression tests cover both `true` and `false`, including the no-upload/no-publishing flags. Test commit `e2d59ab0c75f3b1ae9df6b3b29769d01f3d64bb0`.
+- Repository unit tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI PENDING automatic PR execution; independent review NOT RECORDED. Do not transfer prior CI evidence.
+- PR #383 remains DRAFT / OPEN / UNMERGED. Exactly one selected file per invocation; no directory scan, processing, OAuth, credentials, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
