@@ -134,3 +134,13 @@ Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Its owner
 - Latest previously inspected exact PR head `77c05e767d198d19c82b4452dbf6cd6e6758d552` had Python CI run `45555803080` conclude FAILURE; Ubuntu and hosted-Windows jobs both exposed `steps: null` and `logs_url: null`. Failure phase/root cause NOT VERIFIED; no compile/test result is established and failure is not attributed to application code.
 - Preserve PR #376 OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL, owner UNASSIGNED. Keep live uploads/public publishing disabled.
 - No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing was performed.
+
+### Exact commit-associated CI recheck after correction — 2026-11-25
+
+- Production correction commit c9b621afc52b5b9ef84b459d6640b3fa1846fed6: associated workflow lookup returned zero runs and combined status returned zero entries.
+- Regression-test commit f94c2d3d68084e6230fc10096605397fb9a145b6: Python CI run #45654439835 (run 1588) completed FAILURE. Ubuntu job 139347236120 and hosted-Windows job 139347235596 both exposed steps: null and logs_url: null.
+- Documentation/current PR head 26339cda757d4571f39cd97d1c54d18898a66260: Python CI run #45654568414 (run 1590) completed FAILURE. Ubuntu job 139347667598 and hosted-Windows job 139347666996 both exposed steps: null and logs_url: null.
+- Combined status returned zero entries for each inspected commit. Failure phase/root cause NOT VERIFIED; no compile or unit-test result is established. These failures are not attributed to application code.
+- Repository tests NOT RUN locally. Independent review NOT RECORDED. PR #376 reviews and inline review threads were empty at inspection.
+- PR #376 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; owner UNASSIGNED. Keep live uploads/public publishing disabled.
+- No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing was performed.
