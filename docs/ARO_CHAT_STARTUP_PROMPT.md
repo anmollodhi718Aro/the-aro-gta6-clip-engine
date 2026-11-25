@@ -1211,3 +1211,7 @@ A failed in-place terminal report write now triggers an exclusive-create sidecar
 
 ### Latest continuation — ARO-CHAT-0289
 Terminal fallback creation now refuses a resolved path that aliases the selected source or output. A regression test verifies the output alias is not created. This is a narrow path-alias guard, not complete protection against concurrent parent-directory replacement. Tests NOT RUN; CI NOT VERIFIED; PR #386 remains draft/unmerged; no media, upload, publish, or deploy; Issue #68 remains awaiting owner approval.
+
+
+### Latest continuation — ARO-CHAT-0290
+Fallback writes now verify the reported character count and fail closed on short writes. A partial sidecar may remain and must be manually inspected; no automatic deletion/overwrite is attempted. Regression test added but NOT RUN. CI NOT VERIFIED. PR #386 remains draft/unmerged; no real media, upload, publish, or deploy; Issue #68 remains awaiting owner approval.
