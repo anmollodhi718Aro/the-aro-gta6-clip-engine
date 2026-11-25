@@ -15,6 +15,22 @@ from .clipping import MAX_CLIP_SECONDS, render_clip
 from .media_single_preflight import inspect_one_video
 
 
+def _validate_output_destination(source: Path, destination: Path) -> str | None:
+    """Validate a new MP4 destination without following a destination symlink."""
+    try:
+        if destination.is_symlink():
+            return "output path is a symbolic link; symbolic-link destinations are rejected"
+        if source.resolve() == destination.resolve():
+            return "output path must differ from the selected source"
+        if destination.suffix.lower() != ".mp4":
+            return "output path must use the .mp4 extension"
+        if destination.exists() or destination.is_symlink():
+            return "output already exists; existing files are never overwritten"
+    except OSError as exc:
+        return f"output path could not be validated: {exc}"
+    return None
+
+
 def _selected_file_identity(path: Path) -> tuple[int, int, int, int, int, int]:
     """Return a stable identity for one regular, non-symlink selected file."""
     metadata = path.lstat()
@@ -59,23 +75,9 @@ def _render_selected_clip_from_snapshot(
         report["error"] = "execute and rights_confirmed must be explicit booleans"
         return report
 
-    try:
-        # Inspect the requested path before resolve(), which follows dangling
-        # symlinks and could otherwise redirect a new output unexpectedly.
-        if destination.is_symlink():
-            report["error"] = "output path is a symbolic link; symbolic-link destinations are rejected"
-            return report
-        if source.resolve() == destination.resolve():
-            report["error"] = "output path must differ from the selected source"
-            return report
-        if destination.suffix.lower() != ".mp4":
-            report["error"] = "output path must use the .mp4 extension"
-            return report
-        if destination.exists() or destination.is_symlink():
-            report["error"] = "output already exists; existing files are never overwritten"
-            return report
-    except OSError as exc:
-        report["error"] = f"output path could not be validated: {exc}"
+    output_error = _validate_output_destination(source, destination)
+    if output_error:
+        report["error"] = output_error
         return report
 
     try:
@@ -309,6 +311,24 @@ def render_selected_clip(
             "upload_performed": False,
             "publishing_enabled": False,
             "error": "render execution requires --confirm-rights; no source snapshot was created",
+        }
+
+    destination = Path(output_path).expanduser()
+    output_error = _validate_output_destination(source, destination)
+    if output_error:
+        return {
+            "status": "FAIL",
+            "source_path": str(source),
+            "output_path": str(destination),
+            "start_seconds": start_seconds,
+            "end_seconds": end_seconds,
+            "processing_started": False,
+            "source_identity_verified": False,
+            "source_snapshot_verified": False,
+            "source_snapshot_created": False,
+            "upload_performed": False,
+            "publishing_enabled": False,
+            "error": output_error,
         }
 
     try:
