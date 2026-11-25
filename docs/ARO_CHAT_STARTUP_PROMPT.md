@@ -1227,3 +1227,7 @@ Terminal report replacement checks write character count before truncating the p
 
 ### Latest continuation — ARO-CHAT-0293
 Corrected newline escaping in report persistence so initial, terminal and fallback JSON use actual newline characters. Added regression coverage for a valid parseable fallback with a real trailing newline. Tests NOT RUN; exact-head CI NOT VERIFIED; PR #386 remains draft/unmerged; no real media, upload, publish, or deploy; Issue #68 remains awaiting owner approval.
+
+
+### Latest continuation — ARO-CHAT-0294
+FFmpeg timeout now scales with requested clip duration (10x), bounded from 180 to 1,800 seconds. Short-clip regression asserts the 180-second minimum. Tests NOT RUN; exact-head CI NOT VERIFIED; PR #386 remains draft/unmerged; no real media, upload, publish, or deploy; Issue #68 remains awaiting owner approval.
