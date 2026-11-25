@@ -11,7 +11,7 @@ from unittest.mock import Mock, patch
 
 from backend.app.rights_registry import SourceRightsRegistry
 from backend.app.youtube_owner_approval import AuthenticatedChannelOwner, write_owner_approval_record
-from backend.app.youtube_upload import (_apply_windows_owner_only_acl, build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_destination_approval_path, validate_upload)
+from backend.app.youtube_upload import (_apply_windows_owner_only_acl, _persist_oauth_token, build_upload_body, load_destination_profile, load_rights_report, resolve_destination_identity, upload_video, validate_destination_approval_path, validate_upload)
 
 
 class YouTubeUploadTests(unittest.TestCase):
@@ -680,6 +680,40 @@ class WindowsOAuthTokenACLTests(unittest.TestCase):
         ):
             with self.assertRaisesRegex(PermissionError, "could not enforce owner-only"):
                 _apply_windows_owner_only_acl(Path("C:/tokens/profile.json"))
+
+class WindowsOAuthTokenPersistenceTests(unittest.TestCase):
+    def test_token_is_written_only_after_directory_and_file_acl_checks(self):
+        with tempfile.TemporaryDirectory() as directory:
+            token_path = Path(directory) / "tokens" / "profile.json"
+            fake_os = types.SimpleNamespace(
+                name="nt", fdopen=os.fdopen, replace=os.replace,
+                path=os.path, unlink=os.unlink,
+            )
+            with patch("backend.app.youtube_upload.os", fake_os), patch(
+                "backend.app.youtube_upload._apply_windows_owner_only_acl"
+            ) as secure_acl:
+                _persist_oauth_token(token_path, '{"refresh_token":"synthetic"}')
+            self.assertEqual(token_path.read_text(encoding="utf-8"), '{"refresh_token":"synthetic"}')
+            self.assertEqual(secure_acl.call_count, 2)
+            self.assertEqual(secure_acl.call_args_list[0].args[0], token_path.parent.resolve())
+            self.assertNotEqual(secure_acl.call_args_list[1].args[0], token_path.parent.resolve())
+
+    def test_token_write_stops_when_temporary_file_acl_fails(self):
+        with tempfile.TemporaryDirectory() as directory:
+            token_path = Path(directory) / "tokens" / "profile.json"
+            fake_os = types.SimpleNamespace(
+                name="nt", fdopen=os.fdopen, replace=os.replace,
+                path=os.path, unlink=os.unlink,
+            )
+            with patch("backend.app.youtube_upload.os", fake_os), patch(
+                "backend.app.youtube_upload._apply_windows_owner_only_acl",
+                side_effect=[None, PermissionError("ACL verification failed")],
+            ):
+                with self.assertRaisesRegex(PermissionError, "ACL verification failed"):
+                    _persist_oauth_token(token_path, '{"refresh_token":"synthetic"}')
+            self.assertFalse(token_path.exists())
+            self.assertEqual(list(token_path.parent.iterdir()), [])
+
 
 if __name__ == "__main__":
     unittest.main()
