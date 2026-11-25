@@ -1550,3 +1550,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Keep PR #376 DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 - No workflow retry/dispatch, source/test behavior change, OAuth, credentials, media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
 - Next safe work: inspect a naturally triggered exact-head run with visible job steps/logs and obtain independent review. Do not manually retry/dispatch without owner direction.
+
+
+### ARO-CHAT-0238 latest exact-head reconciliation — 2026-11-25
+- PR #376 current head at live inspection: `dc18af438161356266843edc04d7aceb7f9f72c0`; PR remains OPEN / DRAFT / UNMERGED.
+- Exact-head Python CI run #45541566724 (run 1577) concluded FAILURE. Ubuntu job `138961085105` and hosted-Windows job `138961084835` exposed `steps: null` and `logs_url: null`; failure phase/root cause NOT VERIFIED. No compile/test result is established and failure is not attributed to application code.
+- Combined commit status returned zero entries. Local repository tests NOT RUN. PR #376 review submissions and inline review threads remain empty; independent review NOT RECORDED.
+- Bounded static review of `backend/app/rights_registry.py` and `tests/test_rights_registry.py` found no additional concrete defect in the hostname-validation path and its current regression matrix. This is not a complete URL-parser/DNS/destination-IP/DNS-rebinding review and is not test evidence.
+- Audit report: `docs/ARO_CHAT_0238_PR376_CURRENT_HEAD_AUDIT.md`.
+- Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action.
+- Next safe action: inspect a naturally triggered exact-head run with visible job steps/logs and obtain independent review; no manual workflow retry/dispatch without owner direction.
