@@ -27,8 +27,8 @@ class SingleClipRenderTests(unittest.TestCase):
     def test_loads_exact_selected_review_ready_candidate(self):
         pack = self.root / "candidates.csv"
         pack.write_text(
-            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
-            "authorized-demo,12.5,27.5,15.0,True\\n",
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\n"
+            "authorized-demo,12.5,27.5,15.0,True\n",
             encoding="utf-8",
         )
         selected = load_selected_candidate(pack, 1)
@@ -40,8 +40,8 @@ class SingleClipRenderTests(unittest.TestCase):
     def test_candidate_selection_rejects_unrenderable_row(self):
         pack = self.root / "candidates.csv"
         pack.write_text(
-            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
-            "authorized-demo,12,27,15,False\\n",
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\n"
+            "authorized-demo,12,27,15,False\n",
             encoding="utf-8",
         )
         with self.assertRaisesRegex(ValueError, "not marked renderable"):
@@ -50,8 +50,8 @@ class SingleClipRenderTests(unittest.TestCase):
     def test_candidate_selection_rejects_duration_mismatch(self):
         pack = self.root / "candidates.csv"
         pack.write_text(
-            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
-            "authorized-demo,12,27,14,True\\n",
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\n"
+            "authorized-demo,12,27,14,True\n",
             encoding="utf-8",
         )
         with self.assertRaisesRegex(ValueError, "duration does not match"):
@@ -60,8 +60,8 @@ class SingleClipRenderTests(unittest.TestCase):
     def test_candidate_selection_rejects_missing_source_identity(self):
         pack = self.root / "candidates.csv"
         pack.write_text(
-            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
-            ",12,27,15,True\\n",
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\n"
+            ",12,27,15,True\n",
             encoding="utf-8",
         )
         with self.assertRaisesRegex(ValueError, "no source_id"):
@@ -70,7 +70,7 @@ class SingleClipRenderTests(unittest.TestCase):
     def test_candidate_selection_rejects_nonexistent_row(self):
         pack = self.root / "candidates.csv"
         pack.write_text(
-            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n",
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\n",
             encoding="utf-8",
         )
         with self.assertRaisesRegex(ValueError, "does not exist"):
@@ -79,8 +79,8 @@ class SingleClipRenderTests(unittest.TestCase):
     def test_cli_uses_explicit_reviewed_candidate_row(self):
         pack = self.root / "candidates.csv"
         pack.write_text(
-            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
-            "authorized-demo,12.5,27.5,15.0,True\\n",
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\n"
+            "authorized-demo,12.5,27.5,15.0,True\n",
             encoding="utf-8",
         )
         report_path = self.root / "report.json"
