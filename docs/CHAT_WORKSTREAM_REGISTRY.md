@@ -993,3 +993,17 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Report: `docs/ARO_CHAT_0201_PR311_SECURITY_REVIEW.md`. PR #311 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN. Keep live uploads/public publishing disabled.
 - No OAuth, credentials, real media, network upload, publishing, workflow retry/dispatch, merge, rebase, retarget, deployment, or destructive action occurred.
 
+
+
+
+## ARO-CHAT-0240 — PRIVATE upload size and Windows token ACL continuation (2026-11-25)
+
+- Continuation branch: `workstream/aro-chat-0240-private-upload-size-and-windows-token-acl-2026-11-25`, created from PR #311 head `e2e04bfe054b10d8fee5d5fe4244aa8dac9d56fa`. PR #311 remains the parent security candidate; do not retarget or merge either PR automatically.
+- Added mandatory positive `--max-upload-bytes` for actual upload requests. No default is selected on behalf of the owner. Dry-run and approval-record creation remain usable without a byte limit; actual upload fails closed when it is missing or invalid.
+- Actual upload now copies the source to a bounded temporary disk snapshot in 1 MiB chunks before OAuth. Source growth beyond the limit fails closed. The exact snapshot is used for the approval hash and MediaFileUpload transfer, then deleted after the attempt; this avoids buffering the entire video in RAM.
+- Added Windows OAuth token-path DACL enforcement: disable inheritance, set only current-user and LocalSystem Full Control entries, read back the ACL and verify owner/principals/rules. If PowerShell ACL setup or verification fails, token storage/access fails closed. Non-Windows mode handling remains unchanged.
+- Added tests for required/positive upload limits, oversize rejection, snapshot byte identity/cleanup, and Windows ACL helper success/failure behavior.
+- Commits in this continuation: uploader bounded-snapshot/limit `e49328edb5ce95c95ce5f2bed66c2b7515a4212b`; approval-order correction `fdb2c8ca91c062a4eb29b8fa4be1932d631eb6e3`; Windows ACL implementation `67971390f8123232d1f5f6f01b05c18fd0a93b18`; tests `545afee37a4d3f0105234c2f68d2abd6959e5b9a`, `73692ebd4a18e1e909bd8911667de7d96b58ba21`; upload documentation `5c1b7cd5f173852341fd4ec71589d008232e3747`.
+- Repository tests and CI for this continuation: NOT RUN / NOT VERIFIED at the time of this entry. No test pass is claimed. Inspect exact-head Ubuntu and hosted-Windows CI after opening the draft follow-up PR; verify the PowerShell ACL code on Windows CI before treating the caveat as resolved.
+- Remaining separate gates: independent human security sign-off; owner-device OAuth/channel verification; owner-selected byte-limit value for the device; authorized real-media/private-upload acceptance. No live OAuth, credentials, real media, network upload, public publishing, merge, or deployment.
+- Keep all upload/publishing gates disabled. This continuation changes code only; it does not authorize an actual upload.
