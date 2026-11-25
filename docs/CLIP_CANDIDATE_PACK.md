@@ -41,3 +41,8 @@ and both the declared duration and measured bounds remain within the
 180-second review limit. Boolean values are rejected as numeric metadata.
 The score is a data-completeness aid for human review, not a prediction of
 views or permission to publish.
+
+The scoring CLI refuses to write over the candidate input (including a path
+that resolves to the same file) or an existing output file. Choose a new
+review-output path for each scoring run so earlier review artifacts remain
+available for comparison.
