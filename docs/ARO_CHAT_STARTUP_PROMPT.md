@@ -913,3 +913,13 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows and real authorized media NOT VERIFIED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 -> #380/#379 ancestry; PR #379 conflicts with the later one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+### ARO-CHAT-0253 continuation — scaled rendered-clip duration validation (2026-11-25)
+- Continue the existing PR #386 / ARO-GTA-P1-244 workstream on `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no duplicate PR or ancestry changes.
+- Static review found a fixed ±1-second post-render duration tolerance could accept a nearly empty output for a very short requested clip.
+- The post-render FFprobe check now requires a finite positive duration and applies a tolerance of 2% of the requested duration, bounded to 0.05–1.0 seconds. Added a regression rejecting a 0.01-second output for a requested 0.1-second clip.
+- Production commit: `844d080a0b40e822253287adf943bedef456769a`; regression commit: `853b93e43a2228d26b66cc914eeca7922db1a9ab`; report: `e9b1b2ebf4fc7fc87cb507754359c7dfcf1ca072`; registry correction: `369b5d99b5242c78b20e3c6abb65a80fce56fdc2`.
+- Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Do not claim TESTED or CI_VERIFIED.
+- PR #386 remains DRAFT / OPEN / UNMERGED with existing #383 -> #380/#379 ancestry. PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
