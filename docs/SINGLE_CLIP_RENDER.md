@@ -21,6 +21,6 @@ The output is rendered locally through the existing collision-safe FFmpeg helper
 Use only a source file that the owner has explicitly authorized for this processing scope. The confirmation flag is a workflow guardrail, not independent legal verification. Never use this command with scraped, ripped, or otherwise unapproved third-party media.
 
 
-## Source-path safety
+## Source snapshot safety
 
-The low-level FFmpeg renderer independently rejects symbolic-link and non-regular source paths before resolving the selected path. It captures the selected file's device/inode identity and rechecks that identity immediately before invoking FFmpeg. This is defense in depth alongside the single-video FFprobe preflight; it narrows the path-replacement window but does not eliminate the residual race between the final check and FFmpeg opening the path. Do not describe this path-based flow as descriptor-bound or race-free.
+Before preflight, the CLI opens the one selected source without following symlinks where the platform supports `O_NOFOLLOW`, verifies that the opened descriptor and selected pathname identify the same regular file, and copies the source to a private temporary snapshot in bounded 1 MiB chunks. It rechecks descriptor metadata and pathname identity after the copy and rejects partial, replaced, or mutated sources. FFprobe and FFmpeg both consume that same snapshot, so the source bytes rendered are the bytes that passed preflight. The temporary snapshot is removed when the invocation ends. This uses temporary disk space proportional to the selected source size; it does not buffer the video in RAM or enumerate other files.
