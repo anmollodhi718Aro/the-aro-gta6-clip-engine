@@ -1843,3 +1843,15 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Test commit: `faa659234b061201b4b694d9fe3ea87da4ac8edd`.
 - Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No workflow retry/dispatch, merge, rebase, retarget, real media, OAuth, upload, publishing, or deployment.
+
+
+## ARO-CHAT-0256 | Reject unrepresentable source duration metadata
+- Exact chat title: `ARO-CHAT-0256 | Reject Unrepresentable Source Duration`
+- Workstream: ARO-GTA-P1-256
+- Continue on existing PR #386 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no duplicate PR or branch.
+- Static review found that `math.isfinite()` can raise `OverflowError` for an extremely large Python integer. The renderer's source-preflight boundary now catches `OverflowError`, `TypeError`, and `ValueError` and returns its deterministic invalid-duration failure instead of leaking an exception.
+- Added a regression using a 401-digit source duration; it asserts a FAIL report, no processing, and no FFmpeg invocation.
+- Production commit: `918b14c05d17e3eadbf4f95aee82a60f74891134`; regression-test commit: `44ed0d25553c43ba7c635e1f168bb544b98aeec7`; report: `f9a260a3389d6ae17f802b5fbbaa71d00e4d3d68`.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 -> #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
