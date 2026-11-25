@@ -634,6 +634,16 @@ def render_selected_clip(
         }
 
 
+def _write_exclusive_terminal_fallback(report_path: Path, report_text: str) -> Path:
+    """Persist a terminal report beside a damaged reservation without overwriting."""
+    fallback_path = report_path.with_name(report_path.name + ".terminal-fallback.json")
+    with fallback_path.open("x", encoding="utf-8", newline="\\n") as fallback:
+        fallback.write(report_text)
+        fallback.flush()
+        os.fsync(fallback.fileno())
+    return fallback_path
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Dry-run or render exactly one explicitly selected local video clip."
@@ -753,11 +763,36 @@ def main() -> int:
                 print(f"Terminal report could not be serialized; reserved RUNNING report preserved: {exc}", file=sys.stderr)
                 return 2
 
-            handle.seek(0)
-            handle.write(terminal_report_text)
-            handle.truncate()
-            handle.flush()
-            os.fsync(handle.fileno())
+            try:
+                handle.seek(0)
+                handle.write(terminal_report_text)
+                handle.truncate()
+                handle.flush()
+                os.fsync(handle.fileno())
+            except OSError as write_exc:
+                # The reserved report may now be partial. Preserve it for
+                # diagnosis and write a separate exclusive fallback; never
+                # replace a path that may have been created by another actor.
+                try:
+                    fallback_path = _write_exclusive_terminal_fallback(
+                        args.report, terminal_report_text
+                    )
+                except OSError as fallback_exc:
+                    print(
+                        "Terminal report write failed; the reserved report may be "
+                        f"partial and fallback creation also failed: {fallback_exc}. "
+                        "Inspect any output file manually before retrying. "
+                        f"Primary write error: {write_exc}",
+                        file=sys.stderr,
+                    )
+                else:
+                    print(
+                        "Terminal report write failed; complete terminal report "
+                        f"was preserved at exclusive fallback path {fallback_path}. "
+                        "Inspect any output file manually before retrying.",
+                        file=sys.stderr,
+                    )
+                return 2
     except (OSError, RuntimeError, ValueError) as exc:
         print(f"Report could not be reserved/written without overwrite: {exc}", file=sys.stderr)
         return 2
