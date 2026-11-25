@@ -1008,6 +1008,14 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(fallback["upload_performed"])
         self.assertFalse(fallback["publishing_enabled"])
 
+    def test_terminal_fallback_writes_valid_json_with_real_trailing_newline(self):
+        report_path = self.root / "newline-report.json"
+        report_text = json.dumps({"status": "RUNNING"}, indent=2) + "\\n"
+        fallback_path = _write_exclusive_terminal_fallback(report_path, report_text)
+        persisted = fallback_path.read_text(encoding="utf-8")
+        self.assertTrue(persisted.endswith("\\n"))
+        self.assertEqual(json.loads(persisted), {"status": "RUNNING"})
+
     def test_terminal_fallback_rejects_short_write(self):
         report_path = self.root / "short-write-report.json"
         original_open = Path.open
