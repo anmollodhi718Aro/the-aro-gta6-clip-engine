@@ -2072,3 +2072,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Candidate CSV mode now requires `--source-id` and rejects a missing/mismatched value before report reservation or media inspection. The check is explicitly documented as an operator cross-check, not cryptographic file identity proof.
 - Implementation: `0aa5e9585a003287c6a208303676bf4559fc5932`; tests: `36b4a26f94466128182eb8189ef0445cf8604f19`.
 - Tests NOT RUN. No media processed; no upload/publishing enabled.
+
+
+### ARO-CHAT-0276 — candidate source-ID flag scope and regression (2026-11-26)
+- Restricted `--source-id` to candidate CSV selection mode; direct `--start/--end` mode now rejects the irrelevant option instead of silently ignoring it.
+- Updated the existing candidate CLI regression to pass the required source ID and added a direct-mode rejection regression.
+- Implementation: `142a5d56b1269db10a742eb501992f84376d42bb`; tests: `bb8293366813affef02577a14fb25a6d69e987c8`, `62461b4d28c341e05ad72a8b0691213a0ce4ad7d`.
+- Tests NOT RUN. No media processed; upload/publishing remain disabled.
