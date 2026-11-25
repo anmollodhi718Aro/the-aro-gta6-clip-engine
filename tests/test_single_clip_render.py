@@ -839,6 +839,28 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(source.read_bytes(), b"selected source")
 
 
+    def test_cli_unexpected_python_exception_writes_terminal_failure_report(self):
+        report_path = self.root / "terminal-unexpected-failure.json"
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--start", "2", "--end", "8",
+            "--execute", "--confirm-rights",
+            "--report", str(report_path),
+        ]
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.render_selected_clip",
+            side_effect=TypeError("unexpected renderer boundary error"),
+        ):
+            self.assertEqual(main(), 1)
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("unexpected renderer boundary error", report["error"])
+        self.assertFalse(report["source_snapshot_verified"])
+        self.assertFalse(report["source_snapshot_created"])
+        self.assertIsNone(report["source_sha256"])
+        self.assertFalse(report["upload_performed"])
+        self.assertFalse(report["publishing_enabled"])
+
     def test_cli_terminal_failure_marks_snapshot_digest_unverified(self):
         report_path = self.root / "terminal-snapshot-failure.json"
         argv = [
