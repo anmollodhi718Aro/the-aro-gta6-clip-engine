@@ -44,3 +44,16 @@ Documentation-only. No source or test behavior, uploader, OAuth, credentials, me
 - Local repository tests NOT RUN. PR #376 review submissions and inline review threads remain empty; independent review NOT RECORDED.
 - No workflow retry/dispatch was initiated. Preserve PR #376 DRAFT / OPEN / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
 - This is a documentation-only evidence update. No source/test behavior, workflow configuration, OAuth, credentials, media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
+
+
+### Exact-head CI recheck — commit 4347f66 (2026-11-25)
+
+- PR #376 head at inspection: `4347f66b5d29f877acb6fad9124fac88cf9e3edb`.
+- Exact-commit Python CI run [#45521261164](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45521261164), run 1553, completed FAILURE.
+- Ubuntu job `138893405593` and hosted-Windows job `138893406184` both completed FAILURE. The jobs endpoint returned `steps: null` and `logs_url: null` for both jobs.
+- Combined commit status returned zero status entries. This is not a passing signal.
+- PR #376 review submissions and inline review threads were empty at inspection; independent review NOT RECORDED.
+- Failure phase/root cause remain NOT VERIFIED. No compile or unit-test result is established; the failure is not attributed to application code or tests.
+- Local repository tests NOT RUN in this connector session. Exact-head CI is FAILED / NOT VERIFIED.
+- No workflow retry/dispatch was initiated. PR #376 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+- Documentation-only audit. No source/test/workflow behavior, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was changed/performed.
