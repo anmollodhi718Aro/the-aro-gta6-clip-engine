@@ -1,4 +1,5 @@
 """Tests for the one-selected-video clip render path."""
+import hashlib
 import json
 import tempfile
 import unittest
@@ -8,6 +9,7 @@ from unittest.mock import patch
 from backend.app.clip_pack import map_candidates_to_media, write_clip_pack
 from backend.app.single_clip_render import (
     _create_stable_source_snapshot, load_selected_candidate, main, render_selected_clip,
+    sha256_selected_source,
 )
 
 
@@ -24,6 +26,20 @@ class SingleClipRenderTests(unittest.TestCase):
 
     def tearDown(self):
         self.temp.cleanup()
+
+
+    def test_sha256_selected_source_matches_file_bytes(self):
+        expected = hashlib.sha256(self.source.read_bytes()).hexdigest()
+        self.assertEqual(sha256_selected_source(self.source), expected)
+
+    def test_sha256_selected_source_rejects_symbolic_link(self):
+        link = self.root / "selected-link.mp4"
+        try:
+            link.symlink_to(self.source)
+        except (OSError, NotImplementedError):
+            self.skipTest("symbolic links are unavailable on this platform")
+        with self.assertRaisesRegex(ValueError, "regular non-symlink"):
+            sha256_selected_source(link)
 
     def test_loads_exact_selected_review_ready_candidate(self):
         pack = self.root / "candidates.csv"
@@ -79,6 +95,7 @@ class SingleClipRenderTests(unittest.TestCase):
         argv = [
             "single_clip_render.py", str(self.source),
             "--candidate-csv", str(csv_path), "--candidate-row", "1",
+            "--source-sha256", hashlib.sha256(self.source.read_bytes()).hexdigest(),
             "--source-id", "authorized-demo", "--report", str(report_path),
         ]
         with patch("sys.argv", argv), patch(
