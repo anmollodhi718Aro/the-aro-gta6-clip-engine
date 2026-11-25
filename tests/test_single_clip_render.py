@@ -268,5 +268,47 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertTrue(selected.is_symlink())
 
 
+    def test_snapshot_fails_closed_when_selected_path_is_replaced_during_copy(self):
+        source = self.root / "replaced-source.mp4"
+        original = self.root / "original-source.mp4"
+        replacement = self.root / "replacement-source.mp4"
+        snapshot = self.root / "snapshot-replaced.mp4"
+        original_bytes = b"original selected bytes" * 100
+        replacement_bytes = b"replacement bytes must not be accepted"
+        source.write_bytes(original_bytes)
+        replacement.write_bytes(replacement_bytes)
+        real_fdopen = __import__("os").fdopen
+
+        class ReplacingReader:
+            def __init__(self, handle):
+                self.handle = handle
+                self.replaced = False
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                self.handle.close()
+
+            def read(self, size=-1):
+                data = self.handle.read(size)
+                if not self.replaced:
+                    self.replaced = True
+                    source.rename(original)
+                    replacement.rename(source)
+                return data
+
+        def fdopen_and_replace(descriptor, mode):
+            return ReplacingReader(real_fdopen(descriptor, mode))
+
+        with patch("backend.app.single_clip_render.os.fdopen", side_effect=fdopen_and_replace):
+            with self.assertRaisesRegex(RuntimeError, "changed while its stable snapshot was copied"):
+                _create_stable_source_snapshot(source, snapshot)
+
+        self.assertFalse(snapshot.exists())
+        self.assertEqual(original.read_bytes(), original_bytes)
+        self.assertEqual(source.read_bytes(), replacement_bytes)
+
+
 if __name__ == "__main__":
     unittest.main()
