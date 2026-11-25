@@ -1869,3 +1869,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Status: IMPLEMENTED. Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; real authorized media NOT PROCESSED / NOT VERIFIED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 -> #380/#379 ancestry. The live parent branch has advanced and the branches diverge; no rebase, retarget, merge, or integration without explicit owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, or deployment.
+
+
+## ARO-CHAT-0257 | Verify Rendered-Duration Overflow Guard
+
+- Workstream: ARO-GTA-P1-257; follow-up audit on existing PR #386 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR.
+- Static review confirmed the post-render FFprobe duration guard handles `OverflowError`, `TypeError`, and `ValueError`, returning deterministic FAIL for unrepresentable metadata.
+- The existing test suite includes a 401-digit rendered-duration regression and asserts a FAIL report without an uncaught exception; upload/publishing remain false.
+- Review target at inspection: `bef1fc7de56d5ae48d0390b727b43f18ac008716`. Audit report: `docs/ARO_CHAT_0257_RENDERED_DURATION_OVERFLOW_AUDIT.md`.
+- Exact-head workflow lookup returned zero runs and combined status returned zero entries. Exact-head CI NOT VERIFIED; repository tests NOT RUN in this connector session; independent review NOT RECORDED.
+- No duplicate code/test patch was made because the guard and regression already exist. PR #386 remains DRAFT / OPEN / UNMERGED. Preserve #383 -> #380/#379 ancestry; no merge/rebase/retarget/integration without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
