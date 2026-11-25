@@ -117,15 +117,22 @@ def main() -> int:
     parser.add_argument("--output", type=Path, default=Path("quality_scored_candidates.csv"))
     args = parser.parse_args()
     try:
-        with args.candidates.expanduser().open("r", newline="", encoding="utf-8") as handle:
+        source = args.candidates.expanduser()
+        output = args.output.expanduser()
+        # Never let a scoring run destroy its own input CSV, including when
+        # the same file is addressed through relative paths or symlinks.
+        if source.resolve() == output.resolve():
+            raise ValueError("output path must differ from the candidate input path")
+        with source.open("r", newline="", encoding="utf-8") as handle:
             rows = list(csv.DictReader(handle))
         if not rows:
             raise ValueError("candidate CSV is empty")
         scored = score_rows(rows)
-        output = args.output.expanduser()
         output.parent.mkdir(parents=True, exist_ok=True)
         fields = list(scored[0])
-        with output.open("w", newline="", encoding="utf-8") as handle:
+        # Exclusive creation prevents silently replacing a prior review pack.
+        # It also closes the check-then-open race from an exists() preflight.
+        with output.open("x", newline="", encoding="utf-8") as handle:
             writer = csv.DictWriter(handle, fieldnames=fields)
             writer.writeheader()
             for row in scored:
