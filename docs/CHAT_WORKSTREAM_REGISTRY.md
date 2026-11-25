@@ -1034,3 +1034,17 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - PR #385 head `b8704221f4ba3131d8c6b96e2d091a9530eea5b2` is associated with run #45657905605, conclusion FAILURE.
 - Ubuntu job #139359465979 and hosted-Windows job #139359466345 both expose `steps: null` and `logs_url: null`. No compile/test result is available; failure phase and cause remain UNVERIFIED and are not attributed to application code.
 - Do not blindly rerun or dispatch workflows. Exact-head CI remains NOT VERIFIED; local repository tests NOT RUN.
+
+
+## ARO-CHAT-0245 — PR #385 exact-head CI failure triage — 2026-11-25
+
+- Chat title: `ARO-CHAT-0245 | GTA 6 Upload Pipeline CI Failure Fix`.
+- Workstream: `ARO-GTA-P1-245`; documentation-only evidence triage on existing branch `workstream/aro-chat-0244-verified-bounded-upload-snapshot-2026-11-25` and existing draft PR #385. No duplicate PR or branch created.
+- Live PR #385 head at inspection: `b8704221f4ba3131d8c6b96e2d091a9530eea5b2`; base SHA: `77a19ebe59d84c36c240fb665a2bebe3d7173482`.
+- Exact-head-associated Actions run #45657905605 (run 1616) concluded FAILURE. Ubuntu job 139359465979 and hosted-Windows job 139359466345 both exposed `steps: null` and `logs_url: null`. Combined commit status returned no entries.
+- No checkout/setup/compile/test/FFmpeg/FFprobe result is observable. Failure phase and root cause are UNVERIFIED; do not attribute the failure to application code or claim tests passed. Earlier run #45657746782 is stale for the live head and likewise exposed no steps/logs.
+- Bounded static review of the snapshot helper and regression tests found no CI-evidenced defect. Local tests were NOT RUN. No speculative production-code changes made.
+- Report: `docs/ARO_CHAT_0245_PR385_CI_FAILURE_TRIAGE.md`.
+- Status: IMPLEMENTED source/tests; TESTED NOT VERIFIED; CI_VERIFIED NO; WINDOWS_VERIFIED NO; REAL_MEDIA_VERIFIED NO; COMPLETE NO.
+- Next: inspect a subsequent automatic run only if usable job steps/logs are exposed; fix only reproducible or evidence-backed defects. Keep PR #385 OPEN / DRAFT / UNMERGED.
+- No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, retarget, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled. Independent human security review, owner-device OAuth/channel verification, owner-selected byte limit, and authorized real-media PRIVATE acceptance remain pending.
