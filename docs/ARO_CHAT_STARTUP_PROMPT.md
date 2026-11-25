@@ -932,3 +932,12 @@ Inspect exact-head Ubuntu/Windows CI and independently review the full uploader/
 - Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Inspect only naturally triggered CI; do not retry/dispatch workflows without owner direction.
 - Preserve PR #386 DRAFT / OPEN / UNMERGED and its #383 -> #380/#379 ancestry. No merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, or deployment.
+
+
+## ARO-CHAT-0254 — fail-closed path-resolution errors (2026-11-25)
+- Continue on existing PR #386 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no duplicate PR or ancestry changes.
+- Static review found `Path.resolve()` may raise `RuntimeError` for symlink loops (and `ValueError` for malformed paths). The output validator and CLI report-path boundary caught only `OSError`, allowing path-validation failures to escape as uncaught exceptions.
+- The output validator and CLI now convert `OSError`, `RuntimeError`, and `ValueError` into deterministic validation failures. Added regressions for dry-run and CLI report-path handling; CLI failure must not leave a report file behind.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Inspect naturally triggered CI only; do not retry/dispatch without owner direction.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 -> #380/#379 ancestry; no merge, rebase, retarget, or integration without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
