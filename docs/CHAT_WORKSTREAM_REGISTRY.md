@@ -1705,3 +1705,15 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
 
 - Final follow-up commit `08aab858763bd4f9057650cb718cc0a13c0a3e6f` adds `O_NONBLOCK` where available so a selected path swapped to a FIFO/special file cannot block before descriptor type validation. Final exact-head CI lookup at `08aab858763bd4f9057650cb718cc0a13c0a3e6f` returned zero associated runs; CI remains NOT VERIFIED.
+
+
+## ARO-CHAT-0248 | Stable source snapshot mutation regression
+- Exact chat title: `ARO-CHAT-0248 | Test Stable Snapshot Mutation Guard`
+- Workstream: ARO-GTA-P1-248
+- Follow-up to PR #386 / ARO-GTA-P1-244; existing branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`, PR, and ancestry preserved.
+- Static review found the stable snapshot copier's post-copy descriptor/path metadata checks lacked direct regression coverage for in-place mutation during a multi-chunk copy.
+- Added a 2 MiB mutation-during-copy regression asserting fail-closed behavior and removal of the partial snapshot, plus symlink-source rejection coverage.
+- Test commit: `af6e70f15b97714ecc08cc816c8e610a41d1b06f`; report commit: `ce568e37af1421c39f4aa808bc87cf1684cf0fb2`.
+- Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 → #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
