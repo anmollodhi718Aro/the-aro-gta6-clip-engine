@@ -1923,3 +1923,15 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 
 
 | ARO-CHAT-0261 | ARO-CHAT-0261 | Exact-Head CI and Single-Clip Source Audit | ARO-GTA-P1-261 | Audit exact-head CI availability and inspect the selected-video render/preflight implementation without changing runtime behavior | `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25` / [PR #386](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/386) | IMPLEMENTED (audit documentation); tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED | Starting SHA `5fd9100218fd8d8abb5c8e4e43e03f31a0f2ba9a`; report `docs/ARO_CHAT_0261_EXACT_HEAD_CI_AUDIT.md`; zero associated workflow runs and zero combined status entries |
+
+
+## ARO-CHAT-0262 | Prevent racy deletion of unverified render output — 2026-11-25
+
+- Continue on existing PR #386 / ARO-GTA-P1-244 branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR and no ancestry changes.
+- Static review found a time-of-check/time-of-use race in automatic output cleanup: a separate `lstat()` and `unlink()` could delete a replacement file swapped into the destination between those operations.
+- Portable Python path APIs do not provide inode-conditional unlink. The renderer now preserves failed/unverified output for manual review, reports `unverified_output_removed: false` and `manual_cleanup_required: true`, and never calls `unlink()` during failed-output cleanup.
+- Regression coverage confirms the unverified output remains intact and automatic unlink is not attempted; replacement-output preservation coverage remains.
+- Commits: implementation `17415bb8003416e0df5a0142194c5a1afc3e181a`; tests `11ac9a39d56cf566f61de745b5af34da5837e460`; operator documentation `ecab410754fe23f8071ec853e3905e8f61f65752`.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows and authorized real-media acceptance NOT VERIFIED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing #383 -> #380/#379 ancestry. No merge, rebase, retarget, integration, workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, or deployment.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled.
