@@ -98,3 +98,27 @@ Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Its owner
 - Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL. Keep live uploads and public publishing disabled.
 - No workflow retry/dispatch, source/test behavior change, OAuth, credentials, media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
 - Next safe step: obtain exact-head CI with visible job steps/logs through the normal workflow path and arrange independent review; do not retry/dispatch workflows without owner direction.
+
+
+## Latest continuation audit — PR #376 exact head dc18af438161356266843edc04d7aceb7f9f72c0 (2026-11-25)
+
+### Exact-head CI evidence
+- Live PR metadata confirms PR #376 remains OPEN / DRAFT / UNMERGED on branch `workstream/aro-chat-0238-ambiguous-numeric-hostname-rejection-2026-11-25`.
+- Exact PR head: `dc18af438161356266843edc04d7aceb7f9f72c0`.
+- Commit-associated Python CI run [#45541566724](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/actions/runs/45541566724), run 1577, completed FAILURE.
+- Ubuntu job `138961085105` and hosted-Windows job `138961084835` both concluded FAILURE. The jobs endpoint exposed `steps: null` and `logs_url: null` for both.
+- Combined commit status returned zero status entries. Failure phase/root cause NOT VERIFIED. No compile or test result is established; do not attribute the failure to application code or tests.
+- Local repository tests NOT RUN in this connector session. PR #376 review submissions and inline review threads are empty; independent review NOT RECORDED.
+
+### Bounded static review
+- Re-read `backend/app/rights_registry.py` and `tests/test_rights_registry.py` from the active PR branch.
+- Reviewed numeric-final-label detection, IDNA normalization, canonical IPv4 parsing, trailing-root-dot handling, percent rejection for scoped IPv6, and the regression test matrix.
+- The current helper requires a complete canonical IPv4 parse whenever the normalized final label is numeric-like; ordinary DNS/IDNA and IPv6 paths remain represented by positive tests.
+- No additional concrete defect was identified in this bounded hostname-validation review. This is not a full URL-parser differential, DNS-resolution, destination-IP, or DNS-rebinding review, and static inspection is not a test run.
+
+### Disposition and next action
+- Preserve PR #376 OPEN / DRAFT / UNMERGED. Do not transfer CI results from earlier heads.
+- Exact-head CI is FAILED / NOT VERIFIED; root cause unknown. Local tests NOT RUN; independent review NOT RECORDED.
+- Issue #68 remains OPEN / NOT IMPLEMENTED / WAITING_FOR_OWNER_APPROVAL; owner assignment/approval is still a separate gate. Keep live uploads and public publishing disabled.
+- No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, deployment, or destructive action was performed.
+- Next safe action: inspect a naturally triggered exact-head run only if it exposes meaningful job steps/logs, and obtain independent security review. Do not manually retry/dispatch workflows without owner direction.
