@@ -195,7 +195,7 @@ class SingleClipRenderTests(unittest.TestCase):
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     @patch("backend.app.single_clip_render.render_clip")
     def test_preflight_and_renderer_consume_the_same_snapshot(self, render, preflight):
-        render.return_value = self.output.resolve()
+        render.side_effect = lambda *args, **kwargs: (self.output.write_bytes(b"rendered mp4"), self.output.resolve())[1]
         preflight.side_effect = [PASS, {"status": "PASS", "duration_seconds": 6.0}]
         report = render_selected_clip(
             self.source, self.output, 2, 8, execute=True, rights_confirmed=True,
@@ -246,7 +246,7 @@ class SingleClipRenderTests(unittest.TestCase):
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     @patch("backend.app.single_clip_render.render_clip")
     def test_rejects_unexpectedly_short_rendered_output(self, render, preflight):
-        render.return_value = self.output.resolve()
+        render.side_effect = lambda *args, **kwargs: (self.output.write_bytes(b"rendered mp4"), self.output.resolve())[1]
         preflight.side_effect = [PASS, {"status": "PASS", "duration_seconds": 1.0}]
         report = render_selected_clip(
             self.source, self.output, 2, 8, execute=True, rights_confirmed=True,
@@ -257,7 +257,7 @@ class SingleClipRenderTests(unittest.TestCase):
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     @patch("backend.app.single_clip_render.render_clip")
     def test_rejects_nearly_empty_output_for_short_clip(self, render, preflight):
-        render.return_value = self.output.resolve()
+        render.side_effect = lambda *args, **kwargs: (self.output.write_bytes(b"rendered mp4"), self.output.resolve())[1]
         preflight.side_effect = [PASS, {"status": "PASS", "duration_seconds": 0.01}]
         report = render_selected_clip(
             self.source, self.output, 2, 2.1, execute=True, rights_confirmed=True,
@@ -283,13 +283,15 @@ class SingleClipRenderTests(unittest.TestCase):
     @patch("backend.app.single_clip_render.render_clip")
     def test_preserves_replaced_output_when_post_render_ffprobe_fails(self, render, preflight):
         replacement = b"replacement must not be deleted"
-        def render_then_replace(*args, **kwargs):
+        def render_own_file(*args, **kwargs):
             self.output.write_bytes(b"our unverified render")
+            return self.output.resolve()
+        def replace_during_verification(path, **kwargs):
             self.output.unlink()
             self.output.write_bytes(replacement)
-            return self.output.resolve()
-        render.side_effect = render_then_replace
-        preflight.side_effect = [PASS, {"status": "FAIL", "error": "invalid output"}]
+            return {"status": "FAIL", "error": "invalid output"}
+        render.side_effect = render_own_file
+        preflight.side_effect = [PASS, replace_during_verification]
         report = render_selected_clip(
             self.source, self.output, 1, 5, execute=True, rights_confirmed=True,
         )
@@ -300,7 +302,7 @@ class SingleClipRenderTests(unittest.TestCase):
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     @patch("backend.app.single_clip_render.render_clip")
     def test_rejects_output_that_fails_post_render_verification(self, render, preflight):
-        render.return_value = self.output.resolve()
+        render.side_effect = lambda *args, **kwargs: (self.output.write_bytes(b"rendered mp4"), self.output.resolve())[1]
         preflight.side_effect = [PASS, {"status": "FAIL", "error": "invalid output"}]
         report = render_selected_clip(
             self.source, self.output, 1, 5, execute=True, rights_confirmed=True,
