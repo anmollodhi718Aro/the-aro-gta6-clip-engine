@@ -527,7 +527,7 @@ def main() -> int:
                 "output_path": str(output_path),
                 "start_seconds": args.start,
                 "end_seconds": args.end,
-                "processing_started": False,
+                "execution_requested": bool(args.execute and args.confirm_rights),
                 "upload_performed": False,
                 "publishing_enabled": False,
                 "message": "report reserved; final render result has not yet been recorded",
@@ -537,16 +537,27 @@ def main() -> int:
             handle.flush()
             os.fsync(handle.fileno())
 
-            report = render_selected_clip(
-                args.video,
-                args.output,
-                args.start,
-                args.end,
-                execute=args.execute,
-                rights_confirmed=args.confirm_rights,
-                ffprobe_binary=args.ffprobe,
-                ffmpeg_binary=args.ffmpeg,
-            )
+            try:
+                report = render_selected_clip(
+                    args.video,
+                    args.output,
+                    args.start,
+                    args.end,
+                    execute=args.execute,
+                    rights_confirmed=args.confirm_rights,
+                    ffprobe_binary=args.ffprobe,
+                    ffmpeg_binary=args.ffmpeg,
+                )
+            except (OSError, RuntimeError, ValueError) as exc:
+                # A normal Python-level failure is final, not an unknown RUNNING
+                # state. Preserve RUNNING only for hard process termination.
+                report = {
+                    **initial_report,
+                    "status": "FAIL",
+                    "error": str(exc),
+                    "message": "render operation failed; inspect any output file before retrying",
+                }
+
             handle.seek(0)
             json.dump(report, handle, indent=2, ensure_ascii=False)
             handle.write("\n")
