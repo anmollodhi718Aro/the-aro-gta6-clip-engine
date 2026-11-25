@@ -600,16 +600,38 @@ def render_selected_clip(
             snapshot_sha256 = _create_stable_source_snapshot(
                 source, snapshot, expected_sha256=expected_source_sha256
             )
-            report = _render_selected_clip_from_snapshot(
-                snapshot,
-                output_path,
-                start_seconds,
-                end_seconds,
-                execute=True,
-                rights_confirmed=True,
-                ffprobe_binary=ffprobe_binary,
-                ffmpeg_binary=ffmpeg_binary,
-            )
+            try:
+                report = _render_selected_clip_from_snapshot(
+                    snapshot,
+                    output_path,
+                    start_seconds,
+                    end_seconds,
+                    execute=True,
+                    rights_confirmed=True,
+                    ffprobe_binary=ffprobe_binary,
+                    ffmpeg_binary=ffmpeg_binary,
+                )
+            except Exception as exc:
+                # Snapshot creation and digest verification already succeeded.
+                # Keep that evidence even if FFprobe/FFmpeg or a later render
+                # step raises unexpectedly; do not misreport it as absent.
+                return {
+                    "status": "FAIL",
+                    "source_path": str(source),
+                    "output_path": str(destination),
+                    "start_seconds": start_seconds,
+                    "end_seconds": end_seconds,
+                    "processing_started": None,
+                    "source_identity_verified": True,
+                    "source_snapshot_verified": True,
+                    "source_snapshot_created": True,
+                    "expected_source_sha256": expected_source_sha256,
+                    "source_sha256": snapshot_sha256,
+                    "upload_performed": False,
+                    "publishing_enabled": False,
+                    "error": str(exc),
+                    "message": "render failed after source snapshot verification; inspect any output file before retrying",
+                }
             report["source_path"] = str(source)
             report["source_snapshot_verified"] = True
             report["source_snapshot_created"] = True

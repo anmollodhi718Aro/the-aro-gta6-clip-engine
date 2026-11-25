@@ -2214,3 +2214,13 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - FFmpeg timeout now scales to ten times the requested clip duration, with a 180-second minimum and 1,800-second maximum. Longer local renders are no longer cut off by the same fixed three-minute ceiling as short clips.
 - Regression coverage asserts the short-clip minimum timeout; max-duration behavior remains subject to CI/test execution.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. PR #386 remains draft/open/unmerged; no merge/rebase/retarget, workflow retry/dispatch, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0295 — preserve snapshot evidence on unexpected render exceptions
+
+- Static review found that an unexpected exception after successful snapshot creation (for example, an FFmpeg runtime failure) could escape the renderer's narrow exception handler and be converted by the CLI into a FAIL report claiming the snapshot was not created or verified.
+- The renderer now catches ordinary exceptions at the post-snapshot render boundary and preserves the verified snapshot flags and SHA-256. `processing_started` is null when the exception does not establish whether FFmpeg began.
+- If an unexpected exception escapes the renderer before structured state is returned, the CLI records snapshot fields as null (unknown), not false (unproven).
+- Added regression coverage for both post-snapshot render failure and an unexpected renderer exception.
+- Repository tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains OPEN / DRAFT / UNMERGED. No real media, OAuth, credentials, upload, publishing, merge, rebase, retarget, workflow retry/dispatch, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.

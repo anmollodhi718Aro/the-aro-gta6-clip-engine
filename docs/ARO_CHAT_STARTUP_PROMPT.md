@@ -1231,3 +1231,7 @@ Corrected newline escaping in report persistence so initial, terminal and fallba
 
 ### Latest continuation — ARO-CHAT-0294
 FFmpeg timeout now scales with requested clip duration (10x), bounded from 180 to 1,800 seconds. Short-clip regression asserts the 180-second minimum. Tests NOT RUN; exact-head CI NOT VERIFIED; PR #386 remains draft/unmerged; no real media, upload, publish, or deploy; Issue #68 remains awaiting owner approval.
+
+
+### Latest continuation — ARO-CHAT-0295
+A post-snapshot FFmpeg/FFprobe exception now preserves the fact that the verified source snapshot was created, including its SHA-256; processing-start is unknown if the exception cannot prove whether FFmpeg began. Unexpected exceptions escaping before a structured renderer result now mark snapshot state null/unknown rather than falsely reporting false. Added regression coverage. Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Preserve PR #386 draft/open/unmerged and its existing ancestry. No real media, OAuth, credentials, upload, publishing, merge/rebase/retarget, workflow retry/dispatch, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.

@@ -155,3 +155,8 @@ Terminal report replacement also verifies the write character count before trunc
 
 ### Report newline encoding correction
 The initial and terminal report payloads, plus the exclusive fallback writer, use actual newline characters rather than literal backslash-plus-n text. This keeps the report valid JSON with a conventional trailing newline. A regression test checks both the trailing newline and successful JSON parsing of the fallback payload.
+
+
+### Unexpected exceptions after snapshot verification
+
+If FFprobe/FFmpeg or a later render step raises after the selected source has been copied and its digest verified, the terminal FAIL report retains `source_snapshot_created=true`, `source_snapshot_verified=true`, and the verified `source_sha256`. The processing-start state is marked unknown when the exception does not establish whether FFmpeg began. If the CLI itself receives an unexpected exception before it gets a structured renderer result, snapshot fields are null (unknown), not false. Inspect any output before retrying.

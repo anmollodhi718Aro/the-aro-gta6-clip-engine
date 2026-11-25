@@ -859,8 +859,10 @@ class SingleClipRenderTests(unittest.TestCase):
         report = json.loads(report_path.read_text(encoding="utf-8"))
         self.assertEqual(report["status"], "FAIL")
         self.assertIn("unexpected renderer boundary error", report["error"])
-        self.assertFalse(report["source_snapshot_verified"])
-        self.assertFalse(report["source_snapshot_created"])
+        # The whole renderer raised before returning structured evidence.
+        # Snapshot state is unknown here, not proven false.
+        self.assertIsNone(report["source_snapshot_verified"])
+        self.assertIsNone(report["source_snapshot_created"])
         self.assertIsNone(report["source_sha256"])
         self.assertFalse(report["upload_performed"])
         self.assertFalse(report["publishing_enabled"])
@@ -1136,6 +1138,26 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["source_snapshot_verified"])
         self.assertFalse(report["source_snapshot_created"])
         self.assertIsNone(report["source_sha256"])
+        self.assertFalse(report["upload_performed"])
+        self.assertFalse(report["publishing_enabled"])
+
+    def test_render_failure_after_snapshot_preserves_verified_snapshot_evidence(self):
+        with patch(
+            "backend.app.single_clip_render._create_stable_source_snapshot",
+            return_value="a" * 64,
+        ), patch(
+            "backend.app.single_clip_render._render_selected_clip_from_snapshot",
+            side_effect=RuntimeError("simulated FFmpeg failure"),
+        ):
+            report = render_selected_clip(
+                self.source, self.output, 2, 8,
+                execute=True, rights_confirmed=True,
+            )
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(report["source_snapshot_verified"])
+        self.assertTrue(report["source_snapshot_created"])
+        self.assertEqual(report["source_sha256"], "a" * 64)
+        self.assertIsNone(report["processing_started"])
         self.assertFalse(report["upload_performed"])
         self.assertFalse(report["publishing_enabled"])
 
