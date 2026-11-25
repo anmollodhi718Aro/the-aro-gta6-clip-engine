@@ -2234,3 +2234,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Files: `backend/app/single_clip_render.py`, `tests/test_single_clip_render.py`, `docs/SINGLE_CLIP_RENDER.md`.
 - Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. CI run #45701082644 failed in 3 seconds with runner_id 0, no runner name, zero steps, and unavailable logs (`BlobNotFound`); this does not establish a test failure or its root cause.
 - PR #386 remains OPEN / DRAFT / UNMERGED. Its branch compares as 353 commits ahead and 5 behind the base; do not rebase, retarget, or restructure without owner approval. No workflow retry/dispatch, real media, upload, publishing, merge, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0297 — conservative processing-start reporting
+
+- Static review found `processing_started=true` was set before calling `render_clip()`, even though that helper performs additional source/output/bounds validation before invoking FFmpeg. An exception during that validation could therefore overstate that processing had begun.
+- The report now keeps `processing_started=null` while the lower-level render call is in progress and sets it true only after the call returns successfully. Exceptions leave the state unknown unless a prior structured result establishes it.
+- Added a regression where the render boundary raises a validation exception after the source snapshot has been verified; the report must preserve snapshot evidence and leave processing-start unknown.
+- Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Latest run #45702616612 for the prior head failed before any visible workflow step with runner_id 0 and unavailable logs; root cause remains UNKNOWN.
+- PR #386 remains OPEN / DRAFT / UNMERGED. No rebase/retarget, workflow retry/dispatch, real media, upload, publishing, merge, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
