@@ -58,8 +58,10 @@ The standalone one-video FFprobe preflight checks the selected path with `lstat(
 ## Unverified output cleanup
 
 If FFprobe rejects a newly rendered clip or its duration is outside the requested
-bounds, the renderer attempts to remove only the exact regular-file inode
-created by that invocation. If the output path has been replaced, changed type,
-or cannot be safely inspected, it is preserved and the report records
-`unverified_output_removed: false`. A failed verification must never leave an
-apparently acceptable output silently in the normal destination path.
+bounds, the renderer preserves the output and reports
+`unverified_output_removed: false` and `manual_cleanup_required: true`.
+A separate path identity check followed by `unlink()` is not atomic: another
+process could replace the directory entry between those operations, causing
+cleanup to delete a different file. The portable implementation therefore
+does not automatically delete unverified output. Inspect the failed output
+manually before removing it; existing destinations are never overwritten.
