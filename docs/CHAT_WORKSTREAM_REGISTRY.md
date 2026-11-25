@@ -2029,3 +2029,11 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Corrected all 11 affected newline escapes in the candidate-selection fixtures.
 - Test-file correction commit: `1ab587464f8f383ffc1e912d96bfccec72d0cd57`.
 - This was caught by static inspection only. Tests remain NOT RUN; do not mark this regression suite validated until executed.
+
+
+### ARO-CHAT-0270 — candidate CSV structure validation (2026-11-26)
+- Hardened `load_selected_candidate` to accept optional UTF-8 BOMs, reject blank/duplicate headers, and reject selected rows with missing required cells or extra values.
+- Added regression tests for BOM exports and malformed row/header structures. Test fixtures were statically inspected and corrected to use Python newline/BOM escapes; the suite remains NOT RUN.
+- Implementation commit: `043a4b550eb31f4f81e4024dc8bd65c09dfa7bc1`.
+- Test commits: `07c042c2eccaa01e94ed2783ecd26573c04f9521`, `3502bd9b645413a110b11dd367dbadb8e343b181`.
+- No media was rendered; upload/publishing remain disabled.
