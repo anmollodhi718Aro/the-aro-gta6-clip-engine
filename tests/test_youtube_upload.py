@@ -223,8 +223,12 @@ class YouTubeUploadTests(unittest.TestCase):
         def consume_stream(**kwargs):
             stream = kwargs["media_body"]
             uploaded_payload["bytes"] = stream.read()
-            return {"id": "snapshot-video", "status": {"privacyStatus": "private"}}
-        youtube.videos.return_value.insert.return_value.execute.side_effect = consume_stream
+            request = Mock()
+            request.execute.return_value = {
+                "id": "snapshot-video", "status": {"privacyStatus": "private"},
+            }
+            return request
+        youtube.videos.return_value.insert.side_effect = consume_stream
         modules = self._mock_google_modules(youtube)
         media_uploader = modules["googleapiclient.http"].MediaIoBaseUpload
         def authorize_then_change_source(*args):
