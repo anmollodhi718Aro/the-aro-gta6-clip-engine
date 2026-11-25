@@ -1880,3 +1880,15 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Exact-head workflow lookup returned zero runs and combined status returned zero entries. Exact-head CI NOT VERIFIED; repository tests NOT RUN in this connector session; independent review NOT RECORDED.
 - No duplicate code/test patch was made because the guard and regression already exist. PR #386 remains DRAFT / OPEN / UNMERGED. Preserve #383 -> #380/#379 ancestry; no merge/rebase/retarget/integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+
+## ARO-CHAT-0258 | Isolate FFmpeg staging path — 2026-11-25
+- Exact chat title: `ARO-CHAT-0258 | Isolate FFmpeg Staging Path`.
+- Workstream: `ARO-GTA-P1-258`; continuation of PR #386 / ARO-GTA-P1-244 on the existing branch. No new branch or PR and no ancestry changes.
+- Static review found that `render_clip()` created a unique temporary MP4 with `mkstemp()`, then unlinked the placeholder before FFmpeg opened the pathname. In a shared output directory, that gap allowed another local process to claim the staging pathname.
+- FFmpeg now writes inside a newly created private temporary directory on the destination filesystem. The verified output is still published with an atomic no-overwrite hard link; the private directory is cleaned up after the invocation.
+- Updated regression assertions to verify the private staging directory is removed after success, collision, and FFmpeg failure. Operator documentation records the isolation boundary.
+- Commits: implementation `912cf8a363fc309d15e483bd5576b356bec3647b`; tests `f54d4ad8131960a8c6325c1ab4baabf8473a4a5e`; operator docs `20f7e26131f84a94050e998f740143c87cbb0685`.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Do not infer test success from commits.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing #383 -> #380/#379 ancestry. No merge, rebase, retarget, integration, workflow retry/dispatch, or deployment without explicit owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, or publishing.
