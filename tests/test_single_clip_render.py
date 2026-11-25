@@ -54,6 +54,20 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["source_snapshot_verified"])
         self.assertFalse(report["source_snapshot_created"])
 
+    def test_rejects_unrepresentable_source_duration_without_crashing(self):
+        invalid_preflight = {
+            "status": "PASS",
+            "duration_seconds": 10 ** 400,
+            "video_streams": [{"codec": "h264"}],
+        }
+        with patch("backend.app.single_clip_render.inspect_one_video", return_value=invalid_preflight):
+            with patch("backend.app.single_clip_render.render_clip") as render:
+                report = render_selected_clip(self.source, self.output, 2, 8)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertEqual(report["error"], "source preflight did not provide a valid media duration")
+        self.assertFalse(report["processing_started"])
+        render.assert_not_called()
+
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     def test_dry_run_never_creates_a_source_snapshot(self, _preflight):
         with patch("backend.app.single_clip_render._create_stable_source_snapshot") as snapshot:
