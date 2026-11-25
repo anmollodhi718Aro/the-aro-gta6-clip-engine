@@ -25,6 +25,9 @@ class ClockAnchor:
     def __post_init__(self) -> None:
         if not isinstance(self.source_id, str) or not self.source_id.strip():
             raise ValueError("source_id is required")
+        # Store one canonical identity so surrounding whitespace cannot make
+        # otherwise identical anchor and candidate IDs compare differently.
+        object.__setattr__(self, "source_id", self.source_id.strip())
         object.__setattr__(self, "chat_time", parse_datetime(self.chat_time).astimezone(timezone.utc))
         if isinstance(self.media_seconds, bool) or not isinstance(self.media_seconds, (int, float)):
             raise ValueError("media_seconds must be a finite number")
