@@ -1785,3 +1785,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Repository tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains DRAFT / OPEN / UNMERGED. Preserve existing #383 -> #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
+
+## ARO-CHAT-0252 | Reject invalid render destinations before snapshot copy
+- Exact chat title: `ARO-CHAT-0252 | Single-Clip Renderer Pre-Snapshot Output Guard`
+- Workstream: ARO-GTA-P1-252
+- Follow-up to PR #386 / ARO-GTA-P1-244 on the existing branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR and no ancestry changes.
+- Static review found that confirmed execution created and copied the complete selected-source snapshot before validating the requested output path. An existing output or symlink destination therefore caused avoidable full-file temporary-disk I/O before the command failed.
+- Added a shared output-destination validator and invoke it before snapshot creation as well as before rendering. Existing destinations, symlink destinations, non-MP4 paths, and source/output aliases now fail before copying the source. The lower-level renderer retains its own validation and collision-safe publication.
+- Production commit: `19e880baa11e8aecef37f012dbcaad2446cd35be`; regression tests: `329cc0e0c8f6b8e3ab48338fe7f0fc2d0ea93287`; operator docs: `e07c76031ee0cebc687802f42c5eec104e50de81`.
+- Repository tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows and real authorized media NOT VERIFIED.
+- PR #386 remains DRAFT / OPEN / UNMERGED. Preserve its existing #383 -> #380/#379 ancestry; PR #379 conflicts with the one-selected-video requirement. No merge, rebase, retarget, or integration without owner approval.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Keep live uploads/public publishing disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, or deployment.
