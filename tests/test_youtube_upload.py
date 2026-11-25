@@ -535,7 +535,7 @@ class YouTubeUploadTests(unittest.TestCase):
             "--title", "THE ARO test", "--not-made-for-kids", "--upload",
             "--owner-approved", "--confirm-rights", "--clip-id", "clip-1",
             "--source-id", "source-1", "--approval-record", str(approval_path),
-            "--rights-db", str(db_path),
+            "--rights-db", str(db_path), "--max-upload-bytes", "1024",
         ]
         with patch.object(sys, "argv", args), patch.dict(os.environ, {
             "ARO_YOUTUBE_OWNER_GOOGLE_SUBJECT": "google-subject-123",
