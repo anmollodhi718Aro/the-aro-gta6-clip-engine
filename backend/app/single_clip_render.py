@@ -480,6 +480,24 @@ def _render_selected_clip_from_snapshot(
                 ),
             )
             return report
+        if not isinstance(rendered_preflight, dict):
+            # A malformed probe payload is not a verified failure of the media
+            # itself. Preserve the rendered file for explicit human inspection.
+            report.update(
+                status="FAIL",
+                output_path=str(rendered),
+                rendered_preflight_error=(
+                    "FFprobe returned malformed metadata: expected an object, "
+                    f"received {type(rendered_preflight).__name__}"
+                ),
+                output_inspection_required=True,
+                manual_cleanup_required=True,
+                message=(
+                    "Rendered output exists but FFprobe returned malformed metadata. "
+                    "Inspect this exact output path before retrying; no automatic cleanup was attempted."
+                ),
+            )
+            return report
         report["rendered_preflight"] = rendered_preflight
         if rendered_preflight.get("status") != "PASS":
             removed = _remove_unverified_output(rendered, rendered_identity)
