@@ -2699,3 +2699,14 @@ Regression tests cover a real pathname replacement against an open descriptor, f
 
 
 - ARO-CHAT-0323 follow-up: corrected the smoke harness digest-validation condition's Python line break. Commit `d7c8aecfef971f0435591c5068bfb0a43d2daffc`. The exact source was re-read after correction; unit tests remain NOT RUN, exact-head CI NOT VERIFIED, and no workflow dispatch/retry was performed.
+
+
+## ARO-CHAT-0324 — independently verify synthetic smoke output digest (2026-11-26)
+
+- Continued existing P0 draft PR #386 and its original branch/base; no new PR or branch.
+- Static review found the synthetic smoke harness checked only the format of the renderer-reported SHA-256. A syntactically valid but incorrect digest could still produce a false PASS.
+- The harness now independently streams and hashes the rendered MP4 bytes and requires an exact match with the renderer report before returning PASS.
+- Updated the successful fixture to use the actual generated output digest and added a regression rejecting a well-formed but incorrect digest.
+- Commits: production `9efc07703673a2792c008e8696d89bd9a3077cb9`; regression `53d0c42d9670c3f895bba19c134cbf8a11c8a675`; report `docs/ARO_CHAT_0324_SMOKE_OUTPUT_DIGEST_VERIFICATION.md`.
+- Repository unit tests NOT RUN; synthetic FFmpeg smoke execution NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
