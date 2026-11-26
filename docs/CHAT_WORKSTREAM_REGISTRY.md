@@ -3433,3 +3433,40 @@ The tests exercise the existing strict streaming quote guard against malformed h
 | Status | IMPLEMENTED; GitHub source read-back PRESENT; local tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED |
 
 Keep this work and all parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0375 | Consolidated Candidate CSV Regression Suite (2026-11-26)
+
+- Workstream: ARO-GTA-P0-375. Child branch `workstream/aro-chat-0375-consolidated-candidate-csv-regressions-2026-11-26`, based on PR #396 exact head `e205c2e74829a901f63755675f55d3bbb1502dd2`.
+- Consolidation gap found: PR #395 duplicate-header regression and PR #392 escaped-quote/multiline regression were on parallel branches and absent from PR #396's ancestry.
+- Added the existing duplicate-header regression as `tests/test_candidate_csv_duplicate_headers.py` (commit `783b577efcf55014996eb25de84b3b5af285e810`) and escaped-quote/multiline regression as `tests/test_candidate_csv_escaped_quote_multiline.py` (commit `59e77c29cae9ab694082ab1ccba20c0770a195af`). These mirror PR #395 and PR #392 test cases; no production code changed. Report commit: `31de710b6a2a4e20dcf23bc509be357b43ca7713`.
+- Original PRs #392 and #395 remain untouched. This branch preserves PR #396 ancestry; no merge/rebase/retarget/rewrite performed.
+- GitHub writes confirmed. Local repository unit suite NOT RUN; isolated parser harness NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; synthetic FFmpeg end-to-end NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED. Stage 1 regression implementation is consolidated on this branch, but validation gates remain OPEN; P0 NOT COMPLETE.
+- Keep this PR OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### ARO-CHAT-0375 validation update (2026-11-26)
+
+- Consolidated regression child PR: [#399](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/399), based on PR #396 exact head; OPEN / DRAFT / UNMERGED.
+- GitHub read-back confirms both added regression files and report/registry/startup documentation are present.
+- A focused source-level harness using the exact parser functions read from `backend/app/single_clip_render.py` passed 6/6 cases: duplicate headers rejected; escaped quotes with embedded LF/CRLF accepted; escaped quote/comma in optional header and data accepted; valid quoted required headers accepted; malformed quote in an unquoted header rejected; trailing text after closing quote rejected.
+- Important limit: this was an isolated source-level harness, NOT the repository's full unit-test suite. The full repository unit suite was NOT RUN. GitHub Actions workflow lookup for PR #399 head `6be121291fd096345604004e292c7d3631c0b723` returned zero runs; Ubuntu/Windows CI remain NOT VERIFIED.
+- Synthetic FFmpeg end-to-end NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED. Stage 1 regression cases are consolidated and focused source-level probes pass, but Stage 1 is NOT declared complete until full-suite and CI evidence are available.
+- No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### CI evidence correction for ARO-CHAT-0375 (2026-11-26)
+
+- Exact-head lookup for PR #399 head `8186fae808f98398ea243578ce6afe428ec56ab8` returned Python CI run #45799569550, conclusion FAILURE.
+- Hosted Windows job #139838950118 and Ubuntu job #139838950521 both exposed `steps: null` and `logs_url: null`; fetching each job log returned HTTP 404 / BlobNotFound.
+- Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. No evidence checkout, compilation, or tests started. Root cause remains UNVERIFIED and is not attributed to application code. No workflow dispatch/retry was initiated.
+- This supersedes the earlier zero-runs note. Full repository unit suite NOT RUN; isolated source-level harness 6/6 PASS but is not repository CI evidence. Ubuntu/Windows CI NOT VERIFIED.
+
+
+## Latest exact-head CI result — PR #399 (2026-11-26)
+
+- Final observed head: `fa29ed51fd9e101ee9b9b16d81eecd513e6e9c38`.
+- Python CI run #45799693944 completed FAILURE.
+- Windows job #139839367102 and Ubuntu job #139839367744 both returned empty step arrays (`steps: []`) and `logs_url: null`.
+- Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. No checkout, compilation, or unit-test execution is evidenced. This is not evidence of an application-code test failure. Root cause remains UNVERIFIED. No dispatch/retry was initiated.
+- Repository unit suite remains NOT RUN from a controlled local environment. The 6/6 source-level isolated harness result remains limited evidence only.
