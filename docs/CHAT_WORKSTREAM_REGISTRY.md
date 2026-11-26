@@ -3528,3 +3528,13 @@ Keep this work and all parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/
 - Classification: CI_FAILURE / EXECUTION_NOT_ESTABLISHED. Exact-head run supplies no evidence checkout, compilation, or tests started; it is not an application test failure. Root cause UNVERIFIED.
 - Report: `docs/ARO_CHAT_0381_PR405_EXACT_HEAD_CI_AUDIT.md`. Documentation-only; no production code/tests/workflow YAML changed.
 - Repository tests NOT RUN; hosted execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1/P0 NOT COMPLETE. No retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## Latest P0 continuation handoff — ARO-CHAT-0382 | PR #406 exact-head CI execution audit (2026-11-26)
+
+- Continue from draft PR #406 exact head `3899f034d803b629df65f716a6fa97eab1e1e641` on child branch `workstream/aro-chat-0382-pr406-exact-head-ci-failure-audit-2026-11-26`; preserve PR #406 -> #405 -> #404 -> #403 -> #402 -> #401 -> #400 -> #399.
+- Exact-head Python CI run #45803605172 (run 2595) completed FAILURE. Windows job #139852915564 and Ubuntu job #139852916033 reported no steps/logs; direct step lookups returned empty arrays and job-log retrieval returned 404 / BlobNotFound. Combined commit status returned zero entries.
+- Classification: CI_FAILURE / EXECUTION_NOT_ESTABLISHED. No evidence checkout, compilation, or tests started; this is not an application test failure. Root cause UNVERIFIED. Actions timing/billable data NOT VERIFIED for this run.
+- Documentation-only report: `docs/ARO_CHAT_0382_PR406_EXACT_HEAD_CI_AUDIT.md`. No production code, tests, or workflow YAML changed.
+- Repository suite NOT RUN; hosted Ubuntu/Windows execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1 and P0 NOT COMPLETE.
+- No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Keep this PR and parents OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live publishing disabled.
