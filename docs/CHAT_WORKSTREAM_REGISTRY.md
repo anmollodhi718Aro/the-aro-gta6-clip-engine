@@ -2358,3 +2358,13 @@ ARO-CHAT-0304 attribution/fixture note: production commit `3204190a41814b73b2685
 - Snapshot verification now counts bytes read and requires exact equality with the stable snapshot size before accepting the persisted digest. Early EOF fails closed and triggers identity-checked cleanup of this invocation's snapshot.
 - Commits: production `b32a09b3fab2f7d48d75d468380f891ee3d22fa6`; regression `7c6ba4eb8714c6c2bdbf14fef6a28577e6ac423f`; operator docs `29492b0ba9e3acb115d2ef7512b62d1e5aa0562c`.
 - Tests NOT RUN. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized media processed. PR #386 remains OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, upload, publishing, or deployment. Issue #68 remains deferred.
+
+## ARO-CHAT-0305 — candidate output validation before source hashing
+
+- Static review found candidate-CSV mode hashed the entire selected video after reserving the RUNNING report but before checking whether the output destination was already invalid. This caused avoidable full-source I/O for an existing output, symlink, invalid extension, or source/output alias.
+- Candidate mode now validates the selected output destination immediately after durable report reservation and before source hashing. Invalid destinations become terminal FAIL reports without reading media bytes or invoking the renderer; existing output bytes are preserved.
+- Trusted inventory SHA-256 verification remains mandatory before FFprobe/rendering when the destination is valid. The renderer repeats its own output validation.
+- Added regression `test_candidate_cli_rejects_existing_output_before_hashing_source`.
+- Commits: production `d570401b19f8a0674e736815f298d02b925a36e4`; regression `09ea69e31d3b461f27942eb6ce1eb051bd8072e8`; operator docs `95c132cfd85739918c184b19fab074aefac6a9d5`; report `066e9483994d34c0d5ed69a958b91800dfe5ac66`.
+- Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; real authorized MP4 NOT PROCESSED. Do not claim the regression passed.
+- Continue on existing PR #386 / branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`. Preserve OPEN/DRAFT/UNMERGED state and ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
