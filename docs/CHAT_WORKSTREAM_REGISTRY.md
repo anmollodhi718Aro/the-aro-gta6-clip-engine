@@ -2589,3 +2589,14 @@ Production commit: `3dd984e568145ce41abd52fc07352d40ff4f59ea`; regression commit
 - Added platform-gated regression coverage for POSIX parent-directory synchronization and Windows no-op behavior.
 - Tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0317 — isolate candidate CSV overflow sentinel
+
+- Workstream: ARO-GTA-P1-317; continued existing draft PR #386 and its existing branch; no new branch or PR.
+- Static review found that the strict CSV parser used the literal string `__aro_extra_fields__` as DictReader's overflow-cell key. A valid CSV with a user column of the same name collided with that key and was rejected as malformed.
+- The parser now uses a unique object as its internal overflow key, preserving ordinary user columns while still rejecting actual extra cells.
+- Added `tests/test_candidate_csv_reserved_header.py` covering both a valid reserved-looking header and true overlong-row rejection.
+- Report: `docs/ARO_CHAT_0317_CANDIDATE_CSV_OVERFLOW_SENTINEL_COLLISION.md`.
+- Tests NOT RUN locally; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
