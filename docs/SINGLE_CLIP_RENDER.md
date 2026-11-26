@@ -385,3 +385,8 @@ Do not overwrite or delete it automatically. Inspect the primary report,
 the named fallback sidecar, and any possible rendered output before retrying.
 A failure before exclusive creation succeeds is reported separately and does
 not claim that this invocation created the fallback.
+
+
+### Snapshot directory-entry durability
+
+After writing, flushing, and fsyncing the private source snapshot file, the renderer now fsyncs its parent directory on POSIX systems before treating the snapshot as ready for read-back verification and media-tool use. This persists the newly created directory entry as well as the file contents across a host crash. Windows retains the documented file-level fsync behavior because portable Python directory-handle fsync is not available there.
