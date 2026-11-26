@@ -2115,3 +2115,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Exact-head Python CI run #45803428937 (run 2580) completed FAILURE. Windows job #139852311547 and Ubuntu job #139852311065 exposed no steps/logs; direct step lookups empty; log retrieval 404 / BlobNotFound. Timing run_duration_ms=4000; billable WINDOWS/UBUNTU total_ms=0.
 - Classification CI_FAILURE / EXECUTION_NOT_ESTABLISHED. No evidence checkout, compile, or tests started. Root cause UNVERIFIED; do not call this an application test failure.
 - No workflow dispatch/retry, workflow edits, production code edits, merge, rebase, retarget, deployment, credentials, real media, upload, or publishing. Repository suite NOT RUN; hosted test execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1 and P0 NOT COMPLETE. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0382 current continuation — 2026-11-26
+
+- Continue from PR #406 exact head `3899f034d803b629df65f716a6fa97eab1e1e641` on child branch `workstream/aro-chat-0382-pr406-exact-head-ci-audit-2026-11-26`; preserve PR #406 -> #405 -> #404 -> #403 -> #402 -> #401 -> #400 -> #399 ancestry.
+- Latest inspected exact-head run #45803692099 failed in ~3 seconds. Windows job #139853219207 and Ubuntu job #139853219475 had no exposed steps or logs; direct step lookups were empty and log retrieval returned 404 / BlobNotFound. Timing shows zero billable milliseconds for both jobs.
+- Check-run metadata reports one annotation per job; annotation content remains NOT INSPECTED. Root cause remains UNVERIFIED. Classify as CI_FAILURE / EXECUTION_NOT_ESTABLISHED, not an application test failure.
+- Next safe action: owner/repository-admin inspects GitHub Actions settings, billing/usage, service notices, and check-run annotations. Do not dispatch/retry workflows without explicit owner approval. Do not change CI workflow configuration to mask the runner-allocation issue.
+- Keep PR #406 and this child OPEN / DRAFT / UNMERGED. Repository tests, hosted Ubuntu/Windows execution, synthetic FFmpeg E2E, independent review, owner-device Windows, and authorized GTA 6 MP4 processing remain NOT VERIFIED. Stage 1 and P0 remain NOT COMPLETE. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; no OAuth, credentials, real media, upload, or publishing.
