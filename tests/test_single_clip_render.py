@@ -55,6 +55,27 @@ class SingleClipRenderTests(unittest.TestCase):
                 sha256_selected_source(self.source)
 
 
+    def test_snapshot_cleanup_failure_is_reported_as_created_unverified(self):
+        with patch(
+            "backend.app.single_clip_render.os.read", return_value=b""
+        ), patch.object(
+            Path, "unlink", side_effect=PermissionError("simulated cleanup denial")
+        ), patch(
+            "backend.app.single_clip_render.render_clip"
+        ) as render:
+            report = render_selected_clip(
+                self.source, self.output, 1, 5,
+                execute=True, rights_confirmed=True,
+            )
+
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(report["source_snapshot_created"])
+        self.assertFalse(report["source_snapshot_verified"])
+        self.assertTrue(report["source_snapshot_cleanup_required"])
+        self.assertIsNone(report["source_sha256"])
+        self.assertIn("partial source snapshot may remain", report["message"])
+        render.assert_not_called()
+
     def test_snapshot_creation_checks_expected_digest_of_copied_bytes(self):
         expected = hashlib.sha256(self.source.read_bytes()).hexdigest()
         snapshot = self.root / "snapshot.mp4"
