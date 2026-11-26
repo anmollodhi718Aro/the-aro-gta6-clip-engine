@@ -417,3 +417,16 @@ python -m scripts.synthetic_single_clip_smoke
 ```
 
 The script creates an eight-second synthetic test pattern and tone, renders one four-second segment through the production single-clip pipeline, and verifies the output report and SHA-256. All temporary media is removed automatically. It does not inspect or enumerate local user videos, use GTA 6 footage, or upload/publish. A PASS validates the synthetic software path only; it does not establish compatibility with an authorized GTA 6 recording or replace owner playback/review.
+
+
+
+
+### Smoke harness regression tests
+
+The smoke-test harness has focused unit coverage for missing FFmpeg handling, synthetic fixture command composition, exact selected interval and rights-confirmed execution, disabled upload/publishing flags, temporary artifact cleanup, and malformed output digest rejection. Run it with the repository suite:
+
+```bash
+python -m unittest tests.test_synthetic_single_clip_smoke
+```
+
+The harness requires the renderer's output digest to be exactly 64 lowercase hexadecimal characters. Unit-test coverage is separate from running the actual FFmpeg smoke test; both remain required evidence before marking the synthetic execution stage verified.
