@@ -3586,3 +3586,10 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Added a regression test using an unsupported object whose __str__ raises; it must return FAIL and never invoke FFprobe.
 - Tests NOT RUN in this connector session. Exact-head CI, FFmpeg E2E, owner-device Windows, independent review, and authorized GTA 6 media remain NOT VERIFIED.
 - Continue on PR #412 only; preserve parent #386 ancestry. Both remain OPEN / DRAFT / UNMERGED. No retry/dispatch, merge, rebase, retarget, OAuth, credential, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0387 — Path-subclass string conversion guard (2026-11-26)
+- Review found the earlier broken-string regression only covered arbitrary non-Path objects. A pathlib.Path subclass can override __str__; the initial selected_file label called str(video_path) before entering the guarded block, allowing an exception to escape rather than returning FAIL.
+- Initial reporting now uses a neutral <path> label for Path instances without invoking subclass string conversion. Path normalization and final display conversion remain inside the guarded validation path.
+- Added a regression using the platform's concrete Path type subclass with an intentionally failing __str__; it asserts FAIL and verifies FFprobe is not invoked.
+- Tests NOT RUN in this connector session. Exact-head CI and media E2E remain NOT VERIFIED. PR #412 stays OPEN / DRAFT / UNMERGED; parent #386 ancestry unchanged. No workflow retry, merge, deployment, upload, or publishing.
