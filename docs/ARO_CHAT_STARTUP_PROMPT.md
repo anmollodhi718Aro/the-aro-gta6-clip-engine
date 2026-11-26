@@ -1564,3 +1564,12 @@ Added a regression for FFmpeg synthetic-fixture generation timing out at the con
 ### Latest P0 continuation — ARO-CHAT-0335 (2026-11-26)
 
 Added a regression verifying that the synthetic output SHA-256 helper closes its open file descriptor when a read operation raises `OSError`. The production helper already closes the descriptor in a `finally` block, so production code was unchanged. Test commit `33d0ce67bf5f6fb6d86003a3e7953d371b0e1bec`; report `docs/ARO_CHAT_0335_SMOKE_VERIFIER_DESCRIPTOR_CLEANUP.md`; report commit `a4a661889e2b237c2b62bc826ce1dd2d6804766a`; registry commit `5ae815e098f0deae6eb25deba6c9e4f04899dbcd`. Local tests and synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED. Preserve PR #386 OPEN/DRAFT/UNMERGED and original branch/base. No workflow dispatch/retry, merge, rebase, retarget, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### Latest P0 handoff — ARO-CHAT-0335 (2026-11-26)
+
+- Continue on existing draft PR #386 and its original branch/base.
+- Added a regression for output pathname replacement after the verifier reads EOF but before its final path identity check. The verifier must reject the replaced output; original and replacement bytes are checked separately.
+- Test commit `0dc0e1836fdebd0331f534cda5797b89a59e8f2c`; report `docs/ARO_CHAT_0335_RENDERED_OUTPUT_POST_EOF_SWAP.md`; registry commit `dac3776e78e1a7a009ff5f1b63c1c6f1387bf55a`.
+- Production code unchanged. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED. No workflow dispatch/retry.
+- Authorized real GTA 6 MP4 acceptance remains blocked on owner-provided authorized media and permission handoff. Preserve PR #386 OPEN / DRAFT / UNMERGED; no merge/rebase/retarget/deploy/publish without owner approval.
