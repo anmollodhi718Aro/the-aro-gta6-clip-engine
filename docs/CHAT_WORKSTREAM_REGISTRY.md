@@ -3299,3 +3299,14 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Canonical report: `docs/ARO_CHAT_0363_WHITESPACE_CSV_HEADERS.md`, commit `6759f6ab943bd82373d289bdaf4862ae1bc75506`.
 - GitHub source read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0364 | Reject Malformed Trailing Candidate CSV Rows (2026-11-26)
+
+- Workstream: ARO-GTA-P0-364; continued on existing draft PR #386 and its original branch/base.
+- Serial-collision reconciliation: ARO-CHAT-0363 was already registered for whitespace-only candidate CSV header coverage. This trailing-row parser regression is uniquely ARO-CHAT-0364. The provisional `docs/ARO_CHAT_0363_STRICT_TRAILING_CSV_ROWS.md` remains a historical alias; no commit history was rewritten.
+- Added `tests/test_candidate_csv_strict_trailing_rows.py`. The fixture contains a valid selected first row followed by an unterminated quoted field in a later row. The regression requires the loader to reject the entire CSV with its structured read-error boundary.
+- Production code unchanged. Synthetic CSV text only; no media tools, real footage, credentials, upload, or publishing involved.
+- Test commit: `a5c609ae6608a77cfe1009f6f7792914306c76c8`; canonical report commit: `a2f817ac9befafee4e5f365c297c790992d21538`.
+- GitHub source read-back only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
