@@ -3074,16 +3074,11 @@ ARO-CHAT-0345 was already reserved by a concurrent continuation for the syntheti
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
 
 
-## ARO-CHAT-0348 | Structured CLI Failure and Cleanup on Synthetic Fixture Timeout (2026-11-26)
+### Superseded provisional attribution — synthetic fixture timeout regression (2026-11-26)
 
-- Workstream: ARO-GTA-P0-348; continued existing draft PR #386 on its original branch/base.
-- Added `test_main_emits_structured_failure_and_cleans_up_when_fixture_generation_times_out` to `tests/test_synthetic_single_clip_smoke.py`.
-- Injects `subprocess.TimeoutExpired` during synthetic FFmpeg fixture generation and exercises the CLI entry point. Requires exit code 1, parseable JSON FAIL, timeout detail, upload/publishing false, renderer not invoked, and temporary-directory cleanup.
-- Production code unchanged; existing `subprocess.SubprocessError` handler is expected to catch `TimeoutExpired`.
-- Regression test commit: `1e1313bbaaa25fb82f1d3abca3e9410c4dc8afd4`; canonical report: `docs/ARO_CHAT_0348_SYNTHETIC_FIXTURE_TIMEOUT_CLI_REGRESSION.md`; report commit: `987b271713208d9758fd1931a01fe734d7ad0e1a`.
-- Serial collision reconciliation: concurrent work reserved ARO-CHAT-0346 for the missing-output CLI regression and ARO-CHAT-0347 for unsafe smoke-renderer report guards. This timeout continuation is uniquely attributed to ARO-CHAT-0348 / ARO-GTA-P0-348. The provisional report alias `docs/ARO_CHAT_0347_SYNTHETIC_FIXTURE_TIMEOUT_CLI_REGRESSION.md` is retained as a historical alias only; no commit history was rewritten.
-- Static change/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
-- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+- This entry was initially labeled ARO-CHAT-0348, but concurrent work had already reserved that identity for the missing-output CLI regression.
+- The timeout regression is canonically registered as ARO-CHAT-0350 / ARO-GTA-P0-350 in the entry below.
+- Test commit `1e1313bbaaa25fb82f1d3abca3e9410c4dc8afd4` is retained. Provisional report `docs/ARO_CHAT_0348_SYNTHETIC_FIXTURE_TIMEOUT_CLI_REGRESSION.md` and earlier `0347` alias are historical aliases only; no commit history was rewritten.
 
 
 ## ARO-CHAT-0349 | Reject Renderer Reports That Enable Upload or Publishing (2026-11-26)
