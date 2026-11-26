@@ -1870,3 +1870,14 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Test commit: `f58ef01378b8b1fa8847c1ab653efa483d2456c1`; report commit: `21d2f4ad3122691b874c5c06e7c1aeeece854cfa`.
 - GitHub source writes only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0360 | Post-Read Fstat Descriptor Cleanup (2026-11-26)
+
+- Continue on existing draft PR #386 and original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added `tests/test_synthetic_smoke_post_read_fstat_cleanup.py` to inject an `OSError` on the post-read `os.fstat` call after the output hash reaches EOF; verify the exception propagates, the descriptor is closed, and output bytes remain unchanged.
+- Test commit: `a404ffaeb5d12a22ac51ee9d931d55b4558031d0`; report commit: `4c4f379bee80897191d2f105dfaf9f735a409f09`.
+- Production code unchanged; temporary synthetic files only; no FFmpeg/FFprobe process or real media used.
+- GitHub source write/read-back present. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
