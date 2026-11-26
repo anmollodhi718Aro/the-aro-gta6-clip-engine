@@ -3200,3 +3200,8 @@ ARO-CHAT-0345 was already reserved by a concurrent continuation for the syntheti
 - Production commit: `891df35f87e940453ab2be6b0880c844f31dacf8`; regression commit: `3d781618011096e50078c669afb523dcc9dfbed3`; initial report commit: `f5b74c295e0d6a37036c16863dc9b5fa5a52cb1a`; serial-reconciliation report commit: `5a17a910c4a4ef03520976d3e95019fd298ee88f`.
 - Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Serial-collision correction — CLI override regression (2026-11-26)
+
+The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically registered as ARO-CHAT-0352 / ARO-GTA-P0-352 in `docs/CHAT_WORKSTREAM_REGISTRY.md`, with canonical report commit `47a06e8749f71743429c048fefdfa0e300e42325`. A duplicate ARO-CHAT-0354 attribution was added by a concurrent continuation; it is superseded and retained only as the historical alias `docs/ARO_CHAT_0354_CLI_TOOL_OVERRIDE_FORWARDING.md`. ARO-CHAT-0354 is reserved for the source-inode race guard's concurrent workstream, subsequently reconciled to ARO-CHAT-0355. No history was rewritten; commits remain intact.
