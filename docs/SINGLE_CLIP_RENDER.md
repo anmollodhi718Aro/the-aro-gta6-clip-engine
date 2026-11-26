@@ -272,3 +272,7 @@ ASCII escaping so those path values are represented as valid UTF-8 JSON rather
 than raising an encoding error during the durable RUNNING or terminal report
 write. Reading the report with a JSON parser restores the original escaped
 string value. This does not change the selected path or media bytes.
+
+
+### ARO-CHAT-0308 — fallback regression trigger correction
+The end-to-end fallback regression injects a short write on the second write to the reserved primary report handle. The first write persists the RUNNING record; the second attempts the terminal report. This causes the test to exercise exclusive fallback-file creation instead of leaving the fallback path untested. This is test-only and does not change renderer or report-writing behavior. The test has not been run in this connector session.
