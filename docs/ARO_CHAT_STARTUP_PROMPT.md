@@ -1493,3 +1493,6 @@ ARO-CHAT-0322 follow-up: missing FFmpeg/FFprobe executable errors in `scripts/sy
 ### ARO-CHAT-0323 continuation
 
 Added focused unit coverage for the synthetic single-clip smoke harness and hardened its final digest check to require exactly 64 lowercase hexadecimal characters. See `tests/test_synthetic_single_clip_smoke.py`, `docs/ARO_CHAT_0323_SMOKE_HARNESS_TESTS.md`, and `docs/SINGLE_CLIP_RENDER.md`. Test commit `88077f513b6cc9e1fd7bcdfc54a31bc9b8ac5fdd`; production guard `63d73f3c411089e45d9a77d73f0a24b08bfbf8f7`; report `58b56165cf16a6ca9b410e61c0430ea2a783b60d`; operator guide `44628e284de2b898bb61bd1d6ad2fc8ecaa0597f`. Tests NOT RUN; exact-head CI NOT VERIFIED; authorized real MP4 NOT PROCESSED. Preserve PR #386 OPEN/DRAFT/UNMERGED; no workflow dispatch/retry, merge, rebase, retarget, upload, publishing or deployment.
+
+
+ARO-CHAT-0323 follow-up: corrected the digest-validation multiline condition in `scripts/synthetic_single_clip_smoke.py` (commit `d7c8aecfef971f0435591c5068bfb0a43d2daffc`). Re-read the source after correction. Unit tests NOT RUN; exact-head CI NOT VERIFIED; no workflow dispatch/retry. Keep PR #386 OPEN/DRAFT/UNMERGED and preserve its existing base and ancestry.
