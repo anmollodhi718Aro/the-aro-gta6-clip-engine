@@ -3570,3 +3570,11 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 ### ARO-CHAT-0385 test-fixture correction (2026-11-26)
 - Follow-up review caught that `Path()` represents the current directory and is a valid `pathlib.Path` type, not an invalid argument type. Removed it from the invalid-type case table; actual Path objects remain exercised by the existing selected-file success tests. Production behavior unchanged.
 - Correction commit and read-back recorded below; tests NOT RUN in this connector session. Exact-head CI must be checked separately.
+
+
+### ARO-CHAT-0386 — FFmpeg render path argument validation (2026-11-26)
+- Static review found render_clip constructed Path(input_path) and Path(output_path) without validating caller types or blank strings. Values such as None, integers, containers, or whitespace could leak incidental TypeError or resolve as the current directory.
+- Added explicit non-empty string / pathlib.Path checks for both path arguments before filesystem access. Invalid values fail closed before FFmpeg invocation.
+- Added regression coverage for None, integer, list, dict, empty string, and whitespace-only string in both input and output positions; asserts subprocess is not called.
+- Tests NOT RUN in this connector session. Exact-head CI, FFmpeg E2E, owner-device Windows, independent review, and authorized GTA 6 media remain NOT VERIFIED.
+- Continue on existing PR #412; preserve parent #386 ancestry. Keep both OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
