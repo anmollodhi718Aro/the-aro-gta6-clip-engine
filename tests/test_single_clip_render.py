@@ -1960,9 +1960,9 @@ class SingleClipRenderTests(unittest.TestCase):
     def test_candidate_csv_rejects_malformed_quoting_even_after_selected_row(self):
         pack = self.root / "malformed-quoting.csv"
         pack.write_text(
-            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
-            "authorized-demo,1,5,4,True\\n"
-            '"unterminated,2,6,4,True\\n',
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\n"
+            "authorized-demo,1,5,4,True\n"
+            '"unterminated,2,6,4,True\n',
             encoding="utf-8",
         )
         with self.assertRaisesRegex(ValueError, "candidate CSV could not be read"):
@@ -1971,8 +1971,8 @@ class SingleClipRenderTests(unittest.TestCase):
     def test_candidate_csv_rejects_extra_cells_in_any_row(self):
         pack = self.root / "extra-cells.csv"
         pack.write_text(
-            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
-            "authorized-demo,1,5,4,True,unexpected\\n",
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\n"
+            "authorized-demo,1,5,4,True,unexpected\n",
             encoding="utf-8",
         )
         with self.assertRaisesRegex(ValueError, "more values than its header"):
@@ -1981,8 +1981,8 @@ class SingleClipRenderTests(unittest.TestCase):
     def test_candidate_csv_rejects_missing_cells_in_any_row(self):
         pack = self.root / "missing-cells.csv"
         pack.write_text(
-            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
-            "authorized-demo,1,5,4\\n",
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\n"
+            "authorized-demo,1,5,4\n",
             encoding="utf-8",
         )
         with self.assertRaisesRegex(ValueError, "missing required values"):
