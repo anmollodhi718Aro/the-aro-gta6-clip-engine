@@ -3431,3 +3431,9 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Ubuntu job #139938629974 and Windows job #139938630458 both failed in approximately 2–3 seconds. Both job records have `steps: null`, no logs URL, and no artifacts. Check-run metadata reports one annotation per job, but the connected fetch endpoint rejected the annotations URLs; annotation text is unavailable.
 - Classification remains `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`; root cause UNVERIFIED. No evidence checkout, compile, or tests ran. Do not infer an application-code failure.
 - No retry/dispatch initiated. Repository tests NOT RUN; synthetic FFmpeg E2E NOT RUN; review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. PR #412 and parent PR #386 remain OPEN / DRAFT / UNMERGED.
+
+
+### ARO-CHAT-0384 runner-assignment evidence follow-up — 2026-11-26
+- Raw GitHub job records for pull_request runs #45830244238 (PR #412 head `334d14fb6e23f5a725f3753b73cecaffacdd5145`), #45828457264 (PR #412 prior head), #45806122307 (PR #407), and #45813736851 (PR #407 retry attempt) all show Ubuntu and Windows jobs with `runner_id: 0`, empty runner names/groups, and no steps.
+- Latest PR #412 jobs: #139944807026 (Ubuntu) and #139944806116 (Windows). This supports that jobs were not assigned a runner; it does not identify why. Root cause remains UNVERIFIED. No checkout, compile, tests, or FFmpeg smoke execution is evidenced.
+- CI workflow configuration was read back and contains standard ubuntu-latest/windows-latest matrix jobs. No speculative workflow change or retry/dispatch was made. No production code/test change in this follow-up. Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED; all validation and owner-media gates remain incomplete.
