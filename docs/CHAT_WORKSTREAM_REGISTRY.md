@@ -2623,3 +2623,14 @@ ARO-CHAT-0317 commit follow-up: production `fcae628bff83b56cde510af16730a7b2f5a3
 - Commits: production `1ecba6c0de0d20ef019658e3ce64a8500b9fb254`; tests `87feece9b1cebe6d8bbc2e8b6ab03146eac499f9`; operator guide and task report follow.
 - Tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0318 — preserve partial terminal-fallback path evidence
+
+- Workstream: ARO-GTA-P1-318; continued existing draft PR #386 and its original branch/base.
+- Static review found that exclusive fallback creation could succeed, then a short write, flush, or file-level fsync could fail. The sidecar might remain partial or non-durable, while the caller received no exact path to inspect.
+- The fallback writer now tracks successful exclusive creation and includes the exact sidecar path in any subsequent write/flush/fsync error. It preserves the possible partial file and does not imply that no fallback was created. Pre-creation errors remain distinct.
+- Regression: `test_partial_terminal_fallback_write_reports_preserved_sidecar_path`.
+- Commits: production `a4be945cd3ba20558dbf26f88bc79d7859d4eaae`; regression `625c39443b87a4a8ab76154a8425450c4d664297`; fixture correction `6484d082b95a6e4ea09e06b54232f2f7438182e8`; operator docs `b026685d1b46619b813245aad1e1120ada83d96b`; report `f692f7a8393d85f9c2387e5fc96921295012d9e4`.
+- Tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
