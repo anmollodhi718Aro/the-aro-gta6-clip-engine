@@ -1613,5 +1613,78 @@ class SingleClipRenderTests(unittest.TestCase):
             load_selected_candidate(pack, 1)
 
 
+    def test_cli_terminal_fallback_uses_expanded_report_path(self):
+        report_argument = Path("~/expanded-terminal-report.json")
+        expanded_report = self.root / "expanded-terminal-report.json"
+        original_expanduser = Path.expanduser
+        original_open = Path.open
+
+        def expand_selected_report(path):
+            if path == report_argument:
+                return expanded_report
+            return original_expanduser(path)
+
+        class FailingWriteProxy:
+            def __init__(self, handle):
+                self.handle = handle
+                self.write_calls = 0
+
+            def __enter__(self):
+                self.handle.__enter__()
+                return self
+
+            def __exit__(self, *args):
+                return self.handle.__exit__(*args)
+
+            def __getattr__(self, name):
+                return getattr(self.handle, name)
+
+            def write(self, value):
+                self.write_calls += 1
+                if self.write_calls == 3:
+                    self.handle.write(value[:10])
+                    return 10
+                return self.handle.write(value)
+
+        def open_with_terminal_write_failure(path, *args, **kwargs):
+            handle = original_open(path, *args, **kwargs)
+            if path == expanded_report:
+                return FailingWriteProxy(handle)
+            return handle
+
+        def simulated_completed_render(*args, **kwargs):
+            self.output.write_bytes(b"completed render output")
+            return {
+                "status": "RENDERED",
+                "output_path": str(self.output),
+                "upload_performed": False,
+                "publishing_enabled": False,
+            }
+
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--start", "2", "--end", "8",
+            "--execute", "--confirm-rights",
+            "--output", str(self.output), "--report", str(report_argument),
+        ]
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.render_selected_clip",
+            side_effect=simulated_completed_render,
+        ), patch.object(Path, "expanduser", new=expand_selected_report), patch.object(
+            Path, "open", new=open_with_terminal_write_failure
+        ):
+            self.assertEqual(main(), 2)
+
+        self.assertEqual(self.output.read_bytes(), b"completed render output")
+        fallback_path = expanded_report.with_name(
+            expanded_report.name + ".terminal-fallback.json"
+        )
+        self.assertTrue(fallback_path.exists())
+        fallback = json.loads(fallback_path.read_text(encoding="utf-8"))
+        self.assertEqual(fallback["status"], "RENDERED")
+        self.assertFalse(fallback["upload_performed"])
+        self.assertFalse(fallback["publishing_enabled"])
+
+
 if __name__ == "__main__":
     unittest.main()
