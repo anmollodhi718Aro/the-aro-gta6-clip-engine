@@ -9,3 +9,8 @@
 - Tests NOT RUN in this connector session. Python source syntax was inspected but no repository runtime is available here. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; no workflow dispatch/retry was performed.
 - No real GTA 6 media processed. No upload, publishing, merge, rebase, retarget, or deployment.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and its original ancestry. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## Source correction
+
+The digest validation multiline condition was corrected to use a real Python line break. Commit: `d7c8aecfef971f0435591c5068bfb0a43d2daffc`. This is a syntax correction to the production smoke harness; tests remain NOT RUN and CI NOT VERIFIED.
