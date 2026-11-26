@@ -15,10 +15,10 @@
 
 ## Validation
 
-- GitHub source write/read-back: pending.
+- GitHub source read-back: PRESENT for the test and report. The test fixture was corrected after read-back to contain actual CRLF characters and an empty physical line, rather than literal backslash sequences.
 - Local focused unit test: NOT RUN in this connector session.
 - Full repository unit suite: NOT RUN.
-- Exact-head Ubuntu/hosted-Windows CI: NOT VERIFIED.
+- Exact-head workflow lookup for the initial PR head returned zero runs. The corrected current head has not yet produced an observed run; exact-head Ubuntu/hosted-Windows CI remains NOT VERIFIED.
 - Synthetic FFmpeg end-to-end: NOT RUN.
 - Independent review: NOT RECORDED.
 - Authorized real GTA 6 MP4: NOT PROCESSED.
