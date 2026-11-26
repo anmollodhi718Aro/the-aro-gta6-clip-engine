@@ -3540,3 +3540,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: `81881af011a3d2c55b2f139ed32f587489c7e196`; test commit: `be05b13e33376347b29ab8ffb09c889d9c925af9`.
 - Tests NOT RUN in this connector session; exact-head CI, synthetic FFmpeg E2E, owner-device Windows, independent review, and authorized real-media processing remain NOT VERIFIED.
 - PR #412 and parent PR #386 remain OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, upload, publishing, or deployment.
+
+
+### ARO-CHAT-0384 FFmpeg source-mutation guard (2026-11-26)
+- Static review found render_clip checked source device/inode before FFmpeg but did not detect in-place edits to the same file while FFmpeg was running. A stable inode does not prove stable media bytes.
+- The renderer now snapshots regular-file identity metadata (device, inode, size, mtime, ctime, and file type), checks it immediately before FFmpeg, and checks again after FFmpeg before publishing the staged output. A changed or missing source causes a fail-closed error and the staged output is discarded.
+- Added a regression test that edits the source in place during a mocked FFmpeg call and verifies no final output is published.
+- Production commit: f9d7315d997e0062dc1841c72575f43665f2d58a; test commit: e2659e8c8cc19a8c4498b9dcfdbc79ea2351bc3b.
+- Repository tests NOT RUN in this connector session; exact-head CI, synthetic FFmpeg E2E, owner-device Windows, independent review, and authorized real-media processing remain NOT VERIFIED. This metadata check narrows mutation risk but is not an OS-level immutable file lock.
+- Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
