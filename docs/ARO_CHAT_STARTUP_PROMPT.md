@@ -1345,3 +1345,8 @@ A static review of the expanded-report-path fallback regression found the failur
 
 ### Latest pipeline continuation — ARO-CHAT-0308 fixture correction
 The terminal-fallback regression now injects its partial write on the second write to the primary report handle, matching the actual CLI sequence (RUNNING reservation, then terminal report). This ensures the test reaches the fallback branch rather than passing without exercising it. Test-only commit: `ae96db84e0e466b6085b4b8ef55ddd6ac65bcc12`. Tests NOT RUN locally; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Continue on existing PR #386 and preserve its original base/ancestry and OPEN/DRAFT/UNMERGED state. No workflow retry/dispatch, real media, OAuth, credentials, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### Latest continuation — ARO-CHAT-0308
+
+Direct CLI bounds now reject NaN and positive/negative infinity before report reservation. Initial and terminal JSON serialization disables non-finite values, preventing Python's non-standard NaN/Infinity tokens from producing invalid JSON reports. Added a CLI regression covering all three non-finite forms, exit code 2, and no report/output creation. Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Continue on existing PR #386 and preserve its OPEN/DRAFT/UNMERGED state and ancestry. No workflow retry/dispatch, real media, OAuth, credentials, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
