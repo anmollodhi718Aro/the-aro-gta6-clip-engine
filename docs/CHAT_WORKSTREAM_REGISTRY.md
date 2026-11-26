@@ -3047,3 +3047,11 @@ Removed a duplicate `test_hash_verified_output_closes_descriptor_when_final_fsta
 - Production commit: `a6e08c80b2c34dfc9920e422a6b65ad96552abf2`; test commit: `b898a49f55769f531e7d9e6a21a4069899c03840`; report commit: `e2f2ad48daac9721d300a2e01dea3087ff553e96`.
 - Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN/DRAFT/UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+## ARO-CHAT-0345 | Reject unsafe synthetic smoke renderer reports (2026-11-26)
+
+- Workstream: ARO-GTA-P0-345; continued existing draft PR #386 on its original branch/base.
+- Added `tests/test_synthetic_smoke_safety_contract.py` with focused coverage for both unsafe renderer-report variants: `upload_performed: true` and `publishing_enabled: true`. Each case uses synthetic bytes with a matching SHA-256, expects fail-closed rejection, and verifies temporary-directory cleanup.
+- Production code unchanged. Test commit: `ca897cfe105a6ec636c7ca54b252c9b0cc9d3ec0`; report commit: `48b863d5fffacc5d6d5f25667f5c0c69369cdb08`.
+- Static source/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
