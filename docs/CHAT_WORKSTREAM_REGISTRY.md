@@ -2639,3 +2639,11 @@ ARO-CHAT-0317 commit follow-up: production `fcae628bff83b56cde510af16730a7b2f5a3
 ### Workstream serial collision reconciliation — 2026-11-26
 
 Two concurrent continuations independently used the provisional serial ARO-CHAT-0318 on the same PR #386 branch. The terminal-fallback partial-write task retains ARO-CHAT-0318 / ARO-GTA-P1-318. The candidate-media rights-gate task is canonically renumbered ARO-CHAT-0319 / ARO-GTA-P0-319. No commits were rewritten; the earlier file `docs/ARO_CHAT_0318_RIGHTS_GATE_BEFORE_CANDIDATE_HASH.md` is retained as a historical alias to the canonical ARO-CHAT-0319 report.
+
+
+## ARO-CHAT-0307 — persist snapshot directory entry
+- Review found source snapshot creation fsynced the completed file but did not fsync its parent directory on POSIX. File fsync alone does not guarantee the newly created directory entry is durable across sudden host failure.
+- Snapshot creation now calls the existing platform-aware `_fsync_parent_directory(snapshot)` after closing/fsyncing the file and before subsequent source stability/read-back acceptance. Windows retains file-level fsync as documented by the helper.
+- Added a regression asserting the parent-directory durability helper is called for the created snapshot.
+- Commits: production `4c7661f2b24dcef1e0938a11ccf6515d155d6092`; regression `99902b64660e383f5403caa95081eccd8c60b02a`; operator docs `713c2f7af95bc7672f84a4c07ccde41f53259113`.
+- Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized MP4 processed. PR #386 remains OPEN / DRAFT / UNMERGED; preserve its base and ancestry. No merge, rebase, retarget, workflow retry/dispatch, upload, publishing, or deployment. Issue #68 remains deferred.
