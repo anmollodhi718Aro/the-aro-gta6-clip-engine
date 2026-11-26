@@ -827,5 +827,44 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
         render.assert_not_called()
 
 
+    def test_smoke_harness_rejects_external_symlink_output_and_cleans_temporary_files(self):
+        with tempfile.TemporaryDirectory() as temp:
+            outside = Path(temp) / "external-target.mp4"
+            original_bytes = b"external file must remain untouched"
+            outside.write_bytes(original_bytes)
+            captured = {}
+
+            def generate_fixture(command, **kwargs):
+                source = Path(command[-1])
+                source.write_bytes(b"synthetic source recording")
+                captured["source"] = source
+                captured["directory"] = source.parent
+
+            def symlink_render(source, output, start, end, **kwargs):
+                output = Path(output)
+                try:
+                    output.symlink_to(outside)
+                except (OSError, NotImplementedError) as exc:
+                    raise unittest.SkipTest(f"symlink creation unavailable: {exc}")
+                captured["output"] = output
+                return {
+                    "status": "RENDERED",
+                    "output_sha256": hashlib.sha256(original_bytes).hexdigest(),
+                    "upload_performed": False,
+                    "publishing_enabled": False,
+                }
+
+            with patch.object(smoke.shutil, "which", side_effect=lambda name: f"/tools/{name}"), patch.object(
+                smoke.subprocess, "run", side_effect=generate_fixture
+            ), patch.object(smoke, "render_selected_clip", side_effect=symlink_render):
+                with self.assertRaisesRegex(RuntimeError, "regular non-symlink"):
+                    smoke.run_smoke_test()
+
+            self.assertEqual(outside.read_bytes(), original_bytes)
+            self.assertFalse(captured["source"].exists())
+            self.assertFalse(captured["output"].exists())
+            self.assertFalse(captured["directory"].exists())
+
+
 if __name__ == "__main__":
     unittest.main()
