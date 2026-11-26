@@ -944,8 +944,16 @@ def _write_exclusive_terminal_fallback(
 ) -> Path:
     """Persist a terminal report beside a damaged reservation without overwriting."""
     fallback_path = report_path.with_name(report_path.name + ".terminal-fallback.json")
-    fallback_resolved = fallback_path.resolve()
-    if any(fallback_resolved == protected.resolve() for protected in protected_paths):
+    try:
+        fallback_resolved = fallback_path.resolve()
+        protected_resolved = tuple(protected.resolve() for protected in protected_paths)
+    except (OSError, RuntimeError, ValueError) as exc:
+        # A malformed path or symlink loop must stay inside the fallback
+        # failure handler. Otherwise it escapes as a generic report error
+        # after rendering may already have completed, hiding the output-review
+        # warning from the operator.
+        raise OSError(f"terminal fallback path could not be validated safely: {exc}") from exc
+    if fallback_resolved in protected_resolved:
         raise OSError("terminal fallback path aliases the selected source or output path")
     with fallback_path.open("x", encoding="utf-8", newline="\n") as fallback:
         written = fallback.write(report_text)
