@@ -26,13 +26,13 @@ These tests mirror the existing regression cases in PR #395 and PR #392 respecti
 
 - GitHub writes: PRESENT for both test files and this report.
 - Local repository unit suite: NOT RUN in this connector session.
-- Isolated parser harness: NOT RUN yet.
-- Exact-head Ubuntu/hosted-Windows CI: NOT VERIFIED for this new head.
+- Isolated parser harness: PASS, 6/6 focused cases using the exact `_strict_candidate_csv_lines` and `load_selected_candidate` implementations read from this branch: duplicate headers rejected; escaped quote plus embedded LF/CRLF accepted; escaped quote/comma in optional header and row accepted; valid quoted required headers accepted; malformed quote inside unquoted header rejected; trailing text after closing quote rejected. This is a source-level isolated harness, not the repository's full unit suite.
+- Exact-head Ubuntu/hosted-Windows CI: NOT VERIFIED; workflow lookup for this new head returned zero runs.
 - Synthetic FFmpeg end-to-end: NOT RUN.
 - Independent review: NOT RECORDED.
 - Owner-device Windows: NOT VERIFIED.
 - Authorized real GTA 6 MP4: NOT PROCESSED.
-- Stage 1 CSV parser regression implementation: CONSOLIDATED IN THIS BRANCH; validation gates remain OPEN.
+- Stage 1 CSV parser regression implementation: CONSOLIDATED IN THIS BRANCH; six focused source-level harness cases PASS. Full repository unit suite and exact-head CI remain OPEN.
 - P0 pipeline: NOT COMPLETE.
 
 ## Safety and ancestry
