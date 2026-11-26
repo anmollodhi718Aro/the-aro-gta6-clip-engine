@@ -20,7 +20,7 @@ Added `test_smoke_harness_rejects_output_hardlinked_to_source`. The test creates
 
 ## Verification
 
-- Source and test changes were written to the existing PR branch and read-back verification is pending.
+- Source, test, registry, and startup handoff were read back successfully from the existing PR branch. Final handoff commit at this point: `f2b224af8cd7ab7afbd3aba7d8e1d916b4151c8c`.
 - Unit tests: NOT RUN.
 - Synthetic FFmpeg end-to-end: NOT RUN.
 - Exact-head Ubuntu / hosted-Windows CI: NOT VERIFIED.
