@@ -31,6 +31,8 @@ def _strict_candidate_csv_lines(handle):
     state = "field_start"
     for line in handle:
         for character in line:
+            if character == "\x00":
+                raise csv.Error("NUL character found in candidate CSV")
             if state == "field_start":
                 if character == '"':
                     state = "quoted"
