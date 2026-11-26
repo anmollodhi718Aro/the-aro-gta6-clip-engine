@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections import Counter
+import math
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 
@@ -21,8 +22,18 @@ class DetectorConfig:
     def __post_init__(self) -> None:
         if self.window_seconds <= 0 or self.baseline_windows <= 0:
             raise ValueError("window_seconds and baseline_windows must be positive")
-        if self.spike_multiplier <= 0 or self.min_messages <= 0:
-            raise ValueError("spike_multiplier and min_messages must be positive")
+        try:
+            multiplier_is_finite = math.isfinite(self.spike_multiplier)
+        except (TypeError, OverflowError):
+            multiplier_is_finite = False
+        if (
+            isinstance(self.spike_multiplier, bool)
+            or not multiplier_is_finite
+            or self.spike_multiplier <= 0
+        ):
+            raise ValueError("spike_multiplier must be a finite positive number")
+        if self.min_messages <= 0:
+            raise ValueError("min_messages must be positive")
         if self.pre_roll_seconds < 0 or self.post_roll_seconds < 0:
             raise ValueError("clip padding cannot be negative")
 
