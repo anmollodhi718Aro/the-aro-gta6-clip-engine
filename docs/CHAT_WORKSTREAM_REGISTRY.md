@@ -3096,3 +3096,14 @@ ARO-CHAT-0345 was already reserved by a concurrent continuation for the syntheti
 - ARO-CHAT-0347 and ARO-CHAT-0348 were already allocated by concurrent work. Earlier misnumbered aliases are marked superseded; this task is uniquely registered as ARO-CHAT-0349. No history rewritten.
 - Static edit/read-back only. Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN/DRAFT/UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0349 — structured CLI failure on overflow (2026-11-26)
+
+- Continued existing draft PR #386 on its original branch/base; workstream ARO-GTA-P0-349.
+- Added `OverflowError` to the synthetic smoke CLI's expected operational exception boundary so overflow becomes structured JSON `FAIL`, exit code 1, with upload/publishing false.
+- Regression: `test_main_emits_structured_failure_for_overflow`.
+- Production commit: `a6e08c80b2c34dfc9920e422a6b65ad96552abf2`; test commit: `b898a49f55769f531e7d9e6a21a4069899c03840`; report: `docs/ARO_CHAT_0349_STRUCTURED_CLI_OVERFLOW_FAILURE.md`.
+- ARO-CHAT-0345 through ARO-CHAT-0348 were already assigned to concurrent continuations; this task is uniquely registered as 0349. Existing implementation/test commits are retained.
+- Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN/DRAFT/UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
