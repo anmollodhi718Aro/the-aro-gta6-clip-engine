@@ -1528,3 +1528,11 @@ The CI workflow installs FFmpeg on Ubuntu and Windows, compiles `scripts`, runs 
 ### Latest P0 continuation — ARO-CHAT-0329 (2026-11-26)
 
 Continue on existing draft PR #386 and its original branch/base. CI installs FFmpeg on Ubuntu and Windows, compiles `scripts`, runs the full unit suite, and invokes `python -m scripts.synthetic_single_clip_smoke` on both hosted OS jobs. The digest-mismatch fixture returns a valid-format but incorrect all-zero SHA-256; later smoke-test continuations retain this corrected behavior. Workflow commit `2437e2e9590065c92e574dd917f33b80faf343a0`; test fixture correction `b403cfd3b641ef3f717536151ef1012fa1046009`; report `docs/ARO_CHAT_0329_SYNTHETIC_SMOKE_CI.md`; report commit `9c6fc074698de8737cb7a7c0388383ef50b50075`; registry/reconciliation commit `1264905c5d36187bfaa5dca9fa0b2bb61819a167`. A serial collision was reconciled: stable output identity remains ARO-CHAT-0327, malformed renderer-report guard remains ARO-CHAT-0328, and this CI/digest-fixture task is ARO-CHAT-0329. Local tests and actual synthetic FFmpeg smoke NOT RUN. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED. Preserve PR #386 OPEN/DRAFT/UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## Latest continuation handoff — ARO-CHAT-0330 (2026-11-26)
+
+- Existing P0 draft PR #386 and its original branch/base remain the sole continuation target.
+- ARO-CHAT-0330 added a regression proving that the synthetic output verifier rejects in-place content mutation during hashing. Test commit: `7fc932930afa93c6a32844e1b13a5c6e9e6d4064`; report: `docs/ARO_CHAT_0330_SMOKE_OUTPUT_MUTATION_GUARD.md`.
+- Tests were NOT RUN in the connector session; synthetic FFmpeg execution and exact-head Ubuntu/Windows CI are NOT VERIFIED. Do not claim otherwise.
+- Real authorized GTA 6 MP4 acceptance remains blocked on the owner's authorized media and permission handoff. Keep PR #386 OPEN / DRAFT / UNMERGED; do not dispatch/retry workflows or merge/rebase/retarget/deploy/publish without owner approval.
