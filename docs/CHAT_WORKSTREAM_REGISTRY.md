@@ -2730,3 +2730,13 @@ Regression tests cover a real pathname replacement against an open descriptor, f
 - Commits: CI workflow `2437e2e9590065c92e574dd917f33b80faf343a0`; test correction `b403cfd3b641ef3f717536151ef1012fa1046009`; report `47c24652a4c93ff8a31c713bf67fe9d249e7fce6`.
 - Local unit tests NOT RUN; actual synthetic FFmpeg smoke NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0326 — verify temporary artifact cleanup on smoke failure (2026-11-26)
+
+- Continued existing P0 draft PR #386 and original branch/base; no duplicate PR or branch.
+- Added a regression that captures the synthetic source, rendered output, and temporary directory, then forces the independent output-digest comparison to fail with a well-formed incorrect digest. The test asserts all temporary artifacts and the directory are removed after failure.
+- Production behavior is unchanged; `TemporaryDirectory` remains the cleanup mechanism.
+- Test commit: `2a56ea419ce7bfe76c714e1f400f3f4ebf9f9ef7`; report: `docs/ARO_CHAT_0326_SMOKE_FAILURE_CLEANUP.md`.
+- Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; public publishing stays disabled.
