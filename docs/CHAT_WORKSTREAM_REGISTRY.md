@@ -2440,3 +2440,14 @@ ARO-CHAT-0306 test-fixture correction: the regression now constructs an actual s
 - Corrected `test_cli_terminal_fallback_uses_expanded_report_path` to inject the partial terminal-report write on the second write to the primary report handle. The CLI performs two writes to that handle: the initial RUNNING reservation and the terminal report. The previous third-write trigger never reached the fallback path.
 - Test-only commit: `ae96db84e0e466b6085b4b8ef55ddd6ac65bcc12`.
 - Production behavior unchanged. Tests NOT RUN locally in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real media, OAuth, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0308 — reject non-finite clip bounds and JSON values
+
+- Static review found that Python argparse accepts `nan`, `inf`, and `-inf` as floats. These values could enter initial and terminal reports, where Python's default JSON encoder emits non-standard `NaN` / `Infinity` tokens that strict JSON parsers reject.
+- The CLI now rejects non-finite direct clip bounds before report reservation or media inspection. Initial and terminal report serialization also uses `allow_nan=False` as a second fail-closed boundary.
+- Added `test_cli_rejects_non_finite_clip_bounds_before_report_reservation`, covering NaN, positive infinity, and negative infinity with assertions for exit code 2, no report, and no output.
+- Workstream: ARO-GTA-P1-308; existing PR #386 and branch reused. No duplicate branch or PR.
+- Report: `docs/ARO_CHAT_0308_FINITE_JSON_REPORTS.md`; operator guide updated.
+- Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED. Independent review NOT RECORDED. No real authorized media processed.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and its existing base/ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
