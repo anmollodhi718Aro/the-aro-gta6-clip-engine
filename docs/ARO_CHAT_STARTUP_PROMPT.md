@@ -1633,3 +1633,14 @@ Recorded exact-head Actions run #45771573052 for PR #386 head `bac9be9e34c2ed62c
 - Test commit: `ef679a607e9a97a1ead6944f6b7720706a86f07c`; report commit: `54d6a373ca67a0f188eee3a109627ab293121278`; registry commit: `0a1450298e47685884a3f25367de6968b9981448`.
 - Static review only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN/DRAFT/UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## Latest P0 handoff — ARO-CHAT-0342 (2026-11-26)
+
+- Exact title: `ARO-CHAT-0342 | Guard Final-Lstat Regression Test Discovery`.
+- Workstream: ARO-GTA-P0-342; continue on existing draft PR #386 and its original branch/base `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Starting head: `392d74f8e9001d22528a0ef323061424ed36c5d2`.
+- Added an AST regression requiring `test_hash_verified_output_closes_descriptor_when_final_lstat_fails` to be defined exactly once directly on `SyntheticSingleClipSmokeTests`. This protects the unittest discovery correction from ARO-CHAT-0340; production code unchanged.
+- Test commit: `ce4c81a7103c0ec4489a3add15a446f433798701`; report commit: `33e50978b11d6960e1533bb1561f08975a69ef43`; registry commit: `cf7ef8c86783340dc7f655b340d231cdf8546fdb`.
+- Static source review only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
