@@ -12,7 +12,7 @@ ARO-CHAT-0305 owns the production fix that passes the expanded report path to th
 
 ## Change
 
-- Added `test_cli_terminal_fallback_uses_expanded_report_path`.
+- Added `test_cli_terminal_fallback_persists_file_at_expanded_report_path`.
 - The test supplies a home-relative report argument, maps expansion into an isolated temporary directory, injects a partial terminal-report write, and verifies the fallback JSON is persisted beside the expanded report.
 - The test also verifies the completed output bytes remain intact and the fallback records `RENDERED` with upload and publishing disabled.
 - No production behavior changed in this continuation.
