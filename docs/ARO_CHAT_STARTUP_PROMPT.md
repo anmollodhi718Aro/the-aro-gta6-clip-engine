@@ -1658,3 +1658,13 @@ Recorded exact-head Actions run #45771573052 for PR #386 head `bac9be9e34c2ed62c
 ### Serial collision reconciliation — 2026-11-26
 
 A concurrent continuation used ARO-CHAT-0342 / ARO-GTA-P0-342 for the empty synthetic-output regression (`docs/ARO_CHAT_0342_EMPTY_SYNTHETIC_OUTPUT_REGRESSION.md`). This chat's final-lstat discovery guard is uniquely reassigned to ARO-CHAT-0343 / ARO-GTA-P0-343. Existing commits were retained; no history was rewritten. Registry reconciliation commit: `bd4b2218255dec3dd0c69220ee6c74c6fc6f8a52`; relabeled report commit: `51a7dc4b3967d10023be151376f1e373bd948db0`.
+
+
+
+### Latest P0 continuation — ARO-CHAT-0342 (2026-11-26)
+
+- Added a fail-closed empty-output invariant to `scripts/synthetic_single_clip_smoke.py::_hash_verified_output`: a zero-byte file is rejected after stable descriptor/path identity and byte-count checks.
+- Added `test_hash_verified_output_rejects_empty_file` in `tests/test_synthetic_single_clip_smoke.py`.
+- Production commit: `62cb5921de1cdc157dc47bdeef121a99dd3f5074`; test commit: `23111b2d5b9e4a3810b76eb2a6633c2cdf1863f6`; report commit: `d411bac77591a24aa9eeabf440ef81fa778666a2`; registry commit: `90f949421569bd7bc2743d5a45480f29eacc10ab`.
+- Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
