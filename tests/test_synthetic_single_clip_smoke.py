@@ -232,6 +232,14 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
             self.assertEqual(size, len(payload))
 
 
+    def test_hash_verified_output_rejects_empty_file(self):
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / "empty.mp4"
+            output.write_bytes(b"")
+            with self.assertRaisesRegex(RuntimeError, "synthetic output is empty"):
+                smoke._hash_verified_output(output)
+
+
     def test_hash_verified_output_rejects_in_place_mutation_during_read(self):
         with tempfile.TemporaryDirectory() as temp:
             output = Path(temp) / "output.mp4"
