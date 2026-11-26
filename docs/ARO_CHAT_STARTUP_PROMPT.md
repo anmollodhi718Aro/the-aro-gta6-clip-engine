@@ -1780,3 +1780,19 @@ Continue on existing draft PR #386 and its original branch/base: `workstream/aro
 - Production code unchanged. Test commit: `6581ecb3d9431868667b61820e5dafde8dd7f7e6`; canonical report commit: `75e2c997fbe3875224c5efa0e2c114a51a647893`. Registry commit: `f18c517c47d50096cdbaf7ad07a02637f68964bb`.
 - Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0352 (2026-11-26)
+
+Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+
+Added `test_smoke_harness_rejects_external_symlink_output_and_cleans_temporary_files` to `tests/test_synthetic_single_clip_smoke.py`. The fake renderer returns an otherwise plausible RENDERED report while making the output path a symbolic link to an unrelated external file. The harness must reject the output as non-regular/non-symlink and clean its temporary workspace without modifying the external target.
+
+- Workstream: ARO-GTA-P0-352.
+- Test commit: `a75d9f93db64cbb9463f990930ca6cfa99b8b0b8`.
+- Canonical report: `docs/ARO_CHAT_0352_EXTERNAL_SYMLINK_SMOKE_GUARD.md`.
+- Registry commit: `924e88d14825eecadf1fbe0b618f23ce54efd829`.
+- The provisional ARO-CHAT-0351 attribution collided with concurrent work; canonical attribution is 0352. Historical alias retained; no history rewritten.
+- Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+
+Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
