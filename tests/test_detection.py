@@ -157,6 +157,32 @@ class DetectionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "conflicting duplicate"):
             detect_chat_spikes([event, conflict], self.permission, self.config)
 
+    def test_permission_time_boundaries_are_half_open(self) -> None:
+        permission = PermissionRecord(
+            source_id="sample-stream",
+            granted_by="test-creator",
+            scopes=frozenset({"analyze_chat"}),
+            granted_at=self.start,
+            expires_at=self.start + timedelta(seconds=30),
+            revoked_at=self.start + timedelta(seconds=20),
+        )
+        self.assertFalse(permission.allows("analyze_chat", self.start - timedelta(microseconds=1)))
+        self.assertTrue(permission.allows("analyze_chat", self.start))
+        self.assertTrue(permission.allows("analyze_chat", self.start + timedelta(seconds=19, microseconds=999999)))
+        self.assertFalse(permission.allows("analyze_chat", self.start + timedelta(seconds=20)))
+        self.assertFalse(permission.allows("analyze_chat", self.start + timedelta(seconds=30)))
+
+    def test_permission_expires_at_exact_boundary(self) -> None:
+        permission = PermissionRecord(
+            source_id="sample-stream",
+            granted_by="test-creator",
+            scopes=frozenset({"analyze_chat"}),
+            granted_at=self.start,
+            expires_at=self.start + timedelta(seconds=10),
+        )
+        self.assertTrue(permission.allows("analyze_chat", self.start + timedelta(seconds=9, microseconds=999999)))
+        self.assertFalse(permission.allows("analyze_chat", self.start + timedelta(seconds=10)))
+
     def test_rejects_revoked_permission(self) -> None:
         revoked = PermissionRecord(
             source_id="sample-stream",
