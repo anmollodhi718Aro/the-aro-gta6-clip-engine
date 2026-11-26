@@ -41,3 +41,9 @@ Candidate-CSV mode computed the selected media SHA-256 before reserving the excl
 - Preserve its existing base and ancestry; no merge, rebase, retarget, or integration.
 - No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, or deployment.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live uploads and public publishing remain disabled.
+
+
+## Attribution correction
+The production and initial regression commit messages were authored with the provisional serial ARO-CHAT-0303 before the live registry tail was inspected. The registry already contained two ARO-CHAT-0303 entries, so this workstream is canonically attributed to the next available serial, ARO-CHAT-0304 / ARO-GTA-P1-304. The commit SHAs above are unchanged; this note prevents the commit-message typo from being treated as a duplicate workstream reservation.
+
+- Regression fixture line-ending correction: `61fb472779f39539c9a817af2e8f01290fc1df6c`.
