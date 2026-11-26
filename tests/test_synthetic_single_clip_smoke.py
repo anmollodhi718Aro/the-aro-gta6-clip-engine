@@ -610,6 +610,37 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
         self.assertFalse(payload["artifacts_retained"])
 
 
+    def test_main_emits_structured_failure_when_renderer_reports_missing_output(self):
+        import contextlib
+        import io
+        import json
+        import sys
+
+        def fake_render(source, output, start, end, **kwargs):
+            # Deliberately claim success without creating the requested artifact.
+            return {
+                "status": "RENDERED",
+                "output_sha256": hashlib.sha256(b"plausible but absent output").hexdigest(),
+                "upload_performed": False,
+                "publishing_enabled": False,
+            }
+
+        stderr = io.StringIO()
+        with patch.object(smoke.shutil, "which", side_effect=lambda name: f"/tools/{name}"), patch.object(
+            smoke.subprocess, "run"
+        ), patch.object(smoke, "render_selected_clip", side_effect=fake_render), patch.object(
+            sys, "argv", ["synthetic_single_clip_smoke.py"]
+        ), contextlib.redirect_stderr(stderr):
+            exit_code = smoke.main()
+
+        self.assertEqual(exit_code, 1)
+        payload = json.loads(stderr.getvalue())
+        self.assertEqual(payload["status"], "FAIL")
+        self.assertIn("synthetic output is missing", payload["error"])
+        self.assertFalse(payload["upload_performed"])
+        self.assertFalse(payload["publishing_enabled"])
+
+
 
 if __name__ == "__main__":
     unittest.main()
