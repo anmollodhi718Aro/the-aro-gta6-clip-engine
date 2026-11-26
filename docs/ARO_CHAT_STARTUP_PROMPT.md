@@ -1922,3 +1922,14 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Serial reconciliation: ARO-CHAT-0363 is reserved for whitespace-only candidate CSV header coverage; this task is uniquely ARO-CHAT-0364. The provisional `docs/ARO_CHAT_0363_STRICT_TRAILING_CSV_ROWS.md` is a historical alias.
 - GitHub source writes/read-back only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0363 | Unicode Whitespace Candidate CSV Header (2026-11-26)
+
+- Continue on existing draft PR #386 and original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added `test_rejects_unicode_whitespace_only_header_cell` to `tests/test_candidate_csv_blank_headers.py`. A synthetic CSV header containing a non-breaking space (U+00A0) must be rejected by the existing blank/duplicate-header validation.
+- Production code unchanged; temporary CSV fixture only; no FFmpeg/FFprobe process or media used.
+- Test commits: `040a8b0423180c82f987ac1815f78a8dfe61423a` (initial addition) and `2be4e4a5d28124bcaeeb079fb9c0ed7c586925ab` (fixture newline correction).
+- Report commit: `4a9cd18605dde4b56435f712c46b6d165d035a7a`; registry commit: `ffc9725b35b489ffb8922f0156b66dba4b7b2d8d`.
+- GitHub source writes only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
