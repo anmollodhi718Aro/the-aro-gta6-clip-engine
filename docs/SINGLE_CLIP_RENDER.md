@@ -430,3 +430,8 @@ python -m unittest tests.test_synthetic_single_clip_smoke
 ```
 
 The harness requires the renderer's output digest to be exactly 64 lowercase hexadecimal characters. Unit-test coverage is separate from running the actual FFmpeg smoke test; both remain required evidence before marking the synthetic execution stage verified.
+
+
+### Smoke harness failure-path tests
+
+The focused smoke-harness test module also checks that a missing FFprobe stops before fixture generation, missing FFmpeg produces structured JSON `FAIL` output from the CLI, and FFmpeg fixture-generation errors cannot be mistaken for a successful smoke run. Run with `python -m unittest tests.test_synthetic_single_clip_smoke`. These tests have been added but were not executed in the connector session.
