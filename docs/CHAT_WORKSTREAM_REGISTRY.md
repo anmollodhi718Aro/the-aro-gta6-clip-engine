@@ -2340,3 +2340,6 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Workstream: `ARO-GTA-P1-304`; existing PR #386 and existing branch reused; no duplicate branch or PR created.
 - Local tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Real authorized media NOT PROCESSED / NOT VERIFIED.
 - PR #386 remains OPEN / DRAFT / UNMERGED. Preserve its existing base and ancestry. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+ARO-CHAT-0304 attribution/fixture note: production commit `3204190a41814b73b26859b48d55a2f74d71df80` and initial test commit `efda642d6f0ae5a2168606fa9dce7a27839bff5b` retain a provisional ARO-CHAT-0303 label in their commit messages; the live registry already had two 0303 entries, so canonical workstream attribution is ARO-CHAT-0304 / ARO-GTA-P1-304. CSV regression line endings were corrected in `61fb472779f39539c9a817af2e8f01290fc1df6c`. Attribution details are documented in `docs/ARO_CHAT_0304_REPORT_RESERVATION_BEFORE_HASH.md`.
