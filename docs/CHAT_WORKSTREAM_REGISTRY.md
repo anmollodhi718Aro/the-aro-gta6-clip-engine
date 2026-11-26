@@ -3271,3 +3271,9 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Canonical report content is recorded in `docs/ARO_CHAT_0360_BLANK_CANDIDATE_CSV_HEADER_GUARD.md` (commit `44c24060ed55bbf98021f499ea4c649815bed1f2`); the provisional 0359 report path is a historical alias.
 - Static source read-back confirms the guard and test fixture are present. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### ARO-CHAT-0361 report-path reconciliation
+
+- Canonical report for ARO-CHAT-0361 is `docs/ARO_CHAT_0361_BLANK_CANDIDATE_CSV_HEADER_GUARD.md` (commit `5cba5e243a9bc819aed3622daebfa372dc6d398e`).
+- Earlier provisional report paths `docs/ARO_CHAT_0359_BLANK_CANDIDATE_CSV_HEADER_GUARD.md` and `docs/ARO_CHAT_0360_BLANK_CANDIDATE_CSV_HEADER_GUARD.md` are historical aliases created before concurrent serial reservations became visible. Preserve them; no history was rewritten.
