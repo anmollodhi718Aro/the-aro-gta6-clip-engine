@@ -3016,3 +3016,14 @@ Removed a duplicate `test_hash_verified_output_closes_descriptor_when_final_fsta
 - Production commit: `62cb5921de1cdc157dc47bdeef121a99dd3f5074`; test commit: `23111b2d5b9e4a3810b76eb2a6633c2cdf1863f6`; report commit: `d411bac77591a24aa9eeabf440ef81fa778666a2`.
 - Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0344 | Preserve Structured CLI Failure for Empty Synthetic Output (2026-11-26)
+
+- Workstream: ARO-GTA-P0-344; continued existing draft PR #386 on its original branch/base.
+- Added `test_main_emits_structured_failure_for_empty_synthetic_output` to `tests/test_synthetic_single_clip_smoke.py`.
+- A fake renderer creates a zero-byte output while reporting the correct empty-byte SHA-256. The test exercises `main()` and requires exit code 1, parseable JSON status FAIL, the explicit empty-output error, and upload/publishing false.
+- This complements the lower-level empty-output guard by validating the operator-facing CLI failure contract. Production code unchanged.
+- Test commit: `9f7287087f8d793eea942436b700477de948a82d`; report commit: `d42fd2d2d818b05a126d10b3c8d09476d45122ca`.
+- Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
