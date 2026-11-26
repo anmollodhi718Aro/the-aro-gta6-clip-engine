@@ -3031,7 +3031,7 @@ Removed a duplicate `test_hash_verified_output_closes_descriptor_when_final_fsta
 
 ## ARO-CHAT-0345 | structured synthetic smoke CLI success (2026-11-26)
 
-- Workstream: ARO-GTA-P0-345; continued existing draft PR #386 on its original branch/base.
+- Workstream: ARO-GTA-P0-346; continued existing draft PR #386 on its original branch/base.
 - Added `test_main_emits_structured_success_for_valid_synthetic_output` to `tests/test_synthetic_single_clip_smoke.py`.
 - Exercises `main()` with a valid non-empty synthetic output and verifies exit code 0, parseable JSON PASS, output byte count and SHA-256, synthetic-only media metadata, upload/publishing false, manual review required, and no retained artifacts.
 - Test commit: `a38f4f8463b48d1682252ceef19d064b65c5479b`; report commit: `2a2ff9b4f602affaf5bb3141b6866099e8448665`.
@@ -3039,9 +3039,9 @@ Removed a duplicate `test_hash_verified_output_closes_descriptor_when_final_fsta
 - Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
 
 
-## ARO-CHAT-0345 — structured CLI failure on overflow (2026-11-26)
+## ARO-CHAT-0346 — structured CLI failure on overflow (2026-11-26)
 
-- Continued existing draft PR #386 on its original branch/base; workstream ARO-GTA-P0-345.
+- Continued existing draft PR #386 on its original branch/base; workstream ARO-GTA-P0-346.
 - Added `OverflowError` to the synthetic smoke CLI's expected operational exception boundary so overflow becomes structured JSON `FAIL`, exit code 1, with upload/publishing false.
 - Regression: `test_main_emits_structured_failure_for_overflow`.
 - Production commit: `a6e08c80b2c34dfc9920e422a6b65ad96552abf2`; test commit: `b898a49f55769f531e7d9e6a21a4069899c03840`; report commit: `e2f2ad48daac9721d300a2e01dea3087ff553e96`.
@@ -3050,7 +3050,7 @@ Removed a duplicate `test_hash_verified_output_closes_descriptor_when_final_fsta
 
 ## ARO-CHAT-0345 | Reject unsafe synthetic smoke renderer reports (2026-11-26)
 
-- Workstream: ARO-GTA-P0-345; continued existing draft PR #386 on its original branch/base.
+- Workstream: ARO-GTA-P0-346; continued existing draft PR #386 on its original branch/base.
 - Added `tests/test_synthetic_smoke_safety_contract.py` with focused coverage for both unsafe renderer-report variants: `upload_performed: true` and `publishing_enabled: true`. Each case uses synthetic bytes with a matching SHA-256, expects fail-closed rejection, and verifies temporary-directory cleanup.
 - Production code unchanged. Test commit: `ca897cfe105a6ec636c7ca54b252c9b0cc9d3ec0`; report commit: `48b863d5fffacc5d6d5f25667f5c0c69369cdb08`.
 - Static source/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
@@ -3066,3 +3066,8 @@ Removed a duplicate `test_hash_verified_output_closes_descriptor_when_final_fsta
 - Serial collision reconciliation: ARO-CHAT-0345 was concurrently assigned to other tasks on this branch. This continuation is uniquely registered as ARO-CHAT-0346; the test commit was retained and no history was rewritten. A temporary misnumbered report alias was deleted.
 - Static change/read-back only. Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Serial collision reconciliation — 2026-11-26
+
+ARO-CHAT-0345 was already reserved by a concurrent continuation for the synthetic CLI success-path regression. The overflow-handling continuation is uniquely reassigned to ARO-CHAT-0346 / ARO-GTA-P0-346. Implementation and test commits `a6e08c80b2c34dfc9920e422a6b65ad96552abf2` and `b898a49f55769f531e7d9e6a21a4069899c03840` are retained; no commit history was rewritten. Corrected report: `docs/ARO_CHAT_0346_STRUCTURED_CLI_OVERFLOW_FAILURE.md`.
