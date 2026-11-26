@@ -748,6 +748,8 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(preflight.call_count, 2)
 
 
+    @patch("backend.app.single_clip_render.inspect_one_video")
+    @patch("backend.app.single_clip_render.render_clip")
     def test_rejects_rendered_output_with_non_mp4_container(self, render, preflight):
         render.side_effect = lambda *args, **kwargs: (self.output.write_bytes(b"rendered"), self.output.resolve())[1]
         invalid = dict(PASS, duration_seconds=6.0, format_name="matroska,webm")
