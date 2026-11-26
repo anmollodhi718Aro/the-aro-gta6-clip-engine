@@ -333,6 +333,17 @@ def _render_selected_clip_from_snapshot(
         report["error"] = str(exc)
         return report
 
+    # An execution request without explicit rights confirmation must stop
+    # before opening, hashing, probing, or snapshotting the selected media.
+    # Path-only argument validation above does not inspect media contents.
+    if execute and not rights_confirmed:
+        report.update(
+            status="BLOCKED",
+            error="render execution requires --confirm-rights",
+            message="execution was blocked before media inspection because rights confirmation was not supplied",
+        )
+        return report
+
     output_error = _validate_output_destination(source, destination)
     if output_error:
         report["error"] = output_error
@@ -1153,12 +1164,13 @@ def main() -> int:
                 return 2
 
             candidate_error = None
-            if candidate_selection:
+            if candidate_selection and not (args.execute and not args.confirm_rights):
                 # Reject an unusable destination before hashing the selected
                 # media. Candidate hashing reads the complete video, so doing
                 # it before this cheap path check would waste I/O on a run that
                 # cannot possibly render. Keep both checks after the durable
-                # RUNNING report reservation.
+                # RUNNING report reservation. An unconfirmed execution request
+                # must reach the renderer's early BLOCKED gate without hashing.
                 output_error = _validate_output_destination(source_path, output_path)
                 if output_error:
                     candidate_error = output_error
