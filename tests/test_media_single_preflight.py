@@ -29,6 +29,15 @@ class MediaSinglePreflightTests(unittest.TestCase):
         self.temp.cleanup()
 
     @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_rejects_invalid_ffprobe_executable_before_invoking_process(self, run):
+        for executable in ("", "   ", None, 7, Path("ffprobe")):
+            with self.subTest(executable=executable):
+                report = inspect_one_video(self.video, ffprobe_binary=executable)
+                self.assertEqual(report["status"], "FAIL")
+                self.assertIn("ffprobe_binary must be a non-empty executable name or path", report["error"])
+        run.assert_not_called()
+
+    @patch("backend.app.media_single_preflight.subprocess.run")
     def test_passes_one_selected_file_and_reports_duration(self, run):
         run.return_value = SimpleNamespace(stdout=GOOD_PROBE)
         report = inspect_one_video(self.video)
