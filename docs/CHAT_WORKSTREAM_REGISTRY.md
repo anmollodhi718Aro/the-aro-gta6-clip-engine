@@ -2493,3 +2493,15 @@ The second ARO-CHAT-0310 entry and `docs/ARO_CHAT_0310_TERMINAL_FALLBACK_PATH_RE
 - Operator documentation: `docs/SINGLE_CLIP_RENDER.md`; report: `docs/ARO_CHAT_0311_RENDERED_MP4_METADATA_REGRESSIONS.md`.
 - Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED; authorized GTA 6 MP4 NOT PROCESSED; owner playback review NOT DONE.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and its existing base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth/credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0312 — strict candidate CSV parsing (2026-11-26)
+
+- Exact task: reject malformed candidate CSV input before it can authorize an explicit row selection in the single-clip renderer.
+- Workstream: ARO-GTA-P1-312; continued existing draft PR #386 and branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`. No new branch or PR.
+- Static review found the default `csv.DictReader` mode could tolerate malformed quoting, silently represent short rows with missing values, and store extra cells under the `None` key. The loader also stopped parsing after the selected row, ignoring malformed trailing rows.
+- Production now enables strict CSV parsing, rejects extra cells and missing required cells in every row, and parses the entire CSV before accepting the requested row. UTF-8 BOM support and one-based explicit selection are preserved.
+- Regression tests cover malformed quoting after the selected row, extra cells, and missing required cells.
+- Commits: production `341140bce254c2bd46b1e495222231f5f14fe099`; tests `58f1e342a918c3d1c459c671a6ac459ea94e5d8b`; operator guide `a4daea7bc740aa7754847480794ab85c22faecca`; report `57d0ca78e63e74a3282701a6996a043cfa486a2c`.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; real authorized MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and its original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
