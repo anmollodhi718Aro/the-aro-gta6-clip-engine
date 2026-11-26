@@ -315,3 +315,5 @@ These tests have been added but have NOT been run in this connector session. Thi
 ## Terminal JSON serialization failure after rendering
 
 If terminal renderer metadata cannot be serialized as strict JSON after the render call returns, the CLI preserves the original durable RUNNING report and writes a separate exclusive `.terminal-fallback.json` record containing only safe failure metadata. The fallback records the renderer's string status when available, marks output inspection as required, and explicitly warns the operator to inspect any output before retrying. The primary RUNNING report is not overwritten with malformed JSON, and the fallback never overwrites an existing path or aliases the selected source/output. A serialization failure does not prove that rendering failed; a completed MP4 may already exist.
+
+Direct regression tests now cover the MP4 validator's positive case, absent video stream, and missing/zero/boolean dimensions. These were added in test commit `9582ac36d76a7711c0a87c60a6769001b9b5b56b`; test execution remains pending.
