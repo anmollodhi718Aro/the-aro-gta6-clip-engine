@@ -3354,3 +3354,14 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Canonical report: `docs/ARO_CHAT_0364_STRICT_TRAILING_CSV_ROWS.md` (commit `1409793b9ee4978443ad39ab0c148850521b0f64`).
 - GitHub source read-back confirms both cases and report are present. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0366 | Preserve Valid UTF-8 BOM and CRLF Candidate CSV Exports (2026-11-26)
+
+- Workstream: ARO-GTA-P0-366; continued on existing draft PR #386 and its original branch/base.
+- Serial reconciliation: concurrent work reserved ARO-CHAT-0363 / ARO-GTA-P0-363 for Unicode-whitespace header rejection, ARO-CHAT-0364 / ARO-GTA-P0-364 for malformed trailing-row validation, and ARO-CHAT-0365 / ARO-GTA-P0-365 for candidate-row shape coverage. This UTF-8 BOM/CRLF compatibility regression is uniquely ARO-CHAT-0366. The provisional report filename is retained as a historical alias; no commit history was rewritten.
+- Added `tests/test_candidate_csv_encoding.py`, verifying that a UTF-8 BOM plus CRLF spreadsheet export is accepted and normalized by `load_selected_candidate()`.
+- Production code unchanged; synthetic CSV only; no media tools or media used.
+- Test commit: `2162adbf6ca952a7f2c74d7c65416b03fd95b4dc`; canonical report content commit: `334961488f949d0bbdd4813aa6c0b14a37c019fa`.
+- GitHub writes completed. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
