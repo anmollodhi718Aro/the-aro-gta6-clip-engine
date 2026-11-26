@@ -276,3 +276,14 @@ string value. This does not change the selected path or media bytes.
 
 ### ARO-CHAT-0308 — fallback regression trigger correction
 The end-to-end fallback regression injects a short write on the second write to the reserved primary report handle. The first write persists the RUNNING record; the second attempts the terminal report. This causes the test to exercise exclusive fallback-file creation instead of leaving the fallback path untested. This is test-only and does not change renderer or report-writing behavior. The test has not been run in this connector session.
+
+
+## Standards-compliant JSON and finite CLI bounds
+
+The CLI rejects NaN and positive/negative infinity in direct `--start` or
+`--end` arguments before reserving a report or inspecting media. Python's
+argument parser accepts these spellings as floats, but JSON does not permit
+non-finite numeric literals. Initial and terminal reports are serialized with
+non-finite JSON values disabled, so malformed media-tool metadata cannot silently
+produce a report that a strict JSON parser rejects. A rejected bound creates no
+report and starts no media operation.
