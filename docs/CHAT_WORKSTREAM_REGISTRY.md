@@ -3720,3 +3720,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: `cffcf865999dca0e64f7be777e9e913477c0b75a`; regression-test commit: `441649e60f7cca11cb4c03ac3dbdd0434378c254`.
 - GitHub source writes completed. Exact-head read-back and workflow execution check pending; repository unit tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0403 — Exact-head Actions runner evidence refresh (2026-11-27)
+- Continued the existing PR #412 child branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`; PR #412 base branch and parent PR #386 ancestry remain unchanged.
+- Re-queried exact PR head `fbdc89133a5a2d26c1f8d8bdf03353ad82a83eef`. Python CI run `45891006555` completed with failure, but its Ubuntu job `140153369503` and Windows job `140153369163` both report `steps: null` and no logs URL. This confirms no test-step execution evidence; it does not establish a source-code test failure or the underlying runner/billing/policy cause.
+- PR #412 review list currently contains zero submitted reviews. Issue #26 remains OPEN and records the hosted-runner assignment investigation; Issue #68 remains OPEN / NOT IMPLEMENTED for authenticated channel-owner upload approval.
+- No workflow retry/dispatch tool is available in this connected GitHub action set; no workflow was re-run. No code patch was justified by this infrastructure-only evidence.
+- Repository unit tests NOT RUN; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, upload, publishing, or deployment.
