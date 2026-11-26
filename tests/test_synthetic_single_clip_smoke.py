@@ -1,6 +1,5 @@
 """Tests for the generated-media single-clip smoke-test harness."""
 import hashlib
-import hashlib
 import tempfile
 import unittest
 from pathlib import Path
@@ -93,7 +92,7 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
             Path(output).write_bytes(b"synthetic-rendered-mp4")
             return {
                 "status": "RENDERED",
-                "output_sha256": hashlib.sha256(b"synthetic-rendered-mp4").hexdigest(),
+                "output_sha256": "0" * 64,
                 "upload_performed": False,
                 "publishing_enabled": False,
             }
