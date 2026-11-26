@@ -20,6 +20,19 @@ from .media_single_preflight import inspect_one_video
 
 
 
+def _reject_nul_candidate_csv_lines(handle):
+    """Reject binary NUL bytes while streaming the complete candidate CSV.
+
+    DictReader accepts NUL characters as ordinary field content. Check each
+    physical line before CSV parsing so headers, selected rows, unselected
+    trailing rows, and multiline quoted fields all fail closed.
+    """
+    for line in handle:
+        if "\x00" in line:
+            raise csv.Error("NUL character found in candidate CSV")
+        yield line
+
+
 def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, Any]:
     """Load one explicitly numbered, review-ready candidate from a clip-pack CSV.
 
@@ -42,7 +55,7 @@ def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, 
             # with DictReader's overflow-cell bucket.
             extra_fields_key = object()
             reader = csv.DictReader(
-                handle,
+                _reject_nul_candidate_csv_lines(handle),
                 restkey=extra_fields_key,
                 restval=None,
                 strict=True,

@@ -2009,3 +2009,14 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Test commits: `eb5fa0d62002c7620d5378814a3f3ca25018b787` and fixture correction `b4916c28a1d21a46b41aea794c67913cc739557f`. Canonical report: `docs/ARO_CHAT_0369_UNICODE_WHITESPACE_SOURCE_ID.md`.
 - Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## Latest P0 continuation handoff — ARO-CHAT-0384 (2026-11-26)
+
+- Chat ID: ARO-CHAT-0384
+- Exact title: ARO-CHAT-0384 | Reject NUL in Single-Clip Candidate CSV
+- Workstream: ARO-GTA-P0-384
+- Child branch: `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`, based on PR #386 exact head `9291fab827d20efa0fff8005aa62e9fda9dcec3d`; preserve the existing PR #386 ancestry.
+- Added a streaming U+0000 rejection guard before DictReader and regressions for optional field, header, unselected trailing row, and multiline quoted field.
+- Repository tests NOT RUN; synthetic FFmpeg E2E NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Keep OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1 remains INCOMPLETE.

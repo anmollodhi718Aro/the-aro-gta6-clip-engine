@@ -3409,3 +3409,11 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Test commits: `eb5fa0d62002c7620d5378814a3f3ca25018b787` and fixture correction `b4916c28a1d21a46b41aea794c67913cc739557f`; canonical report: `docs/ARO_CHAT_0369_UNICODE_WHITESPACE_SOURCE_ID.md`.
 - GitHub source read-back: PRESENT. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0384 | Reject NUL in single-clip candidate CSV (2026-11-26)
+
+- Workstream: ARO-GTA-P0-384. Child branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`, based on existing PR #386 exact head `9291fab827d20efa0fff8005aa62e9fda9dcec3d`; preserve ancestry and keep PR #386 unchanged.
+- Added a streaming NUL-character guard to the single-clip candidate CSV loader and four regression cases: optional field, header, unselected trailing row, and multiline quoted field.
+- Production and test changes are submitted; repository tests NOT RUN; synthetic FFmpeg E2E NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Keep the child PR OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1/P0 remain INCOMPLETE.
