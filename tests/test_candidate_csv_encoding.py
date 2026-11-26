@@ -49,5 +49,19 @@ class CandidateCsvEncodingTests(unittest.TestCase):
             self.assertEqual(selected["duration_seconds"], 6.0)
 
 
+    def test_rejects_unicode_whitespace_only_source_id(self):
+        with tempfile.TemporaryDirectory() as directory:
+            csv_path = Path(directory) / "candidates.csv"
+            csv_path.write_text(
+                "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
+                "\\u00a0,2,8,6,True\\n",
+                encoding="utf-8",
+                newline="",
+            )
+
+            with self.assertRaisesRegex(ValueError, "has no source_id"):
+                load_selected_candidate(csv_path, 1)
+
+
 if __name__ == "__main__":
     unittest.main()
