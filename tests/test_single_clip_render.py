@@ -1660,7 +1660,7 @@ class SingleClipRenderTests(unittest.TestCase):
             load_selected_candidate(pack, 1)
 
 
-    def test_cli_terminal_fallback_uses_expanded_report_path(self):
+    def test_cli_terminal_fallback_persists_file_at_expanded_report_path(self):
         report_argument = Path("~/expanded-terminal-report.json")
         expanded_report = self.root / "expanded-terminal-report.json"
         original_expanduser = Path.expanduser
