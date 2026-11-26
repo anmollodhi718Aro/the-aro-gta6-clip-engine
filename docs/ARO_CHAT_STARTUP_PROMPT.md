@@ -2035,3 +2035,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Regression tests added for False, 0, empty list/dict, string, and None.
 - Commits: `d0bb6b17e7f5c8290f9a86785ad4f56292cc6ef9` (production); `51ce9e5da976490ace78dcb3ff46a1f6db6e43af` (tests).
 - Tests NOT RUN; exact-head CI, FFmpeg E2E, Windows owner-device validation and authorized GTA 6 media processing remain NOT VERIFIED. PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, deployment, upload, or publishing.
+
+### Latest continuation — detector argument validation (2026-11-26)
+- Continue on existing child PR #412 branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`, preserving parent PR #386 ancestry.
+- `detect_chat_spikes` now validates that permission is a `PermissionRecord` and events is a list containing only `ChatEvent` instances before processing. This prevents malformed caller inputs from leaking incidental attribute/type errors, including when the event list is empty.
+- Regression tests added for invalid permission objects, tuple/dict/string event containers, and invalid event members.
+- Commits: `8719062dc6cfe7f0124feee44e12c03950b26c89` (production), `92014618fd01272c206423fad2c8c0547f5071c2` (tests), `b90b4bf3751978a0aace7d2f75ca2a2bc24d4e56` (registry).
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; owner-device Windows, independent review, and authorized GTA 6 MP4 NOT VERIFIED.
+- Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media upload, publishing, or deployment.
