@@ -2125,3 +2125,13 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Production commit: `a6157d8b90100cae4e5074bdc716c4a29ec61061`; test commit: `30aefea79a5debaa65f218a5843a0d24f078a16b`; registry commit: `d22b9d7742e3929d5232b55b0e009fc6508dd45f`.
 - Tests have not been run. Exact-head CI, synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain unverified/not run. Stage 1/P0 remains incomplete.
 - Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. Do not merge, rebase, retarget, retry/dispatch workflows, process live media, upload, publish, or deploy without the required approvals.
+
+
+
+### Latest continuation — CLI output symlink replacement race (ARO-CHAT-0401, 2026-11-27)
+- Continued on existing child PR #412 branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`, preserving PR #412 base and parent #386 ancestry.
+- Kept the resolved-path comparison that prevents input/output aliases, but changed the final atomic-write target to the lexical absolute output path. This avoids following a final-component symlink introduced after the initial symlink check.
+- Added a deterministic regression that creates a symlink during output-path resolution and verifies the target file remains unchanged while the requested output path receives the clip-plan JSON.
+- Production commit: `25c10e96e8c4dacf3c63eb718e8aa77df86671dd`; test commit: `eaf2d7c7c2ab80084385e569456ef2b314353110`.
+- Tests NOT RUN. Exact-head CI, synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED. Stage 1/P0 remains INCOMPLETE.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, live media, upload, publishing, or deployment.
