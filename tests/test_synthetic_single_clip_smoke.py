@@ -298,6 +298,40 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
         self.assertFalse(captured["output"].exists())
         self.assertFalse(captured["directory"].exists())
 
+    def test_hash_verified_output_rejects_path_replacement_after_open(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            output = root / "output.mp4"
+            preserved = root / "original.mp4"
+            replacement = root / "replacement.mp4"
+            output.write_bytes(b"A" * (2 * 1024 * 1024))
+            replacement.write_bytes(b"replacement bytes")
+            real_read = smoke.os.read
+            swapped = {"done": False}
+
+            def replace_after_open(descriptor, size):
+                chunk = real_read(descriptor, min(size, 1024 * 1024))
+                if chunk and not swapped["done"]:
+                    output.replace(preserved)
+                    try:
+                        output.symlink_to(replacement)
+                    except (OSError, NotImplementedError) as exc:
+                        preserved.replace(output)
+                        raise unittest.SkipTest(
+                            f"symlink creation unavailable for post-open race regression: {exc}"
+                        )
+                    swapped["done"] = True
+                return chunk
+
+            with patch.object(smoke.os, "read", side_effect=replace_after_open):
+                with self.assertRaisesRegex(RuntimeError, "changed during SHA-256 verification"):
+                    smoke._hash_verified_output(output)
+
+            self.assertTrue(swapped["done"])
+            self.assertEqual(preserved.stat().st_size, 2 * 1024 * 1024)
+            self.assertEqual(replacement.read_bytes(), b"replacement bytes")
+            self.assertTrue(output.is_symlink())
+
 
 if __name__ == "__main__":
     unittest.main()
