@@ -237,3 +237,7 @@ The dry-run remains read-only with respect to media: it does not create a full s
 Candidate-CSV mode now validates the trusted SHA-256 argument and selected row metadata before report reservation, but it does not read the selected media bytes until after the exclusive RUNNING report has been written and flushed. This keeps candidate hashing, like FFprobe and rendering, behind the durable run record. A hash-open/read failure or digest mismatch is recorded as a terminal FAIL report and does not invoke the renderer. The selected digest is retained in the terminal candidate-selection metadata only after it matches the trusted inventory value.
 
 Added a CLI regression that inspects the report from inside the source-hash callback and requires it to contain a parseable RUNNING record before the hash begins. Tests have not been run in this connector session; exact-head Ubuntu/hosted-Windows CI and independent review remain unverified. No real media is processed by this change.
+
+
+### Execution-request reporting clarification
+The reserved in-progress JSON report records `execution_requested` from the explicit `--execute` flag alone and records `rights_confirmation_supplied` separately from `--confirm-rights`. This keeps a blocked attempt distinguishable from a dry-run: requesting execution without rights confirmation is reported as requested-but-blocked, never as a dry-run. This is reporting only; the existing fail-closed rights gate is unchanged.
