@@ -1481,6 +1481,55 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(fallback["status"], "RUNNING")
         self.assertFalse(self.output.exists())
 
+    def test_cli_terminal_report_fsync_failure_preserves_output_and_writes_fallback(self):
+        report_path = self.root / "terminal-fsync-failure.json"
+        fallback_path = report_path.with_name(
+            report_path.name + ".terminal-fallback.json"
+        )
+        original_fsync = os.fsync
+        fsync_calls = 0
+
+        def fail_terminal_report_fsync(descriptor):
+            nonlocal fsync_calls
+            fsync_calls += 1
+            # Reservation file fsync, reservation directory fsync, then
+            # terminal report fsync. Fail only the third operation.
+            if fsync_calls == 3:
+                raise OSError("simulated terminal report fsync failure")
+            return original_fsync(descriptor)
+
+        def simulated_completed_render(*args, **kwargs):
+            self.output.write_bytes(b"completed render output")
+            return {
+                "status": "RENDERED",
+                "output_path": str(self.output),
+                "upload_performed": False,
+                "publishing_enabled": False,
+            }
+
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--start", "2", "--end", "8",
+            "--execute", "--confirm-rights",
+            "--output", str(self.output), "--report", str(report_path),
+        ]
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.render_selected_clip",
+            side_effect=simulated_completed_render,
+        ), patch("backend.app.single_clip_render.os.fsync", side_effect=fail_terminal_report_fsync), redirect_stderr(io.StringIO()):
+            self.assertEqual(main(), 2)
+
+        self.assertEqual(fsync_calls, 4)
+        self.assertEqual(self.output.read_bytes(), b"completed render output")
+        # The primary report may contain the previous RUNNING record because
+        # terminal contents were not confirmed durable.
+        primary = json.loads(report_path.read_text(encoding="utf-8"))
+        self.assertEqual(primary["status"], "RUNNING")
+        fallback = json.loads(fallback_path.read_text(encoding="utf-8"))
+        self.assertEqual(fallback["status"], "RENDERED")
+        self.assertFalse(fallback["upload_performed"])
+        self.assertFalse(fallback["publishing_enabled"])
+
     def test_cli_partial_terminal_report_write_preserves_rendered_output_for_manual_review(self):
         report_path = self.root / "partial-terminal-write.json"
         original_open = Path.open
