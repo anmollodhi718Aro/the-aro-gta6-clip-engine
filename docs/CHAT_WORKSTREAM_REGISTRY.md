@@ -3414,3 +3414,20 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 | Status | IMPLEMENTED; GitHub source read-back PRESENT; exact-head CI NOT VERIFIED (workflow lookup returned zero runs); local tests NOT RUN; independent review NOT RECORDED |
 
 The tests exercise the existing strict streaming quote guard against malformed header cells using synthetic CSV text. No production rendering, media, OAuth, uploader, or publishing behavior changed. Keep PR #393 and all parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+## ARO-CHAT-0372 | Reject Duplicate Candidate CSV Headers (2026-11-26)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0372 |
+| Workstream ID | ARO-GTA-P0-372 |
+| Branch | `workstream/aro-chat-0372-reject-duplicate-candidate-csv-headers-2026-11-26` |
+| Parent | Draft PR #393, preserving #393 -> #390 -> #389 -> #388 -> #387 -> #386 |
+| Starting SHA | `30f792d5a9ae2d70d5f68714b2c38705a34e481b` |
+| Scope | Synthetic regression test only; production code unchanged |
+| Change | `tests/test_candidate_csv_duplicate_headers.py` rejects a duplicated required `source_id` header before DictReader can silently overwrite a value |
+| Test commit | `06277e94467c9106da6601c856098ce5259fcaf7` |
+| Report commit | `e3cdd4a383abf4c75fd2b3bd8c6bf1076b272e88` |
+| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED |
+
+Synthetic CSV only. No media tools, rendering, OAuth, uploader, real media, upload, or publishing behavior changed. Preserve the complete draft PR ancestry and keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
