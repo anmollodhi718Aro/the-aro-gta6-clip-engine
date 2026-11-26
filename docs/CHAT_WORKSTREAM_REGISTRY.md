@@ -2578,3 +2578,14 @@ Production commit: `3dd984e568145ce41abd52fc07352d40ff4f59ea`; regression commit
 - Commits: production `9b396cda964b507b294dca99d4f3f3a83940e7bf`; test `16cda8f75b266842c751f0582d4862c2e3f47713`; report `07d4e4d978fdd10a72941979f74075a09446990a`.
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0316 — durable report directory-entry synchronization (2026-11-26)
+
+- Continued existing draft PR #386 and branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR.
+- Static review found that the CLI fsynced report file contents after exclusive creation but did not fsync the containing directory. On POSIX filesystems, a sudden system crash could therefore lose the newly created report directory entry even though the file descriptor had been synced.
+- Added `_fsync_parent_directory()` and call it after the primary RUNNING reservation and exclusive terminal-fallback file are flushed/fsynced. Directory-sync errors fail closed before media inspection or are surfaced through the fallback failure path.
+- Windows is explicitly excluded because portable Python does not expose an equivalent directory-handle fsync operation; file-level flush/fsync remains in place and no Windows directory-durability claim is made.
+- Added platform-gated regression coverage for POSIX parent-directory synchronization and Windows no-op behavior.
+- Tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
