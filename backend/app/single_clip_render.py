@@ -462,7 +462,24 @@ def _render_selected_clip_from_snapshot(
                 manual_cleanup_required=True,
             )
             return report
-        rendered_preflight = inspect_one_video(rendered, ffprobe_binary=ffprobe_binary)
+        try:
+            rendered_preflight = inspect_one_video(rendered, ffprobe_binary=ffprobe_binary)
+        except Exception as exc:
+            # FFprobe can fail after FFmpeg has already published the output.
+            # Keep the exact output path and require manual inspection; a
+            # metadata-tool exception is never evidence that the file is absent.
+            report.update(
+                status="FAIL",
+                output_path=str(rendered),
+                rendered_preflight_error=f"{type(exc).__name__}: {exc}",
+                output_inspection_required=True,
+                manual_cleanup_required=True,
+                message=(
+                    "Rendered output exists but FFprobe verification raised an exception. "
+                    "Inspect this exact output path before retrying; no automatic cleanup was attempted."
+                ),
+            )
+            return report
         report["rendered_preflight"] = rendered_preflight
         if rendered_preflight.get("status") != "PASS":
             removed = _remove_unverified_output(rendered, rendered_identity)
