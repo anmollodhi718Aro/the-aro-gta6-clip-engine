@@ -1989,3 +1989,9 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Test-only change; production code unchanged; synthetic CSV only; no media tools, credentials, OAuth, upload, or publishing.
 - Current continuation commit is recorded in the Git history; local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### ARO-CHAT-0367 fixture correction handoff — 2026-11-26
+- The initial non-ASCII candidate CSV regression fixture used literal backslash-\`n\` text rather than actual record separators. Corrected the fixture in commit `7bfd5c52baa88796e911de1f4a95798e6b130a18`; production code unchanged.
+- Report: `docs/ARO_CHAT_0367_CANDIDATE_CSV_UNICODE_FIXTURE_LINE_ENDINGS.md`, commit `86fc141697bffbba8d73d63e67a52cb62a6a0c91`; registry correction commit `72ef8bc3d7842a6b3d5beedd9d962c4d20f4e44f`.
+- Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Keep PR #386 OPEN / DRAFT / UNMERGED and all media, OAuth, upload, publishing, and deployment gates unchanged.
