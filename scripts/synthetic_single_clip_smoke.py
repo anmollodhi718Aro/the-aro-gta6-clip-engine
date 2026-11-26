@@ -66,7 +66,7 @@ def run_smoke_test(*, ffmpeg: str = "ffmpeg", ffprobe: str = "ffprobe") -> dict:
         if report.get("upload_performed") is not False or report.get("publishing_enabled") is not False:
             raise RuntimeError("smoke test unexpectedly enabled upload or publishing")
         digest = report.get("output_sha256")
-        if not isinstance(digest, str) or len(digest) != 64:
+        if (not isinstance(digest, str) or len(digest) != 64\n                or any(character not in "0123456789abcdef" for character in digest)):
             raise RuntimeError("pipeline did not return a valid output SHA-256")
         return {
             "status": "PASS",
