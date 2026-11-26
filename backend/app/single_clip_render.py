@@ -541,6 +541,10 @@ def _create_stable_source_snapshot(
         snapshot_flags = os.O_RDONLY
         if hasattr(os, "O_BINARY"):
             snapshot_flags |= os.O_BINARY
+        if hasattr(os, "O_NONBLOCK"):
+            # If the private snapshot path is unexpectedly replaced with a FIFO
+            # or device, do not let read-back verification block before fstat.
+            snapshot_flags |= os.O_NONBLOCK
         if hasattr(os, "O_NOFOLLOW"):
             snapshot_flags |= os.O_NOFOLLOW
         snapshot_descriptor = os.open(snapshot, snapshot_flags)
