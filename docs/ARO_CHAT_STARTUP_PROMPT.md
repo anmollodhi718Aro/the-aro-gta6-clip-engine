@@ -1668,3 +1668,8 @@ A concurrent continuation used ARO-CHAT-0342 / ARO-GTA-P0-342 for the empty synt
 - Production commit: `62cb5921de1cdc157dc47bdeef121a99dd3f5074`; test commit: `23111b2d5b9e4a3810b76eb2a6633c2cdf1863f6`; report commit: `d411bac77591a24aa9eeabf440ef81fa778666a2`; registry commit: `90f949421569bd7bc2743d5a45480f29eacc10ab`.
 - Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### ARO-CHAT-0343 closeout correction
+- Focused report: `docs/ARO_CHAT_0343_EMPTY_SYNTHETIC_OUTPUT_REGRESSION.md` (commit `aa3f726dc85e0a026a4f2c720be9d110b79c3536`). The earlier misnumbered temporary report alias was deleted (commit `5a8d7e3a9da32ebeca82a6c02fad7aebf476e961`). Registry reference correction: `73893681b17605382f334d8924eb838c5e0de0c2`.
+- The test-file change is present on the branch; its exact commit SHA was not returned in the connector response. Do not infer one.
