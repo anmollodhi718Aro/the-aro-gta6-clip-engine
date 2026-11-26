@@ -873,6 +873,37 @@ class SingleClipRenderTests(unittest.TestCase):
         render.assert_called_once()
 
 
+    @patch("backend.app.single_clip_render.inspect_one_video")
+    @patch("backend.app.single_clip_render.render_clip")
+    def test_ffprobe_exception_after_render_requires_manual_output_inspection(self, render, preflight):
+        payload = b"rendered output whose ffprobe process failed"
+        render.side_effect = lambda *args, **kwargs: (
+            self.output.write_bytes(payload), self.output.resolve()
+        )[1]
+        preflight.side_effect = [
+            PASS,
+            RuntimeError("simulated ffprobe process failure"),
+        ]
+
+        report = render_selected_clip(
+            self.source, self.output, 2, 8,
+            execute=True, rights_confirmed=True,
+        )
+
+        self.assertEqual(report["status"], "FAIL")
+        self.assertEqual(report["output_path"], str(self.output.resolve()))
+        self.assertIn("RuntimeError: simulated ffprobe process failure", report["rendered_preflight_error"])
+        self.assertTrue(report["output_inspection_required"])
+        self.assertTrue(report["manual_cleanup_required"])
+        self.assertIn("Inspect this exact output path before retrying", report["message"])
+        self.assertTrue(report["processing_started"])
+        self.assertEqual(self.output.read_bytes(), payload)
+        self.assertNotIn("output_sha256", report)
+        self.assertFalse(report["upload_performed"])
+        self.assertFalse(report["publishing_enabled"])
+        self.assertEqual(preflight.call_count, 2)
+
+
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     @patch("backend.app.single_clip_render.render_clip")
     def test_renders_one_clip_and_verifies_output(self, render, preflight):
