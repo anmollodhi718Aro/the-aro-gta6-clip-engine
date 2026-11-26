@@ -3071,3 +3071,13 @@ Removed a duplicate `test_hash_verified_output_closes_descriptor_when_final_fsta
 ### Serial collision reconciliation — 2026-11-26
 
 ARO-CHAT-0345 was already reserved by a concurrent continuation for the synthetic CLI success-path regression. The overflow-handling continuation is uniquely reassigned to ARO-CHAT-0346 / ARO-GTA-P0-346. Implementation and test commits `a6e08c80b2c34dfc9920e422a6b65ad96552abf2` and `b898a49f55769f531e7d9e6a21a4069899c03840` are retained; no commit history was rewritten. Corrected report: `docs/ARO_CHAT_0346_STRUCTURED_CLI_OVERFLOW_FAILURE.md`.
+
+
+## ARO-CHAT-0347 | Reject unsafe synthetic smoke renderer reports (2026-11-26)
+
+- Workstream: ARO-GTA-P0-347; continued existing draft PR #386 on its original branch/base.
+- Added `tests/test_synthetic_smoke_safety_contract.py` with focused coverage for `upload_performed: true` and `publishing_enabled: true`; both cases use synthetic output with matching SHA-256 and require fail-closed rejection plus temporary-directory cleanup.
+- Production code unchanged. Test commit: `ca897cfe105a6ec636c7ca54b252c9b0cc9d3ec0`; canonical report: `docs/ARO_CHAT_0347_UNSAFE_SMOKE_REPORT_GUARD.md`; report commit: `19b66cac175136e46ea28265fc5174792a50ff48`.
+- The initial ARO-CHAT-0345 label collided with concurrent work; this task is uniquely registered as ARO-CHAT-0347. No implementation history was rewritten.
+- Static source/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
