@@ -3470,3 +3470,12 @@ Keep this work and all parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/
 - Windows job #139839367102 and Ubuntu job #139839367744 both returned empty step arrays (`steps: []`) and `logs_url: null`.
 - Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. No checkout, compilation, or unit-test execution is evidenced. This is not evidence of an application-code test failure. Root cause remains UNVERIFIED. No dispatch/retry was initiated.
 - Repository unit suite remains NOT RUN from a controlled local environment. The 6/6 source-level isolated harness result remains limited evidence only.
+
+
+| ARO-CHAT-0381 | ARO-CHAT-0381 | ARO-GTA-P0-381 | Reject NUL characters in candidate CSV text before CSV field mapping | `workstream/aro-chat-0381-reject-nul-candidate-csv-2026-11-26` / draft PR pending | IMPLEMENTED; tests/CI NOT VERIFIED; independent review NOT RECORDED | Parent PR #404 exact head `1cdb9f420d1c03ad2dee5f78ec3de35bfc277d05`; production change and synthetic regression; local tests NOT RUN |
+
+### Latest P0 continuation handoff — ARO-CHAT-0381 (2026-11-26)
+- Continue from `workstream/aro-chat-0381-reject-nul-candidate-csv-2026-11-26`, based on PR #404 exact head `1cdb9f420d1c03ad2dee5f78ec3de35bfc277d05`. Preserve PR #404 -> #399 ancestry; do not merge, rebase, retarget, or rewrite history.
+- Reject U+0000 in streaming candidate CSV input and cover with a synthetic optional-field regression. No media or uploader behavior changed.
+- Local tests NOT RUN; exact-head Ubuntu/Windows CI PENDING; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED. Stage 1 and P0 remain NOT COMPLETE.
+- Keep this PR and parents OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
