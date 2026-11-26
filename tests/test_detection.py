@@ -44,6 +44,20 @@ class DetectionTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "finite positive number"):
                     DetectorConfig(spike_multiplier=multiplier)
 
+    def test_rejects_non_integer_detector_count_and_padding_fields(self) -> None:
+        invalid_values = (True, 1.5, "2")
+        for field_name in (
+            "window_seconds",
+            "baseline_windows",
+            "min_messages",
+            "pre_roll_seconds",
+            "post_roll_seconds",
+        ):
+            for value in invalid_values:
+                with self.subTest(field=field_name, value=value):
+                    with self.assertRaises(ValueError):
+                        DetectorConfig(**{field_name: value})
+
     def test_detects_a_clear_spike(self) -> None:
         candidates = detect_chat_spikes(self.make_events([2, 2, 2, 9]), self.permission, self.config)
         self.assertEqual(len(candidates), 1)
