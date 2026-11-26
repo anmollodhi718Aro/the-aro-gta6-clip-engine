@@ -34,14 +34,14 @@ def _strict_candidate_csv_lines(handle):
             if state == "field_start":
                 if character == '"':
                     state = "quoted"
-                elif character == "," or character in "\\r\\n":
+                elif character == "," or character in "\r\n":
                     state = "field_start"
                 else:
                     state = "unquoted"
             elif state == "unquoted":
                 if character == '"':
                     raise csv.Error("quote found inside an unquoted candidate field")
-                if character == "," or character in "\\r\\n":
+                if character == "," or character in "\r\n":
                     state = "field_start"
             elif state == "quoted":
                 if character == '"':
@@ -49,7 +49,7 @@ def _strict_candidate_csv_lines(handle):
             else:  # after_quote
                 if character == '"':
                     state = "quoted"
-                elif character == "," or character in "\\r\\n":
+                elif character == "," or character in "\r\n":
                     state = "field_start"
                 else:
                     raise csv.Error("unexpected character after a closing candidate quote")
