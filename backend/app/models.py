@@ -50,6 +50,10 @@ class PermissionRecord:
             object.__setattr__(self, "revoked_at", parse_datetime(self.revoked_at))
 
     def allows(self, scope: str, at: datetime) -> bool:
+        # Authorization queries with malformed scope values must fail closed
+        # rather than leaking a TypeError from set membership (e.g. a list).
+        if not isinstance(scope, str) or not scope.strip():
+            return False
         at = parse_datetime(at)
         if scope not in self.scopes or at < self.granted_at:
             return False
