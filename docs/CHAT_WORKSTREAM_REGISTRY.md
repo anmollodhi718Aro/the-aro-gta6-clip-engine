@@ -2433,3 +2433,10 @@ ARO-CHAT-0306 test-fixture correction: the regression now constructs an actual s
 - Scope: correct the fixture to inject the partial terminal write on the second write; preserve the production implementation unchanged.
 - Initial observed head: `044f313f83d368d188444e6a5915e64e8be73a09`.
 - Tests NOT RUN locally; exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real media, OAuth, upload, publishing, merge, rebase, retarget, workflow retry/dispatch, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0308 — terminal fallback regression trigger correction
+
+- Corrected `test_cli_terminal_fallback_uses_expanded_report_path` to inject the partial terminal-report write on the second write to the primary report handle. The CLI performs two writes to that handle: the initial RUNNING reservation and the terminal report. The previous third-write trigger never reached the fallback path.
+- Test-only commit: `ae96db84e0e466b6085b4b8ef55ddd6ac65bcc12`.
+- Production behavior unchanged. Tests NOT RUN locally in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real media, OAuth, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
