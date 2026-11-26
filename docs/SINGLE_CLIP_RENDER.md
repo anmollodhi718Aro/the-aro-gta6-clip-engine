@@ -253,3 +253,7 @@ The terminal JSON report retains the reserved invocation metadata and overlays t
 ### Snapshot read-back completeness
 
 After the private source snapshot is flushed and fsynced, read-back verification now counts the bytes actually returned by descriptor reads and requires the count to equal the stable snapshot size. An injected or abnormal early EOF fails closed and triggers identity-checked cleanup of the snapshot created by this invocation. This complements the SHA-256 comparison by making complete read coverage an explicit invariant.
+
+
+## Terminal fallback path normalization
+The CLI expands the configured report path before reserving it. If terminal JSON persistence later fails, the exclusive `.terminal-fallback.json` file is created beside that same expanded report path. This is important for paths beginning with `~`: the fallback must not be written to a literal tilde-prefixed relative path. The regression test forces a short terminal write and checks that fallback creation receives the expanded path.
