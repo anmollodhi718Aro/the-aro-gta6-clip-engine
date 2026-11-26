@@ -29,3 +29,8 @@ The terminal-report fallback fix now correctly uses the expanded report path. Th
 - PR #386 remains OPEN / DRAFT / UNMERGED and retains its existing base and ancestry.
 - No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, or deployment.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Live uploads and public publishing remain disabled.
+
+
+## Attribution correction (2026-11-26)
+
+A separate production fix and its direct assertion test already own ARO-CHAT-0305 / ARO-GTA-P1-305. This supplemental end-to-end fallback-file persistence test is canonically attributed to ARO-CHAT-0306 / ARO-GTA-P1-306. The test commit remains unchanged. See `docs/ARO_CHAT_0306_EXPANDED_REPORT_FALLBACK_REGRESSION.md`.
