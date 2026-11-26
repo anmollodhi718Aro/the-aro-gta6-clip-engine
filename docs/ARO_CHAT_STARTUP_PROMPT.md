@@ -1368,3 +1368,13 @@ Exact-head Actions run #45744189317 / job #139656150344 is marked failed but has
 
 ### Latest continuation — ARO-CHAT-0311
 Added direct regression coverage for the rendered MP4 metadata gate: valid H.264 MP4 acceptance, missing video-stream rejection, and missing/zero/boolean dimension rejection. Existing integration regressions cover non-MP4 containers and non-H.264 codecs. Test commit: `d4a2e8482dc2d4623bd0c65e5cbbeba6b8c41ac2`; operator docs and report are updated. Tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED; authorized GTA 6 MP4 NOT PROCESSED; owner playback review NOT DONE. Continue P0 on existing PR #386 and preserve OPEN/DRAFT/UNMERGED state and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth/credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## Current continuation handoff — ARO-CHAT-0312 (2026-11-26)
+
+- Active repository work remains the one-selected-video → one-selected-clip pipeline on existing draft PR #386 and its original branch/base. Do not create a duplicate PR or alter ancestry.
+- Latest bounded change: strict candidate CSV parsing. `load_selected_candidate()` now uses `csv.DictReader(strict=True)`, rejects missing required and extra cells in all rows, and parses the complete file so malformed trailing rows cannot be ignored.
+- Regression tests added for malformed trailing quoting, overlong rows, and short rows. Production, tests, operator guide, report, and registry commits are recorded in `docs/ARO_CHAT_0312_STRICT_CANDIDATE_CSV_PARSING.md` and `docs/CHAT_WORKSTREAM_REGISTRY.md`.
+- Tests have NOT been run in this connector session. Exact-head Ubuntu/hosted-Windows CI, independent review, and owner-device Windows verification are NOT VERIFIED. Do not describe the code as tested.
+- Next: inspect the live PR head and Actions jobs for the new commits; diagnose the recurring pre-step runner failure without retrying or dispatching workflows. Then continue static review of durable RUNNING-report recovery and other core pipeline defects on the same branch.
+- Keep real-media processing blocked until owner-authorized source media and permission evidence are supplied. No OAuth, credentials, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
