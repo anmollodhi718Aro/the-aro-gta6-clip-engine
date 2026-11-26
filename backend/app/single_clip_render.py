@@ -38,7 +38,9 @@ def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, 
             # rows silently receive None values. Make all three conditions
             # explicit failures, and parse the complete file so malformed
             # trailing rows cannot hide behind an earlier selected row.
-            extra_fields_key = "__aro_extra_fields__"
+            # Use a unique mapping key so a user-supplied CSV header cannot collide
+            # with DictReader's overflow-cell bucket.
+            extra_fields_key = object()
             reader = csv.DictReader(
                 handle,
                 restkey=extra_fields_key,
