@@ -1424,6 +1424,33 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["upload_performed"])
         self.assertFalse(report["publishing_enabled"])
 
+    def test_cli_reports_execution_request_without_rights_confirmation(self):
+        report_path = self.root / "blocked-report.json"
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--start", "1", "--end", "5",
+            "--output", str(self.output), "--report", str(report_path),
+            "--execute",
+        ]
+        blocked = {
+            "status": "BLOCKED",
+            "upload_performed": False,
+            "publishing_enabled": False,
+            "error": "render execution requires --confirm-rights",
+        }
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.render_selected_clip",
+            return_value=blocked,
+        ):
+            self.assertEqual(main(), 1)
+
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        self.assertEqual(report["status"], "BLOCKED")
+        self.assertTrue(report["execution_requested"])
+        self.assertFalse(report["rights_confirmation_supplied"])
+        self.assertFalse(report["upload_performed"])
+        self.assertFalse(report["publishing_enabled"])
+
     def test_cli_records_terminal_render_failure_in_reserved_report(self):
         report_path = self.root / "failed-report.json"
         with patch("sys.argv", [
