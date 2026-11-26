@@ -54,6 +54,46 @@ class DetectionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "source_id and granted_by"):
             PermissionRecord(None, "creator", frozenset({"analyze_chat"}), self.start)
 
+    def test_permission_from_dict_rejects_coercible_invalid_types(self) -> None:
+        valid = {
+            "source_id": "sample-stream",
+            "granted_by": "test-creator",
+            "scopes": ["analyze_chat"],
+            "granted_at": self.start.isoformat(),
+        }
+        invalid_payloads = (
+            {"source_id": None},
+            {"granted_by": 17},
+            {"scopes": "analyze_chat"},
+            {"scopes": ["analyze_chat", 3]},
+        )
+        for invalid in invalid_payloads:
+            with self.subTest(invalid=invalid):
+                with self.assertRaises(ValueError):
+                    PermissionRecord.from_dict({**valid, **invalid})
+
+    def test_chat_event_from_dict_rejects_coercible_invalid_types(self) -> None:
+        valid = {
+            "event_id": "event-1",
+            "source_id": "sample-stream",
+            "timestamp": self.start.isoformat(),
+            "text": "hello",
+        }
+        for invalid in (
+            {"event_id": None},
+            {"source_id": 42},
+            {"text": 99},
+        ):
+            with self.subTest(invalid=invalid):
+                with self.assertRaises(ValueError):
+                    ChatEvent.from_dict({**valid, **invalid})
+
+    def test_from_dict_rejects_non_object_payloads(self) -> None:
+        for model in (PermissionRecord, ChatEvent):
+            with self.subTest(model=model.__name__):
+                with self.assertRaisesRegex(ValueError, "must be an object"):
+                    model.from_dict([])
+
     def test_rejects_non_finite_or_boolean_spike_multipliers(self) -> None:
         for multiplier in (float("nan"), float("inf"), float("-inf"), True):
             with self.subTest(multiplier=multiplier):
