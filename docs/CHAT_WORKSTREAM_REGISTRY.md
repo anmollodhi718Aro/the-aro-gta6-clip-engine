@@ -3517,3 +3517,11 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Regression tests cover False, 0, empty list, empty dict, string, and the explicit None default path.
 - Commits: `d0bb6b17e7f5c8290f9a86785ad4f56292cc6ef9` (production); `51ce9e5da976490ace78dcb3ff46a1f6db6e43af` (tests).
 - Tests NOT RUN in this connector session; exact-head CI pending. No FFmpeg E2E or authorized media processing.
+
+
+### ARO-CHAT-0384 exact-head CI evidence follow-up (2026-11-26)
+- Exact PR head checked: `9008398d19a5d6af018fe7f3f3f65b5af05f6367`.
+- GitHub Actions returned Python CI run `45869234695`, conclusion `failure`; Ubuntu job `140079995998` and Windows job `140079996517` both show `failure` with `steps: null`.
+- Attempted to retrieve both job logs; GitHub returned BlobNotFound/404 for each. Therefore no checkout, dependency-install, or test execution is evidenced, and the underlying failure cause is UNVERIFIED.
+- No workflow retry/dispatch was issued. Repository tests remain NOT RUN in this session; FFmpeg E2E NOT RUN; authorized GTA 6 media NOT PROCESSED.
+- PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED. Stage 1/P0 remains INCOMPLETE; no merge, rebase, retarget, upload, publishing, or deployment.
