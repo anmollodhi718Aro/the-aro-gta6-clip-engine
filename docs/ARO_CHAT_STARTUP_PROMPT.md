@@ -1760,3 +1760,13 @@ Continue on existing draft PR #386 and its original branch/base: `workstream/aro
 - Serial collisions: concurrent work reserved ARO-CHAT-0346 through ARO-CHAT-0349 for separate FIFO, renderer-safety, missing-output and upload/publishing guard work. This timeout task is uniquely ARO-CHAT-0350; provisional report aliases with 0347 and 0348 in their filenames are historical only. No commit history was rewritten.
 - Static change/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0351 (2026-11-26)
+
+- Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added a fail-closed synthetic smoke guard: output must not be the same filesystem object as the generated source. Added `test_smoke_harness_rejects_output_hardlinked_to_source`, which exercises a renderer returning a hard link with a matching digest and verifies temporary cleanup.
+- Production commit: `d296c05bf5230bc4b8fec666d9767aebdf6ef545`; test commit: `046d28cc2ef48be515eb956b61b2c6f77a740873`; report: `docs/ARO_CHAT_0351_SOURCE_ALIAS_OUTPUT_GUARD.md`.
+- Starting observed head: `6c4992fa76f2d05bf390baef5fbe7b3e591b800a`.
+- Static change/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
