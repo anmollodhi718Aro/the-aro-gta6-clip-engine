@@ -130,6 +130,18 @@ class SingleClipRenderTests(unittest.TestCase):
         fsync_parent.assert_called_once_with(snapshot)
         self.assertEqual(snapshot.read_bytes(), self.source.read_bytes())
 
+    def test_snapshot_directory_fsync_failure_cleans_created_snapshot(self):
+        snapshot = self.root / "directory-fsync-failure-snapshot.mp4"
+        with patch(
+            "backend.app.single_clip_render._fsync_parent_directory",
+            side_effect=OSError("simulated directory fsync failure"),
+        ):
+            with self.assertRaisesRegex(OSError, "simulated directory fsync failure"):
+                _create_stable_source_snapshot(self.source, snapshot)
+
+        self.assertFalse(snapshot.exists())
+        self.assertEqual(self.source.read_bytes(), b"synthetic video")
+
     def test_snapshot_readback_uses_nonblocking_open_when_available(self):
         snapshot = self.root / "nonblocking-readback-snapshot.mp4"
         real_open = os.open
