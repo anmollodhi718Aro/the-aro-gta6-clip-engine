@@ -12,8 +12,8 @@ class CandidateCsvReservedHeaderTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             csv_path = Path(directory) / "candidates.csv"
             csv_path.write_text(
-                "source_id,start_seconds,end_seconds,duration_seconds,renderable,__aro_extra_fields__\\n"
-                "authorized-demo,2,8,6,True,operator-note\\n",
+                "source_id,start_seconds,end_seconds,duration_seconds,renderable,__aro_extra_fields__\n"
+                "authorized-demo,2,8,6,True,operator-note\n",
                 encoding="utf-8",
             )
             selected = load_selected_candidate(csv_path, 1)
@@ -27,8 +27,8 @@ class CandidateCsvReservedHeaderTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             csv_path = Path(directory) / "candidates.csv"
             csv_path.write_text(
-                "source_id,start_seconds,end_seconds,duration_seconds,renderable,__aro_extra_fields__\\n"
-                "authorized-demo,2,8,6,True,operator-note,unexpected\\n",
+                "source_id,start_seconds,end_seconds,duration_seconds,renderable,__aro_extra_fields__\n"
+                "authorized-demo,2,8,6,True,operator-note,unexpected\n",
                 encoding="utf-8",
             )
             with self.assertRaisesRegex(ValueError, "more values than its header"):
