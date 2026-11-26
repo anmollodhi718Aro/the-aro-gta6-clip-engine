@@ -1286,6 +1286,40 @@ class SingleClipRenderTests(unittest.TestCase):
         "backend.app.single_clip_render.render_clip",
         side_effect=ValueError("simulated render-boundary validation failure"),
     )
+    @patch(
+        "backend.app.single_clip_render.sha256_selected_source",
+        return_value="0" * 64,
+    )
+    @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
+    def test_candidate_dry_run_rechecks_trusted_digest_after_preflight(self, preflight, source_hash):
+        expected = "a" * 64
+        report = render_selected_clip(
+            self.source, self.output, 2, 8,
+            execute=False,
+            expected_source_sha256=expected,
+        )
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("no longer matches the trusted candidate inventory", report["error"])
+        source_hash.assert_called_once_with(Path(self.source))
+        self.assertFalse(self.output.exists())
+
+    @patch(
+        "backend.app.single_clip_render.sha256_selected_source",
+        return_value=hashlib.sha256(b"synthetic video").hexdigest(),
+    )
+    @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
+    def test_candidate_dry_run_records_verified_source_digest(self, preflight, source_hash):
+        expected = hashlib.sha256(b"synthetic video").hexdigest()
+        report = render_selected_clip(
+            self.source, self.output, 2, 8,
+            execute=False,
+            expected_source_sha256=expected,
+        )
+        self.assertEqual(report["status"], "PLANNED")
+        self.assertEqual(report["source_sha256"], expected)
+        self.assertEqual(report["expected_source_sha256"], expected)
+        source_hash.assert_called_once_with(Path(self.source))
+
     def test_render_exception_does_not_claim_processing_started(self, render, preflight):
         report = render_selected_clip(
             self.source, self.output, 2, 8,
