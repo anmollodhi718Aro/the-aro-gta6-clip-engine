@@ -1618,3 +1618,8 @@ Continue on the existing draft PR #386 and its original branch/base. Added a foc
 - Test commit: `8147d5e0ad702b2f11aee7cd1764369053b45a9c`; report commit: `2d0876428b461d28ba7f72faede18ecc1f1b246b`; registry commit: `17d6b5fd76a6a3c901c5f48560d2628080db6ea4`.
 - Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Keep PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### Latest P0 handoff — ARO-CHAT-0341 (2026-11-26)
+
+Recorded exact-head Actions run #45771573052 for PR #386 head `bac9be9e34c2ed62c4e492791c0ce5edec2a2bf6`. Ubuntu job #139745194291 and hosted-Windows job #139745194003 both completed FAILURE, but both returned `steps: null` and `logs_url: null`; no execution logs are available. Classify as CI_FAILURE / EXECUTION_NOT_ESTABLISHED, not a demonstrated code/test failure. Runner-allocation root cause remains UNVERIFIED. No retry/dispatch was performed. Local tests and synthetic FFmpeg smoke NOT RUN; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED. Next action is owner/account-side verification of private-repository Actions policy, quota/billing and hosted-runner availability; only after resolution and explicit owner authorization should exact-head validation be rerun. Preserve PR #386 OPEN/DRAFT/UNMERGED and original ancestry. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
