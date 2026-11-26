@@ -3417,3 +3417,10 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Added a streaming NUL-character guard to the single-clip candidate CSV loader and four regression cases: optional field, header, unselected trailing row, and multiline quoted field.
 - Production and test changes are submitted; repository tests NOT RUN; synthetic FFmpeg E2E NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
 - Keep the child PR OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1/P0 remain INCOMPLETE.
+
+
+### ARO-CHAT-0384 exact-head CI evidence update — 2026-11-26
+- Exact PR head: `41e6b39c06983f69a7bcbbba39a6828b2097c73a`; workflow run #45824908265 completed FAILURE.
+- Windows job #139926481123 and Ubuntu job #139926481698 completed FAILURE with no recorded steps (`steps: null`) and no log URL. Step lookups were empty and job-log retrieval returned BlobNotFound.
+- Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. No checkout, compilation, or repository test execution is evidenced. Root cause remains UNVERIFIED; this is not evidence of an application-code test failure.
+- No workflow retry/dispatch was initiated. Repository tests NOT RUN; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED.
