@@ -3343,3 +3343,14 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Test commit: `2162adbf6ca952a7f2c74d7c65416b03fd95b4dc`; canonical report: `docs/ARO_CHAT_0364_CANDIDATE_CSV_ENCODING_REGRESSION.md` (content reconciled in commit `34b571cb6b9a69a4c6f2391edba37e275b91a6b0`).
 - GitHub writes completed. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0364 | Reject Malformed Trailing Candidate CSV Rows (2026-11-26)
+
+- Workstream: ARO-GTA-P0-364; continued existing draft PR #386 on its original branch/base.
+- Added `tests/test_candidate_csv_strict_trailing_rows.py` to verify the entire candidate CSV is parsed even after the selected row: malformed quoted trailing rows and invalid UTF-8 in a later row both fail through the structured CSV read-error boundary.
+- Production code unchanged; synthetic CSV fixtures only. No media tools, real footage, credentials, upload, or publishing involved.
+- Test commits: `a5c609ae6608a77cfe1009f6f7792914306c76c8` and `4b39b23d58a7c9fd1a1b7d0bcf7921b62c2aafa9`.
+- Canonical report: `docs/ARO_CHAT_0364_STRICT_TRAILING_CSV_ROWS.md` (commit `1409793b9ee4978443ad39ab0c148850521b0f64`).
+- GitHub source read-back confirms both cases and report are present. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
