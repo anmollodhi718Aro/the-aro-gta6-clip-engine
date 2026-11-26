@@ -3670,3 +3670,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - The run is therefore recorded as a pre-step/runner execution failure with root cause UNVERIFIED, not as a code-test failure and not as a pass. No retry or workflow dispatch was issued.
 - The ARO-CHAT-0395 actual-tab fixture correction is present in the PR head. Repository tests remain NOT RUN; synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED.
 - PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED with base and ancestry preserved. Stage 1/P0 remains INCOMPLETE. No merge, rebase, retarget, upload, publishing, or deployment.
+
+
+### ARO-CHAT-0397 — Fail-closed direct renderer path validation (2026-11-27)
+- Exact PR #412 source review found public `render_selected_clip(video_path, output_path, ...)` converted both caller-supplied path arguments with `Path(...)` before validating them. Invalid direct API inputs (`None`, integers, lists, dicts, empty strings, whitespace-only strings) could escape as incidental `TypeError` instead of a structured FAIL report.
+- Added explicit non-empty `str` / `pathlib.Path` validation for source and destination before conversion, filesystem access, FFprobe, snapshot creation, or rendering. Invalid inputs return FAIL with processing/snapshot flags false; normal CLI Path arguments and valid direct calls are unchanged.
+- Added two regression tests covering six invalid values independently for source and output paths, asserting FFprobe and snapshot helpers are not called.
+- Production commit: `598c163871229ada7626fd2dce1d6318355a7b7b`; regression-test commit: `4af16f8f8f905fe282324a8607d48e7a04970eee`.
+- Static source/test read-back pending; tests NOT RUN in this session. Latest known exact-head Actions run before this fix `45886071923` failed before steps (Ubuntu job `140136964601`, Windows job `140136964243`, both `steps: null`). New commits' CI execution not yet verified. Synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED with original base and ancestry. No merge, rebase, retarget, retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
