@@ -1,3 +1,7 @@
+
+
+> **Serial-collision correction (2026-11-26):** This file is a historical alias only. The CLI override regression in test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` was already canonically assigned to ARO-CHAT-0352 / ARO-GTA-P0-352, with canonical report commit `47a06e8749f71743429c048fefdfa0e300e42325`. ARO-CHAT-0354 is not assigned to this test; the duplicate attribution in this filename is superseded. No commit history was rewritten.
+
 # ARO-CHAT-0354 | Verify Synthetic Smoke CLI Tool Override Forwarding
 
 - Date: 2026-11-26
