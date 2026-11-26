@@ -51,3 +51,12 @@ A later exact-head lookup returned a workflow run for the updated PR #399 head:
 - No workflow dispatch or retry was initiated.
 
 This supersedes the earlier note that the workflow lookup returned zero runs. The full repository unit suite remains NOT RUN. The 6/6 isolated source-level parser harness result remains valid but is not repository CI evidence. Ubuntu/Windows CI are NOT VERIFIED.
+
+
+## Latest exact-head CI result — PR #399 (2026-11-26)
+
+- Final observed head: `fa29ed51fd9e101ee9b9b16d81eecd513e6e9c38`.
+- Python CI run #45799693944 completed FAILURE.
+- Windows job #139839367102 and Ubuntu job #139839367744 both returned empty step arrays (`steps: []`) and `logs_url: null`.
+- Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. No checkout, compilation, or unit-test execution is evidenced. This is not evidence of an application-code test failure. Root cause remains UNVERIFIED. No dispatch/retry was initiated.
+- Repository unit suite remains NOT RUN from a controlled local environment. The 6/6 source-level isolated harness result remains limited evidence only.
