@@ -1903,3 +1903,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Serial reconciliation: ARO-CHAT-0360 is the post-read fstat cleanup task; ARO-CHAT-0361 is the production blank-header guard and initial regression; this expanded coverage is ARO-CHAT-0362. Provisional ARO-CHAT-0360 report path retained as a historical alias.
 - GitHub read-back confirms the test file is present. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0363 | Whitespace-Only Candidate CSV Header Coverage (2026-11-26)
+
+- Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Workstream: ARO-GTA-P0-363. Added regressions for whitespace-only middle and trailing candidate CSV header cells in `tests/test_candidate_csv_blank_headers.py`; the existing loader's `strip()` validation must reject both.
+- Production code unchanged; synthetic CSV fixtures only. Test commits: `b70e8f5e7b0642e1cc88cdf50c9fd00472f7035a` and correction `1eb3fdc6ed0eebbf2d7c429c0cbbebeefd94c06d`. Report commit: `6759f6ab943bd82373d289bdaf4862ae1bc75506`. Registry commit: `39e9a279b17fef45d89238d37688c5bcd93a468b`.
+- GitHub source writes/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
