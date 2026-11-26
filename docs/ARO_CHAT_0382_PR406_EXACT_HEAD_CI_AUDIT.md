@@ -29,3 +29,15 @@
 - Repository unit suite NOT RUN; hosted Ubuntu/Windows execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
 - No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing.
 - Stage 1 and P0 remain NOT COMPLETE. Keep OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## PR #409 exact-head CI execution audit — ARO-CHAT-0383 (2026-11-26)
+
+- Audited PR #409 exact head `12bee31deb3e443bb5769a3b5d6c47f91e55c965` on branch `workstream/aro-chat-0382-pr406-exact-head-ci-audit-2026-11-26`.
+- Workflow run #45803946011 (run 2618, event `pull_request`) explicitly associates PR #409 with the exact head SHA above and completed FAILURE.
+- Windows job #139854124067 and Ubuntu job #139854123571 both completed FAILURE. Job summaries expose `steps: null` and `logs_url: null`; direct step lookups returned empty arrays; job-log retrieval returned 404 / BlobNotFound.
+- GitHub Actions timing endpoint reports `run_duration_ms: 3000`; billable WINDOWS and UBUNTU `total_ms: 0`, one job each, `duration_ms: 0`. This is evidence no hosted runner steps are recorded as executed; it is not a root-cause diagnosis.
+- Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. Root cause remains UNVERIFIED. No evidence checkout, compilation, or tests started. This is not an application test failure.
+- PR #409 contains documentation-only changes. This audit does not validate source changes or parser regressions in sibling PRs #404/#407.
+- Repository unit suite NOT RUN; hosted Ubuntu/Windows execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1 and P0 remain NOT COMPLETE.
+- No workflow dispatch/retry, workflow modification, production-code change, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Annotation content remains NOT INSPECTED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
