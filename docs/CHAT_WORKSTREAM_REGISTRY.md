@@ -2861,3 +2861,13 @@ Two concurrent continuations used provisional ARO-CHAT-0327. The stable syntheti
 - Test commit: f4f3eb625c36051f1c014ecca10f90dcdbc376c4; report: docs/ARO_CHAT_0332_SYNTHETIC_FIXTURE_TIMEOUT_CLEANUP.md; report commit: b1346752877682f017b90e5e7efb4233cd3de835.
 - Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0335 — close smoke verifier descriptor after read failure (2026-11-26)
+
+- Continued existing P0 draft PR #386 on its original branch/base.
+- Added a regression injecting an `OSError` from `os.read` after the synthetic output verifier opens its file descriptor. The test verifies the descriptor is closed by the helper's `finally` cleanup, using a subsequent `os.fstat` failure as evidence.
+- Production code unchanged; the existing `finally: os.close(descriptor)` provides the cleanup.
+- Test commit: `33d0ce67bf5f6fb6d86003a3e7953d371b0e1bec`; report: `docs/ARO_CHAT_0335_SMOKE_VERIFIER_DESCRIPTOR_CLEANUP.md`; report commit: `a4a661889e2b237c2b62bc826ce1dd2d6804766a`.
+- Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
