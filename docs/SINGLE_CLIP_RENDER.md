@@ -357,3 +357,13 @@ processing-start state remains unknown when the helper raises.
 The stable source-snapshot helper now converts `RuntimeError` (including symlink-loop resolution failures) and `ValueError` from `Path.resolve()` into the same deterministic `ValueError` validation boundary already used for filesystem resolution errors. This prevents malformed path resolution from escaping the helper as an unexpected exception. A regression verifies that a simulated resolution loop creates no snapshot and preserves the selected source.
 
 Production commit: `3dd984e568145ce41abd52fc07352d40ff4f59ea`; regression commit: `a2f88deb56974054424c7c2d51c7937d7b2c0fa4`. Tests NOT RUN locally; exact-head CI NOT VERIFIED; independent review NOT RECORDED. PR #386 remains OPEN / DRAFT / UNMERGED. No media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## Terminal fallback directory-sync warning
+
+A terminal fallback report is flushed and file-fsynced before its parent directory is
+synchronized. If that final directory sync fails, the fallback file still exists at the
+reported path, although crash-durability of the directory entry is not confirmed. The
+CLI reports the exact fallback path and instructs the operator to inspect it and any
+rendered output before retrying. Do not interpret a directory-sync warning as proof that
+the fallback file was never created.
