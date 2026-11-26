@@ -3133,3 +3133,14 @@ ARO-CHAT-0345 was already reserved by a concurrent continuation for the syntheti
 - Production code unchanged. Test commit: `69348280501cd951e1f0b13cce1f03d66a78acae`; report: `docs/ARO_CHAT_0349_FIFO_REPLACEMENT_DESCRIPTOR_CLEANUP.md` (commit `3e94dc7ade6b1a1337e5aa899b889956be19c259`).
 - POSIX-only test is skipped where `mkfifo` or `O_NONBLOCK` is unavailable. Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0351 | Reject a source-aliased synthetic render output (2026-11-26)
+
+- Workstream: ARO-GTA-P0-351; continued existing draft PR #386 on its original branch/base.
+- Updated `scripts/synthetic_single_clip_smoke.py` to reject a rendered output that is the same filesystem object as its synthetic source, including a hard link. This prevents a fake or faulty renderer from reporting a successful clip while returning the original source bytes.
+- Added `test_smoke_harness_rejects_output_hardlinked_to_source`, requiring fail-closed rejection and cleanup of temporary source/output artifacts.
+- Production commit: `d296c05bf5230bc4b8fec666d9767aebdf6ef545`; regression test commit: `046d28cc2ef48be515eb956b61b2c6f77a740873`; report: `docs/ARO_CHAT_0351_SOURCE_ALIAS_OUTPUT_GUARD.md`.
+- Starting observed head: `6c4992fa76f2d05bf390baef5fbe7b3e591b800a`.
+- Static source write/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
