@@ -317,3 +317,21 @@ These tests have been added but have NOT been run in this connector session. Thi
 If terminal renderer metadata cannot be serialized as strict JSON after the render call returns, the CLI preserves the original durable RUNNING report and writes a separate exclusive `.terminal-fallback.json` record containing only safe failure metadata. The fallback records the renderer's string status when available, marks output inspection as required, and explicitly warns the operator to inspect any output before retrying. The primary RUNNING report is not overwritten with malformed JSON, and the fallback never overwrites an existing path or aliases the selected source/output. A serialization failure does not prove that rendering failed; a completed MP4 may already exist.
 
 Direct regression tests now cover the MP4 validator's positive case, absent video stream, and missing/zero/boolean dimensions. These were added in test commit `9582ac36d76a7711c0a87c60a6769001b9b5b56b`; test execution remains pending.
+
+
+## Interrupted-run identification and safe recovery
+
+Every durable `RUNNING` reservation now records a unique `run_id`, timezone-aware `started_at_utc`, and the process ID that created it. Terminal reports and terminal fallback reports retain these invocation fields.
+
+A `RUNNING` report means the invocation did not persist a terminal result. It does **not** prove that rendering is still active, and it does **not** prove that rendering stopped. The process ID is diagnostic only: operating systems can reuse PIDs, and the report does not establish process liveness.
+
+If a report remains `RUNNING` after a suspected interruption:
+
+1. Preserve the primary report and any `.terminal-fallback.json` file. Do not overwrite, delete, or edit either record.
+2. Check the same machine for the original process using the recorded PID, command line, and start time. Do not rely on PID equality alone.
+3. Inspect the recorded output path and any temporary render artifacts. Do not delete or overwrite an output whose completion state is uncertain.
+4. If the original process may still be active, wait and inspect the report again. Do not start a second render.
+5. Only after confirming the original process has stopped, inspect any output with FFprobe and perform the required human playback/rights review. Keep the original report as the audit record.
+6. If another render is genuinely required, use a new report path and a new output path. The renderer intentionally does not resume or reuse a `RUNNING` reservation automatically.
+
+This is a manual, fail-closed recovery procedure. Invocation metadata improves traceability; it is not an automatic stale-run detector and does not authorize deleting temporary files, rerendering, or publishing.
