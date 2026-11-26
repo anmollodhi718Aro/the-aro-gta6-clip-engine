@@ -125,6 +125,33 @@ class ClipRenderTests(unittest.TestCase):
             with self.assertRaises(FileExistsError):
                 render_clip(source, output, 0, 2, rights_confirmed=True)
 
+    def test_rejects_output_symlink_created_during_parent_resolution(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            source = root / "source.mov"
+            source.write_bytes(b"synthetic")
+            output = root / "clip.mp4"
+            outside = root / "outside"
+            outside.mkdir()
+            target = outside / "redirected.mp4"
+            original_resolve = Path.resolve
+
+            def create_symlink_during_parent_resolution(path, *args, **kwargs):
+                if path == root and not output.exists() and not output.is_symlink():
+                    try:
+                        output.symlink_to(target)
+                    except (OSError, NotImplementedError):
+                        self.skipTest("symlink creation is unavailable on this runner")
+                return original_resolve(path, *args, **kwargs)
+
+            with patch.object(Path, "resolve", new=create_symlink_during_parent_resolution):
+                with patch("backend.app.clipping.subprocess.run") as run:
+                    with self.assertRaisesRegex(FileExistsError, "symbolic link|already exists"):
+                        render_clip(source, output, 0, 2, rights_confirmed=True)
+            self.assertTrue(output.is_symlink())
+            self.assertFalse(target.exists())
+            run.assert_not_called()
+
     def test_rejects_dangling_symlink_output_without_creating_target(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
