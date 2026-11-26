@@ -15,6 +15,42 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
             with self.assertRaisesRegex(FileNotFoundError, "ffmpeg"):
                 smoke._require_executable("ffmpeg")
 
+    def test_missing_ffprobe_is_reported_before_fixture_generation(self):
+        with patch.object(smoke.shutil, "which", side_effect=lambda name: None if name == "ffprobe" else "/tools/ffmpeg"), patch.object(
+            smoke.subprocess, "run"
+        ) as generate:
+            with self.assertRaisesRegex(FileNotFoundError, "ffprobe"):
+                smoke.run_smoke_test()
+        generate.assert_not_called()
+
+    def test_main_emits_structured_failure_when_ffmpeg_is_missing(self):
+        import contextlib
+        import io
+        import json
+        import sys
+
+        stderr = io.StringIO()
+        with patch.object(smoke.shutil, "which", return_value=None), patch.object(
+            sys, "argv", ["synthetic_single_clip_smoke.py"]
+        ), contextlib.redirect_stderr(stderr):
+            exit_code = smoke.main()
+
+        self.assertEqual(exit_code, 1)
+        payload = json.loads(stderr.getvalue())
+        self.assertEqual(payload["status"], "FAIL")
+        self.assertIn("ffmpeg", payload["error"])
+        self.assertFalse(payload["upload_performed"])
+        self.assertFalse(payload["publishing_enabled"])
+
+    def test_ffmpeg_fixture_generation_failure_is_not_reported_as_pass(self):
+        import subprocess
+
+        with patch.object(smoke.shutil, "which", side_effect=lambda name: f"/tools/{name}"), patch.object(
+            smoke.subprocess, "run", side_effect=subprocess.CalledProcessError(1, ["ffmpeg"])
+        ):
+            with self.assertRaises(subprocess.CalledProcessError):
+                smoke.run_smoke_test()
+
     def test_smoke_harness_checks_render_and_removes_temporary_artifacts(self):
         captured = {}
 
