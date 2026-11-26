@@ -68,8 +68,15 @@ def render_clip(
         raise ValueError("selected media input must be a regular file")
     source = requested_source.resolve()
     resolved_metadata = source.stat()
-    source_identity = (source_metadata.st_dev, source_metadata.st_ino)
-    if source_identity != (resolved_metadata.st_dev, resolved_metadata.st_ino):
+
+    def source_identity(metadata: os.stat_result) -> tuple[int, int, int, int, int, int]:
+        return (
+            metadata.st_dev, metadata.st_ino, metadata.st_size,
+            metadata.st_mtime_ns, metadata.st_ctime_ns, stat.S_IFMT(metadata.st_mode),
+        )
+
+    validated_source_identity = source_identity(source_metadata)
+    if validated_source_identity != source_identity(resolved_metadata):
         raise RuntimeError("selected media path changed during source validation")
 
     requested_destination = Path(output_path).expanduser()
@@ -139,8 +146,10 @@ def render_clip(
         # This narrows the preflight-to-render replacement window and rejects
         # a symlink or non-regular replacement instead of following it.
         current_source = requested_source.lstat()
-        if (not stat.S_ISREG(current_source.st_mode)
-                or (current_source.st_dev, current_source.st_ino) != source_identity):
+        if (
+            not stat.S_ISREG(current_source.st_mode)
+            or source_identity(current_source) != validated_source_identity
+        ):
             raise RuntimeError("selected media path changed after source validation")
         try:
             subprocess.run(command, check=True, capture_output=True, text=True, timeout=ffmpeg_timeout_seconds)
@@ -151,6 +160,23 @@ def render_clip(
         except subprocess.CalledProcessError as exc:
             detail = (exc.stderr or "").strip()
             raise ClipRenderError(detail or "FFmpeg failed to render the clip") from exc
+
+        # Detect in-place edits while FFmpeg was reading the source. A
+        # stable inode alone is insufficient: writers can change bytes without
+        # replacing the pathname. Never publish a render from a changing input.
+        try:
+            completed_source = requested_source.lstat()
+        except OSError as exc:
+            raise ClipRenderError(
+                "selected media path disappeared or changed during FFmpeg rendering; output was not published"
+            ) from exc
+        if (
+            not stat.S_ISREG(completed_source.st_mode)
+            or source_identity(completed_source) != validated_source_identity
+        ):
+            raise ClipRenderError(
+                "selected media file changed during FFmpeg rendering; output was not published"
+            )
 
         if not temporary_output.is_file() or temporary_output.stat().st_size == 0:
             raise ClipRenderError("FFmpeg completed without creating a valid output file")
