@@ -20,6 +20,42 @@ from .media_single_preflight import inspect_one_video
 
 
 
+def _strict_candidate_csv_lines(handle):
+    """Yield CSV lines while rejecting quotes inside unquoted fields.
+
+    Python's csv reader with strict=True rejects characters after a closing
+    quote, but it still accepts a quote embedded in an unquoted field. This
+    streaming lexical guard enforces the CSV quote boundaries without reading
+    the complete candidate file into memory.
+    """
+    state = "field_start"
+    for line in handle:
+        for character in line:
+            if state == "field_start":
+                if character == '"':
+                    state = "quoted"
+                elif character == "," or character in "\r\n":
+                    state = "field_start"
+                else:
+                    state = "unquoted"
+            elif state == "unquoted":
+                if character == '"':
+                    raise csv.Error("quote found inside an unquoted candidate field")
+                if character == "," or character in "\r\n":
+                    state = "field_start"
+            elif state == "quoted":
+                if character == '"':
+                    state = "after_quote"
+            else:  # after_quote
+                if character == '"':
+                    state = "quoted"
+                elif character == "," or character in "\r\n":
+                    state = "field_start"
+                else:
+                    raise csv.Error("unexpected character after a closing candidate quote")
+        yield line
+
+
 def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, Any]:
     """Load one explicitly numbered, review-ready candidate from a clip-pack CSV.
 
@@ -42,7 +78,7 @@ def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, 
             # with DictReader's overflow-cell bucket.
             extra_fields_key = object()
             reader = csv.DictReader(
-                handle,
+                _strict_candidate_csv_lines(handle),
                 restkey=extra_fields_key,
                 restval=None,
                 strict=True,

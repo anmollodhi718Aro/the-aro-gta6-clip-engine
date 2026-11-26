@@ -3375,3 +3375,24 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production code unchanged; synthetic CSV fixture only. Test commit: `e450ee36e26f172a71bb35bcd7351adffefcd4c1`; canonical report: `docs/ARO_CHAT_0367_STRICT_CANDIDATE_CSV_QUOTING.md` (commit `ba7eec40952f2071281f773c8981b0f71f9e88f4`).
 - GitHub source writes completed. Local unit test NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0368 | Reject Quotes Inside Unquoted Candidate CSV Fields (2026-11-26)
+
+- Workstream: ARO-GTA-P0-368; isolated continuation from exact PR #387 head `9421303689cdcaeddd4f7c58ed1903c810182d56`, preserving PR #387 -> PR #386 ancestry.
+- Branch: `workstream/aro-chat-0368-reject-quotes-in-unquoted-candidate-csv-fields-2026-11-26`.
+- Finding: Python's `csv.DictReader(strict=True)` still accepts a double quote embedded in an unquoted field. The candidate loader therefore needed an explicit quote-boundary guard.
+- Production commits: initial `6daea742fdc295d95ea84a383af214f7aefb00d6`; newline-handling correction `66af4d68d7bf739e459deaa5ed7b41f294b6e420`.
+- Regression test commits: initial `7da1a42b9e8e57ae6295a391b3491ba73180a7f7`; fixture line-ending correction `cdca2723dca3c4779d036777d22f59465ece335e`. Covers rejection of a malformed later unquoted field after the selected row and acceptance of escaped quotes inside a properly quoted source ID.
+- Report: `docs/ARO_CHAT_0368_UNQUOTED_CSV_QUOTES.md`, commit `db05179bfdcfbcf086f443104c0d5536bf0b1d09`.
+- The guard streams input lines and preserves valid quoted fields, doubled-quote escapes, delimiters, and embedded line breaks. Synthetic CSV only; no media tools or footage.
+- Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #387 and PR #386 OPEN / DRAFT / UNMERGED and their original dependency chain. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+### Exact-head CI audit — 2026-11-26
+
+- At head `4f9427f9697ef14c2479100c0dc5f105b58ef75c`, Python CI run #45777833134 completed FAILURE.
+- Ubuntu job #139765723606 and hosted-Windows job #139765723994 both reported `steps: null` and `logs_url: null`. No execution logs or runner steps were exposed.
+- Classify this as `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. It provides no evidence that checkout, compilation, or tests started; root cause remains UNVERIFIED and is not attributed to application code.
+- Combined commit status returned zero status entries. No workflow dispatch/retry was initiated.
+- Isolated in-memory parser probes passed for: rejecting an embedded quote in an unquoted later field; accepting a properly escaped quoted field; and accepting a quoted field containing an embedded newline. These probes are not a substitute for the repository unit suite.
