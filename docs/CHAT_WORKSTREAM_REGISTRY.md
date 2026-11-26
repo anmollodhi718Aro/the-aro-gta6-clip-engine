@@ -3332,3 +3332,14 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Test commit: `328574188c9fe8c8e938324bf7e2680c7e59b635`; canonical report: `docs/ARO_CHAT_0365_CANDIDATE_CSV_ROW_SHAPE_REGRESSION.md`.
 - GitHub source writes only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0364 | Preserve Valid UTF-8 BOM and CRLF Candidate CSV Exports (2026-11-26)
+
+- Workstream: ARO-GTA-P0-364; continued on existing draft PR #386 and its original branch/base.
+- Serial reconciliation: concurrent work had already reserved ARO-CHAT-0363 / ARO-GTA-P0-363 for Unicode-whitespace candidate CSV header rejection. This valid UTF-8 BOM/CRLF compatibility regression is uniquely ARO-CHAT-0364. The provisional 0363 report filename is retained as a historical alias; no commit history was rewritten.
+- Added `tests/test_candidate_csv_encoding.py`, verifying that a UTF-8 BOM plus CRLF spreadsheet export is accepted and normalized by `load_selected_candidate()`.
+- Production code unchanged; synthetic CSV only; no media tools or media used.
+- Test commit: `2162adbf6ca952a7f2c74d7c65416b03fd95b4dc`; canonical report: `docs/ARO_CHAT_0364_CANDIDATE_CSV_ENCODING_REGRESSION.md` (content reconciled in commit `34b571cb6b9a69a4c6f2391edba37e275b91a6b0`).
+- GitHub writes completed. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
