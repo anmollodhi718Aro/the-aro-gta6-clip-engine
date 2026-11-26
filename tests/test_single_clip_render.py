@@ -14,6 +14,7 @@ from backend.app.single_clip_render import (
     _create_stable_source_snapshot, _write_exclusive_terminal_fallback,
     load_selected_candidate, main, render_selected_clip, sha256_selected_source,
     _rendered_mp4_validation_error,
+    _fsync_parent_directory,
 )
 
 
@@ -31,6 +32,39 @@ class SingleClipRenderTests(unittest.TestCase):
     def tearDown(self):
         self.temp.cleanup()
 
+
+    @unittest.skipIf(os.name == "nt", "portable Python cannot fsync directory handles on Windows")
+    def test_fsync_parent_directory_syncs_the_containing_directory(self):
+        target = self.root / "durable-report.json"
+        real_open = os.open
+        real_fsync = os.fsync
+        opened = {}
+        synced = []
+
+        def recording_open(path, flags, *args, **kwargs):
+            opened["path"] = Path(path)
+            opened["flags"] = flags
+            return real_open(path, flags, *args, **kwargs)
+
+        def recording_fsync(descriptor):
+            synced.append(descriptor)
+            return real_fsync(descriptor)
+
+        with patch("backend.app.single_clip_render.os.open", side_effect=recording_open), patch(
+            "backend.app.single_clip_render.os.fsync", side_effect=recording_fsync
+        ):
+            _fsync_parent_directory(target)
+
+        self.assertEqual(opened["path"], self.root)
+        self.assertEqual(opened["flags"] & os.O_RDONLY, os.O_RDONLY)
+        if hasattr(os, "O_DIRECTORY"):
+            self.assertTrue(opened["flags"] & os.O_DIRECTORY)
+        self.assertEqual(len(synced), 1)
+
+    @unittest.skipUnless(os.name == "nt", "Windows-specific portability check")
+    def test_fsync_parent_directory_is_noop_on_windows(self):
+        with patch("backend.app.single_clip_render.os.open", side_effect=AssertionError("must not open directory")):
+            _fsync_parent_directory(self.root / "durable-report.json")
 
     def test_sha256_selected_source_matches_file_bytes(self):
         expected = hashlib.sha256(self.source.read_bytes()).hexdigest()
