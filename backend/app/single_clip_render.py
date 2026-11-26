@@ -466,6 +466,15 @@ def _render_selected_clip_from_snapshot(
     return report
 
 
+class SourceSnapshotCreationError(RuntimeError):
+    """A snapshot was created but safe cleanup after a later failure was not confirmed."""
+
+    def __init__(self, message: str, *, snapshot_created: bool, cleanup_required: bool):
+        super().__init__(message)
+        self.snapshot_created = snapshot_created
+        self.cleanup_required = cleanup_required
+
+
 def _create_stable_source_snapshot(
     source: Path, snapshot: Path, *, expected_sha256: str | None = None
 ) -> str:
@@ -594,17 +603,34 @@ def _create_stable_source_snapshot(
         if persisted_sha256 != source_sha256:
             raise OSError("source snapshot read-back SHA-256 does not match copied source bytes")
         return persisted_sha256
-    except Exception:
+    except Exception as original_error:
+        cleanup_error = None
         if snapshot_created:
             try:
                 current_snapshot = snapshot.lstat()
-                if snapshot_identity is not None and (
-                        current_snapshot.st_dev, current_snapshot.st_ino,
-                        stat.S_IFMT(current_snapshot.st_mode),
-                    ) == snapshot_identity:
+                current_identity = (
+                    current_snapshot.st_dev,
+                    current_snapshot.st_ino,
+                    stat.S_IFMT(current_snapshot.st_mode),
+                )
+                if snapshot_identity is None or current_identity != snapshot_identity:
+                    # Never unlink a path that no longer identifies the file
+                    # created by this invocation.
+                    cleanup_error = RuntimeError(
+                        "snapshot path identity changed; the current path was preserved"
+                    )
+                else:
                     snapshot.unlink()
             except FileNotFoundError:
                 pass
+            except OSError as exc:
+                cleanup_error = exc
+        if cleanup_error is not None:
+            raise SourceSnapshotCreationError(
+                f"{original_error}; snapshot cleanup could not be confirmed: {cleanup_error}",
+                snapshot_created=True,
+                cleanup_required=True,
+            ) from original_error
         raise
     finally:
         os.close(descriptor)
@@ -853,6 +879,7 @@ def render_selected_clip(
                 "error": f"post-snapshot render or temporary cleanup failed: {exc}",
                 "message": "verified source snapshot was created; inspect any output and temporary files before retrying",
             }
+        snapshot_cleanup_required = isinstance(exc, SourceSnapshotCreationError)
         return {
             "status": "FAIL",
             "source_path": str(source),
@@ -862,12 +889,22 @@ def render_selected_clip(
             "processing_started": False,
             "source_identity_verified": False,
             "source_snapshot_verified": False,
-            "source_snapshot_created": False,
+            "source_snapshot_created": (
+                exc.snapshot_created if snapshot_cleanup_required else False
+            ),
+            "source_snapshot_cleanup_required": (
+                exc.cleanup_required if snapshot_cleanup_required else False
+            ),
             "expected_source_sha256": expected_source_sha256,
             "source_sha256": None,
             "upload_performed": False,
             "publishing_enabled": False,
             "error": f"selected source snapshot failed closed: {exc}",
+            "message": (
+                "a partial source snapshot may remain; inspect the temporary workspace before retrying"
+                if snapshot_cleanup_required else
+                "source snapshot was not created; no rendering was started"
+            ),
         }
 
 
