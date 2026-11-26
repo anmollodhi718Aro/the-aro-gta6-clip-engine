@@ -2307,3 +2307,14 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - The hash helper now counts bytes read and requires an exact match with the initial descriptor size. An incomplete read fails closed. Added a regression that injects early EOF and expects a validation failure.
 - Commits: production `63020eccbf7020cd7e53aa301f9981b5424b42e9`; regression `4817b542ae4b29e8dc62d5ac36455ea69e35e8e0`; operator docs `defc1d9537f435e4293cebe2f88e5594bde29d8b`.
 - Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized media processed. PR #386 remains OPEN / DRAFT / UNMERGED; no merge, rebase, retarget, workflow retry/dispatch, upload, publishing, or deployment. Issue #68 remains deferred / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0303 — nonblocking snapshot read-back open
+
+- Static review found that persisted source-snapshot verification reopened its private temporary path without `O_NONBLOCK`. If that path were unexpectedly replaced with a FIFO or device before `os.open()`, verification could block before the subsequent descriptor-type check.
+- Snapshot read-back now requests `O_NONBLOCK` where supported, then retains the existing non-following descriptor and regular-file identity/size checks.
+- Added `test_snapshot_readback_uses_nonblocking_open_when_available` to assert the flag is passed on supported platforms and that the verified snapshot bytes still match the selected source.
+- Updated `docs/SINGLE_CLIP_RENDER.md` with the guard's purpose.
+- Production commit: `f09ed993cabe248d8c080a3e6dc9abba01372388`; regression commit: `3d149f0307644730993dae18f247023a8c94963e`.
+- Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains OPEN / DRAFT / UNMERGED. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
