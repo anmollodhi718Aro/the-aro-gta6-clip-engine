@@ -49,6 +49,11 @@ class SingleClipRenderTests(unittest.TestCase):
         if hasattr(os, "O_NONBLOCK"):
             self.assertTrue(observed["flags"] & os.O_NONBLOCK)
 
+    def test_sha256_selected_source_rejects_incomplete_read(self):
+        with patch("backend.app.single_clip_render.os.read", return_value=b""):
+            with self.assertRaisesRegex(ValueError, "changed while it was being hashed"):
+                sha256_selected_source(self.source)
+
 
     def test_snapshot_creation_checks_expected_digest_of_copied_bytes(self):
         expected = hashlib.sha256(self.source.read_bytes()).hexdigest()
