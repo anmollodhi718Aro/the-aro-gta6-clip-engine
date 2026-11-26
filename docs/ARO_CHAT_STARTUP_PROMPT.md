@@ -2032,3 +2032,13 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Original PRs #392 and #395 remain untouched. This branch preserves PR #396 ancestry; no merge/rebase/retarget/rewrite performed.
 - GitHub writes confirmed. Local repository unit suite NOT RUN; isolated parser harness NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; synthetic FFmpeg end-to-end NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED. Stage 1 regression implementation is consolidated on this branch, but validation gates remain OPEN; P0 NOT COMPLETE.
 - Keep this PR OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### ARO-CHAT-0375 validation update (2026-11-26)
+
+- Consolidated regression child PR: [#399](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/399), based on PR #396 exact head; OPEN / DRAFT / UNMERGED.
+- GitHub read-back confirms both added regression files and report/registry/startup documentation are present.
+- A focused source-level harness using the exact parser functions read from `backend/app/single_clip_render.py` passed 6/6 cases: duplicate headers rejected; escaped quotes with embedded LF/CRLF accepted; escaped quote/comma in optional header and data accepted; valid quoted required headers accepted; malformed quote in an unquoted header rejected; trailing text after closing quote rejected.
+- Important limit: this was an isolated source-level harness, NOT the repository's full unit-test suite. The full repository unit suite was NOT RUN. GitHub Actions workflow lookup for PR #399 head `6be121291fd096345604004e292c7d3631c0b723` returned zero runs; Ubuntu/Windows CI remain NOT VERIFIED.
+- Synthetic FFmpeg end-to-end NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED. Stage 1 regression cases are consolidated and focused source-level probes pass, but Stage 1 is NOT declared complete until full-suite and CI evidence are available.
+- No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
