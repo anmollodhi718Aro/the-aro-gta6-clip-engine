@@ -5,7 +5,7 @@ import json
 import os
 import tempfile
 import unittest
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
@@ -1836,6 +1836,77 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(report["status"], "RUNNING")
         self.assertNotIn("NaN", report_text)
         self.assertFalse(self.output.exists())
+
+
+    def test_cli_fallback_resolution_error_keeps_output_inspection_warning(self):
+        report_path = self.root / "fallback-resolution-error.json"
+        fallback_path = report_path.with_name(
+            report_path.name + ".terminal-fallback.json"
+        )
+        original_open = Path.open
+        original_resolve = Path.resolve
+
+        class TerminalWriteFailure:
+            def __init__(self, handle):
+                self.handle = handle
+                self.write_calls = 0
+
+            def __enter__(self):
+                self.handle.__enter__()
+                return self
+
+            def __exit__(self, *args):
+                return self.handle.__exit__(*args)
+
+            def __getattr__(self, name):
+                return getattr(self.handle, name)
+
+            def write(self, value):
+                self.write_calls += 1
+                if self.write_calls == 2:
+                    self.handle.write(value[:8])
+                    return 8
+                return self.handle.write(value)
+
+        def open_with_terminal_failure(path, *args, **kwargs):
+            handle = original_open(path, *args, **kwargs)
+            if path == report_path:
+                return TerminalWriteFailure(handle)
+            return handle
+
+        def resolve_with_fallback_error(path, *args, **kwargs):
+            if path == fallback_path:
+                raise RuntimeError("simulated symlink loop")
+            return original_resolve(path, *args, **kwargs)
+
+        def simulated_completed_render(*args, **kwargs):
+            self.output.write_bytes(b"completed render output")
+            return {
+                "status": "RENDERED",
+                "output_path": str(self.output),
+                "upload_performed": False,
+                "publishing_enabled": False,
+            }
+
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--start", "2", "--end", "8",
+            "--execute", "--confirm-rights",
+            "--output", str(self.output), "--report", str(report_path),
+        ]
+        stderr = io.StringIO()
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.render_selected_clip",
+            side_effect=simulated_completed_render,
+        ), patch.object(Path, "open", new=open_with_terminal_failure), patch.object(
+            Path, "resolve", new=resolve_with_fallback_error
+        ), redirect_stderr(stderr):
+            self.assertEqual(main(), 2)
+
+        self.assertEqual(self.output.read_bytes(), b"completed render output")
+        self.assertFalse(fallback_path.exists())
+        self.assertIn("fallback creation also failed", stderr.getvalue())
+        self.assertIn("Inspect any output file manually before retrying", stderr.getvalue())
 
 
 if __name__ == "__main__":
