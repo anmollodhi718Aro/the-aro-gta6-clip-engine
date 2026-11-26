@@ -1816,3 +1816,14 @@ Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow disp
 - Static diff/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI NOT VERIFIED (no workflow runs or combined status checks returned); independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - ARO-CHAT-0353 remains the separately registered FFprobe-missing CLI failure regression. This task is uniquely ARO-CHAT-0354; no history was rewritten.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0355 | Source/output inode race guard (2026-11-26)
+
+- Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Serial reconciliation: ARO-CHAT-0354 was already reserved for CLI tool override forwarding; this source identity race guard is ARO-CHAT-0355 / ARO-GTA-P0-355.
+- The synthetic smoke harness previously checked `samefile(source, output)` before opening output for hashing. A path replacement with a hard link between those operations could evade that earlier check.
+- `_hash_verified_output(path, distinct_from=source)` now compares the opened output descriptor's device/inode against the source inode and rejects aliasing. Added `tests/test_synthetic_smoke_source_identity_race.py` to swap the output to a source hard link immediately before `os.open`.
+- Production commit: `891df35f87e940453ab2be6b0880c844f31dacf8`; regression commit: `3d781618011096e50078c669afb523dcc9dfbed3`; report serial-reconciliation commit: `5a17a910c4a4ef03520976d3e95019fd298ee88f`; registry commit: `d3106061449cc97774293562ad91a514508a8eca`.
+- Source read-back and exact-head Ubuntu/hosted-Windows CI remain to be verified. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
