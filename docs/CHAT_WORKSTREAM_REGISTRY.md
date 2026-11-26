@@ -2398,3 +2398,14 @@ ARO-CHAT-0304 attribution/fixture note: production commit `3204190a41814b73b2685
 - Test commit: `3742480f3664b502ea3fe70dc81d22f5c52b0a5d`.
 - Test NOT RUN locally in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. Do not claim the regression passed.
 - Continue on existing PR #386 and branch; preserve OPEN/DRAFT/UNMERGED and ancestry. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### ARO-CHAT-0307 — truthful source-snapshot cleanup failure state
+
+- Exact chat title: ARO-CHAT-0307 | Snapshot Cleanup Failure State Reporting; workstream: ARO-GTA-P1-307.
+- Static review found that _create_stable_source_snapshot() could create a partial snapshot, then fail to remove it, while render_selected_clip() reported source_snapshot_created=false. That understated a possible leftover file and could mislead an operator before retry.
+- Added SourceSnapshotCreationError to preserve the fact that this invocation created a snapshot and that cleanup remains required. The report now says snapshot created=true, verified=false, digest=null, and includes an explicit manual-inspection message. A changed path identity is preserved rather than unlinked.
+- Added regression test_snapshot_cleanup_failure_is_reported_as_created_unverified; it injects read-back failure plus cleanup denial and asserts rendering is never invoked.
+- Commits: implementation 52cf10b8f2f15efdad0cc4b2f064bd194818303c; regression 406fa568027bbe222e6f89b49befa53e1cc1d8ac; operator guide 1cbbfd13bfc2ff5dc40021055cfe9c86e70c8d31.
+- Tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
+- Continue on existing PR #386 and branch. Preserve DRAFT / OPEN / UNMERGED state and ancestry. No merge, rebase, retarget, workflow retry/dispatch, real media, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
