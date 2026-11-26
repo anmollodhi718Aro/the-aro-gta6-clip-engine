@@ -1946,3 +1946,14 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Serial reconciliation: ARO-CHAT-0363 was concurrently registered for whitespace-only CSV headers and ARO-CHAT-0364 for strict malformed trailing-row parsing. This workstream is uniquely ARO-CHAT-0365. The provisional 0363 report is a historical alias; no history was rewritten.
 - GitHub source writes only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0364 | Preserve Valid UTF-8 BOM and CRLF Candidate CSV Exports (2026-11-26)
+
+- Continue on existing draft PR #386 and original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Concurrent work had already reserved ARO-CHAT-0363 / ARO-GTA-P0-363 for Unicode-whitespace candidate CSV header rejection. This valid UTF-8 BOM/CRLF compatibility regression is uniquely ARO-CHAT-0364; its provisional report filename is retained as a historical alias. No commit history was rewritten.
+- Added `tests/test_candidate_csv_encoding.py`, verifying that a UTF-8 BOM and CRLF spreadsheet export is accepted and normalized by the explicit selected-row loader.
+- Production code unchanged; temporary CSV fixture only; no FFmpeg/FFprobe process or media used.
+- Test commit: `2162adbf6ca952a7f2c74d7c65416b03fd95b4dc`; canonical report content commit: `34b571cb6b9a69a4c6f2391edba37e275b91a6b0`; registry commit: `2b0e2a7cc97e1926df5ee80ffb8e4f5cf5369c17`.
+- GitHub source writes only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
