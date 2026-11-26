@@ -1334,3 +1334,6 @@ Continue P0 single-selected-clip work on existing PR #386 / branch workstream/ar
 
 
 Attribution collision correction (2026-11-26): ARO-CHAT-0305 is already assigned to the production expanded-report-path fix and its direct assertion test. The additional end-to-end fallback-file persistence test is ARO-CHAT-0306 / ARO-GTA-P1-306.
+
+
+ARO-CHAT-0306 test fixture correction: the regression constructs an actual surrogate code point using `chr(0xDCFF)`. Corrected test commit: `08deab535c6ed783d5251ae979d8984795ccae58`; registry correction: `e10b5860cc5df1f338d00a37b621a8e55597222b`. Tests NOT RUN; exact-head CI NOT VERIFIED.
