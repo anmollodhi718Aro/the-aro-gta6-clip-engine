@@ -142,6 +142,27 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(snapshot.exists())
         self.assertEqual(self.source.read_bytes(), b"synthetic video")
 
+    def test_snapshot_directory_fsync_and_cleanup_failure_preserves_recovery_state(self):
+        from backend.app.single_clip_render import SourceSnapshotCreationError
+
+        snapshot = self.root / "directory-fsync-cleanup-failure-snapshot.mp4"
+        with patch(
+            "backend.app.single_clip_render._fsync_parent_directory",
+            side_effect=OSError("simulated directory fsync failure"),
+        ), patch.object(
+            Path, "unlink", side_effect=PermissionError("simulated snapshot cleanup denial")
+        ):
+            with self.assertRaises(SourceSnapshotCreationError) as raised:
+                _create_stable_source_snapshot(self.source, snapshot)
+
+        self.assertTrue(raised.exception.snapshot_created)
+        self.assertTrue(raised.exception.cleanup_required)
+        self.assertIn("directory fsync failure", str(raised.exception))
+        self.assertIn("cleanup could not be confirmed", str(raised.exception))
+        self.assertTrue(snapshot.exists())
+        self.assertEqual(snapshot.read_bytes(), self.source.read_bytes())
+        self.assertEqual(self.source.read_bytes(), b"synthetic video")
+
     def test_snapshot_readback_uses_nonblocking_open_when_available(self):
         snapshot = self.root / "nonblocking-readback-snapshot.mp4"
         real_open = os.open
