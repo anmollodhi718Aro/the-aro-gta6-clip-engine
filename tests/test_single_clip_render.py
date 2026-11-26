@@ -1040,6 +1040,32 @@ class SingleClipRenderTests(unittest.TestCase):
             "rendered output has no verified video stream",
         )
 
+    def test_rendered_mp4_validation_checks_every_video_stream(self):
+        invalid = {
+            "format_name": "mp4",
+            "video_streams": [
+                {"codec": "h264", "width": 1920, "height": 1080},
+                {"codec": "vp9", "width": 1920, "height": 1080},
+            ],
+        }
+        self.assertEqual(
+            _rendered_mp4_validation_error(invalid),
+            "rendered output video codec is not H.264",
+        )
+
+    def test_rendered_mp4_validation_rejects_malformed_secondary_stream(self):
+        invalid = {
+            "format_name": "mp4",
+            "video_streams": [
+                {"codec": "h264", "width": 1920, "height": 1080},
+                None,
+            ],
+        }
+        self.assertEqual(
+            _rendered_mp4_validation_error(invalid),
+            "rendered output video stream 1 metadata is invalid",
+        )
+
     def test_rendered_mp4_validation_rejects_missing_or_boolean_dimensions(self):
         cases = [
             ({"codec": "h264", "height": 1080}, "width"),
