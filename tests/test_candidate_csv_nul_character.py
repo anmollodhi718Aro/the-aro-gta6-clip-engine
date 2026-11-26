@@ -12,8 +12,8 @@ class CandidateCsvNulCharacterTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             csv_path = Path(directory) / "candidates.csv"
             csv_path.write_text(
-                "source_id,start_seconds,end_seconds,duration_seconds,renderable,notes\\n"
-                "authorized-demo,2,8,6,True,unsafe\\x00note\\n",
+                "source_id,start_seconds,end_seconds,duration_seconds,renderable,notes\n"
+                "authorized-demo,2,8,6,True,unsafe\x00note\n",
                 encoding="utf-8",
                 newline="",
             )
