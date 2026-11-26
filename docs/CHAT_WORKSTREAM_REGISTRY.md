@@ -2914,3 +2914,16 @@ Two concurrent continuations used provisional ARO-CHAT-0327. The stable syntheti
 - Test commit: `efb7f74c1fcc3f49ffa4722c7a1cf2b32f888602`; report: `docs/ARO_CHAT_0338_SMOKE_VERIFIER_PATH_STAT_CLEANUP.md`; report commit: `95d663a89da8014a2de97bbd5eb02951d31df846`.
 - Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original branch/base. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0339 — reject premature EOF during synthetic output hashing (2026-11-26)
+
+- Exact chat title: ARO-CHAT-0339 | Reject Premature EOF During Synthetic Output Hashing.
+- Workstream: ARO-GTA-P0-339; continued existing draft PR #386 and its original branch/base.
+- Serial collision reconciled: ARO-CHAT-0337 remains assigned to final-`lstat` descriptor cleanup; ARO-CHAT-0338 remains assigned to initial-path-stat descriptor cleanup. This premature-EOF regression is canonically ARO-CHAT-0339. The provisional report `docs/ARO_CHAT_0337_PREMATURE_EOF_HASH_GUARD.md` is retained as a historical alias; no commit history was rewritten.
+- Added a regression simulating an unexpected empty read before the complete regular-file size is consumed, while file metadata remains stable. The verifier must reject the incomplete byte count and close its descriptor.
+- Production code unchanged; existing byte-count verification and `finally` descriptor cleanup provide the expected protection.
+- Test: `tests/test_synthetic_single_clip_smoke.py::test_hash_verified_output_rejects_unexpected_early_eof_and_closes_descriptor`; test commit: `168c0e382a48b5172a0d143640405671a1cd5d58`.
+- Canonical report: `docs/ARO_CHAT_0339_PREMATURE_EOF_HASH_GUARD.md`; report commit: `be16a575f9f10e84c59cc5859183643e7ee7c7c5`.
+- Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
