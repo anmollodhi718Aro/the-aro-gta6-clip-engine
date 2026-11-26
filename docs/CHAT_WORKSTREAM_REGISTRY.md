@@ -3027,3 +3027,13 @@ Removed a duplicate `test_hash_verified_output_closes_descriptor_when_final_fsta
 - Test commit: `9f7287087f8d793eea942436b700477de948a82d`; report commit: `d42fd2d2d818b05a126d10b3c8d09476d45122ca`.
 - Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0345 | structured synthetic smoke CLI success (2026-11-26)
+
+- Workstream: ARO-GTA-P0-345; continued existing draft PR #386 on its original branch/base.
+- Added `test_main_emits_structured_success_for_valid_synthetic_output` to `tests/test_synthetic_single_clip_smoke.py`.
+- Exercises `main()` with a valid non-empty synthetic output and verifies exit code 0, parseable JSON PASS, output byte count and SHA-256, synthetic-only media metadata, upload/publishing false, manual review required, and no retained artifacts.
+- Test commit: `a38f4f8463b48d1682252ceef19d064b65c5479b`; report commit: `2a2ff9b4f602affaf5bb3141b6866099e8448665`.
+- Static edit/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
