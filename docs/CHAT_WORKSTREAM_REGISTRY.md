@@ -2380,7 +2380,7 @@ ARO-CHAT-0304 attribution/fixture note: production commit `3204190a41814b73b2685
 - PR #386 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment.
 
 
-## ARO-CHAT-0305 — expanded report-path fallback regression
+## ARO-CHAT-0306 — expanded report-path fallback regression
 
 - Added `test_cli_terminal_fallback_uses_expanded_report_path` to cover the production correction that passes the expanded report path to terminal fallback creation. The test injects a partial terminal-report write using a home-relative report argument, then checks the fallback is created beside the expanded primary report and preserves the completed output.
 - No production behavior changed; regression coverage only.
@@ -2409,3 +2409,6 @@ ARO-CHAT-0304 attribution/fixture note: production commit `3204190a41814b73b2685
 - Commits: implementation 52cf10b8f2f15efdad0cc4b2f064bd194818303c; regression 406fa568027bbe222e6f89b49befa53e1cc1d8ac; operator guide 1cbbfd13bfc2ff5dc40021055cfe9c86e70c8d31.
 - Tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
 - Continue on existing PR #386 and branch. Preserve DRAFT / OPEN / UNMERGED state and ancestry. No merge, rebase, retarget, workflow retry/dispatch, real media, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+Attribution collision correction (2026-11-26): a separate production fix and its direct regression already own ARO-CHAT-0305 / ARO-GTA-P1-305. The supplemental end-to-end fallback-file persistence regression originally appended under 0305 is re-attributed to ARO-CHAT-0306 / ARO-GTA-P1-306. No code/test commit was removed or rewritten.
