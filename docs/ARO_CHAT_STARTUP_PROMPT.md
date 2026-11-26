@@ -2013,3 +2013,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Test commit: `513cb96a127113304f35abc78bb2eb9d9c4183b3`; report commit: `afb2c783d2650a1b859ef224f2ccc1c5a3a84ab3`; registry sync commit: `0b2e615d0e5b626a8c6a81635050663bdd9506eb`.
 - GitHub source read-back PRESENT for the test and report. Exact-head Actions lookup for `afb2c783d2650a1b859ef224f2ccc1c5a3a84ab3` returned zero workflow runs: CI NOT VERIFIED. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED; P0 pipeline NOT COMPLETE.
 - Keep PR #393 and parents #390/#389/#388/#387/#386 OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0373 | Escaped-Quote Candidate CSV Header Compatibility (2026-11-26)
+
+- Continue from the dedicated draft branch `workstream/aro-chat-0373-escaped-quoted-csv-header-compat-2026-11-26`, based on PR #394 exact head `2ee70a2a4deaa8f321bc7f7f4f5f4c626bd2bdc5`. Preserve the ancestry PR #394 -> #393 -> #390 -> #389 -> #388 -> #387 -> #386.
+- Added `tests/test_candidate_csv_escaped_quoted_header.py`: valid optional header cell with a doubled-quote escape and embedded comma, plus a row value with a comma and escaped quotes. This is synthetic CSV compatibility coverage; production code unchanged.
+- Test commit: `08ba829ea4d61416271e63c0019e3b1bb084341f`; report commit: `110e4671888a6d566f4c0c0e9c1a0d4751591db0`.
+- GitHub source read-back PRESENT for test, report, registry and startup files. Local unit tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; synthetic FFmpeg end-to-end NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED; P0 pipeline NOT COMPLETE.
+- Keep this branch and parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.

@@ -3414,3 +3414,22 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 | Status | IMPLEMENTED; GitHub source read-back PRESENT; exact-head CI NOT VERIFIED (workflow lookup returned zero runs); local tests NOT RUN; independent review NOT RECORDED |
 
 The tests exercise the existing strict streaming quote guard against malformed header cells using synthetic CSV text. No production rendering, media, OAuth, uploader, or publishing behavior changed. Keep PR #393 and all parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0373 | Escaped-Quote Candidate CSV Header Compatibility (2026-11-26)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0373 |
+| Exact title | ARO-CHAT-0373 | Accept Escaped Quotes and Commas in Candidate CSV Headers |
+| Workstream ID | ARO-GTA-P0-373 |
+| Branch / PR | `workstream/aro-chat-0373-escaped-quoted-csv-header-compat-2026-11-26` / draft PR pending |
+| Parent | PR #394 -> #393 -> #390 -> #389 -> #388 -> #387 -> #386 |
+| Starting SHA | 2ee70a2a4deaa8f321bc7f7f4f5f4c626bd2bdc5 |
+| Scope | Synthetic CSV compatibility regression only; production code unchanged |
+| Change | `tests/test_candidate_csv_escaped_quoted_header.py` covers a valid optional header cell containing a doubled-quote escape and comma, plus a data value with comma and escaped quotes |
+| Test commit | 08ba829ea4d61416271e63c0019e3b1bb084341f |
+| Report commit | 110e4671888a6d566f4c0c0e9c1a0d4751591db0 |
+| Status | IMPLEMENTED; GitHub source read-back PRESENT; local tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED |
+
+Keep this work and all parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
