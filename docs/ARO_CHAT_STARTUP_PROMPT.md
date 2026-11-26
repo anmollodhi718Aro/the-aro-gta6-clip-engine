@@ -2116,3 +2116,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Production commit: `22f835e7e7d7b3febe5605b5450507d6bbbe4c18`; test commit: `524dd287d6a00443f3f1a7b197715a224314d86a`.
 - GitHub write responses received; exact-head read-back and test execution pending. Tests NOT RUN; hosted CI NOT VERIFIED; FFmpeg E2E, independent review, owner-device Windows, and authorized GTA VI MP4 remain NOT VERIFIED.
 - Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No retry/dispatch, merge, rebase, retarget, OAuth, credentials, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation — CLI path-resolution RuntimeError guard (ARO-CHAT-0400, 2026-11-27)
+- Continued PR #412 on its existing branch and preserved the base/parent ancestry.
+- Added `RuntimeError` to `backend/app/cli.py`'s controlled error handling because path resolution can raise it for symlink-loop/path-resolution failures.
+- Added `test_cli_reports_path_resolution_runtime_error_without_writing_output` in `tests/test_cli.py`.
+- Production commit: `a6157d8b90100cae4e5074bdc716c4a29ec61061`; test commit: `30aefea79a5debaa65f218a5843a0d24f078a16b`; registry commit: `d22b9d7742e3929d5232b55b0e009fc6508dd45f`.
+- Tests have not been run. Exact-head CI, synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain unverified/not run. Stage 1/P0 remains incomplete.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. Do not merge, rebase, retarget, retry/dispatch workflows, process live media, upload, publish, or deploy without the required approvals.
