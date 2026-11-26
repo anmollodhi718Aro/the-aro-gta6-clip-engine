@@ -1753,3 +1753,15 @@ Continue on existing draft PR #386 and its original branch/base: `workstream/aro
 - Serial collision reconciliation: ARO-CHAT-0346 through ARO-CHAT-0348 were already allocated to other concurrent regressions. This task is uniquely ARO-CHAT-0349 / ARO-GTA-P0-349. The provisional report filename containing 0346 remains a historical alias; canonical report is `docs/ARO_CHAT_0349_FIFO_REPLACEMENT_NONBLOCKING_GUARD.md`.
 - Source read-back completed. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0350 (2026-11-26)
+
+- Suggested chat title: `ARO-CHAT-0350 | Structured CLI Failure and Cleanup on Synthetic Fixture Timeout`.
+- Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added `test_main_emits_structured_failure_and_cleans_up_when_fixture_generation_times_out` to `tests/test_synthetic_single_clip_smoke.py`. It injects `subprocess.TimeoutExpired` during synthetic FFmpeg fixture generation and verifies exit code 1, parseable JSON FAIL, timeout detail, upload/publishing false, no renderer invocation, and temporary-directory cleanup.
+- Production code unchanged; the existing `subprocess.SubprocessError` boundary is expected to catch `TimeoutExpired`.
+- Regression test commit: `1e1313bbaaa25fb82f1d3abca3e9410c4dc8afd4`; report commit: `fa86327a4ac0c7d4f15a0f4f33e1958b120f730e`; registry commit: `cceac60e412e13c8b4e225b4c4f1319c900c5e63`.
+- Serial collisions: concurrent work reserved ARO-CHAT-0346 through ARO-CHAT-0349 for separate FIFO, renderer-safety, missing-output and upload/publishing guard work. This timeout task is uniquely ARO-CHAT-0350; provisional report aliases with 0347 and 0348 in their filenames are historical only. No commit history was rewritten.
+- Static change/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
