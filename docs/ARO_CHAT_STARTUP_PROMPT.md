@@ -2108,3 +2108,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Commit: `8c7807c19dede92f0e0ab65b750d997700db2172`; registry follow-up: `a170b224db3eb288b24594da2f1ef4ba2f0cd786`.
 - Re-read updated test source and checked all five changed test modules for adjacent duplicate `@patch` decorators; none remain. Tests NOT RUN; no exact-head workflow run returned for the registry commit. CI, synthetic FFmpeg E2E, independent review, owner-device Windows, and authorized GTA 6 media remain NOT VERIFIED.
 - Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation — CLI symlink output redirection guard (2026-11-27)
+- Static review found that resolving a symlink used as the final CLI output path could redirect the atomic clip-plan replacement to an unrelated target file.
+- `analyze_file` now rejects a symlink at the final output path before resolving paths. Regression coverage checks that a symlink target remains unchanged and the symlink remains in place.
+- Production commit: `22f835e7e7d7b3febe5605b5450507d6bbbe4c18`; test commit: `524dd287d6a00443f3f1a7b197715a224314d86a`.
+- GitHub write responses received; exact-head read-back and test execution pending. Tests NOT RUN; hosted CI NOT VERIFIED; FFmpeg E2E, independent review, owner-device Windows, and authorized GTA VI MP4 remain NOT VERIFIED.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No retry/dispatch, merge, rebase, retarget, OAuth, credentials, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
