@@ -1,6 +1,6 @@
-# ARO-CHAT-0342 | Guard Final-Lstat Regression Test Discovery
+# ARO-CHAT-0343 | Guard Final-Lstat Regression Test Discovery
 
-- Workstream: ARO-GTA-P0-342.
+- Workstream: ARO-GTA-P0-343.
 - Continuation target: existing draft PR #386 on `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; preserve original base and ancestry.
 - Finding: the prior ARO-CHAT-0340 correction moved the final-`lstat()` descriptor-cleanup test into the test class, but the ARO-CHAT-0341 AST guard only checked uniqueness of methods that were already direct class members. A future indentation/placement regression could silently make the required test undiscoverable without failing that uniqueness check.
 - Change: added an AST regression requiring `test_hash_verified_output_closes_descriptor_when_final_lstat_fails` to appear exactly once as a direct method of `SyntheticSingleClipSmokeTests`.
