@@ -68,6 +68,10 @@ def map_candidates_to_media(
     """Map chat time to media seconds using one measured origin or a fitted clock."""
     if (media_origin_utc is None) == (clock_sync is None):
         raise ValueError("provide exactly one of media_origin_utc or clock_sync")
+    if source_id is not None:
+        if not isinstance(source_id, str) or not source_id.strip():
+            raise ValueError("source_id must be a non-empty string when provided")
+        source_id = source_id.strip()
     origin = (
         parse_datetime(media_origin_utc).astimezone(timezone.utc)
         if media_origin_utc is not None else None
@@ -86,9 +90,12 @@ def map_candidates_to_media(
             raise ValueError(f"candidate {index} has clip_end <= clip_start")
 
         raw_candidate_source = candidate.get("source_id")
-        candidate_source = str(
-            raw_candidate_source if raw_candidate_source is not None else source_id or ""
-        ).strip()
+        if raw_candidate_source is None:
+            candidate_source = source_id or ""
+        else:
+            if not isinstance(raw_candidate_source, str):
+                raise ValueError(f"candidate {index} source_id must be a string")
+            candidate_source = raw_candidate_source.strip()
         if clock_sync:
             # A calibrated clock is valid only for the exact source measured
             # by its anchors. Missing or whitespace-only IDs fail closed.
