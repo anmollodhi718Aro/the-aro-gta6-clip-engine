@@ -607,6 +607,10 @@ def _create_stable_source_snapshot(
                     copied += written
                 snapshot_handle.flush()
                 os.fsync(snapshot_handle.fileno())
+        # Persist the snapshot directory entry as well as file contents. A
+        # file-level fsync alone does not guarantee the new name survives a
+        # sudden POSIX host crash before the directory metadata is committed.
+        _fsync_parent_directory(snapshot)
         after_fd = os.fstat(descriptor)
         after_path = source.lstat()
         if (identity(after_fd) != identity(before_fd)
