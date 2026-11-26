@@ -1808,20 +1808,20 @@ Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow disp
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 
 
-### Latest P0 continuation handoff — ARO-CHAT-0354 (2026-11-26)
+### Superseded historical alias — CLI override regression (canonical ARO-CHAT-0352)
 
 - Continue on existing draft PR #386 and original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
-- Registered the explicit synthetic smoke CLI tool-override forwarding regression in `tests/test_synthetic_single_clip_smoke_cli_args.py` (test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2`). It verifies that `main()` forwards explicit `--ffmpeg` and `--ffprobe` values unchanged to `run_smoke_test()`, returns exit code 0 for a controlled synthetic PASS payload, and emits parseable JSON. No FFmpeg/FFprobe execution or media processing is performed by this regression.
-- Canonical report: `docs/ARO_CHAT_0354_CLI_TOOL_OVERRIDE_FORWARDING.md`; report commit `2381d7bdb4e6c6081360f06a33646448a909c660`; registry commit `f8a0ac98bb043c463017b79a264b9b2dc2bcc2c1`.
+- This handoff was a duplicate attribution. The explicit synthetic smoke CLI tool-override forwarding regression in `tests/test_synthetic_single_clip_smoke_cli_args.py` (test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2`) is canonically ARO-CHAT-0352. It verifies that `main()` forwards explicit `--ffmpeg` and `--ffprobe` values unchanged to `run_smoke_test()`, returns exit code 0 for a controlled synthetic PASS payload, and emits parseable JSON. No FFmpeg/FFprobe execution or media processing is performed by this regression.
+- Historical alias: `docs/ARO_CHAT_0354_CLI_TOOL_OVERRIDE_FORWARDING.md`; canonical report: `docs/ARO_CHAT_0352_CLI_TOOL_OVERRIDE_FORWARDING.md` (commit `47a06e8749f71743429c048fefdfa0e300e42325`). Duplicate report/registry commits are retained without rewriting history.
 - Static diff/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI NOT VERIFIED (no workflow runs or combined status checks returned); independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
-- ARO-CHAT-0353 remains the separately registered FFprobe-missing CLI failure regression. This task is uniquely ARO-CHAT-0354; no history was rewritten.
+- ARO-CHAT-0353 remains the separately registered FFprobe-missing CLI failure regression. The CLI override test is ARO-CHAT-0352; ARO-CHAT-0354 is not assigned to this task.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
 
 
 ### Latest P0 continuation handoff — ARO-CHAT-0355 | Source/output inode race guard (2026-11-26)
 
 - Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
-- Serial reconciliation: ARO-CHAT-0354 was already reserved for CLI tool override forwarding; this source identity race guard is ARO-CHAT-0355 / ARO-GTA-P0-355.
+- Serial reconciliation: the initial 0354 attribution was reconciled to 0355 after a concurrent serial collision review; this source identity race guard is ARO-CHAT-0355 / ARO-GTA-P0-355.
 - The synthetic smoke harness previously checked `samefile(source, output)` before opening output for hashing. A path replacement with a hard link between those operations could evade that earlier check.
 - `_hash_verified_output(path, distinct_from=source)` now compares the opened output descriptor's device/inode against the source inode and rejects aliasing. Added `tests/test_synthetic_smoke_source_identity_race.py` to swap the output to a source hard link immediately before `os.open`.
 - Production commit: `891df35f87e940453ab2be6b0880c844f31dacf8`; regression commit: `3d781618011096e50078c669afb523dcc9dfbed3`; canonical report: `docs/ARO_CHAT_0355_SOURCE_IDENTITY_RACE_GUARD.md` (commit `3d3019bc85354e7b090637ab199a59c0e7774fe7`); registry correction commit: `6cf831ba0886420390252c75717b9a8d303f712d`. The provisional `docs/ARO_CHAT_0354_SOURCE_IDENTITY_RACE_GUARD.md` path is retained as a historical alias because ARO-CHAT-0354 was already reserved; no history was rewritten.
