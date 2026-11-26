@@ -3084,3 +3084,15 @@ ARO-CHAT-0345 was already reserved by a concurrent continuation for the syntheti
 - Serial collision reconciliation: concurrent work reserved ARO-CHAT-0346 for the missing-output CLI regression and ARO-CHAT-0347 for unsafe smoke-renderer report guards. This timeout continuation is uniquely attributed to ARO-CHAT-0348 / ARO-GTA-P0-348. The provisional report alias `docs/ARO_CHAT_0347_SYNTHETIC_FIXTURE_TIMEOUT_CLI_REGRESSION.md` is retained as a historical alias only; no commit history was rewritten.
 - Static change/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0349 | Reject Renderer Reports That Enable Upload or Publishing (2026-11-26)
+
+- Workstream: ARO-GTA-P0-349; continued existing draft PR #386 on its original branch/base.
+- Added `test_smoke_harness_rejects_renderer_report_that_enables_upload_or_publishing` to `tests/test_synthetic_single_clip_smoke.py`.
+- Covers `upload_performed=True` and `publishing_enabled=True` independently. Both reports otherwise claim RENDERED and provide a matching SHA-256 for non-empty synthetic output.
+- Requires fail-closed rejection and cleanup of the temporary source, output, and directory. Production code unchanged.
+- Test commit: `88220548e80283514974c4cf30b781d1d5702f25`; canonical report: `docs/ARO_CHAT_0349_RENDERER_UPLOAD_PUBLISHING_GUARD.md`; report commit: `8cf6a82bd5ef62cf8f8705d6f6f68a7fddfc0f78`.
+- ARO-CHAT-0347 and ARO-CHAT-0348 were already allocated by concurrent work. Earlier misnumbered aliases are marked superseded; this task is uniquely registered as ARO-CHAT-0349. No history rewritten.
+- Static edit/read-back only. Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN/DRAFT/UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
