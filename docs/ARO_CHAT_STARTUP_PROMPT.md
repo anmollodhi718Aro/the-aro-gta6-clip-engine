@@ -1806,3 +1806,13 @@ Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow disp
 - Test commit: `40c96324a3bc5381527411c2dff7bf2699a21ee2`; report commit: `47a06e8749f71743429c048fefdfa0e300e42325`; registry commit: `8150a3d86086b99d83d5d1cc585f5bc29349bbe1`.
 - Production code unchanged. Static source write/read-back only; local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0354 (2026-11-26)
+
+- Continue on existing draft PR #386 and original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Registered the explicit synthetic smoke CLI tool-override forwarding regression in `tests/test_synthetic_single_clip_smoke_cli_args.py` (test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2`). It verifies that `main()` forwards explicit `--ffmpeg` and `--ffprobe` values unchanged to `run_smoke_test()`, returns exit code 0 for a controlled synthetic PASS payload, and emits parseable JSON. No FFmpeg/FFprobe execution or media processing is performed by this regression.
+- Canonical report: `docs/ARO_CHAT_0354_CLI_TOOL_OVERRIDE_FORWARDING.md`; report commit `2381d7bdb4e6c6081360f06a33646448a909c660`; registry commit `f8a0ac98bb043c463017b79a264b9b2dc2bcc2c1`.
+- Static diff/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI NOT VERIFIED (no workflow runs or combined status checks returned); independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- ARO-CHAT-0353 remains the separately registered FFprobe-missing CLI failure regression. This task is uniquely ARO-CHAT-0354; no history was rewritten.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
