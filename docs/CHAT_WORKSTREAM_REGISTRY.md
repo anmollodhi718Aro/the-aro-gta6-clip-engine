@@ -2543,3 +2543,10 @@ The second ARO-CHAT-0310 entry and `docs/ARO_CHAT_0310_TERMINAL_FALLBACK_PATH_RE
 - Commits: production `aad93ead50d714de72c5cc076450eb2ddd6bba7c`; test `33f4b88d429c2e466d59a13acde33e61c66f07ad`; operator guide `b86cdb1294e7bb140067c5888c6337bb18d8b4f5`; report `579d3b99efd0499159dc5337fdcb991db706aa74`.
 - Tests NOT RUN locally; exact-head CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### ARO-CHAT-0314 regression follow-up
+
+- Added terminal-success and terminal-fallback assertions proving invocation identity (`run_id`, `started_at_utc`, `process_id`) is preserved from the durable RUNNING reservation.
+- Additional test commits: `be7aa98b0066d43ce3349da5ed6eb7345bb1dd57`, `babe0322d7928585b8d83e61f959070ba5fad862`; report update `22523b394937326213b720a936518755890922ff`.
+- Tests NOT RUN; exact-head CI NOT VERIFIED.
