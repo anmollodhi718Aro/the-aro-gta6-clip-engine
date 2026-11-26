@@ -2004,3 +2004,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Classify this as `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. It provides no evidence that checkout, compilation, or tests started; root cause remains UNVERIFIED and is not attributed to application code.
 - Combined commit status returned zero status entries. No workflow dispatch/retry was initiated.
 - Isolated in-memory parser probes passed for: rejecting an embedded quote in an unquoted later field; accepting a properly escaped quoted field; and accepting a quoted field containing an embedded newline. These probes are not a substitute for the repository unit suite.
+
+
+## Latest P0 continuation handoff — ARO-CHAT-0371 | Malformed Candidate CSV Header Quote Regressions (2026-11-26)
+
+- Continue from draft PR #393, branch `workstream/aro-chat-0371-reject-malformed-candidate-csv-headers-2026-11-26`, based on PR #390 exact head `d2146334143aeae7372bdbeb43e681ec4a1de816`. Preserve the dependency chain PR #393 -> #390 -> #389 -> #388 -> #387 -> #386; do not merge, rebase, retarget, or rewrite ancestry.
+- Added `tests/test_candidate_csv_malformed_header_quotes.py`: reject a quote embedded in an unquoted header cell and reject trailing text after a closing quoted header cell. Existing production parser unchanged; synthetic CSV fixtures only.
+- Test commit: `513cb96a127113304f35abc78bb2eb9d9c4183b3`; report commit: `afb2c783d2650a1b859ef224f2ccc1c5a3a84ab3`; registry sync commit: `0b2e615d0e5b626a8c6a81635050663bdd9506eb`.
+- GitHub source read-back PRESENT for the test and report. Exact-head Actions lookup for `afb2c783d2650a1b859ef224f2ccc1c5a3a84ab3` returned zero workflow runs: CI NOT VERIFIED. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED; P0 pipeline NOT COMPLETE.
+- Keep PR #393 and parents #390/#389/#388/#387/#386 OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
