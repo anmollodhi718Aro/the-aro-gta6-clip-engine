@@ -129,6 +129,10 @@ def _validate_output_destination(source: Path, destination: Path) -> str | None:
 
 def sha256_selected_source(path: str | Path) -> str:
     """Hash one selected regular file through a stable, non-following descriptor."""
+    if not isinstance(path, (str, Path)) or (
+        isinstance(path, str) and not path.strip()
+    ):
+        raise ValueError("selected source path must be a non-empty string or pathlib.Path")
     source = Path(path).expanduser()
     try:
         before_path = source.lstat()
