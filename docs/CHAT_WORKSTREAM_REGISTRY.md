@@ -2790,3 +2790,13 @@ Two concurrent continuations used provisional ARO-CHAT-0327. The stable syntheti
 - Commits: workflow `2437e2e9590065c92e574dd917f33b80faf343a0`; test fixture `b403cfd3b641ef3f717536151ef1012fa1046009`; report `docs/ARO_CHAT_0329_SYNTHETIC_SMOKE_CI.md`; report commit `9c6fc074698de8737cb7a7c0388383ef50b50075`.
 - Local tests NOT RUN; synthetic FFmpeg smoke NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0330 — reject in-place output mutation during smoke hashing (2026-11-26)
+
+- Exact title: ARO-CHAT-0330 | Reject In-Place Smoke Output Mutation.
+- Workstream: ARO-GTA-P0-330; continued existing draft PR #386 and its original branch/base.
+- Added a regression that mutates the first 4 KiB of a 2 MiB output file after the verifier reads its first chunk. The output verifier must reject the same-inode, same-size in-place mutation because file metadata changes during hashing.
+- Test commit: `7fc932930afa93c6a32844e1b13a5c6e9e6d4064`; report: `docs/ARO_CHAT_0330_SMOKE_OUTPUT_MUTATION_GUARD.md`.
+- Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; no workflow dispatch/retry. Authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED. No merge/rebase/retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
