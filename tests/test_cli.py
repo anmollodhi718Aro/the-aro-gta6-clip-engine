@@ -79,6 +79,25 @@ class CliTests(unittest.TestCase):
             self.assertEqual(status, 2)
             self.assertEqual(input_path.read_bytes(), original)
 
+    def test_cli_refuses_symbolic_link_output_without_replacing_target(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            input_path = self.write_input(folder, ["analyze_chat"])
+            target_path = Path(folder) / "target.json"
+            output_path = Path(folder) / "output.json"
+            original = '{"keep": "target contents"}'
+            target_path.write_text(original, encoding="utf-8")
+            try:
+                output_path.symlink_to(target_path)
+            except (OSError, NotImplementedError):
+                self.skipTest("symlink creation is unavailable on this runner")
+
+            with contextlib.redirect_stderr(io.StringIO()):
+                status = analyze_file(input_path, output_path, DetectorConfig())
+
+            self.assertEqual(status, 2)
+            self.assertEqual(target_path.read_text(encoding="utf-8"), original)
+            self.assertTrue(output_path.is_symlink())
+
     def test_cli_rejects_non_object_top_level_json(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             input_path = Path(folder) / "input.json"
