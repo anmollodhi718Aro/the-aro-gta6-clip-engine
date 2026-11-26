@@ -1881,3 +1881,15 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Production code unchanged; temporary synthetic files only; no FFmpeg/FFprobe process or real media used.
 - GitHub source write/read-back present. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0361 | Reject Blank Candidate CSV Header Cells (2026-11-26)
+
+- Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- ARO-CHAT-0359 and ARO-CHAT-0360 were concurrently reserved for separate synthetic output descriptor cleanup regressions. This candidate CSV schema guard is uniquely ARO-CHAT-0361 / ARO-GTA-P0-361. No commit history was rewritten.
+- Static review found `csv.DictReader.fieldnames` represents an empty header cell as `None`; stringifying it before checking blankness converted it to the non-empty string `"None"`, allowing a malformed trailing header cell to pass.
+- Updated `backend/app/single_clip_render.py` to reject `None` header cells explicitly while retaining blank-string and duplicate-header checks.
+- Added `test_candidate_csv_rejects_blank_header_cells` to `tests/test_single_clip_render.py`, using a required-column header plus a trailing empty header cell.
+- Production commit: `332fed855b6bdee0577bae5271d428cd8dfcaf2a`; test commits: `5c31bb716fe1634ea520312e94f38522ca95d39e` and fixture newline correction `99ad110f15bd27eec8da5f443b267a4366ff0d9b`; canonical report `docs/ARO_CHAT_0361_BLANK_CANDIDATE_CSV_HEADER_GUARD.md` (commit `5cba5e243a9bc819aed3622daebfa372dc6d398e`); registry reconciliation commit `63e7b24421bcabe825bc15dae113e8f335886f23`.
+- Static source read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
