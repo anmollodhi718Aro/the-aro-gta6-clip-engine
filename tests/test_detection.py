@@ -128,6 +128,22 @@ class DetectionTests(unittest.TestCase):
                     with self.assertRaises(ValueError):
                         DetectorConfig(**{field_name: value})
 
+    def test_rejects_invalid_permission_and_event_container_types(self) -> None:
+        for permission in (None, {}, "permission"):
+            with self.subTest(permission=permission):
+                with self.assertRaisesRegex(ValueError, "permission must be a PermissionRecord"):
+                    detect_chat_spikes([], permission)
+
+        for events in (None, {}, "events", ()):
+            with self.subTest(events=events):
+                with self.assertRaisesRegex(ValueError, "events must be a list of ChatEvent"):
+                    detect_chat_spikes(events, self.permission)
+
+        for events in ([None], [object()], ["event"]):
+            with self.subTest(events=events):
+                with self.assertRaisesRegex(ValueError, "events must be a list of ChatEvent"):
+                    detect_chat_spikes(events, self.permission)
+
     def test_rejects_invalid_detector_config_objects(self) -> None:
         for config in (False, 0, [], {}, "default"):
             with self.subTest(config=config):
