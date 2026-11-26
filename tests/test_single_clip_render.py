@@ -2030,5 +2030,33 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(snapshot.exists())
 
 
+    def test_cli_marks_output_inspection_required_when_renderer_raises_after_output_creation(self):
+        report_path = self.root / "render-exception-report.json"
+
+        def create_possible_output_then_raise(*args, **kwargs):
+            self.output.write_bytes(b"possible completed output")
+            raise OSError("simulated post-output renderer exception")
+
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--start", "2", "--end", "8",
+            "--execute", "--confirm-rights",
+            "--output", str(self.output), "--report", str(report_path),
+        ]
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.render_selected_clip",
+            side_effect=create_possible_output_then_raise,
+        ):
+            self.assertEqual(main(), 1)
+
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(report["output_inspection_required"])
+        self.assertEqual(report["output_path"], str(self.output))
+        self.assertEqual(self.output.read_bytes(), b"possible completed output")
+        self.assertFalse(report["upload_performed"])
+        self.assertFalse(report["publishing_enabled"])
+
+
 if __name__ == "__main__":
     unittest.main()
