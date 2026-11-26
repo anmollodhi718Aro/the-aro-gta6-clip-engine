@@ -157,7 +157,7 @@ def render_clip(
         # destination name. A successful FFmpeg exit alone does not guarantee
         # that buffered file contents have reached stable storage.
         try:
-            with temporary_output.open("rb") as rendered_file:
+            with temporary_output.open("r+b") as rendered_file:
                 os.fsync(rendered_file.fileno())
         except OSError as exc:
             raise ClipRenderError(
