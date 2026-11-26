@@ -74,6 +74,27 @@ class ClipPackTests(unittest.TestCase):
         self.assertEqual(rows[0]["sync_method"], "measured_multi_anchor_fit")
         self.assertEqual(rows[0]["sync_max_residual_seconds"], 0.0)
 
+    def test_clock_fit_rejects_non_string_candidate_source_id(self) -> None:
+        anchors = [
+            ClockAnchor("123", self.origin + timedelta(seconds=offset), offset)
+            for offset in (0, 60, 120)
+        ]
+        sync = fit_clock_sync(anchors)
+        candidate = self.candidate()
+        candidate["source_id"] = 123
+        with self.assertRaisesRegex(ValueError, "candidate 1 source_id must be a string"):
+            map_candidates_to_media([candidate], clock_sync=sync)
+
+    def test_rejects_non_string_plan_source_id(self) -> None:
+        with self.assertRaisesRegex(ValueError, "source_id must be a non-empty string"):
+            map_candidates_to_media([self.candidate()], self.origin, source_id=123)
+
+    def test_single_origin_mapping_rejects_non_string_candidate_source_id(self) -> None:
+        candidate = self.candidate()
+        candidate["source_id"] = 123
+        with self.assertRaisesRegex(ValueError, "candidate 1 source_id must be a string"):
+            map_candidates_to_media([candidate], self.origin)
+
     def test_clock_fit_rejects_source_mismatch(self) -> None:
         anchors = [
             ClockAnchor("different-source", self.origin + timedelta(seconds=offset), offset)
