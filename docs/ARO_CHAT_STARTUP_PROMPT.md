@@ -2042,3 +2042,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Important limit: this was an isolated source-level harness, NOT the repository's full unit-test suite. The full repository unit suite was NOT RUN. GitHub Actions workflow lookup for PR #399 head `6be121291fd096345604004e292c7d3631c0b723` returned zero runs; Ubuntu/Windows CI remain NOT VERIFIED.
 - Synthetic FFmpeg end-to-end NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED. Stage 1 regression cases are consolidated and focused source-level probes pass, but Stage 1 is NOT declared complete until full-suite and CI evidence are available.
 - No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### CI evidence correction for ARO-CHAT-0375 (2026-11-26)
+
+- Exact-head lookup for PR #399 head `8186fae808f98398ea243578ce6afe428ec56ab8` returned Python CI run #45799569550, conclusion FAILURE.
+- Hosted Windows job #139838950118 and Ubuntu job #139838950521 both exposed `steps: null` and `logs_url: null`; fetching each job log returned HTTP 404 / BlobNotFound.
+- Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. No evidence checkout, compilation, or tests started. Root cause remains UNVERIFIED and is not attributed to application code. No workflow dispatch/retry was initiated.
+- This supersedes the earlier zero-runs note. Full repository unit suite NOT RUN; isolated source-level harness 6/6 PASS but is not repository CI evidence. Ubuntu/Windows CI NOT VERIFIED.
