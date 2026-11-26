@@ -3155,3 +3155,14 @@ ARO-CHAT-0345 was already reserved by a concurrent continuation for the syntheti
 - Test commit: `6581ecb3d9431868667b61820e5dafde8dd7f7e6`; canonical report commit: `75e2c997fbe3875224c5efa0e2c114a51a647893`. The provisional 0351 report path is a historical alias only.
 - Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0352 | Reject External Symlink Outputs in Synthetic Smoke (2026-11-26)
+
+- Workstream: ARO-GTA-P0-352; continued existing draft PR #386 on its original branch/base.
+- Added `test_smoke_harness_rejects_external_symlink_output_and_cleans_temporary_files` to `tests/test_synthetic_single_clip_smoke.py`.
+- The fake renderer points the requested output path at an unrelated file outside the smoke harness temporary directory and returns an otherwise plausible RENDERED report with a matching SHA-256. The harness must reject the symlink through the regular non-symlink output verifier.
+- The regression verifies external target bytes remain unchanged and the temporary source, output link, and directory are cleaned up.
+- Production code unchanged. Test commit: `a75d9f93db64cbb9463f990930ca6cfa99b8b0b8`; canonical report: `docs/ARO_CHAT_0352_EXTERNAL_SYMLINK_SMOKE_GUARD.md` (commit `6d835be798e8272cd31f2c867124329a4ee9228b`). The provisional 0351 report alias is retained with explicit collision reconciliation.
+- Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
