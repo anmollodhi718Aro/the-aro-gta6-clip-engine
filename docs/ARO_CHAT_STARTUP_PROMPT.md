@@ -1986,3 +1986,13 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Production code unchanged; synthetic CSV fixture only. Test commit: `e450ee36e26f172a71bb35bcd7351adffefcd4c1`; report commit: `ba7eec40952f2071281f773c8981b0f71f9e88f4`; registry commit: `52bf601074e39e0f61e2000a7dff49afc9a4f8b6`.
 - GitHub writes completed. Local unit test NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0368 | Reject Quotes Inside Unquoted Candidate CSV Fields (2026-11-26)
+
+- Continue from the dedicated draft branch `workstream/aro-chat-0368-reject-quotes-in-unquoted-candidate-csv-fields-2026-11-26`, based on exact PR #387 head `9421303689cdcaeddd4f7c58ed1903c810182d56`; preserve PR #387 -> PR #386 ancestry.
+- Python's `csv.DictReader(strict=True)` accepts a quote embedded inside an unquoted field. Added a streaming lexical guard in `backend/app/single_clip_render.py` to reject that malformed form without buffering the complete CSV.
+- Production commit: `6daea742fdc295d95ea84a383af214f7aefb00d6`; tests: `7da1a42b9e8e57ae6295a391b3491ba73180a7f7`; report: `db05179bfdcfbcf086f443104c0d5536bf0b1d09`.
+- Regression coverage rejects a malformed later row after the selected row and confirms properly escaped quotes remain accepted.
+- Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Keep draft-only. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
