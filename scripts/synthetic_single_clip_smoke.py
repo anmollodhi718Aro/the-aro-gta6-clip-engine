@@ -9,7 +9,9 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -24,6 +26,46 @@ def _require_executable(name: str) -> str:
         raise FileNotFoundError(f"Required executable was not found on PATH: {name}")
     return resolved
 
+
+
+def _hash_verified_output(path: str | Path) -> tuple[str, int]:
+    """Hash one stable regular output file without following a symlink."""
+    candidate = Path(path)
+    before_path = candidate.lstat()
+    if not stat.S_ISREG(before_path.st_mode):
+        raise RuntimeError("synthetic output must be a regular non-symlink file")
+
+    flags = os.O_RDONLY
+    if hasattr(os, "O_BINARY"):
+        flags |= os.O_BINARY
+    if hasattr(os, "O_NOFOLLOW"):
+        flags |= os.O_NOFOLLOW
+    descriptor = os.open(candidate, flags)
+    try:
+        before_fd = os.fstat(descriptor)
+        identity = lambda item: (
+            item.st_dev, item.st_ino, item.st_size,
+            item.st_mtime_ns, item.st_ctime_ns, stat.S_IFMT(item.st_mode),
+        )
+        if not stat.S_ISREG(before_fd.st_mode) or identity(before_fd) != identity(before_path):
+            raise RuntimeError("synthetic output changed while opening it for verification")
+        digest = hashlib.sha256()
+        size = 0
+        while True:
+            chunk = os.read(descriptor, 1024 * 1024)
+            if not chunk:
+                break
+            digest.update(chunk)
+            size += len(chunk)
+        after_fd = os.fstat(descriptor)
+        after_path = candidate.lstat()
+        if (identity(after_fd) != identity(before_fd)
+                or identity(after_path) != identity(before_fd)
+                or size != before_fd.st_size):
+            raise RuntimeError("synthetic output changed during SHA-256 verification")
+        return digest.hexdigest(), size
+    finally:
+        os.close(descriptor)
 
 def run_smoke_test(*, ffmpeg: str = "ffmpeg", ffprobe: str = "ffprobe") -> dict:
     ffmpeg_path = _require_executable(ffmpeg)
@@ -62,8 +104,8 @@ def run_smoke_test(*, ffmpeg: str = "ffmpeg", ffprobe: str = "ffprobe") -> dict:
                 "single-clip pipeline did not return RENDERED: "
                 + json.dumps(report, ensure_ascii=True, allow_nan=False)
             )
-        if not output.is_file() or output.stat().st_size <= 0:
-            raise RuntimeError("pipeline reported success but the synthetic output is missing or empty")
+        if not output.exists():
+            raise RuntimeError("pipeline reported success but the synthetic output is missing")
         if report.get("upload_performed") is not False or report.get("publishing_enabled") is not False:
             raise RuntimeError("smoke test unexpectedly enabled upload or publishing")
         digest = report.get("output_sha256")
@@ -71,14 +113,12 @@ def run_smoke_test(*, ffmpeg: str = "ffmpeg", ffprobe: str = "ffprobe") -> dict:
                 or any(character not in "0123456789abcdef" for character in digest)):
             raise RuntimeError("pipeline did not return a valid output SHA-256")
 
-        # Do not trust a well-formed digest supplied by the renderer alone.
-        # Independently hash the exact output file and require both values to
-        # identify the same bytes before reporting a successful smoke test.
-        actual_digest = hashlib.sha256()
-        with output.open("rb") as rendered_file:
-            for chunk in iter(lambda: rendered_file.read(1024 * 1024), b""):
-                actual_digest.update(chunk)
-        if actual_digest.hexdigest() != digest:
+        # Independently hash the exact output inode. Do not follow symlinks or
+        # accept a path that changes while its bytes are being verified.
+        actual_digest, output_size_bytes = _hash_verified_output(output)
+        if output_size_bytes <= 0:
+            raise RuntimeError("pipeline reported success but the synthetic output is empty")
+        if actual_digest != digest:
             raise RuntimeError("renderer output SHA-256 does not match the rendered MP4 bytes")
 
         return {
@@ -86,7 +126,7 @@ def run_smoke_test(*, ffmpeg: str = "ffmpeg", ffprobe: str = "ffprobe") -> dict:
             "media": "synthetic test pattern and tone only",
             "source_duration_seconds": 8,
             "selected_clip_seconds": 4,
-            "output_size_bytes": output.stat().st_size,
+            "output_size_bytes": output_size_bytes,
             "output_sha256": digest,
             "upload_performed": False,
             "publishing_enabled": False,
