@@ -65,6 +65,8 @@ def _hash_verified_output(path: str | Path) -> tuple[str, int]:
                 or identity(after_path) != identity(before_fd)
                 or size != before_fd.st_size):
             raise RuntimeError("synthetic output changed during SHA-256 verification")
+        if size <= 0:
+            raise RuntimeError("synthetic output is empty")
         return digest.hexdigest(), size
     finally:
         os.close(descriptor)
