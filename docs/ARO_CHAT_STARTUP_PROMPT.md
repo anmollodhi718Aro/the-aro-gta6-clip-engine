@@ -2124,3 +2124,10 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Check-run metadata reports one annotation per job; annotation content remains NOT INSPECTED. Root cause remains UNVERIFIED. Classify as CI_FAILURE / EXECUTION_NOT_ESTABLISHED, not an application test failure.
 - Next safe action: owner/repository-admin inspects GitHub Actions settings, billing/usage, service notices, and check-run annotations. Do not dispatch/retry workflows without explicit owner approval. Do not change CI workflow configuration to mask the runner-allocation issue.
 - Keep PR #406 and this child OPEN / DRAFT / UNMERGED. Repository tests, hosted Ubuntu/Windows execution, synthetic FFmpeg E2E, independent review, owner-device Windows, and authorized GTA 6 MP4 processing remain NOT VERIFIED. Stage 1 and P0 remain NOT COMPLETE. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; no OAuth, credentials, real media, upload, or publishing.
+
+
+### ARO-CHAT-0382 CI attribution correction — 2026-11-26
+
+- PR #406 exact-head PR-triggered run is #45803605172 (run 2595, event pull_request), explicitly linked to PR #406 at SHA `3899f034d803b629df65f716a6fa97eab1e1e641`. It failed before exposed steps; both jobs have zero billable milliseconds and no retrievable logs.
+- Run #45803692099 (run 2597) is a separate push event on the same SHA with no PR association. Record it as corroborating push-event evidence only, not as PR #406's pull_request check.
+- Both annotations per job remain NOT INSPECTED; root cause remains UNVERIFIED. Do not retry/dispatch workflows without explicit owner approval.
