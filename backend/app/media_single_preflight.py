@@ -37,6 +37,8 @@ def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe"
         "manual_review_required": True,
     }
     try:
+        if not isinstance(ffprobe_binary, str) or not ffprobe_binary.strip():
+            raise ValueError("ffprobe_binary must be a non-empty executable name or path")
         if path.suffix.lower() not in VIDEO_EXTENSIONS:
             raise ValueError("selected file does not have a supported video extension")
         before = path.stat()
