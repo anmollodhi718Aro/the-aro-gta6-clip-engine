@@ -71,7 +71,10 @@ def detect_chat_spikes(
     Duplicate identical event IDs are ignored so retrying an event batch cannot
     inflate the chat rate. Reusing an ID for different data is rejected.
     """
-    config = config or DetectorConfig()
+    if config is None:
+        config = DetectorConfig()
+    elif not isinstance(config, DetectorConfig):
+        raise ValueError("config must be a DetectorConfig instance")
     if not events:
         return []
 
