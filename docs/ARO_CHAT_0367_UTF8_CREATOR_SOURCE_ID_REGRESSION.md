@@ -10,7 +10,8 @@ Extend the selected-candidate CSV encoding regression coverage to a valid UTF-8 
 - Production code unchanged. No media, FFmpeg/FFprobe, credentials, OAuth, upload, or publishing used.
 
 ## Validation
-- GitHub source update and read-back: pending at commit creation; record exact commit after push.
+- Implementation commit: `a7be5bf80dd587cfee57d07d5c2f1e3644a7bf62` (test, report, registry, and startup handoff committed together).
+- GitHub read-back: PRESENT for the regression test and report; registry and startup handoff entries also verified at the implementation commit.
 - Local unit tests: NOT RUN in this connector session.
 - Synthetic FFmpeg end-to-end: NOT RUN.
 - Exact-head Ubuntu/hosted-Windows CI: NOT VERIFIED.
