@@ -239,6 +239,27 @@ def _remove_unverified_output(path: str | Path, identity: tuple[int, int, int] |
     return False
 
 
+
+def _rendered_mp4_validation_error(preflight: dict[str, Any]) -> str | None:
+    """Require the renderer's promised MP4 container and H.264 video stream."""
+    format_names = preflight.get("format_name")
+    if not isinstance(format_names, str) or "mp4" not in {
+        item.strip().lower() for item in format_names.split(",")
+    }:
+        return "rendered output is not identified as an MP4 container"
+    streams = preflight.get("video_streams")
+    if not isinstance(streams, list) or not streams:
+        return "rendered output has no verified video stream"
+    video = streams[0]
+    if not isinstance(video, dict) or str(video.get("codec", "")).lower() != "h264":
+        return "rendered output video codec is not H.264"
+    for dimension in ("width", "height"):
+        value = video.get(dimension)
+        if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+            return f"rendered output has invalid video {dimension}"
+    return None
+
+
 def _validated_clip_bounds(start_seconds: Any, end_seconds: Any) -> tuple[float, float]:
     """Normalize finite numeric clip bounds before any source snapshot I/O."""
     if isinstance(start_seconds, bool) or isinstance(end_seconds, bool):
@@ -408,6 +429,16 @@ def _render_selected_clip_from_snapshot(
             report.update(
                 status="FAIL",
                 error="rendered output failed FFprobe verification",
+                unverified_output_removed=removed,
+                manual_cleanup_required=not removed,
+            )
+            return report
+        mp4_error = _rendered_mp4_validation_error(rendered_preflight)
+        if mp4_error:
+            removed = _remove_unverified_output(rendered, rendered_identity)
+            report.update(
+                status="FAIL",
+                error=f"rendered output failed MP4/H.264 validation: {mp4_error}",
                 unverified_output_removed=removed,
                 manual_cleanup_required=not removed,
             )
