@@ -2190,6 +2190,22 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(self.output.exists())
 
 
+    def test_candidate_csv_rejects_invalid_path_types_before_path_conversion(self):
+        for invalid_path in (None, 7, [], {}):
+            with self.subTest(invalid_path=type(invalid_path).__name__):
+                with self.assertRaisesRegex(
+                    ValueError, "candidate CSV path must be a non-empty string or pathlib.Path"
+                ):
+                    load_selected_candidate(invalid_path, 1)
+
+    def test_candidate_csv_rejects_blank_path_strings(self):
+        for invalid_path in ("", "   ", "\\t"):
+            with self.subTest(invalid_path=repr(invalid_path)):
+                with self.assertRaisesRegex(
+                    ValueError, "candidate CSV path must be a non-empty string or pathlib.Path"
+                ):
+                    load_selected_candidate(invalid_path, 1)
+
     def test_candidate_csv_rejects_invalid_utf8_as_validation_error(self):
         pack = self.root / "invalid-utf8-candidates.csv"
         pack.write_bytes(b"source_id,start_seconds,end_seconds,duration_seconds,renderable\n\xff,2,8,6,True\n")
