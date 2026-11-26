@@ -8,3 +8,6 @@
 - Validation: GitHub source write completed. Local test NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - No production behavior changed. No media, OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and its original ancestry. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+> Historical provisional alias: this task is canonically registered as ARO-CHAT-0368 / ARO-GTA-P0-368 because ARO-CHAT-0367 was already allocated to the separate PR #387 strict-CSV-quoting task. No commit history was rewritten.
