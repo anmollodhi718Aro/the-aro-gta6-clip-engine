@@ -1644,3 +1644,12 @@ Recorded exact-head Actions run #45771573052 for PR #386 head `bac9be9e34c2ed62c
 - Test commit: `ce4c81a7103c0ec4489a3add15a446f433798701`; report commit: `33e50978b11d6960e1533bb1561f08975a69ef43`; registry commit: `cf7ef8c86783340dc7f655b340d231cdf8546fdb`.
 - Static source review only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## Latest P0 handoff — ARO-CHAT-0343 | Reject Empty Synthetic Render Output (2026-11-26)
+
+- Continued existing draft PR #386 on its original branch/base; workstream ARO-GTA-P0-343.
+- Added a regression proving a zero-byte synthetic rendered output is rejected even when the renderer reports the mathematically correct SHA-256 of empty bytes.
+- Focused report correction commit: `a8d9571c7de3dca6b5599efc6e7ecca5a26ecf80`; registry commit: `4f6008c13bf59f3dd00ffd0ec93630781c46f94c`.
+- Production code unchanged. Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED. Do not retry/dispatch workflows, merge, rebase, retarget, use credentials, process real media, upload, publish, or deploy. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
