@@ -2051,3 +2051,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Commits: `81881af011a3d2c55b2f139ed32f587489c7e196` (production), `be05b13e33376347b29ab8ffb09c889d9c925af9` (tests), `29b1e2d4d736974477c237223dc8b8c406f5b94e` (registry).
 - Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; owner-device Windows, independent review, and authorized GTA 6 MP4 NOT VERIFIED.
 - Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media upload, publishing, or deployment.
+
+
+### Latest continuation — FFmpeg source mutation detection (2026-11-26)
+- Continue on existing child PR #412 branch workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26, preserving parent PR #386 ancestry.
+- render_clip now snapshots source file identity metadata and rejects a source that is modified, replaced, or removed during FFmpeg execution before staged output can be published.
+- Regression test simulates an in-place source edit during a mocked FFmpeg run and asserts the final output is not published.
+- Commits: f9d7315d997e0062dc1841c72575f43665f2d58a (production); e2659e8c8cc19a8c4498b9dcfdbc79ea2351bc3b (test); 21882d027af7f97fc18b85deed54e319ef787907 (registry).
+- Tests NOT RUN; exact-head CI, synthetic FFmpeg E2E, owner-device Windows, independent review, and authorized real GTA 6 MP4 remain NOT VERIFIED. The metadata check narrows source-mutation risk but is not an immutable OS-level file lock.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
