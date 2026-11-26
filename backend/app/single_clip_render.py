@@ -415,14 +415,29 @@ def _render_selected_clip_from_snapshot(
         # function performs additional path and bounds validation first.
         # Keep the state unknown until render_clip returns successfully.
         report["processing_started"] = None
-        rendered = render_clip(
-            source,
-            destination,
-            start,
-            end,
-            rights_confirmed=True,
-            ffmpeg_binary=ffmpeg_binary,
-        )
+        try:
+            rendered = render_clip(
+                source,
+                destination,
+                start,
+                end,
+                rights_confirmed=True,
+                ffmpeg_binary=ffmpeg_binary,
+            )
+        except Exception as exc:
+            # render_clip may have atomically linked the completed output before
+            # a later staging-directory cleanup error. Its exception therefore
+            # does not prove that the destination is absent or safe to retry.
+            report.update(
+                status="FAIL",
+                error=f"render invocation did not return a verified output path: {exc}",
+                output_inspection_required=True,
+                message=(
+                    "Render invocation failed after it may have created the destination. "
+                    "Inspect the configured output path before retrying; no automatic cleanup was attempted."
+                ),
+            )
+            return report
         report["processing_started"] = True
         try:
             rendered_identity = _rendered_output_identity(rendered)
