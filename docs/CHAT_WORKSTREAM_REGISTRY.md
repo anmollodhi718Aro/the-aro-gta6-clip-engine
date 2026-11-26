@@ -2389,3 +2389,12 @@ ARO-CHAT-0304 attribution/fixture note: production commit `3204190a41814b73b2685
 - Existing PR #386 remains OPEN / DRAFT / UNMERGED with its original base. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
 
 - Test commit: `044f313f83d368d188444e6a5915e64e8be73a09`; report: `docs/ARO_CHAT_0305_EXPANDED_REPORT_FALLBACK_REGRESSION.md`.
+
+
+## ARO-CHAT-0306 — candidate output-validation regression fixture correction
+
+- Review of the ARO-CHAT-0305 candidate output-validation regression found its CSV fixture used literal backslash-plus-n sequences instead of actual line separators. The test would fail during candidate CSV schema parsing before reaching the intended existing-output/no-source-hash assertions.
+- Corrected the two Python string literals to use actual newline escapes. No production code changed; existing output preservation and no-hash/no-render assertions remain intact.
+- Test commit: `3742480f3664b502ea3fe70dc81d22f5c52b0a5d`.
+- Test NOT RUN locally in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. Do not claim the regression passed.
+- Continue on existing PR #386 and branch; preserve OPEN/DRAFT/UNMERGED and ancestry. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
