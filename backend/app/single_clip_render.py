@@ -923,13 +923,6 @@ def main() -> int:
         expected_digest = (args.source_sha256 or "").strip().lower()
         if len(expected_digest) != 64 or any(character not in "0123456789abcdef" for character in expected_digest):
             parser.error("candidate selection requires --source-sha256 with 64 hexadecimal characters from the trusted authorized-media inventory")
-        try:
-            actual_digest = sha256_selected_source(args.video)
-        except (OSError, ValueError) as exc:
-            parser.error(f"selected source could not be verified by SHA-256: {exc}")
-        if actual_digest != expected_digest:
-            parser.error("selected video SHA-256 does not match the trusted authorized-media inventory")
-        selected_candidate["verified_source_sha256"] = actual_digest
         start_seconds = selected_candidate["start_seconds"]
         end_seconds = selected_candidate["end_seconds"]
     else:
@@ -1004,33 +997,63 @@ def main() -> int:
                     )
                 return 2
 
-            try:
-                report = render_selected_clip(
-                    args.video,
-                    args.output,
-                    start_seconds,
-                    end_seconds,
-                    execute=args.execute,
-                    rights_confirmed=args.confirm_rights,
-                    ffprobe_binary=args.ffprobe,
-                    ffmpeg_binary=args.ffmpeg,
-                    expected_source_sha256=expected_digest if candidate_selection else None,
-                )
-            except Exception as exc:
-                # Any ordinary Python exception is a terminal failure, not an
-                # unknown RUNNING state. Preserve RUNNING only for hard process
-                # termination (KeyboardInterrupt/SystemExit or process death).
+            candidate_error = None
+            if candidate_selection:
+                # Hashing reads the selected media bytes. Keep it after the
+                # durable RUNNING report reservation so a collision or report
+                # creation failure never triggers a potentially large media read.
+                try:
+                    actual_digest = sha256_selected_source(args.video)
+                except (OSError, ValueError) as exc:
+                    candidate_error = (
+                        f"selected source could not be verified by SHA-256: {exc}"
+                    )
+                else:
+                    if actual_digest != expected_digest:
+                        candidate_error = (
+                            "selected video SHA-256 does not match the trusted authorized-media inventory"
+                        )
+                    else:
+                        selected_candidate["verified_source_sha256"] = actual_digest
+
+            if candidate_error is not None:
                 report = {
                     **initial_report,
                     "status": "FAIL",
-                    # No structured renderer result was returned, so the
-                    # snapshot state is unknown rather than proven absent.
-                    "source_snapshot_verified": None,
-                    "source_snapshot_created": None,
+                    "error": candidate_error,
+                    "message": "candidate source verification failed; no media rendering was started",
+                    "source_snapshot_verified": False,
+                    "source_snapshot_created": False,
                     "source_sha256": None,
-                    "error": str(exc),
-                    "message": "render operation failed; inspect any output file before retrying",
                 }
+            else:
+                try:
+                    report = render_selected_clip(
+                        args.video,
+                        args.output,
+                        start_seconds,
+                        end_seconds,
+                        execute=args.execute,
+                        rights_confirmed=args.confirm_rights,
+                        ffprobe_binary=args.ffprobe,
+                        ffmpeg_binary=args.ffmpeg,
+                        expected_source_sha256=expected_digest if candidate_selection else None,
+                    )
+                except Exception as exc:
+                    # Any ordinary Python exception is a terminal failure, not an
+                    # unknown RUNNING state. Preserve RUNNING only for hard process
+                    # termination (KeyboardInterrupt/SystemExit or process death).
+                    report = {
+                        **initial_report,
+                        "status": "FAIL",
+                        # No structured renderer result was returned, so the
+                        # snapshot state is unknown rather than proven absent.
+                        "source_snapshot_verified": None,
+                        "source_snapshot_created": None,
+                        "source_sha256": None,
+                        "error": str(exc),
+                        "message": "render operation failed; inspect any output file before retrying",
+                    }
 
             # Preserve the operator's explicit CSV row selection in the
             # terminal report as well as the initial RUNNING reservation.
