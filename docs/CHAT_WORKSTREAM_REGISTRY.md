@@ -3129,3 +3129,12 @@ ARO-CHAT-0345 was already reserved by a concurrent continuation for the syntheti
 - Serial collision reconciliation: concurrent work reserved ARO-CHAT-0346 through ARO-CHAT-0349 for separate FIFO, renderer-safety, missing-output and upload/publishing guard work. This timeout continuation is uniquely attributed to ARO-CHAT-0350 / ARO-GTA-P0-350. Earlier provisional report aliases with 0347 and 0348 in their filenames are historical aliases only; no commit history was rewritten.
 - Static change/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0349 | Close Descriptor When Synthetic Output Is Replaced by a FIFO (2026-11-26)
+
+- Workstream: ARO-GTA-P0-349; continued existing draft PR #386 on branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`, preserving original base/ancestry.
+- Strengthened `test_hash_verified_output_rejects_fifo_replacement_without_blocking`: after replacing the selected output path with a FIFO before open, the test verifies `O_NONBLOCK`, fail-closed non-regular-file rejection, and closure of the opened descriptor.
+- Production code unchanged. Test commit: `69348280501cd951e1f0b13cce1f03d66a78acae`; report: `docs/ARO_CHAT_0349_FIFO_REPLACEMENT_DESCRIPTOR_CLEANUP.md` (commit `3e94dc7ade6b1a1337e5aa899b889956be19c259`).
+- POSIX-only test is skipped where `mkfifo` or `O_NONBLOCK` is unavailable. Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
