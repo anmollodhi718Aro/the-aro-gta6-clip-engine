@@ -57,13 +57,22 @@ class PermissionRecord:
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "PermissionRecord":
+        if not isinstance(data, dict):
+            raise ValueError("permission must be an object")
+        source_id = data.get("source_id")
+        granted_by = data.get("granted_by")
+        scopes = data.get("scopes", [])
+        if not isinstance(source_id, str) or not isinstance(granted_by, str):
+            raise ValueError("permission source_id and granted_by must be strings")
+        if not isinstance(scopes, list) or any(not isinstance(scope, str) for scope in scopes):
+            raise ValueError("permission scopes must be a list of strings")
         return cls(
-            source_id=str(data["source_id"]),
-            granted_by=str(data["granted_by"]),
-            scopes=frozenset(str(scope) for scope in data.get("scopes", [])),
-            granted_at=parse_datetime(data["granted_at"]),
-            expires_at=parse_datetime(data["expires_at"]) if data.get("expires_at") else None,
-            revoked_at=parse_datetime(data["revoked_at"]) if data.get("revoked_at") else None,
+            source_id=source_id,
+            granted_by=granted_by,
+            scopes=frozenset(scopes),
+            granted_at=parse_datetime(data.get("granted_at")),
+            expires_at=parse_datetime(data["expires_at"]) if data.get("expires_at") is not None else None,
+            revoked_at=parse_datetime(data["revoked_at"]) if data.get("revoked_at") is not None else None,
         )
 
 
@@ -86,11 +95,20 @@ class ChatEvent:
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "ChatEvent":
+        if not isinstance(data, dict):
+            raise ValueError("chat event must be an object")
+        event_id = data.get("event_id")
+        source_id = data.get("source_id")
+        text = data.get("text", "")
+        if not isinstance(event_id, str) or not isinstance(source_id, str):
+            raise ValueError("chat event event_id and source_id must be strings")
+        if not isinstance(text, str):
+            raise ValueError("chat event text must be a string")
         return cls(
-            event_id=str(data["event_id"]),
-            source_id=str(data["source_id"]),
-            timestamp=parse_datetime(data["timestamp"]),
-            text=str(data.get("text", "")),
+            event_id=event_id,
+            source_id=source_id,
+            timestamp=parse_datetime(data.get("timestamp")),
+            text=text,
         )
 
 
