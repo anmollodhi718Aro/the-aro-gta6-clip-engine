@@ -2937,3 +2937,13 @@ Two concurrent continuations used provisional ARO-CHAT-0327. The stable syntheti
 - Test-file commit: `db95ef617def378b7be4127d859e37e01170208a`; report: `docs/ARO_CHAT_0340_FINAL_LSTAT_TEST_DISCOVERY.md`; report commit: `fcbd2ddb03023caa42e37d4d4503d8d82468ade5`.
 - Structural source check passed. Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0341 — close smoke verifier descriptor when final fstat fails (2026-11-26)
+
+- Exact title: ARO-CHAT-0341 | Close Smoke Verifier Descriptor When Final Fstat Fails.
+- Workstream: ARO-GTA-P0-341; continued existing P0 draft PR #386 on its original branch/base.
+- Added `test_hash_verified_output_closes_descriptor_when_final_fstat_fails`. The regression captures the opened descriptor, allows the initial `os.fstat()`, injects an `OSError` from the post-hash final `os.fstat()`, and verifies the descriptor is closed by the helper's `finally` block.
+- Production code unchanged. Test commit: `5a06dc067d551a32ca52ceaff98c3c07075c165b`; report: `docs/ARO_CHAT_0341_FINAL_FSTAT_CLEANUP.md`; report commit: `c511bc9bf8964ede166116a3bba7adbb570eb2da`.
+- Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original branch/base. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
