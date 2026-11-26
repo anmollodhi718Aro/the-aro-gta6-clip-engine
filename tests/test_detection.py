@@ -54,6 +54,14 @@ class DetectionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "source_id and granted_by"):
             PermissionRecord(None, "creator", frozenset({"analyze_chat"}), self.start)
 
+    def test_permission_constructor_requires_immutable_string_scopes(self) -> None:
+        for scopes in (["analyze_chat"], "analyze_chat", frozenset({"analyze_chat", 7})):
+            with self.subTest(scopes=scopes):
+                with self.assertRaisesRegex(ValueError, "frozenset of strings"):
+                    PermissionRecord(
+                        "sample-stream", "test-creator", scopes, self.start
+                    )
+
     def test_permission_from_dict_rejects_coercible_invalid_types(self) -> None:
         valid = {
             "source_id": "sample-stream",
