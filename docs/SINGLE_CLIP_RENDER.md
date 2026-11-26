@@ -262,3 +262,13 @@ The CLI expands the configured report path before reserving it. If terminal JSON
 ## Snapshot cleanup failure reporting
 
 If source snapshot creation fails after creating its temporary file and identity-checked cleanup cannot be confirmed, the renderer returns FAIL with source_snapshot_created=true, source_snapshot_verified=false, and source_snapshot_cleanup_required=true. The report does not claim a verified source digest. Inspect the temporary workspace before retrying. A path whose identity changed is preserved rather than unlinked.
+
+
+## Preserve valid JSON for unusual filesystem names
+
+Filesystem paths can contain surrogate-escaped characters when a POSIX filename
+contains bytes that are not valid UTF-8. JSON reports are serialized with
+ASCII escaping so those path values are represented as valid UTF-8 JSON rather
+than raising an encoding error during the durable RUNNING or terminal report
+write. Reading the report with a JSON parser restores the original escaped
+string value. This does not change the selected path or media bytes.
