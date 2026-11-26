@@ -765,5 +765,39 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
 
 
 
+    def test_smoke_harness_rejects_output_hardlinked_to_source(self):
+        import os
+        captured = {}
+
+        def generate_fixture(command, **kwargs):
+            source = Path(command[-1])
+            source.write_bytes(b"synthetic source recording")
+            captured["source"] = source
+            captured["directory"] = source.parent
+
+        def hardlink_render(source, output, start, end, **kwargs):
+            source = Path(source)
+            output = Path(output)
+            os.link(source, output)
+            captured["output"] = output
+            payload = source.read_bytes()
+            return {
+                "status": "RENDERED",
+                "output_sha256": hashlib.sha256(payload).hexdigest(),
+                "upload_performed": False,
+                "publishing_enabled": False,
+            }
+
+        with patch.object(smoke.shutil, "which", side_effect=lambda name: f"/tools/{name}"), patch.object(
+            smoke.subprocess, "run", side_effect=generate_fixture
+        ), patch.object(smoke, "render_selected_clip", side_effect=hardlink_render):
+            with self.assertRaisesRegex(RuntimeError, "must not alias its source"):
+                smoke.run_smoke_test()
+
+        self.assertFalse(captured["source"].exists())
+        self.assertFalse(captured["output"].exists())
+        self.assertFalse(captured["directory"].exists())
+
+
 if __name__ == "__main__":
     unittest.main()
