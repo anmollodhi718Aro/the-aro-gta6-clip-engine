@@ -2013,3 +2013,13 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Test commit: `513cb96a127113304f35abc78bb2eb9d9c4183b3`; report commit: `afb2c783d2650a1b859ef224f2ccc1c5a3a84ab3`; registry sync commit: `0b2e615d0e5b626a8c6a81635050663bdd9506eb`.
 - GitHub source read-back PRESENT for the test and report. Exact-head Actions lookup for `afb2c783d2650a1b859ef224f2ccc1c5a3a84ab3` returned zero workflow runs: CI NOT VERIFIED. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED; P0 pipeline NOT COMPLETE.
 - Keep PR #393 and parents #390/#389/#388/#387/#386 OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0373 | PR #394 Exact-Head CI Audit (2026-11-26)
+
+- Audit PR #394 exact head `2ee70a2a4deaa8f321bc7f7f4f5f4c626bd2bdc5`; preserve PR #394 -> #393 -> #390 -> #389 -> #388 -> #387 -> #386 ancestry.
+- Python CI run #45793640223 completed FAILURE. Ubuntu job #139818633134 and hosted-Windows job #139818633797 both returned `steps: null` and `logs_url: null`; classify as `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. No checkout, compilation, or test execution is evidenced; root cause UNVERIFIED.
+- PR #394 review submissions and inline review threads returned empty. No workflow dispatch/retry was initiated.
+- Documentation-only audit branch: `workstream/aro-chat-0373-pr394-exact-head-ci-audit-2026-11-26`; report: `docs/ARO_CHAT_0373_PR394_EXACT_HEAD_CI_AUDIT.md`.
+- Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI not verified (failure without execution evidence); independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED; P0 pipeline NOT COMPLETE.
+- Keep PR #394 and parents #393/#390/#389/#388/#387/#386 OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
