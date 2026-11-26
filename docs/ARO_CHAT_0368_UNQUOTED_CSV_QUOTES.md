@@ -20,8 +20,9 @@ Synthetic CSV text only. No media files, FFmpeg/FFprobe, OAuth, credentials, net
 
 ## Verification
 
-- Production source change: committed to the dedicated branch.
-- Regression test: committed to the dedicated branch.
+- Initial production commit: `6daea742fdc295d95ea84a383af214f7aefb00d6`; newline-handling correction: `66af4d68d7bf739e459deaa5ed7b41f294b6e420`.
+- Initial regression test commit: `7da1a42b9e8e57ae6295a391b3491ba73180a7f7`; fixture line-ending correction: `cdca2723dca3c4779d036777d22f59465ece335e`.
+- Both corrections were made before final read-back; the current branch head contains the corrected source and test.
 - Local unit tests: NOT RUN in this connector session.
 - Synthetic FFmpeg end-to-end: NOT RUN.
 - Exact-head Ubuntu/hosted-Windows CI: NOT VERIFIED.
