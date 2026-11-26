@@ -1000,7 +1000,7 @@ def main() -> int:
             # leave a partially written reservation.
             try:
                 initial_report_text = json.dumps(
-                    initial_report, indent=2, ensure_ascii=False
+                    initial_report, indent=2, ensure_ascii=True
                 ) + "\n"
             except Exception as exc:
                 print(
@@ -1110,7 +1110,7 @@ def main() -> int:
             # Serialize completely before modifying the durable RUNNING record.
             # A serialization error must not truncate the only trustworthy report.
             try:
-                terminal_report_text = json.dumps(report, indent=2, ensure_ascii=False) + "\n"
+                terminal_report_text = json.dumps(report, indent=2, ensure_ascii=True) + "\n"
             except Exception as exc:
                 print(f"Terminal report could not be serialized; reserved RUNNING report preserved: {exc}", file=sys.stderr)
                 return 2
