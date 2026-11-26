@@ -28,8 +28,15 @@ def _require_executable(name: str) -> str:
 
 
 
-def _hash_verified_output(path: str | Path) -> tuple[str, int]:
-    """Hash one stable regular output file without following a symlink."""
+def _hash_verified_output(
+    path: str | Path, *, distinct_from: str | Path | None = None
+) -> tuple[str, int]:
+    """Hash one stable regular output file without following a symlink.
+
+    When distinct_from is supplied, compare the opened output descriptor with
+    the source inode. This closes the path-swap window between a prior
+    samefile() check and opening the output for hashing.
+    """
     candidate = Path(path)
     before_path = candidate.lstat()
     if not stat.S_ISREG(before_path.st_mode):
@@ -51,6 +58,12 @@ def _hash_verified_output(path: str | Path) -> tuple[str, int]:
         )
         if not stat.S_ISREG(before_fd.st_mode) or identity(before_fd) != identity(before_path):
             raise RuntimeError("synthetic output changed while opening it for verification")
+        if distinct_from is not None:
+            source_stat = Path(distinct_from).lstat()
+            if (not stat.S_ISREG(source_stat.st_mode)
+                    or (before_fd.st_dev, before_fd.st_ino)
+                    == (source_stat.st_dev, source_stat.st_ino)):
+                raise RuntimeError("synthetic output must not alias its source")
         digest = hashlib.sha256()
         size = 0
         while True:
@@ -131,7 +144,9 @@ def run_smoke_test(*, ffmpeg: str = "ffmpeg", ffprobe: str = "ffprobe") -> dict:
 
         # Independently hash the exact output inode. Do not follow symlinks or
         # accept a path that changes while its bytes are being verified.
-        actual_digest, output_size_bytes = _hash_verified_output(output)
+        actual_digest, output_size_bytes = _hash_verified_output(
+            output, distinct_from=source
+        )
         if output_size_bytes <= 0:
             raise RuntimeError("pipeline reported success but the synthetic output is empty")
         if actual_digest != digest:
