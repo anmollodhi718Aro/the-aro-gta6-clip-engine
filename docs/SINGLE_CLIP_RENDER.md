@@ -335,3 +335,13 @@ If a report remains `RUNNING` after a suspected interruption:
 6. If another render is genuinely required, use a new report path and a new output path. The renderer intentionally does not resume or reuse a `RUNNING` reservation automatically.
 
 This is a manual, fail-closed recovery procedure. Invocation metadata improves traceability; it is not an automatic stale-run detector and does not authorize deleting temporary files, rerendering, or publishing.
+
+
+## Render invocation exceptions and possible output files
+
+If the render helper raises after creating or atomically publishing its destination, the
+exception does not prove that no output exists. The terminal report therefore records
+`output_inspection_required=true`, preserves the configured output path, and tells the
+operator to inspect it before retrying. The renderer does not automatically remove or
+overwrite a possible output when the helper fails to return a verified path. The
+processing-start state remains unknown when the helper raises.
