@@ -3430,6 +3430,6 @@ The tests exercise the existing strict streaming quote guard against malformed h
 | Change | `tests/test_candidate_csv_escaped_quoted_header.py` covers a valid optional header cell containing a doubled-quote escape and comma, plus a data value with comma and escaped quotes |
 | Test commit | 08ba829ea4d61416271e63c0019e3b1bb084341f |
 | Report commit | 110e4671888a6d566f4c0c0e9c1a0d4751591db0 |
-| Status | IMPLEMENTED; GitHub writes acknowledged; local tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED |
+| Status | IMPLEMENTED; GitHub source read-back PRESENT; local tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED |
 
 Keep this work and all parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
