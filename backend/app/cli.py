@@ -41,6 +41,10 @@ def _write_json_atomically(output_path: Path, payload: dict[str, Any]) -> None:
 
 def analyze_file(input_path: Path, output_path: Path, config: DetectorConfig) -> int:
     try:
+        # Do not follow a final-component output symlink: resolving it would
+        # redirect the atomic replacement to an unrelated target file.
+        if output_path.is_symlink():
+            raise ValueError("output path must not be a symbolic link")
         # Never let a clip-plan destination replace its own source JSON, including
         # aliases that resolve to the same file through relative paths or symlinks.
         if input_path.resolve() == output_path.resolve():
