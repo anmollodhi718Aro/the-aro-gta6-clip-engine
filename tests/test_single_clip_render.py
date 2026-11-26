@@ -13,6 +13,7 @@ from backend.app.clip_pack import map_candidates_to_media, write_clip_pack
 from backend.app.single_clip_render import (
     _create_stable_source_snapshot, _write_exclusive_terminal_fallback,
     load_selected_candidate, main, render_selected_clip, sha256_selected_source,
+    _rendered_mp4_validation_error,
 )
 
 
