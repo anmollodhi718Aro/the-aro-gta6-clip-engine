@@ -2809,3 +2809,13 @@ Two concurrent continuations used provisional ARO-CHAT-0327. The stable syntheti
 - Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
 
+
+
+## ARO-CHAT-0331 — verify smoke cleanup after renderer failures (2026-11-26)
+
+- Workstream: ARO-GTA-P0-331; continued existing draft PR #386 and its original branch/base.
+- Added regression coverage for a renderer raising an I/O exception after creating a partial output, and for a renderer returning a non-RENDERED status. Both tests assert removal of temporary source/output paths and the containing temporary directory.
+- Production code unchanged; cleanup remains provided by the harness's TemporaryDirectory context manager.
+- Test commit: dca3248e7f898d2082524b2dbb7bad1985d245eb; report: docs/ARO_CHAT_0331_SMOKE_RENDERER_FAILURE_CLEANUP.md; report commit: 9da84fd1bd65bd3087a6f6090b7de58885550687.
+- Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
