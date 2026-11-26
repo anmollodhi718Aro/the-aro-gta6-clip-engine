@@ -976,6 +976,43 @@ class SingleClipRenderTests(unittest.TestCase):
 
     @patch("backend.app.single_clip_render.inspect_one_video")
     @patch("backend.app.single_clip_render.render_clip")
+    def test_rejects_same_size_output_path_replacement_after_ffprobe(self, render, preflight):
+        original = b"original rendered payload"
+        replacement = b"replacement rendered data"
+        self.assertEqual(len(original), len(replacement))
+
+        def create_output(*args, **kwargs):
+            self.output.write_bytes(original)
+            return self.output.resolve()
+
+        def replace_during_output_probe(path, **kwargs):
+            if Path(path) == self.output.resolve():
+                displaced = self.root / "displaced-original.mp4"
+                self.output.rename(displaced)
+                self.output.write_bytes(replacement)
+                return {
+                    "status": "PASS",
+                    "duration_seconds": 6.0,
+                    "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+                    "video_streams": [{"codec": "h264", "width": 1920, "height": 1080}],
+                }
+            return PASS
+
+        render.side_effect = create_output
+        preflight.side_effect = replace_during_output_probe
+        report = render_selected_clip(
+            self.source, self.output, 2, 8, execute=True, rights_confirmed=True,
+        )
+
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("final identity/SHA-256 verification", report["error"])
+        self.assertIsNone(report["output_sha256"])
+        self.assertTrue(report["manual_cleanup_required"])
+        self.assertEqual(self.output.read_bytes(), replacement)
+        self.assertEqual((self.root / "displaced-original.mp4").read_bytes(), original)
+
+    @patch("backend.app.single_clip_render.inspect_one_video")
+    @patch("backend.app.single_clip_render.render_clip")
     def test_rejects_output_mutated_after_ffprobe_before_final_hash(self, render, preflight):
         payload = b"rendered output before probe"
         def create_output(*args, **kwargs):
