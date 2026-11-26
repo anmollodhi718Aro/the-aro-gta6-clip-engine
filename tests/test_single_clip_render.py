@@ -1492,9 +1492,10 @@ class SingleClipRenderTests(unittest.TestCase):
         def fail_terminal_report_fsync(descriptor):
             nonlocal fsync_calls
             fsync_calls += 1
-            # Reservation file fsync, reservation directory fsync, then
-            # terminal report fsync. Fail only the third operation.
-            if fsync_calls == 3:
+            # Count file fsync calls only; directory durability is covered
+            # independently and its implementation differs on Windows.
+            # Fail the second file sync, after the RUNNING reservation.
+            if fsync_calls == 2:
                 raise OSError("simulated terminal report fsync failure")
             return original_fsync(descriptor)
 
@@ -1516,10 +1517,12 @@ class SingleClipRenderTests(unittest.TestCase):
         with patch("sys.argv", argv), patch(
             "backend.app.single_clip_render.render_selected_clip",
             side_effect=simulated_completed_render,
-        ), patch("backend.app.single_clip_render.os.fsync", side_effect=fail_terminal_report_fsync), redirect_stderr(io.StringIO()):
+        ), patch("backend.app.single_clip_render.os.fsync", side_effect=fail_terminal_report_fsync), patch(
+            "backend.app.single_clip_render._fsync_parent_directory"
+        ), redirect_stderr(io.StringIO()):
             self.assertEqual(main(), 2)
 
-        self.assertEqual(fsync_calls, 4)
+        self.assertEqual(fsync_calls, 3)
         self.assertEqual(self.output.read_bytes(), b"completed render output")
         # The primary report may contain the previous RUNNING record because
         # terminal contents were not confirmed durable.
