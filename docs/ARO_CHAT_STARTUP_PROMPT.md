@@ -1438,3 +1438,8 @@ Continue P0 on existing draft PR #386 and its original branch/base. Terminal fal
 
 
 ARO-CHAT-0317 commit follow-up: production `fcae628bff83b56cde510af16730a7b2f5a3d33f`; regression file `6de1a30e8c4002ac20486ee7347a58d77ec0fa32`, corrected newline literals in `9bf29a5bbba2ecf8987159a578f1bf983dea8da0`. The test file was re-read after correction; tests remain NOT RUN and exact-head CI NOT VERIFIED.
+
+
+## Latest continuation — ARO-CHAT-0318
+
+Continue P0 on existing draft PR #386 / branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`, preserving its original base and ancestry. Candidate-CSV CLI execution without `--confirm-rights` previously hashed the selected media before reaching the renderer's existing BLOCKED gate. Candidate hashing is now skipped for unconfirmed execution, and the lower-level renderer blocks before source identity/preflight work. Added direct API and candidate-CLI regressions asserting no media hashing, FFprobe, snapshot, FFmpeg, or output without confirmation. Production commit `1ecba6c0de0d20ef019658e3ce64a8500b9fb254`; tests `87feece9b1cebe6d8bbc2e8b6ab03146eac499f9`. Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Do not retry/dispatch workflows. Preserve PR #386 OPEN/DRAFT/UNMERGED. No real media, OAuth, credentials, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
