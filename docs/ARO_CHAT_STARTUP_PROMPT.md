@@ -1743,3 +1743,13 @@ Continue on existing draft PR #386 and its original branch/base: `workstream/aro
 - ARO-CHAT-0347 and ARO-CHAT-0348 were already used by concurrent work; this task is ARO-CHAT-0349. Earlier aliases were marked superseded. No history rewritten.
 - Static edit/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## Latest P0 handoff — ARO-CHAT-0349 | Reject FIFO Replacement During Synthetic Output Verification (2026-11-26)
+
+- Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added `test_hash_verified_output_rejects_fifo_replacement_without_blocking` to `tests/test_synthetic_single_clip_smoke.py`. The regression replaces an initially regular output path with a FIFO immediately before open, requires fail-closed rejection of the non-regular descriptor, and verifies `O_NONBLOCK` is supplied so the race cannot hang the verifier.
+- Test commits: `6d63bd53b8048d01f805c2979902da807ee1263d`, compatibility correction `a707b1526c000afe8b78dfcab38b996e86579eb2`. Canonical report commit: `4bcf797afc8518e6a7a9d182f027b55ac3aa2702`; registry commit: `c495ed9304cabdabc0cb12c5050213ccfb128dac`.
+- Serial collision reconciliation: ARO-CHAT-0346 through ARO-CHAT-0348 were already allocated to other concurrent regressions. This task is uniquely ARO-CHAT-0349 / ARO-GTA-P0-349. The provisional report filename containing 0346 remains a historical alias; canonical report is `docs/ARO_CHAT_0349_FIFO_REPLACEMENT_NONBLOCKING_GUARD.md`.
+- Source read-back completed. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
