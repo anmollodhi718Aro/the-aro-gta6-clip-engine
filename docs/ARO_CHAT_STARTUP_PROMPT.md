@@ -2059,3 +2059,13 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Windows job #139839367102 and Ubuntu job #139839367744 both returned empty step arrays (`steps: []`) and `logs_url: null`.
 - Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. No checkout, compilation, or unit-test execution is evidenced. This is not evidence of an application-code test failure. Root cause remains UNVERIFIED. No dispatch/retry was initiated.
 - Repository unit suite remains NOT RUN from a controlled local environment. The 6/6 source-level isolated harness result remains limited evidence only.
+
+
+## ARO-CHAT-0376 | GitHub Actions runner-allocation audit (2026-11-26)
+
+- Continue from PR #399 exact head `fea7ec2939de11841359bc7b748d9b7e609ee949` on child audit branch `workstream/aro-chat-0376-investigate-unassigned-actions-runners-2026-11-26`; preserve PR #399 ancestry.
+- Read-only audit of `.github/workflows/ci.yml` (blob `dfdd18952b338d4f76290484f0698a27e2fae1cc`) found normal pull_request triggers and explicit Ubuntu/Windows matrix steps: checkout, Python 3.11, FFmpeg install, compileall, unittest discovery, synthetic clip smoke.
+- Exact-head run #45799791858: both jobs failed about two seconds after creation; Windows #139839713350 and Ubuntu #139839713764 reported empty steps, runner_id 0, blank runner_name, and no logs URL. Step lookups were empty; job-log retrieval returned HTTP 404 / BlobNotFound. Check-run output fields were blank; annotation count was one per job, but annotation contents were not accessible through the connected GitHub actions.
+- Previous exact-head run #45799693944 showed the same no-step/no-log pattern. Classification: CI_FAILURE / EXECUTION_NOT_ESTABLISHED. Workflow YAML does not show a skip condition explaining this; root cause remains UNVERIFIED. Account/repository Actions policy, billing/quota, service scheduling, and runner provisioning are possibilities only, not confirmed causes.
+- No workflow dispatch/retry was initiated; no CI YAML or production code changed. Full unit suite NOT RUN; Ubuntu/Windows execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1 and P0 remain NOT COMPLETE.
+- Next safe step requires owner/repository-admin inspection of Actions settings, billing/usage, service notices, and the one check-run annotation. Obtain explicit owner approval before any manual dispatch/retry. Keep all PRs OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
