@@ -2905,12 +2905,12 @@ Two concurrent continuations used provisional ARO-CHAT-0327. The stable syntheti
 
 
 
-## ARO-CHAT-0337 — close output verifier descriptor when initial path stat fails (2026-11-26)
+## ARO-CHAT-0338 — close output verifier descriptor when initial path stat fails (2026-11-26)
 
-- Exact title: ARO-CHAT-0337 | Close Output Verifier Descriptor When Initial Path Stat Fails.
-- Workstream: ARO-GTA-P0-337; continued existing P0 draft PR #386 on its original branch/base.
+- Exact title: ARO-CHAT-0338 | Close Output Verifier Descriptor When Initial Path Stat Fails.
+- Workstream: ARO-GTA-P0-338; continued existing P0 draft PR #386 on its original branch/base.
 - Added `test_verified_output_hash_closes_descriptor_when_initial_path_stat_fails`. It allows descriptor open and initial `fstat()` to succeed, injects an `OSError` from the following pathname `lstat()`, then verifies the helper's `finally` block closed the descriptor.
-- Production code unchanged. This covers a distinct failure point from ARO-CHAT-0335's read failure and ARO-CHAT-0336's initial descriptor-stat failure.
-- Test commit: `efb7f74c1fcc3f49ffa4722c7a1cf2b32f888602`; report: `docs/ARO_CHAT_0337_SMOKE_VERIFIER_PATH_STAT_CLEANUP.md`; report commit: `ddafe1a852d5f866198a7f0c26582af4e1639871`.
+- Production code unchanged. This covers a distinct failure point from ARO-CHAT-0335's read failure, ARO-CHAT-0336's initial descriptor-stat failure, and ARO-CHAT-0337's final pathname-stat failure.
+- Test commit: `efb7f74c1fcc3f49ffa4722c7a1cf2b32f888602`; report: `docs/ARO_CHAT_0338_SMOKE_VERIFIER_PATH_STAT_CLEANUP.md`; report commit: `95d663a89da8014a2de97bbd5eb02951d31df846`.
 - Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original branch/base. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
