@@ -735,6 +735,30 @@ class SingleClipRenderTests(unittest.TestCase):
 
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     @patch("backend.app.single_clip_render.render_clip")
+    def test_render_exception_preserves_possible_output_and_requires_inspection(self, render, _preflight):
+        payload = b"output linked before cleanup failure"
+        def create_output_then_fail(*args, **kwargs):
+            self.output.write_bytes(payload)
+            raise OSError("simulated temporary-directory cleanup failure")
+
+        render.side_effect = create_output_then_fail
+        report = render_selected_clip(
+            self.source, self.output, 2, 8, execute=True, rights_confirmed=True,
+        )
+
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("cleanup failure", report["error"])
+        self.assertTrue(report["output_inspection_required"])
+        self.assertIn("Inspect the configured output path before retrying", report["message"])
+        self.assertIsNone(report["processing_started"])
+        self.assertEqual(self.output.read_bytes(), payload)
+        self.assertFalse(report["upload_performed"])
+        self.assertFalse(report["publishing_enabled"])
+        render.assert_called_once()
+
+
+    @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
+    @patch("backend.app.single_clip_render.render_clip")
     def test_renders_one_clip_and_verifies_output(self, render, preflight):
         payload = b"verified rendered mp4 bytes"
         rendered = self.output.resolve()
