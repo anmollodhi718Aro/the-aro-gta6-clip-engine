@@ -244,3 +244,8 @@ The reserved in-progress JSON report records `execution_requested` from the expl
 
 
 The terminal JSON report retains the reserved invocation metadata and overlays the renderer's terminal result. This ensures the execution-request and rights-confirmation fields remain present after a BLOCKED, PLANNED, RENDERED, or FAIL result is written.
+
+
+### Snapshot read-back completeness
+
+After the private source snapshot is flushed and fsynced, read-back verification now counts the bytes actually returned by descriptor reads and requires the count to equal the stable snapshot size. An injected or abnormal early EOF fails closed and triggers identity-checked cleanup of the snapshot created by this invocation. This complements the SHA-256 comparison by making complete read coverage an explicit invariant.
