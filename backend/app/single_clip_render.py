@@ -968,6 +968,27 @@ def render_selected_clip(
         }
 
 
+def _fsync_parent_directory(path: str | Path) -> None:
+    """Persist a newly created report's directory entry where supported.
+
+    POSIX filesystems require syncing the containing directory after syncing a
+    newly created file if the filename itself must survive a sudden system
+    crash. Python's portable file APIs do not expose an equivalent directory
+    handle operation on Windows, so Windows retains file-level fsync only.
+    """
+    if os.name == "nt":
+        return
+    directory = Path(path).parent
+    flags = os.O_RDONLY
+    if hasattr(os, "O_DIRECTORY"):
+        flags |= os.O_DIRECTORY
+    descriptor = os.open(directory, flags)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
 def _write_exclusive_terminal_fallback(
     report_path: Path, report_text: str, protected_paths: tuple[Path, ...] = ()
 ) -> Path:
@@ -992,6 +1013,7 @@ def _write_exclusive_terminal_fallback(
             )
         fallback.flush()
         os.fsync(fallback.fileno())
+        _fsync_parent_directory(fallback_path)
     return fallback_path
 
 
@@ -1095,6 +1117,7 @@ def main() -> int:
                     )
                 handle.flush()
                 os.fsync(handle.fileno())
+                _fsync_parent_directory(report_path)
             except OSError as write_exc:
                 try:
                     fallback_path = _write_exclusive_terminal_fallback(
