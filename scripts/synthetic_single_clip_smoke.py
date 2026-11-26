@@ -156,7 +156,7 @@ def main() -> int:
     args = parser.parse_args()
     try:
         result = run_smoke_test(ffmpeg=args.ffmpeg, ffprobe=args.ffprobe)
-    except (OSError, subprocess.SubprocessError, RuntimeError, ValueError) as exc:
+    except (OSError, subprocess.SubprocessError, RuntimeError, ValueError, OverflowError) as exc:
         print(json.dumps({
             "status": "FAIL",
             "error": f"{type(exc).__name__}: {exc}",
