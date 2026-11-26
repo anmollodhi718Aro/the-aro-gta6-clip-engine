@@ -2851,3 +2851,13 @@ Two concurrent continuations used provisional ARO-CHAT-0327. The stable syntheti
 - Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
 
+
+
+## ARO-CHAT-0332 — verify synthetic fixture timeout cleanup (2026-11-26)
+
+- Workstream: ARO-GTA-P0-332; continued existing draft PR #386 and original branch/base.
+- Added a regression for FFmpeg synthetic-fixture generation timing out at the configured 120-second limit. It verifies timeout propagation, that rendering is not invoked, and that the temporary source path and directory are removed.
+- Production code unchanged; TemporaryDirectory remains responsible for cleanup.
+- Test commit: f4f3eb625c36051f1c014ecca10f90dcdbc376c4; report: docs/ARO_CHAT_0332_SYNTHETIC_FIXTURE_TIMEOUT_CLEANUP.md; report commit: b1346752877682f017b90e5e7efb4233cd3de835.
+- Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
