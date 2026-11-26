@@ -3407,3 +3407,5 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI did not expose execution; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED; P0 pipeline NOT COMPLETE.
 - Report: `docs/ARO_CHAT_0370_PR389_EXACT_HEAD_CI_AUDIT.md`, commit `6356ccda6046ad60479f699af93d35bd0765a068`.
 - Keep PR #389 and #388/#387/#386 OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+- Audit-branch CI note: initial PR #391 head `8670522ccefbaa0693b6fdda291a6e90674c5e09` run #45783637618 completed FAILURE; Ubuntu job #139784900003 and hosted-Windows job #139784900308 both exposed `steps: null` / `logs_url: null`. Execution NOT ESTABLISHED; no CI result transfers to the final docs-updated head.
