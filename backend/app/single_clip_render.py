@@ -1018,14 +1018,27 @@ def _write_exclusive_terminal_fallback(
         raise OSError(f"terminal fallback path could not be validated safely: {exc}") from exc
     if fallback_resolved in protected_resolved:
         raise OSError("terminal fallback path aliases the selected source or output path")
-    with fallback_path.open("x", encoding="utf-8", newline="\n") as fallback:
-        written = fallback.write(report_text)
-        if written != len(report_text):
+    fallback_created = False
+    try:
+        with fallback_path.open("x", encoding="utf-8", newline="\n") as fallback:
+            fallback_created = True
+            written = fallback.write(report_text)
+            if written != len(report_text):
+                raise OSError(
+                    f"terminal fallback write was incomplete ({written} of {len(report_text)} characters)"
+                )
+            fallback.flush()
+            os.fsync(fallback.fileno())
+    except OSError as exc:
+        if fallback_created:
+            # Exclusive creation succeeded, so a short write/flush/fsync error
+            # can leave a partial or non-durable sidecar. Name the exact path;
+            # never remove it or imply that no fallback file exists.
             raise OSError(
-                f"terminal fallback write was incomplete ({written} of {len(report_text)} characters)"
-            )
-        fallback.flush()
-        os.fsync(fallback.fileno())
+                f"terminal fallback report may remain at {fallback_path}, "
+                f"but its write or file synchronization failed: {exc}"
+            ) from exc
+        raise
     try:
         _fsync_parent_directory(fallback_path)
     except OSError as exc:
