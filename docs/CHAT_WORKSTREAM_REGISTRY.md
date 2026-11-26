@@ -3565,3 +3565,8 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Added regression coverage for None, integer, list, dict, empty Path, empty string, and whitespace-only string; asserts subprocess is not called.
 - Implementation and test commits are recorded in the subsequent commit metadata. Tests NOT RUN in this connector session; exact-head CI pending. No FFmpeg E2E, owner-device Windows verification, independent review, or authorized GTA 6 media processing.
 - Continue on existing PR #412 branch; preserve parent PR #386 ancestry. Keep both PRs OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0385 test-fixture correction (2026-11-26)
+- Follow-up review caught that `Path()` represents the current directory and is a valid `pathlib.Path` type, not an invalid argument type. Removed it from the invalid-type case table; actual Path objects remain exercised by the existing selected-file success tests. Production behavior unchanged.
+- Correction commit and read-back recorded below; tests NOT RUN in this connector session. Exact-head CI must be checked separately.
