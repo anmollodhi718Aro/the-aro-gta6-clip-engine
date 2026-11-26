@@ -66,3 +66,13 @@ Keep PR #399 and this audit child OPEN / DRAFT / UNMERGED. Preserve the parent c
 - This is now observed on three consecutive PR heads: #399 run #45799791858, #400 run #45800768113, and #401 run #45801020210. All show failure before any workflow step. Repeatability is established across three PRs; the cause remains UNVERIFIED.
 - Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. Potential Actions policy, billing/quota, GitHub service scheduling, or runner provisioning causes remain hypotheses only. Repository Actions settings and billing diagnostics are not exposed through the connected read-only surface.
 - No workflow dispatch/retry, workflow modification, production-code change, merge, or deployment was made. Stage 1 remains NOT COMPLETE.
+
+
+## Fourth consecutive PR CI observation — zero billable runner time (2026-11-26)
+
+- PR #402 exact head: `f277c2b0edebedcd2d4c2df6c275ed5f7abaffa9`; Python CI run #45801279159, run number 2557, event `pull_request`, completed FAILURE approximately three seconds after starting.
+- Windows job #139844824808 and Ubuntu job #139844825203 both completed FAILURE. Job summaries expose `steps: null` and `logs_url: null`; direct step lookups returned empty arrays; log retrieval returned HTTP 404 / BlobNotFound.
+- GitHub Actions timing endpoint reports `run_duration_ms: 3000`; billable WINDOWS and UBUNTU `total_ms: 0`, with one job each and `duration_ms: 0`. No hosted runner step execution is evidenced.
+- This repeats the same pre-step failure pattern across four consecutive PR heads: #399 run #45799791858, #400 run #45800768113, #401 run #45801020210, and #402 run #45801279159. This confirms repeatability of the observed symptom, not its underlying cause.
+- Classification remains `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`; root cause remains UNVERIFIED. Potential Actions policy, billing/quota, GitHub scheduling/service, or runner provisioning explanations remain hypotheses. Connected read-only GitHub access does not expose repository Actions settings or billing diagnostics.
+- No dispatch/retry, workflow modification, production-code change, merge, or deployment was performed. PR #402 CI is NOT VERIFIED; full repository tests remain NOT RUN; Stage 1 and P0 remain NOT COMPLETE.
