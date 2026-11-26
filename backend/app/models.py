@@ -8,7 +8,15 @@ from typing import Any
 
 
 def parse_datetime(value: str | datetime) -> datetime:
-    parsed = value if isinstance(value, datetime) else datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if isinstance(value, datetime):
+        parsed = value
+    elif isinstance(value, str):
+        try:
+            parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        except ValueError as exc:
+            raise ValueError("timestamp must be a valid ISO 8601 string") from exc
+    else:
+        raise ValueError("timestamp must be a datetime or ISO 8601 string")
     if parsed.tzinfo is None or parsed.utcoffset() is None:
         raise ValueError("timestamps must include a timezone")
     return parsed
@@ -24,8 +32,13 @@ class PermissionRecord:
     revoked_at: datetime | None = None
 
     def __post_init__(self) -> None:
-        if not self.source_id.strip() or not self.granted_by.strip():
-            raise ValueError("source_id and granted_by are required")
+        if (
+            not isinstance(self.source_id, str)
+            or not isinstance(self.granted_by, str)
+            or not self.source_id.strip()
+            or not self.granted_by.strip()
+        ):
+            raise ValueError("source_id and granted_by must be non-empty strings")
         object.__setattr__(self, "granted_at", parse_datetime(self.granted_at))
         if self.expires_at is not None:
             object.__setattr__(self, "expires_at", parse_datetime(self.expires_at))
@@ -62,8 +75,13 @@ class ChatEvent:
     text: str = ""
 
     def __post_init__(self) -> None:
-        if not self.event_id.strip() or not self.source_id.strip():
-            raise ValueError("event_id and source_id are required")
+        if (
+            not isinstance(self.event_id, str)
+            or not isinstance(self.source_id, str)
+            or not self.event_id.strip()
+            or not self.source_id.strip()
+        ):
+            raise ValueError("event_id and source_id must be non-empty strings")
         object.__setattr__(self, "timestamp", parse_datetime(self.timestamp))
 
     @classmethod
