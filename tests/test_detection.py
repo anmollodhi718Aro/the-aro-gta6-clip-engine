@@ -55,9 +55,15 @@ class DetectionTests(unittest.TestCase):
             PermissionRecord(None, "creator", frozenset({"analyze_chat"}), self.start)
 
     def test_permission_constructor_requires_immutable_string_scopes(self) -> None:
-        for scopes in (["analyze_chat"], "analyze_chat", frozenset({"analyze_chat", 7})):
+        for scopes in (
+            ["analyze_chat"],
+            "analyze_chat",
+            frozenset({"analyze_chat", 7}),
+            frozenset({""}),
+            frozenset({"   "}),
+        ):
             with self.subTest(scopes=scopes):
-                with self.assertRaisesRegex(ValueError, "frozenset of strings"):
+                with self.assertRaisesRegex(ValueError, "frozenset of non-empty strings"):
                     PermissionRecord(
                         "sample-stream", "test-creator", scopes, self.start
                     )
