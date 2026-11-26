@@ -22,7 +22,9 @@ The dimension regression covers a missing width, a boolean height, and a zero wi
 
 ## Commit
 
-- Test commit: `d4a2e8482dc2d4623bd0c65e5cbbeba6b8c41ac2`
+- Final regression-test commit: `9582ac36d76a7711c0a87c60a6769001b9b5b56b`
+
+A preliminary commit `d4a2e8482dc2d4623bd0c65e5cbbeba6b8c41ac2` added the helper import but did not contain the three test methods. A follow-up static verification caught that omission; the three test methods were then inserted in `9582ac36d76a7711c0a87c60a6769001b9b5b56b`. The latter is the commit that actually contains the regression tests.
 
 ## Verification state
 
