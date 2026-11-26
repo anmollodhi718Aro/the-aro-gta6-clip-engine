@@ -1850,3 +1850,13 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Test commit: `a374c016f66139a826f3c5060b5c20413026e467`; canonical report commit: `f140950dcfe33cd3d2add36c7bb98e8e5bf7146b`; registry commit: `ae527367491a7496f2d5f640cff8d14794eb35db`; startup handoff commit: `d0440242ece326e7e047a115a0b0a2910f60957c`.
 - GitHub source write/read-back only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0358 | Output Path Replacement After Descriptor Open (2026-11-26)
+
+- Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added `tests/test_synthetic_smoke_symlink_after_open_race.py` to cover pathname replacement after the output descriptor has already been opened. During the first descriptor read, the test replaces the output path with a symlink to an external temporary target; the verifier must reject the final descriptor/path identity mismatch.
+- The regression also checks descriptor closure and unchanged external target bytes. Temporary synthetic files only; production code unchanged; no FFmpeg/FFprobe process or real media is used.
+- Test commit: `d71eb490f21f83b03e9f74284e87645fe9288788`; canonical report: `docs/ARO_CHAT_0358_SYMLINK_AFTER_OPEN_RACE.md` (commit `fc68f3899ec0bdfc302b53200f3dd3ec1f0f71ca`); registry commit: `2eb99d205fba0ebe0b649a7abb6b1bc4d06425ba`.
+- GitHub source write/read-back only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
