@@ -39,6 +39,10 @@ class PermissionRecord:
             or not self.granted_by.strip()
         ):
             raise ValueError("source_id and granted_by must be non-empty strings")
+        if not isinstance(self.scopes, frozenset) or any(
+            not isinstance(scope, str) for scope in self.scopes
+        ):
+            raise ValueError("permission scopes must be a frozenset of strings")
         object.__setattr__(self, "granted_at", parse_datetime(self.granted_at))
         if self.expires_at is not None:
             object.__setattr__(self, "expires_at", parse_datetime(self.expires_at))
