@@ -1635,10 +1635,10 @@ Recorded exact-head Actions run #45771573052 for PR #386 head `bac9be9e34c2ed62c
 - Preserve PR #386 OPEN/DRAFT/UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
 
 
-## Latest P0 handoff — ARO-CHAT-0342 (2026-11-26)
+## Latest P0 handoff — ARO-CHAT-0343 (2026-11-26)
 
-- Exact title: `ARO-CHAT-0342 | Guard Final-Lstat Regression Test Discovery`.
-- Workstream: ARO-GTA-P0-342; continue on existing draft PR #386 and its original branch/base `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Exact title: `ARO-CHAT-0343 | Guard Final-Lstat Regression Test Discovery`.
+- Workstream: ARO-GTA-P0-343; continue on existing draft PR #386 and its original branch/base `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
 - Starting head: `392d74f8e9001d22528a0ef323061424ed36c5d2`.
 - Added an AST regression requiring `test_hash_verified_output_closes_descriptor_when_final_lstat_fails` to be defined exactly once directly on `SyntheticSingleClipSmokeTests`. This protects the unittest discovery correction from ARO-CHAT-0340; production code unchanged.
 - Test commit: `ce4c81a7103c0ec4489a3add15a446f433798701`; report commit: `33e50978b11d6960e1533bb1561f08975a69ef43`; registry commit: `cf7ef8c86783340dc7f655b340d231cdf8546fdb`.
@@ -1653,3 +1653,8 @@ Recorded exact-head Actions run #45771573052 for PR #386 head `bac9be9e34c2ed62c
 - Focused report correction commit: `a8d9571c7de3dca6b5599efc6e7ecca5a26ecf80`; registry commit: `4f6008c13bf59f3dd00ffd0ec93630781c46f94c`.
 - Production code unchanged. Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED. Do not retry/dispatch workflows, merge, rebase, retarget, use credentials, process real media, upload, publish, or deploy. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### Serial collision reconciliation — 2026-11-26
+
+A concurrent continuation used ARO-CHAT-0342 / ARO-GTA-P0-342 for the empty synthetic-output regression (`docs/ARO_CHAT_0342_EMPTY_SYNTHETIC_OUTPUT_REGRESSION.md`). This chat's final-lstat discovery guard is uniquely reassigned to ARO-CHAT-0343 / ARO-GTA-P0-343. Existing commits were retained; no history was rewritten. Registry reconciliation commit: `bd4b2218255dec3dd0c69220ee6c74c6fc6f8a52`; relabeled report commit: `51a7dc4b3967d10023be151376f1e373bd948db0`.
