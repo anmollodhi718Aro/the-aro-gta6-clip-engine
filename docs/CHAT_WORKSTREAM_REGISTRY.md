@@ -2819,3 +2819,16 @@ Two concurrent continuations used provisional ARO-CHAT-0327. The stable syntheti
 - Test commit: dca3248e7f898d2082524b2dbb7bad1985d245eb; report: docs/ARO_CHAT_0331_SMOKE_RENDERER_FAILURE_CLEANUP.md; report commit: 9da84fd1bd65bd3087a6f6090b7de58885550687.
 - Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0332 — keep non-JSON renderer failures structured (2026-11-26)
+
+- Exact chat title: ARO-CHAT-0332 | Keep Non-JSON Renderer Failures Structured.
+- Workstream: ARO-GTA-P0-332; continued existing draft PR #386 and its original branch/base.
+- Static review found that serializing a malformed non-RENDERED report could itself raise TypeError before the CLI's normal structured failure handler ran.
+- The smoke harness now catches TypeError/ValueError while summarizing a failed renderer report and uses a fixed fallback message; the CLI can then emit its standard JSON FAIL payload.
+- Added a regression with a deliberately non-JSON-serializable report value. It asserts exit code 1, parseable JSON stderr, status FAIL, and upload/publishing false.
+- Starting observed branch head: `9da84fd1bd65bd3087a6f6090b7de58885550687`.
+- Commits: production `8a15de2932a10da2b48b70b29ac6e3ceaaf80403`; regression `400824bdbce0076f5f1ca5b0f7ceadd61bcb43c9`; report `docs/ARO_CHAT_0332_NON_JSON_RENDERER_REPORT.md`; report commit `84af66f3c11653c6722420ebe90ec151983b4a76`.
+- Production/test source re-read: IMPLEMENTED. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
