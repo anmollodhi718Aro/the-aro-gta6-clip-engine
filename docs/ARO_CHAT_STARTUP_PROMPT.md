@@ -1693,3 +1693,14 @@ A concurrent continuation used ARO-CHAT-0342 / ARO-GTA-P0-342 for the empty synt
 - Test commit: `a38f4f8463b48d1682252ceef19d064b65c5479b`; report commit: `2a2ff9b4f602affaf5bb3141b6866099e8448665`; registry commit: `c7bb0ebc4fdac24c813cbf9f8f9728639cee796b`.
 - Static edit/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0346 (2026-11-26)
+
+- Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added `test_main_emits_structured_failure_when_renderer_reports_missing_output` to `tests/test_synthetic_single_clip_smoke.py`. A fake renderer claims RENDERED and supplies a valid-looking SHA-256 but creates no output file; the CLI must return exit code 1 and emit parseable JSON FAIL with the missing-output reason and upload/publishing false.
+- Test commit: `e692439af7428003e4deaf2b7488cc10e47fa784`; focused report commit: `cf1fa9d9c009cd10c57cac66337b9b01e9ea670f`; registry commit: `11e7cbf0139b71c7494c3ca7daf07d009ffd28ce`.
+- Serial collision reconciliation: ARO-CHAT-0345 was concurrently used by other work on this branch. This continuation is assigned ARO-CHAT-0346; no commit history was rewritten.
+- Static edit/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
