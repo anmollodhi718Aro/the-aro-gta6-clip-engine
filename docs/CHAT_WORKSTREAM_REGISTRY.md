@@ -2460,3 +2460,15 @@ ARO-CHAT-0306 test-fixture correction: the regression now constructs an actual s
 - Test-only commit: `72b8270ab41d2c7309808657a20045f1eaa9ded3`; report: `docs/ARO_CHAT_0309_STRICT_TERMINAL_JSON_REGRESSION.md`.
 - Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized media processed.
 - Continued on existing PR #386 and branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR. Preserve OPEN / DRAFT / UNMERGED state and ancestry. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0310 — terminal fallback path-resolution failure containment
+
+- Workstream: ARO-GTA-P1-310; continued existing draft PR #386 / branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Static review found `Path.resolve()` in terminal fallback path validation could raise `RuntimeError` or `ValueError`, escaping the caller's `OSError` handler after a render had potentially completed.
+- Fallback and protected-path resolution errors are now converted to a descriptive `OSError`, preserving the explicit operator warning to inspect output before retrying.
+- Regression: `test_cli_fallback_resolution_error_keeps_output_inspection_warning`.
+- Commits: production `d17f71d1b19ea0848e655bde41a08846585317c2`; test `d6a46a7dbfc6a67c562adbab2dec170095217f41`; report `9b061125d86565dbeb6948876dfd240300af4c3c`; operator docs `19d115d7ac33283c27a69141f53f1f70ab696558`.
+- Initial commit messages carried provisional 0309 labels; the startup handoff already had a separate ARO-CHAT-0309 entry. Canonical attribution is 0310; no history was rewritten.
+- Tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; real authorized MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and its original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
