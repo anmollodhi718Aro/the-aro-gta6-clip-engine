@@ -34,3 +34,13 @@ The script accepts explicit FFmpeg and FFprobe executable names/paths. It does n
 - Keep PR #386 OPEN / DRAFT / UNMERGED and preserve its original base/ancestry.
 - No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment.
 - Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+
+
+## Follow-up correction
+
+- Missing FFmpeg/FFprobe executables now raise `FileNotFoundError` into the script's structured JSON failure handler instead of terminating through `SystemExit`.
+- Follow-up commit: `85e19e4057d2ed07ae8a3e77c2e75426224a04d2`.
+- Python syntax compilation of the script source passed in this session. The script itself and repository unit tests were not executed because this connector session does not provide the repository runtime or a verified FFmpeg installation.
+- Exact-head Actions lookup for the follow-up commit returned no associated runs; CI remains NOT VERIFIED.
