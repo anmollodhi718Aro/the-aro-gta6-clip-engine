@@ -296,3 +296,5 @@ A post-render FFprobe `PASS` and matching duration are not sufficient by themsel
 ## Terminal fallback path-resolution failures
 
 If a terminal report write fails, the CLI attempts an exclusive fallback file beside the reserved report. Resolution of the fallback and protected source/output paths is itself guarded: malformed paths and symlink-loop errors are converted into the fallback's normal I/O failure path. The CLI then emits the explicit warning to inspect any output manually before retrying. It never overwrites an existing fallback or protected file. A failed fallback does not prove that rendering failed; inspect the output and both report paths before another attempt.
+
+The MP4/H.264 post-render gate also rejects missing video streams, missing or non-positive dimensions, and boolean dimension metadata. Direct helper regressions cover acceptance of a valid H.264 MP4 stream and each malformed metadata class. See `docs/ARO_CHAT_0311_RENDERED_MP4_METADATA_REGRESSIONS.md`; these tests have not yet been executed in this connector session.
