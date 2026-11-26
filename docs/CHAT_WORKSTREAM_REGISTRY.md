@@ -2484,3 +2484,12 @@ The second ARO-CHAT-0310 entry and `docs/ARO_CHAT_0310_TERMINAL_FALLBACK_PATH_RE
 - Exact-head Actions run #45744189317 / job #139656150344 on `d17f71d1b19ea0848e655bde41a08846585317c2` is marked failed, but the job has zero steps and no runner metadata; log retrieval returned BlobNotFound. This is a pre-step runner/infrastructure failure, not evidence that Python tests failed. Root cause UNKNOWN. Local tests NOT RUN; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; real authorized MP4 NOT PROCESSED.
 - PR #386 remains OPEN / DRAFT / UNMERGED with its original base and ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
 - Report: `docs/ARO_CHAT_0310_TERMINAL_FALLBACK_PATH_RESOLUTION.md`.
+
+## ARO-CHAT-0311 — rendered MP4 metadata regression coverage (2026-11-26)
+
+- Continued existing PR #386 / branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR.
+- Added direct helper regressions for valid H.264 MP4 metadata, missing video streams, and invalid dimensions (missing, zero, or boolean). Existing integration tests cover non-MP4 container and non-H.264 codec rejection.
+- Test commit: `d4a2e8482dc2d4623bd0c65e5cbbeba6b8c41ac2`.
+- Operator documentation: `docs/SINGLE_CLIP_RENDER.md`; report: `docs/ARO_CHAT_0311_RENDERED_MP4_METADATA_REGRESSIONS.md`.
+- Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED; authorized GTA 6 MP4 NOT PROCESSED; owner playback review NOT DONE.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and its existing base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth/credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
