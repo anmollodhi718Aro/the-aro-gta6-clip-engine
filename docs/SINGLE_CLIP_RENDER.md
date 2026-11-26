@@ -197,8 +197,9 @@ been copied. The selected original remains untouched.
 ## Verify persisted source snapshot bytes
 
 After the snapshot writer flushes and syncs the file, the renderer reopens the
-created snapshot through a non-following read descriptor and hashes the bytes
-read back from storage. It checks the snapshot file identity and size before
+created snapshot through a non-following, nonblocking read descriptor and hashes
+the bytes read back from storage. Nonblocking open prevents an unexpected FIFO
+or device replacement from hanging verification before descriptor type checks. It checks the snapshot file identity and size before
 reading, then checks descriptor/path identity and metadata again afterward.
 The persisted-byte digest must match the digest of the selected source bytes.
 A mismatch fails closed and triggers identity-checked cleanup of the partial or
