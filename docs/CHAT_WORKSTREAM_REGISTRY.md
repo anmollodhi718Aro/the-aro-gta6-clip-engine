@@ -2687,3 +2687,12 @@ Regression tests cover a real pathname replacement against an open descriptor, f
 
 
 - ARO-CHAT-0322 follow-up: missing FFmpeg/FFprobe now produce a structured JSON FAIL through the script's normal error handler. Commit `85e19e4057d2ed07ae8a3e77c2e75426224a04d2`; report correction commit `4d080a28655a8fc870974f466132c0c8d78c9c23`. Python syntax compilation passed; smoke execution and repository tests remain NOT RUN; exact-head CI NOT VERIFIED.
+
+
+## ARO-CHAT-0323 — smoke harness regression coverage and digest validation
+
+- Workstream: ARO-GTA-P0-323; continued existing draft PR #386 and original branch/base.
+- Added `tests/test_synthetic_single_clip_smoke.py` covering missing FFmpeg handling, synthetic fixture command composition, selected interval and rights gate, disabled upload/publishing, temporary artifact cleanup, and malformed digest rejection.
+- Hardened the smoke harness to require a 64-character lowercase hexadecimal SHA-256 digest.
+- Commits: tests `88077f513b6cc9e1fd7bcdfc54a31bc9b8ac5fdd`; production guard `63d73f3c411089e45d9a77d73f0a24b08bfbf8f7`; task report `58b56165cf16a6ca9b410e61c0430ea2a783b60d`; operator guide `44628e284de2b898bb61bd1d6ad2fc8ecaa0597f`.
+- Tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; no workflow dispatch/retry. No authorized real MP4 processed. Preserve PR #386 OPEN / DRAFT / UNMERGED; no merge/rebase/retarget, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
