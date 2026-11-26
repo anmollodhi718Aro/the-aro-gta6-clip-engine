@@ -3679,3 +3679,13 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: `598c163871229ada7626fd2dce1d6318355a7b7b`; regression-test commit: `4af16f8f8f905fe282324a8607d48e7a04970eee`.
 - Static source/test read-back pending; tests NOT RUN in this session. Latest known exact-head Actions run before this fix `45886071923` failed before steps (Ubuntu job `140136964601`, Windows job `140136964243`, both `steps: null`). New commits' CI execution not yet verified. Synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED.
 - Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED with original base and ancestry. No merge, rebase, retarget, retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0399 — Validate selected-source hashing path arguments (2026-11-27)
+- Static review found `sha256_selected_source(path)` constructed `Path(path)` before validating the public helper's documented `str | Path` input. Invalid values such as `None`, integers, lists, dictionaries, and blank strings could escape as incidental `TypeError` rather than the helper's explicit validation error.
+- Added a fail-closed argument guard requiring a non-empty string or `pathlib.Path` before path conversion or filesystem access.
+- Added regression coverage for `None`, integer, list, dict, empty string, whitespace-only string, and tab-only string. The tab fixture was read back and corrected to use the actual Python tab escape.
+- Production commit: `0d17e6476d36d918099d6d11a04c5a774bf931d4`; initial test commit: `dd45ead53b21694d46a7e60b0b98222f859ad710`; fixture correction: `e8ce990693cfee0cd56a965052f6ee3316aafcaa`.
+- Exact-head read-back verified for production guard and regression fixture. Tests NOT RUN in this connector session. Exact-head hosted CI NOT VERIFIED for these new commits.
+- Previous exact-head workflow run `45886501625` at pre-change head `1ebce31fa4d15c3e6b3ad0e421221787e4ce77b0` failed before recorded steps: Ubuntu job `140138406880`, Windows job `140138407393`, both `steps: null`. This does not establish a test failure or identify the runner root cause.
+- Synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED with base and ancestry preserved. Stage 1/P0 remains INCOMPLETE.
