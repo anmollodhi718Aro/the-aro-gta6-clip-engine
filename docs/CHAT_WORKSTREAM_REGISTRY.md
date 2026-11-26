@@ -3388,3 +3388,11 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - The guard streams input lines and preserves valid quoted fields, doubled-quote escapes, delimiters, and embedded line breaks. Synthetic CSV only; no media tools or footage.
 - Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #387 and PR #386 OPEN / DRAFT / UNMERGED and their original dependency chain. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+### Exact-head CI audit — 2026-11-26
+
+- At head `4f9427f9697ef14c2479100c0dc5f105b58ef75c`, Python CI run #45777833134 completed FAILURE.
+- Ubuntu job #139765723606 and hosted-Windows job #139765723994 both reported `steps: null` and `logs_url: null`. No execution logs or runner steps were exposed.
+- Classify this as `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. It provides no evidence that checkout, compilation, or tests started; root cause remains UNVERIFIED and is not attributed to application code.
+- Combined commit status returned zero status entries. No workflow dispatch/retry was initiated.
+- Isolated in-memory parser probes passed for: rejecting an embedded quote in an unquoted later field; accepting a properly escaped quoted field; and accepting a quoted field containing an embedded newline. These probes are not a substitute for the repository unit suite.
