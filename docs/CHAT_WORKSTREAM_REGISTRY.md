@@ -3144,3 +3144,14 @@ ARO-CHAT-0345 was already reserved by a concurrent continuation for the syntheti
 - Starting observed head: `6c4992fa76f2d05bf390baef5fbe7b3e591b800a`.
 - Static source write/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0351 | Structured CLI Failure When FFprobe Is Missing (2026-11-26)
+
+- Workstream: ARO-GTA-P0-351; continued existing draft PR #386 on its original branch/base.
+- Added `test_main_emits_structured_failure_when_ffprobe_is_missing` to `tests/test_synthetic_single_clip_smoke.py`.
+- Invokes `main()` with FFmpeg discoverable and FFprobe missing; requires exit code 1, parseable JSON FAIL, FFprobe-specific error, upload/publishing false, and no fixture-generation or renderer invocation.
+- Production code unchanged.
+- Test commit: `6581ecb3d9431868667b61820e5dafde8dd7f7e6`; report commit: `de0316f8219f80451e215f4da925540b54f044e8`.
+- Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
