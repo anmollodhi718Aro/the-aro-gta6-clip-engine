@@ -2514,3 +2514,15 @@ The second ARO-CHAT-0310 entry and `docs/ARO_CHAT_0310_TERMINAL_FALLBACK_PATH_RE
 - Report: `docs/ARO_CHAT_0313_TERMINAL_SERIALIZATION_FALLBACK_REGRESSION.md`.
 - Tests NOT RUN in this connector session. Latest test commit exact-head workflow lookup returned zero runs; CI NOT VERIFIED. Independent review NOT RECORDED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, real media, OAuth, credentials, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0312 — terminal JSON serialization failure evidence
+
+- Workstream: ARO-GTA-P1-312; continued existing draft PR #386 / branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR.
+- Static review found that when renderer metadata failed strict terminal JSON serialization, the primary RUNNING report was preserved but no separate terminal failure record was written. Because the renderer may already have completed FFmpeg, this left an ambiguity that could lead to an unsafe blind retry.
+- The CLI now preserves the primary RUNNING report and writes a separate exclusive strict-JSON fallback containing safe failure metadata, renderer status when available, and an explicit output-inspection requirement. The fallback cannot overwrite an existing file or alias the selected source/output.
+- Regression: `test_cli_preserves_strict_running_report_when_terminal_json_contains_nan` now simulates a completed output plus NaN metadata and verifies output preservation, strict-JSON primary RUNNING report, strict-JSON fallback FAIL report, and manual-inspection warnings.
+- Commits: production `c87b7dd61d3e41e13318d94d4122cf23cc2b2219`; test `62d6f66974677fc7c064a4d0c8163f5690c176be`; operator docs `b036e676b8e35e56f799d702a6f9f891ff208d8c`; task report `fe9c1911011e68e2af57cc9e79ac8edaaf8f7a02`.
+- Initial commit messages carried provisional 0311 labels; live registry already assigns ARO-CHAT-0311 to rendered-MP4 metadata regression coverage. Canonical attribution is 0312; no history was rewritten.
+- Tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and its original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
