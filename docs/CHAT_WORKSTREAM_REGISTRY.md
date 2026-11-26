@@ -3663,3 +3663,10 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Corrected the fixture to use the actual tab character escape `\t`; production behavior is unchanged. GitHub read-back verified the corrected source line and test-file blob.
 - Test commit: `f8d46f0a1b4819b26e5054c0e90b9694af1afa9d`. Tests remain NOT RUN; exact-head workflow execution, synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED.
 - PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED with ancestry preserved. Stage 1/P0 remains INCOMPLETE. No merge, rebase, retarget, retry/dispatch, upload, publishing, or deployment.
+
+
+### ARO-CHAT-0396 — Exact-head CI runner evidence after CSV fixture correction (2026-11-27)
+- Checked PR #412 head `dd94641fe57b85c595fb00be1fb15b874c80c94b`. Python CI run `45885911987` completed with failure; Windows job `140136443458` and Ubuntu job `140136443712` both report `steps: null` and no job log URL. No checkout, dependency installation, compile, or unit-test execution is evidenced by these job records.
+- The run is therefore recorded as a pre-step/runner execution failure with root cause UNVERIFIED, not as a code-test failure and not as a pass. No retry or workflow dispatch was issued.
+- The ARO-CHAT-0395 actual-tab fixture correction is present in the PR head. Repository tests remain NOT RUN; synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED.
+- PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED with base and ancestry preserved. Stage 1/P0 remains INCOMPLETE. No merge, rebase, retarget, upload, publishing, or deployment.
