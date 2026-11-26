@@ -745,7 +745,9 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
                 output.unlink()
                 smoke.os.mkfifo(output)
                 observed["flags"] = flags
-                return real_open(path, flags, *args, **kwargs)
+                descriptor = real_open(path, flags, *args, **kwargs)
+                observed["descriptor"] = descriptor
+                return descriptor
 
             with patch.object(smoke.os, "open", side_effect=replace_with_fifo):
                 with self.assertRaisesRegex(
@@ -755,6 +757,9 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
 
             self.assertIn("flags", observed)
             self.assertTrue(observed["flags"] & smoke.os.O_NONBLOCK)
+            self.assertIn("descriptor", observed)
+            with self.assertRaises(OSError):
+                smoke.os.fstat(observed["descriptor"])
             self.assertTrue(output.exists())
             self.assertTrue(smoke.stat.S_ISFIFO(output.lstat().st_mode))
 
