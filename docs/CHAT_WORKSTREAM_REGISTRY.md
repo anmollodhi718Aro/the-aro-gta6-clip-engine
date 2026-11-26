@@ -2765,3 +2765,13 @@ Two concurrent continuations used provisional ARO-CHAT-0325. The failure-path re
 - Commits: workflow `2437e2e9590065c92e574dd917f33b80faf343a0`; test fixture `b403cfd3b641ef3f717536151ef1012fa1046009`; report `docs/ARO_CHAT_0327_SYNTHETIC_SMOKE_CI.md`; report correction `a3a4cb2b0221feffc4d424db434156237d78351b`.
 - Local tests NOT RUN; synthetic FFmpeg smoke NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0328 — reject malformed synthetic renderer reports (2026-11-26)
+
+- Workstream: ARO-GTA-P0-328; continued existing draft PR #386 and its original branch/base.
+- Hardened the synthetic smoke harness to require the production renderer result to be a dictionary before reading report fields; malformed results now fail with a controlled RuntimeError.
+- Added a regression test for a renderer returning `None`.
+- Commits: production guard `df1120bbc37d8961159ddb908914b39942bb533f`; regression `ec1c7b84bc511e87ffc74cb7d0df11cb3190662e`; report `docs/ARO_CHAT_0328_MALFORMED_SMOKE_REPORT.md`.
+- Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
