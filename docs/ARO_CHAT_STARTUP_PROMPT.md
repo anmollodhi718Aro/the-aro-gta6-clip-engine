@@ -1607,3 +1607,14 @@ Corrected test discovery on existing draft PR #386 and its original branch/base.
 ## Latest P0 continuation handoff — ARO-CHAT-0341 (2026-11-26)
 
 Continue on the existing draft PR #386 and its original branch/base. Added a focused regression proving that the synthetic output verifier closes its opened descriptor when the post-hash final `os.fstat()` raises `OSError`. Test commit `5a06dc067d551a32ca52ceaff98c3c07075c165b`; report `docs/ARO_CHAT_0341_FINAL_FSTAT_CLEANUP.md`; report commit `c511bc9bf8964ede166116a3bba7adbb570eb2da`. Production code unchanged. Tests, synthetic FFmpeg end-to-end, and exact-head Ubuntu/hosted-Windows CI NOT RUN / NOT VERIFIED. Independent review and owner-device Windows verification NOT RECORDED. Authorized real GTA 6 MP4 NOT PROCESSED. Preserve PR #386 OPEN/DRAFT/UNMERGED; do not dispatch/retry workflows, merge, rebase, retarget, use OAuth/credentials, process real media, upload, publish, or deploy. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0341 latest continuation — 2026-11-26
+
+- Exact title: `ARO-CHAT-0341 | Close Smoke Verifier Descriptor When Final Fstat Fails`.
+- Workstream: ARO-GTA-P0-341; continue existing draft PR #386 on `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`, preserving its original base and ancestry.
+- Starting observed branch head: `bac9be9e34c2ed62c4e492791c0ce5edec2a2bf6`.
+- Added a regression proving the synthetic output verifier closes its opened descriptor when the final `os.fstat()` raises after hashing. Production code unchanged.
+- Test commit: `8147d5e0ad702b2f11aee7cd1764369053b45a9c`; report commit: `2d0876428b461d28ba7f72faede18ecc1f1b246b`; registry commit: `17d6b5fd76a6a3c901c5f48560d2628080db6ea4`.
+- Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Keep PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
