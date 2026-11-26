@@ -1166,7 +1166,46 @@ def main() -> int:
             try:
                 terminal_report_text = json.dumps(report, indent=2, ensure_ascii=True, allow_nan=False) + "\n"
             except Exception as exc:
-                print(f"Terminal report could not be serialized; reserved RUNNING report preserved: {exc}", file=sys.stderr)
+                # Rendering may already have completed. Keep the primary RUNNING
+                # reservation intact, but persist a small strict-JSON failure
+                # record separately so operators are warned not to retry blindly.
+                safe_failure_report = {
+                    **initial_report,
+                    "status": "FAIL",
+                    "terminal_report_serialization_failed": True,
+                    "render_result_status": (
+                        report.get("status") if isinstance(report.get("status"), str) else None
+                    ),
+                    "output_inspection_required": True,
+                    "error": f"terminal report serialization failed ({type(exc).__name__})",
+                    "message": (
+                        "Terminal report serialization failed. Inspect any output file "
+                        "manually before retrying; the primary report remains RUNNING."
+                    ),
+                }
+                try:
+                    safe_failure_text = json.dumps(
+                        safe_failure_report, indent=2, ensure_ascii=True, allow_nan=False
+                    ) + "\n"
+                    fallback_path = _write_exclusive_terminal_fallback(
+                        report_path, safe_failure_text, (source_path, output_path)
+                    )
+                except (OSError, TypeError, ValueError) as fallback_exc:
+                    print(
+                        "Terminal report could not be serialized; the primary RUNNING "
+                        "report was preserved, but safe fallback creation failed. "
+                        "Inspect any output file manually before retrying. "
+                        f"Serialization error: {type(exc).__name__}; "
+                        f"fallback error: {fallback_exc}",
+                        file=sys.stderr,
+                    )
+                else:
+                    print(
+                        "Terminal report could not be serialized; the primary RUNNING "
+                        f"report was preserved and a strict-JSON failure record was written to {fallback_path}. "
+                        "Inspect any output file manually before retrying.",
+                        file=sys.stderr,
+                    )
                 return 2
 
             try:
