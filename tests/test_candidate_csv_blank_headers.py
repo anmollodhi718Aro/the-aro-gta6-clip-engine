@@ -52,6 +52,17 @@ class CandidateCsvBlankHeaderTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "blank or duplicate column names"):
                 load_selected_candidate(csv_path, 1)
 
+    def test_rejects_unicode_whitespace_only_header_cell(self):
+        with tempfile.TemporaryDirectory() as directory:
+            csv_path = Path(directory) / "candidates.csv"
+            csv_path.write_text(
+                "source_id,\u00a0,start_seconds,end_seconds,duration_seconds,renderable\\n"
+                "authorized-demo,note,2,8,6,True\\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(ValueError, "blank or duplicate column names"):
+                load_selected_candidate(csv_path, 1)
+
     def test_rejects_whitespace_only_trailing_header_cell(self):
         with tempfile.TemporaryDirectory() as directory:
             csv_path = Path(directory) / "candidates.csv"
