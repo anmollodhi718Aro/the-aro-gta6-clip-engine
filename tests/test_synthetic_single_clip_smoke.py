@@ -45,7 +45,7 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
         self.assertTrue(captured["kwargs"]["execute"])
         self.assertTrue(captured["kwargs"]["rights_confirmed"])
         self.assertEqual(result["status"], "PASS")
-        self.assertEqual(result["output_sha256"], "a" * 64)
+        self.assertEqual(result["output_sha256"], hashlib.sha256(b"synthetic-rendered-mp4").hexdigest())
         self.assertFalse(result["upload_performed"])
         self.assertFalse(result["publishing_enabled"])
         self.assertFalse(captured["source"].exists())
