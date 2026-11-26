@@ -2100,3 +2100,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - inspect_one_video no longer calls str() on Path subclasses while constructing its initial report. Such subclasses may override __str__ and raise before the guarded validation path.
 - Added regression coverage with a concrete platform Path subclass whose __str__ raises. Expected behavior: the valid Path subclass is accepted and inspected successfully using mocked FFprobe metadata.
 - Tests NOT RUN in this connector session; exact-head CI and media E2E NOT VERIFIED. Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED; no retry/dispatch, merge, deployment, upload, or publishing.
+
+
+### Latest continuation — duplicate mock patch correction (2026-11-27)
+- Continued the existing child PR #412 branch, preserving parent PR #386 ancestry and the selected base.
+- Removed a duplicate `@patch("backend.app.media_single_preflight.subprocess.run")` decorator from `test_path_subclass_with_broken_string_conversion_is_handled_safely`; the test accepts one mock parameter, so the duplicate decorator would inject an unexpected second argument.
+- Commit: `8c7807c19dede92f0e0ab65b750d997700db2172`; registry follow-up: `a170b224db3eb288b24594da2f1ef4ba2f0cd786`.
+- Re-read updated test source and checked all five changed test modules for adjacent duplicate `@patch` decorators; none remain. Tests NOT RUN; no exact-head workflow run returned for the registry commit. CI, synthetic FFmpeg E2E, independent review, owner-device Windows, and authorized GTA 6 media remain NOT VERIFIED.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
