@@ -1832,3 +1832,11 @@ Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow disp
 ### Serial-collision correction — CLI override regression (2026-11-26)
 
 The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CHAT-0352 / ARO-GTA-P0-352, as recorded in the registry; canonical report commit: `47a06e8749f71743429c048fefdfa0e300e42325`. The ARO-CHAT-0354 CLI override handoff above is a superseded duplicate attribution and its report file is retained only as a historical alias. The concurrent source-inode race guard was reconciled to ARO-CHAT-0355. No commit history was rewritten.
+
+
+### ARO-CHAT-0356 continuation — 2026-11-26
+- Workstream ARO-GTA-P0-356 adds `tests/test_synthetic_smoke_symlink_open_race.py` to cover a symlink swapped into the synthetic output path immediately before `os.open`.
+- Test commit: `6653b9980e733cff11c264e83655ec22ee441347`; report commit: `1584ff7aac9acc71bb778e62c67999ff45afd659`.
+- The regression exercises portable descriptor/path identity checking with `O_NOFOLLOW` disabled, verifies fail-closed rejection and descriptor cleanup, and confirms the external target is unchanged.
+- Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Keep PR #386 OPEN / DRAFT / UNMERGED on its original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
