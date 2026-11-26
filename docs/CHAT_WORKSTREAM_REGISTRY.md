@@ -3549,3 +3549,11 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: f9d7315d997e0062dc1841c72575f43665f2d58a; test commit: e2659e8c8cc19a8c4498b9dcfdbc79ea2351bc3b.
 - Repository tests NOT RUN in this connector session; exact-head CI, synthetic FFmpeg E2E, owner-device Windows, independent review, and authorized real-media processing remain NOT VERIFIED. This metadata check narrows mutation risk but is not an OS-level immutable file lock.
 - Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 FFprobe executable argument validation (2026-11-26)
+- Static review found `inspect_one_video` accepted an unchecked `ffprobe_binary` argument. Non-string values such as None or Path could raise an uncaught TypeError from subprocess argument construction, while blank strings produced inconsistent process errors.
+- The preflight now rejects empty/whitespace-only and non-string executable names/paths with a clear FAIL report before invoking FFprobe.
+- Added regression coverage for empty, whitespace-only, None, integer, and Path values; the test asserts subprocess.run is never called.
+- Production and test changes are committed on the existing PR #412 branch. Tests NOT RUN in this connector session; exact-head CI, FFmpeg E2E, independent review, owner-device Windows, and authorized GTA 6 MP4 processing remain NOT VERIFIED.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
