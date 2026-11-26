@@ -1,5 +1,6 @@
 """Safety and behavior tests for local FFmpeg clipping."""
 
+import os
 import shutil
 import subprocess
 import tempfile
@@ -130,6 +131,58 @@ class ClipRenderTests(unittest.TestCase):
             self.assertNotIn("shell", kwargs)
             self.assertEqual(kwargs["timeout"], 180)
             self.assertFalse(list(Path(folder).glob(".clip-*")))
+
+    def test_fsyncs_rendered_file_before_publish_and_parent_directory_after(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            output = Path(folder) / "clip.mp4"
+            source.write_bytes(b"synthetic")
+            events = []
+            real_fsync = os.fsync
+            real_link = os.link
+
+            def fake_ffmpeg(command, **kwargs):
+                Path(command[-1]).write_bytes(b"durable synthetic mp4")
+
+            def recording_fsync(descriptor):
+                events.append("file_fsync")
+                return real_fsync(descriptor)
+
+            def recording_link(source_path, destination_path):
+                events.append("link")
+                return real_link(source_path, destination_path)
+
+            def recording_directory_sync(path):
+                events.append("directory_fsync")
+
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg), patch(
+                "backend.app.clipping.os.fsync", side_effect=recording_fsync
+            ), patch("backend.app.clipping.os.link", side_effect=recording_link), patch(
+                "backend.app.clipping._fsync_parent_directory", side_effect=recording_directory_sync
+            ):
+                self.assertEqual(
+                    render_clip(source, output, 0, 2, rights_confirmed=True), output.resolve()
+                )
+
+            self.assertEqual(events, ["file_fsync", "link", "directory_fsync"])
+
+    def test_directory_sync_failure_preserves_published_output_and_raises(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            output = Path(folder) / "clip.mp4"
+            source.write_bytes(b"synthetic")
+
+            def fake_ffmpeg(command, **kwargs):
+                Path(command[-1]).write_bytes(b"published output")
+
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg), patch(
+                "backend.app.clipping._fsync_parent_directory",
+                side_effect=OSError("simulated directory sync failure"),
+            ):
+                with self.assertRaisesRegex(ClipRenderError, "output is preserved for inspection"):
+                    render_clip(source, output, 0, 2, rights_confirmed=True)
+
+            self.assertEqual(output.read_bytes(), b"published output")
 
     def test_concurrent_output_collision_preserves_existing_file(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
