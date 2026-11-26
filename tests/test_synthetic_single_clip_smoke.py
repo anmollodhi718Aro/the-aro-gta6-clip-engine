@@ -799,5 +799,33 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
         self.assertFalse(captured["directory"].exists())
 
 
+    def test_main_emits_structured_failure_when_ffprobe_is_missing(self):
+        import contextlib
+        import io
+        import json
+        import sys
+
+        stderr = io.StringIO()
+
+        def locate_tool(tool_name):
+            return None if tool_name == "ffprobe" else f"/tools/{tool_name}"
+
+        with patch.object(smoke.shutil, "which", side_effect=locate_tool), patch.object(
+            smoke.subprocess, "run"
+        ) as generate, patch.object(smoke, "render_selected_clip") as render, patch.object(
+            sys, "argv", ["synthetic_single_clip_smoke.py"]
+        ), contextlib.redirect_stderr(stderr):
+            exit_code = smoke.main()
+
+        self.assertEqual(exit_code, 1)
+        payload = json.loads(stderr.getvalue())
+        self.assertEqual(payload["status"], "FAIL")
+        self.assertIn("ffprobe", payload["error"])
+        self.assertFalse(payload["upload_performed"])
+        self.assertFalse(payload["publishing_enabled"])
+        generate.assert_not_called()
+        render.assert_not_called()
+
+
 if __name__ == "__main__":
     unittest.main()
