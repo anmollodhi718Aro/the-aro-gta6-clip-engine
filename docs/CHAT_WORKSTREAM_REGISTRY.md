@@ -2600,3 +2600,12 @@ Production commit: `3dd984e568145ce41abd52fc07352d40ff4f59ea`; regression commit
 - Report: `docs/ARO_CHAT_0317_CANDIDATE_CSV_OVERFLOW_SENTINEL_COLLISION.md`.
 - Tests NOT RUN locally; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0317 — preserve fallback-path evidence after directory-sync failure (2026-11-26)
+
+- Static review found that the terminal fallback helper could successfully create, flush, and file-fsync the fallback report, then raise when parent-directory fsync failed. Callers consequently reported fallback creation failure without identifying the file that actually existed.
+- The helper now treats directory-entry durability as a separate warning: it preserves and returns the created fallback path, and writes an explicit stderr warning that file contents were fsynced but parent-directory synchronization was not confirmed.
+- Added regression coverage that injects a directory-sync error and verifies the fallback remains present, readable, and named in the warning.
+- Repository tests NOT RUN in this connector session. Latest exact-head GitHub Actions run before this change failed before runner allocation (runner_id=0, no runner name, no steps); this is infrastructure evidence, not a unit-test failure. Do not retry or dispatch workflows.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No real media, OAuth, credentials, upload, publishing, merge, rebase, retarget, workflow retry/dispatch, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
