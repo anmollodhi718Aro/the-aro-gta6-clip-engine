@@ -2092,5 +2092,25 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["publishing_enabled"])
 
 
+    def test_terminal_fallback_path_is_reported_when_directory_sync_fails(self):
+        report_path = self.root / "directory-sync-failure.json"
+        report_text = json.dumps({"status": "FAIL"}) + "\n"
+        stderr = io.StringIO()
+
+        with patch(
+            "backend.app.single_clip_render._fsync_parent_directory",
+            side_effect=OSError("simulated directory fsync failure"),
+        ), redirect_stderr(stderr):
+            fallback_path = _write_exclusive_terminal_fallback(
+                report_path, report_text, (self.source, self.output)
+            )
+
+        self.assertTrue(fallback_path.is_file())
+        self.assertEqual(fallback_path.read_text(encoding="utf-8"), report_text)
+        self.assertIn(str(fallback_path), stderr.getvalue())
+        self.assertIn("parent-directory synchronization failed", stderr.getvalue())
+        self.assertIn("Inspect this report and any rendered output before retrying", stderr.getvalue())
+
+
 if __name__ == "__main__":
     unittest.main()
