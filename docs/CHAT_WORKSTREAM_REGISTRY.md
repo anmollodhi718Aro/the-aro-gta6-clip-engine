@@ -2661,3 +2661,14 @@ The CLI now compares the open descriptor's regular-file device/inode identity wi
 A mismatch fails closed. Before media work, it stops without invoking the renderer and attempts an exclusive fallback record. During terminal persistence, it preserves the primary path occupant and attempts the existing exclusive fallback path. It never overwrites the replacement path. These checks narrow pathname-replacement races; they do not claim an atomic filesystem transaction against every concurrent actor.
 
 Regression tests cover replacement detection before media inspection and after terminal report persistence. Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED. Independent review NOT RECORDED. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. PR #386 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0321 — enable hosted Windows CI alongside Ubuntu (2026-11-26)
+
+- Continued the existing P0 pipeline branch and draft PR #386; no new branch or PR.
+- Audit found `.github/workflows/ci.yml` configured only `ubuntu-latest`, despite the pipeline acceptance plan requiring both Ubuntu and hosted Windows coverage.
+- Added a non-fail-fast GitHub Actions OS matrix for `ubuntu-latest` and `windows-latest`, retaining Python 3.11, compileall, and full unittest discovery on both runners.
+- Workflow commit: `b83718a223d1a2b16cfe8d0b1cf71aeedc701aec`.
+- The preceding exact-head run on `1ce13c145109e2bc2bdcc398f223d8f06de95a7f` failed before runner allocation (`runner_id=0`, empty runner name, zero steps). This is not evidence of a test failure. No retry or manual dispatch was performed.
+- Tests NOT RUN in this connector session. Exact-head Ubuntu/Windows CI for the new commit PENDING / NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and its existing base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
