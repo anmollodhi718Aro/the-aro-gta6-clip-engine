@@ -120,6 +120,16 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(actual, expected)
         self.assertEqual(snapshot.read_bytes(), self.source.read_bytes())
 
+    def test_snapshot_creation_fsyncs_parent_directory_after_file(self):
+        snapshot = self.root / "directory-durable-snapshot.mp4"
+        with patch(
+            "backend.app.single_clip_render._fsync_parent_directory"
+        ) as fsync_parent:
+            _create_stable_source_snapshot(self.source, snapshot)
+
+        fsync_parent.assert_called_once_with(snapshot)
+        self.assertEqual(snapshot.read_bytes(), self.source.read_bytes())
+
     def test_snapshot_readback_uses_nonblocking_open_when_available(self):
         snapshot = self.root / "nonblocking-readback-snapshot.mp4"
         real_open = os.open
