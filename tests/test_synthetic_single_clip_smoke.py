@@ -120,5 +120,28 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
                 smoke.run_smoke_test()
 
 
+    def test_hash_verified_output_rejects_symlink(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            target = root / "target.mp4"
+            link = root / "output.mp4"
+            target.write_bytes(b"synthetic-output")
+            try:
+                link.symlink_to(target)
+            except (OSError, NotImplementedError) as exc:
+                self.skipTest(f"symlink creation unavailable: {exc}")
+            with self.assertRaisesRegex(RuntimeError, "regular non-symlink"):
+                smoke._hash_verified_output(link)
+
+    def test_hash_verified_output_returns_digest_and_size_from_same_file(self):
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / "output.mp4"
+            payload = b"verified synthetic output"
+            output.write_bytes(payload)
+            digest, size = smoke._hash_verified_output(output)
+            self.assertEqual(digest, hashlib.sha256(payload).hexdigest())
+            self.assertEqual(size, len(payload))
+
+
 if __name__ == "__main__":
     unittest.main()
