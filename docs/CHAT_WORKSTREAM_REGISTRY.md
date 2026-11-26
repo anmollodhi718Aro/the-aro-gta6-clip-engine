@@ -3226,3 +3226,13 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Serial reconciliation: concurrent work registered ARO-CHAT-0356 for the synthetic smoke symlink-open race. This tool-resolution regression is uniquely registered as ARO-CHAT-0357; no history was rewritten.
 - GitHub source write/read-back only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0358 | Reject Output Path Replacement After Descriptor Open (2026-11-26)
+
+- Workstream: ARO-GTA-P0-358; continued existing draft PR #386 on its original branch/base.
+- Added `tests/test_synthetic_smoke_symlink_after_open_race.py`. The test captures the descriptor opened for a regular synthetic output, replaces the output pathname with a symlink during the first descriptor read, and requires the verifier's final path/descriptor identity check to reject the mismatch.
+- The regression verifies descriptor closure and unchanged external target bytes. It uses temporary synthetic files only; production code unchanged and no media tools are launched.
+- Test commit: `d71eb490f21f83b03e9f74284e87645fe9288788`; canonical report: `docs/ARO_CHAT_0358_SYMLINK_AFTER_OPEN_RACE.md` (commit `fc68f3899ec0bdfc302b53200f3dd3ec1f0f71ca`).
+- GitHub source write only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
