@@ -374,3 +374,14 @@ the fallback file was never created.
 An execution request without `--confirm-rights` is blocked before any selected-media bytes are read. In candidate-CSV mode, the CLI must not compute the selected source SHA-256 before the renderer's rights gate. It still writes the durable RUNNING reservation first, then records a terminal BLOCKED report with `execution_requested=true` and `rights_confirmation_supplied=false`. The direct renderer API also returns BLOCKED before source preflight or snapshot creation. Dry-run planning remains read-only and continues to inspect metadata without an execution request.
 
 Regression coverage verifies that both direct execution and candidate-CSV execution without rights confirmation invoke neither source hashing nor FFprobe, create no snapshot, and produce no output. Tests have NOT been run in this connector session; exact-head Ubuntu/hosted-Windows CI and independent review remain unverified.
+
+
+## Partial terminal-fallback write failures
+
+If exclusive creation of the terminal fallback succeeds but its write, flush, or
+file-level fsync fails, a partial or non-durable sidecar may still remain.
+The CLI error now names that exact path and explicitly says the file may exist.
+Do not overwrite or delete it automatically. Inspect the primary report,
+the named fallback sidecar, and any possible rendered output before retrying.
+A failure before exclusive creation succeeds is reported separately and does
+not claim that this invocation created the fallback.
