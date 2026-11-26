@@ -367,3 +367,10 @@ reported path, although crash-durability of the directory entry is not confirmed
 CLI reports the exact fallback path and instructs the operator to inspect it and any
 rendered output before retrying. Do not interpret a directory-sync warning as proof that
 the fallback file was never created.
+
+
+## Rights confirmation before candidate media hashing — ARO-CHAT-0318
+
+An execution request without `--confirm-rights` is blocked before any selected-media bytes are read. In candidate-CSV mode, the CLI must not compute the selected source SHA-256 before the renderer's rights gate. It still writes the durable RUNNING reservation first, then records a terminal BLOCKED report with `execution_requested=true` and `rights_confirmation_supplied=false`. The direct renderer API also returns BLOCKED before source preflight or snapshot creation. Dry-run planning remains read-only and continues to inspect metadata without an execution request.
+
+Regression coverage verifies that both direct execution and candidate-CSV execution without rights confirmation invoke neither source hashing nor FFprobe, create no snapshot, and produce no output. Tests have NOT been run in this connector session; exact-head Ubuntu/hosted-Windows CI and independent review remain unverified.
