@@ -153,6 +153,28 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
                 smoke.run_smoke_test()
 
 
+    def test_main_emits_structured_failure_for_non_json_renderer_report(self):
+        import contextlib
+        import io
+        import json
+        import sys
+
+        stderr = io.StringIO()
+        malformed_report = {"status": "FAILED", "unserializable": object()}
+        with patch.object(smoke.shutil, "which", side_effect=lambda name: f"/tools/{name}"), patch.object(
+            smoke.subprocess, "run"
+        ), patch.object(smoke, "render_selected_clip", return_value=malformed_report), patch.object(
+            sys, "argv", ["synthetic_single_clip_smoke.py"]
+        ), contextlib.redirect_stderr(stderr):
+            exit_code = smoke.main()
+
+        self.assertEqual(exit_code, 1)
+        payload = json.loads(stderr.getvalue())
+        self.assertEqual(payload["status"], "FAIL")
+        self.assertIn("not valid JSON", payload["error"])
+        self.assertFalse(payload["upload_performed"])
+        self.assertFalse(payload["publishing_enabled"])
+
     def test_hash_verified_output_rejects_symlink(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
