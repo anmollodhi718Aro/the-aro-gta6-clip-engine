@@ -3425,9 +3425,10 @@ The tests exercise the existing strict streaming quote guard against malformed h
 | Parent | Draft PR #393, preserving #393 -> #390 -> #389 -> #388 -> #387 -> #386 |
 | Starting SHA | `30f792d5a9ae2d70d5f68714b2c38705a34e481b` |
 | Scope | Synthetic regression test only; production code unchanged |
-| Change | `tests/test_candidate_csv_duplicate_headers.py` rejects a duplicated required `source_id` header before DictReader can silently overwrite a value |
-| Test commit | `06277e94467c9106da6601c856098ce5259fcaf7` |
-| Report commit | `e3cdd4a383abf4c75fd2b3bd8c6bf1076b272e88` |
+| Change | `tests/test_candidate_csv_duplicate_headers.py` rejects duplicate optional `notes` headers where one is quoted and one unquoted, proving duplicate detection occurs after CSV unquoting. Existing blank-header suite already covers duplicate required `source_id` headers. |
+| Initial test commit | `06277e94467c9106da6601c856098ce5259fcaf7` |
+| Coverage refinement commit | `e4abdea079e0f4148f97f23f9ce2d15c79e56d93` |
+| Report commit | `ec0c521e8d17d8f230148086d0c2ba2c600d7e9e` |
 | Status | IMPLEMENTED; local tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED |
 
 Synthetic CSV only. No media tools, rendering, OAuth, uploader, real media, upload, or publishing behavior changed. Preserve the complete draft PR ancestry and keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
