@@ -3376,9 +3376,14 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
 
 
-### ARO-CHAT-0367 fixture correction — 2026-11-26
+### Superseded provisional ARO-CHAT-0367 fixture-correction attribution — 2026-11-26
 
-- Follow-up static review found the non-ASCII source-ID regression used literal backslash-\`n\` text instead of actual CSV record separators, so the fixture did not validate the intended behavior.
-- Corrected the two fixture string literals to use actual newline characters. Production code and the BOM/CRLF test are unchanged.
-- Corrected test commit: `7bfd5c52baa88796e911de1f4a95798e6b130a18`; focused report: `docs/ARO_CHAT_0367_CANDIDATE_CSV_UNICODE_FIXTURE_LINE_ENDINGS.md` (commit `86fc141697bffbba8d73d63e67a52cb62a6a0c91`).
-- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Preserve PR #386 DRAFT / OPEN / UNMERGED and all owner approval boundaries.
+- ARO-CHAT-0367 was already allocated to the separate strict candidate-CSV quoting task on PR #387. The earlier fixture-correction attribution is historical only; no commit history was rewritten.
+
+### ARO-CHAT-0368 | Correct Unicode Candidate CSV Fixture Line Endings — 2026-11-26
+
+- Workstream: ARO-GTA-P0-368; continued on existing draft PR #386 and its original branch/base.
+- Static review found the non-ASCII source-ID regression used literal backslash-\\`n\\` text rather than actual CSV record separators. Corrected the two fixture string literals to use actual newline characters; production code and BOM/CRLF coverage remain unchanged.
+- Test commit: `7bfd5c52baa88796e911de1f4a95798e6b130a18`; original provisional report commit: `86fc141697bffbba8d73d63e67a52cb62a6a0c91`; corrected report: `docs/ARO_CHAT_0368_CANDIDATE_CSV_UNICODE_FIXTURE_LINE_ENDINGS.md` (commit `48cde1f023fbb83c4bbe422b13c74f6f489cd7f8`).
+- Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
