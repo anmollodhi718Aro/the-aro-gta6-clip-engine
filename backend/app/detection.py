@@ -20,8 +20,23 @@ class DetectorConfig:
     post_roll_seconds: int = 15
 
     def __post_init__(self) -> None:
-        if self.window_seconds <= 0 or self.baseline_windows <= 0:
-            raise ValueError("window_seconds and baseline_windows must be positive")
+        positive_integer_fields = {
+            "window_seconds": self.window_seconds,
+            "baseline_windows": self.baseline_windows,
+            "min_messages": self.min_messages,
+        }
+        for field_name, value in positive_integer_fields.items():
+            if type(value) is not int or value <= 0:
+                raise ValueError(f"{field_name} must be a positive integer")
+
+        non_negative_integer_fields = {
+            "pre_roll_seconds": self.pre_roll_seconds,
+            "post_roll_seconds": self.post_roll_seconds,
+        }
+        for field_name, value in non_negative_integer_fields.items():
+            if type(value) is not int or value < 0:
+                raise ValueError(f"{field_name} must be a non-negative integer")
+
         try:
             multiplier_is_finite = math.isfinite(self.spike_multiplier)
         except (TypeError, OverflowError):
@@ -32,10 +47,6 @@ class DetectorConfig:
             or self.spike_multiplier <= 0
         ):
             raise ValueError("spike_multiplier must be a finite positive number")
-        if self.min_messages <= 0:
-            raise ValueError("min_messages must be positive")
-        if self.pre_roll_seconds < 0 or self.post_roll_seconds < 0:
-            raise ValueError("clip padding cannot be negative")
 
 
 def _deduplicate_events(events: list[ChatEvent]) -> list[ChatEvent]:
