@@ -1015,7 +1015,18 @@ def _write_exclusive_terminal_fallback(
             )
         fallback.flush()
         os.fsync(fallback.fileno())
+    try:
         _fsync_parent_directory(fallback_path)
+    except OSError as exc:
+        # The fallback file itself has been flushed and fsynced. A directory
+        # sync failure does not undo its creation, so report its exact path
+        # instead of misleading the caller into believing no fallback exists.
+        print(
+            f"Fallback report exists at {fallback_path} and its file contents were fsynced, "
+            f"but parent-directory synchronization failed: {exc}. "
+            "Inspect this report and any rendered output before retrying.",
+            file=sys.stderr,
+        )
     return fallback_path
 
 
