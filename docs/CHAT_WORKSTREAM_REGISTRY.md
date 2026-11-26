@@ -2318,3 +2318,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Production commit: `f09ed993cabe248d8c080a3e6dc9abba01372388`; regression commit: `3d149f0307644730993dae18f247023a8c94963e`.
 - Repository tests NOT RUN in this connector session; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains OPEN / DRAFT / UNMERGED. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+## ARO-CHAT-0303 — distinguish execution request from rights confirmation
+
+- Static review found the initial reserved report set `execution_requested` to true only when both `--execute` and `--confirm-rights` were present. An operator who explicitly requested execution without the required rights confirmation was therefore recorded as though no execution had been requested, obscuring the reason the operation was blocked.
+- The in-progress report now records `execution_requested` from `--execute` alone and adds `rights_confirmation_supplied` from `--confirm-rights` separately. The existing fail-closed rights gate is unchanged.
+- Added `test_cli_reports_execution_request_without_rights_confirmation`, asserting BLOCKED status, execution requested=true, rights confirmation=false, and no upload/publishing.
+- Commits: production `160d18404ff67bab8c52d05221ed8f27676b41fb`; regression `d6c48e9c7d4f45d00494f15a372d60d5fab74c36`; operator docs `17592f000066a669913fa720c9f9f61eb192f19a`.
+- Tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED. Independent review NOT RECORDED. No real media processed.
+- Continue on PR #386, preserving OPEN / DRAFT / UNMERGED state and existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
