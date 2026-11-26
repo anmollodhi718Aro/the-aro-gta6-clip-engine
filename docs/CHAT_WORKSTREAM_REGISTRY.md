@@ -3557,3 +3557,11 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Added regression coverage for empty, whitespace-only, None, integer, and Path values; the test asserts subprocess.run is never called.
 - Production and test changes are committed on the existing PR #412 branch. Tests NOT RUN in this connector session; exact-head CI, FFmpeg E2E, independent review, owner-device Windows, and authorized GTA 6 MP4 processing remain NOT VERIFIED.
 - Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0385 — FFprobe preflight path argument validation (2026-11-26)
+- Static review found inspect_one_video constructed Path(video_path) before entering its guarded validation block. Invalid caller values such as None, integers, containers, or blank strings could raise before the function returned its standard FAIL report.
+- Moved path construction inside the guarded block and added explicit non-empty string / pathlib.Path validation. Invalid inputs now return FAIL without invoking FFprobe.
+- Added regression coverage for None, integer, list, dict, empty Path, empty string, and whitespace-only string; asserts subprocess is not called.
+- Implementation and test commits are recorded in the subsequent commit metadata. Tests NOT RUN in this connector session; exact-head CI pending. No FFmpeg E2E, owner-device Windows verification, independent review, or authorized GTA 6 media processing.
+- Continue on existing PR #412 branch; preserve parent PR #386 ancestry. Keep both PRs OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
