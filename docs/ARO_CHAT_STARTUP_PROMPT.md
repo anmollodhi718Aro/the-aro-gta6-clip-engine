@@ -2059,3 +2059,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Windows job #139839367102 and Ubuntu job #139839367744 both returned empty step arrays (`steps: []`) and `logs_url: null`.
 - Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. No checkout, compilation, or unit-test execution is evidenced. This is not evidence of an application-code test failure. Root cause remains UNVERIFIED. No dispatch/retry was initiated.
 - Repository unit suite remains NOT RUN from a controlled local environment. The 6/6 source-level isolated harness result remains limited evidence only.
+
+
+## Latest P0 continuation handoff — ARO-CHAT-0381 | Reject NUL in candidate CSV (2026-11-26)
+
+- Current child branch: `workstream/aro-chat-0381-reject-nul-candidate-csv-2026-11-26`; parent PR #404 exact head `1cdb9f420d1c03ad2dee5f78ec3de35bfc277d05`. Preserve PR #404 -> #399 ancestry.
+- Production parser now rejects U+0000 during streaming lexical validation; a synthetic optional-field regression is added. No media, OAuth, upload, or publishing behavior changed.
+- Validation is not yet established: local focused/full tests NOT RUN; exact-head Ubuntu/Windows CI PENDING; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Keep draft/open/unmerged. No workflow dispatch/retry, merge, rebase, retarget, deployment, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
