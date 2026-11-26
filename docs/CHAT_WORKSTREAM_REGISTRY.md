@@ -3188,3 +3188,15 @@ ARO-CHAT-0345 was already reserved by a concurrent continuation for the syntheti
 - Static diff/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI NOT VERIFIED (no workflow runs or combined status checks returned); independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Serial reconciliation: ARO-CHAT-0353 is already registered for the FFprobe-missing CLI failure regression. This CLI-override forwarding task is registered as ARO-CHAT-0354; no history was rewritten.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0355 | Reject Source-Inode Alias Introduced Before Output Open (2026-11-26)
+
+- Workstream: ARO-GTA-P0-355; continued existing draft PR #386 on its original branch/base.
+- Serial reconciliation: ARO-CHAT-0354 was already reserved for CLI tool override forwarding. This source-inode race guard is uniquely registered as ARO-CHAT-0355; no code history was rewritten.
+- Closed a path-swap window in the synthetic smoke verifier: after the earlier `samefile(source, output)` check, an output path could be replaced with a hard link to the source before the hash verifier opened it.
+- `_hash_verified_output` now accepts optional `distinct_from` and compares the opened output descriptor's device/inode with the source inode. The smoke harness supplies its generated source path during final output verification.
+- Added `tests/test_synthetic_smoke_source_identity_race.py`, which swaps the output to a source hard link immediately before `os.open` and requires fail-closed rejection.
+- Production commit: `891df35f87e940453ab2be6b0880c844f31dacf8`; regression commit: `3d781618011096e50078c669afb523dcc9dfbed3`; initial report commit: `f5b74c295e0d6a37036c16863dc9b5fa5a52cb1a`; serial-reconciliation report commit: `5a17a910c4a4ef03520976d3e95019fd298ee88f`.
+- Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
