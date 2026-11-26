@@ -1827,3 +1827,8 @@ Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow disp
 - Production commit: `891df35f87e940453ab2be6b0880c844f31dacf8`; regression commit: `3d781618011096e50078c669afb523dcc9dfbed3`; report serial-reconciliation commit: `5a17a910c4a4ef03520976d3e95019fd298ee88f`; registry commit: `d3106061449cc97774293562ad91a514508a8eca`.
 - Source read-back and exact-head Ubuntu/hosted-Windows CI remain to be verified. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Serial-collision correction — CLI override regression (2026-11-26)
+
+The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CHAT-0352 / ARO-GTA-P0-352, as recorded in the registry; canonical report commit: `47a06e8749f71743429c048fefdfa0e300e42325`. The ARO-CHAT-0354 CLI override handoff above is a superseded duplicate attribution and its report file is retained only as a historical alias. The concurrent source-inode race guard was reconciled to ARO-CHAT-0355. No commit history was rewritten.
