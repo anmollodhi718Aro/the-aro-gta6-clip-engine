@@ -38,3 +38,16 @@ These tests mirror the existing regression cases in PR #395 and PR #392 respecti
 ## Safety and ancestry
 
 Keep this PR OPEN / DRAFT / UNMERGED. Preserve PR #396 and its existing parent chain. Do not merge, rebase, retarget, or rewrite existing PRs. No workflow dispatch/retry, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## CI evidence correction — 2026-11-26
+
+A later exact-head lookup returned a workflow run for the updated PR #399 head:
+- Head at lookup: `8186fae808f98398ea243578ce6afe428ec56ab8`.
+- Python CI run #45799569550 completed with conclusion `failure`.
+- Hosted Windows job #139838950118 and Ubuntu job #139838950521 both reported `steps: null` and `logs_url: null`.
+- Job-log retrieval for both returned HTTP 404 / BlobNotFound.
+- Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. There is no evidence checkout, compilation, or tests started. Root cause remains UNVERIFIED and is not attributed to application code.
+- No workflow dispatch or retry was initiated.
+
+This supersedes the earlier note that the workflow lookup returned zero runs. The full repository unit suite remains NOT RUN. The 6/6 isolated source-level parser harness result remains valid but is not repository CI evidence. Ubuntu/Windows CI are NOT VERIFIED.
