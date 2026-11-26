@@ -3709,3 +3709,14 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: `25c10e96e8c4dacf3c63eb718e8aa77df86671dd`; test commit: `eaf2d7c7c2ab80084385e569456ef2b314353110`.
 - GitHub source writes completed; exact-head read-back and test execution remain pending. Repository unit tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+
+### ARO-CHAT-0402 — Prevent renderer output symlink redirection race (2026-11-27)
+- Continued on existing child PR #412 branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`; preserved PR #412 base and parent PR #386 ancestry.
+- Static review found `render_clip` checked that the final output path was not a symlink, then called `Path.resolve()` on that final component. A dangling symlink inserted between those operations could be followed, redirecting the newly rendered output to its target path.
+- Changed destination normalization to resolve only the parent directory and preserve the final filename lexically. The final component is checked again, and the later exclusive hard-link publication fails if a link appears after validation.
+- Added `test_rejects_output_symlink_created_during_parent_resolution`, which injects a dangling symlink during parent resolution and verifies the redirect target is not created and FFmpeg is never invoked.
+- Production commit: `cffcf865999dca0e64f7be777e9e913477c0b75a`; regression-test commit: `441649e60f7cca11cb4c03ac3dbdd0434378c254`.
+- GitHub source writes completed. Exact-head read-back and workflow execution check pending; repository unit tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
