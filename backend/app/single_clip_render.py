@@ -1029,7 +1029,7 @@ def main() -> int:
                 }
             else:
                 try:
-                    report = render_selected_clip(
+                    report = {**initial_report, **render_selected_clip(
                         args.video,
                         args.output,
                         start_seconds,
@@ -1039,7 +1039,7 @@ def main() -> int:
                         ffprobe_binary=args.ffprobe,
                         ffmpeg_binary=args.ffmpeg,
                         expected_source_sha256=expected_digest if candidate_selection else None,
-                    )
+                    )}
                 except Exception as exc:
                     # Any ordinary Python exception is a terminal failure, not an
                     # unknown RUNNING state. Preserve RUNNING only for hard process
