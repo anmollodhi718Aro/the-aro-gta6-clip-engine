@@ -3483,3 +3483,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Commits: `88854a2a60deaa4a93e2214fa626c143c4e2dfe3` (production); `8dc22cdb073c0521518e54babd55cd7f8404fe87` (tests). Source read-back pending.
 - Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 reject blank permission scopes follow-up — 2026-11-26
+- Static review of the newly hardened direct permission constructor found it still accepted empty or whitespace-only scope names. Such values cannot grant the intended named capability and should be rejected at the model boundary rather than retained as malformed authorization metadata.
+- `PermissionRecord.__post_init__` now requires a `frozenset` of non-empty strings; whitespace-only members fail closed. Deserialization inherits the same validation after converting the validated JSON list to a frozenset.
+- Extended constructor regression coverage for empty and whitespace-only scope members.
+- Commits: `c02e97fdc65deb813744e9a4a905f25c623a9e63` (production); `b280857c6deff87d5cf8e153192ed8879c902ac9` (tests). Source read-back pending.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
