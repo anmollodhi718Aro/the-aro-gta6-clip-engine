@@ -3382,8 +3382,8 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Workstream: ARO-GTA-P0-368; isolated continuation from exact PR #387 head `9421303689cdcaeddd4f7c58ed1903c810182d56`, preserving PR #387 -> PR #386 ancestry.
 - Branch: `workstream/aro-chat-0368-reject-quotes-in-unquoted-candidate-csv-fields-2026-11-26`.
 - Finding: Python's `csv.DictReader(strict=True)` still accepts a double quote embedded in an unquoted field. The candidate loader therefore needed an explicit quote-boundary guard.
-- Production commit: `6daea742fdc295d95ea84a383af214f7aefb00d6`.
-- Regression tests: `tests/test_candidate_csv_unquoted_quote.py`, commit `7da1a42b9e8e57ae6295a391b3491ba73180a7f7`. Covers rejection of a malformed later unquoted field after the selected row and acceptance of escaped quotes inside a properly quoted source ID.
+- Production commits: initial `6daea742fdc295d95ea84a383af214f7aefb00d6`; newline-handling correction `66af4d68d7bf739e459deaa5ed7b41f294b6e420`.
+- Regression test commits: initial `7da1a42b9e8e57ae6295a391b3491ba73180a7f7`; fixture line-ending correction `cdca2723dca3c4779d036777d22f59465ece335e`. Covers rejection of a malformed later unquoted field after the selected row and acceptance of escaped quotes inside a properly quoted source ID.
 - Report: `docs/ARO_CHAT_0368_UNQUOTED_CSV_QUOTES.md`, commit `db05179bfdcfbcf086f443104c0d5536bf0b1d09`.
 - The guard streams input lines and preserves valid quoted fields, doubled-quote escapes, delimiters, and embedded line breaks. Synthetic CSV only; no media tools or footage.
 - Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
