@@ -1,7 +1,7 @@
-# ARO-CHAT-0354 | Reject Source-Inode Alias Introduced Before Output Open
+# ARO-CHAT-0355 | Reject Source-Inode Alias Introduced Before Output Open
 
 - Date: 2026-11-26
-- Workstream: ARO-GTA-P0-354
+- Workstream: ARO-GTA-P0-355
 - Parent: existing draft PR #386; original branch and base preserved.
 - Branch: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`
 - Scope: close the source/output path-swap window in the synthetic smoke verifier. No real media or upload behavior.
