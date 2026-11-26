@@ -3205,3 +3205,13 @@ ARO-CHAT-0345 was already reserved by a concurrent continuation for the syntheti
 ### Serial-collision correction — CLI override regression (2026-11-26)
 
 The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically registered as ARO-CHAT-0352 / ARO-GTA-P0-352 in `docs/CHAT_WORKSTREAM_REGISTRY.md`, with canonical report commit `47a06e8749f71743429c048fefdfa0e300e42325`. A duplicate ARO-CHAT-0354 attribution was added by a concurrent continuation; it is superseded and retained only as the historical alias `docs/ARO_CHAT_0354_CLI_TOOL_OVERRIDE_FORWARDING.md`. ARO-CHAT-0354 is reserved for the source-inode race guard's concurrent workstream, subsequently reconciled to ARO-CHAT-0355. No history was rewritten; commits remain intact.
+
+
+## ARO-CHAT-0356 | Reject Symlink Replacement at Synthetic Output Open (2026-11-26)
+
+- Workstream: ARO-GTA-P0-356; continued existing draft PR #386 on its original branch/base.
+- Added `tests/test_synthetic_smoke_symlink_open_race.py`. The test replaces an initially regular output path with a symlink immediately before `os.open`, disables `O_NOFOLLOW` for this test to exercise portable descriptor/path identity validation, and requires fail-closed rejection.
+- The regression verifies the opened descriptor is closed and external target bytes remain unchanged. It uses temporary synthetic files only.
+- Test commit: `6653b9980e733cff11c264e83655ec22ee441347`; canonical report: `docs/ARO_CHAT_0356_SMOKE_SYMLINK_OPEN_RACE.md` (commit `1584ff7aac9acc71bb778e62c67999ff45afd659`).
+- Static implementation and GitHub source writes only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
