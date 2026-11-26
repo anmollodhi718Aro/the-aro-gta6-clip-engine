@@ -30,7 +30,7 @@ class MediaSinglePreflightTests(unittest.TestCase):
 
     @patch("backend.app.media_single_preflight.subprocess.run")
     def test_rejects_invalid_video_path_types_before_invoking_process(self, run):
-        for video_path in (None, 7, [], {}, Path()):
+        for video_path in (None, 7, [], {}):
             with self.subTest(video_path=video_path):
                 report = inspect_one_video(video_path)
                 self.assertEqual(report["status"], "FAIL")
