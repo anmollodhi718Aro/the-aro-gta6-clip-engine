@@ -2368,3 +2368,13 @@ ARO-CHAT-0304 attribution/fixture note: production commit `3204190a41814b73b2685
 - Commits: production `d570401b19f8a0674e736815f298d02b925a36e4`; regression `09ea69e31d3b461f27942eb6ce1eb051bd8072e8`; operator docs `95c132cfd85739918c184b19fab074aefac6a9d5`; report `066e9483994d34c0d5ed69a958b91800dfe5ac66`.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; real authorized MP4 NOT PROCESSED. Do not claim the regression passed.
 - Continue on existing PR #386 / branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`. Preserve OPEN/DRAFT/UNMERGED state and ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0305 — expanded report-path terminal fallback
+
+- Workstream: ARO-GTA-P1-305; continued existing draft PR #386 on `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR.
+- Static review found the CLI expanded `--report` with `expanduser()` for reservation but passed raw `args.report` to the terminal fallback helper. A tilde-prefixed path could therefore place fallback evidence at a different literal path.
+- Production fix `133440db0e8b29e18f89709a82b7a0d3b2621c74` passes the expanded `report_path`; regression test `95da4200a4d94d84d6a23dd4278d76e4d48b439e` forces a short terminal write and checks the expanded path.
+- Report: `docs/ARO_CHAT_0305_EXPANDED_REPORT_FALLBACK_PATH.md`; operator guide updated.
+- Repository tests NOT RUN. Exact-head workflow lookup and combined status for test commit `95da4200a4d94d84d6a23dd4278d76e4d48b439e` returned zero runs/checks: CI PENDING / NOT VERIFIED. Independent review NOT RECORDED.
+- PR #386 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment.
