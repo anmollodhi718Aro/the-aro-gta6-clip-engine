@@ -547,7 +547,9 @@ def _create_stable_source_snapshot(
     try:
         if source.resolve(strict=True) == snapshot.resolve(strict=False):
             raise ValueError("snapshot destination must differ from the selected source")
-    except OSError as exc:
+    except (OSError, RuntimeError, ValueError) as exc:
+        # Path.resolve() may raise RuntimeError for symlink loops and ValueError
+        # for malformed paths. Keep these inside the snapshot validation boundary.
         raise ValueError(f"source or snapshot path could not be resolved: {exc}") from exc
 
     before_path = source.lstat()
