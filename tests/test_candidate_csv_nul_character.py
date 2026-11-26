@@ -38,9 +38,9 @@ class CandidateCsvNulCharacterTests(unittest.TestCase):
 
     def test_rejects_nul_character_inside_multiline_quoted_field(self):
         self._assert_csv_rejected_for_nul(
-            "source_id,start_seconds,end_seconds,duration_seconds,renderable,notes\\n"
-            'authorized-demo,2,8,6,True,"first line\\n'
-            'unsafe\\x00second line"\\n'
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable,notes\n"
+            'authorized-demo,2,8,6,True,"first line\n'
+            'unsafe\x00second line"\n'
         )
 
 
