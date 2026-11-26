@@ -3396,3 +3396,14 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Classify this as `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. It provides no evidence that checkout, compilation, or tests started; root cause remains UNVERIFIED and is not attributed to application code.
 - Combined commit status returned zero status entries. No workflow dispatch/retry was initiated.
 - Isolated in-memory parser probes passed for: rejecting an embedded quote in an unquoted later field; accepting a properly escaped quoted field; and accepting a quoted field containing an embedded newline. These probes are not a substitute for the repository unit suite.
+
+
+## ARO-CHAT-0371 | Escaped Quotes Across Multiline Candidate CSV Fields (2026-11-26)
+
+| Chat ID | Exact chat title | Workstream ID | Scope | Branch / PR | Status | Attribution evidence |
+|---|---|---|---|---|---|---|
+| ARO-CHAT-0371 | ARO-CHAT-0371 | ARO-GTA-P0-371 | Add a synthetic regression for a valid escaped double quote followed by embedded LF and CRLF inside one quoted optional candidate-CSV field | `workstream/aro-chat-0371-escaped-quotes-multiline-csv-2026-11-26` / draft PR pending | IMPLEMENTED; tests/CI NOT VERIFIED; independent review NOT RECORDED | Test commit `7f4a9a22dbf940a5060eea31755937fd88643872`; report commit `1df80f40eeb3a67c3a1007fd02f4c4a23feb2a6a`; production code unchanged |
+
+- Based on PR #390's CR-only candidate CSV continuation branch; preserves PR #390 -> #389 -> #388 -> #387 -> #386 ancestry.
+- GitHub writes acknowledged. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Keep all related PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
