@@ -3396,3 +3396,21 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Classify this as `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. It provides no evidence that checkout, compilation, or tests started; root cause remains UNVERIFIED and is not attributed to application code.
 - Combined commit status returned zero status entries. No workflow dispatch/retry was initiated.
 - Isolated in-memory parser probes passed for: rejecting an embedded quote in an unquoted later field; accepting a properly escaped quoted field; and accepting a quoted field containing an embedded newline. These probes are not a substitute for the repository unit suite.
+
+
+## ARO-CHAT-0371 | Malformed Candidate CSV Header Quote Regressions (2026-11-26)
+
+| Field | Record |
+|---|---|
+| Chat ID | ARO-CHAT-0371 |
+| Workstream ID | ARO-GTA-P0-371 |
+| Branch / PR | workstream/aro-chat-0371-reject-malformed-candidate-csv-headers-2026-11-26 / [Draft PR #393](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/393) |
+| Parent | PR #390, preserving #390 -> #389 -> #388 -> #387 -> #386 |
+| Starting SHA | d2146334143aeae7372bdbeb43e681ec4a1de816 |
+| Scope | Synthetic regression tests only; production code unchanged |
+| Changes | tests/test_candidate_csv_malformed_header_quotes.py covers a quote inside an unquoted header cell and trailing text after a closing quoted header cell |
+| Test commit | 513cb96a127113304f35abc78bb2eb9d9c4183b3 |
+| Report commit | afb2c783d2650a1b859ef224f2ccc1c5a3a84ab3 |
+| Status | IMPLEMENTED; GitHub source read-back PRESENT; exact-head CI NOT VERIFIED (workflow lookup returned zero runs); local tests NOT RUN; independent review NOT RECORDED |
+
+The tests exercise the existing strict streaming quote guard against malformed header cells using synthetic CSV text. No production rendering, media, OAuth, uploader, or publishing behavior changed. Keep PR #393 and all parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
