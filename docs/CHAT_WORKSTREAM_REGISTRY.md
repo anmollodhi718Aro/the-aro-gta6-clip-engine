@@ -2425,3 +2425,11 @@ ARO-CHAT-0306 test-fixture correction: the regression now constructs an actual s
 - Report: `docs/ARO_CHAT_0306_EXPANDED_REPORT_FALLBACK_REGRESSION.md`.
 - Tests NOT RUN locally in this connector session. Parent exact-head Actions failures occurred before visible steps with runner_id 0, blank runner name, and empty step arrays; they do not establish Python test failures. Latest exact-head CI NOT VERIFIED; independent review NOT RECORDED.
 - PR #386 remains OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0308 — terminal fallback regression trigger correction (2026-11-26)
+- Reserved on the existing PR #386 branch; no new branch or PR.
+- Static review found the end-to-end expanded-report-path fallback test injected its simulated partial write on the third primary-report write, but this code path performs only two writes to that handle: the initial RUNNING reservation and the terminal report. The test therefore did not reach the fallback path.
+- Scope: correct the fixture to inject the partial terminal write on the second write; preserve the production implementation unchanged.
+- Initial observed head: `044f313f83d368d188444e6a5915e64e8be73a09`.
+- Tests NOT RUN locally; exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real media, OAuth, upload, publishing, merge, rebase, retarget, workflow retry/dispatch, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
