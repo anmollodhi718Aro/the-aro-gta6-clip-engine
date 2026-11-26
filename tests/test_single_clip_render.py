@@ -2219,8 +2219,8 @@ class SingleClipRenderTests(unittest.TestCase):
     def test_candidate_csv_rejects_blank_header_cells(self):
         pack = self.root / "blank-header.csv"
         pack.write_text(
-            "source_id,start_seconds,end_seconds,duration_seconds,renderable,\\n"
-            "authorized-demo,2,8,6,True,unexpected\\n",
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable,\n"
+            "authorized-demo,2,8,6,True,unexpected\n",
             encoding="utf-8",
         )
         with self.assertRaisesRegex(ValueError, "blank or duplicate column names"):
