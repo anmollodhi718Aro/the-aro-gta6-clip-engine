@@ -1803,6 +1803,10 @@ class SingleClipRenderTests(unittest.TestCase):
             "processing_started": True,
             "source_preflight": PASS,
             "rendered_preflight": PASS,
+            "rendered_duration_seconds": 6.0,
+            "output_sha256": "c" * 64,
+            "output_size_bytes": 987,
+            "output_identity_verified": True,
             "upload_performed": False,
             "publishing_enabled": False,
         }
@@ -1829,6 +1833,10 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(report["render_status_before_cleanup_failure"], "RENDERED")
         self.assertEqual(report["source_preflight"], PASS)
         self.assertEqual(report["rendered_preflight"], PASS)
+        self.assertEqual(report["rendered_duration_seconds"], 6.0)
+        self.assertEqual(report["output_sha256"], "c" * 64)
+        self.assertEqual(report["output_size_bytes"], 987)
+        self.assertTrue(report["output_identity_verified"])
         self.assertFalse(report["upload_performed"])
         self.assertFalse(report["publishing_enabled"])
         self.assertIn("temporary snapshot cleanup failed", report["error"])
