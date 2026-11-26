@@ -1,4 +1,5 @@
 """Tests for the generated-media single-clip smoke-test harness."""
+import ast
 import hashlib
 import tempfile
 import unittest
@@ -9,6 +10,21 @@ from scripts import synthetic_single_clip_smoke as smoke
 
 
 class SyntheticSingleClipSmokeTests(unittest.TestCase):
+    def test_test_method_names_are_unique_for_unittest_discovery(self):
+        source = Path(__file__).read_text(encoding="utf-8")
+        module = ast.parse(source)
+        test_classes = [
+            node for node in module.body
+            if isinstance(node, ast.ClassDef) and node.name == "SyntheticSingleClipSmokeTests"
+        ]
+        self.assertEqual(len(test_classes), 1)
+        method_names = [
+            node.name for node in test_classes[0].body
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+            and node.name.startswith("test_")
+        ]
+        self.assertEqual(len(method_names), len(set(method_names)), "duplicate test method names are silently overwritten")
+
     def test_missing_ffmpeg_is_reported_as_a_normal_error(self):
         with patch.object(smoke.shutil, "which", return_value=None):
             with self.assertRaisesRegex(FileNotFoundError, "ffmpeg"):
@@ -448,39 +464,6 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
             self.assertIn("descriptor", opened)
             with self.assertRaises(OSError):
                 real_fstat(opened["descriptor"])
-
-
-    def test_hash_verified_output_closes_descriptor_when_final_fstat_fails(self):
-        with tempfile.TemporaryDirectory() as temp:
-            output = Path(temp) / "output.mp4"
-            output.write_bytes(b"synthetic output")
-            real_open = smoke.os.open
-            real_fstat = smoke.os.fstat
-            opened = {}
-            fstat_calls = {"count": 0}
-
-            def capture_open(path, flags, *args, **kwargs):
-                descriptor = real_open(path, flags, *args, **kwargs)
-                opened["descriptor"] = descriptor
-                return descriptor
-
-            def fail_final_fstat(descriptor):
-                fstat_calls["count"] += 1
-                if fstat_calls["count"] == 2:
-                    raise OSError("simulated final descriptor inspection failure")
-                return real_fstat(descriptor)
-
-            with patch.object(smoke.os, "open", side_effect=capture_open), patch.object(
-                smoke.os, "fstat", side_effect=fail_final_fstat
-            ):
-                with self.assertRaisesRegex(OSError, "simulated final descriptor inspection failure"):
-                    smoke._hash_verified_output(output)
-
-            self.assertEqual(fstat_calls["count"], 2)
-            self.assertIn("descriptor", opened)
-            with self.assertRaises(OSError):
-                real_fstat(opened["descriptor"])
-
 
 
     def test_hash_verified_output_closes_descriptor_when_final_fstat_fails(self):
