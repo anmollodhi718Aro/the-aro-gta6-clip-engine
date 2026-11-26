@@ -273,6 +273,10 @@ class SingleClipRenderTests(unittest.TestCase):
             reserved = json.loads(report_path.read_text(encoding="utf-8"))
             self.assertEqual(reserved["status"], "RUNNING")
             self.assertEqual(reserved["candidate_selection"]["source_id"], "authorized-demo")
+            self.assertRegex(reserved["run_id"], r"^[0-9a-f]{32}$")
+            self.assertTrue(reserved["started_at_utc"].endswith("+00:00"))
+            self.assertIsInstance(reserved["process_id"], int)
+            self.assertGreater(reserved["process_id"], 0)
             return expected_digest
 
         with patch("sys.argv", argv), patch(
