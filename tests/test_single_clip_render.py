@@ -998,15 +998,21 @@ class SingleClipRenderTests(unittest.TestCase):
         def reject_nonstandard_constant(value):
             raise ValueError(f"non-standard JSON constant: {value}")
 
-        with patch("sys.argv", argv), patch(
-            "backend.app.single_clip_render.render_selected_clip",
-            return_value={
-                "status": "PLANNED",
+        def completed_render_with_invalid_metadata(*args, **kwargs):
+            self.output.write_bytes(b"completed synthetic render")
+            return {
+                "status": "RENDERED",
+                "output_path": str(self.output),
                 "unexpected_metadata": float("nan"),
                 "upload_performed": False,
                 "publishing_enabled": False,
-            },
-        ) as render:
+            }
+
+        stderr = io.StringIO()
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.render_selected_clip",
+            side_effect=completed_render_with_invalid_metadata,
+        ) as render, redirect_stderr(stderr):
             self.assertEqual(main(), 2)
 
         self.assertTrue(report_path.exists())
@@ -1015,7 +1021,19 @@ class SingleClipRenderTests(unittest.TestCase):
             parse_constant=reject_nonstandard_constant,
         )
         self.assertEqual(persisted["status"], "RUNNING")
-        self.assertFalse(self.output.exists())
+        self.assertTrue(self.output.exists())
+        self.assertEqual(self.output.read_bytes(), b"completed synthetic render")
+        fallback_path = report_path.with_name(report_path.name + ".terminal-fallback.json")
+        fallback = json.loads(
+            fallback_path.read_text(encoding="utf-8"),
+            parse_constant=reject_nonstandard_constant,
+        )
+        self.assertEqual(fallback["status"], "FAIL")
+        self.assertTrue(fallback["terminal_report_serialization_failed"])
+        self.assertEqual(fallback["render_result_status"], "RENDERED")
+        self.assertTrue(fallback["output_inspection_required"])
+        self.assertIn("Inspect any output file manually before retrying", fallback["message"])
+        self.assertIn("Inspect any output file manually before retrying", stderr.getvalue())
         render.assert_called_once()
 
 
