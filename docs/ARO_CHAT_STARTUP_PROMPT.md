@@ -2028,3 +2028,10 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Commits: `949d9ec66a1d28fe707a7a4ca67be13942747126` (production); `afc18c6a82384400720a82cde5d2db7bbbd7fb98` (tests).
 - Repository tests NOT RUN in this connector session. Exact-head CI must be inspected; do not infer tests ran from a green-looking workflow label if runner steps are absent. FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation — detector config type guard (2026-11-26)
+- On the existing PR #412 branch, `detect_chat_spikes` now defaults only for explicit `config=None`; falsey or other non-DetectorConfig objects are rejected instead of silently defaulting.
+- Regression tests added for False, 0, empty list/dict, string, and None.
+- Commits: `d0bb6b17e7f5c8290f9a86785ad4f56292cc6ef9` (production); `51ce9e5da976490ace78dcb3ff46a1f6db6e43af` (tests).
+- Tests NOT RUN; exact-head CI, FFmpeg E2E, Windows owner-device validation and authorized GTA 6 media processing remain NOT VERIFIED. PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, deployment, upload, or publishing.
