@@ -3037,3 +3037,13 @@ Removed a duplicate `test_hash_verified_output_closes_descriptor_when_final_fsta
 - Test commit: `a38f4f8463b48d1682252ceef19d064b65c5479b`; report commit: `2a2ff9b4f602affaf5bb3141b6866099e8448665`.
 - Static edit/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0345 — structured CLI failure on overflow (2026-11-26)
+
+- Continued existing draft PR #386 on its original branch/base; workstream ARO-GTA-P0-345.
+- Added `OverflowError` to the synthetic smoke CLI's expected operational exception boundary so overflow becomes structured JSON `FAIL`, exit code 1, with upload/publishing false.
+- Regression: `test_main_emits_structured_failure_for_overflow`.
+- Production commit: `a6e08c80b2c34dfc9920e422a6b65ad96552abf2`; test commit: `b898a49f55769f531e7d9e6a21a4069899c03840`; report commit: `e2f2ad48daac9721d300a2e01dea3087ff553e96`.
+- Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN/DRAFT/UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
