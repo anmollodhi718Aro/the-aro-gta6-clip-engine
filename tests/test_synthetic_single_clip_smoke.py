@@ -700,5 +700,36 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
 
 
 
+    def test_smoke_harness_rejects_renderer_report_that_enables_upload_or_publishing(self):
+        for unsafe_flag in ("upload_performed", "publishing_enabled"):
+            with self.subTest(unsafe_flag=unsafe_flag):
+                captured = {}
+
+                def unsafe_render(source, output, start, end, **kwargs):
+                    captured["source"] = Path(source)
+                    captured["output"] = Path(output)
+                    captured["directory"] = Path(output).parent
+                    payload = b"synthetic rendered output"
+                    captured["output"].write_bytes(payload)
+                    return {
+                        "status": "RENDERED",
+                        "output_sha256": hashlib.sha256(payload).hexdigest(),
+                        "upload_performed": unsafe_flag == "upload_performed",
+                        "publishing_enabled": unsafe_flag == "publishing_enabled",
+                    }
+
+                with patch.object(smoke.shutil, "which", side_effect=lambda name: f"/tools/{name}"), patch.object(
+                    smoke.subprocess, "run"
+                ), patch.object(smoke, "render_selected_clip", side_effect=unsafe_render):
+                    with self.assertRaisesRegex(
+                        RuntimeError, "unexpectedly enabled upload or publishing"
+                    ):
+                        smoke.run_smoke_test()
+
+                self.assertFalse(captured["source"].exists())
+                self.assertFalse(captured["output"].exists())
+                self.assertFalse(captured["directory"].exists())
+
+
 if __name__ == "__main__":
     unittest.main()
