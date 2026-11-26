@@ -71,6 +71,13 @@ def detect_chat_spikes(
     Duplicate identical event IDs are ignored so retrying an event batch cannot
     inflate the chat rate. Reusing an ID for different data is rejected.
     """
+    if not isinstance(permission, PermissionRecord):
+        raise ValueError("permission must be a PermissionRecord instance")
+    if not isinstance(events, list) or any(
+        not isinstance(event, ChatEvent) for event in events
+    ):
+        raise ValueError("events must be a list of ChatEvent instances")
+
     if config is None:
         config = DetectorConfig()
     elif not isinstance(config, DetectorConfig):
