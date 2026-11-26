@@ -34,6 +34,21 @@ class ClipRenderTests(unittest.TestCase):
                     render_clip(selected, root / "clip.mp4", 0, 2, rights_confirmed=True)
             run.assert_not_called()
 
+    def test_rejects_invalid_input_and_output_path_arguments(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            source = root / "source.mov"
+            source.write_bytes(b"synthetic")
+            with patch("backend.app.clipping.subprocess.run") as run:
+                for invalid in (None, 7, [], {}, "", "   "):
+                    with self.subTest(argument="input_path", value=invalid):
+                        with self.assertRaisesRegex(ValueError, "input_path must be a non-empty"):
+                            render_clip(invalid, root / "clip.mp4", 0, 2, rights_confirmed=True)
+                    with self.subTest(argument="output_path", value=invalid):
+                        with self.assertRaisesRegex(ValueError, "output_path must be a non-empty"):
+                            render_clip(source, invalid, 0, 2, rights_confirmed=True)
+                run.assert_not_called()
+
     def test_rejects_invalid_ffmpeg_executable_before_invoking_process(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / "source.mov"
