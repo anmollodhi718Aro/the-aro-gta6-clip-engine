@@ -2684,3 +2684,6 @@ Regression tests cover a real pathname replacement against an open descriptor, f
 - Documentation commit: `5c7d930a7a0a9048784046232b734426bfc88502`.
 - Local execution NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+- ARO-CHAT-0322 follow-up: missing FFmpeg/FFprobe now produce a structured JSON FAIL through the script's normal error handler. Commit `85e19e4057d2ed07ae8a3e77c2e75426224a04d2`; report correction commit `4d080a28655a8fc870974f466132c0c8d78c9c23`. Python syntax compilation passed; smoke execution and repository tests remain NOT RUN; exact-head CI NOT VERIFIED.
