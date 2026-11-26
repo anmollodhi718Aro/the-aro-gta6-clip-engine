@@ -1177,6 +1177,10 @@ def main() -> int:
                         "source_snapshot_created": None,
                         "source_sha256": None,
                         "error": str(exc),
+                        # The renderer may have created or published an output
+                        # before raising. An exception is not proof that the
+                        # destination is absent or safe to overwrite.
+                        "output_inspection_required": True,
                         "message": "render operation failed; inspect any output file before retrying",
                     }
 
