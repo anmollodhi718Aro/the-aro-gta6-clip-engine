@@ -1453,3 +1453,7 @@ Continue P0 single-selected-clip work on existing PR #386 / branch `workstream/a
 ### Serial collision note
 
 The terminal-fallback partial-write continuation retains ARO-CHAT-0318. The candidate-media rights-gate continuation is ARO-CHAT-0319 after concurrent use of the provisional 0318 serial was discovered. No commit history was rewritten.
+
+
+### Latest continuation — ARO-CHAT-0307
+Private source snapshot creation now fsyncs the parent directory on POSIX after the snapshot file is flushed/fsynced and closed, before source stability and read-back verification. This persists the new directory entry as well as file contents across sudden host failure. Windows keeps file-level fsync. Added regression for the helper call and updated operator docs/registry. Commits: production `4c7661f2b24dcef1e0938a11ccf6515d155d6092`; regression `99902b64660e383f5403caa95081eccd8c60b02a`; docs `713c2f7af95bc7672f84a4c07ccde41f53259113`; registry `24c9962cdc9fe75feea4ea79fdb0414d6df9a8f7`. Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED; real authorized MP4 NOT PROCESSED. Preserve PR #386 OPEN/DRAFT/UNMERGED and existing base/ancestry. No merge/rebase/retarget, workflow retry/dispatch, upload, publishing, or deployment. Issue #68 remains deferred.
