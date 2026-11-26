@@ -1683,3 +1683,13 @@ A concurrent continuation used ARO-CHAT-0342 / ARO-GTA-P0-342 for the empty synt
 - Test commit: `9f7287087f8d793eea942436b700477de948a82d`; report commit: `d42fd2d2d818b05a126d10b3c8d09476d45122ca`; registry commit: `10b1f289c8bfa1e240a97483cf38e36d6aa89db0`.
 - Static change/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0345 (2026-11-26)
+
+- Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added `test_main_emits_structured_success_for_valid_synthetic_output` to `tests/test_synthetic_single_clip_smoke.py`.
+- The test drives the public CLI `main()` with a non-empty synthetic render and verifies exit code 0, parseable JSON PASS, positive output size, matching SHA-256, synthetic-only media metadata, upload/publishing false, manual review required, and temporary artifacts not retained.
+- Test commit: `a38f4f8463b48d1682252ceef19d064b65c5479b`; report commit: `2a2ff9b4f602affaf5bb3141b6866099e8448665`; registry commit: `c7bb0ebc4fdac24c813cbf9f8f9728639cee796b`.
+- Static edit/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
