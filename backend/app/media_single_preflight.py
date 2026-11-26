@@ -95,6 +95,19 @@ def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe"
         video_streams = [stream for stream in streams if stream.get("codec_type") == "video"]
         if not video_streams:
             raise ValueError("selected file has no video stream")
+        format_name = media_format.get("format_name")
+        if not isinstance(format_name, str) or not format_name.strip():
+            raise ValueError("ffprobe format name is missing or invalid")
+        # Downstream selection/render reports rely on complete stream metadata.
+        # Never turn absent codec/dimensions into plausible "None"/"unknown" values.
+        for index, stream in enumerate(video_streams):
+            codec_name = stream.get("codec_name")
+            if not isinstance(codec_name, str) or not codec_name.strip():
+                raise ValueError(f"ffprobe video stream {index} has no valid codec name")
+            for dimension in ("width", "height"):
+                value = stream.get(dimension)
+                if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+                    raise ValueError(f"ffprobe video stream {index} has invalid {dimension}")
 
         after = path.stat()
         after_path = path.lstat()
@@ -125,7 +138,7 @@ def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe"
         result.update({
             "status": "PASS",
             "duration_seconds": duration,
-            "format_name": str(media_format.get("format_name", "unknown")),
+            "format_name": format_name,
             "mime_type": mime_type or "unknown",
             "video_streams": [
                 {
