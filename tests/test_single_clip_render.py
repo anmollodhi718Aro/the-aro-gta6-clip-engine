@@ -1780,5 +1780,31 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(fallback["publishing_enabled"])
 
 
+    def test_cli_preserves_valid_running_report_when_terminal_metadata_is_non_finite(self):
+        report_path = self.root / "non-finite-terminal-report.json"
+        planned_with_invalid_metadata = {
+            "status": "PLANNED",
+            "upload_performed": False,
+            "publishing_enabled": False,
+            "unexpected_metric": float("nan"),
+        }
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--start", "1", "--end", "5",
+            "--output", str(self.output), "--report", str(report_path),
+        ]
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.render_selected_clip",
+            return_value=planned_with_invalid_metadata,
+        ):
+            self.assertEqual(main(), 2)
+
+        report_text = report_path.read_text(encoding="utf-8")
+        report = json.loads(report_text)
+        self.assertEqual(report["status"], "RUNNING")
+        self.assertNotIn("NaN", report_text)
+        self.assertFalse(self.output.exists())
+
+
 if __name__ == "__main__":
     unittest.main()
