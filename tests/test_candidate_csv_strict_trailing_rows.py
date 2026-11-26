@@ -8,6 +8,18 @@ from backend.app.single_clip_render import load_selected_candidate
 
 
 class CandidateCsvStrictTrailingRowTests(unittest.TestCase):
+    def test_rejects_invalid_utf8_in_trailing_row_after_selected_candidate(self):
+        with tempfile.TemporaryDirectory() as directory:
+            csv_path = Path(directory) / "candidates.csv"
+            csv_path.write_bytes(
+                b"source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
+                b"authorized-demo,2,8,6,True\\n"
+                b"later-row,9,15,6,True,\\xff\\n"
+            )
+
+            with self.assertRaisesRegex(ValueError, "candidate CSV could not be read"):
+                load_selected_candidate(csv_path, 1)
+
     def test_rejects_malformed_trailing_row_after_selected_candidate(self):
         with tempfile.TemporaryDirectory() as directory:
             csv_path = Path(directory) / "candidates.csv"
