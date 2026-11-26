@@ -3611,3 +3611,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: `22f835e7e7d7b3febe5605b5450507d6bbbe4c18`; test commit: `524dd287d6a00443f3f1a7b197715a224314d86a`.
 - GitHub write responses confirm both commits; exact-head source read-back and test execution are pending. Tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED and existing ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0390 — Exact-head hosted runner evidence refresh (2026-11-27)
+- Rechecked PR #412 exact head `9e5615e6988014d56a54b93164ecf44b66f78014`; PR remains OPEN / DRAFT / UNMERGED with base `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Exact-head Python CI run: `45882291822`, completed with failure. Ubuntu job `140124303910` and Windows job `140124304399` both report failure; the job-steps endpoint returned empty arrays for both, and both job-log downloads returned BlobNotFound/404.
+- This confirms that no test-step execution is evidenced in this run. It does not identify the runner provisioning root cause, and must not be reported as a code-test failure or a passing run. Billing/quota/account restrictions remain unverified hypotheses.
+- Re-read the workflow at the exact head: it uses GitHub-hosted `ubuntu-latest` and `windows-latest`, with ordinary checkout, Python setup, FFmpeg installation, compile, unit-test, and synthetic smoke steps. No workflow YAML change is justified by current evidence.
+- No workflow retry/dispatch issued. Repository tests NOT RUN in this session; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED and ancestry. No merge, rebase, retarget, OAuth, credentials, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
