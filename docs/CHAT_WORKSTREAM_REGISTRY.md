@@ -3365,3 +3365,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Test commit: `2162adbf6ca952a7f2c74d7c65416b03fd95b4dc`; canonical report content commit: `334961488f949d0bbdd4813aa6c0b14a37c019fa`.
 - GitHub writes completed. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0367 | Preserve UTF-8 Creator Source IDs in Candidate CSV (2026-11-26)
+
+- Workstream: ARO-GTA-P0-367; continued on existing draft PR #386 and its original branch/base.
+- Added a regression to `tests/test_candidate_csv_encoding.py` proving that a valid non-ASCII UTF-8 source identifier (`creator-東京`) is decoded and preserved exactly by `load_selected_candidate()`.
+- Existing UTF-8 BOM + CRLF spreadsheet-export coverage remains unchanged. Production code unchanged; synthetic CSV text only; no media tools or footage used.
+- Test/report/docs are recorded in the current continuation commit; local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.

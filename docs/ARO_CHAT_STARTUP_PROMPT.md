@@ -1977,3 +1977,15 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Test commit: `2162adbf6ca952a7f2c74d7c65416b03fd95b4dc`; canonical report content commit: `334961488f949d0bbdd4813aa6c0b14a37c019fa`; registry commit: `6800e8b33f7232f08e75737f67f16930c51b595a`.
 - GitHub source writes only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## Latest continuation handoff — ARO-CHAT-0367 (2026-11-26)
+
+- Chat ID: ARO-CHAT-0367
+- Exact title: ARO-CHAT-0367 | Preserve UTF-8 Creator Source IDs in Candidate CSV
+- Workstream: ARO-GTA-P0-367
+- Continue on existing draft PR #386 and original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added a focused regression in `tests/test_candidate_csv_encoding.py` for preserving a non-ASCII UTF-8 source identifier (`creator-東京`) when loading an explicitly selected candidate row. Existing BOM + CRLF coverage remains.
+- Test-only change; production code unchanged; synthetic CSV only; no media tools, credentials, OAuth, upload, or publishing.
+- Current continuation commit is recorded in the Git history; local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
