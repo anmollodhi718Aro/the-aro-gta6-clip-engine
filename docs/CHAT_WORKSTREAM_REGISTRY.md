@@ -3492,3 +3492,11 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Commits: `c02e97fdc65deb813744e9a4a905f25c623a9e63` (production); `b280857c6deff87d5cf8e153192ed8879c902ac9` (tests). Source read-back pending.
 - Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 permission expiry/revocation boundary regressions — 2026-11-26
+- Added deterministic unit cases pinning the permission interval semantics: authorization begins inclusively at `granted_at`, and ends exclusively at the earlier of `revoked_at` or `expires_at`. Tests cover the microsecond immediately before revocation and the exact revocation/expiry instants.
+- Production logic was already half-open (`at < granted_at` rejects; `at >= expires_at/revoked_at` rejects); this change locks that security-sensitive behavior against future regression without altering runtime policy.
+- Test commit: `d51707c9b26151784b3e1da66f6cdb300c1f3d3e`. Source read-back pending.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
