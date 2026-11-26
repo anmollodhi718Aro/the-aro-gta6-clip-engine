@@ -1546,3 +1546,11 @@ Added regression tests confirming the synthetic smoke harness removes its tempor
 ### Latest P0 continuation — ARO-CHAT-0332 (2026-11-26)
 
 The synthetic smoke harness now catches TypeError/ValueError when summarizing a non-RENDERED renderer report that is not JSON-serializable, substituting a fixed fallback summary so the CLI emits its normal structured JSON FAIL response rather than leaking a traceback. Added a regression with a non-serializable report value; it checks exit code 1, parseable stderr JSON, status FAIL, and upload/publishing false. Production commit `8a15de2932a10da2b48b70b29ac6e3ceaaf80403`; regression `400824bdbce0076f5f1ca5b0f7ceadd61bcb43c9`; report `docs/ARO_CHAT_0332_NON_JSON_RENDERER_REPORT.md`; report commit `84af66f3c11653c6722420ebe90ec151983b4a76`; registry commit `912ee9737ef8ea004586b07d8f372a6abfd32be7`. Source was re-read from the active branch. Local tests and synthetic FFmpeg execution NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED. Continue on existing PR #386 and original branch/base; preserve OPEN/DRAFT/UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## Latest P0 handoff — ARO-CHAT-0333 (2026-11-26)
+
+- Continue on the existing draft PR #386 and original branch/base.
+- Added a regression proving the rendered-output hash verifier rejects a pathname replaced after its file descriptor is opened; original and replacement bytes are checked separately. Test commit: `db8185aad27efd9adbad15f030206148319bcc85`; report: `docs/ARO_CHAT_0333_RENDERED_OUTPUT_PATH_SWAP.md`.
+- Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED. Do not dispatch/retry workflows.
+- Authorized real GTA 6 MP4 acceptance remains blocked on the owner's authorized media handoff. Preserve PR #386 OPEN / DRAFT / UNMERGED; no merge/rebase/retarget/deploy/publish without owner approval.
