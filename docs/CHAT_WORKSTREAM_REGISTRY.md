@@ -3465,3 +3465,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Commits: `e70db43d71bd10cdca9a4a70f861c0b55f1135bc` (production); `c736a11d9c93e3132aa706f19c6a02035427041f` (tests). GitHub source read-back and executable tests remain pending.
 - Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
 - Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 CLI source-preservation and payload-shape follow-up — 2026-11-26
+- Static review found the CLI accepted an output path resolving to the input JSON path. A successful atomic write could therefore replace the original source payload with the generated clip plan.
+- `analyze_file` now rejects input/output path identity before reading/writing, requires a top-level JSON object, requires the events member to be a list, and reports a missing permission member as a controlled validation failure.
+- Added synthetic CLI regressions for identical input/output, normalized path aliases, non-object top-level JSON, and non-list events. Existing atomic-replace preservation tests remain.
+- Commits: `e6c6ebf82f5c2c452a26b2a55d4167311f75bb8b` (production); `95b9af97efe3e6f07cbd65e88676221afb1f1262` (tests). Source read-back pending.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
