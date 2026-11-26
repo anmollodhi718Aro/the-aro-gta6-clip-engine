@@ -2098,5 +2098,5 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 
 ### Latest continuation — Path-subclass string conversion guard (2026-11-26)
 - inspect_one_video no longer calls str() on Path subclasses while constructing its initial report. Such subclasses may override __str__ and raise before the guarded validation path.
-- Added regression coverage with a concrete platform Path subclass whose __str__ raises. Expected behavior: FAIL report, no FFprobe invocation.
+- Added regression coverage with a concrete platform Path subclass whose __str__ raises. Expected behavior: the valid Path subclass is accepted and inspected successfully using mocked FFprobe metadata.
 - Tests NOT RUN in this connector session; exact-head CI and media E2E NOT VERIFIED. Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED; no retry/dispatch, merge, deployment, upload, or publishing.
