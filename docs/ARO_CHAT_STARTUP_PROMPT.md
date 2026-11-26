@@ -1559,3 +1559,8 @@ The synthetic smoke harness now catches TypeError/ValueError when summarizing a 
 ### Latest P0 continuation — ARO-CHAT-0332
 
 Added a regression for FFmpeg synthetic-fixture generation timing out at the configured 120-second limit. It verifies timeout propagation, that rendering is not called, and that temporary source/directory artifacts are removed. Production code unchanged. Test commit f4f3eb625c36051f1c014ecca10f90dcdbc376c4; report docs/ARO_CHAT_0332_SYNTHETIC_FIXTURE_TIMEOUT_CLEANUP.md; report commit b1346752877682f017b90e5e7efb4233cd3de835. Unit tests and exact-head Ubuntu/Windows CI NOT VERIFIED. Preserve PR #386 OPEN/DRAFT/UNMERGED and its original base/ancestry; no workflow dispatch/retry, merge, rebase, retarget, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### Latest P0 continuation — ARO-CHAT-0335 (2026-11-26)
+
+Added a regression verifying that the synthetic output SHA-256 helper closes its open file descriptor when a read operation raises `OSError`. The production helper already closes the descriptor in a `finally` block, so production code was unchanged. Test commit `33d0ce67bf5f6fb6d86003a3e7953d371b0e1bec`; report `docs/ARO_CHAT_0335_SMOKE_VERIFIER_DESCRIPTOR_CLEANUP.md`; report commit `a4a661889e2b237c2b62bc826ce1dd2d6804766a`; registry commit `5ae815e098f0deae6eb25deba6c9e4f04899dbcd`. Local tests and synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED. Preserve PR #386 OPEN/DRAFT/UNMERGED and original branch/base. No workflow dispatch/retry, merge, rebase, retarget, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
