@@ -2710,3 +2710,11 @@ Regression tests cover a real pathname replacement against an open descriptor, f
 - Commits: production `9efc07703673a2792c008e8696d89bd9a3077cb9`; regression `53d0c42d9670c3f895bba19c134cbf8a11c8a675`; report `docs/ARO_CHAT_0324_SMOKE_OUTPUT_DIGEST_VERIFICATION.md`.
 - Repository unit tests NOT RUN; synthetic FFmpeg smoke execution NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0325 — synthetic smoke failure-path regression coverage
+
+- Workstream: ARO-GTA-P0-325; continued existing draft PR #386 and original branch/base.
+- Added regression coverage for missing FFprobe (no fixture generation), missing FFmpeg CLI structured JSON failure, and FFmpeg fixture-generation errors not being reported as PASS. Existing coverage includes exact selected interval, rights-confirmed execution, disabled upload/publishing, temporary artifact cleanup, and output digest mismatch rejection.
+- Test commit: `7bb0046c805da205abbbe0d1e3ebfeee1982f5f8`; report: `147b4adb28b32c3302d0b08e619682f9bba41585`.
+- Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI NOT VERIFIED; no workflow dispatch/retry. Authorized real MP4 NOT PROCESSED. Preserve PR #386 OPEN/DRAFT/UNMERGED. No merge/rebase/retarget, upload, publishing or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
