@@ -3396,3 +3396,16 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Classify this as `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. It provides no evidence that checkout, compilation, or tests started; root cause remains UNVERIFIED and is not attributed to application code.
 - Combined commit status returned zero status entries. No workflow dispatch/retry was initiated.
 - Isolated in-memory parser probes passed for: rejecting an embedded quote in an unquoted later field; accepting a properly escaped quoted field; and accepting a quoted field containing an embedded newline. These probes are not a substitute for the repository unit suite.
+
+
+## ARO-CHAT-0370 | PR #389 Exact-Head CI and Diff Audit (2026-11-26)
+
+- Workstream: ARO-GTA-P0-370; documentation-only audit based on exact PR #389 head `93bc6bb1bbc57243d8d6c9fb608a869faaa13366`.
+- Branch: `workstream/aro-chat-0370-pr389-exact-head-ci-audit-2026-11-26`; parent/base is PR #389's exact head. Existing PR #389 -> #388 -> #387 -> #386 ancestry is preserved.
+- Exact-head Python CI run #45780841196 completed FAILURE. Ubuntu job #139775622748 and hosted-Windows job #139775622358 both returned `steps: null` and `logs_url: null`; no execution evidence or decoded logs are available. Classify as `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`; root cause UNVERIFIED and not attributed to application code. Combined status returned zero entries.
+- Bounded diff review: synthetic candidate-CSV tests and docs only in this continuation; no media/uploader/OAuth/publishing changes identified. PR #389 review submissions and inline threads were empty at audit time.
+- Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI did not expose execution; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED; P0 pipeline NOT COMPLETE.
+- Report: `docs/ARO_CHAT_0370_PR389_EXACT_HEAD_CI_AUDIT.md`, commit `6356ccda6046ad60479f699af93d35bd0765a068`.
+- Keep PR #389 and #388/#387/#386 OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+- Audit-branch CI note: initial PR #391 head `8670522ccefbaa0693b6fdda291a6e90674c5e09` run #45783637618 completed FAILURE; Ubuntu job #139784900003 and hosted-Windows job #139784900308 both exposed `steps: null` / `logs_url: null`. Execution NOT ESTABLISHED; no CI result transfers to the final docs-updated head.
