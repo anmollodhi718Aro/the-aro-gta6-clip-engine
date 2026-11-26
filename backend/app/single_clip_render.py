@@ -264,13 +264,18 @@ def _rendered_mp4_validation_error(preflight: dict[str, Any]) -> str | None:
     streams = preflight.get("video_streams")
     if not isinstance(streams, list) or not streams:
         return "rendered output has no verified video stream"
-    video = streams[0]
-    if not isinstance(video, dict) or str(video.get("codec", "")).lower() != "h264":
-        return "rendered output video codec is not H.264"
-    for dimension in ("width", "height"):
-        value = video.get(dimension)
-        if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
-            return f"rendered output has invalid video {dimension}"
+    # Validate every reported video stream, not only the first one. A
+    # malformed secondary stream must not be hidden behind a valid first
+    # stream when the report claims the complete output passed validation.
+    for index, video in enumerate(streams):
+        if not isinstance(video, dict):
+            return f"rendered output video stream {index} metadata is invalid"
+        if not isinstance(video.get("codec"), str) or video["codec"].strip().lower() != "h264":
+            return "rendered output video codec is not H.264"
+        for dimension in ("width", "height"):
+            value = video.get(dimension)
+            if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+                return f"rendered output has invalid video {dimension}"
     return None
 
 
