@@ -287,3 +287,7 @@ non-finite numeric literals. Initial and terminal reports are serialized with
 non-finite JSON values disabled, so malformed media-tool metadata cannot silently
 produce a report that a strict JSON parser rejects. A rejected bound creates no
 report and starts no media operation.
+
+## Rendered MP4 format and video-codec verification
+
+A post-render FFprobe `PASS` and matching duration are not sufficient by themselves. The output must also identify an MP4-compatible container, contain a video stream encoded as H.264, and report positive integer width and height. A mismatch produces `FAIL`; the output is preserved for manual inspection, and upload/publishing remain disabled. This gate validates the rendered file's reported container and video stream metadata, not visual quality or owner playback acceptance.
