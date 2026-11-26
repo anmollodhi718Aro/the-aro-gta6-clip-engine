@@ -2382,7 +2382,7 @@ ARO-CHAT-0304 attribution/fixture note: production commit `3204190a41814b73b2685
 
 ## ARO-CHAT-0306 — expanded report-path fallback regression
 
-- Added `test_cli_terminal_fallback_uses_expanded_report_path` to cover the production correction that passes the expanded report path to terminal fallback creation. The test injects a partial terminal-report write using a home-relative report argument, then checks the fallback is created beside the expanded primary report and preserves the completed output.
+- Added `test_cli_terminal_fallback_persists_file_at_expanded_report_path` to cover the production correction that passes the expanded report path to terminal fallback creation. The test injects a partial terminal-report write using a home-relative report argument, then checks the fallback is created beside the expanded primary report and preserves the completed output.
 - No production behavior changed; regression coverage only.
 - Parent exact-head run #45741447981 failed before any visible job step (`runner_id=0`, blank runner name, `steps=[]`). This is not evidence of a test failure; root cause UNKNOWN.
 - Test NOT RUN locally in this connector session. New commit CI pending natural push-triggered verification; independent review NOT RECORDED. No real authorized media processed.
