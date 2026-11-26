@@ -2892,3 +2892,14 @@ Two concurrent continuations used provisional ARO-CHAT-0327. The stable syntheti
 - Test commit: `4505d5678ce3c46bd128aa4ab2aa6836247e40f2`; report: `docs/ARO_CHAT_0336_SMOKE_VERIFIER_INITIAL_FSTAT_CLEANUP.md`; report commit: `4eee90814fc9f9ce606ab902c2f40841ad0437bd`.
 - Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+## ARO-CHAT-0337 — close smoke verifier descriptor when final lstat fails (2026-11-26)
+
+- Exact title: ARO-CHAT-0337 | Close Smoke Verifier Descriptor When Final Lstat Fails.
+- Workstream: ARO-GTA-P0-337; continued existing P0 draft PR #386 on its original branch/base.
+- Added `test_hash_verified_output_closes_descriptor_when_final_lstat_fails` in `tests/test_synthetic_single_clip_smoke.py`. The regression allows the initial path inspection, opens the output descriptor, hashes the bytes, then injects an `OSError` during the final pathname inspection. It verifies the exception propagates and the descriptor is closed by the helper's `finally` cleanup.
+- Test commit: `c9e5dda27cef317402ba402e303aa531f195b671`; report: `docs/ARO_CHAT_0337_SMOKE_FINAL_LSTAT_CLEANUP.md`; report commit: `053987e429b54a7bc1afe586b4a213a0f9faad52`.
+- Production code unchanged. This covers the final path-identity-check failure path in addition to existing read-failure and initial-`fstat` cleanup regressions.
+- Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
