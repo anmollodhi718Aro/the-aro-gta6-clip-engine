@@ -394,6 +394,28 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
             with self.assertRaises(OSError):
                 real_fstat(opened["descriptor"])
 
+
+    def test_hash_verified_output_rejects_unexpected_early_eof_and_closes_descriptor(self):
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / "output.mp4"
+            output.write_bytes(b"complete synthetic output")
+            opened = {}
+
+            def return_early_eof(descriptor, size):
+                opened["descriptor"] = descriptor
+                return b""
+
+            with patch.object(smoke.os, "read", side_effect=return_early_eof):
+                with self.assertRaisesRegex(
+                    RuntimeError, "changed during SHA-256 verification"
+                ):
+                    smoke._hash_verified_output(output)
+
+            self.assertIn("descriptor", opened)
+            with self.assertRaises(OSError):
+                smoke.os.fstat(opened["descriptor"])
+
+
 if __name__ == "__main__":
     unittest.main()
 
