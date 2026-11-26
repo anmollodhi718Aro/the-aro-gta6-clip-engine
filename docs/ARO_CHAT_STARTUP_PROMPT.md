@@ -1996,3 +1996,16 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Corrected the non-ASCII source-ID regression fixture to use actual newline record separators in commit `7bfd5c52baa88796e911de1f4a95798e6b130a18`; production code unchanged.
 - Canonical report: `docs/ARO_CHAT_0368_CANDIDATE_CSV_UNICODE_FIXTURE_LINE_ENDINGS.md`, commit `48cde1f023fbb83c4bbe422b13c74f6f489cd7f8`; registry reconciliation commit `5204208aea189655f6a4040f10d6d307fd4501f8`.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Keep PR #386 OPEN / DRAFT / UNMERGED and all media, OAuth, upload, publishing, and deployment gates unchanged.
+
+
+## Latest continuation handoff — ARO-CHAT-0369 (2026-11-26)
+
+- Chat ID: ARO-CHAT-0369
+- Exact title: ARO-CHAT-0369 | Reject Unicode-Whitespace-Only Candidate Source IDs
+- Workstream: ARO-GTA-P0-369
+- Continue on existing draft PR #386 and original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added a focused regression requiring a source_id containing only U+00A0 NO-BREAK SPACE to fail closed after Unicode-aware trimming. Existing BOM/CRLF and non-ASCII source-ID tests remain.
+- Test-only change; production code unchanged; synthetic CSV only; no media tools, OAuth, credentials, upload, or publishing.
+- Test commits: `eb5fa0d62002c7620d5378814a3f3ca25018b787` and fixture correction `b4916c28a1d21a46b41aea794c67913cc739557f`. Canonical report: `docs/ARO_CHAT_0369_UNICODE_WHITESPACE_SOURCE_ID.md`.
+- Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
