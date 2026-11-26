@@ -3533,3 +3533,10 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: `8719062dc6cfe7f0124feee44e12c03950b26c89`; test commit: `92014618fd01272c206423fad2c8c0547f5071c2`.
 - Tests NOT RUN in this connector session; exact-head CI, synthetic FFmpeg E2E, owner-device Windows, independent review, and authorized real-media processing remain NOT VERIFIED.
 - PR #412 and parent PR #386 remain OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, upload, publishing, or deployment.
+
+### ARO-CHAT-0384 FFmpeg executable argument validation (2026-11-26)
+- Static review found `render_clip` accepted an unvalidated `ffmpeg_binary` argument. Empty/whitespace values or non-string objects could reach `subprocess.run` and produce incidental process/type errors rather than a clear input-validation failure.
+- Added a fail-fast requirement that the executable name/path is a non-empty string. Regression tests cover empty, whitespace-only, None, integer, and Path values and assert the process is never invoked.
+- Production commit: `81881af011a3d2c55b2f139ed32f587489c7e196`; test commit: `be05b13e33376347b29ab8ffb09c889d9c925af9`.
+- Tests NOT RUN in this connector session; exact-head CI, synthetic FFmpeg E2E, owner-device Windows, independent review, and authorized real-media processing remain NOT VERIFIED.
+- PR #412 and parent PR #386 remain OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, upload, publishing, or deployment.
