@@ -3528,3 +3528,14 @@ Keep this work and all parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/
 - Classification: CI_FAILURE / EXECUTION_NOT_ESTABLISHED. Exact-head run supplies no evidence checkout, compilation, or tests started; it is not an application test failure. Root cause UNVERIFIED.
 - Report: `docs/ARO_CHAT_0381_PR405_EXACT_HEAD_CI_AUDIT.md`. Documentation-only; no production code/tests/workflow YAML changed.
 - Repository tests NOT RUN; hosted execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1/P0 NOT COMPLETE. No retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0382 | PR #406 latest exact-head CI audit (2026-11-26)
+
+- Workstream: ARO-GTA-P0-382. Child branch `workstream/aro-chat-0382-pr406-exact-head-ci-audit-2026-11-26`, based on PR #406 exact head `3899f034d803b629df65f716a6fa97eab1e1e641`; preserve PR #406 -> #405 -> #404 -> #403 -> #402 -> #401 -> #400 -> #399 ancestry.
+- Latest inspected exact-head Python CI run #45803692099 (run 2595) completed FAILURE. Hosted Windows job #139853219207 and Ubuntu job #139853219475 both failed; summaries expose `steps: null` and `logs_url: null`; direct step lookups empty; logs returned 404 / BlobNotFound.
+- Timing endpoint: run_duration_ms=3000; billable WINDOWS/UBUNTU total_ms=0, one job each, duration_ms=0. Exact-head check-run metadata reports one annotation per job; annotation contents NOT INSPECTED because the connected GitHub fetch interface rejected the annotations subresource.
+- Classification: CI_FAILURE / EXECUTION_NOT_ESTABLISHED. No evidence checkout, compilation, or tests started; root cause UNVERIFIED and not attributed to application code.
+- Report: `docs/ARO_CHAT_0382_PR406_EXACT_HEAD_CI_AUDIT.md`. Documentation-only; no production code, tests, or workflow YAML changed.
+- Repository tests NOT RUN; hosted Ubuntu/Windows execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1/P0 NOT COMPLETE.
+- No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Keep PR #406 and this child OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
