@@ -705,13 +705,52 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(target.exists())
         self.assertTrue(self.output.is_symlink())
 
-    def test_execution_requires_rights_confirmation_before_snapshot(self):
-        with patch("backend.app.single_clip_render._create_stable_source_snapshot") as snapshot:
+    def test_execution_requires_rights_confirmation_before_any_media_inspection(self):
+        with patch("backend.app.single_clip_render.inspect_one_video") as preflight, patch(
+            "backend.app.single_clip_render.sha256_selected_source"
+        ) as source_hash, patch(
+            "backend.app.single_clip_render._create_stable_source_snapshot"
+        ) as snapshot, patch("backend.app.single_clip_render.render_clip") as render:
             report = render_selected_clip(self.source, self.output, 2, 8, execute=True)
+
         self.assertEqual(report["status"], "BLOCKED")
+        self.assertEqual(report["error"], "render execution requires --confirm-rights")
         self.assertFalse(report["processing_started"])
         self.assertFalse(report["source_snapshot_created"])
+        preflight.assert_not_called()
+        source_hash.assert_not_called()
         snapshot.assert_not_called()
+        render.assert_not_called()
+
+    def test_candidate_cli_without_rights_confirmation_does_not_hash_or_probe_media(self):
+        report_path = self.root / "candidate-blocked-report.json"
+        csv_path = self.root / "candidates.csv"
+        csv_path.write_text(
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
+            "authorized-demo,1,5,4,True\\n",
+            encoding="utf-8",
+        )
+        expected_digest = "a" * 64
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--candidate-csv", str(csv_path), "--candidate-row", "1",
+            "--source-id", "authorized-demo", "--source-sha256", expected_digest,
+            "--execute", "--output", str(self.output), "--report", str(report_path),
+        ]
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.sha256_selected_source"
+        ) as source_hash, patch(
+            "backend.app.single_clip_render.inspect_one_video"
+        ) as preflight:
+            self.assertEqual(main(), 1)
+
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        self.assertEqual(report["status"], "BLOCKED")
+        self.assertTrue(report["execution_requested"])
+        self.assertFalse(report["rights_confirmation_supplied"])
+        source_hash.assert_not_called()
+        preflight.assert_not_called()
+        self.assertFalse(self.output.exists())
 
     def test_render_api_rejects_malformed_expected_digest_before_media_tools(self):
         with patch("backend.app.single_clip_render.inspect_one_video") as preflight, patch(
