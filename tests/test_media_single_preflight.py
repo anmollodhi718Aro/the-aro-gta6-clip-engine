@@ -43,6 +43,18 @@ class MediaSinglePreflightTests(unittest.TestCase):
         run.assert_not_called()
 
     @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_invalid_path_object_with_broken_string_conversion_returns_fail(self, run):
+        class BrokenPath:
+            def __str__(self):
+                raise RuntimeError("untrusted string conversion")
+
+        report = inspect_one_video(BrokenPath())
+        self.assertEqual(report["status"], "FAIL")
+        self.assertEqual(report["selected_file"], "<invalid>")
+        self.assertIn("video_path must be a non-empty", report["error"])
+        run.assert_not_called()
+
+    @patch("backend.app.media_single_preflight.subprocess.run")
     def test_rejects_invalid_ffprobe_executable_before_invoking_process(self, run):
         for executable in ("", "   ", None, 7, Path("ffprobe")):
             with self.subTest(executable=executable):
