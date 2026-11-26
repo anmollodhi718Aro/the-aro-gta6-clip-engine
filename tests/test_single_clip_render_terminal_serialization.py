@@ -51,7 +51,7 @@ class TerminalSerializationFallbackTests(unittest.TestCase):
             self.assertTrue(fallback["output_inspection_required"])
             self.assertFalse(fallback["upload_performed"])
             self.assertFalse(fallback["publishing_enabled"])
-            self.assertTrue(fallback_text.endswith("\\n"))
+            self.assertTrue(fallback_text.endswith("\n"))
             self.assertIn("Inspect any output file manually before retrying", fallback["message"])
             self.assertIn(str(fallback_path), stderr.getvalue())
             self.assertFalse(output_path.exists())
