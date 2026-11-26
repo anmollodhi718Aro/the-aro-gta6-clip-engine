@@ -2472,3 +2472,14 @@ ARO-CHAT-0306 test-fixture correction: the regression now constructs an actual s
 - Initial commit messages carried provisional 0309 labels; the startup handoff already had a separate ARO-CHAT-0309 entry. Canonical attribution is 0310; no history was rewritten.
 - Tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; real authorized MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and its original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0310 — contain terminal fallback path-resolution errors
+
+- Workstream: ARO-GTA-P1-310; continued existing draft PR #386 and its current branch, with no duplicate branch or PR.
+- Production commit: `d17f71d1b19ea0848e655bde41a08846585317c2`.
+- The exclusive terminal-report fallback now resolves its own path and the protected selected-source/output paths inside a guarded block. `OSError`, `RuntimeError` (including symlink-loop resolution), and `ValueError` are normalized to a clear `OSError`, keeping validation failures inside the CLI's fallback-creation error handler.
+- Regression test already present: `test_cli_terminal_fallback_resolution_error_is_reported_without_masking_completed_output`. It simulates a completed render, a partial terminal-report write, and a symlink-loop resolution error; it verifies exit code 2, completed-output preservation, no unsafe fallback creation, and the manual-inspection warning.
+- Exact-head Actions run #45744189317 / job #139656150344 on `d17f71d1b19ea0848e655bde41a08846585317c2` is marked failed, but the job has zero steps and no runner metadata; log retrieval returned BlobNotFound. This is a pre-step runner/infrastructure failure, not evidence that Python tests failed. Root cause UNKNOWN. Local tests NOT RUN; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; real authorized MP4 NOT PROCESSED.
+- PR #386 remains OPEN / DRAFT / UNMERGED with its original base and ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+- Report: `docs/ARO_CHAT_0310_TERMINAL_FALLBACK_PATH_RESOLUTION.md`.
