@@ -2156,7 +2156,7 @@ class SingleClipRenderTests(unittest.TestCase):
         fallback_path = report_path.with_name(
             report_path.name + ".terminal-fallback.json"
         )
-        report_text = json.dumps({"status": "FAIL", "message": "complete"}) + "\\n"
+        report_text = json.dumps({"status": "FAIL", "message": "complete"}) + "\n"
         original_open = Path.open
 
         class PartialWrite:
