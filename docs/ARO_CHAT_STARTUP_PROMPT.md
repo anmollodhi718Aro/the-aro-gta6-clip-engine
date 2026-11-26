@@ -2020,3 +2020,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Added a streaming U+0000 rejection guard before DictReader and regressions for optional field, header, unselected trailing row, and multiline quoted field.
 - Repository tests NOT RUN; synthetic FFmpeg E2E NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Keep OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1 remains INCOMPLETE.
+
+
+### Latest continuation handoff — ARO-CHAT-0384 permission-scope query validation (2026-11-26)
+- Continue on the existing child PR #412 branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`, preserving parent PR #386 ancestry.
+- `PermissionRecord.allows` now fails closed for malformed scope queries (non-string, empty, whitespace-only) before frozenset membership; regression tests cover None, integer, list, empty, and whitespace-only inputs.
+- Commits: `949d9ec66a1d28fe707a7a4ca67be13942747126` (production); `afc18c6a82384400720a82cde5d2db7bbbd7fb98` (tests).
+- Repository tests NOT RUN in this connector session. Exact-head CI must be inspected; do not infer tests ran from a green-looking workflow label if runner steps are absent. FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
