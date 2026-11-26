@@ -150,6 +150,27 @@ class ClipRenderTests(unittest.TestCase):
             self.assertEqual(kwargs["timeout"], 180)
             self.assertFalse(list(Path(folder).glob(".clip-*")))
 
+    def test_refuses_to_publish_when_source_changes_during_ffmpeg(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            output = Path(folder) / "clip.mp4"
+            source.write_bytes(b"original synthetic source")
+
+            def fake_ffmpeg(command, **kwargs):
+                Path(command[-1]).write_bytes(b"synthetic rendered bytes")
+                # Simulate another process editing the same inode while FFmpeg
+                # is reading it, rather than replacing the source pathname.
+                source.write_bytes(b"modified source with different size")
+
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg):
+                with self.assertRaisesRegex(
+                    ClipRenderError, "changed during FFmpeg rendering"
+                ):
+                    render_clip(source, output, 0, 2, rights_confirmed=True)
+
+            self.assertFalse(output.exists())
+            self.assertFalse(list(Path(folder).glob(".clip-*")))
+
     def test_fsyncs_rendered_file_before_publish_and_parent_directory_after(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / "source.mov"
