@@ -92,6 +92,32 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(self.output.read_bytes(), b"replacement bytes")
 
 
+    def test_verified_output_hash_closes_descriptor_when_initial_path_stat_fails(self):
+        real_open = os.open
+        real_lstat = Path.lstat
+        opened = {}
+
+        def recording_open(path, flags, *args, **kwargs):
+            descriptor = real_open(path, flags, *args, **kwargs)
+            opened["descriptor"] = descriptor
+            return descriptor
+
+        def fail_selected_path_stat(path):
+            if path == self.output:
+                raise OSError("simulated initial path stat failure")
+            return real_lstat(path)
+
+        with patch("backend.app.single_clip_render.os.open", side_effect=recording_open), patch.object(
+            Path, "lstat", new=fail_selected_path_stat
+        ):
+            with self.assertRaisesRegex(OSError, "simulated initial path stat failure"):
+                _sha256_verified_regular_file(self.output)
+
+        self.assertIn("descriptor", opened)
+        with self.assertRaises(OSError):
+            os.fstat(opened["descriptor"])
+
+
     def test_verified_output_hash_rejects_path_replacement_after_eof(self):
         replacement = self.root / "replacement-after-eof.mp4"
         preserved = self.root / "preserved-before-eof.mp4"
