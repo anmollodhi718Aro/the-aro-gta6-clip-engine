@@ -3365,3 +3365,13 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Test commit: `2162adbf6ca952a7f2c74d7c65416b03fd95b4dc`; canonical report content commit: `334961488f949d0bbdd4813aa6c0b14a37c019fa`.
 - GitHub writes completed. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0367 | Reject Trailing Text After Quoted Candidate CSV Fields (2026-11-26)
+
+- Workstream: ARO-GTA-P0-367; isolated regression continuation from PR #386's exact inspected head, preserving the original dependency chain.
+- Branch: `workstream/aro-chat-0367-strict-candidate-csv-quoting-2026-11-26`; starting SHA: `f65c1a199b126c122332a5c7fd62b159411cbefb`.
+- Added `tests/test_candidate_csv_strict_quoting.py`: a valid selected first row is followed by a malformed later row containing trailing text after a closed quoted field. The complete-file strict parser must reject the CSV instead of returning the earlier candidate.
+- Production code unchanged; synthetic CSV fixture only. Test commit: `e450ee36e26f172a71bb35bcd7351adffefcd4c1`; canonical report: `docs/ARO_CHAT_0367_STRICT_CANDIDATE_CSV_QUOTING.md` (commit `ba7eec40952f2071281f773c8981b0f71f9e88f4`).
+- GitHub source writes completed. Local unit test NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
