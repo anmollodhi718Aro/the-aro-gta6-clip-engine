@@ -29,3 +29,11 @@ Keep the child PR OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deploymen
 - Windows job #139926481123 and Ubuntu job #139926481698 both completed with conclusion `failure`; the jobs response contained no recorded steps (`steps: null`) and no log URL. Direct step lookups returned empty arrays and log retrieval returned BlobNotFound in the prior inspection.
 - Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. This run does not show checkout, compilation, or repository tests executing. The underlying cause remains UNVERIFIED; do not classify it as an application-code test failure or assert a runner-service root cause.
 - No workflow retry or dispatch was initiated. Repository tests remain NOT RUN; synthetic FFmpeg E2E remains NOT RUN.
+
+
+## Follow-up exact-head Actions run — #45828457264 (2026-11-26)
+- This run is tied to the updated PR #412 head `ad10126537a04753154e98078d4afe80d2b76a86` (the documentation-evidence commit), event `pull_request`, workflow `.github/workflows/ci.yml`.
+- Run #45828457264 completed FAILURE. Ubuntu job #139938629974 and Windows job #139938630458 both completed FAILURE in approximately 2–3 seconds; both job records have `steps: null`, no logs URL, and no artifacts.
+- Check-run metadata reports one annotation for each job, but the connected GitHub fetch endpoint rejected the annotations URL. Annotation content is therefore NOT AVAILABLE in this session.
+- This confirms the same pre-step failure pattern on the updated head; it still does not establish the underlying cause. Classification remains `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`, root cause UNVERIFIED. Do not infer that repository tests ran or that the NUL guard caused the failure.
+- No retry/dispatch was initiated. Unit tests NOT RUN; synthetic FFmpeg E2E NOT RUN.
