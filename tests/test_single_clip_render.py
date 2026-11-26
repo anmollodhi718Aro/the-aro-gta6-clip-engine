@@ -2206,5 +2206,59 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(fallback_path.read_text(encoding="utf-8"), report_text[:7])
 
 
+    def test_cli_stops_before_media_when_reserved_report_path_is_replaced(self):
+        report_path = self.root / "replaced-before-media.json"
+        fallback_path = report_path.with_name(report_path.name + ".terminal-fallback.json")
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--start", "1", "--end", "5",
+            "--output", str(self.output), "--report", str(report_path),
+        ]
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render._report_handle_matches_path",
+            return_value=False,
+        ), patch(
+            "backend.app.single_clip_render.render_selected_clip"
+        ) as render, redirect_stderr(io.StringIO()):
+            self.assertEqual(main(), 2)
+
+        render.assert_not_called()
+        self.assertTrue(fallback_path.is_file())
+        fallback = json.loads(fallback_path.read_text(encoding="utf-8"))
+        self.assertEqual(fallback["status"], "RUNNING")
+        self.assertFalse(fallback["upload_performed"])
+        self.assertFalse(fallback["publishing_enabled"])
+
+    def test_cli_falls_back_when_reserved_report_path_changes_during_terminal_write(self):
+        report_path = self.root / "replaced-during-terminal-write.json"
+        fallback_path = report_path.with_name(report_path.name + ".terminal-fallback.json")
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--start", "1", "--end", "5",
+            "--output", str(self.output), "--report", str(report_path),
+        ]
+        planned = {
+            "status": "PLANNED",
+            "upload_performed": False,
+            "publishing_enabled": False,
+        }
+        # Initial reservation check and pre-write check pass; post-write check
+        # detects that the pathname no longer identifies the reserved inode.
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render._report_handle_matches_path",
+            side_effect=[True, True, False],
+        ), patch(
+            "backend.app.single_clip_render.render_selected_clip",
+            return_value=planned,
+        ), redirect_stderr(io.StringIO()):
+            self.assertEqual(main(), 2)
+
+        self.assertTrue(fallback_path.is_file())
+        fallback = json.loads(fallback_path.read_text(encoding="utf-8"))
+        self.assertEqual(fallback["status"], "PLANNED")
+        self.assertFalse(fallback["upload_performed"])
+        self.assertFalse(fallback["publishing_enabled"])
+
+
 if __name__ == "__main__":
     unittest.main()
