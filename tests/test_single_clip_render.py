@@ -1537,6 +1537,32 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["upload_performed"])
         self.assertFalse(report["publishing_enabled"])
 
+    def test_cli_json_reports_escape_surrogate_filesystem_names(self):
+        report_path = self.root / "surrogate-path-report.json"
+        source_with_surrogate = str(self.root / "selected-\\udcff.mp4")
+        argv = [
+            "single_clip_render.py", source_with_surrogate,
+            "--start", "1", "--end", "5",
+            "--output", str(self.output), "--report", str(report_path),
+        ]
+        planned = {
+            "status": "PLANNED",
+            "upload_performed": False,
+            "publishing_enabled": False,
+            "message": "dry-run only",
+        }
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.render_selected_clip",
+            return_value=planned,
+        ), redirect_stdout(io.StringIO()):
+            self.assertEqual(main(), 0)
+
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        self.assertEqual(report["status"], "PLANNED")
+        self.assertEqual(report["source_path"], source_with_surrogate)
+        self.assertFalse(report["upload_performed"])
+        self.assertFalse(report["publishing_enabled"])
+
     def test_cli_reports_execution_request_without_rights_confirmation(self):
         report_path = self.root / "blocked-report.json"
         argv = [
