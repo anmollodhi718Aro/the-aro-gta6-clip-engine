@@ -2125,3 +2125,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Report: `docs/ARO_CHAT_0382_PR406_EXACT_HEAD_CI_AUDIT.md`. Documentation-only; no production code/tests/workflow YAML changed.
 - Repository suite NOT RUN; hosted test execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1 and P0 NOT COMPLETE.
 - No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live publishing disabled.
+
+
+## Latest P0 continuation handoff — ARO-CHAT-0383 | PR #409 exact-head CI audit (2026-11-26)
+
+- Continue from child draft PR #410 on `workstream/aro-chat-0383-pr409-exact-head-ci-audit-2026-11-26`, based on PR #409 exact head `12bee31deb3e443bb5769a3b5d6c47f91e55c965`. Preserve ancestry PR #410 → #409 → #406 → #405 → #404 → #403 → #402 → #401 → #400 → #399; do not merge, rebase, retarget, or rewrite history.
+- Exact-head PR-triggered run #45803946011 (run 2618) explicitly references PR #409 and its exact head SHA. Windows #139854124067 and Ubuntu #139854123571 failed with no steps/logs; direct step lookups empty; logs 404 / BlobNotFound. Timing run_duration_ms=3000; billable WINDOWS/UBUNTU total_ms=0.
+- Classification CI_FAILURE / EXECUTION_NOT_ESTABLISHED; root cause UNVERIFIED. No evidence checkout, compilation, or tests started. Annotation content NOT INSPECTED. This is not an application test failure.
+- PR #409 is documentation-only; its CI does not validate parser source changes in sibling PRs #404/#407. Repository tests NOT RUN; hosted execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1/P0 NOT COMPLETE.
+- No dispatch/retry, workflow edits, production code edits, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Obtain owner/repository-admin evidence for Actions settings and check annotations before deciding next remediation. Explicit owner approval is required before manual retry. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
