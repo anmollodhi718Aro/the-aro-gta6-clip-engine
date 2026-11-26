@@ -1732,3 +1732,14 @@ Continue on existing draft PR #386 and its original branch/base: `workstream/aro
 - Serial collisions: ARO-CHAT-0346 was assigned to the missing-output CLI regression and ARO-CHAT-0347 to unsafe smoke-renderer report guards. This timeout task is uniquely ARO-CHAT-0348; the provisional report alias with 0347 in its filename is historical only. No commit history was rewritten.
 - Static change/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0349 (2026-11-26)
+
+- Continue on existing draft PR #386 and original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added `test_smoke_harness_rejects_renderer_report_that_enables_upload_or_publishing` to `tests/test_synthetic_single_clip_smoke.py`. Separate unsafe renderer reports with `upload_performed=True` and `publishing_enabled=True` must fail closed, even when the renderer claims RENDERED and supplies a matching digest for non-empty synthetic output.
+- The regression also verifies cleanup of the temporary source, output, and directory. Production code unchanged.
+- Test commit: `88220548e80283514974c4cf30b781d1d5702f25`; canonical report commit: `8cf6a82bd5ef62cf8f8705d6f6f68a7fddfc0f78`; registry commit: `a9f0475cc5d010aefcdefe15ab8a89124f094c5a`.
+- ARO-CHAT-0347 and ARO-CHAT-0348 were already used by concurrent work; this task is ARO-CHAT-0349. Earlier aliases were marked superseded. No history rewritten.
+- Static edit/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
