@@ -3698,3 +3698,14 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - GitHub source write responses received. Exact-head source/test read-back and workflow lookup are pending; tests NOT RUN in this session. Do not claim a pass.
 - Synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Stage 1/P0 remains INCOMPLETE.
 - Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED with base and ancestry unchanged. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, live media processing, upload, publishing, or deployment.
+
+
+
+### ARO-CHAT-0401 — Prevent CLI output symlink replacement race (2026-11-27)
+- Continued on existing child PR #412 branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`; preserved PR #412 base and parent PR #386 ancestry.
+- Static review found a time-of-check/time-of-use gap in the CLI output symlink guard: after `output_path.is_symlink()` passed, a raced final-component symlink could be followed by `output_path.resolve()`, redirecting the atomic replacement to the symlink target.
+- The CLI still resolves paths for input/output alias detection, but now retains the lexical absolute output destination for the atomic replace. If a final-component symlink appears after the initial check, `os.replace` replaces that link itself rather than following it to its target.
+- Added `test_cli_does_not_follow_output_symlink_created_after_initial_check`, which creates the symlink during output-path resolution and verifies the target bytes remain unchanged while a valid clip-plan file is written at the requested output path.
+- Production commit: `25c10e96e8c4dacf3c63eb718e8aa77df86671dd`; test commit: `eaf2d7c7c2ab80084385e569456ef2b314353110`.
+- GitHub source writes completed; exact-head read-back and test execution remain pending. Repository unit tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
