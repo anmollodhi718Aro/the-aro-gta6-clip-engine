@@ -3321,3 +3321,14 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Canonical report: `docs/ARO_CHAT_0363_UNICODE_WHITESPACE_CSV_HEADER.md` (commit `4a9cd18605dde4b56435f712c46b6d165d035a7a`).
 - GitHub source writes completed. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0365 | Reject Malformed Candidate CSV Rows After Selection (2026-11-26)
+
+- Workstream: ARO-GTA-P0-365; continued on existing draft PR #386 and its original branch/base.
+- Serial-collision reconciliation: ARO-CHAT-0363 was already registered for whitespace-only candidate CSV header coverage, and ARO-CHAT-0364 for strict malformed trailing-row parsing. This test-only row-shape coverage is uniquely ARO-CHAT-0365. The provisional `docs/ARO_CHAT_0363_CANDIDATE_CSV_ROW_SHAPE_REGRESSION.md` is retained as a historical alias; no commit history was rewritten.
+- Added `tests/test_candidate_csv_row_shape.py` with three synthetic CSV cases: a short later row missing a required value, an extra-cell later row, and an unterminated quoted field after a valid selected row.
+- Production code unchanged. The cases assert the loader validates the entire CSV before returning the selected candidate. No media tools or footage are used.
+- Test commit: `328574188c9fe8c8e938324bf7e2680c7e59b635`; canonical report: `docs/ARO_CHAT_0365_CANDIDATE_CSV_ROW_SHAPE_REGRESSION.md`.
+- GitHub source writes only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
