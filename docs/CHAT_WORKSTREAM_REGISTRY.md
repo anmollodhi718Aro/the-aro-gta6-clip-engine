@@ -2568,3 +2568,13 @@ The second ARO-CHAT-0310 entry and `docs/ARO_CHAT_0310_TERMINAL_FALLBACK_PATH_RE
 The stable source-snapshot helper now converts `RuntimeError` (including symlink-loop resolution failures) and `ValueError` from `Path.resolve()` into the same deterministic `ValueError` validation boundary already used for filesystem resolution errors. This prevents malformed path resolution from escaping the helper as an unexpected exception. A regression verifies that a simulated resolution loop creates no snapshot and preserves the selected source.
 
 Production commit: `3dd984e568145ce41abd52fc07352d40ff4f59ea`; regression commit: `a2f88deb56974054424c7c2d51c7937d7b2c0fa4`. Tests NOT RUN locally; exact-head CI NOT VERIFIED; independent review NOT RECORDED. PR #386 remains OPEN / DRAFT / UNMERGED. No media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0315 — output inspection warning after renderer exceptions (2026-11-26)
+
+- Workstream: ARO-GTA-P1-315; continued existing draft PR #386 and its original branch/base.
+- Renderer-exception FAIL reports now set `output_inspection_required=true`, because a renderer can create or publish an output before raising. The configured output path is retained and no possible output is automatically deleted or overwritten.
+- Regression simulates output creation followed by an exception and checks the machine-readable inspection flag, output preservation, and disabled upload/publishing.
+- Commits: production `9b396cda964b507b294dca99d4f3f3a83940e7bf`; test `16cda8f75b266842c751f0582d4862c2e3f47713`; report `07d4e4d978fdd10a72941979f74075a09446990a`.
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
