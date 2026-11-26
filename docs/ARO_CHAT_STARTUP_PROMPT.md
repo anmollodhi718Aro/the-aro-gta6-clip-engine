@@ -1991,7 +1991,8 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
 
 
-### ARO-CHAT-0367 fixture correction handoff — 2026-11-26
-- The initial non-ASCII candidate CSV regression fixture used literal backslash-\`n\` text rather than actual record separators. Corrected the fixture in commit `7bfd5c52baa88796e911de1f4a95798e6b130a18`; production code unchanged.
-- Report: `docs/ARO_CHAT_0367_CANDIDATE_CSV_UNICODE_FIXTURE_LINE_ENDINGS.md`, commit `86fc141697bffbba8d73d63e67a52cb62a6a0c91`; registry correction commit `72ef8bc3d7842a6b3d5beedd9d962c4d20f4e44f`.
+### ARO-CHAT-0368 fixture correction handoff — 2026-11-26
+- ARO-CHAT-0367 was already allocated to the separate strict candidate-CSV quoting task on PR #387. This fixture correction is uniquely ARO-CHAT-0368 / ARO-GTA-P0-368; the earlier 0367 report path is a historical alias only.
+- Corrected the non-ASCII source-ID regression fixture to use actual newline record separators in commit `7bfd5c52baa88796e911de1f4a95798e6b130a18`; production code unchanged.
+- Canonical report: `docs/ARO_CHAT_0368_CANDIDATE_CSV_UNICODE_FIXTURE_LINE_ENDINGS.md`, commit `48cde1f023fbb83c4bbe422b13c74f6f489cd7f8`; registry reconciliation commit `5204208aea189655f6a4040f10d6d307fd4501f8`.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Keep PR #386 OPEN / DRAFT / UNMERGED and all media, OAuth, upload, publishing, and deployment gates unchanged.
