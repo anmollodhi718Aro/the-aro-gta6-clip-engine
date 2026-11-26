@@ -3518,3 +3518,13 @@ Keep this work and all parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/
 - Each check-run summary reports one annotation, but the connected GitHub fetch interface rejects the annotations subresource URL; annotation contents NOT INSPECTED (not evidence that annotations are absent).
 - Classification: CI_FAILURE / EXECUTION_NOT_ESTABLISHED; root cause UNVERIFIED. Documentation-only audit; no workflow/code changes or retry.
 - Repository unit suite NOT RUN; hosted test execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1 and P0 remain NOT COMPLETE. Keep PRs OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0381 | PR #405 exact-head CI execution audit (2026-11-26)
+
+- Workstream: ARO-GTA-P0-381. Child branch `workstream/aro-chat-0381-pr405-exact-head-ci-failure-audit-2026-11-26`, based on PR #405 exact head `c53bbc52989aea0c05def7051b9b0c465297d246`; preserve PR #405 -> #404 -> #403 -> #402 -> #401 -> #400 -> #399.
+- Exact-head Python CI run #45803428937 (run 2580) completed FAILURE on PR #405 head `c53bbc52989aea0c05def7051b9b0c465297d246`.
+- Windows job #139852311547 and Ubuntu job #139852311065: `steps: null`, `logs_url: null`; direct step lookups empty; logs 404 / BlobNotFound. Timing: run_duration_ms=4000; billable WINDOWS/UBUNTU total_ms=0, one job each, duration_ms=0.
+- Classification: CI_FAILURE / EXECUTION_NOT_ESTABLISHED. Exact-head run supplies no evidence checkout, compilation, or tests started; it is not an application test failure. Root cause UNVERIFIED.
+- Report: `docs/ARO_CHAT_0381_PR405_EXACT_HEAD_CI_AUDIT.md`. Documentation-only; no production code/tests/workflow YAML changed.
+- Repository tests NOT RUN; hosted execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1/P0 NOT COMPLETE. No retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
