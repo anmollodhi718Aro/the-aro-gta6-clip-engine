@@ -232,5 +232,50 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
             self.assertTrue(output.is_symlink())
 
 
+    def test_renderer_exception_removes_temporary_directory(self):
+        captured = {}
+
+        def failing_render(source, output, start, end, **kwargs):
+            captured["source"] = Path(source)
+            captured["output"] = Path(output)
+            captured["directory"] = Path(output).parent
+            captured["output"].write_bytes(b"partial synthetic output")
+            raise OSError("simulated renderer I/O failure")
+
+        with patch.object(smoke.shutil, "which", side_effect=lambda name: f"/tools/{name}"), patch.object(
+            smoke.subprocess, "run"
+        ), patch.object(smoke, "render_selected_clip", side_effect=failing_render):
+            with self.assertRaisesRegex(OSError, "simulated renderer I/O failure"):
+                smoke.run_smoke_test()
+
+        self.assertFalse(captured["source"].exists())
+        self.assertFalse(captured["output"].exists())
+        self.assertFalse(captured["directory"].exists())
+
+
+    def test_non_rendered_report_removes_temporary_directory(self):
+        captured = {}
+
+        def failed_report(source, output, start, end, **kwargs):
+            captured["source"] = Path(source)
+            captured["output"] = Path(output)
+            captured["directory"] = Path(output).parent
+            return {
+                "status": "FAILED",
+                "upload_performed": False,
+                "publishing_enabled": False,
+            }
+
+        with patch.object(smoke.shutil, "which", side_effect=lambda name: f"/tools/{name}"), patch.object(
+            smoke.subprocess, "run"
+        ), patch.object(smoke, "render_selected_clip", side_effect=failed_report):
+            with self.assertRaisesRegex(RuntimeError, "did not return RENDERED"):
+                smoke.run_smoke_test()
+
+        self.assertFalse(captured["source"].exists())
+        self.assertFalse(captured["output"].exists())
+        self.assertFalse(captured["directory"].exists())
+
+
 if __name__ == "__main__":
     unittest.main()
