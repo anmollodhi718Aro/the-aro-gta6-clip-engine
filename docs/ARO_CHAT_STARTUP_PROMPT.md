@@ -1772,10 +1772,11 @@ Continue on existing draft PR #386 and its original branch/base: `workstream/aro
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
 
 
-## Latest P0 continuation — ARO-CHAT-0351 | Structured CLI Failure When FFprobe Is Missing (2026-11-26)
+## Latest P0 continuation — ARO-CHAT-0353 | Structured CLI Failure When FFprobe Is Missing (2026-11-26)
 
+- Serial collision reconciliation: ARO-CHAT-0351 was already reserved by a concurrent source-alias output guard task. This FFprobe CLI regression is uniquely reassigned to ARO-CHAT-0353 / ARO-GTA-P0-353; test commit `6581ecb3d9431868667b61820e5dafde8dd7f7e6` is retained.
 - Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
 - Added `test_main_emits_structured_failure_when_ffprobe_is_missing` to `tests/test_synthetic_single_clip_smoke.py`. The public CLI is invoked with FFmpeg present and FFprobe absent; the test requires structured JSON FAIL, exit code 1, FFprobe-specific error, upload/publishing false, and no fixture generation or renderer invocation.
-- Production code unchanged. Test commit: `6581ecb3d9431868667b61820e5dafde8dd7f7e6`; report commit: `de0316f8219f80451e215f4da925540b54f044e8`; registry commit: `dc16e8b28d88c6ad34b2b10433932cc4f40fb833`.
+- Production code unchanged. Test commit: `6581ecb3d9431868667b61820e5dafde8dd7f7e6`; canonical report commit: `75e2c997fbe3875224c5efa0e2c114a51a647893`.
 - Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
