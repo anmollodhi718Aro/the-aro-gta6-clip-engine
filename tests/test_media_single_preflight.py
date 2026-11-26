@@ -55,7 +55,6 @@ class MediaSinglePreflightTests(unittest.TestCase):
         run.assert_not_called()
 
     @patch("backend.app.media_single_preflight.subprocess.run")
-    @patch("backend.app.media_single_preflight.subprocess.run")
     def test_path_subclass_with_broken_string_conversion_is_handled_safely(self, run):
         base_path_type = type(self.video)
 
