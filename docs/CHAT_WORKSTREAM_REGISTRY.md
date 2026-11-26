@@ -2871,3 +2871,13 @@ Two concurrent continuations used provisional ARO-CHAT-0327. The stable syntheti
 - Test commit: `33d0ce67bf5f6fb6d86003a3e7953d371b0e1bec`; report: `docs/ARO_CHAT_0335_SMOKE_VERIFIER_DESCRIPTOR_CLEANUP.md`; report commit: `a4a661889e2b237c2b62bc826ce1dd2d6804766a`.
 - Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0335 — reject rendered-output replacement after EOF (2026-11-26)
+
+- Exact title: ARO-CHAT-0335 | Reject Rendered Output Replacement After EOF.
+- Workstream: ARO-GTA-P0-335; continued existing P0 draft PR #386 on its original branch/base.
+- Added `test_verified_output_hash_rejects_path_replacement_after_eof`. It replaces the output pathname with a different regular file immediately after the verifier observes EOF but before its final pathname identity check. The verifier must reject the changed output; the test checks original and replacement bytes independently.
+- Production code unchanged. Test commit: `0dc0e1836fdebd0331f534cda5797b89a59e8f2c`; report: `docs/ARO_CHAT_0335_RENDERED_OUTPUT_POST_EOF_SWAP.md`; report commit: `a105cd3b1db946884022814fcf9ee3f22341023b`.
+- Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
