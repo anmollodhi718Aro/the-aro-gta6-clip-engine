@@ -3428,7 +3428,7 @@ The tests exercise the existing strict streaming quote guard against malformed h
 | Change | `tests/test_candidate_csv_duplicate_headers.py` rejects duplicate optional `notes` headers where one is quoted and one unquoted, proving duplicate detection occurs after CSV unquoting. Existing blank-header suite already covers duplicate required `source_id` headers. |
 | Initial test commit | `06277e94467c9106da6601c856098ce5259fcaf7` |
 | Coverage refinement commit | `e4abdea079e0f4148f97f23f9ce2d15c79e56d93` |
-| Report commit | `ec0c521e8d17d8f230148086d0c2ba2c600d7e9e` |
-| Status | IMPLEMENTED; local tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED |
+| Report commit | `02d3bbb25f65dadbab28985555a084740e05271b` |
+| Status | IMPLEMENTED; GitHub source read-back PRESENT; exact-head workflow lookup returned zero runs (CI NOT VERIFIED); local tests NOT RUN; independent review NOT RECORDED |
 
 Synthetic CSV only. No media tools, rendering, OAuth, uploader, real media, upload, or publishing behavior changed. Preserve the complete draft PR ancestry and keep Issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
