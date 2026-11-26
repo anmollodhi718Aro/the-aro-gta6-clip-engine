@@ -2474,7 +2474,8 @@ ARO-CHAT-0306 test-fixture correction: the regression now constructs an actual s
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and its original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
 
 
-## ARO-CHAT-0310 — contain terminal fallback path-resolution errors
+### Attribution reconciliation
+The second ARO-CHAT-0310 entry and `docs/ARO_CHAT_0310_TERMINAL_FALLBACK_PATH_RESOLUTION.md` were duplicate handoff records for the same production change, not a second workstream. The canonical entry above is authoritative. The actual regression name is `test_cli_fallback_resolution_error_keeps_output_inspection_warning`; see `docs/ARO_CHAT_0310_FALLBACK_RESOLUTION_FAILURE.md`.
 
 - Workstream: ARO-GTA-P1-310; continued existing draft PR #386 and its current branch, with no duplicate branch or PR.
 - Production commit: `d17f71d1b19ea0848e655bde41a08846585317c2`.
