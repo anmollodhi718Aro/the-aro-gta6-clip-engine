@@ -7,3 +7,8 @@
 - Test commits: `eb5fa0d62002c7620d5378814a3f3ca25018b787` (initial regression) and `b4916c28a1d21a46b41aea794c67913cc739557f` (fixture correction).
 - GitHub source read-back confirms the corrected test source. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## Serial reconciliation
+
+This filename is a historical alias only. ARO-CHAT-0368 was already allocated to the separate candidate-CSV fixture-line-ending correction on PR #386. The Unicode-whitespace-only source-ID regression is canonically ARO-CHAT-0369 / ARO-GTA-P0-369; see `docs/ARO_CHAT_0369_UNICODE_WHITESPACE_SOURCE_ID.md`. No commit history was rewritten.
