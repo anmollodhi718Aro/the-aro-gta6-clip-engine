@@ -1003,22 +1003,28 @@ def main() -> int:
 
             candidate_error = None
             if candidate_selection:
-                # Hashing reads the selected media bytes. Keep it after the
-                # durable RUNNING report reservation so a collision or report
-                # creation failure never triggers a potentially large media read.
-                try:
-                    actual_digest = sha256_selected_source(args.video)
-                except (OSError, ValueError) as exc:
-                    candidate_error = (
-                        f"selected source could not be verified by SHA-256: {exc}"
-                    )
+                # Reject an unusable destination before hashing the selected
+                # media. Candidate hashing reads the complete video, so doing
+                # it before this cheap path check would waste I/O on a run that
+                # cannot possibly render. Keep both checks after the durable
+                # RUNNING report reservation.
+                output_error = _validate_output_destination(source_path, output_path)
+                if output_error:
+                    candidate_error = output_error
                 else:
-                    if actual_digest != expected_digest:
+                    try:
+                        actual_digest = sha256_selected_source(args.video)
+                    except (OSError, ValueError) as exc:
                         candidate_error = (
-                            "selected video SHA-256 does not match the trusted authorized-media inventory"
+                            f"selected source could not be verified by SHA-256: {exc}"
                         )
                     else:
-                        selected_candidate["verified_source_sha256"] = actual_digest
+                        if actual_digest != expected_digest:
+                            candidate_error = (
+                                "selected video SHA-256 does not match the trusted authorized-media inventory"
+                            )
+                        else:
+                            selected_candidate["verified_source_sha256"] = actual_digest
 
             if candidate_error is not None:
                 report = {
