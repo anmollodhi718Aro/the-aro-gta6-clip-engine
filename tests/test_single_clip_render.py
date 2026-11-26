@@ -111,6 +111,46 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertIn("partial source snapshot may remain", report["message"])
         render.assert_not_called()
 
+    def test_source_ffprobe_exception_fails_closed_before_render(self):
+        with patch(
+            "backend.app.single_clip_render.inspect_one_video",
+            side_effect=RuntimeError("simulated source ffprobe failure"),
+        ), patch("backend.app.single_clip_render.render_clip") as render:
+            report = render_selected_clip(
+                self.source, self.output, 1, 5,
+                execute=True, rights_confirmed=True,
+            )
+
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("RuntimeError: simulated source ffprobe failure", report["source_preflight_error"])
+        self.assertTrue(report["source_inspection_required"])
+        self.assertFalse(report["processing_started"])
+        self.assertTrue(report["source_snapshot_created"])
+        self.assertFalse(self.output.exists())
+        self.assertIn("no render was started", report["message"])
+        render.assert_not_called()
+
+    def test_malformed_source_ffprobe_metadata_fails_closed_before_render(self):
+        with patch(
+            "backend.app.single_clip_render.inspect_one_video",
+            return_value=["unexpected", "metadata"],
+        ), patch("backend.app.single_clip_render.render_clip") as render:
+            report = render_selected_clip(
+                self.source, self.output, 1, 5,
+                execute=True, rights_confirmed=True,
+            )
+
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIn("expected an object", report["source_preflight_error"])
+        self.assertIn("list", report["source_preflight_error"])
+        self.assertTrue(report["source_inspection_required"])
+        self.assertFalse(report["processing_started"])
+        self.assertTrue(report["source_snapshot_created"])
+        self.assertFalse(self.output.exists())
+        self.assertIn("no render was started", report["message"])
+        render.assert_not_called()
+
+
     def test_snapshot_creation_checks_expected_digest_of_copied_bytes(self):
         expected = hashlib.sha256(self.source.read_bytes()).hexdigest()
         snapshot = self.root / "snapshot.mp4"
