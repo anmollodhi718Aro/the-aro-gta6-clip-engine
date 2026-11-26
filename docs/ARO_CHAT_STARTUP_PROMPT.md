@@ -2087,3 +2087,10 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Invalid values (None, integer, list, dict, empty string, whitespace-only string) are covered for both arguments; FFmpeg subprocess must not be called.
 - Repository tests NOT RUN in this connector session; exact-head CI, FFmpeg E2E, owner-device Windows, independent review, and authorized GTA 6 MP4 processing remain NOT VERIFIED.
 - Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation — preflight report initialization guard (2026-11-26)
+- inspect_one_video no longer invokes arbitrary __str__ on unsupported video_path objects before validation. Unsupported objects receive the report label <invalid> and a normal FAIL result.
+- Regression test covers an object whose __str__ raises and confirms FFprobe is not invoked.
+- Tests NOT RUN; exact-head CI, media E2E, owner-device Windows, independent review, and authorized GTA 6 MP4 processing remain NOT VERIFIED.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
