@@ -69,7 +69,7 @@ def analyze_file(input_path: Path, output_path: Path, config: DetectorConfig) ->
         _write_json_atomically(output_path, output)
         print(f"Wrote {len(candidates)} candidate(s) to {output_path}")
         return 0
-    except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
+    except (OSError, RuntimeError, json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
         print(f"Analysis stopped: {exc}", file=sys.stderr)
         return 2
 
