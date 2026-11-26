@@ -2291,3 +2291,12 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. PR #386 remains OPEN / DRAFT / UNMERGED. No real authorized media, OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
 
 - Regression fixture correction: `50b8604137304c62dec14f28c73d692b66d716e9` (uses actual CSV line separators so the test reaches the UTF-8 decoder).
+
+
+## ARO-CHAT-0302 — candidate dry-run source identity binding
+
+- Static review found candidate CSV mode checked the selected source SHA-256 before calling the renderer, but dry-run then probed the original path without rechecking that digest. A path replacement between the initial hash and FFprobe could therefore produce a plan/report whose candidate digest and preflight metadata referred to different bytes.
+- Candidate dry-run now re-hashes the selected source after preflight and compares the stable file identity against the identity observed across preflight. The observed digest must equal the trusted inventory digest. Successful reports retain `expected_source_sha256` and `source_sha256`.
+- Added regressions for a post-preflight digest mismatch and successful digest evidence. Dry-run still does not create a source snapshot or invoke FFmpeg.
+- Production commit: `f858ae7177cc9ecde9ec6a51c3e455caf60525cd`; regression commit: `046316f25cd01f7b8c83fa30d4d0147e16e8cea1`.
+- Tests NOT RUN in this continuation. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real media processed. PR #386 remains OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
