@@ -218,6 +218,53 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["publishing_enabled"])
 
 
+    def test_candidate_cli_reserves_running_report_before_hashing_selected_media(self):
+        pack = self.root / "reservation-order-pack"
+        pack.mkdir()
+        csv_path = pack / "candidates.csv"
+        csv_path.write_text(
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
+            "authorized-demo,2,8,6,True\\n",
+            encoding="utf-8",
+        )
+        report_path = self.root / "reservation-order-report.json"
+        expected_digest = hashlib.sha256(self.source.read_bytes()).hexdigest()
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--candidate-csv", str(csv_path), "--candidate-row", "1",
+            "--source-sha256", expected_digest,
+            "--source-id", "authorized-demo", "--report", str(report_path),
+        ]
+
+        def verify_hash_after_reservation(path):
+            self.assertEqual(Path(path), self.source)
+            self.assertTrue(report_path.exists())
+            reserved = json.loads(report_path.read_text(encoding="utf-8"))
+            self.assertEqual(reserved["status"], "RUNNING")
+            self.assertEqual(reserved["candidate_selection"]["source_id"], "authorized-demo")
+            return expected_digest
+
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.sha256_selected_source",
+            side_effect=verify_hash_after_reservation,
+        ) as source_hash, patch(
+            "backend.app.single_clip_render.render_selected_clip",
+            return_value={
+                "status": "PLANNED",
+                "upload_performed": False,
+                "publishing_enabled": False,
+            },
+        ) as render:
+            self.assertEqual(main(), 0)
+
+        source_hash.assert_called_once_with(self.source)
+        render.assert_called_once()
+        terminal = json.loads(report_path.read_text(encoding="utf-8"))
+        self.assertEqual(
+            terminal["candidate_selection"]["verified_source_sha256"],
+            expected_digest,
+        )
+
     def test_candidate_csv_cli_rejects_mismatched_source_id_before_report_reservation(self):
         mapped_rows = map_candidates_to_media(
             [{
