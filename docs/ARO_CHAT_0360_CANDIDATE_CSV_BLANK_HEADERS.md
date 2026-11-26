@@ -17,7 +17,7 @@ Each case requires `load_selected_candidate()` to reject the file with the exist
 ## Evidence and status
 
 - Test commit: `57e097904abab83e44b8405f8434d4b704d06c37`.
-- Source write completed through GitHub; test file read-back and execution have not yet been performed in this session.
+- GitHub read-back confirms the test file is present with all three cases. Unit-test execution has not been performed in this session.
 - Unit tests: NOT RUN.
 - Synthetic FFmpeg end-to-end: NOT RUN.
 - Exact-head Ubuntu/hosted-Windows CI: NOT VERIFIED.
