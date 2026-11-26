@@ -573,6 +573,43 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
         self.assertFalse(payload["publishing_enabled"])
 
 
+    def test_main_emits_structured_success_for_valid_synthetic_output(self):
+        import contextlib
+        import io
+        import json
+        import sys
+
+        def fake_render(source, output, start, end, **kwargs):
+            payload = b"valid synthetic rendered mp4"
+            Path(output).write_bytes(payload)
+            return {
+                "status": "RENDERED",
+                "output_sha256": hashlib.sha256(payload).hexdigest(),
+                "upload_performed": False,
+                "publishing_enabled": False,
+            }
+
+        stdout = io.StringIO()
+        with patch.object(smoke.shutil, "which", side_effect=lambda name: f"/tools/{name}"), patch.object(
+            smoke.subprocess, "run"
+        ), patch.object(smoke, "render_selected_clip", side_effect=fake_render), patch.object(
+            sys, "argv", ["synthetic_single_clip_smoke.py"]
+        ), contextlib.redirect_stdout(stdout):
+            exit_code = smoke.main()
+
+        self.assertEqual(exit_code, 0)
+        payload = json.loads(stdout.getvalue())
+        self.assertEqual(payload["status"], "PASS")
+        self.assertEqual(payload["media"], "synthetic test pattern and tone only")
+        self.assertEqual(payload["selected_clip_seconds"], 4)
+        self.assertGreater(payload["output_size_bytes"], 0)
+        self.assertEqual(payload["output_sha256"], hashlib.sha256(b"valid synthetic rendered mp4").hexdigest())
+        self.assertFalse(payload["upload_performed"])
+        self.assertFalse(payload["publishing_enabled"])
+        self.assertTrue(payload["manual_review_required"])
+        self.assertFalse(payload["artifacts_retained"])
+
+
 
 if __name__ == "__main__":
     unittest.main()
