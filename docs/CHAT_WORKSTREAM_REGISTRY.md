@@ -2412,3 +2412,6 @@ ARO-CHAT-0304 attribution/fixture note: production commit `3204190a41814b73b2685
 
 
 Attribution collision correction (2026-11-26): a separate production fix and its direct regression already own ARO-CHAT-0305 / ARO-GTA-P1-305. The supplemental end-to-end fallback-file persistence regression originally appended under 0305 is re-attributed to ARO-CHAT-0306 / ARO-GTA-P1-306. No code/test commit was removed or rewritten.
+
+
+ARO-CHAT-0306 test-fixture correction: the regression now constructs an actual surrogate code point with `chr(0xDCFF)`, rather than a literal backslash-u filename. Corrected test commit: `08deab535c6ed783d5251ae979d8984795ccae58`. Tests remain NOT RUN; exact-head CI NOT VERIFIED.
