@@ -22,3 +22,10 @@
 
 ## Safety
 Keep the child PR OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1 remains INCOMPLETE until its actual validation and owner-side acceptance gates pass.
+
+
+## Exact-head Actions observation — run #45824908265 (2026-11-26)
+- The run is associated with this PR head, `41e6b39c06983f69a7bcbbba39a6828b2097c73a`, and completed with conclusion `failure`.
+- Windows job #139926481123 and Ubuntu job #139926481698 both completed with conclusion `failure`; the jobs response contained no recorded steps (`steps: null`) and no log URL. Direct step lookups returned empty arrays and log retrieval returned BlobNotFound in the prior inspection.
+- Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. This run does not show checkout, compilation, or repository tests executing. The underlying cause remains UNVERIFIED; do not classify it as an application-code test failure or assert a runner-service root cause.
+- No workflow retry or dispatch was initiated. Repository tests remain NOT RUN; synthetic FFmpeg E2E remains NOT RUN.
