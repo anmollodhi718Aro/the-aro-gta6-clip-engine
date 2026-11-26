@@ -145,6 +145,15 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(self.output.read_bytes(), replacement_bytes)
 
 
+    def test_sha256_selected_source_rejects_invalid_path_arguments(self):
+        for invalid_path in (None, 7, [], {}, "", "   ", "\\t"):
+            with self.subTest(invalid_path=repr(invalid_path)):
+                with self.assertRaisesRegex(
+                    ValueError,
+                    "selected source path must be a non-empty string or pathlib.Path",
+                ):
+                    sha256_selected_source(invalid_path)
+
     def test_sha256_selected_source_matches_file_bytes(self):
         expected = hashlib.sha256(self.source.read_bytes()).hexdigest()
         self.assertEqual(sha256_selected_source(self.source), expected)
