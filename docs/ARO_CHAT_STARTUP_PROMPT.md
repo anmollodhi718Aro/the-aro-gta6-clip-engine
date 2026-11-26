@@ -2043,3 +2043,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Commits: `8719062dc6cfe7f0124feee44e12c03950b26c89` (production), `92014618fd01272c206423fad2c8c0547f5071c2` (tests), `b90b4bf3751978a0aace7d2f75ca2a2bc24d4e56` (registry).
 - Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; owner-device Windows, independent review, and authorized GTA 6 MP4 NOT VERIFIED.
 - Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media upload, publishing, or deployment.
+
+### Latest continuation — FFmpeg executable validation (2026-11-26)
+- Continue on existing child PR #412 branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`, preserving parent PR #386 ancestry.
+- `render_clip` now rejects empty/whitespace-only and non-string `ffmpeg_binary` values before touching media paths or invoking a process.
+- Regression coverage checks empty, whitespace, None, integer, and Path values and confirms `subprocess.run` is not called.
+- Commits: `81881af011a3d2c55b2f139ed32f587489c7e196` (production), `be05b13e33376347b29ab8ffb09c889d9c925af9` (tests), `29b1e2d4d736974477c237223dc8b8c406f5b94e` (registry).
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; owner-device Windows, independent review, and authorized GTA 6 MP4 NOT VERIFIED.
+- Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media upload, publishing, or deployment.
