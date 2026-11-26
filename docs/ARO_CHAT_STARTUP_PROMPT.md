@@ -2068,3 +2068,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Regression coverage checks empty, whitespace, None, integer, and Path values and asserts `subprocess.run` is not called.
 - Production and test changes are recorded in the workstream registry. Repository tests NOT RUN; exact-head CI, synthetic FFmpeg E2E, owner-device Windows, independent review, and authorized GTA 6 MP4 remain NOT VERIFIED.
 - Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation — FFprobe selected-path argument validation (2026-11-26)
+- Continue on existing child PR #412 branch workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26, preserving parent PR #386 ancestry.
+- inspect_one_video now validates video_path before constructing a Path, inside the standard fail-closed report boundary. Invalid types and blank paths return FAIL rather than leaking a constructor exception.
+- Regression tests cover None, integer, list, dict, empty Path, empty string, and whitespace-only string; FFprobe subprocess must not be invoked.
+- Repository tests NOT RUN in this connector session; exact-head CI pending. No synthetic FFmpeg E2E, owner-device Windows verification, independent review, or authorized GTA 6 MP4 processing.
+- Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
