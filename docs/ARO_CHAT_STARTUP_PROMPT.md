@@ -1709,3 +1709,14 @@ A concurrent continuation used ARO-CHAT-0342 / ARO-GTA-P0-342 for the empty synt
 ### Latest P0 continuation handoff — ARO-CHAT-0347 (2026-11-26)
 
 Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`. Added `tests/test_synthetic_smoke_safety_contract.py` to verify that renderer reports claiming `upload_performed: true` or `publishing_enabled: true` are rejected even when synthetic output bytes and SHA-256 are otherwise valid, and that temporary artifacts are cleaned up. Production code unchanged. Test commit `ca897cfe105a6ec636c7ca54b252c9b0cc9d3ec0`; canonical report `docs/ARO_CHAT_0347_UNSAFE_SMOKE_REPORT_GUARD.md` commit `19b66cac175136e46ea28265fc5174792a50ff48`; registry commit `ed93c48f129bc86b3d6e1506a5dc89972ce9c60d`. The initial ARO-CHAT-0345 label collided with concurrent work; this task is uniquely registered as ARO-CHAT-0347. Static source/read-back only; unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED. Preserve PR #386 OPEN/DRAFT/UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0348 (2026-11-26)
+
+- Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added `test_main_emits_structured_failure_when_renderer_reports_missing_output` to `tests/test_synthetic_single_clip_smoke.py`. A fake renderer claims RENDERED and supplies a valid-looking SHA-256 but creates no output file; the CLI must return exit code 1 and emit parseable JSON FAIL with the missing-output reason and upload/publishing false.
+- Test commit: `e692439af7428003e4deaf2b7488cc10e47fa784`; focused report commit: `41242074b8fa42d2cdebe6c106fa1aa3fe45aef3`; registry commit: `878357b5aed3ced236d781c63b5f33435b590362`.
+- Serial collision reconciliation: ARO-CHAT-0346 and ARO-CHAT-0347 were concurrently assigned to other regressions. This continuation is assigned ARO-CHAT-0348; no commit history was rewritten.
+- Static edit/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
