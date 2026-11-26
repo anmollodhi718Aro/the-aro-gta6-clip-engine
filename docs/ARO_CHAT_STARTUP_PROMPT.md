@@ -1578,3 +1578,12 @@ Added a regression verifying that the synthetic output SHA-256 helper closes its
 ### Latest P0 continuation — ARO-CHAT-0336 (2026-11-26)
 
 Continued the existing draft PR #386 on its original branch/base. Added a focused regression proving that the synthetic output verifier closes its opened file descriptor when the initial `os.fstat()` call raises `OSError`. The existing `finally` cleanup is expected to provide this guarantee; production code is unchanged. Test commit `4505d5678ce3c46bd128aa4ab2aa6836247e40f2`; report `docs/ARO_CHAT_0336_SMOKE_VERIFIER_INITIAL_FSTAT_CLEANUP.md`; report commit `4eee90814fc9f9ce606ab902c2f40841ad0437bd`; registry commit `20506e5ca96f3a037204c86fd236d165ee7ad33d`. Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED. Preserve PR #386 OPEN/DRAFT/UNMERGED and its original branch/base. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+### Latest P0 handoff — ARO-CHAT-0337 (2026-11-26)
+
+- Continue on existing draft PR #386 and its original branch/base.
+- Added a regression for descriptor cleanup when the synthetic output verifier's final pathname `lstat()` raises after hashing. The test verifies the error propagates and the opened descriptor is closed by the helper's `finally` block.
+- Test commit `c9e5dda27cef317402ba402e303aa531f195b671`; report `docs/ARO_CHAT_0337_SMOKE_FINAL_LSTAT_CLEANUP.md`; report commit `053987e429b54a7bc1afe586b4a213a0f9faad52`; registry commit `39aef7781bae2a3375b1ae988bbdec894cef1a86`.
+- Production code unchanged. Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and its original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
