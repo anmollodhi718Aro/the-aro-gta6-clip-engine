@@ -1300,3 +1300,7 @@ Continue P0 clipping work on existing PR #386 / branch `workstream/aro-chat-0244
 
 
 ARO-CHAT-0304 attribution/fixture note: production commit `3204190a41814b73b26859b48d55a2f74d71df80` and initial test commit `efda642d6f0ae5a2168606fa9dce7a27839bff5b` retain a provisional ARO-CHAT-0303 label in their commit messages; the live registry already had two 0303 entries, so canonical workstream attribution is ARO-CHAT-0304 / ARO-GTA-P1-304. CSV regression line endings were corrected in `61fb472779f39539c9a817af2e8f01290fc1df6c`. Attribution details are documented in `docs/ARO_CHAT_0304_REPORT_RESERVATION_BEFORE_HASH.md`.
+
+
+### ARO-CHAT-0303 follow-up — terminal report metadata
+The terminal report previously replaced the initial RUNNING reservation with renderer output and dropped the invocation's execution-request/rights-confirmation fields. The CLI now overlays terminal renderer data on the reserved invocation metadata, preserving those fields across BLOCKED, PLANNED, RENDERED, and FAIL reports. Production follow-up: `bf2ad96cb75dc8449377122a65c18e2e06d0a4af`; operator docs: `dca820479577d9d6c70c78fa68c2dacf6975bc49`; registry: `9e16d1f83a969e30f2d3e888bb488bf9f4ab7173`. Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Continue P0 on PR #386 without rebase/retarget/merge or workflow retry/dispatch. No real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
