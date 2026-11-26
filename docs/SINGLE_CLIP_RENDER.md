@@ -404,3 +404,16 @@ The CLI now compares the open descriptor's regular-file device/inode identity wi
 A mismatch fails closed. Before media work, it stops without invoking the renderer and attempts an exclusive fallback record. During terminal persistence, it preserves the primary path occupant and attempts the existing exclusive fallback path. It never overwrites the replacement path. These checks narrow pathname-replacement races; they do not claim an atomic filesystem transaction against every concurrent actor.
 
 Regression tests cover a real pathname replacement against an open descriptor, fail-closed behavior before media inspection, and fallback after terminal persistence detects an identity change. Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED. Independent review NOT RECORDED. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. PR #386 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+
+
+## Synthetic end-to-end smoke test
+
+When FFmpeg and FFprobe are installed and available on PATH, run the generated-media integration check from the repository root:
+
+```bash
+python -m scripts.synthetic_single_clip_smoke
+```
+
+The script creates an eight-second synthetic test pattern and tone, renders one four-second segment through the production single-clip pipeline, and verifies the output report and SHA-256. All temporary media is removed automatically. It does not inspect or enumerate local user videos, use GTA 6 footage, or upload/publish. A PASS validates the synthetic software path only; it does not establish compatibility with an authorized GTA 6 recording or replace owner playback/review.
