@@ -1,30 +1,9 @@
-# ARO-CHAT-0360: Reject Blank and Duplicate Candidate CSV Headers
+# Historical alias: provisional ARO-CHAT-0360 candidate CSV header coverage
 
-- Chat ID: ARO-CHAT-0360
-- Workstream: ARO-GTA-P0-360
-- Scope: focused regression coverage for the candidate CSV header validation in the existing single-selected-clip workflow.
-- Continued on draft PR #386's existing branch and base; no ancestry changes.
+This provisional attribution collided with concurrent work. The post-read output-descriptor cleanup task is canonically ARO-CHAT-0360, and the production blank-header guard is canonically ARO-CHAT-0361. The expanded regression coverage in `tests/test_candidate_csv_blank_headers.py` is canonically ARO-CHAT-0362 / ARO-GTA-P0-362.
 
-## Change
+Canonical report: `docs/ARO_CHAT_0362_CANDIDATE_CSV_HEADER_COVERAGE.md`.
 
-Added `tests/test_candidate_csv_blank_headers.py` with three cases:
-- A blank middle header cell.
-- A trailing blank header cell, which Python's `csv.DictReader` represents as `None`.
-- A duplicate header name.
+The test commit `57e097904abab83e44b8405f8434d4b704d06c37` is retained without rewriting history. GitHub read-back confirms the test file is present. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 
-Each case requires `load_selected_candidate()` to reject the file with the existing fail-closed blank/duplicate-column error. The tests use temporary synthetic CSV text only. No media is opened, rendered, uploaded, or published. Production code is unchanged.
-
-## Evidence and status
-
-- Test commit: `57e097904abab83e44b8405f8434d4b704d06c37`.
-- GitHub read-back confirms the test file is present with all three cases. Unit-test execution has not been performed in this session.
-- Unit tests: NOT RUN.
-- Synthetic FFmpeg end-to-end: NOT RUN.
-- Exact-head Ubuntu/hosted-Windows CI: NOT VERIFIED.
-- Independent review: NOT RECORDED.
-- Owner-device Windows: NOT VERIFIED.
-- Authorized real GTA 6 MP4: NOT PROCESSED.
-
-## Safety
-
-Preserve PR #386 OPEN / DRAFT / UNMERGED and its existing ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads and public publishing remain disabled.
+PR #386 remains OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
