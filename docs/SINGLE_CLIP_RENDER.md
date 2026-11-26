@@ -230,3 +230,10 @@ Candidate-mode source SHA-256 verification now requests nonblocking descriptor o
 Candidate CSV dry-run mode now re-hashes the selected source after FFprobe preflight and verifies that the file identity still matches the identity observed across preflight. The resulting SHA-256 must match the trusted inventory digest supplied for the selected candidate row. This closes a gap where the CLI's initial digest check could be followed by a path replacement before dry-run metadata inspection, producing a plan whose candidate identity and probed media did not refer to the same bytes. The hash reader also counts the bytes actually returned by the descriptor and requires that count to equal the descriptor's stable file size; an early EOF or incomplete read therefore fails closed instead of accepting a digest of only a prefix.
 
 The dry-run remains read-only with respect to media: it does not create a full source snapshot, invoke FFmpeg, or render output. Added regressions for digest mismatch and successful digest evidence. Tests have not yet been run in this continuation; exact-head CI and independent review remain pending.
+
+
+## ARO-CHAT-0304 — reserve the run report before candidate media hashing
+
+Candidate-CSV mode now validates the trusted SHA-256 argument and selected row metadata before report reservation, but it does not read the selected media bytes until after the exclusive RUNNING report has been written and flushed. This keeps candidate hashing, like FFprobe and rendering, behind the durable run record. A hash-open/read failure or digest mismatch is recorded as a terminal FAIL report and does not invoke the renderer. The selected digest is retained in the terminal candidate-selection metadata only after it matches the trusted inventory value.
+
+Added a CLI regression that inspects the report from inside the source-hash callback and requires it to contain a parseable RUNNING record before the hash begins. Tests have not been run in this connector session; exact-head Ubuntu/hosted-Windows CI and independent review remain unverified. No real media is processed by this change.
