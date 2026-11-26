@@ -1,4 +1,5 @@
 """Tests for the generated-media single-clip smoke-test harness."""
+import hashlib
 import tempfile
 import unittest
 from pathlib import Path
@@ -25,7 +26,7 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
             Path(output).write_bytes(b"synthetic-rendered-mp4")
             return {
                 "status": "RENDERED",
-                "output_sha256": "a" * 64,
+                "output_sha256": hashlib.sha256(Path(output).read_bytes()).hexdigest(),
                 "upload_performed": False,
                 "publishing_enabled": False,
             }
@@ -49,6 +50,22 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
         self.assertFalse(result["publishing_enabled"])
         self.assertFalse(captured["source"].exists())
         self.assertFalse(captured["output"].exists())
+
+    def test_rejects_well_formed_digest_that_does_not_match_output_bytes(self):
+        def fake_render(source, output, start, end, **kwargs):
+            Path(output).write_bytes(b"synthetic-rendered-mp4")
+            return {
+                "status": "RENDERED",
+                "output_sha256": "a" * 64,
+                "upload_performed": False,
+                "publishing_enabled": False,
+            }
+
+        with patch.object(smoke.shutil, "which", side_effect=lambda name: f"/tools/{name}"), patch.object(
+            smoke.subprocess, "run"
+        ), patch.object(smoke, "render_selected_clip", side_effect=fake_render):
+            with self.assertRaisesRegex(RuntimeError, "does not match the rendered MP4 bytes"):
+                smoke.run_smoke_test()
 
     def test_rejects_non_hex_output_digest(self):
         def fake_render(source, output, start, end, **kwargs):
