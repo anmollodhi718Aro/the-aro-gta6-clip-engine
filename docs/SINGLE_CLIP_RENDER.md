@@ -390,3 +390,17 @@ not claim that this invocation created the fallback.
 ### Snapshot directory-entry durability
 
 After writing, flushing, and fsyncing the private source snapshot file, the renderer now fsyncs its parent directory on POSIX systems before treating the snapshot as ready for read-back verification and media-tool use. This persists the newly created directory entry as well as the file contents across a host crash. Windows retains the documented file-level fsync behavior because portable Python directory-handle fsync is not available there.
+
+
+## ARO-CHAT-0320 — verify the durable report pathname still owns its open descriptor
+
+Static review found that the CLI retained an open report descriptor throughout media processing but did not verify that the report pathname still referred to that same file. If another process replaced the pathname, the renderer could write its terminal result to an unlinked descriptor while a different file occupied the documented report path.
+
+The CLI now compares the open descriptor's regular-file device/inode identity with a non-following lstat() of the report path:
+- immediately after the initial RUNNING report is flushed and fsynced, before media inspection;
+- immediately before writing the terminal report; and
+- immediately after the terminal report is flushed and fsynced.
+
+A mismatch fails closed. Before media work, it stops without invoking the renderer and attempts an exclusive fallback record. During terminal persistence, it preserves the primary path occupant and attempts the existing exclusive fallback path. It never overwrites the replacement path. These checks narrow pathname-replacement races; they do not claim an atomic filesystem transaction against every concurrent actor.
+
+Regression tests cover replacement detection before media inspection and after terminal report persistence. Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED. Independent review NOT RECORDED. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. PR #386 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
