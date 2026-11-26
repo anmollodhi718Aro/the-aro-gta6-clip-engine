@@ -3433,3 +3433,14 @@ The tests exercise the existing strict streaming quote guard against malformed h
 | Status | IMPLEMENTED; GitHub source read-back PRESENT; local tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED |
 
 Keep this work and all parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0374 | PR #396 Exact-Head CI Execution Audit (2026-11-26)
+
+- Workstream: ARO-GTA-P0-374; documentation-only child of draft PR #396, preserving its exact parent head `e205c2e74829a901f63755675f55d3bbb1502dd2` and all existing ancestry.
+- Branch: `workstream/aro-chat-0374-pr396-exact-head-ci-audit-2026-11-26`.
+- Audited Python CI run #45793989692 for PR #396 exact head. Ubuntu job #139819822236 and hosted-Windows job #139819822548 both completed FAILURE with `steps: null` and `logs_url: null`. Job-log retrieval returned HTTP 404 / BlobNotFound.
+- Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. No evidence establishes checkout, compilation, or tests started; root cause remains UNVERIFIED and is not attributed to application code. No workflow dispatch/retry was initiated.
+- Report: `docs/ARO_CHAT_0374_PR396_EXACT_HEAD_CI_AUDIT.md`; report commit `d40dbf3304273efcd1a23faf597852af26b54140`.
+- Local unit tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; synthetic FFmpeg end-to-end NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED; P0 pipeline NOT COMPLETE.
+- Preserve PR #396 and this audit PR OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
