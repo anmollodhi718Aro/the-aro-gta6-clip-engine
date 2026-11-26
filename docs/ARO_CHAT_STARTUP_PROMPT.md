@@ -2004,3 +2004,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Classify this as `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. It provides no evidence that checkout, compilation, or tests started; root cause remains UNVERIFIED and is not attributed to application code.
 - Combined commit status returned zero status entries. No workflow dispatch/retry was initiated.
 - Isolated in-memory parser probes passed for: rejecting an embedded quote in an unquoted later field; accepting a properly escaped quoted field; and accepting a quoted field containing an embedded newline. These probes are not a substitute for the repository unit suite.
+
+
+## Latest P0 continuation handoff — ARO-CHAT-0371 | Escaped Quotes Across Multiline Candidate CSV Fields (2026-11-26)
+
+- Continue from `workstream/aro-chat-0371-escaped-quotes-multiline-csv-2026-11-26`, based on the PR #390 CR-only candidate CSV continuation branch; preserve PR #390 -> #389 -> #388 -> #387 -> #386 ancestry.
+- Added `tests/test_candidate_csv_escaped_quote_multiline.py`: accept a valid doubled quote followed by embedded LF and CRLF inside a quoted optional field.
+- Production code unchanged. Test commit: `7f4a9a22dbf940a5060eea31755937fd88643872`; report commit: `1df80f40eeb3a67c3a1007fd02f4c4a23feb2a6a`; registry commit: `dbd3cccfb07855c8f97ca1e47a75f7f4904a5abf`.
+- GitHub writes acknowledged. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Keep draft-only. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
