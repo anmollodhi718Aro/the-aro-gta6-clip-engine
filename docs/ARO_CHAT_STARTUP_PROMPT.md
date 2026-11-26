@@ -1421,3 +1421,8 @@ Production commit: `3dd984e568145ce41abd52fc07352d40ff4f59ea`; regression commit
 - Commits: production `9b396cda964b507b294dca99d4f3f3a83940e7bf`; test `16cda8f75b266842c751f0582d4862c2e3f47713`; report `07d4e4d978fdd10a72941979f74075a09446990a`.
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### Latest pipeline continuation — ARO-CHAT-0316
+
+Continue P0 single-selected-clip work on existing PR #386 / branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; do not create another branch or PR. POSIX report creation now fsyncs the containing directory after syncing the newly created primary RUNNING report and exclusive terminal-fallback report. This closes the crash-durability gap where file contents were synced but the directory entry could still be lost. Directory fsync is explicitly skipped on Windows because portable Python does not expose the same directory-handle operation; file-level fsync remains, and Windows directory-entry crash durability is not claimed. Added platform-gated tests. Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; real authorized MP4 NOT PROCESSED. Preserve PR #386 OPEN/DRAFT/UNMERGED and ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
