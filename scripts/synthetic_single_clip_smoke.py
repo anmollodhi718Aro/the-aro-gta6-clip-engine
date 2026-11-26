@@ -118,6 +118,10 @@ def run_smoke_test(*, ffmpeg: str = "ffmpeg", ffprobe: str = "ffprobe") -> dict:
             )
         if not output.exists():
             raise RuntimeError("pipeline reported success but the synthetic output is missing")
+        # A renderer must produce a distinct clip, not merely relabel the
+        # source recording through a hard link or an identical pathname.
+        if os.path.samefile(source, output):
+            raise RuntimeError("synthetic output must not alias its source")
         if report.get("upload_performed") is not False or report.get("publishing_enabled") is not False:
             raise RuntimeError("smoke test unexpectedly enabled upload or publishing")
         digest = report.get("output_sha256")
