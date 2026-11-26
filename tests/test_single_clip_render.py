@@ -1539,7 +1539,7 @@ class SingleClipRenderTests(unittest.TestCase):
 
     def test_cli_json_reports_escape_surrogate_filesystem_names(self):
         report_path = self.root / "surrogate-path-report.json"
-        source_with_surrogate = str(self.root / "selected-\\udcff.mp4")
+        source_with_surrogate = str(self.root / ("selected-" + chr(0xDCFF) + ".mp4"))
         argv = [
             "single_clip_render.py", source_with_surrogate,
             "--start", "1", "--end", "5",
