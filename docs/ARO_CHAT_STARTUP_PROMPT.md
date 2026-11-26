@@ -2060,3 +2060,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Commits: f9d7315d997e0062dc1841c72575f43665f2d58a (production); e2659e8c8cc19a8c4498b9dcfdbc79ea2351bc3b (test); 21882d027af7f97fc18b85deed54e319ef787907 (registry).
 - Tests NOT RUN; exact-head CI, synthetic FFmpeg E2E, owner-device Windows, independent review, and authorized real GTA 6 MP4 remain NOT VERIFIED. The metadata check narrows source-mutation risk but is not an immutable OS-level file lock.
 - Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation — FFprobe executable validation (2026-11-26)
+- Continue on existing child PR #412 branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`, preserving parent PR #386 ancestry.
+- `inspect_one_video` now rejects empty/whitespace-only and non-string `ffprobe_binary` values with a clear FAIL report before subprocess invocation.
+- Regression coverage checks empty, whitespace, None, integer, and Path values and asserts `subprocess.run` is not called.
+- Production and test changes are recorded in the workstream registry. Repository tests NOT RUN; exact-head CI, synthetic FFmpeg E2E, owner-device Windows, independent review, and authorized GTA 6 MP4 remain NOT VERIFIED.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
