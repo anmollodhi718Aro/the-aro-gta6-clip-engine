@@ -3474,3 +3474,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Commits: `e6c6ebf82f5c2c452a26b2a55d4167311f75bb8b` (production); `95b9af97efe3e6f07cbd65e88676221afb1f1262` (tests). Source read-back pending.
 - Repository tests NOT RUN; exact-head CI NOT VERIFIED; FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 direct permission-scope immutability follow-up — 2026-11-26
+- Static review found that `PermissionRecord.from_dict` validated scopes, but direct dataclass construction still accepted a mutable list or string despite the model contract declaring `frozenset[str]`. In particular, string membership could accidentally treat a partial scope name as authorized.
+- `PermissionRecord.__post_init__` now requires an immutable `frozenset` containing only strings before the record can be used for authorization checks.
+- Added regression coverage for a list, a string, and a frozenset containing a non-string member.
+- Commits: `88854a2a60deaa4a93e2214fa626c143c4e2dfe3` (production); `8dc22cdb073c0521518e54babd55cd7f8404fe87` (tests). Source read-back pending.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
