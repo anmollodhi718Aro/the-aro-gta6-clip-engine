@@ -985,6 +985,28 @@ def render_selected_clip(
         }
 
 
+
+def _report_handle_matches_path(handle: Any, report_path: str | Path) -> bool:
+    """Verify that the reserved report pathname still names the open report inode.
+
+    The CLI keeps the original descriptor open while rendering. A concurrent
+    replacement of the pathname must not cause terminal evidence to be written
+    only to an unlinked file while a different file occupies the report path.
+    """
+    try:
+        descriptor_stat = os.fstat(handle.fileno())
+        path_stat = Path(report_path).lstat()
+    except (OSError, ValueError):
+        return False
+    return (
+        stat.S_ISREG(descriptor_stat.st_mode)
+        and stat.S_ISREG(path_stat.st_mode)
+        and descriptor_stat.st_dev == path_stat.st_dev
+        and descriptor_stat.st_ino == path_stat.st_ino
+    )
+
+
+
 def _fsync_parent_directory(path: str | Path) -> None:
     """Persist a newly created report's directory entry where supported.
 
@@ -1159,6 +1181,8 @@ def main() -> int:
                 handle.flush()
                 os.fsync(handle.fileno())
                 _fsync_parent_directory(report_path)
+                if not _report_handle_matches_path(handle, report_path):
+                    raise OSError("reserved report path no longer identifies the open report file")
             except OSError as write_exc:
                 try:
                     fallback_path = _write_exclusive_terminal_fallback(
@@ -1302,6 +1326,8 @@ def main() -> int:
                 return 2
 
             try:
+                if not _report_handle_matches_path(handle, report_path):
+                    raise OSError("reserved report path was replaced before terminal report update")
                 handle.seek(0)
                 written = handle.write(terminal_report_text)
                 if written != len(terminal_report_text):
@@ -1311,6 +1337,8 @@ def main() -> int:
                 handle.truncate()
                 handle.flush()
                 os.fsync(handle.fileno())
+                if not _report_handle_matches_path(handle, report_path):
+                    raise OSError("reserved report path was replaced during terminal report update")
             except OSError as write_exc:
                 # The reserved report may now be partial. Preserve it for
                 # diagnosis and write a separate exclusive fallback; never
