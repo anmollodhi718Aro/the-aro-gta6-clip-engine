@@ -38,6 +38,8 @@ def _hash_verified_output(path: str | Path) -> tuple[str, int]:
     flags = os.O_RDONLY
     if hasattr(os, "O_BINARY"):
         flags |= os.O_BINARY
+    if hasattr(os, "O_NONBLOCK"):
+        flags |= os.O_NONBLOCK
     if hasattr(os, "O_NOFOLLOW"):
         flags |= os.O_NOFOLLOW
     descriptor = os.open(candidate, flags)
@@ -66,6 +68,7 @@ def _hash_verified_output(path: str | Path) -> tuple[str, int]:
         return digest.hexdigest(), size
     finally:
         os.close(descriptor)
+
 
 def run_smoke_test(*, ffmpeg: str = "ffmpeg", ffprobe: str = "ffprobe") -> dict:
     ffmpeg_path = _require_executable(ffmpeg)
