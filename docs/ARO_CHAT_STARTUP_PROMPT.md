@@ -1488,3 +1488,8 @@ Continue P0 single-selected-clip work on existing draft PR #386 and its existing
 
 
 ARO-CHAT-0322 follow-up: missing FFmpeg/FFprobe executable errors in `scripts/synthetic_single_clip_smoke.py` now flow through the structured JSON FAIL handler (`FileNotFoundError`, not `SystemExit`). Follow-up source commit `85e19e4057d2ed07ae8a3e77c2e75426224a04d2`; task-report correction `4d080a28655a8fc870974f466132c0c8d78c9c23`; registry follow-up `0cf5b77e9e86209b9127828764992b217afff5a4`. Python syntax compilation passed; smoke execution, repository tests and exact-head CI remain NOT VERIFIED. Preserve PR #386 OPEN/DRAFT/UNMERGED; no workflow retry/dispatch, merge, rebase, retarget, real media, upload, publishing or deployment.
+
+
+### ARO-CHAT-0323 continuation
+
+Added focused unit coverage for the synthetic single-clip smoke harness and hardened its final digest check to require exactly 64 lowercase hexadecimal characters. See `tests/test_synthetic_single_clip_smoke.py`, `docs/ARO_CHAT_0323_SMOKE_HARNESS_TESTS.md`, and `docs/SINGLE_CLIP_RENDER.md`. Test commit `88077f513b6cc9e1fd7bcdfc54a31bc9b8ac5fdd`; production guard `63d73f3c411089e45d9a77d73f0a24b08bfbf8f7`; report `58b56165cf16a6ca9b410e61c0430ea2a783b60d`; operator guide `44628e284de2b898bb61bd1d6ad2fc8ecaa0597f`. Tests NOT RUN; exact-head CI NOT VERIFIED; authorized real MP4 NOT PROCESSED. Preserve PR #386 OPEN/DRAFT/UNMERGED; no workflow dispatch/retry, merge, rebase, retarget, upload, publishing or deployment.
