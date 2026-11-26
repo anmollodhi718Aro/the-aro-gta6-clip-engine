@@ -1536,3 +1536,8 @@ Continue on existing draft PR #386 and its original branch/base. CI installs FFm
 - ARO-CHAT-0330 added a regression proving that the synthetic output verifier rejects in-place content mutation during hashing. Test commit: `7fc932930afa93c6a32844e1b13a5c6e9e6d4064`; report: `docs/ARO_CHAT_0330_SMOKE_OUTPUT_MUTATION_GUARD.md`.
 - Tests were NOT RUN in the connector session; synthetic FFmpeg execution and exact-head Ubuntu/Windows CI are NOT VERIFIED. Do not claim otherwise.
 - Real authorized GTA 6 MP4 acceptance remains blocked on the owner's authorized media and permission handoff. Keep PR #386 OPEN / DRAFT / UNMERGED; do not dispatch/retry workflows or merge/rebase/retarget/deploy/publish without owner approval.
+
+
+### Latest P0 continuation — ARO-CHAT-0331
+
+Added regression tests confirming the synthetic smoke harness removes its temporary source/output and directory when the renderer raises an I/O exception after creating a partial output, and when the renderer returns a non-RENDERED report. Production code unchanged. Test commit dca3248e7f898d2082524b2dbb7bad1985d245eb; report docs/ARO_CHAT_0331_SMOKE_RENDERER_FAILURE_CLEANUP.md; report commit 9da84fd1bd65bd3087a6f6090b7de58885550687. Unit tests, synthetic FFmpeg smoke, and exact-head Ubuntu/Windows CI NOT VERIFIED. Preserve PR #386 OPEN/DRAFT/UNMERGED and its original base/ancestry; no workflow dispatch/retry, merge, rebase, retarget, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
