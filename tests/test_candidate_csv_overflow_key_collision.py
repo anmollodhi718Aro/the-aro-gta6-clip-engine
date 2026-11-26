@@ -17,8 +17,8 @@ class CandidateCsvOverflowKeyCollisionTests(unittest.TestCase):
     def test_user_header_matching_old_overflow_key_is_ordinary_column(self) -> None:
         self.csv_path.write_text(
             "source_id,start_seconds,end_seconds,duration_seconds,renderable,"
-            "__aro_extra_fields__\\n"
-            "authorized-demo,1,5,4,True,user-owned-value\\n",
+            "__aro_extra_fields__\n"
+            "authorized-demo,1,5,4,True,user-owned-value\n",
             encoding="utf-8",
         )
 
@@ -31,8 +31,8 @@ class CandidateCsvOverflowKeyCollisionTests(unittest.TestCase):
     def test_true_overflow_cells_still_fail_with_collision_header_present(self) -> None:
         self.csv_path.write_text(
             "source_id,start_seconds,end_seconds,duration_seconds,renderable,"
-            "__aro_extra_fields__\\n"
-            "authorized-demo,1,5,4,True,user-owned-value,unexpected-extra\\n",
+            "__aro_extra_fields__\n"
+            "authorized-demo,1,5,4,True,user-owned-value,unexpected-extra\n",
             encoding="utf-8",
         )
 
