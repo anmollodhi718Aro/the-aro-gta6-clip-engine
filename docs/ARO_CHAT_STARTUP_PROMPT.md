@@ -1496,3 +1496,8 @@ Added focused unit coverage for the synthetic single-clip smoke harness and hard
 
 
 ARO-CHAT-0323 follow-up: corrected the digest-validation multiline condition in `scripts/synthetic_single_clip_smoke.py` (commit `d7c8aecfef971f0435591c5068bfb0a43d2daffc`). Re-read the source after correction. Unit tests NOT RUN; exact-head CI NOT VERIFIED; no workflow dispatch/retry. Keep PR #386 OPEN/DRAFT/UNMERGED and preserve its existing base and ancestry.
+
+
+### Latest P0 continuation — ARO-CHAT-0324 (2026-11-26)
+
+Continue on the existing draft PR #386 branch/base. The synthetic single-clip smoke harness now independently hashes the rendered MP4 bytes and compares that SHA-256 with the renderer's report before declaring PASS; a well-formed but incorrect digest is rejected. Production commit `9efc07703673a2792c008e8696d89bd9a3077cb9`; regression commit `53d0c42d9670c3f895bba19c134cbf8a11c8a675`; report `docs/ARO_CHAT_0324_SMOKE_OUTPUT_DIGEST_VERIFICATION.md`. Repository tests and actual synthetic FFmpeg smoke execution NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED. Preserve PR #386 OPEN/DRAFT/UNMERGED and its original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
