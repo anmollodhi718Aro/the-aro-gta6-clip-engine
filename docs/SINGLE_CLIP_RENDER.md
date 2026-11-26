@@ -30,6 +30,10 @@ Before preflight, the CLI opens the one selected source without following symlin
 
 A dry-run probes the one selected source in place and does not create a duplicate video snapshot. If `--execute` is supplied without `--confirm-rights`, the command returns `BLOCKED` before opening or copying the source. Only an explicitly confirmed execution creates the private descriptor-verified snapshot used by both FFprobe and FFmpeg. The snapshot still uses temporary disk space proportional to the selected source size; it is not created for planning-only runs.
 
+## Validate candidate output before reading source bytes
+
+In candidate-CSV mode, the CLI reserves and fsyncs the RUNNING report first, then validates the selected output destination before hashing the complete source video against the trusted inventory digest. An existing output, symlink destination, invalid extension, or source/output alias therefore fails without a full-source hash read. The trusted digest check remains mandatory before FFprobe or rendering, and the renderer repeats destination validation at its own boundary. The regression test verifies that an existing output is preserved and neither source hashing nor rendering is invoked.
+
 ## Reject invalid output before copying the selected source
 
 The execution path validates the requested output destination before creating the temporary source snapshot. Existing outputs, symbolic-link destinations, non-MP4 paths, and source/output aliases therefore fail without copying the selected video to temporary storage. The output is checked again by the lower-level renderer before FFmpeg is invoked, and final publication remains collision-safe.
