@@ -449,6 +449,35 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(saved["candidate_selection"]["source_id"], "authorized-demo")
         self.assertEqual(saved["candidate_selection"]["row_number"], 1)
 
+    def test_candidate_cli_rejects_existing_output_before_hashing_source(self):
+        pack = self.root / "candidates-existing-output.csv"
+        pack.write_text(
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
+            "authorized-demo,2,8,6,True\\n",
+            encoding="utf-8",
+        )
+        self.output.write_bytes(b"preserve existing output")
+        report_path = self.root / "existing-output-report.json"
+        argv = [
+            "single_clip_render", str(self.source),
+            "--candidate-csv", str(pack), "--candidate-row", "1",
+            "--source-id", "authorized-demo", "--source-sha256", "a" * 64,
+            "--output", str(self.output), "--report", str(report_path),
+        ]
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.sha256_selected_source"
+        ) as source_hash, patch(
+            "backend.app.single_clip_render.render_selected_clip"
+        ) as render:
+            self.assertEqual(main(), 1)
+
+        source_hash.assert_not_called()
+        render.assert_not_called()
+        saved = json.loads(report_path.read_text(encoding="utf-8"))
+        self.assertEqual(saved["status"], "FAIL")
+        self.assertIn("output already exists", saved["error"])
+        self.assertEqual(self.output.read_bytes(), b"preserve existing output")
+
     def test_dry_run_reports_path_resolution_runtime_error(self):
         with patch("pathlib.Path.resolve", side_effect=RuntimeError("symlink loop")):
             report = render_selected_clip(self.source, self.output, 1, 4)
