@@ -2289,3 +2289,5 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added `test_candidate_csv_rejects_invalid_utf8_as_validation_error` and documented the pre-reservation behavior.
 - Commits: production `3b1c286869201196001c8338caa69ab2afb3f7f7`; regression `34a21e2b9c83e00a05c40dcd5c96c102d4d225dc`; operator docs `fc9741dcc50ed0e0b6184099c2fb5df492dee420`.
 - Tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. PR #386 remains OPEN / DRAFT / UNMERGED. No real authorized media, OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+- Regression fixture correction: `50b8604137304c62dec14f28c73d692b66d716e9` (uses actual CSV line separators so the test reaches the UTF-8 decoder).
