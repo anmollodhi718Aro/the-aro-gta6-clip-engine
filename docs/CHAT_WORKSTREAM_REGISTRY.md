@@ -2800,3 +2800,12 @@ Two concurrent continuations used provisional ARO-CHAT-0327. The stable syntheti
 - Test commit: `7fc932930afa93c6a32844e1b13a5c6e9e6d4064`; report: `docs/ARO_CHAT_0330_SMOKE_OUTPUT_MUTATION_GUARD.md`.
 - Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; no workflow dispatch/retry. Authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED. No merge/rebase/retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+## ARO-CHAT-0331 — reject synthetic output path replacement during open (2026-11-26)
+
+- Continued existing P0 draft PR #386 and its original branch/base.
+- Added a regression that replaces the synthetic output pathname with a symlink between the verifier's initial `lstat()` and `os.open()`. The verifier must reject the race through `O_NOFOLLOW` or descriptor/path identity mismatch, while preserving the original file.
+- Test commit: `7a7424e84f781ceb8045c44b41b1091c9b4c5df5`; report commit: `9322d810ff7606e25e5a6a748939b2c074e0426e`; report: `docs/ARO_CHAT_0331_SMOKE_OUTPUT_PATH_SWAP_GUARD.md`.
+- Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
