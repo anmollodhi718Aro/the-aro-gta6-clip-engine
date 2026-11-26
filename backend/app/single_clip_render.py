@@ -566,17 +566,20 @@ def _create_stable_source_snapshot(
             ):
                 raise RuntimeError("source snapshot identity or size changed before read-back verification")
             persisted_digest = hashlib.sha256()
+            persisted_bytes_read = 0
             while True:
                 persisted_chunk = os.read(snapshot_descriptor, 1024 * 1024)
                 if not persisted_chunk:
                     break
                 persisted_digest.update(persisted_chunk)
+                persisted_bytes_read += len(persisted_chunk)
             snapshot_after = os.fstat(snapshot_descriptor)
             snapshot_path_after = snapshot.lstat()
             if (
                 snapshot_after.st_dev != snapshot_before.st_dev
                 or snapshot_after.st_ino != snapshot_before.st_ino
                 or snapshot_after.st_size != snapshot_before.st_size
+                or persisted_bytes_read != snapshot_before.st_size
                 or snapshot_after.st_mtime_ns != snapshot_before.st_mtime_ns
                 or snapshot_after.st_ctime_ns != snapshot_before.st_ctime_ns
                 or snapshot_path_after.st_dev != snapshot_before.st_dev
