@@ -25,6 +25,24 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
         ]
         self.assertEqual(len(method_names), len(set(method_names)), "duplicate test method names are silently overwritten")
 
+    def test_final_lstat_cleanup_regression_is_a_direct_discoverable_method(self):
+        source = Path(__file__).read_text(encoding="utf-8")
+        module = ast.parse(source)
+        test_classes = [
+            node for node in module.body
+            if isinstance(node, ast.ClassDef) and node.name == "SyntheticSingleClipSmokeTests"
+        ]
+        self.assertEqual(len(test_classes), 1)
+        method_names = [
+            node.name for node in test_classes[0].body
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+        ]
+        self.assertEqual(
+            method_names.count("test_hash_verified_output_closes_descriptor_when_final_lstat_fails"),
+            1,
+            "final-lstat cleanup regression must be defined directly on the test class",
+        )
+
     def test_missing_ffmpeg_is_reported_as_a_normal_error(self):
         with patch.object(smoke.shutil, "which", return_value=None):
             with self.assertRaisesRegex(FileNotFoundError, "ffmpeg"):
