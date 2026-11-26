@@ -14,7 +14,7 @@ class CandidateCsvStrictTrailingRowTests(unittest.TestCase):
             csv_path.write_bytes(
                 b"source_id,start_seconds,end_seconds,duration_seconds,renderable\n"
                 b"authorized-demo,2,8,6,True\n"
-                b"later-row,9,15,6,True,\\xff\n"
+                b"later-row,9,15,6,True,\xff\n"
             )
 
             with self.assertRaisesRegex(ValueError, "candidate CSV could not be read"):
