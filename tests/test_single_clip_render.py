@@ -473,8 +473,8 @@ class SingleClipRenderTests(unittest.TestCase):
     def test_candidate_cli_rejects_existing_output_before_hashing_source(self):
         pack = self.root / "candidates-existing-output.csv"
         pack.write_text(
-            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
-            "authorized-demo,2,8,6,True\\n",
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\n"
+            "authorized-demo,2,8,6,True\n",
             encoding="utf-8",
         )
         self.output.write_bytes(b"preserve existing output")
