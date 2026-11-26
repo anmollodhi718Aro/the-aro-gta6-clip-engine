@@ -1,7 +1,7 @@
-# ARO-CHAT-0346 | Reject FIFO Replacement During Synthetic Output Verification
+# ARO-CHAT-0349 | Reject FIFO Replacement During Synthetic Output Verification
 
 - Date: 2026-11-26
-- Workstream: ARO-GTA-P0-346
+- Workstream: ARO-GTA-P0-349
 - Repository: `anmollodhi718Aro/the-aro-gta6-clip-engine`
 - PR: #386 (existing draft; original branch and base preserved)
 - Branch: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`
@@ -27,7 +27,7 @@ Production code unchanged. No media is read or rendered by this regression.
 ## Commits
 
 - Initial test commit: `6d63bd53b8048d01f805c2979902da807ee1263d`
-- Compatibility correction: `a707b1526c000afe8b78dfcab38b996e86579eb2`
+- Python-version compatibility correction: `a707b1526c000afe8b78dfcab38b996e86579eb2`
 
 ## Verification
 
