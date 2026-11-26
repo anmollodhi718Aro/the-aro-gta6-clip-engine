@@ -1840,3 +1840,13 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - The regression exercises portable descriptor/path identity checking with `O_NOFOLLOW` disabled, verifies fail-closed rejection and descriptor cleanup, and confirms the external target is unchanged.
 - Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Keep PR #386 OPEN / DRAFT / UNMERGED on its original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0357 | Resolved FFmpeg/FFprobe Tool Consistency (2026-11-26)
+
+- Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Serial reconciliation: concurrent ARO-CHAT-0356 is registered for the synthetic smoke symlink-open race. This tool-resolution regression is ARO-CHAT-0357 / ARO-GTA-P0-357.
+- Added `tests/test_synthetic_single_clip_smoke_tool_resolution.py`. The regression mocks executable lookup, fixture generation, and rendering; it verifies the resolved FFmpeg executable is used to generate the synthetic fixture and forwarded unchanged to the renderer, and the resolved FFprobe executable is forwarded unchanged as well. It validates a synthetic PASS report, matching digest, upload/publishing false, and temporary-artifact non-retention. No actual media tools are launched; production code unchanged.
+- Test commit: `a374c016f66139a826f3c5060b5c20413026e467`; canonical report commit: `f140950dcfe33cd3d2add36c7bb98e8e5bf7146b`; registry commit follows in the same continuation.
+- GitHub source write/read-back only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
