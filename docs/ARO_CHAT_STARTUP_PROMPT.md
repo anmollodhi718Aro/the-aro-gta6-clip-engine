@@ -2097,3 +2097,13 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - The same pre-step failure pattern is now observed on four consecutive PRs (#399 through #402). This is repeated symptom evidence only. Root cause remains UNVERIFIED; do not infer an Actions policy, billing/quota, service, or runner-provisioning cause without owner/admin evidence.
 - No dispatch/retry, workflow edit, production code edit, merge, or deployment. Repository test suite NOT RUN; hosted Ubuntu/Windows execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED. Stage 1 and P0 remain NOT COMPLETE.
 - Next safe action: owner/repository-admin inspects repository Actions settings, billing/usage, GitHub service status, and the failing check-run annotation; provide sanitized evidence only. Do not share secrets. Obtain explicit owner approval before any manual dispatch/retry. Keep PRs OPEN / DRAFT / UNMERGED and issue #68 OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0380 | Additional zero-billable push-event CI audit (2026-11-26)
+
+- Continue from child draft PR pending creation on `workstream/aro-chat-0380-audit-pr403-zero-billable-push-run-2026-11-26`, based on PR #403 exact head `7e560b3c335d389f96ebca953ec7d9360ecbefa7`; preserve PR #403 -> #402 -> #401 -> #400 -> #399 and earlier ancestry.
+- New run #45803137718 (run 2558) is a `push` event, FAILURE after ~4 seconds. Its metadata says head branch `workstream/aro-chat-0379-fourth-zero-billable-actions-run-2026-11-26` but head SHA `f277c2b0edebedcd2d4c2df6c275ed5f7abaffa9`; its PR payload references PR #403 head `7e560b3c335d389f96ebca953ec7d9360ecbefa7` and base `f277c2b0edebedcd2d4c2df6c275ed5f7abaffa9`. This SHA mismatch means do NOT call it exact-head CI for PR #403.
+- Windows job #139851274058 and Ubuntu job #139851274583: no steps/logs; direct step lookups empty; logs 404 / BlobNotFound. Timing run_duration_ms=4000; billable WINDOWS/UBUNTU total_ms=0.
+- Check-run summaries report one annotation each, but annotation contents could not be retrieved through the connected GitHub fetch interface; status NOT INSPECTED.
+- Root cause UNVERIFIED. No workflow dispatch/retry, workflow edit, production-code edit, merge, rebase, retarget, deployment, credentials, real media, upload, or publishing.
+- Full repository tests NOT RUN; hosted test execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1 and P0 remain NOT COMPLETE. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.

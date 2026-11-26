@@ -3508,3 +3508,13 @@ Keep this work and all parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/
 - Timing endpoint: `run_duration_ms=3000`; billable WINDOWS and UBUNTU `total_ms=0`, one job each, `duration_ms=0`. Same no-step symptom now observed across PR #399/#400/#401/#402. Root cause remains UNVERIFIED.
 - No dispatch/retry, workflow change, production code change, merge, or deployment. No repository unit suite execution, Ubuntu/Windows test execution, synthetic FFmpeg E2E, independent review, owner-device Windows verification, or authorized GTA 6 MP4 processing is claimed. Stage 1 and P0 remain NOT COMPLETE.
 - Keep PR #403 and parents OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0380 | Additional zero-billable push-event CI audit (2026-11-26)
+
+- Workstream: ARO-GTA-P0-380. Child branch `workstream/aro-chat-0380-audit-pr403-zero-billable-push-run-2026-11-26`, based on PR #403 exact head `7e560b3c335d389f96ebca953ec7d9360ecbefa7`; preserve PR #403 -> #402 -> #401 -> #400 -> #399.
+- Additional Python CI run #45803137718 (run 2558) completed FAILURE in approximately four seconds. Event is `push`. Metadata lists branch `workstream/aro-chat-0379-fourth-zero-billable-actions-run-2026-11-26` with head SHA `f277c2b0edebedcd2d4c2df6c275ed5f7abaffa9`; the run's PR payload references PR #403 with head SHA `7e560b3c335d389f96ebca953ec7d9360ecbefa7` and base SHA `f277c2b0edebedcd2d4c2df6c275ed5f7abaffa9`. Because run head SHA equals PR #403's base SHA, this is NOT exact-head CI for PR #403; preserve the metadata mismatch in all reporting.
+- Windows job #139851274058 and Ubuntu job #139851274583 exposed no steps/logs; direct step lookups empty; log retrieval 404 / BlobNotFound. Timing: run_duration_ms=4000; billable WINDOWS/UBUNTU total_ms=0, one job each, duration_ms=0.
+- Each check-run summary reports one annotation, but the connected GitHub fetch interface rejects the annotations subresource URL; annotation contents NOT INSPECTED (not evidence that annotations are absent).
+- Classification: CI_FAILURE / EXECUTION_NOT_ESTABLISHED; root cause UNVERIFIED. Documentation-only audit; no workflow/code changes or retry.
+- Repository unit suite NOT RUN; hosted test execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1 and P0 remain NOT COMPLETE. Keep PRs OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
