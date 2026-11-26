@@ -7,7 +7,7 @@ from pathlib import Path
 from backend.app.single_clip_render import load_selected_candidate
 
 
-HEADER = "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
+HEADER = "source_id,start_seconds,end_seconds,duration_seconds,renderable\n"
 
 
 class CandidateCsvUnquotedQuoteTests(unittest.TestCase):
@@ -16,8 +16,8 @@ class CandidateCsvUnquotedQuoteTests(unittest.TestCase):
             csv_path = Path(directory) / "candidates.csv"
             csv_path.write_text(
                 HEADER
-                + "authorized-demo,2,8,6,True\\n"
-                + 'later-candidate,9,15,6,Tr"ue\\n',
+                + "authorized-demo,2,8,6,True\n"
+                + 'later-candidate,9,15,6,Tr"ue\n',
                 encoding="utf-8",
                 newline="",
             )
@@ -31,7 +31,7 @@ class CandidateCsvUnquotedQuoteTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             csv_path = Path(directory) / "candidates.csv"
             csv_path.write_text(
-                HEADER + '"authorized ""demo""",2,8,6,True\\n',
+                HEADER + '"authorized ""demo""",2,8,6,True\n',
                 encoding="utf-8",
                 newline="",
             )
