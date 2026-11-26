@@ -3446,3 +3446,13 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Commits: `96f042a33d4a2333772ac07da085c409fc50c00c` (production); `f331ae01dbe7dccf9d1a40909800a5d0adcba52e` (tests). GitHub source read-back is required; repository tests NOT RUN locally.
 - Exact-head CI execution remains unverified: prior runs failed before any runner steps; do not infer application test failure or rerun without a new reason. Synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 model-input validation follow-up — 2026-11-26
+- Static review found direct model constructors could raise AttributeError for non-string identifiers, and `parse_datetime` could raise incidental AttributeError for non-string/non-datetime inputs rather than a clear validation error.
+- Hardened `parse_datetime` to accept only datetime or ISO-8601 strings, normalize malformed ISO text to ValueError, and retain timezone-required validation.
+- Hardened `ChatEvent` and `PermissionRecord` identifiers to reject non-string/blank values with clear ValueError messages.
+- Added regression tests for None/integer/object timestamp inputs, malformed ISO timestamp text, and non-string event/permission identifiers.
+- Commits: `990312abf95e2bacc559c0decb3ba135628b1439` (models); `8e335312487ba9db0b95cae5526f584747c8504a` (tests). Source read-back pending. Repository tests NOT RUN in this session.
+- CI exact-head status NOT VERIFIED; prior hosted jobs did not start a runner. Synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
