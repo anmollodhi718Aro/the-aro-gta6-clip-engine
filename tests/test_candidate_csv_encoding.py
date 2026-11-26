@@ -35,8 +35,8 @@ class CandidateCsvEncodingTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             csv_path = Path(directory) / "candidates.csv"
             csv_path.write_text(
-                "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
-                "creator-東京,2,8,6,True\\n",
+                "source_id,start_seconds,end_seconds,duration_seconds,renderable\n"
+                "creator-東京,2,8,6,True\n",
                 encoding="utf-8",
                 newline="",
             )
