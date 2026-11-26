@@ -20,7 +20,7 @@ from backend.app.single_clip_render import render_selected_clip
 def _require_executable(name: str) -> str:
     resolved = shutil.which(name)
     if resolved is None:
-        raise SystemExit(f"Required executable was not found on PATH: {name}")
+        raise FileNotFoundError(f"Required executable was not found on PATH: {name}")
     return resolved
 
 
