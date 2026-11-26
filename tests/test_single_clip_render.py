@@ -299,6 +299,10 @@ class SingleClipRenderTests(unittest.TestCase):
             terminal["candidate_selection"]["verified_source_sha256"],
             expected_digest,
         )
+        self.assertRegex(terminal["run_id"], r"^[0-9a-f]{32}$")
+        self.assertTrue(terminal["started_at_utc"].endswith("+00:00"))
+        self.assertIsInstance(terminal["process_id"], int)
+        self.assertGreater(terminal["process_id"], 0)
 
     def test_candidate_csv_cli_rejects_mismatched_source_id_before_report_reservation(self):
         mapped_rows = map_candidates_to_media(
