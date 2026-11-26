@@ -20,9 +20,9 @@ Both cases provide an otherwise valid required header/data row so the malformed 
 ## Validation
 
 - GitHub test-file write acknowledged at commit `513cb96a127113304f35abc78bb2eb9d9c4183b3`.
-- Source read-back: PENDING.
+- Source read-back: PRESENT (test and report fetched from the branch).
 - Local unit tests: NOT RUN in this connector session.
-- Exact-head Ubuntu/hosted-Windows CI: PENDING / NOT VERIFIED.
+- Exact-head Actions lookup for initial implementation head `afb2c783d2650a1b859ef224f2ccc1c5a3a84ab3` returned zero workflow runs: CI NOT VERIFIED. The later documentation-only head must be checked separately.
 - Synthetic FFmpeg end-to-end: NOT RUN; this test does not invoke media tools.
 - Independent review: NOT RECORDED.
 - Owner-device Windows: NOT VERIFIED.
