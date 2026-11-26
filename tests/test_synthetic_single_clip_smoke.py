@@ -665,5 +665,40 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
 
 
 
+    def test_main_emits_structured_failure_and_cleans_up_when_fixture_generation_times_out(self):
+        import contextlib
+        import io
+        import json
+        import subprocess
+        import sys
+
+        captured = {}
+        stderr = io.StringIO()
+
+        def timeout_fixture_generation(command, **kwargs):
+            captured["temporary_directory"] = Path(command[-1]).parent
+            captured["timeout"] = kwargs.get("timeout")
+            raise subprocess.TimeoutExpired(command, kwargs.get("timeout"))
+
+        with patch.object(smoke.shutil, "which", side_effect=lambda name: f"/tools/{name}"), patch.object(
+            smoke.subprocess, "run", side_effect=timeout_fixture_generation
+        ), patch.object(smoke, "render_selected_clip") as render, patch.object(
+            sys, "argv", ["synthetic_single_clip_smoke.py"]
+        ), contextlib.redirect_stderr(stderr):
+            exit_code = smoke.main()
+
+        self.assertEqual(exit_code, 1)
+        payload = json.loads(stderr.getvalue())
+        self.assertEqual(payload["status"], "FAIL")
+        self.assertIn("TimeoutExpired", payload["error"])
+        self.assertIn("120", payload["error"])
+        self.assertFalse(payload["upload_performed"])
+        self.assertFalse(payload["publishing_enabled"])
+        self.assertEqual(captured["timeout"], 120)
+        render.assert_not_called()
+        self.assertFalse(captured["temporary_directory"].exists())
+
+
+
 if __name__ == "__main__":
     unittest.main()
