@@ -2094,3 +2094,9 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Regression test covers an object whose __str__ raises and confirms FFprobe is not invoked.
 - Tests NOT RUN; exact-head CI, media E2E, owner-device Windows, independent review, and authorized GTA 6 MP4 processing remain NOT VERIFIED.
 - Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation — Path-subclass string conversion guard (2026-11-26)
+- inspect_one_video no longer calls str() on Path subclasses while constructing its initial report. Such subclasses may override __str__ and raise before the guarded validation path.
+- Added regression coverage with a concrete platform Path subclass whose __str__ raises. Expected behavior: FAIL report, no FFprobe invocation.
+- Tests NOT RUN in this connector session; exact-head CI and media E2E NOT VERIFIED. Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED; no retry/dispatch, merge, deployment, upload, or publishing.
