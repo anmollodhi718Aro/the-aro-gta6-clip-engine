@@ -1207,7 +1207,7 @@ class SingleClipRenderTests(unittest.TestCase):
 
             def write(self, value):
                 self.write_calls += 1
-                if self.write_calls == 3:
+                if self.write_calls == 2:
                     self.handle.write(value[:10])
                     return 10
                 return self.handle.write(value)
