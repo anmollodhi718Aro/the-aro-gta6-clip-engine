@@ -2672,3 +2672,15 @@ Regression tests cover a real pathname replacement against an open descriptor, f
 - The preceding exact-head run on `1ce13c145109e2bc2bdcc398f223d8f06de95a7f` failed before runner allocation (`runner_id=0`, empty runner name, zero steps). This is not evidence of a test failure. No retry or manual dispatch was performed.
 - Tests NOT RUN in this connector session. Exact-head Ubuntu/Windows CI for the new commit PENDING / NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and its existing base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0322 — synthetic end-to-end single-clip smoke test
+
+- Exact title: ARO-CHAT-0322 | Synthetic End-to-End Single-Clip Smoke Test.
+- Workstream: ARO-GTA-P0-322; continuation of existing draft PR #386 on its original branch/base.
+- Added `scripts/synthetic_single_clip_smoke.py` to generate a short synthetic test pattern and tone, run the production single-selected-clip pipeline, and require a verified rendered MP4 plus output SHA-256.
+- The script retains no artifacts and verifies upload/publishing remain disabled. It does not scan user media or use GTA 6/third-party footage.
+- Implementation commit: `ecd9683e128500c13b7f0293c2f6848bfcd87193`; task report: `docs/ARO_CHAT_0322_SYNTHETIC_SINGLE_CLIP_SMOKE.md`.
+- Documentation commit: `5c7d930a7a0a9048784046232b734426bfc88502`.
+- Local execution NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED. Independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
