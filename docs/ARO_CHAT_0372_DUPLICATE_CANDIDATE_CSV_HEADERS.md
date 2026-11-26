@@ -14,7 +14,8 @@ Production code unchanged; synthetic CSV only.
 
 ## Validation
 
-- GitHub source writes acknowledged; exact final PR head/read-back pending.
+- GitHub read-back verified for the test, report, registry, and startup handoff at PR head `e31f6bffc8a728643e44a6c6638ab13ff36baa26`.
+- Exact-head workflow lookup returned zero runs; CI NOT VERIFIED.
 - Local unit tests: NOT RUN in this connector session.
 - Exact-head Ubuntu/hosted-Windows CI: NOT VERIFIED.
 - Synthetic FFmpeg end-to-end: NOT RUN; this test does not invoke media tools.
