@@ -2021,5 +2021,14 @@ class SingleClipRenderTests(unittest.TestCase):
             load_selected_candidate(pack, 1)
 
 
+    def test_snapshot_path_resolution_symlink_loop_is_normalized(self):
+        snapshot = self.root / "snapshot-resolution-loop.mp4"
+        with patch.object(Path, "resolve", side_effect=RuntimeError("simulated symlink loop")):
+            with self.assertRaisesRegex(ValueError, "source or snapshot path could not be resolved"):
+                _create_stable_source_snapshot(self.source, snapshot)
+        self.assertEqual(self.source.read_bytes(), b"synthetic video")
+        self.assertFalse(snapshot.exists())
+
+
 if __name__ == "__main__":
     unittest.main()
