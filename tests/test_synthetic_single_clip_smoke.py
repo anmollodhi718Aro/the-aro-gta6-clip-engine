@@ -483,5 +483,37 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
 
 
 
+    def test_hash_verified_output_closes_descriptor_when_final_fstat_fails(self):
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / "output.mp4"
+            output.write_bytes(b"verified synthetic output")
+            real_open = smoke.os.open
+            real_fstat = smoke.os.fstat
+            opened = []
+            calls = {"count": 0}
+
+            def capture_open(path, flags, *args, **kwargs):
+                descriptor = real_open(path, flags, *args, **kwargs)
+                opened.append(descriptor)
+                return descriptor
+
+            def fail_final_fstat(descriptor):
+                calls["count"] += 1
+                if calls["count"] == 2:
+                    raise OSError("simulated final descriptor stat failure")
+                return real_fstat(descriptor)
+
+            with patch.object(smoke.os, "open", side_effect=capture_open), patch.object(
+                smoke.os, "fstat", side_effect=fail_final_fstat
+            ):
+                with self.assertRaisesRegex(OSError, "final descriptor stat failure"):
+                    smoke._hash_verified_output(output)
+
+            self.assertEqual(calls["count"], 2)
+            self.assertEqual(len(opened), 1)
+            with self.assertRaises(OSError):
+                real_fstat(opened[0])
+
+
 if __name__ == "__main__":
     unittest.main()
