@@ -1448,11 +1448,6 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["publishing_enabled"])
         self.assertIn("temporary snapshot cleanup failed", report["error"])
 
-    @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
-    @patch(
-        "backend.app.single_clip_render.render_clip",
-        side_effect=ValueError("simulated render-boundary validation failure"),
-    )
     @patch(
         "backend.app.single_clip_render.sha256_selected_source",
         return_value="0" * 64,
