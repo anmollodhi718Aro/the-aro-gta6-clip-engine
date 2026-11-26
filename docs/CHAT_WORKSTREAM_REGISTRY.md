@@ -3177,3 +3177,14 @@ ARO-CHAT-0345 was already reserved by a concurrent continuation for the syntheti
 - Production code unchanged. The regression mocks the smoke runner and does not invoke FFmpeg/FFprobe or process media.
 - GitHub source write committed; local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0354 | Verify Synthetic Smoke CLI Tool Override Forwarding (2026-11-26)
+
+- Workstream: ARO-GTA-P0-354; continued existing draft PR #386 on its original branch/base.
+- Added `tests/test_synthetic_single_clip_smoke_cli_args.py` in test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2`.
+- The regression invokes the public CLI with explicit `--ffmpeg` and `--ffprobe` values and verifies unchanged forwarding to `run_smoke_test()`, exit code 0 for a controlled synthetic PASS payload, and parseable JSON stdout. It does not execute media tools or process footage.
+- Canonical report: `docs/ARO_CHAT_0354_CLI_TOOL_OVERRIDE_FORWARDING.md`.
+- Static diff/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI NOT VERIFIED (no workflow runs or combined status checks returned); independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Serial reconciliation: ARO-CHAT-0353 is already registered for the FFprobe-missing CLI failure regression. This CLI-override forwarding task is registered as ARO-CHAT-0354; no history was rewritten.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
