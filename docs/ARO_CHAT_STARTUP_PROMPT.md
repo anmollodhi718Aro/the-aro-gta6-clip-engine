@@ -2135,3 +2135,13 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Production commit: `25c10e96e8c4dacf3c63eb718e8aa77df86671dd`; test commit: `eaf2d7c7c2ab80084385e569456ef2b314353110`.
 - Tests NOT RUN. Exact-head CI, synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED. Stage 1/P0 remains INCOMPLETE.
 - Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, live media, upload, publishing, or deployment.
+
+
+
+### Latest continuation — renderer output symlink redirection race (ARO-CHAT-0402, 2026-11-27)
+- Continued on existing child PR #412 branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`, preserving PR #412 base and parent #386 ancestry.
+- `render_clip` now resolves only the output parent directory and retains the final filename lexically. This avoids following a dangling final-component symlink introduced after the initial validation; exclusive hard-link publication remains the final no-overwrite boundary.
+- Added a deterministic regression that creates a dangling symlink during parent resolution and asserts the target remains absent and FFmpeg is not invoked.
+- Production commit: `cffcf865999dca0e64f7be777e9e913477c0b75a`; regression-test commit: `441649e60f7cca11cb4c03ac3dbdd0434378c254`.
+- Tests NOT RUN. Exact-head CI, synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED. Stage 1/P0 remains INCOMPLETE.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, live media, upload, publishing, or deployment.
