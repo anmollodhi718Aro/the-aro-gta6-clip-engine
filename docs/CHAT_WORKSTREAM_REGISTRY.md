@@ -3215,3 +3215,14 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Test commit: `6653b9980e733cff11c264e83655ec22ee441347`; canonical report: `docs/ARO_CHAT_0356_SMOKE_SYMLINK_OPEN_RACE.md` (commit `1584ff7aac9acc71bb778e62c67999ff45afd659`).
 - Static implementation and GitHub source writes only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0357 | Verify Resolved FFmpeg and FFprobe Tool Consistency (2026-11-26)
+
+- Workstream: ARO-GTA-P0-357; continued on existing draft PR #386 and its original branch/base.
+- Added `tests/test_synthetic_single_clip_smoke_tool_resolution.py` to verify explicit FFmpeg/FFprobe overrides are resolved and the exact resolved FFmpeg executable is used for synthetic fixture generation and forwarded to the renderer, with the resolved FFprobe executable forwarded unchanged.
+- Fixture generation and rendering are mocked; the regression writes only synthetic bytes and does not launch media tools or read real footage. Production code unchanged.
+- Test commit: `a374c016f66139a826f3c5060b5c20413026e467`; canonical report: `docs/ARO_CHAT_0357_TOOL_RESOLUTION_CONSISTENCY.md`.
+- Serial reconciliation: concurrent work registered ARO-CHAT-0356 for the synthetic smoke symlink-open race. This tool-resolution regression is uniquely registered as ARO-CHAT-0357; no history was rewritten.
+- GitHub source write/read-back only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
