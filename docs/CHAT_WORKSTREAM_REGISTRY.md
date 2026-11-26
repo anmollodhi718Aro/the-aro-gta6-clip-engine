@@ -3640,3 +3640,10 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Review submissions and inline review threads: none recorded at time of check.
 - Repository tests NOT RUN; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Stage 1/P0 remains INCOMPLETE.
 - Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, OAuth, credentials, live media processing, upload, publishing, or deployment.
+
+
+### ARO-CHAT-0393 — CI history reconciliation (2026-11-27)
+- Added evidence-based reconciliation comment `7201773088` to existing Issue #26. Current exact-head PR #412 run `45884486678` still has Ubuntu job `140131675675` and Windows job `140131676012` failed with `steps: null`; compile/tests did not execute.
+- Historical Issue #26 evidence records hosted runners successfully executing compile and 281 tests on both platforms at SHA `d1e75e57855187c680a376e1ca24eb3bcd64e838` (run `44697250496`). This older result does not verify PR #412, but disproves a blanket claim that hosted runners have never been available. Repository-public status was also documented on 2026-11-20; original issue wording calling it private is stale.
+- Root cause for current pre-step failure remains UNKNOWN. No evidence confirms billing/quota, policy, or general runner unavailability. No blind retry performed. Issue #26 remains OPEN.
+- No code patch was warranted by this CI-history reconciliation. PR #412 remains OPEN / DRAFT / UNMERGED with unchanged base. Tests on current head, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain outstanding.
