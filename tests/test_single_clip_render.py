@@ -736,6 +736,40 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(report["source_snapshot_verified"])
         self.assertFalse(report["source_snapshot_created"])
 
+    def test_renderer_rejects_invalid_video_path_types_before_path_conversion(self):
+        invalid_paths = (None, 7, [], {}, "", "   ")
+        for invalid_path in invalid_paths:
+            with self.subTest(path_type=type(invalid_path).__name__, value=repr(invalid_path)):
+                with patch("backend.app.single_clip_render.inspect_one_video") as preflight, patch(
+                    "backend.app.single_clip_render._create_stable_source_snapshot"
+                ) as snapshot:
+                    report = render_selected_clip(invalid_path, self.output, 1, 5)
+                self.assertEqual(report["status"], "FAIL")
+                self.assertEqual(
+                    report["error"],
+                    "video_path must be a non-empty string or pathlib.Path",
+                )
+                self.assertFalse(report["processing_started"])
+                preflight.assert_not_called()
+                snapshot.assert_not_called()
+
+    def test_renderer_rejects_invalid_output_path_types_before_path_conversion(self):
+        invalid_paths = (None, 7, [], {}, "", "   ")
+        for invalid_path in invalid_paths:
+            with self.subTest(path_type=type(invalid_path).__name__, value=repr(invalid_path)):
+                with patch("backend.app.single_clip_render.inspect_one_video") as preflight, patch(
+                    "backend.app.single_clip_render._create_stable_source_snapshot"
+                ) as snapshot:
+                    report = render_selected_clip(self.source, invalid_path, 1, 5)
+                self.assertEqual(report["status"], "FAIL")
+                self.assertEqual(
+                    report["error"],
+                    "output_path must be a non-empty string or pathlib.Path",
+                )
+                self.assertFalse(report["processing_started"])
+                preflight.assert_not_called()
+                snapshot.assert_not_called()
+
     def test_dry_run_rejects_invalid_bounds_before_ffprobe(self):
         with patch("backend.app.single_clip_render.inspect_one_video") as preflight:
             report = render_selected_clip(self.source, self.output, "not-a-time", 4)
