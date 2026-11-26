@@ -2327,3 +2327,16 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Commits: production `160d18404ff67bab8c52d05221ed8f27676b41fb`; regression `d6c48e9c7d4f45d00494f15a372d60d5fab74c36`; operator docs `17592f000066a669913fa720c9f9f61eb192f19a`.
 - Tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED. Independent review NOT RECORDED. No real media processed.
 - Continue on PR #386, preserving OPEN / DRAFT / UNMERGED state and existing ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+ 
+
+## ARO-CHAT-0304 — reserve the run report before candidate media hashing
+
+- Static review found candidate-CSV CLI mode read and SHA-256-hashed the selected video before creating the exclusive RUNNING report. If report reservation then failed or collided, a potentially large media read had already occurred without a durable run record.
+- Kept candidate CSV row/source-ID validation and trusted-digest syntax validation before reservation; these inspect metadata/arguments only.
+- Moved selected-media hashing until after the RUNNING report is exclusively created, written, flushed, and fsynced.
+- Hashing errors and trusted-digest mismatches now become terminal FAIL reports and do not invoke the renderer. The verified digest is included in terminal candidate-selection metadata only after a successful comparison.
+- Added regression `test_candidate_cli_reserves_running_report_before_hashing_selected_media`, which inspects the persisted RUNNING report from inside the hash callback.
+- Implementation commit: `3204190a41814b73b26859b48d55a2f74d71df80`; regression commit: `efda642d6f0ae5a2168606fa9dce7a27839bff5b`; operator docs: `5c6de71a4f7fd7693c65a48d6a12f445249be04e`; report: `9f55369939702c9b8c425ec5d7fdbe1aacabf2dd`.
+- Workstream: `ARO-GTA-P1-304`; existing PR #386 and existing branch reused; no duplicate branch or PR created.
+- Local tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Real authorized media NOT PROCESSED / NOT VERIFIED.
+- PR #386 remains OPEN / DRAFT / UNMERGED. Preserve its existing base and ancestry. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
