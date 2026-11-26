@@ -3656,3 +3656,10 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: `dbd7b2b926b3deb6fdeddbde4df9e00f672235e9`; test commit: `0b0366022381bda2029f3a709895bc27719adf85`.
 - Tests NOT RUN in this connector session. Exact-head hosted CI, synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED. Do not infer a pass from static review.
 - Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED and existing ancestry. No merge, rebase, retarget, retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0395 — Correct tab-only CSV path regression fixture (2026-11-27)
+- Follow-up static review found the ARO-CHAT-0394 blank-path test used the two-character string `\\t` rather than an actual tab character. The test therefore did not exercise the tab-only input claimed in the prior registry entry.
+- Corrected the fixture to use the actual tab character escape `\t`; production behavior is unchanged. GitHub read-back verified the corrected source line and test-file blob.
+- Test commit: `f8d46f0a1b4819b26e5054c0e90b9694af1afa9d`. Tests remain NOT RUN; exact-head workflow execution, synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED.
+- PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED with ancestry preserved. Stage 1/P0 remains INCOMPLETE. No merge, rebase, retarget, retry/dispatch, upload, publishing, or deployment.
