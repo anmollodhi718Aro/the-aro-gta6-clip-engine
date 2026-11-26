@@ -2451,3 +2451,12 @@ ARO-CHAT-0306 test-fixture correction: the regression now constructs an actual s
 - Report: `docs/ARO_CHAT_0308_FINITE_JSON_REPORTS.md`; operator guide updated.
 - Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED. Independent review NOT RECORDED. No real authorized media processed.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and its existing base/ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0309 — strict terminal JSON serialization regression
+
+- Exact chat title: `ARO-CHAT-0309 | Strict Terminal JSON Serialization Regression`; workstream: `ARO-GTA-P1-309`.
+- Added `test_cli_preserves_strict_running_report_when_terminal_json_contains_nan`. It injects a NaN value into mocked terminal renderer metadata and verifies terminal serialization fails closed, the previously reserved RUNNING report remains parseable by a strict JSON parser, no output is created, and the renderer is called once.
+- Test-only commit: `72b8270ab41d2c7309808657a20045f1eaa9ded3`; report: `docs/ARO_CHAT_0309_STRICT_TERMINAL_JSON_REGRESSION.md`.
+- Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized media processed.
+- Continued on existing PR #386 and branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR. Preserve OPEN / DRAFT / UNMERGED state and ancestry. No workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
