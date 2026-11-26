@@ -2378,3 +2378,14 @@ ARO-CHAT-0304 attribution/fixture note: production commit `3204190a41814b73b2685
 - Report: `docs/ARO_CHAT_0305_EXPANDED_REPORT_FALLBACK_PATH.md`; operator guide updated.
 - Repository tests NOT RUN. Exact-head workflow lookup and combined status for test commit `95da4200a4d94d84d6a23dd4278d76e4d48b439e` returned zero runs/checks: CI PENDING / NOT VERIFIED. Independent review NOT RECORDED.
 - PR #386 remains OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment.
+
+
+## ARO-CHAT-0305 — expanded report-path fallback regression
+
+- Added `test_cli_terminal_fallback_uses_expanded_report_path` to cover the production correction that passes the expanded report path to terminal fallback creation. The test injects a partial terminal-report write using a home-relative report argument, then checks the fallback is created beside the expanded primary report and preserves the completed output.
+- No production behavior changed; regression coverage only.
+- Parent exact-head run #45741447981 failed before any visible job step (`runner_id=0`, blank runner name, `steps=[]`). This is not evidence of a test failure; root cause UNKNOWN.
+- Test NOT RUN locally in this connector session. New commit CI pending natural push-triggered verification; independent review NOT RECORDED. No real authorized media processed.
+- Existing PR #386 remains OPEN / DRAFT / UNMERGED with its original base. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+- Test commit: `044f313f83d368d188444e6a5915e64e8be73a09`; report: `docs/ARO_CHAT_0305_EXPANDED_REPORT_FALLBACK_REGRESSION.md`.
