@@ -42,3 +42,10 @@
 Keep PR #389 and its parent chain OPEN / DRAFT / UNMERGED. Do not dispatch or retry workflows, merge, rebase, retarget, deploy, authorize OAuth, access credentials, process real media, upload, or publish. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads and public publishing remain disabled.
 
 The next useful validation requires runner/Actions execution evidence to become available, followed by exact-head Ubuntu and hosted-Windows test results. No retry or dispatch was initiated by this audit.
+
+
+## Audit-branch CI observation
+
+- The initial audit branch head `8670522ccefbaa0693b6fdda291a6e90674c5e09` triggered Python CI run #45783637618, which completed FAILURE.
+- Ubuntu job #139784900003 and hosted-Windows job #139784900308 both exposed `steps: null` and `logs_url: null`. Execution is NOT ESTABLISHED; root cause remains UNVERIFIED. This run does not validate the final documentation-updated head.
+- The report, registry, and startup handoff were then synchronized. Exact-head CI for the resulting final branch head must be inspected separately; no result is transferred.
