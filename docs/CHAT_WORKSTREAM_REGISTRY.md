@@ -3166,3 +3166,14 @@ ARO-CHAT-0345 was already reserved by a concurrent continuation for the syntheti
 - Production code unchanged. Test commit: `a75d9f93db64cbb9463f990930ca6cfa99b8b0b8`; canonical report: `docs/ARO_CHAT_0352_EXTERNAL_SYMLINK_SMOKE_GUARD.md` (commit `6d835be798e8272cd31f2c867124329a4ee9228b`). The provisional 0351 report alias is retained with explicit collision reconciliation.
 - Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0352 | Verify Explicit FFmpeg and FFprobe CLI Overrides (2026-11-26)
+
+- Workstream: ARO-GTA-P0-352; continued existing draft PR #386 on its original branch/base.
+- Added `tests/test_synthetic_single_clip_smoke_cli_args.py` to invoke the public `main()` entry point with explicit custom `--ffmpeg` and `--ffprobe` paths.
+- Requires the exact executable overrides to be forwarded to `run_smoke_test()`, exit code 0 for a controlled synthetic PASS response, and parseable JSON stdout matching the response.
+- Test commit: `40c96324a3bc5381527411c2dff7bf2699a21ee2`; report commit: `47a06e8749f71743429c048fefdfa0e300e42325`.
+- Production code unchanged. The regression mocks the smoke runner and does not invoke FFmpeg/FFprobe or process media.
+- GitHub source write committed; local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
