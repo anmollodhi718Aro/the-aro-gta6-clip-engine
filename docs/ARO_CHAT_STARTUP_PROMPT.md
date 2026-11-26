@@ -1280,3 +1280,5 @@ Continue the single-selected-clip pipeline on existing PR #386. Candidate-mode s
 
 ### Latest pipeline handoff: ARO-CHAT-0302 — deterministic invalid-encoding candidate CSV rejection
 Candidate CSV decoding errors are now converted from uncaught Unicode exceptions into controlled validation failures before report reservation. Added a regression for invalid UTF-8 input. Commits: production `3b1c286869201196001c8338caa69ab2afb3f7f7`; test `34a21e2b9c83e00a05c40dcd5c96c102d4d225dc`; operator docs `fc9741dcc50ed0e0b6184099c2fb5df492dee420`. Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. Continue P0 pipeline work on PR #386; preserve draft/open/unmerged state and existing ancestry. No real media, upload, publishing, merge, rebase, retarget, workflow retry/dispatch, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+Regression fixture correction: `50b8604137304c62dec14f28c73d692b66d716e9` (actual CSV line separators).
