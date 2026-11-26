@@ -3689,3 +3689,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Exact-head read-back verified for production guard and regression fixture. Tests NOT RUN in this connector session. Exact-head hosted CI NOT VERIFIED for these new commits.
 - Previous exact-head workflow run `45886501625` at pre-change head `1ebce31fa4d15c3e6b3ad0e421221787e4ce77b0` failed before recorded steps: Ubuntu job `140138406880`, Windows job `140138407393`, both `steps: null`. This does not establish a test failure or identify the runner root cause.
 - Synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED with base and ancestry preserved. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0400 — Normalize CLI path-resolution runtime errors (2026-11-27)
+- Static review found `analyze_file` resolves input/output paths inside its guarded block, but its exception handler did not include `RuntimeError`. A symlink-loop/path-resolution runtime failure could therefore escape the CLI's normal status-2 error path.
+- Added `RuntimeError` to the CLI's handled path/input validation exceptions. Added a regression test that injects a path-resolution RuntimeError and verifies status 2, a diagnostic on stderr, and no output file creation.
+- Production commit: `a6157d8b90100cae4e5074bdc716c4a29ec61061`; test commit: `30aefea79a5debaa65f218a5843a0d24f078a16b`.
+- GitHub source write responses received. Exact-head source/test read-back and workflow lookup are pending; tests NOT RUN in this session. Do not claim a pass.
+- Synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Stage 1/P0 remains INCOMPLETE.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED with base and ancestry unchanged. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, live media processing, upload, publishing, or deployment.
