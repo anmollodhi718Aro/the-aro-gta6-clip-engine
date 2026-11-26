@@ -3424,7 +3424,7 @@ The tests exercise the existing strict streaming quote guard against malformed h
 | Workstream ID | ARO-GTA-P0-373 |
 | Branch / PR | workstream/aro-chat-0373-pr394-exact-head-ci-audit-2026-11-26 / [Draft PR pending](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pulls) |
 | Audited PR | [Draft PR #394](https://github.com/anmollodhi718Aro/the-aro-gta6-clip-engine/pull/394) |
-| Audited head | 2ee70a2a4deaa8f321bc7f7f4f5f4f626bd2bdc5 |
+| Audited head | 2ee70a2a4deaa8f321bc7f7f4f5f4c626bd2bdc5 |
 | Scope | Documentation-only exact-head CI and review audit |
 | CI evidence | Run #45793640223 FAILURE; Ubuntu job #139818633134 and hosted-Windows job #139818633797 both exposed steps=null and logs_url=null |
 | Classification | CI_FAILURE / EXECUTION_NOT_ESTABLISHED; checkout, compile and tests not evidenced; root cause UNVERIFIED |
