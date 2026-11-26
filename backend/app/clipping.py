@@ -52,6 +52,8 @@ def render_clip(
         raise TypeError("rights_confirmed must be an explicit boolean")
     if rights_confirmed is not True:
         raise PermissionError("media processing requires explicit rights confirmation")
+    if not isinstance(ffmpeg_binary, str) or not ffmpeg_binary.strip():
+        raise ValueError("ffmpeg_binary must be a non-empty executable name or path")
 
     requested_source = Path(input_path).expanduser()
     # Validate the lexical source before resolve(): resolve() follows symlinks,
