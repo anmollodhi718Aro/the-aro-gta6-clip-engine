@@ -2415,3 +2415,13 @@ Attribution collision correction (2026-11-26): a separate production fix and its
 
 
 ARO-CHAT-0306 test-fixture correction: the regression now constructs an actual surrogate code point with `chr(0xDCFF)`, rather than a literal backslash-u filename. Corrected test commit: `08deab535c6ed783d5251ae979d8984795ccae58`. Tests remain NOT RUN; exact-head CI NOT VERIFIED.
+
+
+## ARO-CHAT-0306 — end-to-end expanded report-path fallback regression
+
+- Workstream: ARO-GTA-P1-306; continued existing draft PR #386 and its current branch; no new branch or PR.
+- ARO-CHAT-0305 owns the production expanded-report-path fix and its direct argument assertion. This supplemental task adds end-to-end failure-injection coverage that verifies a parseable fallback file is actually persisted beside the expanded report path, the completed output is preserved, and upload/publishing remain disabled.
+- Regression test: `test_cli_terminal_fallback_uses_expanded_report_path`; test commit `044f313f83d368d188444e6a5915e64e8be73a09`.
+- Report: `docs/ARO_CHAT_0306_EXPANDED_REPORT_FALLBACK_REGRESSION.md`.
+- Tests NOT RUN locally in this connector session. Parent exact-head Actions failures occurred before visible steps with runner_id 0, blank runner name, and empty step arrays; they do not establish Python test failures. Latest exact-head CI NOT VERIFIED; independent review NOT RECORDED.
+- PR #386 remains OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
