@@ -2300,3 +2300,10 @@ The uploader requests PRIVATE and now additionally requires the official upload 
 - Added regressions for a post-preflight digest mismatch and successful digest evidence. Dry-run still does not create a source snapshot or invoke FFmpeg.
 - Production commit: `f858ae7177cc9ecde9ec6a51c3e455caf60525cd`; regression commit: `046316f25cd01f7b8c83fa30d4d0147e16e8cea1`.
 - Tests NOT RUN in this continuation. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real media processed. PR #386 remains OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0303 — require complete bytes in candidate source hashing
+- Static review found `sha256_selected_source()` verified stable descriptor/path metadata but did not explicitly compare the number of bytes returned by `os.read()` with the descriptor's initial file size. Stable metadata normally implies a complete read, but an injected/abnormal early EOF could otherwise hash a prefix and return it as a digest.
+- The hash helper now counts bytes read and requires an exact match with the initial descriptor size. An incomplete read fails closed. Added a regression that injects early EOF and expects a validation failure.
+- Commits: production `63020eccbf7020cd7e53aa301f9981b5424b42e9`; regression `4817b542ae4b29e8dc62d5ac36455ea69e35e8e0`; operator docs `defc1d9537f435e4293cebe2f88e5594bde29d8b`.
+- Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized media processed. PR #386 remains OPEN / DRAFT / UNMERGED; no merge, rebase, retarget, workflow retry/dispatch, upload, publishing, or deployment. Issue #68 remains deferred / WAITING_FOR_OWNER_APPROVAL.
