@@ -2351,3 +2351,10 @@ ARO-CHAT-0304 attribution/fixture note: production commit `3204190a41814b73b2685
 - Production commit: `bf2ad96cb75dc8449377122a65c18e2e06d0a4af`; operator docs: `dca820479577d9d6c70c78fa68c2dacf6975bc49`.
 - Regression `test_cli_reports_execution_request_without_rights_confirmation` checks the terminal report.
 - Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real media processed; PR #386 remains OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0304 — require complete source-snapshot read-back
+- Static review found private snapshot read-back verification compared persisted SHA-256 and stable metadata but did not explicitly count bytes returned by descriptor reads. An early EOF could only be inferred indirectly from the eventual digest mismatch.
+- Snapshot verification now counts bytes read and requires exact equality with the stable snapshot size before accepting the persisted digest. Early EOF fails closed and triggers identity-checked cleanup of this invocation's snapshot.
+- Commits: production `b32a09b3fab2f7d48d75d468380f891ee3d22fa6`; regression `7c6ba4eb8714c6c2bdbf14fef6a28577e6ac423f`; operator docs `29492b0ba9e3acb115d2ef7512b62d1e5aa0562c`.
+- Tests NOT RUN. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized media processed. PR #386 remains OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, upload, publishing, or deployment. Issue #68 remains deferred.
