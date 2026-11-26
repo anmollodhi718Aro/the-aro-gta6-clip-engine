@@ -102,6 +102,8 @@ def run_smoke_test(*, ffmpeg: str = "ffmpeg", ffprobe: str = "ffprobe") -> dict:
             ffmpeg_binary=ffmpeg_path,
         )
 
+        if not isinstance(report, dict):
+            raise RuntimeError("single-clip pipeline returned a malformed report; expected an object")
         if report.get("status") != "RENDERED":
             raise RuntimeError(
                 "single-clip pipeline did not return RENDERED: "
