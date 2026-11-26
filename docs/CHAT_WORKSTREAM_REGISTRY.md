@@ -3647,3 +3647,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Historical Issue #26 evidence records hosted runners successfully executing compile and 281 tests on both platforms at SHA `d1e75e57855187c680a376e1ca24eb3bcd64e838` (run `44697250496`). This older result does not verify PR #412, but disproves a blanket claim that hosted runners have never been available. Repository-public status was also documented on 2026-11-20; original issue wording calling it private is stale.
 - Root cause for current pre-step failure remains UNKNOWN. No evidence confirms billing/quota, policy, or general runner unavailability. No blind retry performed. Issue #26 remains OPEN.
 - No code patch was warranted by this CI-history reconciliation. PR #412 remains OPEN / DRAFT / UNMERGED with unchanged base. Tests on current head, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain outstanding.
+
+
+### ARO-CHAT-0394 — Validate candidate CSV path arguments before pathlib conversion (2026-11-27)
+- Static review found `load_selected_candidate(csv_path, row_number)` called `Path(csv_path)` before its guarded file-open block. Unsupported caller values such as `None`, integers, lists, or dicts raised incidental `TypeError` rather than the function's documented validation `ValueError`; blank/whitespace strings also resolved to the current directory instead of being rejected as invalid path arguments.
+- Added fail-closed argument validation for non-empty strings and `pathlib.Path` before conversion/open. Filesystem errors from valid path objects remain normalized through the existing CSV read error handling.
+- Added regression tests for `None`, integer, list, dict, empty string, whitespace-only string, and tab-only string. Existing Path-based successful loading remains unchanged.
+- Production commit: `dbd7b2b926b3deb6fdeddbde4df9e00f672235e9`; test commit: `0b0366022381bda2029f3a709895bc27719adf85`.
+- Tests NOT RUN in this connector session. Exact-head hosted CI, synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED. Do not infer a pass from static review.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED and existing ancestry. No merge, rebase, retarget, retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
