@@ -46,6 +46,9 @@ class TerminalSerializationFallbackTests(unittest.TestCase):
 
             self.assertEqual(primary["status"], "RUNNING")
             self.assertEqual(fallback["status"], "FAIL")
+            self.assertEqual(fallback["run_id"], primary["run_id"])
+            self.assertEqual(fallback["started_at_utc"], primary["started_at_utc"])
+            self.assertEqual(fallback["process_id"], primary["process_id"])
             self.assertTrue(fallback["terminal_report_serialization_failed"])
             self.assertEqual(fallback["render_result_status"], "RENDERED")
             self.assertTrue(fallback["output_inspection_required"])
