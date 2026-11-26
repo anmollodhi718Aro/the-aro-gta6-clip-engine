@@ -2014,3 +2014,5 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Audit report: `docs/ARO_CHAT_0370_PR389_EXACT_HEAD_CI_AUDIT.md`, commit `6356ccda6046ad60479f699af93d35bd0765a068`.
 - Local tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI has no exposed execution steps; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED; P0 pipeline NOT COMPLETE.
 - Keep PR #389 and #388/#387/#386 OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+- Audit-branch CI follow-up: initial PR #391 head `8670522ccefbaa0693b6fdda291a6e90674c5e09` run #45783637618 completed FAILURE; Ubuntu job #139784900003 and hosted-Windows job #139784900308 both had `steps: null` / `logs_url: null`. Execution NOT ESTABLISHED; exact-head CI for the synchronized final branch head remains separately unverified.
