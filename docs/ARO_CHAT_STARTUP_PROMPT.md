@@ -1573,3 +1573,8 @@ Added a regression verifying that the synthetic output SHA-256 helper closes its
 - Test commit `0dc0e1836fdebd0331f534cda5797b89a59e8f2c`; report `docs/ARO_CHAT_0335_RENDERED_OUTPUT_POST_EOF_SWAP.md`; registry commit `dac3776e78e1a7a009ff5f1b63c1c6f1387bf55a`.
 - Production code unchanged. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED. No workflow dispatch/retry.
 - Authorized real GTA 6 MP4 acceptance remains blocked on owner-provided authorized media and permission handoff. Preserve PR #386 OPEN / DRAFT / UNMERGED; no merge/rebase/retarget/deploy/publish without owner approval.
+
+
+### Latest P0 continuation — ARO-CHAT-0336 (2026-11-26)
+
+Continued the existing draft PR #386 on its original branch/base. Added a focused regression proving that the synthetic output verifier closes its opened file descriptor when the initial `os.fstat()` call raises `OSError`. The existing `finally` cleanup is expected to provide this guarantee; production code is unchanged. Test commit `4505d5678ce3c46bd128aa4ab2aa6836247e40f2`; report `docs/ARO_CHAT_0336_SMOKE_VERIFIER_INITIAL_FSTAT_CLEANUP.md`; report commit `4eee90814fc9f9ce606ab902c2f40841ad0437bd`; registry commit `20506e5ca96f3a037204c86fd236d165ee7ad33d`. Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED. Preserve PR #386 OPEN/DRAFT/UNMERGED and its original branch/base. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
