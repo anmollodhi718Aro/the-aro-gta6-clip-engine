@@ -355,7 +355,33 @@ def _render_selected_clip_from_snapshot(
         report["error"] = f"selected source could not be safely identified: {exc}"
         return report
 
-    preflight = inspect_one_video(source, ffprobe_binary=ffprobe_binary)
+    try:
+        preflight = inspect_one_video(source, ffprobe_binary=ffprobe_binary)
+    except Exception as exc:
+        report.update(
+            source_preflight_error=f"{type(exc).__name__}: {exc}",
+            source_inspection_required=True,
+            error="selected source FFprobe preflight raised an exception",
+            message=(
+                "Source metadata verification could not be completed. "
+                "Inspect the selected source and FFprobe availability before retrying; no render was started."
+            ),
+        )
+        return report
+    if not isinstance(preflight, dict):
+        report.update(
+            source_preflight_error=(
+                "FFprobe returned malformed source metadata: expected an object, "
+                f"received {type(preflight).__name__}"
+            ),
+            source_inspection_required=True,
+            error="selected source FFprobe preflight returned malformed metadata",
+            message=(
+                "Source metadata verification returned an invalid result. "
+                "Inspect the selected source and FFprobe availability before retrying; no render was started."
+            ),
+        )
+        return report
     report["source_preflight"] = preflight
     if preflight.get("status") != "PASS":
         report["error"] = "selected source did not pass single-video metadata preflight"
