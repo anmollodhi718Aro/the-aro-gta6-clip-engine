@@ -416,9 +416,6 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
                 smoke.os.fstat(opened["descriptor"])
 
 
-if __name__ == "__main__":
-    unittest.main()
-
     def test_hash_verified_output_closes_descriptor_when_final_lstat_fails(self):
         with tempfile.TemporaryDirectory() as temp:
             output = Path(temp) / "output.mp4"
@@ -452,3 +449,7 @@ if __name__ == "__main__":
             with self.assertRaises(OSError):
                 real_fstat(opened["descriptor"])
 
+
+
+if __name__ == "__main__":
+    unittest.main()
