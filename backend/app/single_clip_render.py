@@ -814,6 +814,43 @@ def render_selected_clip(
     bounded disk I/O. FFprobe and FFmpeg then consume those exact snapshot
     bytes, eliminating the pathname replacement race between the two tools.
     """
+    valid_video_path = isinstance(video_path, (str, Path)) and not (
+        isinstance(video_path, str) and not video_path.strip()
+    )
+    valid_output_path = isinstance(output_path, (str, Path)) and not (
+        isinstance(output_path, str) and not output_path.strip()
+    )
+    if not valid_video_path:
+        return {
+            "status": "FAIL",
+            "source_path": str(video_path),
+            "output_path": str(output_path),
+            "start_seconds": start_seconds,
+            "end_seconds": end_seconds,
+            "processing_started": False,
+            "source_identity_verified": False,
+            "source_snapshot_verified": False,
+            "source_snapshot_created": False,
+            "upload_performed": False,
+            "publishing_enabled": False,
+            "error": "video_path must be a non-empty string or pathlib.Path",
+        }
+    if not valid_output_path:
+        return {
+            "status": "FAIL",
+            "source_path": str(video_path),
+            "output_path": str(output_path),
+            "start_seconds": start_seconds,
+            "end_seconds": end_seconds,
+            "processing_started": False,
+            "source_identity_verified": False,
+            "source_snapshot_verified": False,
+            "source_snapshot_created": False,
+            "upload_performed": False,
+            "publishing_enabled": False,
+            "error": "output_path must be a non-empty string or pathlib.Path",
+        }
+
     source = Path(video_path).expanduser()
     if expected_source_sha256 is not None and (
         not isinstance(expected_source_sha256, str)
