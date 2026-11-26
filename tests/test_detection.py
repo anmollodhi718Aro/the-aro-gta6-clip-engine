@@ -4,7 +4,7 @@ import unittest
 from datetime import datetime, timedelta, timezone
 
 from backend.app.detection import DetectorConfig, detect_chat_spikes
-from backend.app.models import ChatEvent, PermissionRecord
+from backend.app.models import ChatEvent, PermissionRecord, parse_datetime
 
 
 class DetectionTests(unittest.TestCase):
@@ -37,6 +37,22 @@ class DetectionTests(unittest.TestCase):
                     text="synthetic test event",
                 ))
         return events
+
+    def test_parse_datetime_rejects_non_string_non_datetime_values(self) -> None:
+        for value in (None, 123, object()):
+            with self.subTest(value=type(value).__name__):
+                with self.assertRaisesRegex(ValueError, "datetime or ISO 8601 string"):
+                    parse_datetime(value)
+
+    def test_parse_datetime_rejects_malformed_iso_string(self) -> None:
+        with self.assertRaisesRegex(ValueError, "valid ISO 8601 string"):
+            parse_datetime("not-a-timestamp")
+
+    def test_models_reject_non_string_identifiers(self) -> None:
+        with self.assertRaisesRegex(ValueError, "event_id and source_id"):
+            ChatEvent(None, "sample-stream", self.start)
+        with self.assertRaisesRegex(ValueError, "source_id and granted_by"):
+            PermissionRecord(None, "creator", frozenset({"analyze_chat"}), self.start)
 
     def test_rejects_non_finite_or_boolean_spike_multipliers(self) -> None:
         for multiplier in (float("nan"), float("inf"), float("-inf"), True):
