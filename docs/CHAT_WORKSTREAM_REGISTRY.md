@@ -3437,3 +3437,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Raw GitHub job records for pull_request runs #45830244238 (PR #412 head `334d14fb6e23f5a725f3753b73cecaffacdd5145`), #45828457264 (PR #412 prior head), #45806122307 (PR #407), and #45813736851 (PR #407 retry attempt) all show Ubuntu and Windows jobs with `runner_id: 0`, empty runner names/groups, and no steps.
 - Latest PR #412 jobs: #139944807026 (Ubuntu) and #139944806116 (Windows). This supports that jobs were not assigned a runner; it does not identify why. Root cause remains UNVERIFIED. No checkout, compile, tests, or FFmpeg smoke execution is evidenced.
 - CI workflow configuration was read back and contains standard ubuntu-latest/windows-latest matrix jobs. No speculative workflow change or retry/dispatch was made. No production code/test change in this follow-up. Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED; all validation and owner-media gates remain incomplete.
+
+
+### ARO-CHAT-0384 detector-configuration validation follow-up — 2026-11-26
+- Static review of the existing deterministic chat-spike detector found that integer-typed configuration fields accepted booleans, floats, and strings at runtime; these could fail later during bucket arithmetic or timedelta construction instead of failing at configuration creation.
+- Hardened `DetectorConfig`: `window_seconds`, `baseline_windows`, and `min_messages` must be positive integers; `pre_roll_seconds` and `post_roll_seconds` must be non-negative integers. Booleans are explicitly rejected because Python treats bool as an int subclass.
+- Added a regression matrix covering True, 1.5, and "2" for all five fields. Existing finite-positive multiplier validation and its NaN/infinity/boolean tests remain.
+- Commits: `96f042a33d4a2333772ac07da085c409fc50c00c` (production); `f331ae01dbe7dccf9d1a40909800a5d0adcba52e` (tests). GitHub source read-back is required; repository tests NOT RUN locally.
+- Exact-head CI execution remains unverified: prior runs failed before any runner steps; do not infer application test failure or rerun without a new reason. Synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
