@@ -2489,7 +2489,7 @@ The second ARO-CHAT-0310 entry and `docs/ARO_CHAT_0310_TERMINAL_FALLBACK_PATH_RE
 
 - Continued existing PR #386 / branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR.
 - Added direct helper regressions for valid H.264 MP4 metadata, missing video streams, and invalid dimensions (missing, zero, or boolean). Existing integration tests cover non-MP4 container and non-H.264 codec rejection.
-- Test commit: `d4a2e8482dc2d4623bd0c65e5cbbeba6b8c41ac2`.
+- Final regression-test commit: `9582ac36d76a7711c0a87c60a6769001b9b5b56b`; preliminary commit `d4a2e8482dc2d4623bd0c65e5cbbeba6b8c41ac2` added the helper import but did not contain the three test methods. A follow-up static check detected and corrected the omission.
 - Operator documentation: `docs/SINGLE_CLIP_RENDER.md`; report: `docs/ARO_CHAT_0311_RENDERED_MP4_METADATA_REGRESSIONS.md`.
 - Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED; authorized GTA 6 MP4 NOT PROCESSED; owner playback review NOT DONE.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and its existing base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth/credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
