@@ -85,11 +85,16 @@ def render_clip(
         raise RuntimeError("selected media path changed during source validation")
 
     requested_destination = Path(output_path).expanduser()
-    # Check the lexical destination before resolve(): resolve() follows dangling
-    # symlinks, which could redirect a supposedly new output outside this path.
+    # Resolve only the parent directory. Resolving the final component can
+    # follow a dangling symlink inserted after the check above and redirect the
+    # new render outside the requested output path. Keep the final name lexical:
+    # os.link() will then fail safely if a symlink appears before publication.
     if requested_destination.is_symlink():
         raise FileExistsError(f"output path is a symbolic link: {requested_destination}")
-    destination = requested_destination.resolve()
+    destination_parent = requested_destination.parent.resolve()
+    destination = destination_parent / requested_destination.name
+    if destination.is_symlink():
+        raise FileExistsError(f"output path is a symbolic link: {destination}")
 
     if source == destination:
         raise ValueError("output path must differ from input path")
