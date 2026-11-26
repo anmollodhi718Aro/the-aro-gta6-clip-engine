@@ -928,6 +928,12 @@ def render_selected_clip(
             # state instead of falling through to the pre-snapshot failure
             # report. The output may exist and must be inspected manually.
             return {
+                # Preserve every known renderer result (especially output hash,
+                # size, identity, duration, and preflight evidence) when only
+                # temporary snapshot cleanup fails. The overall operation is
+                # still FAIL, but discarding verified output evidence would
+                # make manual recovery and duplicate-render prevention harder.
+                **(render_report or {}),
                 "status": "FAIL",
                 "source_path": str(source),
                 "output_path": str(destination),
