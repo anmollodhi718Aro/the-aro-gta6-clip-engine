@@ -241,3 +241,6 @@ Added a CLI regression that inspects the report from inside the source-hash call
 
 ### Execution-request reporting clarification
 The reserved in-progress JSON report records `execution_requested` from the explicit `--execute` flag alone and records `rights_confirmation_supplied` separately from `--confirm-rights`. This keeps a blocked attempt distinguishable from a dry-run: requesting execution without rights confirmation is reported as requested-but-blocked, never as a dry-run. This is reporting only; the existing fail-closed rights gate is unchanged.
+
+
+The terminal JSON report retains the reserved invocation metadata and overlays the renderer's terminal result. This ensures the execution-request and rights-confirmation fields remain present after a BLOCKED, PLANNED, RENDERED, or FAIL result is written.
