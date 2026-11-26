@@ -80,7 +80,12 @@ parseable indication that the final outcome is unknown; inspect the destination
 before retrying. If the renderer returns or raises a handled `OSError`,
 `RuntimeError`, or `ValueError`, the CLI writes a terminal `FAIL` report with
 the error and a manual-output-inspection warning instead of leaving a stale
-`RUNNING` status. Upload and publishing fields remain false.
+`RUNNING` status. Upload and publishing fields remain false. On POSIX, the CLI
+also fsyncs the containing directory after creating the primary or fallback
+report, so the new directory entry is included in the durability boundary.
+Portable Python does not expose equivalent directory fsync on Windows; there,
+the report file itself is flushed and fsynced, but directory-entry crash
+durability is not claimed.
 
 
 ## Render one explicitly selected clip-pack row
