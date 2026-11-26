@@ -1720,3 +1720,15 @@ Continue on existing draft PR #386 and its original branch/base: `workstream/aro
 - Serial collision reconciliation: ARO-CHAT-0346 and ARO-CHAT-0347 were concurrently assigned to other regressions. This continuation is assigned ARO-CHAT-0348; no commit history was rewritten.
 - Static edit/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0348 (2026-11-26)
+
+- Suggested chat title: `ARO-CHAT-0348 | Structured CLI Failure and Cleanup on Synthetic Fixture Timeout`.
+- Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added `test_main_emits_structured_failure_and_cleans_up_when_fixture_generation_times_out` to `tests/test_synthetic_single_clip_smoke.py`. It injects `subprocess.TimeoutExpired` during synthetic FFmpeg fixture generation and verifies exit code 1, parseable JSON FAIL, timeout detail, upload/publishing false, no renderer invocation, and temporary-directory cleanup.
+- Production code unchanged; the existing `subprocess.SubprocessError` boundary is expected to catch `TimeoutExpired`.
+- Regression test commit: `1e1313bbaaa25fb82f1d3abca3e9410c4dc8afd4`; report commit: `987b271713208d9758fd1931a01fe734d7ad0e1a`; registry commit: `98cc975ba291cba9ab505a0cad8f607be327b84e`.
+- Serial collisions: ARO-CHAT-0346 was assigned to the missing-output CLI regression and ARO-CHAT-0347 to unsafe smoke-renderer report guards. This timeout task is uniquely ARO-CHAT-0348; the provisional report alias with 0347 in its filename is historical only. No commit history was rewritten.
+- Static change/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
