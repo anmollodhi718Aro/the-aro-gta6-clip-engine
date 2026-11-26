@@ -3107,3 +3107,13 @@ ARO-CHAT-0345 was already reserved by a concurrent continuation for the syntheti
 - ARO-CHAT-0345 through ARO-CHAT-0348 were already assigned to concurrent continuations; this task is uniquely registered as 0349. Existing implementation/test commits are retained.
 - Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN/DRAFT/UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+## ARO-CHAT-0349 | Reject FIFO Replacement During Synthetic Output Verification (2026-11-26)
+
+- Workstream: ARO-GTA-P0-349; continued existing draft PR #386 on its original branch/base.
+- Added `test_hash_verified_output_rejects_fifo_replacement_without_blocking` to `tests/test_synthetic_single_clip_smoke.py`.
+- The regression begins with a regular output file, replaces the path with a FIFO immediately before descriptor open, and requires the verifier to reject the non-regular descriptor while asserting `O_NONBLOCK` was passed to `os.open`. It skips only where POSIX `mkfifo` or `O_NONBLOCK` is unavailable.
+- Production code unchanged. Test commit: `6d63bd53b8048d01f805c2979902da807ee1263d`; Python-version compatibility correction: `a707b1526c000afe8b78dfcab38b996e86579eb2`; canonical report: `docs/ARO_CHAT_0349_FIFO_REPLACEMENT_NONBLOCKING_GUARD.md` (commit `4bcf797afc8518e6a7a9d182f027b55ac3aa2702`). The provisional filename `docs/ARO_CHAT_0346_FIFO_REPLACEMENT_NONBLOCKING_GUARD.md` is retained as a historical alias after serial collision reconciliation.
+- Serial collision reconciliation: ARO-CHAT-0346 and ARO-CHAT-0347 were already assigned to other regressions, and ARO-CHAT-0348 was already registered for CLI failure/timeout regressions. This FIFO race regression is uniquely assigned ARO-CHAT-0349; no commit history was rewritten.
+- Source read-back confirms the regression is present. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
