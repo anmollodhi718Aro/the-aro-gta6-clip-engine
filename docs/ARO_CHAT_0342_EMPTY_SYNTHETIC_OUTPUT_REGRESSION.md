@@ -1,6 +1,6 @@
-# ARO-CHAT-0342 | Reject Empty Synthetic Render Output
+# ARO-CHAT-0343 | Reject Empty Synthetic Render Output
 
-- Workstream: ARO-GTA-P0-342.
+- Workstream: ARO-GTA-P0-343.
 - Continuation target: existing draft PR #386 on its original branch and base.
 - Finding addressed: the smoke harness already rejects a zero-byte output after independently hashing it, but this safety boundary lacked a direct regression test.
 - Change: add a synthetic renderer fixture that creates an empty output and reports the matching SHA-256 of empty bytes; assert the smoke harness still fails with the explicit empty-output error. This proves a matching digest alone cannot make an empty artifact pass.
