@@ -516,5 +516,24 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
                 real_fstat(opened[0])
 
 
+
+    def test_smoke_harness_rejects_empty_rendered_output_even_with_matching_digest(self):
+        def fake_render(source, output, start, end, **kwargs):
+            Path(output).write_bytes(b"")
+            return {
+                "status": "RENDERED",
+                "output_sha256": hashlib.sha256(b"").hexdigest(),
+                "upload_performed": False,
+                "publishing_enabled": False,
+            }
+
+        with patch.object(smoke.shutil, "which", side_effect=lambda name: f"/tools/{name}"), patch.object(
+            smoke.subprocess, "run"
+        ), patch.object(smoke, "render_selected_clip", side_effect=fake_render):
+            with self.assertRaisesRegex(RuntimeError, "synthetic output is empty"):
+                smoke.run_smoke_test()
+
+
+
 if __name__ == "__main__":
     unittest.main()
