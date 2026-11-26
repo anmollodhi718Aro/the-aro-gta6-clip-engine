@@ -1378,3 +1378,12 @@ Added direct regression coverage for the rendered MP4 metadata gate: valid H.264
 - Tests have NOT been run in this connector session. Exact-head Ubuntu/hosted-Windows CI, independent review, and owner-device Windows verification are NOT VERIFIED. Do not describe the code as tested.
 - Next: inspect the live PR head and Actions jobs for the new commits; diagnose the recurring pre-step runner failure without retrying or dispatching workflows. Then continue static review of durable RUNNING-report recovery and other core pipeline defects on the same branch.
 - Keep real-media processing blocked until owner-authorized source media and permission evidence are supplied. No OAuth, credentials, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+## Current continuation handoff — ARO-CHAT-0313 (2026-11-26)
+
+- Continue P0 single-selected-clip pipeline work on existing draft PR #386 and its original branch/base. Do not create a duplicate PR or alter ancestry.
+- Added a regression for terminal-report serialization failure: an injected non-JSON terminal result must leave the primary RUNNING report intact and write a separate exclusive, strict-JSON FAIL fallback that explicitly requires output inspection and keeps upload/publishing disabled.
+- Test commits: `cc79bf7f921ae6448c5536e07d1bd5956449b3e9`, corrected newline assertion `b5b474da98d65be0bf92d86793baf5c43a95d21a`; report: `docs/ARO_CHAT_0313_TERMINAL_SERIALIZATION_FALLBACK_REGRESSION.md`; registry entry: `ARO-GTA-P1-313`.
+- Tests NOT RUN in this connector session. Latest exact-head Actions lookup returned zero workflow runs; CI NOT VERIFIED. Independent review NOT RECORDED.
+- Next: inspect the live PR head and its naturally triggered Actions evidence; do not retry or dispatch workflows. Continue static review of durable RUNNING-report recovery and core single-clip pipeline defects on the same branch.
+- No real authorized MP4 processed, OAuth/credentials accessed, upload/publishing enabled, workflow retry/dispatch, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
