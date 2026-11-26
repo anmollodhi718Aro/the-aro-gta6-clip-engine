@@ -29,6 +29,20 @@ class MediaSinglePreflightTests(unittest.TestCase):
         self.temp.cleanup()
 
     @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_rejects_invalid_video_path_types_before_invoking_process(self, run):
+        for video_path in (None, 7, [], {}, Path()):
+            with self.subTest(video_path=video_path):
+                report = inspect_one_video(video_path)
+                self.assertEqual(report["status"], "FAIL")
+                self.assertIn("video_path must be a non-empty string or pathlib.Path", report["error"])
+        for video_path in ("", "   "):
+            with self.subTest(video_path=video_path):
+                report = inspect_one_video(video_path)
+                self.assertEqual(report["status"], "FAIL")
+                self.assertIn("video_path must be a non-empty string or pathlib.Path", report["error"])
+        run.assert_not_called()
+
+    @patch("backend.app.media_single_preflight.subprocess.run")
     def test_rejects_invalid_ffprobe_executable_before_invoking_process(self, run):
         for executable in ("", "   ", None, 7, Path("ffprobe")):
             with self.subTest(executable=executable):
