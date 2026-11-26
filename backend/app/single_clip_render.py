@@ -31,7 +31,18 @@ def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, 
         # Accept an optional UTF-8 BOM from spreadsheet exports while keeping
         # the generated clip-pack CSV format unchanged.
         with path.open("r", encoding="utf-8-sig", newline="") as handle:
-            reader = csv.DictReader(handle)
+            # DictReader is permissive by default: malformed quoting may be
+            # accepted, extra cells are stored under the None key, and short
+            # rows silently receive None values. Make all three conditions
+            # explicit failures, and parse the complete file so malformed
+            # trailing rows cannot hide behind an earlier selected row.
+            extra_fields_key = "__aro_extra_fields__"
+            reader = csv.DictReader(
+                handle,
+                restkey=extra_fields_key,
+                restval=None,
+                strict=True,
+            )
             required = {"source_id", "start_seconds", "end_seconds", "duration_seconds", "renderable"}
             headers = reader.fieldnames
             if not headers or not required.issubset(set(headers)):
@@ -40,13 +51,12 @@ def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, 
                 raise ValueError("candidate CSV contains blank or duplicate column names")
             selected = None
             for number, row in enumerate(reader, start=1):
+                if row.get(extra_fields_key) is not None:
+                    raise ValueError(f"candidate row {number} has more values than its header")
+                if any(row.get(column) is None for column in required):
+                    raise ValueError(f"candidate row {number} is missing required values")
                 if number == row_number:
-                    if None in row:
-                        raise ValueError(f"candidate row {row_number} has more values than its header")
-                    if any(row.get(column) is None for column in required):
-                        raise ValueError(f"candidate row {row_number} is missing required values")
                     selected = row
-                    break
     except (OSError, csv.Error, UnicodeError) as exc:
         raise ValueError(f"candidate CSV could not be read: {exc}") from exc
     if selected is None:
