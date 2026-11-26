@@ -199,6 +199,38 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
 
             self.assertGreaterEqual(calls["count"], 1)
 
+    def test_hash_verified_output_rejects_path_swap_between_lstat_and_open(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            output = root / "output.mp4"
+            preserved = root / "original.mp4"
+            target = root / "replacement.mp4"
+            output.write_bytes(b"original synthetic output")
+            target.write_bytes(b"replacement synthetic output")
+            real_open = smoke.os.open
+            swapped = {"done": False}
+
+            def replace_before_open(path, flags, *args, **kwargs):
+                if Path(path) == output and not swapped["done"]:
+                    output.replace(preserved)
+                    try:
+                        output.symlink_to(target)
+                    except (OSError, NotImplementedError) as exc:
+                        preserved.replace(output)
+                        raise unittest.SkipTest(
+                            f"symlink creation unavailable for race regression: {exc}"
+                        )
+                    swapped["done"] = True
+                return real_open(path, flags, *args, **kwargs)
+
+            with patch.object(smoke.os, "open", side_effect=replace_before_open):
+                with self.assertRaises((OSError, RuntimeError)):
+                    smoke._hash_verified_output(output)
+
+            self.assertTrue(swapped["done"])
+            self.assertEqual(preserved.read_bytes(), b"original synthetic output")
+            self.assertTrue(output.is_symlink())
+
 
 if __name__ == "__main__":
     unittest.main()
