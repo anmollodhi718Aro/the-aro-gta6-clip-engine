@@ -22,8 +22,13 @@ PROBE_TIMEOUT_SECONDS = 30
 
 def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe") -> dict[str, Any]:
     """Return one PASS/FAIL report for the exact file selected by the owner."""
+    # Do not call arbitrary __str__ methods before entering the guarded
+    # validation path. Invalid caller objects must still produce a FAIL report.
+    selected_label = video_path if isinstance(video_path, str) else (
+        str(video_path) if isinstance(video_path, Path) else "<invalid>"
+    )
     result: dict[str, Any] = {
-        "selected_file": str(video_path),
+        "selected_file": selected_label,
         "status": "FAIL",
         "size_bytes": None,
         "duration_seconds": None,
