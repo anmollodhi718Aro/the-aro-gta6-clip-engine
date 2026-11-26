@@ -1311,3 +1311,10 @@ Private source-snapshot read-back verification now counts bytes returned by desc
 
 ### Latest pipeline handoff — ARO-CHAT-0305
 Candidate-CSV mode now validates the output destination after the durable RUNNING report reservation but before hashing the selected video. Invalid output paths become terminal FAIL reports without reading media bytes or invoking the renderer; existing output is preserved. Trusted inventory SHA-256 remains mandatory before FFprobe/rendering. Regression: `test_candidate_cli_rejects_existing_output_before_hashing_source`. Commits: production `d570401b19f8a0674e736815f298d02b925a36e4`; test `09ea69e31d3b461f27942eb6ce1eb051bd8072e8`; operator docs `95c132cfd85739918c184b19fab074aefac6a9d5`; report `066e9483994d34c0d5ed69a958b91800dfe5ac66`. Tests NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED; real authorized MP4 NOT PROCESSED. Continue P0 on existing PR #386; preserve OPEN/DRAFT/UNMERGED and ancestry. No merge/rebase/retarget, workflow retry/dispatch, OAuth, credentials, media processing, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0305 latest continuation — 2026-11-26
+- Continue on existing PR #386 and its current branch; no duplicate branch/PR. ARO-CHAT-0305 / ARO-GTA-P1-305 fixes terminal fallback path expansion for tilde-prefixed `--report` values.
+- Production: `133440db0e8b29e18f89709a82b7a0d3b2621c74`; regression: `95da4200a4d94d84d6a23dd4278d76e4d48b439e`; report: `docs/ARO_CHAT_0305_EXPANDED_REPORT_FALLBACK_PATH.md`.
+- Exact-head workflow lookup returned no run/status for the test commit. Tests NOT RUN in this connector session; CI PENDING / NOT VERIFIED; independent review NOT RECORDED.
+- Preserve PR #386's existing base/ancestry and draft state. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No real media, OAuth, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment.
