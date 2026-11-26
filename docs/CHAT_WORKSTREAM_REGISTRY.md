@@ -3729,3 +3729,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - No workflow retry/dispatch tool is available in this connected GitHub action set; no workflow was re-run. No code patch was justified by this infrastructure-only evidence.
 - Repository unit tests NOT RUN; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
 - Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, upload, publishing, or deployment.
+
+
+### ARO-CHAT-0404 — Failed-job retry outcome (2026-11-27)
+- Retried failed jobs for workflow run `45891006555` using GitHub's rerun-failed-jobs action; GitHub accepted the retry.
+- Retry attempt jobs: Ubuntu `140157544457`, Windows `140157544856`. Both subsequently completed with conclusion `failure`, `steps: null`, and no logs URL. Direct log retrieval returned HTTP 404 BlobNotFound for both jobs.
+- This retry did not reach a visible workflow step; no unit-test execution is evidenced. It still does not identify the underlying cause. No source-code patch was made because no code-level test failure was observed.
+- PR #412 current HEAD remains `462fa0abace1dd1013b5ff5d1e74a03b69087a83`, OPEN / DRAFT / UNMERGED, base `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`. Retry was against prior recorded run/head `fbdc89133a5a2d26c1f8d8bdf03353ad82a83eef`, not the current HEAD. Current HEAD has no associated run in the available commit-run lookup.
+- Unit tests NOT RUN; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; Windows owner-device check NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
+- No merge, retarget, rebase, upload, publishing, or deployment.
