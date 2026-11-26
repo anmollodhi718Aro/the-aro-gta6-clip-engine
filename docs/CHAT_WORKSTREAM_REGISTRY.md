@@ -3236,3 +3236,13 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Test commit: `d71eb490f21f83b03e9f74284e87645fe9288788`; canonical report: `docs/ARO_CHAT_0358_SYMLINK_AFTER_OPEN_RACE.md` (commit `fc68f3899ec0bdfc302b53200f3dd3ec1f0f71ca`).
 - GitHub source write only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0359 | Close Output Descriptor When Hash Read Fails (2026-11-26)
+
+- Workstream: ARO-GTA-P0-359; continued existing draft PR #386 on its original branch/base.
+- Added `tests/test_synthetic_smoke_read_failure_cleanup.py` to inject an `OSError` from `os.read` during output hashing. The regression verifies error propagation, descriptor closure, and unchanged output bytes.
+- Production code unchanged; temporary synthetic files only; no FFmpeg/FFprobe process or media processing.
+- Test commit: `f58ef01378b8b1fa8847c1ab653efa483d2456c1`; canonical report: `docs/ARO_CHAT_0359_HASH_READ_FAILURE_CLEANUP.md` (commit `21d2f4ad3122691b874c5c06e7c1aeeece854cfa`).
+- GitHub source writes completed. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
