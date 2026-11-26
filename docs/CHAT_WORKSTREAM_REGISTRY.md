@@ -3424,3 +3424,10 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Windows job #139926481123 and Ubuntu job #139926481698 completed FAILURE with no recorded steps (`steps: null`) and no log URL. Step lookups were empty and job-log retrieval returned BlobNotFound.
 - Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. No checkout, compilation, or repository test execution is evidenced. Root cause remains UNVERIFIED; this is not evidence of an application-code test failure.
 - No workflow retry/dispatch was initiated. Repository tests NOT RUN; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED.
+
+
+### ARO-CHAT-0384 follow-up exact-head CI run — 2026-11-26
+- Updated PR #412 head `ad10126537a04753154e98078d4afe80d2b76a86` triggered pull_request run #45828457264 on `.github/workflows/ci.yml`; conclusion FAILURE.
+- Ubuntu job #139938629974 and Windows job #139938630458 both failed in approximately 2–3 seconds. Both job records have `steps: null`, no logs URL, and no artifacts. Check-run metadata reports one annotation per job, but the connected fetch endpoint rejected the annotations URLs; annotation text is unavailable.
+- Classification remains `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`; root cause UNVERIFIED. No evidence checkout, compile, or tests ran. Do not infer an application-code failure.
+- No retry/dispatch initiated. Repository tests NOT RUN; synthetic FFmpeg E2E NOT RUN; review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. PR #412 and parent PR #386 remain OPEN / DRAFT / UNMERGED.
