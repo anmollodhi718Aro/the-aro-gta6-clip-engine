@@ -1094,7 +1094,7 @@ def main() -> int:
                 # replace a path that may have been created by another actor.
                 try:
                     fallback_path = _write_exclusive_terminal_fallback(
-                        args.report, terminal_report_text, (source_path, output_path)
+                        report_path, terminal_report_text, (source_path, output_path)
                     )
                 except OSError as fallback_exc:
                     print(
