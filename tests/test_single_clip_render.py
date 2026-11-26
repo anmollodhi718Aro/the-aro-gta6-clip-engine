@@ -986,6 +986,38 @@ class SingleClipRenderTests(unittest.TestCase):
                 self.assertFalse(self.output.exists())
 
 
+    def test_cli_preserves_strict_running_report_when_terminal_json_contains_nan(self):
+        report_path = self.root / "non-finite-terminal-report.json"
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--start", "2", "--end", "8",
+            "--output", str(self.output), "--report", str(report_path),
+        ]
+
+        def reject_nonstandard_constant(value):
+            raise ValueError(f"non-standard JSON constant: {value}")
+
+        with patch("sys.argv", argv), patch(
+            "backend.app.single_clip_render.render_selected_clip",
+            return_value={
+                "status": "PLANNED",
+                "unexpected_metadata": float("nan"),
+                "upload_performed": False,
+                "publishing_enabled": False,
+            },
+        ) as render:
+            self.assertEqual(main(), 2)
+
+        self.assertTrue(report_path.exists())
+        persisted = json.loads(
+            report_path.read_text(encoding="utf-8"),
+            parse_constant=reject_nonstandard_constant,
+        )
+        self.assertEqual(persisted["status"], "RUNNING")
+        self.assertFalse(self.output.exists())
+        render.assert_called_once()
+
+
     def test_cli_handles_path_resolution_value_error_without_leaving_report(self):
         report_path = self.root / "report.json"
         with patch("sys.argv", [
