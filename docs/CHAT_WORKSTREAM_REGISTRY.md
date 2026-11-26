@@ -2927,3 +2927,13 @@ Two concurrent continuations used provisional ARO-CHAT-0327. The stable syntheti
 - Canonical report: `docs/ARO_CHAT_0339_PREMATURE_EOF_HASH_GUARD.md`; report commit: `be16a575f9f10e84c59cc5859183643e7ee7c7c5`.
 - Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0340 — restore final-lstat regression test discovery (2026-11-26)
+
+- Continued existing P0 draft PR #386 on its original branch/base.
+- Found that `test_hash_verified_output_closes_descriptor_when_final_lstat_fails` was nested below the module's `if __name__ == "__main__":` guard, after `unittest.main()`. Standard import-based unittest discovery therefore did not define the test method.
+- Moved the unchanged test method into the test class before the module guard. Production code and test assertions were unchanged.
+- Test-file commit: `db95ef617def378b7be4127d859e37e01170208a`; report: `docs/ARO_CHAT_0340_FINAL_LSTAT_TEST_DISCOVERY.md`; report commit: `fcbd2ddb03023caa42e37d4d4503d8d82468ade5`.
+- Structural source check passed. Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
