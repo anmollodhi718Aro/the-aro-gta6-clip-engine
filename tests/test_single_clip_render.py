@@ -146,7 +146,7 @@ class SingleClipRenderTests(unittest.TestCase):
 
 
     def test_sha256_selected_source_rejects_invalid_path_arguments(self):
-        for invalid_path in (None, 7, [], {}, "", "   ", "\\t"):
+        for invalid_path in (None, 7, [], {}, "", "   ", "\t"):
             with self.subTest(invalid_path=repr(invalid_path)):
                 with self.assertRaisesRegex(
                     ValueError,
