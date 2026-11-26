@@ -1623,3 +1623,13 @@ Continue on the existing draft PR #386 and its original branch/base. Added a foc
 ### Latest P0 handoff — ARO-CHAT-0341 (2026-11-26)
 
 Recorded exact-head Actions run #45771573052 for PR #386 head `bac9be9e34c2ed62c4e492791c0ce5edec2a2bf6`. Ubuntu job #139745194291 and hosted-Windows job #139745194003 both completed FAILURE, but both returned `steps: null` and `logs_url: null`; no execution logs are available. Classify as CI_FAILURE / EXECUTION_NOT_ESTABLISHED, not a demonstrated code/test failure. Runner-allocation root cause remains UNVERIFIED. No retry/dispatch was performed. Local tests and synthetic FFmpeg smoke NOT RUN; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED. Next action is owner/account-side verification of private-repository Actions policy, quota/billing and hosted-runner availability; only after resolution and explicit owner authorization should exact-head validation be rerun. Preserve PR #386 OPEN/DRAFT/UNMERGED and original ancestry. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+### Latest P0 handoff — ARO-CHAT-0341 (2026-11-26)
+
+- Continue on existing draft PR #386 and its original branch/base.
+- Removed a duplicate final-`fstat()` descriptor-cleanup test method that Python silently overwrote within the test class.
+- Added an AST regression requiring unique test method names in `SyntheticSingleClipSmokeTests`.
+- Test commit: `ef679a607e9a97a1ead6944f6b7720706a86f07c`; report commit: `54d6a373ca67a0f188eee3a109627ab293121278`; registry commit: `0a1450298e47685884a3f25367de6968b9981448`.
+- Static review only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN/DRAFT/UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
