@@ -22,9 +22,8 @@ PROBE_TIMEOUT_SECONDS = 30
 
 def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe") -> dict[str, Any]:
     """Return one PASS/FAIL report for the exact file selected by the owner."""
-    path = Path(video_path).expanduser()
     result: dict[str, Any] = {
-        "selected_file": str(path),
+        "selected_file": str(video_path),
         "status": "FAIL",
         "size_bytes": None,
         "duration_seconds": None,
@@ -37,6 +36,12 @@ def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe"
         "manual_review_required": True,
     }
     try:
+        if not isinstance(video_path, (str, Path)):
+            raise ValueError("video_path must be a non-empty string or pathlib.Path")
+        if isinstance(video_path, str) and not video_path.strip():
+            raise ValueError("video_path must be a non-empty string or pathlib.Path")
+        path = Path(video_path).expanduser()
+        result["selected_file"] = str(path)
         if not isinstance(ffprobe_binary, str) or not ffprobe_binary.strip():
             raise ValueError("ffprobe_binary must be a non-empty executable name or path")
         if path.suffix.lower() not in VIDEO_EXTENSIONS:
