@@ -1957,3 +1957,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Test commit: `2162adbf6ca952a7f2c74d7c65416b03fd95b4dc`; canonical report content commit: `34b571cb6b9a69a4c6f2391edba37e275b91a6b0`; registry commit: `2b0e2a7cc97e1926df5ee80ffb8e4f5cf5369c17`.
 - GitHub source writes only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0364 | Strict Trailing Candidate CSV Rows (2026-11-26)
+
+- Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added `tests/test_candidate_csv_strict_trailing_rows.py` coverage proving malformed quoted records and invalid UTF-8 in rows after the selected candidate are rejected by the complete-file parser.
+- Test commits: `a5c609ae6608a77cfe1009f6f7792914306c76c8` and `4b39b23d58a7c9fd1a1b7d0bcf7921b62c2aafa9`. Report commit: `1409793b9ee4978443ad39ab0c148850521b0f64`; registry commit: `0f100e06f61630d7ccc123515b52afce07c2651b`.
+- Production code unchanged; synthetic CSV text only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
