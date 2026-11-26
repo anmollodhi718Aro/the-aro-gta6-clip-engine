@@ -3374,3 +3374,11 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Existing UTF-8 BOM + CRLF spreadsheet-export coverage remains unchanged. Production code unchanged; synthetic CSV text only; no media tools or footage used.
 - Test/report/docs are recorded in the current continuation commit; local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### ARO-CHAT-0367 fixture correction — 2026-11-26
+
+- Follow-up static review found the non-ASCII source-ID regression used literal backslash-\`n\` text instead of actual CSV record separators, so the fixture did not validate the intended behavior.
+- Corrected the two fixture string literals to use actual newline characters. Production code and the BOM/CRLF test are unchanged.
+- Corrected test commit: `7bfd5c52baa88796e911de1f4a95798e6b130a18`; focused report: `docs/ARO_CHAT_0367_CANDIDATE_CSV_UNICODE_FIXTURE_LINE_ENDINGS.md` (commit `86fc141697bffbba8d73d63e67a52cb62a6a0c91`).
+- Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED. Preserve PR #386 DRAFT / OPEN / UNMERGED and all owner approval boundaries.
