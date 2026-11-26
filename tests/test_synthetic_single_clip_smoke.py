@@ -542,6 +542,37 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
                 smoke.run_smoke_test()
 
 
+    def test_main_emits_structured_failure_for_empty_synthetic_output(self):
+        import contextlib
+        import io
+        import json
+        import sys
+
+        def fake_render(source, output, start, end, **kwargs):
+            Path(output).write_bytes(b"")
+            return {
+                "status": "RENDERED",
+                "output_sha256": hashlib.sha256(b"").hexdigest(),
+                "upload_performed": False,
+                "publishing_enabled": False,
+            }
+
+        stderr = io.StringIO()
+        with patch.object(smoke.shutil, "which", side_effect=lambda name: f"/tools/{name}"), patch.object(
+            smoke.subprocess, "run"
+        ), patch.object(smoke, "render_selected_clip", side_effect=fake_render), patch.object(
+            sys, "argv", ["synthetic_single_clip_smoke.py"]
+        ), contextlib.redirect_stderr(stderr):
+            exit_code = smoke.main()
+
+        self.assertEqual(exit_code, 1)
+        payload = json.loads(stderr.getvalue())
+        self.assertEqual(payload["status"], "FAIL")
+        self.assertIn("synthetic output is empty", payload["error"])
+        self.assertFalse(payload["upload_performed"])
+        self.assertFalse(payload["publishing_enabled"])
+
+
 
 if __name__ == "__main__":
     unittest.main()
