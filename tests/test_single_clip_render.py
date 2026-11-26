@@ -14,7 +14,7 @@ from backend.app.single_clip_render import (
     _create_stable_source_snapshot, _write_exclusive_terminal_fallback,
     load_selected_candidate, main, render_selected_clip, sha256_selected_source,
     _rendered_mp4_validation_error,
-    _fsync_parent_directory,
+    _fsync_parent_directory, _report_handle_matches_path,
 )
 
 
@@ -2206,7 +2206,20 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(fallback_path.read_text(encoding="utf-8"), report_text[:7])
 
 
-    def test_cli_stops_before_media_when_reserved_report_path_is_replaced(self):
+    def test_report_handle_identity_check_detects_actual_path_replacement(self):
+        report_path = self.root / "reserved-report.json"
+        displaced_path = self.root / "displaced-report.json"
+        report_path.write_text("reserved", encoding="utf-8")
+        with report_path.open("r+", encoding="utf-8") as handle:
+            self.assertTrue(_report_handle_matches_path(handle, report_path))
+            report_path.replace(displaced_path)
+            report_path.write_text("replacement", encoding="utf-8")
+            self.assertFalse(_report_handle_matches_path(handle, report_path))
+        self.assertEqual(displaced_path.read_text(encoding="utf-8"), "reserved")
+        self.assertEqual(report_path.read_text(encoding="utf-8"), "replacement")
+
+
+    def test_cli_stops_before_media_when_report_path_identity_check_fails(self):
         report_path = self.root / "replaced-before-media.json"
         fallback_path = report_path.with_name(report_path.name + ".terminal-fallback.json")
         argv = [
@@ -2229,7 +2242,7 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(fallback["upload_performed"])
         self.assertFalse(fallback["publishing_enabled"])
 
-    def test_cli_falls_back_when_reserved_report_path_changes_during_terminal_write(self):
+    def test_cli_falls_back_when_report_path_identity_changes_during_terminal_write(self):
         report_path = self.root / "replaced-during-terminal-write.json"
         fallback_path = report_path.with_name(report_path.name + ".terminal-fallback.json")
         argv = [
