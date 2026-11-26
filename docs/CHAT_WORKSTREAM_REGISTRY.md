@@ -2550,3 +2550,14 @@ The second ARO-CHAT-0310 entry and `docs/ARO_CHAT_0310_TERMINAL_FALLBACK_PATH_RE
 - Added terminal-success and terminal-fallback assertions proving invocation identity (`run_id`, `started_at_utc`, `process_id`) is preserved from the durable RUNNING reservation.
 - Additional test commits: `be7aa98b0066d43ce3349da5ed6eb7345bb1dd57`, `babe0322d7928585b8d83e61f959070ba5fad862`; report update `22523b394937326213b720a936518755890922ff`.
 - Tests NOT RUN; exact-head CI NOT VERIFIED.
+
+
+## ARO-CHAT-0315 — preserve possible output after render-helper exception (2026-11-26)
+
+- Continued existing draft PR #386 and branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR.
+- Static review found that `render_clip()` can atomically link a completed output and then raise during temporary staging-directory cleanup. The caller previously recorded FAIL without an explicit output-inspection requirement, even though the configured destination might already exist.
+- The single-clip renderer now catches ordinary render-helper exceptions at the call boundary, preserves the configured destination, keeps `processing_started` unknown, records `output_inspection_required=true`, and instructs operators to inspect the output before retrying. It does not automatically delete or overwrite a possible output.
+- Added `test_render_exception_preserves_possible_output_and_requires_inspection`, which simulates output creation followed by a cleanup exception and asserts output preservation, fail status, inspection warning, unknown processing-start state, and disabled upload/publishing.
+- Production commit: `6b0bb54661a30fd37505e633d971b737b5eae254`; regression commit: `6542d1f6e93161624c1380905f78c37a31646682`; operator guide: `ff181f3ba00c056aa33a127abcc6ed12f46ed91d`; task report commit: `7cb48859e40f5d6dd6c1bc488b684caadf64803d`.
+- Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
