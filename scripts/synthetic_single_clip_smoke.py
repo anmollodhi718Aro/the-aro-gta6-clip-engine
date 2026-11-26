@@ -7,6 +7,7 @@ all temporary media. It never reads external footage or uploads/publishes.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import shutil
 import subprocess
@@ -69,6 +70,17 @@ def run_smoke_test(*, ffmpeg: str = "ffmpeg", ffprobe: str = "ffprobe") -> dict:
         if (not isinstance(digest, str) or len(digest) != 64
                 or any(character not in "0123456789abcdef" for character in digest)):
             raise RuntimeError("pipeline did not return a valid output SHA-256")
+
+        # Do not trust a well-formed digest supplied by the renderer alone.
+        # Independently hash the exact output file and require both values to
+        # identify the same bytes before reporting a successful smoke test.
+        actual_digest = hashlib.sha256()
+        with output.open("rb") as rendered_file:
+            for chunk in iter(lambda: rendered_file.read(1024 * 1024), b""):
+                actual_digest.update(chunk)
+        if actual_digest.hexdigest() != digest:
+            raise RuntimeError("renderer output SHA-256 does not match the rendered MP4 bytes")
+
         return {
             "status": "PASS",
             "media": "synthetic test pattern and tone only",
