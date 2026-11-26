@@ -777,6 +777,35 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertIn("codec is not H.264", report["error"])
         self.assertTrue(report["manual_cleanup_required"])
 
+
+    def test_rendered_mp4_validation_accepts_h264_video_with_dimensions(self):
+        valid = {
+            "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+            "video_streams": [{"codec": "h264", "width": 1920, "height": 1080}],
+        }
+        self.assertIsNone(_rendered_mp4_validation_error(valid))
+
+    def test_rendered_mp4_validation_rejects_missing_video_stream(self):
+        invalid = {"format_name": "mp4", "video_streams": []}
+        self.assertEqual(
+            _rendered_mp4_validation_error(invalid),
+            "rendered output has no verified video stream",
+        )
+
+    def test_rendered_mp4_validation_rejects_missing_or_boolean_dimensions(self):
+        cases = [
+            ({"codec": "h264", "height": 1080}, "width"),
+            ({"codec": "h264", "width": 1920, "height": True}, "height"),
+            ({"codec": "h264", "width": 0, "height": 1080}, "width"),
+        ]
+        for stream, dimension in cases:
+            with self.subTest(stream=stream):
+                invalid = {"format_name": "mp4", "video_streams": [stream]}
+                self.assertEqual(
+                    _rendered_mp4_validation_error(invalid),
+                    f"rendered output has invalid video {dimension}",
+                )
+
     @patch("backend.app.single_clip_render.inspect_one_video", return_value=PASS)
     def test_rejects_end_beyond_selected_source_duration(self, _preflight):
         report = render_selected_clip(self.source, self.output, 15, 21)
