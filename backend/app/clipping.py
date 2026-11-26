@@ -52,6 +52,13 @@ def render_clip(
         raise TypeError("rights_confirmed must be an explicit boolean")
     if rights_confirmed is not True:
         raise PermissionError("media processing requires explicit rights confirmation")
+    if not isinstance(ffmpeg_binary, str) or not ffmpeg_binary.strip():
+        raise ValueError("ffmpeg_binary must be a non-empty executable name or path")
+    for name, value in (("input_path", input_path), ("output_path", output_path)):
+        if not isinstance(value, (str, Path)):
+            raise ValueError(f"{name} must be a non-empty string or pathlib.Path")
+        if isinstance(value, str) and not value.strip():
+            raise ValueError(f"{name} must be a non-empty string or pathlib.Path")
 
     requested_source = Path(input_path).expanduser()
     # Validate the lexical source before resolve(): resolve() follows symlinks,
@@ -66,16 +73,28 @@ def render_clip(
         raise ValueError("selected media input must be a regular file")
     source = requested_source.resolve()
     resolved_metadata = source.stat()
-    source_identity = (source_metadata.st_dev, source_metadata.st_ino)
-    if source_identity != (resolved_metadata.st_dev, resolved_metadata.st_ino):
+
+    def source_identity(metadata: os.stat_result) -> tuple[int, int, int, int, int, int]:
+        return (
+            metadata.st_dev, metadata.st_ino, metadata.st_size,
+            metadata.st_mtime_ns, metadata.st_ctime_ns, stat.S_IFMT(metadata.st_mode),
+        )
+
+    validated_source_identity = source_identity(source_metadata)
+    if validated_source_identity != source_identity(resolved_metadata):
         raise RuntimeError("selected media path changed during source validation")
 
     requested_destination = Path(output_path).expanduser()
-    # Check the lexical destination before resolve(): resolve() follows dangling
-    # symlinks, which could redirect a supposedly new output outside this path.
+    # Resolve only the parent directory. Resolving the final component can
+    # follow a dangling symlink inserted after the check above and redirect the
+    # new render outside the requested output path. Keep the final name lexical:
+    # os.link() will then fail safely if a symlink appears before publication.
     if requested_destination.is_symlink():
         raise FileExistsError(f"output path is a symbolic link: {requested_destination}")
-    destination = requested_destination.resolve()
+    destination_parent = requested_destination.parent.resolve()
+    destination = destination_parent / requested_destination.name
+    if destination.is_symlink():
+        raise FileExistsError(f"output path is a symbolic link: {destination}")
 
     if source == destination:
         raise ValueError("output path must differ from input path")
@@ -137,8 +156,10 @@ def render_clip(
         # This narrows the preflight-to-render replacement window and rejects
         # a symlink or non-regular replacement instead of following it.
         current_source = requested_source.lstat()
-        if (not stat.S_ISREG(current_source.st_mode)
-                or (current_source.st_dev, current_source.st_ino) != source_identity):
+        if (
+            not stat.S_ISREG(current_source.st_mode)
+            or source_identity(current_source) != validated_source_identity
+        ):
             raise RuntimeError("selected media path changed after source validation")
         try:
             subprocess.run(command, check=True, capture_output=True, text=True, timeout=ffmpeg_timeout_seconds)
@@ -149,6 +170,23 @@ def render_clip(
         except subprocess.CalledProcessError as exc:
             detail = (exc.stderr or "").strip()
             raise ClipRenderError(detail or "FFmpeg failed to render the clip") from exc
+
+        # Detect in-place edits while FFmpeg was reading the source. A
+        # stable inode alone is insufficient: writers can change bytes without
+        # replacing the pathname. Never publish a render from a changing input.
+        try:
+            completed_source = requested_source.lstat()
+        except OSError as exc:
+            raise ClipRenderError(
+                "selected media path disappeared or changed during FFmpeg rendering; output was not published"
+            ) from exc
+        if (
+            not stat.S_ISREG(completed_source.st_mode)
+            or source_identity(completed_source) != validated_source_identity
+        ):
+            raise ClipRenderError(
+                "selected media file changed during FFmpeg rendering; output was not published"
+            )
 
         if not temporary_output.is_file() or temporary_output.stat().st_size == 0:
             raise ClipRenderError("FFmpeg completed without creating a valid output file")

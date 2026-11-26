@@ -4,7 +4,7 @@ import unittest
 from datetime import datetime, timedelta, timezone
 
 from backend.app.detection import DetectorConfig, detect_chat_spikes
-from backend.app.models import ChatEvent, PermissionRecord
+from backend.app.models import ChatEvent, PermissionRecord, parse_datetime
 
 
 class DetectionTests(unittest.TestCase):
@@ -38,6 +38,122 @@ class DetectionTests(unittest.TestCase):
                 ))
         return events
 
+    def test_parse_datetime_rejects_non_string_non_datetime_values(self) -> None:
+        for value in (None, 123, object()):
+            with self.subTest(value=type(value).__name__):
+                with self.assertRaisesRegex(ValueError, "datetime or ISO 8601 string"):
+                    parse_datetime(value)
+
+    def test_parse_datetime_rejects_malformed_iso_string(self) -> None:
+        with self.assertRaisesRegex(ValueError, "valid ISO 8601 string"):
+            parse_datetime("not-a-timestamp")
+
+    def test_models_reject_non_string_identifiers(self) -> None:
+        with self.assertRaisesRegex(ValueError, "event_id and source_id"):
+            ChatEvent(None, "sample-stream", self.start)
+        with self.assertRaisesRegex(ValueError, "source_id and granted_by"):
+            PermissionRecord(None, "creator", frozenset({"analyze_chat"}), self.start)
+
+    def test_permission_constructor_requires_immutable_string_scopes(self) -> None:
+        for scopes in (
+            ["analyze_chat"],
+            "analyze_chat",
+            frozenset({"analyze_chat", 7}),
+            frozenset({""}),
+            frozenset({"   "}),
+        ):
+            with self.subTest(scopes=scopes):
+                with self.assertRaisesRegex(ValueError, "frozenset of non-empty strings"):
+                    PermissionRecord(
+                        "sample-stream", "test-creator", scopes, self.start
+                    )
+
+    def test_permission_from_dict_rejects_coercible_invalid_types(self) -> None:
+        valid = {
+            "source_id": "sample-stream",
+            "granted_by": "test-creator",
+            "scopes": ["analyze_chat"],
+            "granted_at": self.start.isoformat(),
+        }
+        invalid_payloads = (
+            {"source_id": None},
+            {"granted_by": 17},
+            {"scopes": "analyze_chat"},
+            {"scopes": ["analyze_chat", 3]},
+        )
+        for invalid in invalid_payloads:
+            with self.subTest(invalid=invalid):
+                with self.assertRaises(ValueError):
+                    PermissionRecord.from_dict({**valid, **invalid})
+
+    def test_chat_event_from_dict_rejects_coercible_invalid_types(self) -> None:
+        valid = {
+            "event_id": "event-1",
+            "source_id": "sample-stream",
+            "timestamp": self.start.isoformat(),
+            "text": "hello",
+        }
+        for invalid in (
+            {"event_id": None},
+            {"source_id": 42},
+            {"text": 99},
+        ):
+            with self.subTest(invalid=invalid):
+                with self.assertRaises(ValueError):
+                    ChatEvent.from_dict({**valid, **invalid})
+
+    def test_from_dict_rejects_non_object_payloads(self) -> None:
+        for model in (PermissionRecord, ChatEvent):
+            with self.subTest(model=model.__name__):
+                with self.assertRaisesRegex(ValueError, "must be an object"):
+                    model.from_dict([])
+
+    def test_rejects_non_finite_or_boolean_spike_multipliers(self) -> None:
+        for multiplier in (float("nan"), float("inf"), float("-inf"), True):
+            with self.subTest(multiplier=multiplier):
+                with self.assertRaisesRegex(ValueError, "finite positive number"):
+                    DetectorConfig(spike_multiplier=multiplier)
+
+    def test_rejects_non_integer_detector_count_and_padding_fields(self) -> None:
+        invalid_values = (True, 1.5, "2")
+        for field_name in (
+            "window_seconds",
+            "baseline_windows",
+            "min_messages",
+            "pre_roll_seconds",
+            "post_roll_seconds",
+        ):
+            for value in invalid_values:
+                with self.subTest(field=field_name, value=value):
+                    with self.assertRaises(ValueError):
+                        DetectorConfig(**{field_name: value})
+
+    def test_rejects_invalid_permission_and_event_container_types(self) -> None:
+        for permission in (None, {}, "permission"):
+            with self.subTest(permission=permission):
+                with self.assertRaisesRegex(ValueError, "permission must be a PermissionRecord"):
+                    detect_chat_spikes([], permission)
+
+        for events in (None, {}, "events", ()):
+            with self.subTest(events=events):
+                with self.assertRaisesRegex(ValueError, "events must be a list of ChatEvent"):
+                    detect_chat_spikes(events, self.permission)
+
+        for events in ([None], [object()], ["event"]):
+            with self.subTest(events=events):
+                with self.assertRaisesRegex(ValueError, "events must be a list of ChatEvent"):
+                    detect_chat_spikes(events, self.permission)
+
+    def test_rejects_invalid_detector_config_objects(self) -> None:
+        for config in (False, 0, [], {}, "default"):
+            with self.subTest(config=config):
+                with self.assertRaisesRegex(ValueError, "config must be a DetectorConfig"):
+                    detect_chat_spikes([], self.permission, config)
+
+    def test_none_config_uses_default_configuration(self) -> None:
+        candidates = detect_chat_spikes(self.make_events([2, 2, 2, 9]), self.permission, None)
+        self.assertEqual(len(candidates), 1)
+
     def test_detects_a_clear_spike(self) -> None:
         candidates = detect_chat_spikes(self.make_events([2, 2, 2, 9]), self.permission, self.config)
         self.assertEqual(len(candidates), 1)
@@ -66,6 +182,37 @@ class DetectionTests(unittest.TestCase):
         conflict = ChatEvent("same-id", "sample-stream", self.start + timedelta(seconds=1), "second")
         with self.assertRaisesRegex(ValueError, "conflicting duplicate"):
             detect_chat_spikes([event, conflict], self.permission, self.config)
+
+    def test_permission_allows_rejects_malformed_scope_queries(self) -> None:
+        for scope in (None, 7, [], "", "   "):
+            with self.subTest(scope=scope):
+                self.assertFalse(self.permission.allows(scope, self.start))
+
+    def test_permission_time_boundaries_are_half_open(self) -> None:
+        permission = PermissionRecord(
+            source_id="sample-stream",
+            granted_by="test-creator",
+            scopes=frozenset({"analyze_chat"}),
+            granted_at=self.start,
+            expires_at=self.start + timedelta(seconds=30),
+            revoked_at=self.start + timedelta(seconds=20),
+        )
+        self.assertFalse(permission.allows("analyze_chat", self.start - timedelta(microseconds=1)))
+        self.assertTrue(permission.allows("analyze_chat", self.start))
+        self.assertTrue(permission.allows("analyze_chat", self.start + timedelta(seconds=19, microseconds=999999)))
+        self.assertFalse(permission.allows("analyze_chat", self.start + timedelta(seconds=20)))
+        self.assertFalse(permission.allows("analyze_chat", self.start + timedelta(seconds=30)))
+
+    def test_permission_expires_at_exact_boundary(self) -> None:
+        permission = PermissionRecord(
+            source_id="sample-stream",
+            granted_by="test-creator",
+            scopes=frozenset({"analyze_chat"}),
+            granted_at=self.start,
+            expires_at=self.start + timedelta(seconds=10),
+        )
+        self.assertTrue(permission.allows("analyze_chat", self.start + timedelta(seconds=9, microseconds=999999)))
+        self.assertFalse(permission.allows("analyze_chat", self.start + timedelta(seconds=10)))
 
     def test_rejects_revoked_permission(self) -> None:
         revoked = PermissionRecord(

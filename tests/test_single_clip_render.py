@@ -145,6 +145,15 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(self.output.read_bytes(), replacement_bytes)
 
 
+    def test_sha256_selected_source_rejects_invalid_path_arguments(self):
+        for invalid_path in (None, 7, [], {}, "", "   ", "\t"):
+            with self.subTest(invalid_path=repr(invalid_path)):
+                with self.assertRaisesRegex(
+                    ValueError,
+                    "selected source path must be a non-empty string or pathlib.Path",
+                ):
+                    sha256_selected_source(invalid_path)
+
     def test_sha256_selected_source_matches_file_bytes(self):
         expected = hashlib.sha256(self.source.read_bytes()).hexdigest()
         self.assertEqual(sha256_selected_source(self.source), expected)
@@ -735,6 +744,40 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(inspected_source, self.source)
         self.assertFalse(report["source_snapshot_verified"])
         self.assertFalse(report["source_snapshot_created"])
+
+    def test_renderer_rejects_invalid_video_path_types_before_path_conversion(self):
+        invalid_paths = (None, 7, [], {}, "", "   ")
+        for invalid_path in invalid_paths:
+            with self.subTest(path_type=type(invalid_path).__name__, value=repr(invalid_path)):
+                with patch("backend.app.single_clip_render.inspect_one_video") as preflight, patch(
+                    "backend.app.single_clip_render._create_stable_source_snapshot"
+                ) as snapshot:
+                    report = render_selected_clip(invalid_path, self.output, 1, 5)
+                self.assertEqual(report["status"], "FAIL")
+                self.assertEqual(
+                    report["error"],
+                    "video_path must be a non-empty string or pathlib.Path",
+                )
+                self.assertFalse(report["processing_started"])
+                preflight.assert_not_called()
+                snapshot.assert_not_called()
+
+    def test_renderer_rejects_invalid_output_path_types_before_path_conversion(self):
+        invalid_paths = (None, 7, [], {}, "", "   ")
+        for invalid_path in invalid_paths:
+            with self.subTest(path_type=type(invalid_path).__name__, value=repr(invalid_path)):
+                with patch("backend.app.single_clip_render.inspect_one_video") as preflight, patch(
+                    "backend.app.single_clip_render._create_stable_source_snapshot"
+                ) as snapshot:
+                    report = render_selected_clip(self.source, invalid_path, 1, 5)
+                self.assertEqual(report["status"], "FAIL")
+                self.assertEqual(
+                    report["error"],
+                    "output_path must be a non-empty string or pathlib.Path",
+                )
+                self.assertFalse(report["processing_started"])
+                preflight.assert_not_called()
+                snapshot.assert_not_called()
 
     def test_dry_run_rejects_invalid_bounds_before_ffprobe(self):
         with patch("backend.app.single_clip_render.inspect_one_video") as preflight:
@@ -2189,6 +2232,22 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertIn("inspect any output file", report["message"])
         self.assertFalse(self.output.exists())
 
+
+    def test_candidate_csv_rejects_invalid_path_types_before_path_conversion(self):
+        for invalid_path in (None, 7, [], {}):
+            with self.subTest(invalid_path=type(invalid_path).__name__):
+                with self.assertRaisesRegex(
+                    ValueError, "candidate CSV path must be a non-empty string or pathlib.Path"
+                ):
+                    load_selected_candidate(invalid_path, 1)
+
+    def test_candidate_csv_rejects_blank_path_strings(self):
+        for invalid_path in ("", "   ", "\t"):
+            with self.subTest(invalid_path=repr(invalid_path)):
+                with self.assertRaisesRegex(
+                    ValueError, "candidate CSV path must be a non-empty string or pathlib.Path"
+                ):
+                    load_selected_candidate(invalid_path, 1)
 
     def test_candidate_csv_rejects_invalid_utf8_as_validation_error(self):
         pack = self.root / "invalid-utf8-candidates.csv"

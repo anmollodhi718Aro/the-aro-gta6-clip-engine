@@ -34,6 +34,39 @@ class ClipRenderTests(unittest.TestCase):
                     render_clip(selected, root / "clip.mp4", 0, 2, rights_confirmed=True)
             run.assert_not_called()
 
+    def test_rejects_invalid_input_and_output_path_arguments(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            source = root / "source.mov"
+            source.write_bytes(b"synthetic")
+            with patch("backend.app.clipping.subprocess.run") as run:
+                for invalid in (None, 7, [], {}, "", "   "):
+                    with self.subTest(argument="input_path", value=invalid):
+                        with self.assertRaisesRegex(ValueError, "input_path must be a non-empty"):
+                            render_clip(invalid, root / "clip.mp4", 0, 2, rights_confirmed=True)
+                    with self.subTest(argument="output_path", value=invalid):
+                        with self.assertRaisesRegex(ValueError, "output_path must be a non-empty"):
+                            render_clip(source, invalid, 0, 2, rights_confirmed=True)
+                run.assert_not_called()
+
+    def test_rejects_invalid_ffmpeg_executable_before_invoking_process(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            source.write_bytes(b"synthetic")
+            with patch("backend.app.clipping.subprocess.run") as run:
+                for executable in ("", "   ", None, 7, Path("ffmpeg")):
+                    with self.subTest(executable=executable):
+                        with self.assertRaisesRegex(ValueError, "ffmpeg_binary must be a non-empty"):
+                            render_clip(
+                                source,
+                                Path(folder) / "clip.mp4",
+                                0,
+                                2,
+                                rights_confirmed=True,
+                                ffmpeg_binary=executable,
+                            )
+                run.assert_not_called()
+
     def test_rejects_invalid_duration(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / "source.mov"
@@ -92,6 +125,33 @@ class ClipRenderTests(unittest.TestCase):
             with self.assertRaises(FileExistsError):
                 render_clip(source, output, 0, 2, rights_confirmed=True)
 
+    def test_rejects_output_symlink_created_during_parent_resolution(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            source = root / "source.mov"
+            source.write_bytes(b"synthetic")
+            output = root / "clip.mp4"
+            outside = root / "outside"
+            outside.mkdir()
+            target = outside / "redirected.mp4"
+            original_resolve = Path.resolve
+
+            def create_symlink_during_parent_resolution(path, *args, **kwargs):
+                if path == root and not output.exists() and not output.is_symlink():
+                    try:
+                        output.symlink_to(target)
+                    except (OSError, NotImplementedError):
+                        self.skipTest("symlink creation is unavailable on this runner")
+                return original_resolve(path, *args, **kwargs)
+
+            with patch.object(Path, "resolve", new=create_symlink_during_parent_resolution):
+                with patch("backend.app.clipping.subprocess.run") as run:
+                    with self.assertRaisesRegex(FileExistsError, "symbolic link|already exists"):
+                        render_clip(source, output, 0, 2, rights_confirmed=True)
+            self.assertTrue(output.is_symlink())
+            self.assertFalse(target.exists())
+            run.assert_not_called()
+
     def test_rejects_dangling_symlink_output_without_creating_target(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
@@ -130,6 +190,27 @@ class ClipRenderTests(unittest.TestCase):
             self.assertEqual(args[0][args[0].index("-t") + 1], "3.000")
             self.assertNotIn("shell", kwargs)
             self.assertEqual(kwargs["timeout"], 180)
+            self.assertFalse(list(Path(folder).glob(".clip-*")))
+
+    def test_refuses_to_publish_when_source_changes_during_ffmpeg(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            output = Path(folder) / "clip.mp4"
+            source.write_bytes(b"original synthetic source")
+
+            def fake_ffmpeg(command, **kwargs):
+                Path(command[-1]).write_bytes(b"synthetic rendered bytes")
+                # Simulate another process editing the same inode while FFmpeg
+                # is reading it, rather than replacing the source pathname.
+                source.write_bytes(b"modified source with different size")
+
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg):
+                with self.assertRaisesRegex(
+                    ClipRenderError, "changed during FFmpeg rendering"
+                ):
+                    render_clip(source, output, 0, 2, rights_confirmed=True)
+
+            self.assertFalse(output.exists())
             self.assertFalse(list(Path(folder).glob(".clip-*")))
 
     def test_fsyncs_rendered_file_before_publish_and_parent_directory_after(self) -> None:

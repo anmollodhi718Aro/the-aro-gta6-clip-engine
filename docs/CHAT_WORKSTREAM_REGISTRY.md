@@ -3409,3 +3409,344 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Test commits: `eb5fa0d62002c7620d5378814a3f3ca25018b787` and fixture correction `b4916c28a1d21a46b41aea794c67913cc739557f`; canonical report: `docs/ARO_CHAT_0369_UNICODE_WHITESPACE_SOURCE_ID.md`.
 - GitHub source read-back: PRESENT. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0384 | Reject NUL in single-clip candidate CSV (2026-11-26)
+
+- Workstream: ARO-GTA-P0-384. Child branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`, based on existing PR #386 exact head `9291fab827d20efa0fff8005aa62e9fda9dcec3d`; preserve ancestry and keep PR #386 unchanged.
+- Added a streaming NUL-character guard to the single-clip candidate CSV loader and four regression cases: optional field, header, unselected trailing row, and multiline quoted field.
+- Production and test changes are submitted; repository tests NOT RUN; synthetic FFmpeg E2E NOT RUN; exact-head CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Keep the child PR OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1/P0 remain INCOMPLETE.
+
+
+### ARO-CHAT-0384 exact-head CI evidence update — 2026-11-26
+- Exact PR head: `41e6b39c06983f69a7bcbbba39a6828b2097c73a`; workflow run #45824908265 completed FAILURE.
+- Windows job #139926481123 and Ubuntu job #139926481698 completed FAILURE with no recorded steps (`steps: null`) and no log URL. Step lookups were empty and job-log retrieval returned BlobNotFound.
+- Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. No checkout, compilation, or repository test execution is evidenced. Root cause remains UNVERIFIED; this is not evidence of an application-code test failure.
+- No workflow retry/dispatch was initiated. Repository tests NOT RUN; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED.
+
+
+### ARO-CHAT-0384 follow-up exact-head CI run — 2026-11-26
+- Updated PR #412 head `ad10126537a04753154e98078d4afe80d2b76a86` triggered pull_request run #45828457264 on `.github/workflows/ci.yml`; conclusion FAILURE.
+- Ubuntu job #139938629974 and Windows job #139938630458 both failed in approximately 2–3 seconds. Both job records have `steps: null`, no logs URL, and no artifacts. Check-run metadata reports one annotation per job, but the connected fetch endpoint rejected the annotations URLs; annotation text is unavailable.
+- Classification remains `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`; root cause UNVERIFIED. No evidence checkout, compile, or tests ran. Do not infer an application-code failure.
+- No retry/dispatch initiated. Repository tests NOT RUN; synthetic FFmpeg E2E NOT RUN; review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. PR #412 and parent PR #386 remain OPEN / DRAFT / UNMERGED.
+
+
+### ARO-CHAT-0384 runner-assignment evidence follow-up — 2026-11-26
+- Raw GitHub job records for pull_request runs #45830244238 (PR #412 head `334d14fb6e23f5a725f3753b73cecaffacdd5145`), #45828457264 (PR #412 prior head), #45806122307 (PR #407), and #45813736851 (PR #407 retry attempt) all show Ubuntu and Windows jobs with `runner_id: 0`, empty runner names/groups, and no steps.
+- Latest PR #412 jobs: #139944807026 (Ubuntu) and #139944806116 (Windows). This supports that jobs were not assigned a runner; it does not identify why. Root cause remains UNVERIFIED. No checkout, compile, tests, or FFmpeg smoke execution is evidenced.
+- CI workflow configuration was read back and contains standard ubuntu-latest/windows-latest matrix jobs. No speculative workflow change or retry/dispatch was made. No production code/test change in this follow-up. Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED; all validation and owner-media gates remain incomplete.
+
+
+### ARO-CHAT-0384 detector-configuration validation follow-up — 2026-11-26
+- Static review of the existing deterministic chat-spike detector found that integer-typed configuration fields accepted booleans, floats, and strings at runtime; these could fail later during bucket arithmetic or timedelta construction instead of failing at configuration creation.
+- Hardened `DetectorConfig`: `window_seconds`, `baseline_windows`, and `min_messages` must be positive integers; `pre_roll_seconds` and `post_roll_seconds` must be non-negative integers. Booleans are explicitly rejected because Python treats bool as an int subclass.
+- Added a regression matrix covering True, 1.5, and "2" for all five fields. Existing finite-positive multiplier validation and its NaN/infinity/boolean tests remain.
+- Commits: `96f042a33d4a2333772ac07da085c409fc50c00c` (production); `f331ae01dbe7dccf9d1a40909800a5d0adcba52e` (tests). GitHub source read-back is required; repository tests NOT RUN locally.
+- Exact-head CI execution remains unverified: prior runs failed before any runner steps; do not infer application test failure or rerun without a new reason. Synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 model-input validation follow-up — 2026-11-26
+- Static review found direct model constructors could raise AttributeError for non-string identifiers, and `parse_datetime` could raise incidental AttributeError for non-string/non-datetime inputs rather than a clear validation error.
+- Hardened `parse_datetime` to accept only datetime or ISO-8601 strings, normalize malformed ISO text to ValueError, and retain timezone-required validation.
+- Hardened `ChatEvent` and `PermissionRecord` identifiers to reject non-string/blank values with clear ValueError messages.
+- Added regression tests for None/integer/object timestamp inputs, malformed ISO timestamp text, and non-string event/permission identifiers.
+- Commits: `990312abf95e2bacc559c0decb3ba135628b1439` (models); `8e335312487ba9db0b95cae5526f584747c8504a` (tests). Source read-back pending. Repository tests NOT RUN in this session.
+- CI exact-head status NOT VERIFIED; prior hosted jobs did not start a runner. Synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 strict model-deserialization follow-up — 2026-11-26
+- Follow-up static review found `from_dict` constructors silently coerced JSON values such as null, numbers, and malformed scopes into strings. This could turn invalid permission/event payloads into apparently valid identifiers or scopes.
+- `PermissionRecord.from_dict` now requires an object, string identifiers, and a list containing only string scopes. `ChatEvent.from_dict` now requires an object, string identifiers, and string text. Timestamp values pass through strict `parse_datetime` validation; no broad string coercion remains.
+- Added regression coverage for null/numeric identifiers, wrong scope container/member types, non-string event text, and non-object payloads.
+- Commits: `e70db43d71bd10cdca9a4a70f861c0b55f1135bc` (production); `c736a11d9c93e3132aa706f19c6a02035427041f` (tests). GitHub source read-back and executable tests remain pending.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 CLI source-preservation and payload-shape follow-up — 2026-11-26
+- Static review found the CLI accepted an output path resolving to the input JSON path. A successful atomic write could therefore replace the original source payload with the generated clip plan.
+- `analyze_file` now rejects input/output path identity before reading/writing, requires a top-level JSON object, requires the events member to be a list, and reports a missing permission member as a controlled validation failure.
+- Added synthetic CLI regressions for identical input/output, normalized path aliases, non-object top-level JSON, and non-list events. Existing atomic-replace preservation tests remain.
+- Commits: `e6c6ebf82f5c2c452a26b2a55d4167311f75bb8b` (production); `95b9af97efe3e6f07cbd65e88676221afb1f1262` (tests). Source read-back pending.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 direct permission-scope immutability follow-up — 2026-11-26
+- Static review found that `PermissionRecord.from_dict` validated scopes, but direct dataclass construction still accepted a mutable list or string despite the model contract declaring `frozenset[str]`. In particular, string membership could accidentally treat a partial scope name as authorized.
+- `PermissionRecord.__post_init__` now requires an immutable `frozenset` containing only strings before the record can be used for authorization checks.
+- Added regression coverage for a list, a string, and a frozenset containing a non-string member.
+- Commits: `88854a2a60deaa4a93e2214fa626c143c4e2dfe3` (production); `8dc22cdb073c0521518e54babd55cd7f8404fe87` (tests). Source read-back pending.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 reject blank permission scopes follow-up — 2026-11-26
+- Static review of the newly hardened direct permission constructor found it still accepted empty or whitespace-only scope names. Such values cannot grant the intended named capability and should be rejected at the model boundary rather than retained as malformed authorization metadata.
+- `PermissionRecord.__post_init__` now requires a `frozenset` of non-empty strings; whitespace-only members fail closed. Deserialization inherits the same validation after converting the validated JSON list to a frozenset.
+- Extended constructor regression coverage for empty and whitespace-only scope members.
+- Commits: `c02e97fdc65deb813744e9a4a905f25c623a9e63` (production); `b280857c6deff87d5cf8e153192ed8879c902ac9` (tests). Source read-back pending.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 permission expiry/revocation boundary regressions — 2026-11-26
+- Added deterministic unit cases pinning the permission interval semantics: authorization begins inclusively at `granted_at`, and ends exclusively at the earlier of `revoked_at` or `expires_at`. Tests cover the microsecond immediately before revocation and the exact revocation/expiry instants.
+- Production logic was already half-open (`at < granted_at` rejects; `at >= expires_at/revoked_at` rejects); this change locks that security-sensitive behavior against future regression without altering runtime policy.
+- Test commit: `d51707c9b26151784b3e1da66f6cdb300c1f3d3e`. Source read-back pending.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 malformed permission-scope query guard (2026-11-26)
+- Static review found `PermissionRecord.allows(scope, at)` performed frozenset membership before validating the caller-supplied scope. Unhashable input such as a list raised an incidental TypeError instead of failing closed; blank and non-string scopes were not explicitly rejected.
+- The method now returns `False` for non-string or whitespace-only scope queries before membership evaluation. Valid scope and timestamp behavior is unchanged.
+- Added regression coverage for None, integer, list, empty-string, and whitespace-only scope queries.
+- Commits: `949d9ec66a1d28fe707a7a4ca67be13942747126` (production); `afc18c6a82384400720a82cde5d2db7bbbd7fb98` (tests).
+- GitHub source read-back and executable tests pending. Latest exact-head hosted Actions evidence previously showed runner_id 0 and no steps; no checkout/test execution is evidenced. Do not claim tests passed.
+- Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, credentials, OAuth, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 detector config type guard (2026-11-26)
+- Static review found `detect_chat_spikes` used `config = config or DetectorConfig()`, silently replacing falsey invalid caller values (False, 0, empty list/dict) with defaults. This hid API misuse and made invalid configuration appear successful.
+- The detector now uses defaults only when config is explicitly None and rejects any other non-`DetectorConfig` object with a clear ValueError.
+- Regression tests cover False, 0, empty list, empty dict, string, and the explicit None default path.
+- Commits: `d0bb6b17e7f5c8290f9a86785ad4f56292cc6ef9` (production); `51ce9e5da976490ace78dcb3ff46a1f6db6e43af` (tests).
+- Tests NOT RUN in this connector session; exact-head CI pending. No FFmpeg E2E or authorized media processing.
+
+
+### ARO-CHAT-0384 exact-head CI evidence follow-up (2026-11-26)
+- Exact PR head checked: `9008398d19a5d6af018fe7f3f3f65b5af05f6367`.
+- GitHub Actions returned Python CI run `45869234695`, conclusion `failure`; Ubuntu job `140079995998` and Windows job `140079996517` both show `failure` with `steps: null`.
+- Attempted to retrieve both job logs; GitHub returned BlobNotFound/404 for each. Therefore no checkout, dependency-install, or test execution is evidenced, and the underlying failure cause is UNVERIFIED.
+- No workflow retry/dispatch was issued. Repository tests remain NOT RUN in this session; FFmpeg E2E NOT RUN; authorized GTA 6 media NOT PROCESSED.
+- PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED. Stage 1/P0 remains INCOMPLETE; no merge, rebase, retarget, upload, publishing, or deployment.
+
+### ARO-CHAT-0384 detector input type boundary follow-up (2026-11-26)
+- Static review found `detect_chat_spikes` relied only on annotations for its `events` and `permission` arguments. Invalid caller values could leak AttributeError/TypeError instead of a controlled fail-closed validation error.
+- The detector now requires a `PermissionRecord` and a list containing only `ChatEvent` instances before processing, including the empty-events path.
+- Regression tests cover invalid permission objects, non-list event containers, and invalid event members.
+- Production commit: `8719062dc6cfe7f0124feee44e12c03950b26c89`; test commit: `92014618fd01272c206423fad2c8c0547f5071c2`.
+- Tests NOT RUN in this connector session; exact-head CI, synthetic FFmpeg E2E, owner-device Windows, independent review, and authorized real-media processing remain NOT VERIFIED.
+- PR #412 and parent PR #386 remain OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, upload, publishing, or deployment.
+
+### ARO-CHAT-0384 FFmpeg executable argument validation (2026-11-26)
+- Static review found `render_clip` accepted an unvalidated `ffmpeg_binary` argument. Empty/whitespace values or non-string objects could reach `subprocess.run` and produce incidental process/type errors rather than a clear input-validation failure.
+- Added a fail-fast requirement that the executable name/path is a non-empty string. Regression tests cover empty, whitespace-only, None, integer, and Path values and assert the process is never invoked.
+- Production commit: `81881af011a3d2c55b2f139ed32f587489c7e196`; test commit: `be05b13e33376347b29ab8ffb09c889d9c925af9`.
+- Tests NOT RUN in this connector session; exact-head CI, synthetic FFmpeg E2E, owner-device Windows, independent review, and authorized real-media processing remain NOT VERIFIED.
+- PR #412 and parent PR #386 remain OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, upload, publishing, or deployment.
+
+
+### ARO-CHAT-0384 FFmpeg source-mutation guard (2026-11-26)
+- Static review found render_clip checked source device/inode before FFmpeg but did not detect in-place edits to the same file while FFmpeg was running. A stable inode does not prove stable media bytes.
+- The renderer now snapshots regular-file identity metadata (device, inode, size, mtime, ctime, and file type), checks it immediately before FFmpeg, and checks again after FFmpeg before publishing the staged output. A changed or missing source causes a fail-closed error and the staged output is discarded.
+- Added a regression test that edits the source in place during a mocked FFmpeg call and verifies no final output is published.
+- Production commit: f9d7315d997e0062dc1841c72575f43665f2d58a; test commit: e2659e8c8cc19a8c4498b9dcfdbc79ea2351bc3b.
+- Repository tests NOT RUN in this connector session; exact-head CI, synthetic FFmpeg E2E, owner-device Windows, independent review, and authorized real-media processing remain NOT VERIFIED. This metadata check narrows mutation risk but is not an OS-level immutable file lock.
+- Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 FFprobe executable argument validation (2026-11-26)
+- Static review found `inspect_one_video` accepted an unchecked `ffprobe_binary` argument. Non-string values such as None or Path could raise an uncaught TypeError from subprocess argument construction, while blank strings produced inconsistent process errors.
+- The preflight now rejects empty/whitespace-only and non-string executable names/paths with a clear FAIL report before invoking FFprobe.
+- Added regression coverage for empty, whitespace-only, None, integer, and Path values; the test asserts subprocess.run is never called.
+- Production and test changes are committed on the existing PR #412 branch. Tests NOT RUN in this connector session; exact-head CI, FFmpeg E2E, independent review, owner-device Windows, and authorized GTA 6 MP4 processing remain NOT VERIFIED.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0385 — FFprobe preflight path argument validation (2026-11-26)
+- Static review found inspect_one_video constructed Path(video_path) before entering its guarded validation block. Invalid caller values such as None, integers, containers, or blank strings could raise before the function returned its standard FAIL report.
+- Moved path construction inside the guarded block and added explicit non-empty string / pathlib.Path validation. Invalid inputs now return FAIL without invoking FFprobe.
+- Added regression coverage for None, integer, list, dict, empty Path, empty string, and whitespace-only string; asserts subprocess is not called.
+- Implementation and test commits are recorded in the subsequent commit metadata. Tests NOT RUN in this connector session; exact-head CI pending. No FFmpeg E2E, owner-device Windows verification, independent review, or authorized GTA 6 media processing.
+- Continue on existing PR #412 branch; preserve parent PR #386 ancestry. Keep both PRs OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0385 test-fixture correction (2026-11-26)
+- Follow-up review caught that `Path()` represents the current directory and is a valid `pathlib.Path` type, not an invalid argument type. Removed it from the invalid-type case table; actual Path objects remain exercised by the existing selected-file success tests. Production behavior unchanged.
+- Correction commit and read-back recorded below; tests NOT RUN in this connector session. Exact-head CI must be checked separately.
+
+
+### ARO-CHAT-0386 — FFmpeg render path argument validation (2026-11-26)
+- Static review found render_clip constructed Path(input_path) and Path(output_path) without validating caller types or blank strings. Values such as None, integers, containers, or whitespace could leak incidental TypeError or resolve as the current directory.
+- Added explicit non-empty string / pathlib.Path checks for both path arguments before filesystem access. Invalid values fail closed before FFmpeg invocation.
+- Added regression coverage for None, integer, list, dict, empty string, and whitespace-only string in both input and output positions; asserts subprocess is not called.
+- Tests NOT RUN in this connector session. Exact-head CI, FFmpeg E2E, owner-device Windows, independent review, and authorized GTA 6 media remain NOT VERIFIED.
+- Continue on existing PR #412; preserve parent #386 ancestry. Keep both OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0387 — Guard preflight report initialization against invalid-object stringification (2026-11-26)
+- Static review found inspect_one_video called str(video_path) while constructing its FAIL report, before entering the validation try/except. An invalid caller object with a raising __str__ could escape instead of returning the promised FAIL report.
+- Report initialization now labels unsupported input objects as <invalid> without invoking their conversion method; supported string and pathlib.Path inputs retain their label.
+- Added a regression test using an unsupported object whose __str__ raises; it must return FAIL and never invoke FFprobe.
+- Tests NOT RUN in this connector session. Exact-head CI, FFmpeg E2E, owner-device Windows, independent review, and authorized GTA 6 media remain NOT VERIFIED.
+- Continue on PR #412 only; preserve parent #386 ancestry. Both remain OPEN / DRAFT / UNMERGED. No retry/dispatch, merge, rebase, retarget, OAuth, credential, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0387 — Path-subclass string conversion guard (2026-11-26)
+- Review found the earlier broken-string regression only covered arbitrary non-Path objects. A pathlib.Path subclass can override __str__; the initial selected_file label called str(video_path) before entering the guarded block, allowing an exception to escape rather than returning FAIL.
+- Initial reporting now uses a neutral <path> label for Path instances without invoking subclass string conversion. Path normalization and final display conversion remain inside the guarded validation path.
+- Added a regression using the platform's concrete Path type subclass with an intentionally failing __str__; it asserts the valid Path subclass can be inspected successfully using mocked FFprobe metadata.
+- Tests NOT RUN in this connector session. Exact-head CI and media E2E remain NOT VERIFIED. PR #412 stays OPEN / DRAFT / UNMERGED; parent #386 ancestry unchanged. No workflow retry, merge, deployment, upload, or publishing.
+
+
+### ARO-CHAT-0388 — Correct duplicate mock patch in media preflight regression test (2026-11-27)
+- Continued the existing ARO-GTA-P0-384 workstream on PR #412; preserved its parent #386 ancestry and existing base.
+- Static review found `test_path_subclass_with_broken_string_conversion_is_handled_safely` had the same `@patch("backend.app.media_single_preflight.subprocess.run")` decorator twice while accepting only one injected mock argument. This would cause unittest to invoke the test with an extra positional mock and fail before its assertions.
+- Removed the duplicate decorator. Re-read the updated file from GitHub and scanned all five changed test modules for adjacent duplicate `@patch` decorators; none remain.
+- Fix commit: `8c7807c19dede92f0e0ab65b750d997700db2172`.
+- Tests were NOT executed in this session. Exact-head hosted CI remains blocked/unverified due prior runner_id=0, empty steps, and BlobNotFound; no test pass is claimed. Synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0389 — Reject symlink output redirection in CLI (2026-11-27)
+- Static review found `analyze_file` resolved the output path before writing. If the final output path was a symlink to an unrelated file, resolution redirected the atomic replacement to the symlink target, unexpectedly replacing that target.
+- Added a fail-closed check rejecting a symlink at the final output path before path resolution.
+- Added a regression that creates an output symlink and verifies the CLI returns status 2, preserves the target bytes, and leaves the symlink intact. Test skips only when the runner cannot create symlinks.
+- Production commit: `22f835e7e7d7b3febe5605b5450507d6bbbe4c18`; test commit: `524dd287d6a00443f3f1a7b197715a224314d86a`.
+- GitHub write responses confirm both commits; exact-head source read-back and test execution are pending. Tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED and existing ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0390 — Exact-head hosted runner evidence refresh (2026-11-27)
+- Rechecked PR #412 exact head `9e5615e6988014d56a54b93164ecf44b66f78014`; PR remains OPEN / DRAFT / UNMERGED with base `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Exact-head Python CI run: `45882291822`, completed with failure. Ubuntu job `140124303910` and Windows job `140124304399` both report failure; the job-steps endpoint returned empty arrays for both, and both job-log downloads returned BlobNotFound/404.
+- This confirms that no test-step execution is evidenced in this run. It does not identify the runner provisioning root cause, and must not be reported as a code-test failure or a passing run. Billing/quota/account restrictions remain unverified hypotheses.
+- Re-read the workflow at the exact head: it uses GitHub-hosted `ubuntu-latest` and `windows-latest`, with ordinary checkout, Python setup, FFmpeg installation, compile, unit-test, and synthetic smoke steps. No workflow YAML change is justified by current evidence.
+- No workflow retry/dispatch issued. Repository tests NOT RUN in this session; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED and ancestry. No merge, rebase, retarget, OAuth, credentials, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0391 — Exact-head runner failure refresh (2026-11-27)
+- Rechecked PR #412 at head `363b9f0ad03efd4243379e0491783233d1525798`; PR remains OPEN / DRAFT / UNMERGED, base and parent #386 ancestry unchanged.
+- Exact-head Python CI run `45883226564` completed with failure. Windows job `140127452217` and Ubuntu job `140127452298` both report failure with `steps: null`; no job-step execution is evidenced.
+- This is another pre-step hosted-runner failure, not evidence that repository tests failed or passed. Root cause remains UNVERIFIED; billing, quota, account policy, and hosted-runner availability have not been inspected or changed by this session.
+- Existing Issue #26 already tracks this blocker; no duplicate issue created and no workflow retry/dispatch issued.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, upload, publishing, deployment, or live media processing.
+- Repository tests NOT RUN; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED; no merge, rebase, retarget, or ancestry changes.
+
+
+### ARO-CHAT-0392 — Latest-head review and hosted CI refresh (2026-11-27)
+- Reviewed PR #412 at current head `4ebc7decaa47a0cab0d1a186f9f2d6ae32718c65`; changed-file list remains 14 files. PR is OPEN / DRAFT / UNMERGED; base remains `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; parent #386 ancestry preserved.
+- Re-read targeted patches for `backend/app/cli.py`, `backend/app/single_clip_render.py`, `backend/app/media_single_preflight.py`, and their relevant regression tests. No additional reproducible defect was established in this review; no speculative code change made.
+- Exact-head CI run `45884486678` completed with failure. Ubuntu job `140131675675` and Windows job `140131676012` both have `steps: null`; test-step execution is not evidenced. Treat as pre-step hosted-runner failure, not a test pass or test failure. Root cause remains UNVERIFIED.
+- No retry/dispatch issued. Existing Issue #26 remains the runner-blocker tracker. Connector does not expose account billing/runner-allocation settings, so no account-level cause or setting change is claimed.
+- Review submissions and inline review threads: none recorded at time of check.
+- Repository tests NOT RUN; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Stage 1/P0 remains INCOMPLETE.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, OAuth, credentials, live media processing, upload, publishing, or deployment.
+
+
+### ARO-CHAT-0393 — CI history reconciliation (2026-11-27)
+- Added evidence-based reconciliation comment `7201773088` to existing Issue #26. Current exact-head PR #412 run `45884486678` still has Ubuntu job `140131675675` and Windows job `140131676012` failed with `steps: null`; compile/tests did not execute.
+- Historical Issue #26 evidence records hosted runners successfully executing compile and 281 tests on both platforms at SHA `d1e75e57855187c680a376e1ca24eb3bcd64e838` (run `44697250496`). This older result does not verify PR #412, but disproves a blanket claim that hosted runners have never been available. Repository-public status was also documented on 2026-11-20; original issue wording calling it private is stale.
+- Root cause for current pre-step failure remains UNKNOWN. No evidence confirms billing/quota, policy, or general runner unavailability. No blind retry performed. Issue #26 remains OPEN.
+- No code patch was warranted by this CI-history reconciliation. PR #412 remains OPEN / DRAFT / UNMERGED with unchanged base. Tests on current head, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain outstanding.
+
+
+### ARO-CHAT-0394 — Validate candidate CSV path arguments before pathlib conversion (2026-11-27)
+- Static review found `load_selected_candidate(csv_path, row_number)` called `Path(csv_path)` before its guarded file-open block. Unsupported caller values such as `None`, integers, lists, or dicts raised incidental `TypeError` rather than the function's documented validation `ValueError`; blank/whitespace strings also resolved to the current directory instead of being rejected as invalid path arguments.
+- Added fail-closed argument validation for non-empty strings and `pathlib.Path` before conversion/open. Filesystem errors from valid path objects remain normalized through the existing CSV read error handling.
+- Added regression tests for `None`, integer, list, dict, empty string, whitespace-only string, and tab-only string. Existing Path-based successful loading remains unchanged.
+- Production commit: `dbd7b2b926b3deb6fdeddbde4df9e00f672235e9`; test commit: `0b0366022381bda2029f3a709895bc27719adf85`.
+- Tests NOT RUN in this connector session. Exact-head hosted CI, synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED. Do not infer a pass from static review.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED and existing ancestry. No merge, rebase, retarget, retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0395 — Correct tab-only CSV path regression fixture (2026-11-27)
+- Follow-up static review found the ARO-CHAT-0394 blank-path test used the two-character string `\\t` rather than an actual tab character. The test therefore did not exercise the tab-only input claimed in the prior registry entry.
+- Corrected the fixture to use the actual tab character escape `\t`; production behavior is unchanged. GitHub read-back verified the corrected source line and test-file blob.
+- Test commit: `f8d46f0a1b4819b26e5054c0e90b9694af1afa9d`. Tests remain NOT RUN; exact-head workflow execution, synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED.
+- PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED with ancestry preserved. Stage 1/P0 remains INCOMPLETE. No merge, rebase, retarget, retry/dispatch, upload, publishing, or deployment.
+
+
+### ARO-CHAT-0396 — Exact-head CI runner evidence after CSV fixture correction (2026-11-27)
+- Checked PR #412 head `dd94641fe57b85c595fb00be1fb15b874c80c94b`. Python CI run `45885911987` completed with failure; Windows job `140136443458` and Ubuntu job `140136443712` both report `steps: null` and no job log URL. No checkout, dependency installation, compile, or unit-test execution is evidenced by these job records.
+- The run is therefore recorded as a pre-step/runner execution failure with root cause UNVERIFIED, not as a code-test failure and not as a pass. No retry or workflow dispatch was issued.
+- The ARO-CHAT-0395 actual-tab fixture correction is present in the PR head. Repository tests remain NOT RUN; synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED.
+- PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED with base and ancestry preserved. Stage 1/P0 remains INCOMPLETE. No merge, rebase, retarget, upload, publishing, or deployment.
+
+
+### ARO-CHAT-0397 — Fail-closed direct renderer path validation (2026-11-27)
+- Exact PR #412 source review found public `render_selected_clip(video_path, output_path, ...)` converted both caller-supplied path arguments with `Path(...)` before validating them. Invalid direct API inputs (`None`, integers, lists, dicts, empty strings, whitespace-only strings) could escape as incidental `TypeError` instead of a structured FAIL report.
+- Added explicit non-empty `str` / `pathlib.Path` validation for source and destination before conversion, filesystem access, FFprobe, snapshot creation, or rendering. Invalid inputs return FAIL with processing/snapshot flags false; normal CLI Path arguments and valid direct calls are unchanged.
+- Added two regression tests covering six invalid values independently for source and output paths, asserting FFprobe and snapshot helpers are not called.
+- Production commit: `598c163871229ada7626fd2dce1d6318355a7b7b`; regression-test commit: `4af16f8f8f905fe282324a8607d48e7a04970eee`.
+- Static source/test read-back pending; tests NOT RUN in this session. Latest known exact-head Actions run before this fix `45886071923` failed before steps (Ubuntu job `140136964601`, Windows job `140136964243`, both `steps: null`). New commits' CI execution not yet verified. Synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED with original base and ancestry. No merge, rebase, retarget, retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0399 — Validate selected-source hashing path arguments (2026-11-27)
+- Static review found `sha256_selected_source(path)` constructed `Path(path)` before validating the public helper's documented `str | Path` input. Invalid values such as `None`, integers, lists, dictionaries, and blank strings could escape as incidental `TypeError` rather than the helper's explicit validation error.
+- Added a fail-closed argument guard requiring a non-empty string or `pathlib.Path` before path conversion or filesystem access.
+- Added regression coverage for `None`, integer, list, dict, empty string, whitespace-only string, and tab-only string. The tab fixture was read back and corrected to use the actual Python tab escape.
+- Production commit: `0d17e6476d36d918099d6d11a04c5a774bf931d4`; initial test commit: `dd45ead53b21694d46a7e60b0b98222f859ad710`; fixture correction: `e8ce990693cfee0cd56a965052f6ee3316aafcaa`.
+- Exact-head read-back verified for production guard and regression fixture. Tests NOT RUN in this connector session. Exact-head hosted CI NOT VERIFIED for these new commits.
+- Previous exact-head workflow run `45886501625` at pre-change head `1ebce31fa4d15c3e6b3ad0e421221787e4ce77b0` failed before recorded steps: Ubuntu job `140138406880`, Windows job `140138407393`, both `steps: null`. This does not establish a test failure or identify the runner root cause.
+- Synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED with base and ancestry preserved. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0400 — Normalize CLI path-resolution runtime errors (2026-11-27)
+- Static review found `analyze_file` resolves input/output paths inside its guarded block, but its exception handler did not include `RuntimeError`. A symlink-loop/path-resolution runtime failure could therefore escape the CLI's normal status-2 error path.
+- Added `RuntimeError` to the CLI's handled path/input validation exceptions. Added a regression test that injects a path-resolution RuntimeError and verifies status 2, a diagnostic on stderr, and no output file creation.
+- Production commit: `a6157d8b90100cae4e5074bdc716c4a29ec61061`; test commit: `30aefea79a5debaa65f218a5843a0d24f078a16b`.
+- GitHub source write responses received. Exact-head source/test read-back and workflow lookup are pending; tests NOT RUN in this session. Do not claim a pass.
+- Synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. Stage 1/P0 remains INCOMPLETE.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED with base and ancestry unchanged. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, live media processing, upload, publishing, or deployment.
+
+
+
+### ARO-CHAT-0401 — Prevent CLI output symlink replacement race (2026-11-27)
+- Continued on existing child PR #412 branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`; preserved PR #412 base and parent PR #386 ancestry.
+- Static review found a time-of-check/time-of-use gap in the CLI output symlink guard: after `output_path.is_symlink()` passed, a raced final-component symlink could be followed by `output_path.resolve()`, redirecting the atomic replacement to the symlink target.
+- The CLI still resolves paths for input/output alias detection, but now retains the lexical absolute output destination for the atomic replace. If a final-component symlink appears after the initial check, `os.replace` replaces that link itself rather than following it to its target.
+- Added `test_cli_does_not_follow_output_symlink_created_after_initial_check`, which creates the symlink during output-path resolution and verifies the target bytes remain unchanged while a valid clip-plan file is written at the requested output path.
+- Production commit: `25c10e96e8c4dacf3c63eb718e8aa77df86671dd`; test commit: `eaf2d7c7c2ab80084385e569456ef2b314353110`.
+- GitHub source writes completed; exact-head read-back and test execution remain pending. Repository unit tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+
+### ARO-CHAT-0402 — Prevent renderer output symlink redirection race (2026-11-27)
+- Continued on existing child PR #412 branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`; preserved PR #412 base and parent PR #386 ancestry.
+- Static review found `render_clip` checked that the final output path was not a symlink, then called `Path.resolve()` on that final component. A dangling symlink inserted between those operations could be followed, redirecting the newly rendered output to its target path.
+- Changed destination normalization to resolve only the parent directory and preserve the final filename lexically. The final component is checked again, and the later exclusive hard-link publication fails if a link appears after validation.
+- Added `test_rejects_output_symlink_created_during_parent_resolution`, which injects a dangling symlink during parent resolution and verifies the redirect target is not created and FFmpeg is never invoked.
+- Production commit: `cffcf865999dca0e64f7be777e9e913477c0b75a`; regression-test commit: `441649e60f7cca11cb4c03ac3dbdd0434378c254`.
+- GitHub source writes completed. Exact-head read-back and workflow execution check pending; repository unit tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0403 — Exact-head Actions runner evidence refresh (2026-11-27)
+- Continued the existing PR #412 child branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`; PR #412 base branch and parent PR #386 ancestry remain unchanged.
+- Re-queried exact PR head `fbdc89133a5a2d26c1f8d8bdf03353ad82a83eef`. Python CI run `45891006555` completed with failure, but its Ubuntu job `140153369503` and Windows job `140153369163` both report `steps: null` and no logs URL. This confirms no test-step execution evidence; it does not establish a source-code test failure or the underlying runner/billing/policy cause.
+- PR #412 review list currently contains zero submitted reviews. Issue #26 remains OPEN and records the hosted-runner assignment investigation; Issue #68 remains OPEN / NOT IMPLEMENTED for authenticated channel-owner upload approval.
+- No workflow retry/dispatch tool is available in this connected GitHub action set; no workflow was re-run. No code patch was justified by this infrastructure-only evidence.
+- Repository unit tests NOT RUN; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, upload, publishing, or deployment.
+
+
+### ARO-CHAT-0404 — Failed-job retry outcome (2026-11-27)
+- Retried failed jobs for workflow run `45891006555` using GitHub's rerun-failed-jobs action; GitHub accepted the retry.
+- Retry attempt jobs: Ubuntu `140157544457`, Windows `140157544856`. Both subsequently completed with conclusion `failure`, `steps: null`, and no logs URL. Direct log retrieval returned HTTP 404 BlobNotFound for both jobs.
+- This retry did not reach a visible workflow step; no unit-test execution is evidenced. It still does not identify the underlying cause. No source-code patch was made because no code-level test failure was observed.
+- PR #412 current HEAD remains `462fa0abace1dd1013b5ff5d1e74a03b69087a83`, OPEN / DRAFT / UNMERGED, base `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`. Retry was against prior recorded run/head `fbdc89133a5a2d26c1f8d8bdf03353ad82a83eef`, not the current HEAD. Current HEAD has no associated run in the available commit-run lookup.
+- Unit tests NOT RUN; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; Windows owner-device check NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
+- No merge, retarget, rebase, upload, publishing, or deployment.
+
+
+
+### ARO-CHAT-0384 — Reject non-string source identifiers in clip-pack mapping (2026-11-27)
+- Continued on existing PR #412 child branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`; preserved base `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25` and parent PR #386 ancestry.
+- Static review found `map_candidates_to_media` converted arbitrary candidate and plan-level `source_id` values with `str(...)`. A malformed numeric ID such as `123` could therefore be treated as the valid string ID `"123"` and pass a calibrated-source equality check.
+- Added fail-closed validation: supplied plan-level source IDs must be non-empty strings; candidate source IDs must be strings before trimming/comparison. Missing candidate IDs may still use a validated plan-level fallback.
+- Added three regressions: numeric candidate ID against a clock calibrated for `"123"`, numeric plan-level fallback, and numeric candidate ID in single-origin mapping.
+- Production commit: `79c05793ce4d516165baa5c0211c0b3f2a7259ff`; test commit: `9e41f6b9b267e4ec13a8e688cde2ef4e22ee65ce`. Exact-head source and test read-back verified.
+- Exact-head Actions run `45906206127` failed for Ubuntu unit tests, Windows unit tests, and Ubuntu synthetic smoke; all three job records have `steps: null` and no logs URL. No test step is evidenced; runner root cause remains UNKNOWN. This is not a code-test failure and not a pass.
+- Repository tests NOT RUN locally; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
+- PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment.

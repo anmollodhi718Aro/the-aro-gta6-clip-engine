@@ -60,6 +60,94 @@ class CliTests(unittest.TestCase):
             self.assertEqual(status, 2)
             self.assertFalse(output_path.exists())
 
+    def test_cli_refuses_output_path_that_is_the_input_file(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            input_path = self.write_input(folder, ["analyze_chat"])
+            original = input_path.read_bytes()
+            with contextlib.redirect_stderr(io.StringIO()):
+                status = analyze_file(input_path, input_path, DetectorConfig())
+            self.assertEqual(status, 2)
+            self.assertEqual(input_path.read_bytes(), original)
+
+    def test_cli_refuses_output_path_alias_of_input_file(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            input_path = self.write_input(folder, ["analyze_chat"])
+            alias_path = Path(folder) / "." / "input.json"
+            original = input_path.read_bytes()
+            with contextlib.redirect_stderr(io.StringIO()):
+                status = analyze_file(input_path, alias_path, DetectorConfig())
+            self.assertEqual(status, 2)
+            self.assertEqual(input_path.read_bytes(), original)
+
+    def test_cli_refuses_symbolic_link_output_without_replacing_target(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            input_path = self.write_input(folder, ["analyze_chat"])
+            target_path = Path(folder) / "target.json"
+            output_path = Path(folder) / "output.json"
+            original = '{"keep": "target contents"}'
+            target_path.write_text(original, encoding="utf-8")
+            try:
+                output_path.symlink_to(target_path)
+            except (OSError, NotImplementedError):
+                self.skipTest("symlink creation is unavailable on this runner")
+
+            with contextlib.redirect_stderr(io.StringIO()):
+                status = analyze_file(input_path, output_path, DetectorConfig())
+
+            self.assertEqual(status, 2)
+            self.assertEqual(target_path.read_text(encoding="utf-8"), original)
+            self.assertTrue(output_path.is_symlink())
+
+    def test_cli_does_not_follow_output_symlink_created_after_initial_check(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            input_path = self.write_input(folder, ["analyze_chat"])
+            target_path = Path(folder) / "target.json"
+            output_path = Path(folder) / "output.json"
+            original = '{"keep": "target contents"}'
+            target_path.write_text(original, encoding="utf-8")
+            original_resolve = Path.resolve
+
+            def create_symlink_during_resolution(path, *args, **kwargs):
+                if path == output_path and not output_path.exists() and not output_path.is_symlink():
+                    try:
+                        output_path.symlink_to(target_path)
+                    except (OSError, NotImplementedError):
+                        self.skipTest("symlink creation is unavailable on this runner")
+                return original_resolve(path, *args, **kwargs)
+
+            with patch.object(Path, "resolve", new=create_symlink_during_resolution):
+                with contextlib.redirect_stdout(io.StringIO()):
+                    status = analyze_file(input_path, output_path, DetectorConfig())
+
+            self.assertEqual(status, 0)
+            self.assertEqual(target_path.read_text(encoding="utf-8"), original)
+            self.assertFalse(output_path.is_symlink())
+            result = json.loads(output_path.read_text(encoding="utf-8"))
+            self.assertFalse(result["publishing_enabled"])
+
+
+    def test_cli_rejects_non_object_top_level_json(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            input_path = Path(folder) / "input.json"
+            output_path = Path(folder) / "output.json"
+            input_path.write_text("[]", encoding="utf-8")
+            with contextlib.redirect_stderr(io.StringIO()):
+                status = analyze_file(input_path, output_path, DetectorConfig())
+            self.assertEqual(status, 2)
+            self.assertFalse(output_path.exists())
+
+    def test_cli_rejects_non_list_events(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            input_path = self.write_input(folder, ["analyze_chat"])
+            payload = json.loads(input_path.read_text(encoding="utf-8"))
+            payload["events"] = {"not": "a list"}
+            input_path.write_text(json.dumps(payload), encoding="utf-8")
+            output_path = Path(folder) / "output.json"
+            with contextlib.redirect_stderr(io.StringIO()):
+                status = analyze_file(input_path, output_path, DetectorConfig())
+            self.assertEqual(status, 2)
+            self.assertFalse(output_path.exists())
+
     def test_failed_atomic_replace_preserves_existing_output(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             input_path = self.write_input(folder, ["analyze_chat"])
@@ -74,6 +162,19 @@ class CliTests(unittest.TestCase):
             self.assertEqual(status, 2)
             self.assertEqual(output_path.read_text(encoding="utf-8"), original)
             self.assertEqual(list(Path(folder).glob(".output.json.*.tmp")), [])
+
+
+    def test_cli_reports_path_resolution_runtime_error_without_writing_output(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            input_path = self.write_input(folder, ["analyze_chat"])
+            output_path = Path(folder) / "output.json"
+            with patch.object(Path, "resolve", side_effect=RuntimeError("simulated symlink loop")):
+                with contextlib.redirect_stderr(io.StringIO()) as stderr:
+                    status = analyze_file(input_path, output_path, DetectorConfig())
+
+            self.assertEqual(status, 2)
+            self.assertIn("simulated symlink loop", stderr.getvalue())
+            self.assertFalse(output_path.exists())
 
 
 if __name__ == "__main__":

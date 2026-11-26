@@ -41,9 +41,28 @@ def _write_json_atomically(output_path: Path, payload: dict[str, Any]) -> None:
 
 def analyze_file(input_path: Path, output_path: Path, config: DetectorConfig) -> int:
     try:
-        payload: dict[str, Any] = json.loads(input_path.read_text(encoding="utf-8"))
+        # Do not follow a final-component output symlink: resolving it would
+        # redirect the atomic replacement to an unrelated target file.
+        if output_path.is_symlink():
+            raise ValueError("output path must not be a symbolic link")
+        # Never let a clip-plan destination replace its own source JSON, including
+        # aliases that resolve to the same file through relative paths or symlinks.
+        if input_path.resolve() == output_path.resolve():
+            raise ValueError("output path must differ from the input JSON file")
+        # Keep the lexical destination for the atomic replace. Resolving the
+        # final component here would follow a symlink created after the check
+        # above and could redirect the write to an unrelated target.
+        output_destination = output_path.absolute()
+        payload = json.loads(input_path.read_text(encoding="utf-8"))
+        if not isinstance(payload, dict):
+            raise ValueError("input JSON must contain an object at the top level")
+        if "permission" not in payload:
+            raise ValueError("input JSON is missing permission")
+        raw_events = payload.get("events", [])
+        if not isinstance(raw_events, list):
+            raise ValueError("input JSON events must be a list")
         permission = PermissionRecord.from_dict(payload["permission"])
-        events = [ChatEvent.from_dict(item) for item in payload.get("events", [])]
+        events = [ChatEvent.from_dict(item) for item in raw_events]
         candidates = detect_chat_spikes(events, permission, config)
         output = {
             "source_id": permission.source_id,
@@ -51,10 +70,10 @@ def analyze_file(input_path: Path, output_path: Path, config: DetectorConfig) ->
             "candidates": [candidate.to_dict() for candidate in candidates],
             "publishing_enabled": False,
         }
-        _write_json_atomically(output_path, output)
+        _write_json_atomically(output_destination, output)
         print(f"Wrote {len(candidates)} candidate(s) to {output_path}")
         return 0
-    except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
+    except (OSError, RuntimeError, json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
         print(f"Analysis stopped: {exc}", file=sys.stderr)
         return 2
 

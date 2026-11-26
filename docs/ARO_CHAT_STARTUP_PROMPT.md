@@ -2009,3 +2009,139 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Test commits: `eb5fa0d62002c7620d5378814a3f3ca25018b787` and fixture correction `b4916c28a1d21a46b41aea794c67913cc739557f`. Canonical report: `docs/ARO_CHAT_0369_UNICODE_WHITESPACE_SOURCE_ID.md`.
 - Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## Latest P0 continuation handoff — ARO-CHAT-0384 (2026-11-26)
+
+- Chat ID: ARO-CHAT-0384
+- Exact title: ARO-CHAT-0384 | Reject NUL in Single-Clip Candidate CSV
+- Workstream: ARO-GTA-P0-384
+- Child branch: `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`, based on PR #386 exact head `9291fab827d20efa0fff8005aa62e9fda9dcec3d`; preserve the existing PR #386 ancestry.
+- Added a streaming U+0000 rejection guard before DictReader and regressions for optional field, header, unselected trailing row, and multiline quoted field.
+- Repository tests NOT RUN; synthetic FFmpeg E2E NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Keep OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Stage 1 remains INCOMPLETE.
+
+
+### Latest continuation handoff — ARO-CHAT-0384 permission-scope query validation (2026-11-26)
+- Continue on the existing child PR #412 branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`, preserving parent PR #386 ancestry.
+- `PermissionRecord.allows` now fails closed for malformed scope queries (non-string, empty, whitespace-only) before frozenset membership; regression tests cover None, integer, list, empty, and whitespace-only inputs.
+- Commits: `949d9ec66a1d28fe707a7a4ca67be13942747126` (production); `afc18c6a82384400720a82cde5d2db7bbbd7fb98` (tests).
+- Repository tests NOT RUN in this connector session. Exact-head CI must be inspected; do not infer tests ran from a green-looking workflow label if runner steps are absent. FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation — detector config type guard (2026-11-26)
+- On the existing PR #412 branch, `detect_chat_spikes` now defaults only for explicit `config=None`; falsey or other non-DetectorConfig objects are rejected instead of silently defaulting.
+- Regression tests added for False, 0, empty list/dict, string, and None.
+- Commits: `d0bb6b17e7f5c8290f9a86785ad4f56292cc6ef9` (production); `51ce9e5da976490ace78dcb3ff46a1f6db6e43af` (tests).
+- Tests NOT RUN; exact-head CI, FFmpeg E2E, Windows owner-device validation and authorized GTA 6 media processing remain NOT VERIFIED. PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, deployment, upload, or publishing.
+
+### Latest continuation — detector argument validation (2026-11-26)
+- Continue on existing child PR #412 branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`, preserving parent PR #386 ancestry.
+- `detect_chat_spikes` now validates that permission is a `PermissionRecord` and events is a list containing only `ChatEvent` instances before processing. This prevents malformed caller inputs from leaking incidental attribute/type errors, including when the event list is empty.
+- Regression tests added for invalid permission objects, tuple/dict/string event containers, and invalid event members.
+- Commits: `8719062dc6cfe7f0124feee44e12c03950b26c89` (production), `92014618fd01272c206423fad2c8c0547f5071c2` (tests), `b90b4bf3751978a0aace7d2f75ca2a2bc24d4e56` (registry).
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; owner-device Windows, independent review, and authorized GTA 6 MP4 NOT VERIFIED.
+- Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media upload, publishing, or deployment.
+
+### Latest continuation — FFmpeg executable validation (2026-11-26)
+- Continue on existing child PR #412 branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`, preserving parent PR #386 ancestry.
+- `render_clip` now rejects empty/whitespace-only and non-string `ffmpeg_binary` values before touching media paths or invoking a process.
+- Regression coverage checks empty, whitespace, None, integer, and Path values and confirms `subprocess.run` is not called.
+- Commits: `81881af011a3d2c55b2f139ed32f587489c7e196` (production), `be05b13e33376347b29ab8ffb09c889d9c925af9` (tests), `29b1e2d4d736974477c237223dc8b8c406f5b94e` (registry).
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; owner-device Windows, independent review, and authorized GTA 6 MP4 NOT VERIFIED.
+- Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media upload, publishing, or deployment.
+
+
+### Latest continuation — FFmpeg source mutation detection (2026-11-26)
+- Continue on existing child PR #412 branch workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26, preserving parent PR #386 ancestry.
+- render_clip now snapshots source file identity metadata and rejects a source that is modified, replaced, or removed during FFmpeg execution before staged output can be published.
+- Regression test simulates an in-place source edit during a mocked FFmpeg run and asserts the final output is not published.
+- Commits: f9d7315d997e0062dc1841c72575f43665f2d58a (production); e2659e8c8cc19a8c4498b9dcfdbc79ea2351bc3b (test); 21882d027af7f97fc18b85deed54e319ef787907 (registry).
+- Tests NOT RUN; exact-head CI, synthetic FFmpeg E2E, owner-device Windows, independent review, and authorized real GTA 6 MP4 remain NOT VERIFIED. The metadata check narrows source-mutation risk but is not an immutable OS-level file lock.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation — FFprobe executable validation (2026-11-26)
+- Continue on existing child PR #412 branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`, preserving parent PR #386 ancestry.
+- `inspect_one_video` now rejects empty/whitespace-only and non-string `ffprobe_binary` values with a clear FAIL report before subprocess invocation.
+- Regression coverage checks empty, whitespace, None, integer, and Path values and asserts `subprocess.run` is not called.
+- Production and test changes are recorded in the workstream registry. Repository tests NOT RUN; exact-head CI, synthetic FFmpeg E2E, owner-device Windows, independent review, and authorized GTA 6 MP4 remain NOT VERIFIED.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation — FFprobe selected-path argument validation (2026-11-26)
+- Continue on existing child PR #412 branch workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26, preserving parent PR #386 ancestry.
+- inspect_one_video now validates video_path before constructing a Path, inside the standard fail-closed report boundary. Invalid types and blank paths return FAIL rather than leaking a constructor exception.
+- Regression tests cover None, integer, list, dict, empty Path, empty string, and whitespace-only string; FFprobe subprocess must not be invoked.
+- Repository tests NOT RUN in this connector session; exact-head CI pending. No synthetic FFmpeg E2E, owner-device Windows verification, independent review, or authorized GTA 6 MP4 processing.
+- Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0385 regression-fixture correction (2026-11-26)
+- Corrected the invalid video_path type test: `Path()` is a valid pathlib.Path object representing the current directory, so it does not belong in the invalid-type list. Existing success coverage passes a real Path object. Production code unchanged; tests NOT RUN in this connector session.
+
+
+### Latest continuation — FFmpeg render path argument validation (2026-11-26)
+- On existing child PR #412 branch, render_clip validates input_path and output_path as non-empty strings or pathlib.Path objects before touching the filesystem.
+- Invalid values (None, integer, list, dict, empty string, whitespace-only string) are covered for both arguments; FFmpeg subprocess must not be called.
+- Repository tests NOT RUN in this connector session; exact-head CI, FFmpeg E2E, owner-device Windows, independent review, and authorized GTA 6 MP4 processing remain NOT VERIFIED.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation — preflight report initialization guard (2026-11-26)
+- inspect_one_video no longer invokes arbitrary __str__ on unsupported video_path objects before validation. Unsupported objects receive the report label <invalid> and a normal FAIL result.
+- Regression test covers an object whose __str__ raises and confirms FFprobe is not invoked.
+- Tests NOT RUN; exact-head CI, media E2E, owner-device Windows, independent review, and authorized GTA 6 MP4 processing remain NOT VERIFIED.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation — Path-subclass string conversion guard (2026-11-26)
+- inspect_one_video no longer calls str() on Path subclasses while constructing its initial report. Such subclasses may override __str__ and raise before the guarded validation path.
+- Added regression coverage with a concrete platform Path subclass whose __str__ raises. Expected behavior: the valid Path subclass is accepted and inspected successfully using mocked FFprobe metadata.
+- Tests NOT RUN in this connector session; exact-head CI and media E2E NOT VERIFIED. Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED; no retry/dispatch, merge, deployment, upload, or publishing.
+
+
+### Latest continuation — duplicate mock patch correction (2026-11-27)
+- Continued the existing child PR #412 branch, preserving parent PR #386 ancestry and the selected base.
+- Removed a duplicate `@patch("backend.app.media_single_preflight.subprocess.run")` decorator from `test_path_subclass_with_broken_string_conversion_is_handled_safely`; the test accepts one mock parameter, so the duplicate decorator would inject an unexpected second argument.
+- Commit: `8c7807c19dede92f0e0ab65b750d997700db2172`; registry follow-up: `a170b224db3eb288b24594da2f1ef4ba2f0cd786`.
+- Re-read updated test source and checked all five changed test modules for adjacent duplicate `@patch` decorators; none remain. Tests NOT RUN; no exact-head workflow run returned for the registry commit. CI, synthetic FFmpeg E2E, independent review, owner-device Windows, and authorized GTA 6 media remain NOT VERIFIED.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation — CLI symlink output redirection guard (2026-11-27)
+- Static review found that resolving a symlink used as the final CLI output path could redirect the atomic clip-plan replacement to an unrelated target file.
+- `analyze_file` now rejects a symlink at the final output path before resolving paths. Regression coverage checks that a symlink target remains unchanged and the symlink remains in place.
+- Production commit: `22f835e7e7d7b3febe5605b5450507d6bbbe4c18`; test commit: `524dd287d6a00443f3f1a7b197715a224314d86a`.
+- GitHub write responses received; exact-head read-back and test execution pending. Tests NOT RUN; hosted CI NOT VERIFIED; FFmpeg E2E, independent review, owner-device Windows, and authorized GTA VI MP4 remain NOT VERIFIED.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No retry/dispatch, merge, rebase, retarget, OAuth, credentials, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation — CLI path-resolution RuntimeError guard (ARO-CHAT-0400, 2026-11-27)
+- Continued PR #412 on its existing branch and preserved the base/parent ancestry.
+- Added `RuntimeError` to `backend/app/cli.py`'s controlled error handling because path resolution can raise it for symlink-loop/path-resolution failures.
+- Added `test_cli_reports_path_resolution_runtime_error_without_writing_output` in `tests/test_cli.py`.
+- Production commit: `a6157d8b90100cae4e5074bdc716c4a29ec61061`; test commit: `30aefea79a5debaa65f218a5843a0d24f078a16b`; registry commit: `d22b9d7742e3929d5232b55b0e009fc6508dd45f`.
+- Tests have not been run. Exact-head CI, synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain unverified/not run. Stage 1/P0 remains incomplete.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. Do not merge, rebase, retarget, retry/dispatch workflows, process live media, upload, publish, or deploy without the required approvals.
+
+
+
+### Latest continuation — CLI output symlink replacement race (ARO-CHAT-0401, 2026-11-27)
+- Continued on existing child PR #412 branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`, preserving PR #412 base and parent #386 ancestry.
+- Kept the resolved-path comparison that prevents input/output aliases, but changed the final atomic-write target to the lexical absolute output path. This avoids following a final-component symlink introduced after the initial symlink check.
+- Added a deterministic regression that creates a symlink during output-path resolution and verifies the target file remains unchanged while the requested output path receives the clip-plan JSON.
+- Production commit: `25c10e96e8c4dacf3c63eb718e8aa77df86671dd`; test commit: `eaf2d7c7c2ab80084385e569456ef2b314353110`.
+- Tests NOT RUN. Exact-head CI, synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED. Stage 1/P0 remains INCOMPLETE.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, live media, upload, publishing, or deployment.
+
+
+
+### Latest continuation — renderer output symlink redirection race (ARO-CHAT-0402, 2026-11-27)
+- Continued on existing child PR #412 branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`, preserving PR #412 base and parent #386 ancestry.
+- `render_clip` now resolves only the output parent directory and retains the final filename lexically. This avoids following a dangling final-component symlink introduced after the initial validation; exclusive hard-link publication remains the final no-overwrite boundary.
+- Added a deterministic regression that creates a dangling symlink during parent resolution and asserts the target remains absent and FFmpeg is not invoked.
+- Production commit: `cffcf865999dca0e64f7be777e9e913477c0b75a`; regression-test commit: `441649e60f7cca11cb4c03ac3dbdd0434378c254`.
+- Tests NOT RUN. Exact-head CI, synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED. Stage 1/P0 remains INCOMPLETE.
+- Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, live media, upload, publishing, or deployment.

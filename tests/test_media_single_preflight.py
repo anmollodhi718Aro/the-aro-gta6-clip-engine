@@ -29,6 +29,54 @@ class MediaSinglePreflightTests(unittest.TestCase):
         self.temp.cleanup()
 
     @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_rejects_invalid_video_path_types_before_invoking_process(self, run):
+        for video_path in (None, 7, [], {}):
+            with self.subTest(video_path=video_path):
+                report = inspect_one_video(video_path)
+                self.assertEqual(report["status"], "FAIL")
+                self.assertIn("video_path must be a non-empty string or pathlib.Path", report["error"])
+        for video_path in ("", "   "):
+            with self.subTest(video_path=video_path):
+                report = inspect_one_video(video_path)
+                self.assertEqual(report["status"], "FAIL")
+                self.assertIn("video_path must be a non-empty string or pathlib.Path", report["error"])
+        run.assert_not_called()
+
+    @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_invalid_path_object_with_broken_string_conversion_returns_fail(self, run):
+        class BrokenPath:
+            def __str__(self):
+                raise RuntimeError("untrusted string conversion")
+
+        report = inspect_one_video(BrokenPath())
+        self.assertEqual(report["status"], "FAIL")
+        self.assertEqual(report["selected_file"], "<invalid>")
+        self.assertIn("video_path must be a non-empty", report["error"])
+        run.assert_not_called()
+
+    @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_path_subclass_with_broken_string_conversion_is_handled_safely(self, run):
+        base_path_type = type(self.video)
+
+        class BrokenPath(base_path_type):
+            def __str__(self):
+                raise RuntimeError("untrusted Path string conversion")
+
+        run.return_value = SimpleNamespace(stdout=GOOD_PROBE)
+        report = inspect_one_video(BrokenPath(self.video))
+        self.assertEqual(report["status"], "PASS")
+        self.assertEqual(report["selected_file"], str(self.video))
+        run.assert_called_once()
+    @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_rejects_invalid_ffprobe_executable_before_invoking_process(self, run):
+        for executable in ("", "   ", None, 7, Path("ffprobe")):
+            with self.subTest(executable=executable):
+                report = inspect_one_video(self.video, ffprobe_binary=executable)
+                self.assertEqual(report["status"], "FAIL")
+                self.assertIn("ffprobe_binary must be a non-empty executable name or path", report["error"])
+        run.assert_not_called()
+
+    @patch("backend.app.media_single_preflight.subprocess.run")
     def test_passes_one_selected_file_and_reports_duration(self, run):
         run.return_value = SimpleNamespace(stdout=GOOD_PROBE)
         report = inspect_one_video(self.video)

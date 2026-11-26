@@ -8,7 +8,15 @@ from typing import Any
 
 
 def parse_datetime(value: str | datetime) -> datetime:
-    parsed = value if isinstance(value, datetime) else datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if isinstance(value, datetime):
+        parsed = value
+    elif isinstance(value, str):
+        try:
+            parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        except ValueError as exc:
+            raise ValueError("timestamp must be a valid ISO 8601 string") from exc
+    else:
+        raise ValueError("timestamp must be a datetime or ISO 8601 string")
     if parsed.tzinfo is None or parsed.utcoffset() is None:
         raise ValueError("timestamps must include a timezone")
     return parsed
@@ -24,8 +32,17 @@ class PermissionRecord:
     revoked_at: datetime | None = None
 
     def __post_init__(self) -> None:
-        if not self.source_id.strip() or not self.granted_by.strip():
-            raise ValueError("source_id and granted_by are required")
+        if (
+            not isinstance(self.source_id, str)
+            or not isinstance(self.granted_by, str)
+            or not self.source_id.strip()
+            or not self.granted_by.strip()
+        ):
+            raise ValueError("source_id and granted_by must be non-empty strings")
+        if not isinstance(self.scopes, frozenset) or any(
+            not isinstance(scope, str) or not scope.strip() for scope in self.scopes
+        ):
+            raise ValueError("permission scopes must be a frozenset of non-empty strings")
         object.__setattr__(self, "granted_at", parse_datetime(self.granted_at))
         if self.expires_at is not None:
             object.__setattr__(self, "expires_at", parse_datetime(self.expires_at))
@@ -33,6 +50,10 @@ class PermissionRecord:
             object.__setattr__(self, "revoked_at", parse_datetime(self.revoked_at))
 
     def allows(self, scope: str, at: datetime) -> bool:
+        # Authorization queries with malformed scope values must fail closed
+        # rather than leaking a TypeError from set membership (e.g. a list).
+        if not isinstance(scope, str) or not scope.strip():
+            return False
         at = parse_datetime(at)
         if scope not in self.scopes or at < self.granted_at:
             return False
@@ -44,13 +65,22 @@ class PermissionRecord:
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "PermissionRecord":
+        if not isinstance(data, dict):
+            raise ValueError("permission must be an object")
+        source_id = data.get("source_id")
+        granted_by = data.get("granted_by")
+        scopes = data.get("scopes", [])
+        if not isinstance(source_id, str) or not isinstance(granted_by, str):
+            raise ValueError("permission source_id and granted_by must be strings")
+        if not isinstance(scopes, list) or any(not isinstance(scope, str) for scope in scopes):
+            raise ValueError("permission scopes must be a list of strings")
         return cls(
-            source_id=str(data["source_id"]),
-            granted_by=str(data["granted_by"]),
-            scopes=frozenset(str(scope) for scope in data.get("scopes", [])),
-            granted_at=parse_datetime(data["granted_at"]),
-            expires_at=parse_datetime(data["expires_at"]) if data.get("expires_at") else None,
-            revoked_at=parse_datetime(data["revoked_at"]) if data.get("revoked_at") else None,
+            source_id=source_id,
+            granted_by=granted_by,
+            scopes=frozenset(scopes),
+            granted_at=parse_datetime(data.get("granted_at")),
+            expires_at=parse_datetime(data["expires_at"]) if data.get("expires_at") is not None else None,
+            revoked_at=parse_datetime(data["revoked_at"]) if data.get("revoked_at") is not None else None,
         )
 
 
@@ -62,17 +92,31 @@ class ChatEvent:
     text: str = ""
 
     def __post_init__(self) -> None:
-        if not self.event_id.strip() or not self.source_id.strip():
-            raise ValueError("event_id and source_id are required")
+        if (
+            not isinstance(self.event_id, str)
+            or not isinstance(self.source_id, str)
+            or not self.event_id.strip()
+            or not self.source_id.strip()
+        ):
+            raise ValueError("event_id and source_id must be non-empty strings")
         object.__setattr__(self, "timestamp", parse_datetime(self.timestamp))
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "ChatEvent":
+        if not isinstance(data, dict):
+            raise ValueError("chat event must be an object")
+        event_id = data.get("event_id")
+        source_id = data.get("source_id")
+        text = data.get("text", "")
+        if not isinstance(event_id, str) or not isinstance(source_id, str):
+            raise ValueError("chat event event_id and source_id must be strings")
+        if not isinstance(text, str):
+            raise ValueError("chat event text must be a string")
         return cls(
-            event_id=str(data["event_id"]),
-            source_id=str(data["source_id"]),
-            timestamp=parse_datetime(data["timestamp"]),
-            text=str(data.get("text", "")),
+            event_id=event_id,
+            source_id=source_id,
+            timestamp=parse_datetime(data.get("timestamp")),
+            text=text,
         )
 
 

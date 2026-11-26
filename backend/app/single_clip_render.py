@@ -20,6 +20,19 @@ from .media_single_preflight import inspect_one_video
 
 
 
+def _reject_nul_candidate_csv_lines(handle):
+    """Reject binary NUL bytes while streaming the complete candidate CSV.
+
+    DictReader accepts NUL characters as ordinary field content. Check each
+    physical line before CSV parsing so headers, selected rows, unselected
+    trailing rows, and multiline quoted fields all fail closed.
+    """
+    for line in handle:
+        if "\x00" in line:
+            raise csv.Error("NUL character found in candidate CSV")
+        yield line
+
+
 def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, Any]:
     """Load one explicitly numbered, review-ready candidate from a clip-pack CSV.
 
@@ -28,8 +41,12 @@ def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, 
     """
     if isinstance(row_number, bool) or not isinstance(row_number, int) or row_number < 1:
         raise ValueError("candidate row must be a positive one-based integer")
-    path = Path(csv_path).expanduser()
+    if not isinstance(csv_path, (str, Path)) or (
+        isinstance(csv_path, str) and not csv_path.strip()
+    ):
+        raise ValueError("candidate CSV path must be a non-empty string or pathlib.Path")
     try:
+        path = Path(csv_path).expanduser()
         # Accept an optional UTF-8 BOM from spreadsheet exports while keeping
         # the generated clip-pack CSV format unchanged.
         with path.open("r", encoding="utf-8-sig", newline="") as handle:
@@ -42,7 +59,7 @@ def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, 
             # with DictReader's overflow-cell bucket.
             extra_fields_key = object()
             reader = csv.DictReader(
-                handle,
+                _reject_nul_candidate_csv_lines(handle),
                 restkey=extra_fields_key,
                 restval=None,
                 strict=True,
@@ -112,6 +129,10 @@ def _validate_output_destination(source: Path, destination: Path) -> str | None:
 
 def sha256_selected_source(path: str | Path) -> str:
     """Hash one selected regular file through a stable, non-following descriptor."""
+    if not isinstance(path, (str, Path)) or (
+        isinstance(path, str) and not path.strip()
+    ):
+        raise ValueError("selected source path must be a non-empty string or pathlib.Path")
     source = Path(path).expanduser()
     try:
         before_path = source.lstat()
@@ -797,6 +818,43 @@ def render_selected_clip(
     bounded disk I/O. FFprobe and FFmpeg then consume those exact snapshot
     bytes, eliminating the pathname replacement race between the two tools.
     """
+    valid_video_path = isinstance(video_path, (str, Path)) and not (
+        isinstance(video_path, str) and not video_path.strip()
+    )
+    valid_output_path = isinstance(output_path, (str, Path)) and not (
+        isinstance(output_path, str) and not output_path.strip()
+    )
+    if not valid_video_path:
+        return {
+            "status": "FAIL",
+            "source_path": str(video_path),
+            "output_path": str(output_path),
+            "start_seconds": start_seconds,
+            "end_seconds": end_seconds,
+            "processing_started": False,
+            "source_identity_verified": False,
+            "source_snapshot_verified": False,
+            "source_snapshot_created": False,
+            "upload_performed": False,
+            "publishing_enabled": False,
+            "error": "video_path must be a non-empty string or pathlib.Path",
+        }
+    if not valid_output_path:
+        return {
+            "status": "FAIL",
+            "source_path": str(video_path),
+            "output_path": str(output_path),
+            "start_seconds": start_seconds,
+            "end_seconds": end_seconds,
+            "processing_started": False,
+            "source_identity_verified": False,
+            "source_snapshot_verified": False,
+            "source_snapshot_created": False,
+            "upload_performed": False,
+            "publishing_enabled": False,
+            "error": "output_path must be a non-empty string or pathlib.Path",
+        }
+
     source = Path(video_path).expanduser()
     if expected_source_sha256 is not None and (
         not isinstance(expected_source_sha256, str)
