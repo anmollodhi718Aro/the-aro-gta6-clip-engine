@@ -1,11 +1,16 @@
-# ARO-CHAT-0363 | Preserve Valid UTF-8 BOM and CRLF Candidate CSV Exports
+# ARO-CHAT-0364 | Preserve Valid UTF-8 BOM and CRLF Candidate CSV Exports
 
-- Chat ID: ARO-CHAT-0363
-- Workstream ID: ARO-GTA-P0-363
+- Chat ID: ARO-CHAT-0364
+- Workstream ID: ARO-GTA-P0-364
 - Repository: anmollodhi718Aro/the-aro-gta6-clip-engine
 - Parent PR: #386
 - Branch: workstream/aro-chat-0244-single-selected-clip-render-2026-11-25
 - Scope: test-only regression for valid spreadsheet-export candidate CSV encoding.
+
+## Serial reconciliation
+
+- A concurrent continuation had already reserved ARO-CHAT-0363 / ARO-GTA-P0-363 for Unicode-whitespace candidate CSV header rejection.
+- This UTF-8 BOM/CRLF compatibility regression is therefore uniquely attributed to ARO-CHAT-0364 / ARO-GTA-P0-364. The initial provisional report path is retained as a historical alias; no commit history was rewritten.
 
 ## Change
 
