@@ -2080,3 +2080,10 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 
 ### ARO-CHAT-0385 regression-fixture correction (2026-11-26)
 - Corrected the invalid video_path type test: `Path()` is a valid pathlib.Path object representing the current directory, so it does not belong in the invalid-type list. Existing success coverage passes a real Path object. Production code unchanged; tests NOT RUN in this connector session.
+
+
+### Latest continuation — FFmpeg render path argument validation (2026-11-26)
+- On existing child PR #412 branch, render_clip validates input_path and output_path as non-empty strings or pathlib.Path objects before touching the filesystem.
+- Invalid values (None, integer, list, dict, empty string, whitespace-only string) are covered for both arguments; FFmpeg subprocess must not be called.
+- Repository tests NOT RUN in this connector session; exact-head CI, FFmpeg E2E, owner-device Windows, independent review, and authorized GTA 6 MP4 processing remain NOT VERIFIED.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
