@@ -2832,3 +2832,13 @@ Two concurrent continuations used provisional ARO-CHAT-0327. The stable syntheti
 - Commits: production `8a15de2932a10da2b48b70b29ac6e3ceaaf80403`; regression `400824bdbce0076f5f1ca5b0f7ceadd61bcb43c9`; report `docs/ARO_CHAT_0332_NON_JSON_RENDERER_REPORT.md`; report commit `84af66f3c11653c6722420ebe90ec151983b4a76`.
 - Production/test source re-read: IMPLEMENTED. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0333 — reject rendered-output path replacement during hashing (2026-11-26)
+
+- Continued existing P0 draft PR #386 and original branch/base.
+- Added a regression for the production `_sha256_verified_regular_file` helper: after the output descriptor is opened, the test replaces the pathname before its `lstat()` check. Verification must reject the descriptor/path identity mismatch.
+- The test confirms the original rendered bytes remain preserved at the renamed path and replacement bytes are not mistaken for the original output.
+- Test commit: `db8185aad27efd9adbad15f030206148319bcc85`; report: `docs/ARO_CHAT_0333_RENDERED_OUTPUT_PATH_SWAP.md`.
+- Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; no workflow dispatch/retry. Authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED. No merge/rebase/retarget, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
