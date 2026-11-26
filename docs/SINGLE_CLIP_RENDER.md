@@ -291,3 +291,8 @@ report and starts no media operation.
 ## Rendered MP4 format and video-codec verification
 
 A post-render FFprobe `PASS` and matching duration are not sufficient by themselves. The output must also identify an MP4-compatible container, contain a video stream encoded as H.264, and report positive integer width and height. A mismatch produces `FAIL`; the output is preserved for manual inspection, and upload/publishing remain disabled. This gate validates the rendered file's reported container and video stream metadata, not visual quality or owner playback acceptance.
+
+
+## Terminal fallback path-resolution failures
+
+If a terminal report write fails, the CLI attempts an exclusive fallback file beside the reserved report. Resolution of the fallback and protected source/output paths is itself guarded: malformed paths and symlink-loop errors are converted into the fallback's normal I/O failure path. The CLI then emits the explicit warning to inspect any output manually before retrying. It never overwrites an existing fallback or protected file. A failed fallback does not prove that rendering failed; inspect the output and both report paths before another attempt.
