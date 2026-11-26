@@ -145,6 +145,14 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
                 smoke.run_smoke_test()
 
 
+    def test_malformed_renderer_report_is_rejected(self):
+        with patch.object(smoke.shutil, "which", side_effect=lambda name: f"/tools/{name}"), patch.object(
+            smoke.subprocess, "run"
+        ), patch.object(smoke, "render_selected_clip", return_value=None):
+            with self.assertRaisesRegex(RuntimeError, "malformed report"):
+                smoke.run_smoke_test()
+
+
     def test_hash_verified_output_rejects_symlink(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
