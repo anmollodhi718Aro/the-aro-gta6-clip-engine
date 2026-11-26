@@ -96,6 +96,40 @@ class MediaSinglePreflightTests(unittest.TestCase):
         self.assertEqual(self.video.read_bytes(), replacement_bytes)
 
     @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_rejects_missing_or_invalid_format_name(self, run):
+        for format_name in (None, "", 17):
+            with self.subTest(format_name=format_name):
+                run.return_value = SimpleNamespace(stdout=json.dumps({
+                    "format": {"duration": "10", "format_name": format_name},
+                    "streams": [{"codec_type": "video", "codec_name": "h264", "width": 1280, "height": 720}],
+                }))
+                report = inspect_one_video(self.video)
+                self.assertEqual(report["status"], "FAIL")
+                self.assertIn("format name", report["error"])
+
+    @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_rejects_missing_codec_and_invalid_video_dimensions(self, run):
+        video_base = {"codec_type": "video", "codec_name": "h264", "width": 1280, "height": 720}
+        cases = (
+            ({**video_base, "codec_name": None}, "codec name"),
+            ({**video_base, "codec_name": ""}, "codec name"),
+            ({**video_base, "width": None}, "width"),
+            ({**video_base, "width": True}, "width"),
+            ({**video_base, "width": 0}, "width"),
+            ({**video_base, "height": "720"}, "height"),
+            ({**video_base, "height": -1}, "height"),
+        )
+        for stream, expected_error in cases:
+            with self.subTest(stream=stream):
+                run.return_value = SimpleNamespace(stdout=json.dumps({
+                    "format": {"duration": "10", "format_name": "mp4"},
+                    "streams": [stream],
+                }))
+                report = inspect_one_video(self.video)
+                self.assertEqual(report["status"], "FAIL")
+                self.assertIn(expected_error, report["error"])
+
+    @patch("backend.app.media_single_preflight.subprocess.run")
     def test_rejects_audio_only_file(self, run):
         run.return_value = SimpleNamespace(stdout=json.dumps({
             "format": {"duration": "10", "format_name": "mp4"},
