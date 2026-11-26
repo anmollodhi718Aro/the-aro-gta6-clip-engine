@@ -46,3 +46,13 @@ Owner/repository administrator should inspect the repository's Actions settings 
 ## Safety and ancestry
 
 Keep PR #399 and this audit child OPEN / DRAFT / UNMERGED. Preserve the parent chain. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## Cross-PR CI confirmation — PR #400 (2026-11-26)
+
+- PR #400 exact head: `dcfd8f0427dbbeb59a3245d6eba78348e84e252e`; workflow run #45800768113, run number 2547, event `pull_request`, completed FAILURE within approximately three seconds.
+- Windows job #139843090063 and Ubuntu job #139843090325 both completed FAILURE. Dedicated step lookups returned empty arrays; job-log retrieval for both returned HTTP 404 / BlobNotFound.
+- The job-list wrapper reported `steps: null` and `logs_url: null` for both jobs. No runner/step execution is evidenced.
+- This is a second consecutive PR branch (after PR #399 run #45799791858) showing the same failure-before-steps pattern. It strengthens the observation that the problem is not isolated to one PR head, but does not identify the root cause.
+- Classification remains `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`; root cause UNVERIFIED. Repository Actions settings and billing/service diagnostics remain unavailable through the connected read-only GitHub surface. No dispatch/retry initiated.
+- PR #400's own CI is therefore also NOT VERIFIED. No code/workflow changes made. Stage 1 remains NOT COMPLETE.
