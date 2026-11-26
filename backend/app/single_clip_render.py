@@ -126,17 +126,20 @@ def sha256_selected_source(path: str | Path) -> str:
         if not stat.S_ISREG(before_fd.st_mode) or identity(before_fd) != identity(before_path):
             raise ValueError("selected source changed while opening for hashing")
         digest = hashlib.sha256()
+        bytes_read = 0
         while True:
             chunk = os.read(descriptor, 1024 * 1024)
             if not chunk:
                 break
             digest.update(chunk)
+            bytes_read += len(chunk)
         after_fd = os.fstat(descriptor)
         after_path = source.lstat()
         if (
             identity(after_fd) != identity(before_fd)
             or identity(after_path) != identity(before_fd)
             or stat.S_ISLNK(after_path.st_mode)
+            or bytes_read != before_fd.st_size
         ):
             raise ValueError("selected source changed while it was being hashed")
         return digest.hexdigest()
