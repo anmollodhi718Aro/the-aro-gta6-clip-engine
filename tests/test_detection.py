@@ -128,6 +128,16 @@ class DetectionTests(unittest.TestCase):
                     with self.assertRaises(ValueError):
                         DetectorConfig(**{field_name: value})
 
+    def test_rejects_invalid_detector_config_objects(self) -> None:
+        for config in (False, 0, [], {}, "default"):
+            with self.subTest(config=config):
+                with self.assertRaisesRegex(ValueError, "config must be a DetectorConfig"):
+                    detect_chat_spikes([], self.permission, config)
+
+    def test_none_config_uses_default_configuration(self) -> None:
+        candidates = detect_chat_spikes(self.make_events([2, 2, 2, 9]), self.permission, None)
+        self.assertEqual(len(candidates), 1)
+
     def test_detects_a_clear_spike(self) -> None:
         candidates = detect_chat_spikes(self.make_events([2, 2, 2, 9]), self.permission, self.config)
         self.assertEqual(len(candidates), 1)
