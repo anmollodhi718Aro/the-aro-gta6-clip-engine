@@ -1337,3 +1337,7 @@ Attribution collision correction (2026-11-26): ARO-CHAT-0305 is already assigned
 
 
 ARO-CHAT-0306 test fixture correction: the regression constructs an actual surrogate code point using `chr(0xDCFF)`. Corrected test commit: `08deab535c6ed783d5251ae979d8984795ccae58`; registry correction: `e10b5860cc5df1f338d00a37b621a8e55597222b`. Tests NOT RUN; exact-head CI NOT VERIFIED.
+
+
+### Latest pipeline continuation — ARO-CHAT-0308
+A static review of the expanded-report-path fallback regression found the failure injector was configured for the third write to the primary report handle, while the CLI performs only two writes to that handle (RUNNING reservation, then terminal report). Correct the test fixture to inject a partial write on the second call so the fallback path is actually exercised. This is test-only; preserve production behavior. Existing PR #386 and branch remain OPEN/DRAFT/UNMERGED. Tests NOT RUN locally; exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real media, OAuth, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
