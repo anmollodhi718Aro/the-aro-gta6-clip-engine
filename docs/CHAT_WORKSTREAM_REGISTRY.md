@@ -3578,3 +3578,11 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Added regression coverage for None, integer, list, dict, empty string, and whitespace-only string in both input and output positions; asserts subprocess is not called.
 - Tests NOT RUN in this connector session. Exact-head CI, FFmpeg E2E, owner-device Windows, independent review, and authorized GTA 6 media remain NOT VERIFIED.
 - Continue on existing PR #412; preserve parent #386 ancestry. Keep both OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0387 — Guard preflight report initialization against invalid-object stringification (2026-11-26)
+- Static review found inspect_one_video called str(video_path) while constructing its FAIL report, before entering the validation try/except. An invalid caller object with a raising __str__ could escape instead of returning the promised FAIL report.
+- Report initialization now labels unsupported input objects as <invalid> without invoking their conversion method; supported string and pathlib.Path inputs retain their label.
+- Added a regression test using an unsupported object whose __str__ raises; it must return FAIL and never invoke FFprobe.
+- Tests NOT RUN in this connector session. Exact-head CI, FFmpeg E2E, owner-device Windows, independent review, and authorized GTA 6 media remain NOT VERIFIED.
+- Continue on PR #412 only; preserve parent #386 ancestry. Both remain OPEN / DRAFT / UNMERGED. No retry/dispatch, merge, rebase, retarget, OAuth, credential, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
