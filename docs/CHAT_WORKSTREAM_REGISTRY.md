@@ -2561,3 +2561,10 @@ The second ARO-CHAT-0310 entry and `docs/ARO_CHAT_0310_TERMINAL_FALLBACK_PATH_RE
 - Production commit: `6b0bb54661a30fd37505e633d971b737b5eae254`; regression commit: `6542d1f6e93161624c1380905f78c37a31646682`; operator guide: `ff181f3ba00c056aa33a127abcc6ed12f46ed91d`; task report commit: `7cb48859e40f5d6dd6c1bc488b684caadf64803d`.
 - Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0316 — normalize snapshot path-resolution failures
+
+The stable source-snapshot helper now converts `RuntimeError` (including symlink-loop resolution failures) and `ValueError` from `Path.resolve()` into the same deterministic `ValueError` validation boundary already used for filesystem resolution errors. This prevents malformed path resolution from escaping the helper as an unexpected exception. A regression verifies that a simulated resolution loop creates no snapshot and preserves the selected source.
+
+Production commit: `3dd984e568145ce41abd52fc07352d40ff4f59ea`; regression commit: `a2f88deb56974054424c7c2d51c7937d7b2c0fa4`. Tests NOT RUN locally; exact-head CI NOT VERIFIED; independent review NOT RECORDED. PR #386 remains OPEN / DRAFT / UNMERGED. No media, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
