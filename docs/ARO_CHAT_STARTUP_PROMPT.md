@@ -2107,3 +2107,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Check-run summaries report one annotation each, but annotation contents could not be retrieved through the connected GitHub fetch interface; status NOT INSPECTED.
 - Root cause UNVERIFIED. No workflow dispatch/retry, workflow edit, production-code edit, merge, rebase, retarget, deployment, credentials, real media, upload, or publishing.
 - Full repository tests NOT RUN; hosted test execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1 and P0 remain NOT COMPLETE. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0381 | PR #405 exact-head CI execution audit (2026-11-26)
+
+- Continue from child draft PR pending creation on `workstream/aro-chat-0381-pr405-exact-head-ci-failure-audit-2026-11-26`, based on PR #405 exact head `c53bbc52989aea0c05def7051b9b0c465297d246`; preserve PR #405 -> #404 -> #403 -> #402 -> #401 -> #400 -> #399.
+- Exact-head Python CI run #45803428937 (run 2580) completed FAILURE. Windows job #139852311547 and Ubuntu job #139852311065 exposed no steps/logs; direct step lookups empty; log retrieval 404 / BlobNotFound. Timing run_duration_ms=4000; billable WINDOWS/UBUNTU total_ms=0.
+- Classification CI_FAILURE / EXECUTION_NOT_ESTABLISHED. No evidence checkout, compile, or tests started. Root cause UNVERIFIED; do not call this an application test failure.
+- No workflow dispatch/retry, workflow edits, production code edits, merge, rebase, retarget, deployment, credentials, real media, upload, or publishing. Repository suite NOT RUN; hosted test execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1 and P0 NOT COMPLETE. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
