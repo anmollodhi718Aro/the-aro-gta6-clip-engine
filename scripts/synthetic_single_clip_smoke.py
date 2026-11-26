@@ -105,9 +105,14 @@ def run_smoke_test(*, ffmpeg: str = "ffmpeg", ffprobe: str = "ffprobe") -> dict:
         if not isinstance(report, dict):
             raise RuntimeError("single-clip pipeline returned a malformed report; expected an object")
         if report.get("status") != "RENDERED":
+            try:
+                report_summary = json.dumps(report, ensure_ascii=True, allow_nan=False)
+            except (TypeError, ValueError):
+                # A malformed internal report must still produce the CLI's
+                # structured FAIL response instead of leaking a traceback.
+                report_summary = "<renderer report is not valid JSON>"
             raise RuntimeError(
-                "single-clip pipeline did not return RENDERED: "
-                + json.dumps(report, ensure_ascii=True, allow_nan=False)
+                "single-clip pipeline did not return RENDERED: " + report_summary
             )
         if not output.exists():
             raise RuntimeError("pipeline reported success but the synthetic output is missing")
