@@ -166,6 +166,25 @@ class ClipRenderTests(unittest.TestCase):
 
             self.assertEqual(events, ["file_fsync", "link", "directory_fsync"])
 
+    def test_file_sync_failure_does_not_publish_final_output(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            output = Path(folder) / "clip.mp4"
+            source.write_bytes(b"synthetic")
+
+            def fake_ffmpeg(command, **kwargs):
+                Path(command[-1]).write_bytes(b"unsynchronized output")
+
+            with patch("backend.app.clipping.subprocess.run", side_effect=fake_ffmpeg), patch(
+                "backend.app.clipping.os.fsync", side_effect=OSError("simulated file sync failure")
+            ), patch("backend.app.clipping.os.link") as link:
+                with self.assertRaisesRegex(ClipRenderError, "synchronized before publication"):
+                    render_clip(source, output, 0, 2, rights_confirmed=True)
+
+            link.assert_not_called()
+            self.assertFalse(output.exists())
+            self.assertFalse(list(Path(folder).glob(".clip-*")))
+
     def test_directory_sync_failure_preserves_published_output_and_raises(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / "source.mov"
