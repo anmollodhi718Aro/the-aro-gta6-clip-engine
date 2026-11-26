@@ -41,8 +41,12 @@ def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, 
     """
     if isinstance(row_number, bool) or not isinstance(row_number, int) or row_number < 1:
         raise ValueError("candidate row must be a positive one-based integer")
-    path = Path(csv_path).expanduser()
+    if not isinstance(csv_path, (str, Path)) or (
+        isinstance(csv_path, str) and not csv_path.strip()
+    ):
+        raise ValueError("candidate CSV path must be a non-empty string or pathlib.Path")
     try:
+        path = Path(csv_path).expanduser()
         # Accept an optional UTF-8 BOM from spreadsheet exports while keeping
         # the generated clip-pack CSV format unchanged.
         with path.open("r", encoding="utf-8-sig", newline="") as handle:
