@@ -13,7 +13,7 @@ from backend.app.clip_pack import map_candidates_to_media, write_clip_pack
 from backend.app.single_clip_render import (
     _create_stable_source_snapshot, _write_exclusive_terminal_fallback,
     load_selected_candidate, main, render_selected_clip, sha256_selected_source,
-    _rendered_mp4_validation_error,
+    _rendered_mp4_validation_error, _sha256_verified_regular_file,
     _fsync_parent_directory, _report_handle_matches_path,
 )
 
@@ -65,6 +65,32 @@ class SingleClipRenderTests(unittest.TestCase):
     def test_fsync_parent_directory_is_noop_on_windows(self):
         with patch("backend.app.single_clip_render.os.open", side_effect=AssertionError("must not open directory")):
             _fsync_parent_directory(self.root / "durable-report.json")
+
+
+    def test_verified_output_hash_rejects_path_replacement_after_open(self):
+        replacement = self.root / "replacement.mp4"
+        preserved = self.root / "preserved-original.mp4"
+        replacement.write_bytes(b"replacement bytes")
+        original_bytes = b"original rendered bytes"
+        self.output.write_bytes(original_bytes)
+        real_lstat = Path.lstat
+        swapped = {"done": False}
+
+        def replace_before_path_stat(path):
+            if path == self.output and not swapped["done"]:
+                self.output.replace(preserved)
+                replacement.replace(self.output)
+                swapped["done"] = True
+            return real_lstat(path)
+
+        with patch.object(Path, "lstat", new=replace_before_path_stat):
+            with self.assertRaisesRegex(ValueError, "regular non-symlink file"):
+                _sha256_verified_regular_file(self.output)
+
+        self.assertTrue(swapped["done"])
+        self.assertEqual(preserved.read_bytes(), original_bytes)
+        self.assertEqual(self.output.read_bytes(), b"replacement bytes")
+
 
     def test_sha256_selected_source_matches_file_bytes(self):
         expected = hashlib.sha256(self.source.read_bytes()).hexdigest()
