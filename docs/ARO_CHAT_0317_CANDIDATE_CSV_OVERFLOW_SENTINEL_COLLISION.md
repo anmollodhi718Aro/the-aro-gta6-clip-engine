@@ -25,3 +25,11 @@ The strict candidate CSV parser used the literal string `__aro_extra_fields__` a
 ## Safety
 
 PR #386 remains OPEN / DRAFT / UNMERGED with its existing base and ancestry. No workflow retry/dispatch, merge, rebase, retarget, real media, OAuth, credentials, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## Commit and regression follow-up
+
+- Production fix: `fcae628bff83b56cde510af16730a7b2f5a3d33f`.
+- Regression file initial commit: `6de1a30e8c4002ac20486ee7347a58d77ec0fa32`; newline-literal correction: `9bf29a5bbba2ecf8987159a578f1bf983dea8da0`.
+- Registry update: `65bace16ac4a2dbdaf66617da255d3e84edb6c92`; startup handoff update: `d32335ea2df808b83410d4530823d556096b5082`.
+- The test source was re-read after the correction; actual newline escape sequences are now present in the Python literals. Tests remain NOT RUN.
