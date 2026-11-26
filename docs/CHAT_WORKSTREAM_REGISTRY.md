@@ -3509,3 +3509,11 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Commits: `949d9ec66a1d28fe707a7a4ca67be13942747126` (production); `afc18c6a82384400720a82cde5d2db7bbbd7fb98` (tests).
 - GitHub source read-back and executable tests pending. Latest exact-head hosted Actions evidence previously showed runner_id 0 and no steps; no checkout/test execution is evidenced. Do not claim tests passed.
 - Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, workflow retry/dispatch, credentials, OAuth, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 detector config type guard (2026-11-26)
+- Static review found `detect_chat_spikes` used `config = config or DetectorConfig()`, silently replacing falsey invalid caller values (False, 0, empty list/dict) with defaults. This hid API misuse and made invalid configuration appear successful.
+- The detector now uses defaults only when config is explicitly None and rejects any other non-`DetectorConfig` object with a clear ValueError.
+- Regression tests cover False, 0, empty list, empty dict, string, and the explicit None default path.
+- Commits: `d0bb6b17e7f5c8290f9a86785ad4f56292cc6ef9` (production); `51ce9e5da976490ace78dcb3ff46a1f6db6e43af` (tests).
+- Tests NOT RUN in this connector session; exact-head CI pending. No FFmpeg E2E or authorized media processing.
