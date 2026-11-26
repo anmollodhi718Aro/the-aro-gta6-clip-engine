@@ -56,3 +56,13 @@ Keep PR #399 and this audit child OPEN / DRAFT / UNMERGED. Preserve the parent c
 - This is a second consecutive PR branch (after PR #399 run #45799791858) showing the same failure-before-steps pattern. It strengthens the observation that the problem is not isolated to one PR head, but does not identify the root cause.
 - Classification remains `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`; root cause UNVERIFIED. Repository Actions settings and billing/service diagnostics remain unavailable through the connected read-only GitHub surface. No dispatch/retry initiated.
 - PR #400's own CI is therefore also NOT VERIFIED. No code/workflow changes made. Stage 1 remains NOT COMPLETE.
+
+
+## Third consecutive PR CI observation — zero billable runner time (2026-11-26)
+
+- PR #401 exact head: `4259c0ec0b1c1a4babc574cb453aaf64501ca75d`; workflow run #45801020210, run number 2552, event `pull_request`, completed FAILURE in approximately three seconds.
+- Windows job #139843943959 and Ubuntu job #139843944415 both completed FAILURE. Direct job records show `steps: []`, `runner_id: 0`, blank runner name, and no runner group. Dedicated step lookups are empty; log retrieval returns 404 / BlobNotFound.
+- GitHub Actions timing endpoint for run #45801020210 reports `run_duration_ms: 3000` and billable `total_ms: 0` for both WINDOWS and UBUNTU jobs (one job each, `duration_ms: 0`). This is strong evidence that neither hosted runner consumed billable execution time; it does not identify why scheduling/assignment failed.
+- This is now observed on three consecutive PR heads: #399 run #45799791858, #400 run #45800768113, and #401 run #45801020210. All show failure before any workflow step. Repeatability is established across three PRs; the cause remains UNVERIFIED.
+- Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. Potential Actions policy, billing/quota, GitHub service scheduling, or runner provisioning causes remain hypotheses only. Repository Actions settings and billing diagnostics are not exposed through the connected read-only surface.
+- No workflow dispatch/retry, workflow modification, production-code change, merge, or deployment was made. Stage 1 remains NOT COMPLETE.
