@@ -1322,6 +1322,65 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(fallback_path.read_text(encoding="utf-8"), "operator-owned sentinel")
         self.assertEqual(self.output.read_bytes(), b"completed render output")
 
+    def test_cli_terminal_fallback_uses_expanded_report_path(self):
+        raw_report_path = Path("~/aro-terminal-report.json")
+        expanded_report_path = self.root / "aro-terminal-report.json"
+        fallback_path = self.root / "aro-terminal-report.json.terminal-fallback.json"
+        original_expanduser = Path.expanduser
+        original_open = Path.open
+
+        def expanduser(path):
+            if path == raw_report_path:
+                return expanded_report_path
+            return original_expanduser(path)
+
+        class TerminalWriteFailure:
+            def __init__(self, handle):
+                self.handle = handle
+                self.write_calls = 0
+
+            def __enter__(self):
+                self.handle.__enter__()
+                return self
+
+            def __exit__(self, *args):
+                return self.handle.__exit__(*args)
+
+            def __getattr__(self, name):
+                return getattr(self.handle, name)
+
+            def write(self, value):
+                self.write_calls += 1
+                if self.write_calls == 2:
+                    self.handle.write(value[:8])
+                    return 8
+                return self.handle.write(value)
+
+        def open_with_terminal_failure(path, *args, **kwargs):
+            handle = original_open(path, *args, **kwargs)
+            if path == expanded_report_path:
+                return TerminalWriteFailure(handle)
+            return handle
+
+        argv = [
+            "single_clip_render.py", str(self.source),
+            "--start", "2", "--end", "8",
+            "--output", str(self.output), "--report", str(raw_report_path),
+        ]
+        with patch("sys.argv", argv), patch.object(Path, "expanduser", new=expanduser), patch.object(
+            Path, "open", new=open_with_terminal_failure
+        ), patch(
+            "backend.app.single_clip_render.render_selected_clip",
+            return_value={"status": "PLANNED", "upload_performed": False, "publishing_enabled": False},
+        ), patch(
+            "backend.app.single_clip_render._write_exclusive_terminal_fallback",
+            return_value=fallback_path,
+        ) as write_fallback:
+            self.assertEqual(main(), 2)
+
+        write_fallback.assert_called_once()
+        self.assertEqual(write_fallback.call_args.args[0], expanded_report_path)
+
     def test_cli_terminal_failure_marks_snapshot_digest_unverified(self):
         report_path = self.root / "terminal-snapshot-failure.json"
         argv = [
