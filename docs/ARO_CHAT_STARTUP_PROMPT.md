@@ -2069,3 +2069,13 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Previous exact-head run #45799693944 showed the same no-step/no-log pattern. Classification: CI_FAILURE / EXECUTION_NOT_ESTABLISHED. Workflow YAML does not show a skip condition explaining this; root cause remains UNVERIFIED. Account/repository Actions policy, billing/quota, service scheduling, and runner provisioning are possibilities only, not confirmed causes.
 - No workflow dispatch/retry was initiated; no CI YAML or production code changed. Full unit suite NOT RUN; Ubuntu/Windows execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1 and P0 remain NOT COMPLETE.
 - Next safe step requires owner/repository-admin inspection of Actions settings, billing/usage, service notices, and the one check-run annotation. Obtain explicit owner approval before any manual dispatch/retry. Keep all PRs OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## Cross-PR CI confirmation — PR #400 (2026-11-26)
+
+- PR #400 exact head: `dcfd8f0427dbbeb59a3245d6eba78348e84e252e`; workflow run #45800768113, run number 2547, event `pull_request`, completed FAILURE within approximately three seconds.
+- Windows job #139843090063 and Ubuntu job #139843090325 both completed FAILURE. Dedicated step lookups returned empty arrays; job-log retrieval for both returned HTTP 404 / BlobNotFound.
+- The job-list wrapper reported `steps: null` and `logs_url: null` for both jobs. No runner/step execution is evidenced.
+- This is a second consecutive PR branch (after PR #399 run #45799791858) showing the same failure-before-steps pattern. It strengthens the observation that the problem is not isolated to one PR head, but does not identify the root cause.
+- Classification remains `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`; root cause UNVERIFIED. Repository Actions settings and billing/service diagnostics remain unavailable through the connected read-only GitHub surface. No dispatch/retry initiated.
+- PR #400's own CI is therefore also NOT VERIFIED. No code/workflow changes made. Stage 1 remains NOT COMPLETE.
