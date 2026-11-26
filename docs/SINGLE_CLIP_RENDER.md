@@ -257,3 +257,8 @@ After the private source snapshot is flushed and fsynced, read-back verification
 
 ## Terminal fallback path normalization
 The CLI expands the configured report path before reserving it. If terminal JSON persistence later fails, the exclusive `.terminal-fallback.json` file is created beside that same expanded report path. This is important for paths beginning with `~`: the fallback must not be written to a literal tilde-prefixed relative path. The regression test forces a short terminal write and checks that fallback creation receives the expanded path.
+
+
+## Snapshot cleanup failure reporting
+
+If source snapshot creation fails after creating its temporary file and identity-checked cleanup cannot be confirmed, the renderer returns FAIL with source_snapshot_created=true, source_snapshot_verified=false, and source_snapshot_cleanup_required=true. The report does not claim a verified source digest. Inspect the temporary workspace before retrying. A path whose identity changed is preserved rather than unlinked.
