@@ -939,6 +939,23 @@ class SingleClipRenderTests(unittest.TestCase):
             self.assertEqual(main(), 2)
 
 
+    def test_cli_rejects_non_finite_clip_bounds_before_report_reservation(self):
+        for start, end in (("nan", "5"), ("1", "inf"), ("-inf", "5")):
+            with self.subTest(start=start, end=end):
+                report_path = self.root / f"non-finite-{start}-{end}.json"
+                argv = [
+                    "single_clip_render.py", str(self.source),
+                    "--start", start, "--end", end,
+                    "--output", str(self.output), "--report", str(report_path),
+                ]
+                with patch("sys.argv", argv):
+                    with self.assertRaises(SystemExit) as raised:
+                        main()
+                self.assertEqual(raised.exception.code, 2)
+                self.assertFalse(report_path.exists())
+                self.assertFalse(self.output.exists())
+
+
     def test_cli_handles_path_resolution_value_error_without_leaving_report(self):
         report_path = self.root / "report.json"
         with patch("sys.argv", [
