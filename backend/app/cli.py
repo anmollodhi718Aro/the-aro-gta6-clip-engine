@@ -41,9 +41,20 @@ def _write_json_atomically(output_path: Path, payload: dict[str, Any]) -> None:
 
 def analyze_file(input_path: Path, output_path: Path, config: DetectorConfig) -> int:
     try:
-        payload: dict[str, Any] = json.loads(input_path.read_text(encoding="utf-8"))
+        # Never let a clip-plan destination replace its own source JSON, including
+        # aliases that resolve to the same file through relative paths or symlinks.
+        if input_path.resolve() == output_path.resolve():
+            raise ValueError("output path must differ from the input JSON file")
+        payload = json.loads(input_path.read_text(encoding="utf-8"))
+        if not isinstance(payload, dict):
+            raise ValueError("input JSON must contain an object at the top level")
+        if "permission" not in payload:
+            raise ValueError("input JSON is missing permission")
+        raw_events = payload.get("events", [])
+        if not isinstance(raw_events, list):
+            raise ValueError("input JSON events must be a list")
         permission = PermissionRecord.from_dict(payload["permission"])
-        events = [ChatEvent.from_dict(item) for item in payload.get("events", [])]
+        events = [ChatEvent.from_dict(item) for item in raw_events]
         candidates = detect_chat_spikes(events, permission, config)
         output = {
             "source_id": permission.source_id,
