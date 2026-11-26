@@ -8,12 +8,12 @@ from backend.app.single_clip_render import load_selected_candidate
 
 
 class CandidateCsvDuplicateHeaderTests(unittest.TestCase):
-    def test_rejects_duplicate_required_header_before_row_mapping(self):
+    def test_rejects_duplicate_optional_headers_after_csv_unquoting(self):
         with tempfile.TemporaryDirectory() as directory:
             csv_path = Path(directory) / "candidates.csv"
             csv_path.write_text(
-                "source_id,source_id,start_seconds,end_seconds,duration_seconds,renderable\n"
-                "authorized-demo,shadow-source,2,8,6,True\n",
+                "source_id,start_seconds,end_seconds,duration_seconds,renderable,\"notes\",notes\n"
+                "authorized-demo,2,8,6,True,first note,second note\n",
                 encoding="utf-8",
                 newline="",
             )
