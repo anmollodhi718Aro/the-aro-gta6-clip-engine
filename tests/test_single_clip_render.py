@@ -64,6 +64,24 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(actual, expected)
         self.assertEqual(snapshot.read_bytes(), self.source.read_bytes())
 
+    def test_snapshot_readback_uses_nonblocking_open_when_available(self):
+        snapshot = self.root / "nonblocking-readback-snapshot.mp4"
+        real_open = os.open
+        observed = {}
+
+        def recording_open(path, flags, *args, **kwargs):
+            if Path(path) == snapshot:
+                observed["flags"] = flags
+            return real_open(path, flags, *args, **kwargs)
+
+        with patch("backend.app.single_clip_render.os.open", side_effect=recording_open):
+            _create_stable_source_snapshot(self.source, snapshot)
+
+        if hasattr(os, "O_NONBLOCK"):
+            self.assertIn("flags", observed)
+            self.assertTrue(observed["flags"] & os.O_NONBLOCK)
+        self.assertEqual(snapshot.read_bytes(), self.source.read_bytes())
+
     def test_snapshot_creation_rejects_readback_digest_mismatch_and_cleans_snapshot(self):
         snapshot = self.root / "readback-mismatch-snapshot.mp4"
         with patch(
