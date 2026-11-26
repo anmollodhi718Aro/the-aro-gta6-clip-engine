@@ -2988,3 +2988,13 @@ Removed a duplicate `test_hash_verified_output_closes_descriptor_when_final_fsta
 - Test commit: `ce4c81a7103c0ec4489a3add15a446f433798701`; report: `docs/ARO_CHAT_0342_FINAL_LSTAT_DISCOVERY_GUARD.md`; report commit: `33e50978b11d6960e1533bb1561f08975a69ef43`.
 - Static source review only; unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN/DRAFT/UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0343 | Reject Empty Synthetic Render Output (2026-11-26)
+
+- Workstream: ARO-GTA-P0-343; continued existing P0 draft PR #386 on its original branch/base.
+- Added `test_smoke_harness_rejects_empty_rendered_output_even_with_matching_digest` in `tests/test_synthetic_single_clip_smoke.py`. The fake renderer creates a zero-byte output and returns the correct SHA-256 for empty bytes; the smoke harness must still reject it as empty.
+- Production code unchanged. This directly covers the existing non-empty artifact acceptance guard; a matching digest is insufficient when output size is zero.
+- Test commit: `4f2b9` (see preceding PR commit history); corrected focused report commit: `a8d9571c7de3dca6b5599efc6e7ecca5a26ecf80`.
+- Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original branch/base. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
