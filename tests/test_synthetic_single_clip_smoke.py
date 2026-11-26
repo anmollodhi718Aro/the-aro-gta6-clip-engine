@@ -176,5 +176,29 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
             self.assertEqual(size, len(payload))
 
 
+    def test_hash_verified_output_rejects_in_place_mutation_during_read(self):
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / "output.mp4"
+            output.write_bytes(b"A" * (2 * 1024 * 1024))
+            real_read = smoke.os.read
+            calls = {"count": 0}
+
+            def mutate_after_first_chunk(descriptor, size):
+                chunk = real_read(descriptor, min(size, 1024 * 1024))
+                calls["count"] += 1
+                if calls["count"] == 1:
+                    with output.open("r+b") as handle:
+                        handle.seek(0)
+                        handle.write(b"B" * 4096)
+                        handle.flush()
+                return chunk
+
+            with patch.object(smoke.os, "read", side_effect=mutate_after_first_chunk):
+                with self.assertRaisesRegex(RuntimeError, "changed during SHA-256 verification"):
+                    smoke._hash_verified_output(output)
+
+            self.assertGreaterEqual(calls["count"], 1)
+
+
 if __name__ == "__main__":
     unittest.main()
