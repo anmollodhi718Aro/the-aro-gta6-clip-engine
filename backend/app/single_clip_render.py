@@ -51,7 +51,7 @@ def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, 
             headers = reader.fieldnames
             if not headers or not required.issubset(set(headers)):
                 raise ValueError("candidate CSV is missing required review columns")
-            if any(not str(header).strip() for header in headers) or len(headers) != len(set(headers)):
+            if any(header is None or not str(header).strip() for header in headers) or len(headers) != len(set(headers)):
                 raise ValueError("candidate CSV contains blank or duplicate column names")
             selected = None
             for number, row in enumerate(reader, start=1):
