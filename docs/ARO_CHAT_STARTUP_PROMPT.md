@@ -1435,3 +1435,6 @@ Continue P0 single-selected-clip work on existing PR #386 / branch `workstream/a
 ## Latest continuation — ARO-CHAT-0317
 
 Continue P0 on existing draft PR #386 and its original branch/base. Terminal fallback reports are now still identified by exact path when file flush/fsync succeeds but parent-directory fsync fails; the operator receives an explicit durability warning and must inspect the fallback and any output before retrying. Regression coverage was added. Tests NOT RUN in this session; the previous exact-head Actions run failed before runner allocation (zero steps), so CI remains unverified. Do not retry/dispatch workflows. Preserve PR #386 OPEN/DRAFT/UNMERGED and ancestry. No real media, OAuth, credentials, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+ARO-CHAT-0317 commit follow-up: production `fcae628bff83b56cde510af16730a7b2f5a3d33f`; regression file `6de1a30e8c4002ac20486ee7347a58d77ec0fa32`, corrected newline literals in `9bf29a5bbba2ecf8987159a578f1bf983dea8da0`. The test file was re-read after correction; tests remain NOT RUN and exact-head CI NOT VERIFIED.
