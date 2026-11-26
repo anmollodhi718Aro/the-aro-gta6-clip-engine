@@ -1893,3 +1893,13 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Production commit: `332fed855b6bdee0577bae5271d428cd8dfcaf2a`; test commits: `5c31bb716fe1634ea520312e94f38522ca95d39e` and fixture newline correction `99ad110f15bd27eec8da5f443b267a4366ff0d9b`; canonical report `docs/ARO_CHAT_0361_BLANK_CANDIDATE_CSV_HEADER_GUARD.md` (commit `5cba5e243a9bc819aed3622daebfa372dc6d398e`); registry reconciliation commit `63e7b24421bcabe825bc15dae113e8f335886f23`.
 - Static source read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0362 | Candidate CSV Header Coverage (2026-11-26)
+
+- Continue on existing draft PR #386 and original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added `tests/test_candidate_csv_blank_headers.py` with regressions for blank middle header cells, trailing blank header cells parsed as `None`, and duplicate header names. Each malformed schema must fail closed in `load_selected_candidate()`.
+- Test commit: `57e097904abab83e44b8405f8434d4b704d06c37`; canonical report: `docs/ARO_CHAT_0362_CANDIDATE_CSV_HEADER_COVERAGE.md`.
+- Serial reconciliation: ARO-CHAT-0360 is the post-read fstat cleanup task; ARO-CHAT-0361 is the production blank-header guard and initial regression; this expanded coverage is ARO-CHAT-0362. Provisional ARO-CHAT-0360 report path retained as a historical alias.
+- GitHub read-back confirms the test file is present. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
