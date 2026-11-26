@@ -2614,10 +2614,10 @@ Production commit: `3dd984e568145ce41abd52fc07352d40ff4f59ea`; regression commit
 ARO-CHAT-0317 commit follow-up: production `fcae628bff83b56cde510af16730a7b2f5a3d33f`; regression file `6de1a30e8c4002ac20486ee7347a58d77ec0fa32`, corrected newline literals in `9bf29a5bbba2ecf8987159a578f1bf983dea8da0`. The test file was re-read after correction; tests remain NOT RUN and exact-head CI NOT VERIFIED.
 
 
-## ARO-CHAT-0318 — require rights confirmation before candidate media hashing (2026-11-26)
+## ARO-CHAT-0319 — require rights confirmation before candidate media hashing (2026-11-26)
 
-- Workstream: ARO-GTA-P0-318; continued existing draft PR #386 and its original branch/base. No new branch or PR.
-- Static review found candidate-CSV CLI mode hashed the selected source before invoking the renderer. Although the renderer's own execution gate already blocked before FFprobe and snapshot creation, the CLI-side digest check still read media bytes without `--confirm-rights`.
+- Workstream: ARO-GTA-P0-319; continued existing draft PR #386 and its original branch/base. No new branch or PR.
+- Static review found candidate-CSV CLI mode hashed the selected source before invoking the renderer. The renderer's own execution gate already blocked before FFprobe and snapshot creation, but the CLI-side digest check still read selected-media bytes without `--confirm-rights`.
 - Candidate hashing is now skipped for unconfirmed execution requests; the renderer returns BLOCKED. The lower-level renderer also has an early rights gate before source identity/preflight work.
 - Regression coverage checks both direct API and candidate-CSV CLI paths for no source hash, FFprobe, snapshot, FFmpeg, or output when rights confirmation is absent.
 - Commits: production `1ecba6c0de0d20ef019658e3ce64a8500b9fb254`; tests `87feece9b1cebe6d8bbc2e8b6ab03146eac499f9`; operator guide and task report follow.
@@ -2634,3 +2634,8 @@ ARO-CHAT-0317 commit follow-up: production `fcae628bff83b56cde510af16730a7b2f5a3
 - Commits: production `a4be945cd3ba20558dbf26f88bc79d7859d4eaae`; regression `625c39443b87a4a8ab76154a8425450c4d664297`; fixture correction `6484d082b95a6e4ea09e06b54232f2f7438182e8`; operator docs `b026685d1b46619b813245aad1e1120ada83d96b`; report `f692f7a8393d85f9c2387e5fc96921295012d9e4`.
 - Tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### Workstream serial collision reconciliation — 2026-11-26
+
+Two concurrent continuations independently used the provisional serial ARO-CHAT-0318 on the same PR #386 branch. The terminal-fallback partial-write task retains ARO-CHAT-0318 / ARO-GTA-P1-318. The candidate-media rights-gate task is canonically renumbered ARO-CHAT-0319 / ARO-GTA-P0-319. No commits were rewritten; the earlier file `docs/ARO_CHAT_0318_RIGHTS_GATE_BEFORE_CANDIDATE_HASH.md` is retained as a historical alias to the canonical ARO-CHAT-0319 report.
