@@ -3538,3 +3538,13 @@ Keep this work and all parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/
 - Documentation-only report: `docs/ARO_CHAT_0382_PR406_EXACT_HEAD_CI_AUDIT.md`. No production code, tests, or workflow YAML changed.
 - Repository suite NOT RUN; hosted Ubuntu/Windows execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1 and P0 NOT COMPLETE.
 - No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Keep this PR and parents OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live publishing disabled.
+
+
+## ARO-CHAT-0383 | PR #409 exact-head CI failure audit (2026-11-26)
+
+- Workstream: ARO-GTA-P0-383. Child branch `workstream/aro-chat-0383-pr409-exact-head-ci-audit-2026-11-26`, based on PR #409 exact head `12bee31deb3e443bb5769a3b5d6c47f91e55c965`; preserve ancestry PR #410 → #409 → #406 → #405 → #404 → #403 → #402 → #401 → #400 → #399.
+- PR #409 exact-head workflow run #45803946011 (run 2618, event `pull_request`) explicitly references PR #409 and the exact head SHA; completed FAILURE.
+- Windows job #139854124067 and Ubuntu job #139854123571 expose no steps/logs; direct step lookups empty; log retrieval 404 / BlobNotFound. Timing endpoint: run_duration_ms=3000; billable WINDOWS/UBUNTU total_ms=0, one job each, duration_ms=0.
+- Classification: CI_FAILURE / EXECUTION_NOT_ESTABLISHED. Root cause UNVERIFIED. No evidence checkout, compilation, or tests started. Annotation content NOT INSPECTED.
+- PR #409 is documentation-only. This does not validate source changes in PR #404 or #407. Repository suite NOT RUN; hosted Ubuntu/Windows execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1/P0 NOT COMPLETE.
+- No dispatch/retry, workflow modification, production code change, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Keep PR #410 and parents OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
