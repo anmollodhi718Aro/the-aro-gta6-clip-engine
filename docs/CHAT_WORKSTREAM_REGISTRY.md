@@ -3602,3 +3602,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Fix commit: `8c7807c19dede92f0e0ab65b750d997700db2172`.
 - Tests were NOT executed in this session. Exact-head hosted CI remains blocked/unverified due prior runner_id=0, empty steps, and BlobNotFound; no test pass is claimed. Synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
 - PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0389 — Reject symlink output redirection in CLI (2026-11-27)
+- Static review found `analyze_file` resolved the output path before writing. If the final output path was a symlink to an unrelated file, resolution redirected the atomic replacement to the symlink target, unexpectedly replacing that target.
+- Added a fail-closed check rejecting a symlink at the final output path before path resolution.
+- Added a regression that creates an output symlink and verifies the CLI returns status 2, preserves the target bytes, and leaves the symlink intact. Test skips only when the runner cannot create symlinks.
+- Production commit: `22f835e7e7d7b3febe5605b5450507d6bbbe4c18`; test commit: `524dd287d6a00443f3f1a7b197715a224314d86a`.
+- GitHub write responses confirm both commits; exact-head source read-back and test execution are pending. Tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED and existing ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
