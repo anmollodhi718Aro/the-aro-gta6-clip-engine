@@ -1379,7 +1379,7 @@ class SingleClipRenderTests(unittest.TestCase):
 
     def test_candidate_csv_rejects_invalid_utf8_as_validation_error(self):
         pack = self.root / "invalid-utf8-candidates.csv"
-        pack.write_bytes(b"source_id,start_seconds,end_seconds,duration_seconds,renderable\\n\\xff,2,8,6,True\\n")
+        pack.write_bytes(b"source_id,start_seconds,end_seconds,duration_seconds,renderable\n\xff,2,8,6,True\n")
         with self.assertRaisesRegex(ValueError, "candidate CSV could not be read"):
             load_selected_candidate(pack, 1)
 
