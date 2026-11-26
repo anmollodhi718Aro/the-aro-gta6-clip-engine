@@ -3620,3 +3620,13 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Re-read the workflow at the exact head: it uses GitHub-hosted `ubuntu-latest` and `windows-latest`, with ordinary checkout, Python setup, FFmpeg installation, compile, unit-test, and synthetic smoke steps. No workflow YAML change is justified by current evidence.
 - No workflow retry/dispatch issued. Repository tests NOT RUN in this session; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED and ancestry. No merge, rebase, retarget, OAuth, credentials, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0391 — Exact-head runner failure refresh (2026-11-27)
+- Rechecked PR #412 at head `363b9f0ad03efd4243379e0491783233d1525798`; PR remains OPEN / DRAFT / UNMERGED, base and parent #386 ancestry unchanged.
+- Exact-head Python CI run `45883226564` completed with failure. Windows job `140127452217` and Ubuntu job `140127452298` both report failure with `steps: null`; no job-step execution is evidenced.
+- This is another pre-step hosted-runner failure, not evidence that repository tests failed or passed. Root cause remains UNVERIFIED; billing, quota, account policy, and hosted-runner availability have not been inspected or changed by this session.
+- Existing Issue #26 already tracks this blocker; no duplicate issue created and no workflow retry/dispatch issued.
+- Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL. No OAuth, credentials, upload, publishing, deployment, or live media processing.
+- Repository tests NOT RUN; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
+- Preserve PR #412 and parent #386 OPEN / DRAFT / UNMERGED; no merge, rebase, retarget, or ancestry changes.
