@@ -10,6 +10,8 @@ import os
 import stat
 import sys
 import tempfile
+import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -1039,6 +1041,11 @@ def main() -> int:
             # remains parseable and cannot be mistaken for a completed result.
             initial_report = {
                 "status": "RUNNING",
+                # Invocation identity makes an interrupted durable reservation
+                # traceable without implying that a PID proves process liveness.
+                "run_id": uuid.uuid4().hex,
+                "started_at_utc": datetime.now(timezone.utc).isoformat(),
+                "process_id": os.getpid(),
                 "source_path": str(source_path),
                 "output_path": str(output_path),
                 "start_seconds": start_seconds,
