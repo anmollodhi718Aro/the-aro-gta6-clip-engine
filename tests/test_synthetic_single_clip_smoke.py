@@ -355,5 +355,25 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
         self.assertFalse(captured["directory"].exists())
 
 
+    def test_hash_verified_output_closes_descriptor_when_read_fails(self):
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / "output.mp4"
+            output.write_bytes(b"synthetic output")
+            opened = {}
+
+            def fail_read(descriptor, size):
+                opened["descriptor"] = descriptor
+                raise OSError("simulated read failure")
+
+            with patch.object(smoke.os, "read", side_effect=fail_read):
+                with self.assertRaisesRegex(OSError, "simulated read failure"):
+                    smoke._hash_verified_output(output)
+
+            self.assertIn("descriptor", opened)
+            with self.assertRaises(OSError):
+                smoke.os.fstat(opened["descriptor"])
+
+
+
 if __name__ == "__main__":
     unittest.main()
