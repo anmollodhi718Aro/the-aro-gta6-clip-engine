@@ -1933,3 +1933,16 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Report commit: `4a9cd18605dde4b56435f712c46b6d165d035a7a`; registry commit: `ffc9725b35b489ffb8922f0156b66dba4b7b2d8d`.
 - GitHub source writes only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0365 latest continuation handoff — 2026-11-26
+
+- Chat ID: ARO-CHAT-0365
+- Exact title: ARO-CHAT-0365 | Reject Malformed Candidate CSV Rows After Selection
+- Workstream: ARO-GTA-P0-365
+- Continue existing PR #386 on its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added `tests/test_candidate_csv_row_shape.py` with synthetic regressions for a short later row, an extra-cell later row, and an unterminated quoted field after a valid selected row.
+- Test commit: `328574188c9fe8c8e938324bf7e2680c7e59b635`; canonical report: `docs/ARO_CHAT_0365_CANDIDATE_CSV_ROW_SHAPE_REGRESSION.md`; registry synchronization commit: `b5632f308341ff0f0bc961fe7ba365f71ae07b12`.
+- Serial reconciliation: ARO-CHAT-0363 was concurrently registered for whitespace-only CSV headers and ARO-CHAT-0364 for strict malformed trailing-row parsing. This workstream is uniquely ARO-CHAT-0365. The provisional 0363 report is a historical alias; no history was rewritten.
+- GitHub source writes only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
