@@ -1796,3 +1796,13 @@ Added `test_smoke_harness_rejects_external_symlink_output_and_cleans_temporary_f
 - Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 
 Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## Latest P0 continuation handoff — ARO-CHAT-0352 (2026-11-26)
+
+- Suggested chat title: `ARO-CHAT-0352 | Verify Explicit FFmpeg and FFprobe CLI Overrides`.
+- Continue on existing draft PR #386 and original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added `tests/test_synthetic_single_clip_smoke_cli_args.py`. The test invokes `main()` with explicit `--ffmpeg` and `--ffprobe` paths, verifies both exact values are forwarded to `run_smoke_test()`, and checks exit code 0 plus parseable JSON output for a controlled synthetic PASS response.
+- Test commit: `40c96324a3bc5381527411c2dff7bf2699a21ee2`; report commit: `47a06e8749f71743429c048fefdfa0e300e42325`; registry commit: `8150a3d86086b99d83d5d1cc585f5bc29349bbe1`.
+- Production code unchanged. Static source write/read-back only; local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
