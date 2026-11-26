@@ -369,7 +369,7 @@ rendered output before retrying. Do not interpret a directory-sync warning as pr
 the fallback file was never created.
 
 
-## Rights confirmation before candidate media hashing — ARO-CHAT-0318
+## Rights confirmation before candidate media hashing — ARO-CHAT-0319
 
 An execution request without `--confirm-rights` is blocked before any selected-media bytes are read. In candidate-CSV mode, the CLI must not compute the selected source SHA-256 before the renderer's rights gate. It still writes the durable RUNNING reservation first, then records a terminal BLOCKED report with `execution_requested=true` and `rights_confirmation_supplied=false`. The direct renderer API also returns BLOCKED before source preflight or snapshot creation. Dry-run planning remains read-only and continues to inspect metadata without an execution request.
 
