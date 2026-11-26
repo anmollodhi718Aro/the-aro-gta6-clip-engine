@@ -730,6 +730,35 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
                 self.assertFalse(captured["output"].exists())
                 self.assertFalse(captured["directory"].exists())
 
+    @unittest.skipUnless(
+        hasattr(smoke.os, "mkfifo") and hasattr(smoke.os, "O_NONBLOCK"),
+        "FIFO replacement race requires POSIX mkfifo and O_NONBLOCK",
+    )
+    def test_hash_verified_output_rejects_fifo_replacement_without_blocking(self):
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / "output.mp4"
+            output.write_bytes(b"initial regular output")
+            real_open = smoke.os.open
+            observed = {}
+
+            def replace_with_fifo(path, flags, *args, **kwargs):
+                output.unlink()
+                smoke.os.mkfifo(output)
+                observed["flags"] = flags
+                return real_open(path, flags, *args, **kwargs)
+
+            with patch.object(smoke.os, "open", side_effect=replace_with_fifo):
+                with self.assertRaisesRegex(
+                    RuntimeError, "changed while opening it for verification"
+                ):
+                    smoke._hash_verified_output(output)
+
+            self.assertIn("flags", observed)
+            self.assertTrue(observed["flags"] & smoke.os.O_NONBLOCK)
+            self.assertTrue(output.exists())
+            self.assertTrue(output.is_fifo())
+
+
 
 if __name__ == "__main__":
     unittest.main()
