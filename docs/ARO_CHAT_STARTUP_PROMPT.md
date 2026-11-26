@@ -2013,3 +2013,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Test commit: `513cb96a127113304f35abc78bb2eb9d9c4183b3`; report commit: `afb2c783d2650a1b859ef224f2ccc1c5a3a84ab3`; registry sync commit: `0b2e615d0e5b626a8c6a81635050663bdd9506eb`.
 - GitHub source read-back PRESENT for the test and report. Exact-head Actions lookup for `afb2c783d2650a1b859ef224f2ccc1c5a3a84ab3` returned zero workflow runs: CI NOT VERIFIED. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED; P0 pipeline NOT COMPLETE.
 - Keep PR #393 and parents #390/#389/#388/#387/#386 OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+## Latest P0 continuation handoff — ARO-CHAT-0372 | Duplicate Candidate CSV Header Regression (2026-11-26)
+
+- Continue from a dedicated draft continuation branch based on PR #393 exact head `30f792d5a9ae2d70d5f68714b2c38705a34e481b`; preserve PR #393 -> #390 -> #389 -> #388 -> #387 -> #386. Do not merge, rebase, retarget, or rewrite ancestry.
+- Added `tests/test_candidate_csv_duplicate_headers.py`: a duplicate required `source_id` column must be rejected before `csv.DictReader` can silently replace the first value with the later value. Production code unchanged; synthetic CSV only.
+- Test commit: `06277e94467c9106da6601c856098ce5259fcaf7`; report commit: `e3cdd4a383abf4c75fd2b3bd8c6bf1076b272e88`; registry update is in this continuation branch.
+- Local unit tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; synthetic FFmpeg end-to-end NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED; P0 pipeline NOT COMPLETE.
+- Keep the continuation and parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
