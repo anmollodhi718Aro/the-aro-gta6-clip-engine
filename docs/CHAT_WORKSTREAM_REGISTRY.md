@@ -3490,3 +3490,12 @@ Keep this work and all parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/
 - This is a second consecutive PR branch (after PR #399 run #45799791858) showing the same failure-before-steps pattern. It strengthens the observation that the problem is not isolated to one PR head, but does not identify the root cause.
 - Classification remains `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`; root cause UNVERIFIED. Repository Actions settings and billing/service diagnostics remain unavailable through the connected read-only GitHub surface. No dispatch/retry initiated.
 - PR #400's own CI is therefore also NOT VERIFIED. No code/workflow changes made. Stage 1 remains NOT COMPLETE.
+
+
+## ARO-CHAT-0378 | Third consecutive CI run has zero billable runner time (2026-11-26)
+
+- Parent PR #401 exact head `4259c0ec0b1c1a4babc574cb453aaf64501ca75d`; child branch `workstream/aro-chat-0378-zero-billable-actions-time-audit-2026-11-26`.
+- PR #401 run #45801020210 failed within ~3 seconds. Windows job #139843943959 and Ubuntu job #139843944415: empty steps, runner_id 0, no runner name/group, no logs; direct step lookups empty; logs 404 / BlobNotFound.
+- Actions timing endpoint: run_duration_ms=3000; billable WINDOWS total_ms=0 and UBUNTU total_ms=0; each one job, duration_ms=0. Strongly supports no runner execution, but does not identify scheduling root cause.
+- Same pre-step failure pattern now observed on PR #399/#400/#401 runs #45799791858/#45800768113/#45801020210. Root cause remains UNVERIFIED; possible policy/billing/service/runner causes are not confirmed.
+- No dispatch/retry, CI change, production code change, merge, or deployment. Stage 1 remains NOT COMPLETE.
