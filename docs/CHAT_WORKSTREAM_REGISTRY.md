@@ -2505,3 +2505,12 @@ The second ARO-CHAT-0310 entry and `docs/ARO_CHAT_0310_TERMINAL_FALLBACK_PATH_RE
 - Commits: production `341140bce254c2bd46b1e495222231f5f14fe099`; tests `58f1e342a918c3d1c459c671a6ac459ea94e5d8b`; operator guide `a4daea7bc740aa7754847480794ab85c22faecca`; report `57d0ca78e63e74a3282701a6996a043cfa486a2c`.
 - Local tests NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; real authorized MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and its original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+## ARO-CHAT-0313 — terminal serialization fallback regression (2026-11-26)
+
+- Workstream: ARO-GTA-P1-313; continued existing draft PR #386 and branch `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`; no new branch or PR.
+- Added `tests/test_single_clip_render_terminal_serialization.py` to exercise the ARO-CHAT-0311 terminal serialization failure handling. The regression injects a non-JSON terminal result and verifies the primary RUNNING report remains intact while a separate exclusive, strict-JSON FAIL fallback is persisted with output-inspection warning and upload/publishing disabled.
+- Test commits: `cc79bf7f921ae6448c5536e07d1bd5956449b3e9`, corrected newline assertion `b5b474da98d65be0bf92d86793baf5c43a95d21a`.
+- Report: `docs/ARO_CHAT_0313_TERMINAL_SERIALIZATION_FALLBACK_REGRESSION.md`.
+- Tests NOT RUN in this connector session. Latest test commit exact-head workflow lookup returned zero runs; CI NOT VERIFIED. Independent review NOT RECORDED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, real media, OAuth, credentials, upload, publishing, merge, rebase, retarget, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
