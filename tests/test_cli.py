@@ -60,6 +60,47 @@ class CliTests(unittest.TestCase):
             self.assertEqual(status, 2)
             self.assertFalse(output_path.exists())
 
+    def test_cli_refuses_output_path_that_is_the_input_file(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            input_path = self.write_input(folder, ["analyze_chat"])
+            original = input_path.read_bytes()
+            with contextlib.redirect_stderr(io.StringIO()):
+                status = analyze_file(input_path, input_path, DetectorConfig())
+            self.assertEqual(status, 2)
+            self.assertEqual(input_path.read_bytes(), original)
+
+    def test_cli_refuses_output_path_alias_of_input_file(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            input_path = self.write_input(folder, ["analyze_chat"])
+            alias_path = Path(folder) / "." / "input.json"
+            original = input_path.read_bytes()
+            with contextlib.redirect_stderr(io.StringIO()):
+                status = analyze_file(input_path, alias_path, DetectorConfig())
+            self.assertEqual(status, 2)
+            self.assertEqual(input_path.read_bytes(), original)
+
+    def test_cli_rejects_non_object_top_level_json(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            input_path = Path(folder) / "input.json"
+            output_path = Path(folder) / "output.json"
+            input_path.write_text("[]", encoding="utf-8")
+            with contextlib.redirect_stderr(io.StringIO()):
+                status = analyze_file(input_path, output_path, DetectorConfig())
+            self.assertEqual(status, 2)
+            self.assertFalse(output_path.exists())
+
+    def test_cli_rejects_non_list_events(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            input_path = self.write_input(folder, ["analyze_chat"])
+            payload = json.loads(input_path.read_text(encoding="utf-8"))
+            payload["events"] = {"not": "a list"}
+            input_path.write_text(json.dumps(payload), encoding="utf-8")
+            output_path = Path(folder) / "output.json"
+            with contextlib.redirect_stderr(io.StringIO()):
+                status = analyze_file(input_path, output_path, DetectorConfig())
+            self.assertEqual(status, 2)
+            self.assertFalse(output_path.exists())
+
     def test_failed_atomic_replace_preserves_existing_output(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             input_path = self.write_input(folder, ["analyze_chat"])
