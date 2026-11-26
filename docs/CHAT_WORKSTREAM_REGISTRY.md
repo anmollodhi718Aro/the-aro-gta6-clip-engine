@@ -2696,3 +2696,6 @@ Regression tests cover a real pathname replacement against an open descriptor, f
 - Hardened the smoke harness to require a 64-character lowercase hexadecimal SHA-256 digest.
 - Commits: tests `88077f513b6cc9e1fd7bcdfc54a31bc9b8ac5fdd`; production guard `63d73f3c411089e45d9a77d73f0a24b08bfbf8f7`; task report `58b56165cf16a6ca9b410e61c0430ea2a783b60d`; operator guide `44628e284de2b898bb61bd1d6ad2fc8ecaa0597f`.
 - Tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; no workflow dispatch/retry. No authorized real MP4 processed. Preserve PR #386 OPEN / DRAFT / UNMERGED; no merge/rebase/retarget, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+- ARO-CHAT-0323 follow-up: corrected the smoke harness digest-validation condition's Python line break. Commit `d7c8aecfef971f0435591c5068bfb0a43d2daffc`. The exact source was re-read after correction; unit tests remain NOT RUN, exact-head CI NOT VERIFIED, and no workflow dispatch/retry was performed.
