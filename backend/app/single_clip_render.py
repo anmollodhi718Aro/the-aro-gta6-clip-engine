@@ -969,6 +969,11 @@ def main() -> int:
         start_seconds = args.start
         end_seconds = args.end
 
+    # argparse accepts NaN and infinity as floats. Reject them before creating
+    # the durable RUNNING report so persisted reports always contain valid JSON.
+    if not math.isfinite(start_seconds) or not math.isfinite(end_seconds):
+        parser.error("clip bounds must be finite numeric values")
+
     # Reserve the exclusive report path before any media inspection or rendering.
     # This prevents a completed render from being followed by a report-collision error.
     try:
@@ -1000,7 +1005,7 @@ def main() -> int:
             # leave a partially written reservation.
             try:
                 initial_report_text = json.dumps(
-                    initial_report, indent=2, ensure_ascii=True
+                    initial_report, indent=2, ensure_ascii=True, allow_nan=False
                 ) + "\n"
             except Exception as exc:
                 print(
@@ -1110,7 +1115,7 @@ def main() -> int:
             # Serialize completely before modifying the durable RUNNING record.
             # A serialization error must not truncate the only trustworthy report.
             try:
-                terminal_report_text = json.dumps(report, indent=2, ensure_ascii=True) + "\n"
+                terminal_report_text = json.dumps(report, indent=2, ensure_ascii=True, allow_nan=False) + "\n"
             except Exception as exc:
                 print(f"Terminal report could not be serialized; reserved RUNNING report preserved: {exc}", file=sys.stderr)
                 return 2
