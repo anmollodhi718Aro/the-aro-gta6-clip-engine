@@ -3055,3 +3055,14 @@ Removed a duplicate `test_hash_verified_output_closes_descriptor_when_final_fsta
 - Production code unchanged. Test commit: `ca897cfe105a6ec636c7ca54b252c9b0cc9d3ec0`; report commit: `48b863d5fffacc5d6d5f25667f5c0c69369cdb08`.
 - Static source/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0346 | Reject Renderer Success Without a Synthetic Output File (2026-11-26)
+
+- Workstream: ARO-GTA-P0-346; continued existing draft PR #386 on its original branch/base.
+- Added `test_main_emits_structured_failure_when_renderer_reports_missing_output` to `tests/test_synthetic_single_clip_smoke.py`.
+- A fake renderer reports RENDERED and a valid-looking SHA-256 but creates no output file. The CLI regression requires exit code 1, parseable JSON FAIL, the explicit missing-output error, and upload/publishing false.
+- Production code unchanged. Test commit: `e692439af7428003e4deaf2b7488cc10e47fa784`; focused report commit: `cf1fa9d9c009cd10c57cac66337b9b01e9ea670f`.
+- Serial collision reconciliation: ARO-CHAT-0345 was concurrently assigned to other tasks on this branch. This continuation is uniquely registered as ARO-CHAT-0346; the test commit was retained and no history was rewritten. A temporary misnumbered report alias was deleted.
+- Static change/read-back only. Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
