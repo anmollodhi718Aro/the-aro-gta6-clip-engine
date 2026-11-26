@@ -1912,3 +1912,13 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Production code unchanged; synthetic CSV fixtures only. Test commits: `b70e8f5e7b0642e1cc88cdf50c9fd00472f7035a` and correction `1eb3fdc6ed0eebbf2d7c429c0cbbebeefd94c06d`. Report commit: `6759f6ab943bd82373d289bdaf4862ae1bc75506`. Registry commit: `39e9a279b17fef45d89238d37688c5bcd93a468b`.
 - GitHub source writes/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0364 | Strict Trailing Candidate CSV Rows (2026-11-26)
+
+- Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Workstream: ARO-GTA-P0-364. Added `tests/test_candidate_csv_strict_trailing_rows.py`, which selects a valid first candidate and then encounters an unterminated quoted field in a later row. The complete CSV must be rejected rather than returning the earlier candidate.
+- Production code unchanged; synthetic CSV text only. Test commit: `a5c609ae6608a77cfe1009f6f7792914306c76c8`. Canonical report: `docs/ARO_CHAT_0364_STRICT_TRAILING_CSV_ROWS.md`, commit `a2f817ac9befafee4e5f365c297c790992d21538`. Registry commit: `b063305f2039a0f7f2402b2b992197e291d1fe4c`.
+- Serial reconciliation: ARO-CHAT-0363 is reserved for whitespace-only candidate CSV header coverage; this task is uniquely ARO-CHAT-0364. The provisional `docs/ARO_CHAT_0363_STRICT_TRAILING_CSV_ROWS.md` is a historical alias.
+- GitHub source writes/read-back only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
