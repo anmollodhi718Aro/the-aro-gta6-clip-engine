@@ -3456,3 +3456,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Commits: `990312abf95e2bacc559c0decb3ba135628b1439` (models); `8e335312487ba9db0b95cae5526f584747c8504a` (tests). Source read-back pending. Repository tests NOT RUN in this session.
 - CI exact-head status NOT VERIFIED; prior hosted jobs did not start a runner. Synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
 - Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0384 strict model-deserialization follow-up — 2026-11-26
+- Follow-up static review found `from_dict` constructors silently coerced JSON values such as null, numbers, and malformed scopes into strings. This could turn invalid permission/event payloads into apparently valid identifiers or scopes.
+- `PermissionRecord.from_dict` now requires an object, string identifiers, and a list containing only string scopes. `ChatEvent.from_dict` now requires an object, string identifiers, and string text. Timestamp values pass through strict `parse_datetime` validation; no broad string coercion remains.
+- Added regression coverage for null/numeric identifiers, wrong scope container/member types, non-string event text, and non-object payloads.
+- Commits: `e70db43d71bd10cdca9a4a70f861c0b55f1135bc` (production); `c736a11d9c93e3132aa706f19c6a02035427041f` (tests). GitHub source read-back and executable tests remain pending.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- Keep PR #412 and parent PR #386 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
