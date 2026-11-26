@@ -222,3 +222,10 @@ manual inspection rather than automatically deleted.
 ### Selected-source inventory hashing: nonblocking open
 
 Candidate-mode source SHA-256 verification now requests nonblocking descriptor open where the platform supports it. This closes a lstat-to-open race in which a replaced FIFO or device could otherwise block the hashing process before descriptor type validation. The descriptor is still required to identify a regular non-symlink file. Regression coverage checks the open flags on platforms exposing O_NONBLOCK. This is a defensive path-race guard, not proof of media ownership or processing rights.
+
+
+## ARO-CHAT-0302 — candidate dry-run digest binding
+
+Candidate CSV dry-run mode now re-hashes the selected source after FFprobe preflight and verifies that the file identity still matches the identity observed across preflight. The resulting SHA-256 must match the trusted inventory digest supplied for the selected candidate row. This closes a gap where the CLI's initial digest check could be followed by a path replacement before dry-run metadata inspection, producing a plan whose candidate identity and probed media did not refer to the same bytes.
+
+The dry-run remains read-only with respect to media: it does not create a full source snapshot, invoke FFmpeg, or render output. Added regressions for digest mismatch and successful digest evidence. Tests have not yet been run in this continuation; exact-head CI and independent review remain pending.
