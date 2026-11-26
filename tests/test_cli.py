@@ -136,5 +136,18 @@ class CliTests(unittest.TestCase):
             self.assertEqual(list(Path(folder).glob(".output.json.*.tmp")), [])
 
 
+    def test_cli_reports_path_resolution_runtime_error_without_writing_output(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            input_path = self.write_input(folder, ["analyze_chat"])
+            output_path = Path(folder) / "output.json"
+            with patch.object(Path, "resolve", side_effect=RuntimeError("simulated symlink loop")):
+                with contextlib.redirect_stderr(io.StringIO()) as stderr:
+                    status = analyze_file(input_path, output_path, DetectorConfig())
+
+            self.assertEqual(status, 2)
+            self.assertIn("simulated symlink loop", stderr.getvalue())
+            self.assertFalse(output_path.exists())
+
+
 if __name__ == "__main__":
     unittest.main()
