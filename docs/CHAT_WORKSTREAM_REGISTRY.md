@@ -2750,3 +2750,18 @@ Regression tests cover a real pathname replacement against an open descriptor, f
 - Commits: helper/tests `a9a7443d094a860d5e52645caeae8f98ae7fa00d` and `9bb5940e325307a878e1d5e956b1c75421e8fdaf`; nonblocking-open hardening `e9ecfd5e3e0000ab914cc7e19c414a0c2a1ddb90`; report `docs/ARO_CHAT_0327_STABLE_SMOKE_OUTPUT_IDENTITY.md`.
 - Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### Workstream serial collision reconciliation — 2026-11-26
+
+Two concurrent continuations used provisional ARO-CHAT-0325. The failure-path regression task (missing FFprobe, structured missing-FFmpeg CLI failure, and fixture-generation failure) retains ARO-CHAT-0325 / ARO-GTA-P0-325. The separate continuation previously titled “Correct Smoke Digest Regression” is reassigned ARO-CHAT-0327 / ARO-GTA-P0-327, whose scope includes the digest-fixture correction and CI smoke integration. Its earlier file `docs/ARO_CHAT_0325_SMOKE_DIGEST_REGRESSION.md` is retained as a historical alias; no commit history was rewritten. ARO-CHAT-0326 remains the separate temporary-artifact cleanup regression.
+
+## ARO-CHAT-0327 — wire synthetic clip smoke into CI (2026-11-26)
+
+- Exact chat title: ARO-CHAT-0327 | Wire Synthetic Clip Smoke Into CI.
+- Workstream: ARO-GTA-P0-327; continuation of existing draft PR #386 and original branch/base.
+- CI now installs FFmpeg on Ubuntu and Windows, compiles the `scripts` package, runs the full unit suite, and invokes `python -m scripts.synthetic_single_clip_smoke` on both hosted OS jobs.
+- Corrected the digest-mismatch fixture to return a valid-format but incorrect all-zero SHA-256 and removed a duplicate `hashlib` import; later smoke-test continuation commits retain the corrected mismatch behavior.
+- Commits: workflow `2437e2e9590065c92e574dd917f33b80faf343a0`; test fixture `b403cfd3b641ef3f717536151ef1012fa1046009`; report `docs/ARO_CHAT_0327_SYNTHETIC_SMOKE_CI.md`; report correction `a3a4cb2b0221feffc4d424db434156237d78351b`.
+- Local tests NOT RUN; synthetic FFmpeg smoke NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
