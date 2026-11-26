@@ -2740,3 +2740,13 @@ Regression tests cover a real pathname replacement against an open descriptor, f
 - Test commit: `2a56ea419ce7bfe76c714e1f400f3f4ebf9f9ef7`; report: `docs/ARO_CHAT_0326_SMOKE_FAILURE_CLEANUP.md`.
 - Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; public publishing stays disabled.
+
+
+## ARO-CHAT-0327 — stable synthetic output identity verification (2026-11-26)
+
+- Workstream: ARO-GTA-P0-327; continued existing draft PR #386 and its original branch/base.
+- Hardened the synthetic smoke harness output check: reject symlink/non-regular outputs, open with non-following and nonblocking flags where supported, compare path/descriptor identity before and after hashing, and report byte size from the same verified descriptor.
+- Added regression coverage for symlink rejection and digest/size consistency.
+- Commits: helper/tests `a9a7443d094a860d5e52645caeae8f98ae7fa00d` and `9bb5940e325307a878e1d5e956b1c75421e8fdaf`; nonblocking-open hardening `e9ecfd5e3e0000ab914cc7e19c414a0c2a1ddb90`; report `docs/ARO_CHAT_0327_STABLE_SMOKE_OUTPUT_IDENTITY.md`.
+- Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
