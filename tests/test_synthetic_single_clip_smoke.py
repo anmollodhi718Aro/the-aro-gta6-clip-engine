@@ -756,7 +756,7 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
             self.assertIn("flags", observed)
             self.assertTrue(observed["flags"] & smoke.os.O_NONBLOCK)
             self.assertTrue(output.exists())
-            self.assertTrue(output.is_fifo())
+            self.assertTrue(smoke.stat.S_ISFIFO(output.lstat().st_mode))
 
 
 
