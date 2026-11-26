@@ -2151,5 +2151,50 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertIn("Inspect this report and any rendered output before retrying", stderr.getvalue())
 
 
+    def test_partial_terminal_fallback_write_reports_preserved_sidecar_path(self):
+        report_path = self.root / "partial-fallback.json"
+        fallback_path = report_path.with_name(
+            report_path.name + ".terminal-fallback.json"
+        )
+        report_text = json.dumps({"status": "FAIL", "message": "complete"}) + "\\n"
+        original_open = Path.open
+
+        class PartialWrite:
+            def __init__(self, handle):
+                self.handle = handle
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                self.handle.close()
+
+            def write(self, value):
+                prefix = value[:7]
+                self.handle.write(prefix)
+                return len(prefix)
+
+            def flush(self):
+                return self.handle.flush()
+
+            def fileno(self):
+                return self.handle.fileno()
+
+        def open_with_partial_fallback(path, *args, **kwargs):
+            handle = original_open(path, *args, **kwargs)
+            if path == fallback_path:
+                return PartialWrite(handle)
+            return handle
+
+        with patch.object(Path, "open", new=open_with_partial_fallback):
+            with self.assertRaisesRegex(OSError, str(fallback_path)):
+                _write_exclusive_terminal_fallback(
+                    report_path, report_text, (self.source, self.output)
+                )
+
+        self.assertTrue(fallback_path.is_file())
+        self.assertEqual(fallback_path.read_text(encoding="utf-8"), report_text[:7])
+
+
 if __name__ == "__main__":
     unittest.main()
