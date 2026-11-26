@@ -1860,3 +1860,13 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Test commit: `d71eb490f21f83b03e9f74284e87645fe9288788`; canonical report: `docs/ARO_CHAT_0358_SYMLINK_AFTER_OPEN_RACE.md` (commit `fc68f3899ec0bdfc302b53200f3dd3ec1f0f71ca`); registry commit: `2eb99d205fba0ebe0b649a7abb6b1bc4d06425ba`.
 - GitHub source write/read-back only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+### Latest P0 continuation handoff — ARO-CHAT-0359 | Hash Read Failure Descriptor Cleanup (2026-11-26)
+
+- Continue on existing draft PR #386 and original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Added `tests/test_synthetic_smoke_read_failure_cleanup.py` to inject an `OSError` during `os.read` in output hashing and verify that the error propagates, the opened descriptor is closed, and output bytes remain unchanged.
+- Production code unchanged; temporary synthetic files only; no media tools or real media used.
+- Test commit: `f58ef01378b8b1fa8847c1ab653efa483d2456c1`; report commit: `21d2f4ad3122691b874c5c06e7c1aeeece854cfa`.
+- GitHub source writes only. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
