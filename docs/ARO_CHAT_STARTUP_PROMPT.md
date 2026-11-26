@@ -1554,3 +1554,8 @@ The synthetic smoke harness now catches TypeError/ValueError when summarizing a 
 - Added a regression proving the rendered-output hash verifier rejects a pathname replaced after its file descriptor is opened; original and replacement bytes are checked separately. Test commit: `db8185aad27efd9adbad15f030206148319bcc85`; report: `docs/ARO_CHAT_0333_RENDERED_OUTPUT_PATH_SWAP.md`.
 - Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/Windows CI NOT VERIFIED. Do not dispatch/retry workflows.
 - Authorized real GTA 6 MP4 acceptance remains blocked on the owner's authorized media handoff. Preserve PR #386 OPEN / DRAFT / UNMERGED; no merge/rebase/retarget/deploy/publish without owner approval.
+
+
+### Latest P0 continuation — ARO-CHAT-0332
+
+Added a regression for FFmpeg synthetic-fixture generation timing out at the configured 120-second limit. It verifies timeout propagation, that rendering is not called, and that temporary source/directory artifacts are removed. Production code unchanged. Test commit f4f3eb625c36051f1c014ecca10f90dcdbc376c4; report docs/ARO_CHAT_0332_SYNTHETIC_FIXTURE_TIMEOUT_CLEANUP.md; report commit b1346752877682f017b90e5e7efb4233cd3de835. Unit tests and exact-head Ubuntu/Windows CI NOT VERIFIED. Preserve PR #386 OPEN/DRAFT/UNMERGED and its original base/ancestry; no workflow dispatch/retry, merge, rebase, retarget, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
