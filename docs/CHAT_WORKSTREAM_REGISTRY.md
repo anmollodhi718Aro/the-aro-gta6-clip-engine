@@ -3738,3 +3738,15 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - PR #412 current HEAD remains `462fa0abace1dd1013b5ff5d1e74a03b69087a83`, OPEN / DRAFT / UNMERGED, base `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`. Retry was against prior recorded run/head `fbdc89133a5a2d26c1f8d8bdf03353ad82a83eef`, not the current HEAD. Current HEAD has no associated run in the available commit-run lookup.
 - Unit tests NOT RUN; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; Windows owner-device check NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
 - No merge, retarget, rebase, upload, publishing, or deployment.
+
+
+
+### ARO-CHAT-0384 — Reject non-string source identifiers in clip-pack mapping (2026-11-27)
+- Continued on existing PR #412 child branch `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`; preserved base `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25` and parent PR #386 ancestry.
+- Static review found `map_candidates_to_media` converted arbitrary candidate and plan-level `source_id` values with `str(...)`. A malformed numeric ID such as `123` could therefore be treated as the valid string ID `"123"` and pass a calibrated-source equality check.
+- Added fail-closed validation: supplied plan-level source IDs must be non-empty strings; candidate source IDs must be strings before trimming/comparison. Missing candidate IDs may still use a validated plan-level fallback.
+- Added three regressions: numeric candidate ID against a clock calibrated for `"123"`, numeric plan-level fallback, and numeric candidate ID in single-origin mapping.
+- Production commit: `79c05793ce4d516165baa5c0211c0b3f2a7259ff`; test commit: `9e41f6b9b267e4ec13a8e688cde2ef4e22ee65ce`. Exact-head source and test read-back verified.
+- Exact-head Actions run `45906206127` failed for Ubuntu unit tests, Windows unit tests, and Ubuntu synthetic smoke; all three job records have `steps: null` and no logs URL. No test step is evidenced; runner root cause remains UNKNOWN. This is not a code-test failure and not a pass.
+- Repository tests NOT RUN locally; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
+- PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment.
