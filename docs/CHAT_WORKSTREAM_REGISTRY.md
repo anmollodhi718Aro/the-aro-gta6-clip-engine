@@ -2959,3 +2959,17 @@ Two concurrent continuations used provisional ARO-CHAT-0327. The stable syntheti
 - Test commit: `8147d5e0ad702b2f11aee7cd1764369053b45a9c`; report: `docs/ARO_CHAT_0341_SMOKE_FINAL_FSTAT_CLEANUP.md`; report commit: `2d0876428b461d28ba7f72faede18ecc1f1b246b`.
 - Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original branch/base. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0341 — record exact-head CI runner failure (2026-11-26)
+
+- Exact title: ARO-CHAT-0341 | Record Exact-Head CI Runner Failure.
+- Workstream: ARO-GTA-P0-341; documentation-only continuation of existing P0 draft PR #386 on its original branch/base.
+- Audited exact branch head: `bac9be9e34c2ed62c4e492791c0ce5edec2a2bf6` (ARO-CHAT-0340 startup-handoff commit).
+- Actions run: #45771573052, workflow `Python CI`, run #2194, event `push`, exact head SHA confirmed.
+- Ubuntu job #139745194291 and hosted-Windows job #139745194003 both completed FAILURE. The GitHub jobs response exposed `steps: null` and `logs_url: null` for both jobs. No job execution steps or logs were available.
+- Classification: CI_FAILURE / EXECUTION_NOT_ESTABLISHED. This run does not establish that compilation or tests started, and it does not establish an application-code failure. Runner-allocation failure is a plausible category but the root cause is UNVERIFIED; do not state it as confirmed.
+- Commit status endpoint returned `pending` with zero status contexts; this does not override the completed failed Actions run.
+- No workflow retry/dispatch was performed. Local unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Next safe action: owner/account-side inspection of GitHub Actions availability, private-repository hosted-runner policy/quota/billing, and runner allocation; after the cause is resolved, owner-authorize a fresh exact-head validation. Do not rerun from this continuation.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and its original base/ancestry. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, real media, upload, publishing, deployment, or destructive action. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
