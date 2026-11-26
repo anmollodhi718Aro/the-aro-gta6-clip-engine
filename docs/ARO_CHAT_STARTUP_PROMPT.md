@@ -2115,3 +2115,13 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Exact-head Python CI run #45803428937 (run 2580) completed FAILURE. Windows job #139852311547 and Ubuntu job #139852311065 exposed no steps/logs; direct step lookups empty; log retrieval 404 / BlobNotFound. Timing run_duration_ms=4000; billable WINDOWS/UBUNTU total_ms=0.
 - Classification CI_FAILURE / EXECUTION_NOT_ESTABLISHED. No evidence checkout, compile, or tests started. Root cause UNVERIFIED; do not call this an application test failure.
 - No workflow dispatch/retry, workflow edits, production code edits, merge, rebase, retarget, deployment, credentials, real media, upload, or publishing. Repository suite NOT RUN; hosted test execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1 and P0 NOT COMPLETE. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## Latest P0 continuation handoff — ARO-CHAT-0382 | PR #406 exact-head CI execution audit (2026-11-26)
+
+- Continue from child draft PR #406 exact head `3899f034d803b629df65f716a6fa97eab1e1e641` on branch `workstream/aro-chat-0382-pr406-exact-head-ci-failure-audit-2026-11-26`; preserve PR #406 -> #405 -> #404 -> #403 -> #402 -> #401 -> #400 -> #399.
+- Exact-head Python CI run #45803605172 (run 2595) completed FAILURE. Windows job #139852915564 and Ubuntu job #139852916033 reported no steps/logs; direct step lookups returned empty arrays and job-log retrieval returned 404 / BlobNotFound. Combined commit status returned zero entries.
+- Classification: CI_FAILURE / EXECUTION_NOT_ESTABLISHED. No evidence checkout, compilation, or tests started; do not label this an application test failure. Root cause UNVERIFIED. Timing/billable data NOT VERIFIED.
+- Report: `docs/ARO_CHAT_0382_PR406_EXACT_HEAD_CI_AUDIT.md`. Documentation-only; no production code/tests/workflow YAML changed.
+- Repository suite NOT RUN; hosted test execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1 and P0 NOT COMPLETE.
+- No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live publishing disabled.
