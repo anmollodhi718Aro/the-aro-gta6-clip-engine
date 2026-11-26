@@ -3061,3 +3061,14 @@ ARO-CHAT-0345 was already reserved by a concurrent continuation for the syntheti
 - The initial ARO-CHAT-0345 label collided with concurrent work; this task is uniquely registered as ARO-CHAT-0347. No implementation history was rewritten.
 - Static source/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
+
+
+## ARO-CHAT-0348 | Reject Renderer Success Without a Synthetic Output File (2026-11-26)
+
+- Workstream: ARO-GTA-P0-348; continued existing draft PR #386 on its original branch/base.
+- Added `test_main_emits_structured_failure_when_renderer_reports_missing_output` to `tests/test_synthetic_single_clip_smoke.py`.
+- A fake renderer reports RENDERED and a valid-looking SHA-256 but creates no output file. The CLI regression requires exit code 1, parseable JSON FAIL, the explicit missing-output error, and upload/publishing false.
+- Production code unchanged. Test commit: `e692439af7428003e4deaf2b7488cc10e47fa784`; focused report commit: `41242074b8fa42d2cdebe6c106fa1aa3fe45aef3`.
+- Serial collision reconciliation: ARO-CHAT-0346 was assigned to the overflow CLI regression and ARO-CHAT-0347 to unsafe smoke-report guard coverage. This continuation is uniquely assigned ARO-CHAT-0348; no commit history was rewritten.
+- Static change/read-back only. Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
