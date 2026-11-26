@@ -92,6 +92,33 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(self.output.read_bytes(), b"replacement bytes")
 
 
+    def test_verified_output_hash_rejects_path_replacement_after_eof(self):
+        replacement = self.root / "replacement-after-eof.mp4"
+        preserved = self.root / "preserved-before-eof.mp4"
+        original_bytes = b"original rendered bytes after final chunk"
+        replacement_bytes = b"replacement bytes after EOF"
+        self.output.write_bytes(original_bytes)
+        replacement.write_bytes(replacement_bytes)
+        real_read = os.read
+        swapped = {"done": False}
+
+        def replace_after_eof(descriptor, size):
+            chunk = real_read(descriptor, size)
+            if not chunk and not swapped["done"]:
+                self.output.replace(preserved)
+                replacement.replace(self.output)
+                swapped["done"] = True
+            return chunk
+
+        with patch("backend.app.single_clip_render.os.read", side_effect=replace_after_eof):
+            with self.assertRaisesRegex(RuntimeError, "changed during SHA-256 verification"):
+                _sha256_verified_regular_file(self.output)
+
+        self.assertTrue(swapped["done"])
+        self.assertEqual(preserved.read_bytes(), original_bytes)
+        self.assertEqual(self.output.read_bytes(), replacement_bytes)
+
+
     def test_sha256_selected_source_matches_file_bytes(self):
         expected = hashlib.sha256(self.source.read_bytes()).hexdigest()
         self.assertEqual(sha256_selected_source(self.source), expected)
