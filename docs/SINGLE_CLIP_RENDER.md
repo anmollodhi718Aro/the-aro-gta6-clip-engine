@@ -310,3 +310,8 @@ Regression coverage:
 - missing required cell in a data row.
 
 These tests have been added but have NOT been run in this connector session. This validation does not establish media ownership, source identity, or processing rights.
+
+
+## Terminal JSON serialization failure after rendering
+
+If terminal renderer metadata cannot be serialized as strict JSON after the render call returns, the CLI preserves the original durable RUNNING report and writes a separate exclusive `.terminal-fallback.json` record containing only safe failure metadata. The fallback records the renderer's string status when available, marks output inspection as required, and explicitly warns the operator to inspect any output before retrying. The primary RUNNING report is not overwritten with malformed JSON, and the fallback never overwrites an existing path or aliases the selected source/output. A serialization failure does not prove that rendering failed; a completed MP4 may already exist.
