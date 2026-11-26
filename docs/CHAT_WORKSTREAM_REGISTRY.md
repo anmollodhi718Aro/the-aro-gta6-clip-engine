@@ -3277,3 +3277,14 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 
 - Canonical report for ARO-CHAT-0361 is `docs/ARO_CHAT_0361_BLANK_CANDIDATE_CSV_HEADER_GUARD.md` (commit `5cba5e243a9bc819aed3622daebfa372dc6d398e`).
 - Earlier provisional report paths `docs/ARO_CHAT_0359_BLANK_CANDIDATE_CSV_HEADER_GUARD.md` and `docs/ARO_CHAT_0360_BLANK_CANDIDATE_CSV_HEADER_GUARD.md` are historical aliases created before concurrent serial reservations became visible. Preserve them; no history was rewritten.
+
+
+## ARO-CHAT-0362 | Expand Candidate CSV Blank and Duplicate Header Coverage (2026-11-26)
+
+- Workstream: ARO-GTA-P0-362; continued on draft PR #386's existing branch/base without ancestry changes.
+- Serial reconciliation: ARO-CHAT-0360 is reserved for post-read output-descriptor cleanup, and ARO-CHAT-0361 is reserved for the production blank-header guard plus its initial regression. This expanded coverage is uniquely ARO-CHAT-0362. The provisional ARO-CHAT-0360 report path is retained as a historical alias; no commit history was rewritten.
+- Added `tests/test_candidate_csv_blank_headers.py` with three focused cases beyond the initial trailing-empty-header regression: blank middle header, trailing blank header represented by `csv.DictReader` as `None`, and duplicate header name. Each case requires `load_selected_candidate()` to reject the malformed schema with the existing fail-closed error.
+- Synthetic CSV fixtures only; production code unchanged; no media tools or media used.
+- Test commit: `57e097904abab83e44b8405f8434d4b704d06c37`; canonical report: `docs/ARO_CHAT_0362_CANDIDATE_CSV_HEADER_COVERAGE.md`.
+- GitHub read-back confirms the test file is present. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
