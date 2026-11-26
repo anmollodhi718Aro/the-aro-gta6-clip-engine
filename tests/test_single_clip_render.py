@@ -2199,7 +2199,7 @@ class SingleClipRenderTests(unittest.TestCase):
                     load_selected_candidate(invalid_path, 1)
 
     def test_candidate_csv_rejects_blank_path_strings(self):
-        for invalid_path in ("", "   ", "\\t"):
+        for invalid_path in ("", "   ", "\t"):
             with self.subTest(invalid_path=repr(invalid_path)):
                 with self.assertRaisesRegex(
                     ValueError, "candidate CSV path must be a non-empty string or pathlib.Path"
