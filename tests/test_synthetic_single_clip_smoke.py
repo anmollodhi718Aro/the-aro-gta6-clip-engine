@@ -333,5 +333,27 @@ class SyntheticSingleClipSmokeTests(unittest.TestCase):
             self.assertTrue(output.is_symlink())
 
 
+    def test_fixture_generation_timeout_prevents_render_and_cleans_temporary_directory(self):
+        import subprocess
+        captured = {}
+
+        def timed_out(command, **kwargs):
+            captured["directory"] = Path(command[-1]).parent
+            captured["source"] = Path(command[-1])
+            captured["timeout"] = kwargs.get("timeout")
+            raise subprocess.TimeoutExpired(command, kwargs.get("timeout"))
+
+        with patch.object(smoke.shutil, "which", side_effect=lambda name: f"/tools/{name}"), patch.object(
+            smoke.subprocess, "run", side_effect=timed_out
+        ), patch.object(smoke, "render_selected_clip") as render:
+            with self.assertRaises(subprocess.TimeoutExpired):
+                smoke.run_smoke_test()
+
+        self.assertEqual(captured["timeout"], 120)
+        render.assert_not_called()
+        self.assertFalse(captured["source"].exists())
+        self.assertFalse(captured["directory"].exists())
+
+
 if __name__ == "__main__":
     unittest.main()
