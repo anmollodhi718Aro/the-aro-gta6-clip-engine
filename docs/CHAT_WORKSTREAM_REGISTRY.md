@@ -3593,3 +3593,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Initial reporting now uses a neutral <path> label for Path instances without invoking subclass string conversion. Path normalization and final display conversion remain inside the guarded validation path.
 - Added a regression using the platform's concrete Path type subclass with an intentionally failing __str__; it asserts the valid Path subclass can be inspected successfully using mocked FFprobe metadata.
 - Tests NOT RUN in this connector session. Exact-head CI and media E2E remain NOT VERIFIED. PR #412 stays OPEN / DRAFT / UNMERGED; parent #386 ancestry unchanged. No workflow retry, merge, deployment, upload, or publishing.
+
+
+### ARO-CHAT-0388 — Correct duplicate mock patch in media preflight regression test (2026-11-27)
+- Continued the existing ARO-GTA-P0-384 workstream on PR #412; preserved its parent #386 ancestry and existing base.
+- Static review found `test_path_subclass_with_broken_string_conversion_is_handled_safely` had the same `@patch("backend.app.media_single_preflight.subprocess.run")` decorator twice while accepting only one injected mock argument. This would cause unittest to invoke the test with an extra positional mock and fail before its assertions.
+- Removed the duplicate decorator. Re-read the updated file from GitHub and scanned all five changed test modules for adjacent duplicate `@patch` decorators; none remain.
+- Fix commit: `8c7807c19dede92f0e0ab65b750d997700db2172`.
+- Tests were NOT executed in this session. Exact-head hosted CI remains blocked/unverified due prior runner_id=0, empty steps, and BlobNotFound; no test pass is claimed. Synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
+- PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
