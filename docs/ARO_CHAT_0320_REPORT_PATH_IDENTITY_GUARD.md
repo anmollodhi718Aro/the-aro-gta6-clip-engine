@@ -19,8 +19,9 @@ These checks narrow pathname-replacement races but do not claim a fully atomic t
 
 ## Regression coverage
 
-- test_cli_stops_before_media_when_reserved_report_path_is_replaced
-- test_cli_falls_back_when_reserved_report_path_changes_during_terminal_write
+- test_report_handle_identity_check_detects_actual_path_replacement
+- test_cli_stops_before_media_when_report_path_identity_check_fails
+- test_cli_falls_back_when_report_path_identity_changes_during_terminal_write
 
 ## Validation and safety
 
