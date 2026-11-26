@@ -223,8 +223,8 @@ class SingleClipRenderTests(unittest.TestCase):
         pack.mkdir()
         csv_path = pack / "candidates.csv"
         csv_path.write_text(
-            "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
-            "authorized-demo,2,8,6,True\\n",
+            "source_id,start_seconds,end_seconds,duration_seconds,renderable\n"
+            "authorized-demo,2,8,6,True\n",
             encoding="utf-8",
         )
         report_path = self.root / "reservation-order-report.json"
