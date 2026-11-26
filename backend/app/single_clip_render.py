@@ -264,6 +264,7 @@ def _render_selected_clip_from_snapshot(
     rights_confirmed: bool = False,
     ffprobe_binary: str = "ffprobe",
     ffmpeg_binary: str = "ffmpeg",
+    expected_source_sha256: str | None = None,
 ) -> dict[str, Any]:
     """Plan or render one clip from one selected local video.
 
@@ -319,6 +320,27 @@ def _render_selected_clip_from_snapshot(
         report["error"] = "selected source changed during preflight; refusing to render a different file"
         return report
     report["source_identity_verified"] = True
+
+    # Candidate dry-runs must bind their preflight report to the same trusted
+    # source digest that was checked against the selected inventory row. The
+    # CLI's earlier hash alone is insufficient: the path could be replaced
+    # between that hash and FFprobe. Re-hash after preflight and require the
+    # original file identity to remain unchanged throughout both operations.
+    if not execute and expected_source_sha256 is not None:
+        try:
+            observed_sha256 = sha256_selected_source(source)
+            identity_after_hash = _selected_file_identity(source)
+        except (OSError, ValueError) as exc:
+            report["error"] = f"selected source could not be re-verified after preflight: {exc}"
+            return report
+        if identity_after_hash != source_identity_after:
+            report["error"] = "selected source changed between candidate hashing and preflight"
+            return report
+        if observed_sha256 != expected_source_sha256:
+            report["error"] = "selected source SHA-256 no longer matches the trusted candidate inventory"
+            return report
+        report["expected_source_sha256"] = expected_source_sha256
+        report["source_sha256"] = observed_sha256
 
     duration = preflight.get("duration_seconds")
     try:
@@ -645,6 +667,7 @@ def render_selected_clip(
             rights_confirmed=rights_confirmed,
             ffprobe_binary=ffprobe_binary,
             ffmpeg_binary=ffmpeg_binary,
+            expected_source_sha256=expected_source_sha256,
         )
         report["source_path"] = str(source)
         report["source_snapshot_verified"] = False
