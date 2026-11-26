@@ -2609,3 +2609,6 @@ Production commit: `3dd984e568145ce41abd52fc07352d40ff4f59ea`; regression commit
 - Added regression coverage that injects a directory-sync error and verifies the fallback remains present, readable, and named in the warning.
 - Repository tests NOT RUN in this connector session. Latest exact-head GitHub Actions run before this change failed before runner allocation (runner_id=0, no runner name, no steps); this is infrastructure evidence, not a unit-test failure. Do not retry or dispatch workflows.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No real media, OAuth, credentials, upload, publishing, merge, rebase, retarget, workflow retry/dispatch, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+ARO-CHAT-0317 commit follow-up: production `fcae628bff83b56cde510af16730a7b2f5a3d33f`; regression file `6de1a30e8c4002ac20486ee7347a58d77ec0fa32`, corrected newline literals in `9bf29a5bbba2ecf8987159a578f1bf983dea8da0`. The test file was re-read after correction; tests remain NOT RUN and exact-head CI NOT VERIFIED.
