@@ -2050,3 +2050,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Hosted Windows job #139838950118 and Ubuntu job #139838950521 both exposed `steps: null` and `logs_url: null`; fetching each job log returned HTTP 404 / BlobNotFound.
 - Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. No evidence checkout, compilation, or tests started. Root cause remains UNVERIFIED and is not attributed to application code. No workflow dispatch/retry was initiated.
 - This supersedes the earlier zero-runs note. Full repository unit suite NOT RUN; isolated source-level harness 6/6 PASS but is not repository CI evidence. Ubuntu/Windows CI NOT VERIFIED.
+
+
+## Latest exact-head CI result — PR #399 (2026-11-26)
+
+- Final observed head: `fa29ed51fd9e101ee9b9b16d81eecd513e6e9c38`.
+- Python CI run #45799693944 completed FAILURE.
+- Windows job #139839367102 and Ubuntu job #139839367744 both returned empty step arrays (`steps: []`) and `logs_url: null`.
+- Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`. No checkout, compilation, or unit-test execution is evidenced. This is not evidence of an application-code test failure. Root cause remains UNVERIFIED. No dispatch/retry was initiated.
+- Repository unit suite remains NOT RUN from a controlled local environment. The 6/6 source-level isolated harness result remains limited evidence only.
