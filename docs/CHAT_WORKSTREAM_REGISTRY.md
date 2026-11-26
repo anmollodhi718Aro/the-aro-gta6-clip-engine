@@ -2647,3 +2647,17 @@ Two concurrent continuations independently used the provisional serial ARO-CHAT-
 - Added a regression asserting the parent-directory durability helper is called for the created snapshot.
 - Commits: production `4c7661f2b24dcef1e0938a11ccf6515d155d6092`; regression `99902b64660e383f5403caa95081eccd8c60b02a`; operator docs `713c2f7af95bc7672f84a4c07ccde41f53259113`.
 - Tests NOT RUN in this connector session. Exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real authorized MP4 processed. PR #386 remains OPEN / DRAFT / UNMERGED; preserve its base and ancestry. No merge, rebase, retarget, workflow retry/dispatch, upload, publishing, or deployment. Issue #68 remains deferred.
+
+
+## ARO-CHAT-0320 — verify the durable report pathname still owns its open descriptor
+
+Static review found that the CLI retained an open report descriptor throughout media processing but did not verify that the report pathname still referred to that same file. If another process replaced the pathname, the renderer could write its terminal result to an unlinked descriptor while a different file occupied the documented report path.
+
+The CLI now compares the open descriptor's regular-file device/inode identity with a non-following lstat() of the report path:
+- immediately after the initial RUNNING report is flushed and fsynced, before media inspection;
+- immediately before writing the terminal report; and
+- immediately after the terminal report is flushed and fsynced.
+
+A mismatch fails closed. Before media work, it stops without invoking the renderer and attempts an exclusive fallback record. During terminal persistence, it preserves the primary path occupant and attempts the existing exclusive fallback path. It never overwrites the replacement path. These checks narrow pathname-replacement races; they do not claim an atomic filesystem transaction against every concurrent actor.
+
+Regression tests cover replacement detection before media inspection and after terminal report persistence. Local tests NOT RUN. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED. Independent review NOT RECORDED. No real media, OAuth, credentials, upload, publishing, workflow retry/dispatch, merge, rebase, retarget, or deployment. PR #386 remains OPEN / DRAFT / UNMERGED; Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
