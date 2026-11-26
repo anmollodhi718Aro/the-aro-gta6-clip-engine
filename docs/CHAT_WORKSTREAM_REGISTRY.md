@@ -2526,3 +2526,20 @@ The second ARO-CHAT-0310 entry and `docs/ARO_CHAT_0310_TERMINAL_FALLBACK_PATH_RE
 - Initial commit messages carried provisional 0311 labels; live registry already assigns ARO-CHAT-0311 to rendered-MP4 metadata regression coverage. Canonical attribution is 0312; no history was rewritten.
 - Tests NOT RUN in this connector session. Exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and its original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0313 — terminal serialization fallback regression coverage
+
+- Workstream: ARO-GTA-P1-313; continued existing draft PR #386 and its existing branch.
+- Added mocked regression coverage for non-JSON terminal renderer metadata. The test verifies the primary RUNNING report remains parseable, an exclusive strict-JSON FAIL fallback is written with a newline, output inspection is required, upload/publishing remain disabled, and no output is created by the test.
+- Production behavior unchanged. Production context commit: `c87b7dd61d3e41e13318d94d4122cf23cc2b2219`; test commits: `cc79bf7f921ae6448c5536e07d1bd5956449b3e9`, `b5b474da98d65be0bf92d86793baf5c43a95d21a`.
+- Tests NOT RUN locally; exact-head CI NOT VERIFIED; independent review NOT RECORDED. No real media or upload.
+
+## ARO-CHAT-0314 — interrupted render invocation identification
+
+- Workstream: ARO-GTA-P1-314; continued existing draft PR #386 and its existing branch.
+- Durable RUNNING reports now include a unique UUID run ID, timezone-aware start timestamp, and diagnostic process ID. Added regression assertions and a manual fail-closed recovery runbook.
+- No automatic stale-run detection, report mutation, or rerender behavior is added; PID alone is not proof of process liveness.
+- Commits: production `aad93ead50d714de72c5cc076450eb2ddd6bba7c`; test `33f4b88d429c2e466d59a13acde33e61c66f07ad`; operator guide `b86cdb1294e7bb140067c5888c6337bb18d8b4f5`; report `579d3b99efd0499159dc5337fdcb991db706aa74`.
+- Tests NOT RUN locally; exact-head CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
