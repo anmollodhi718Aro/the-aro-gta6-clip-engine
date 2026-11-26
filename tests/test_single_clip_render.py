@@ -94,6 +94,15 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(snapshot.exists())
         self.assertEqual(self.source.read_bytes(), b"synthetic video")
 
+    def test_snapshot_readback_rejects_early_eof_and_cleans_snapshot(self):
+        snapshot = self.root / "early-eof-readback-snapshot.mp4"
+        with patch("backend.app.single_clip_render.os.read", return_value=b""):
+            with self.assertRaisesRegex(RuntimeError, "changed during read-back verification"):
+                _create_stable_source_snapshot(self.source, snapshot)
+
+        self.assertFalse(snapshot.exists())
+        self.assertEqual(self.source.read_bytes(), b"synthetic video")
+
     def test_snapshot_creation_rejects_short_writes_and_cleans_partial_snapshot(self):
         snapshot = self.root / "short-write-snapshot.mp4"
         real_open = Path.open
