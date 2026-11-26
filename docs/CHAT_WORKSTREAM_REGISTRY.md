@@ -3525,3 +3525,11 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Attempted to retrieve both job logs; GitHub returned BlobNotFound/404 for each. Therefore no checkout, dependency-install, or test execution is evidenced, and the underlying failure cause is UNVERIFIED.
 - No workflow retry/dispatch was issued. Repository tests remain NOT RUN in this session; FFmpeg E2E NOT RUN; authorized GTA 6 media NOT PROCESSED.
 - PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED. Stage 1/P0 remains INCOMPLETE; no merge, rebase, retarget, upload, publishing, or deployment.
+
+### ARO-CHAT-0384 detector input type boundary follow-up (2026-11-26)
+- Static review found `detect_chat_spikes` relied only on annotations for its `events` and `permission` arguments. Invalid caller values could leak AttributeError/TypeError instead of a controlled fail-closed validation error.
+- The detector now requires a `PermissionRecord` and a list containing only `ChatEvent` instances before processing, including the empty-events path.
+- Regression tests cover invalid permission objects, non-list event containers, and invalid event members.
+- Production commit: `8719062dc6cfe7f0124feee44e12c03950b26c89`; test commit: `92014618fd01272c206423fad2c8c0547f5071c2`.
+- Tests NOT RUN in this connector session; exact-head CI, synthetic FFmpeg E2E, owner-device Windows, independent review, and authorized real-media processing remain NOT VERIFIED.
+- PR #412 and parent PR #386 remain OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, upload, publishing, or deployment.
