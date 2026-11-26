@@ -17,6 +17,20 @@ class ClipRenderError(RuntimeError):
     """Raised when FFmpeg cannot produce or safely publish a valid clip."""
 
 
+def _fsync_parent_directory(path: str | Path) -> None:
+    """Persist a newly published output name where directory fsync is supported."""
+    if os.name == "nt":
+        return
+    flags = os.O_RDONLY
+    if hasattr(os, "O_DIRECTORY"):
+        flags |= os.O_DIRECTORY
+    descriptor = os.open(Path(path).parent, flags)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
 def render_clip(
     input_path: str | Path,
     output_path: str | Path,
@@ -139,6 +153,17 @@ def render_clip(
         if not temporary_output.is_file() or temporary_output.stat().st_size == 0:
             raise ClipRenderError("FFmpeg completed without creating a valid output file")
 
+        # Make the completed media bytes durable before exposing the final
+        # destination name. A successful FFmpeg exit alone does not guarantee
+        # that buffered file contents have reached stable storage.
+        try:
+            with temporary_output.open("rb") as rendered_file:
+                os.fsync(rendered_file.fileno())
+        except OSError as exc:
+            raise ClipRenderError(
+                f"rendered clip could not be synchronized before publication: {exc}"
+            ) from exc
+
         try:
             os.link(temporary_output, destination)
         except FileExistsError:
@@ -148,6 +173,17 @@ def render_clip(
         except OSError as exc:
             raise ClipRenderError(
                 "could not safely publish the clip without overwriting an existing output"
+            ) from exc
+
+        # The hard link is now visible. Persist its directory entry before
+        # returning success; if this fails, preserve the output and surface an
+        # explicit error so the caller records that manual inspection is needed.
+        try:
+            _fsync_parent_directory(destination)
+        except OSError as exc:
+            raise ClipRenderError(
+                "clip was published but its parent directory could not be synchronized; "
+                f"output is preserved for inspection at {destination}: {exc}"
             ) from exc
     finally:
         temporary_directory.cleanup()
