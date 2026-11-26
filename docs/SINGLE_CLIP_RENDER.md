@@ -298,3 +298,15 @@ A post-render FFprobe `PASS` and matching duration are not sufficient by themsel
 If a terminal report write fails, the CLI attempts an exclusive fallback file beside the reserved report. Resolution of the fallback and protected source/output paths is itself guarded: malformed paths and symlink-loop errors are converted into the fallback's normal I/O failure path. The CLI then emits the explicit warning to inspect any output manually before retrying. It never overwrites an existing fallback or protected file. A failed fallback does not prove that rendering failed; inspect the output and both report paths before another attempt.
 
 The MP4/H.264 post-render gate also rejects missing video streams, missing or non-positive dimensions, and boolean dimension metadata. Direct helper regressions cover acceptance of a valid H.264 MP4 stream and each malformed metadata class. See `docs/ARO_CHAT_0311_RENDERED_MP4_METADATA_REGRESSIONS.md`; these tests have not yet been executed in this connector session.
+
+
+## Strict candidate CSV parsing — ARO-CHAT-0312
+
+Candidate-CSV selection now enables the CSV parser's strict quoting mode and reads the complete file before accepting the requested row. Every data row must contain all required columns and must not contain extra cells. Malformed quoting, short rows, and overlong rows are rejected as controlled candidate-CSV validation failures. Parsing the full file also prevents a malformed trailing row from being silently ignored after an earlier row was selected. The parser still accepts an optional UTF-8 BOM and does not open or inspect media while loading review metadata.
+
+Regression coverage:
+- malformed quoted field after the requested row;
+- extra cell in a data row; and
+- missing required cell in a data row.
+
+These tests have been added but have NOT been run in this connector session. This validation does not establish media ownership, source identity, or processing rights.
