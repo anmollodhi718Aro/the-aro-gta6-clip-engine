@@ -48,13 +48,12 @@ class CandidateCsvEncodingTests(unittest.TestCase):
             self.assertEqual(selected["end_seconds"], 8.0)
             self.assertEqual(selected["duration_seconds"], 6.0)
 
-
     def test_rejects_unicode_whitespace_only_source_id(self):
         with tempfile.TemporaryDirectory() as directory:
             csv_path = Path(directory) / "candidates.csv"
             csv_path.write_text(
-                "source_id,start_seconds,end_seconds,duration_seconds,renderable\\n"
-                "\\u00a0,2,8,6,True\\n",
+                "source_id,start_seconds,end_seconds,duration_seconds,renderable\n"
+                "\u00a0,2,8,6,True\n",
                 encoding="utf-8",
                 newline="",
             )
