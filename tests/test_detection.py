@@ -157,6 +157,11 @@ class DetectionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "conflicting duplicate"):
             detect_chat_spikes([event, conflict], self.permission, self.config)
 
+    def test_permission_allows_rejects_malformed_scope_queries(self) -> None:
+        for scope in (None, 7, [], "", "   "):
+            with self.subTest(scope=scope):
+                self.assertFalse(self.permission.allows(scope, self.start))
+
     def test_permission_time_boundaries_are_half_open(self) -> None:
         permission = PermissionRecord(
             source_id="sample-stream",
