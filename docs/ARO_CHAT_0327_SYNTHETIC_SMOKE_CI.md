@@ -3,7 +3,7 @@
 - Chat ID: ARO-CHAT-0327
 - Exact chat title: ARO-CHAT-0327 | Wire Synthetic Clip Smoke Into CI
 - Workstream ID: ARO-GTA-P0-327
-- Scope: ensure the synthetic single-selected-clip end-to-end smoke executes automatically on both hosted operating systems in the existing CI matrix.
+- Scope: correct the synthetic smoke digest-mismatch fixture and ensure the end-to-end smoke executes automatically on both hosted operating systems in the existing CI matrix.
 - Existing branch: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`
 - Existing PR: #386, OPEN / DRAFT / UNMERGED; original base and ancestry preserved.
 
@@ -12,11 +12,13 @@
 - Added explicit FFmpeg installation on Ubuntu via apt and Windows via Chocolatey.
 - Added the `scripts` package to the Python compile step.
 - Added `python -m scripts.synthetic_single_clip_smoke` after the full unit-test suite on both Ubuntu and Windows jobs.
-- No new branch or PR was created. Existing digest-verification and smoke failure-path tests remain attributed to their own workstreams.
+- Corrected the mismatch-test fixture to return a valid-format but incorrect all-zero SHA-256 and removed a duplicate `hashlib` import. Later smoke-test continuation commits retain this corrected behavior and add further failure-path coverage.
+- No new branch or PR was created.
 
 ## Commits
 
 - CI workflow: `2437e2e9590065c92e574dd917f33b80faf343a0`
+- Test fixture correction: `b403cfd3b641ef3f717536151ef1012fa1046009`
 - Report: `docs/ARO_CHAT_0327_SYNTHETIC_SMOKE_CI.md`
 - Registry and startup handoff: pending.
 
