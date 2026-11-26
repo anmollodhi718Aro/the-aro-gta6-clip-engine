@@ -38,6 +38,12 @@ class DetectionTests(unittest.TestCase):
                 ))
         return events
 
+    def test_rejects_non_finite_or_boolean_spike_multipliers(self) -> None:
+        for multiplier in (float("nan"), float("inf"), float("-inf"), True):
+            with self.subTest(multiplier=multiplier):
+                with self.assertRaisesRegex(ValueError, "finite positive number"):
+                    DetectorConfig(spike_multiplier=multiplier)
+
     def test_detects_a_clear_spike(self) -> None:
         candidates = detect_chat_spikes(self.make_events([2, 2, 2, 9]), self.permission, self.config)
         self.assertEqual(len(candidates), 1)
