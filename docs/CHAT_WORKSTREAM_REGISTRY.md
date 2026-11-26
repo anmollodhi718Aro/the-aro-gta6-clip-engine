@@ -3288,3 +3288,14 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Test commit: `57e097904abab83e44b8405f8434d4b704d06c37`; canonical report: `docs/ARO_CHAT_0362_CANDIDATE_CSV_HEADER_COVERAGE.md`.
 - GitHub read-back confirms the test file is present. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
 - Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
+
+
+## ARO-CHAT-0363 | Reject Whitespace-Only Candidate CSV Headers (2026-11-26)
+
+- Workstream: ARO-GTA-P0-363; continued on existing draft PR #386 and its original branch/base.
+- Added two focused cases to `tests/test_candidate_csv_blank_headers.py`: reject a whitespace-only middle header cell and a whitespace-only trailing header cell. Both require `load_selected_candidate()` to fail closed with the existing blank/duplicate-column validation error.
+- Production code unchanged; synthetic CSV fixtures only; no media tools or media used.
+- Test commits: `b70e8f5e7b0642e1cc88cdf50c9fd00472f7035a` (initial write) and `1eb3fdc6ed0eebbf2d7c429c0cbbebeefd94c06d` (fixture-source correction).
+- Canonical report: `docs/ARO_CHAT_0363_WHITESPACE_CSV_HEADERS.md`, commit `6759f6ab943bd82373d289bdaf4862ae1bc75506`.
+- GitHub source read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized real GTA 6 MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original ancestry. No workflow dispatch/retry, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
