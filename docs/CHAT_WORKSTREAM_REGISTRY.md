@@ -2718,3 +2718,15 @@ Regression tests cover a real pathname replacement against an open descriptor, f
 - Added regression coverage for missing FFprobe (no fixture generation), missing FFmpeg CLI structured JSON failure, and FFmpeg fixture-generation errors not being reported as PASS. Existing coverage includes exact selected interval, rights-confirmed execution, disabled upload/publishing, temporary artifact cleanup, and output digest mismatch rejection.
 - Test commit: `7bb0046c805da205abbbe0d1e3ebfeee1982f5f8`; report: `147b4adb28b32c3302d0b08e619682f9bba41585`.
 - Tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head CI NOT VERIFIED; no workflow dispatch/retry. Authorized real MP4 NOT PROCESSED. Preserve PR #386 OPEN/DRAFT/UNMERGED. No merge/rebase/retarget, upload, publishing or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+## ARO-CHAT-0325 — correct synthetic smoke digest regression (2026-11-26)
+
+- Exact chat title: ARO-CHAT-0325 | Correct Smoke Digest Regression.
+- Workstream: ARO-GTA-P0-325; continuation of existing draft PR #386 and its original branch/base.
+- Static review found the prior mismatch regression wrote `synthetic-rendered-mp4` but returned the SHA-256 of those same bytes, despite expecting a mismatch exception. The fixture now returns a well-formed but incorrect all-zero digest, so the production byte-for-byte digest comparison must reject it.
+- Removed a duplicate `hashlib` import from the concurrently edited test file.
+- The CI workflow integration installs FFmpeg on Ubuntu and Windows, compiles `scripts`, runs the full unit suite, and invokes the synthetic end-to-end clip smoke on both hosted OS jobs.
+- Commits: CI workflow `2437e2e9590065c92e574dd917f33b80faf343a0`; test correction `b403cfd3b641ef3f717536151ef1012fa1046009`; report `47c24652a4c93ff8a31c713bf67fe9d249e7fce6`.
+- Local unit tests NOT RUN; actual synthetic FFmpeg smoke NOT RUN; exact-head Ubuntu/hosted-Windows CI PENDING / NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED and original base/ancestry. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; keep live uploads/public publishing disabled.
