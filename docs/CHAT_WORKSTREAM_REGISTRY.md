@@ -3539,3 +3539,10 @@ Keep this work and all parent PRs OPEN / DRAFT / UNMERGED. No workflow dispatch/
 - Report: `docs/ARO_CHAT_0382_PR406_EXACT_HEAD_CI_AUDIT.md`. Documentation-only; no production code, tests, or workflow YAML changed.
 - Repository tests NOT RUN; hosted Ubuntu/Windows execution NOT ESTABLISHED; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA 6 MP4 NOT PROCESSED. Stage 1/P0 NOT COMPLETE.
 - No workflow dispatch/retry, merge, rebase, retarget, deployment, OAuth, credentials, real media, upload, or publishing. Keep PR #406 and this child OPEN / DRAFT / UNMERGED. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL.
+
+
+### ARO-CHAT-0382 CI attribution clarification (2026-11-26)
+
+- The PR-triggered exact-head check is run #45803605172 (run 2595, event pull_request), whose payload explicitly references PR #406 at head `3899f034d803b629df65f716a6fa97eab1e1e641`. It failed in ~2 seconds; Windows #139852915564 and Ubuntu #139852916033 had empty steps, no logs, log retrieval 404 / BlobNotFound, and zero billable milliseconds.
+- Run #45803692099 (run 2597) is a separate `push` event on the same SHA, with no PR association. It is not substituted for PR #406's pull_request check. Its jobs also failed before exposed steps, with empty step lookups, 404 logs, and zero billable milliseconds.
+- Both runs report one check-run annotation per job; annotation content remains NOT INSPECTED. Root cause remains UNVERIFIED. Classification remains CI_FAILURE / EXECUTION_NOT_ESTABLISHED.
