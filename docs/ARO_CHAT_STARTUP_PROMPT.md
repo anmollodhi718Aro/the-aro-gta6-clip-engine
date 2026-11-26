@@ -1673,3 +1673,13 @@ A concurrent continuation used ARO-CHAT-0342 / ARO-GTA-P0-342 for the empty synt
 ### ARO-CHAT-0343 closeout correction
 - Focused report: `docs/ARO_CHAT_0343_EMPTY_SYNTHETIC_OUTPUT_REGRESSION.md` (commit `aa3f726dc85e0a026a4f2c720be9d110b79c3536`). The earlier misnumbered temporary report alias was deleted (commit `5a8d7e3a9da32ebeca82a6c02fad7aebf476e961`). Registry reference correction: `73893681b17605382f334d8924eb838c5e0de0c2`.
 - The test-file change is present on the branch; its exact commit SHA was not returned in the connector response. Do not infer one.
+
+
+### Latest P0 handoff — ARO-CHAT-0344 | Preserve Structured CLI Failure for Empty Synthetic Output (2026-11-26)
+
+- Continue on existing draft PR #386 and its original branch/base: `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`.
+- Starting observed head: `90f949421569bd7bc2743d5a45480f29eacc10ab`.
+- Added `test_main_emits_structured_failure_for_empty_synthetic_output`. The fake renderer creates a zero-byte output and reports the correct SHA-256 for empty bytes; the CLI must still exit 1 and emit parseable JSON status FAIL with the empty-output reason and upload/publishing false.
+- Test commit: `9f7287087f8d793eea942436b700477de948a82d`; report commit: `d42fd2d2d818b05a126d10b3c8d09476d45122ca`; registry commit: `10b1f289c8bfa1e240a97483cf38e36d6aa89db0`.
+- Static change/read-back only. Unit tests NOT RUN; synthetic FFmpeg end-to-end NOT RUN; exact-head Ubuntu/hosted-Windows CI NOT VERIFIED; independent review NOT RECORDED; owner-device Windows verification NOT VERIFIED; authorized real MP4 NOT PROCESSED.
+- Preserve PR #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real media, upload, publishing, or deployment. Issue #68 remains OPEN / WAITING_FOR_OWNER_APPROVAL; live uploads/public publishing remain disabled.
