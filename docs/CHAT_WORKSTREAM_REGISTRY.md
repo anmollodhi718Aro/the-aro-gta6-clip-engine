@@ -3789,3 +3789,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Policy and startup files were read back from the active PR branch after creation. No tests were run because this workstream changes documentation/instructions only.
 - External AI products that do not load repository instructions cannot be technically forced by a GitHub file; the owner must provide the session-start instruction to those tools. No merge, deployment, upload, publication, or branch retargeting.
 - Existing PR #414 remains OPEN / DRAFT / UNMERGED. Stage 1/P0 remains INCOMPLETE pending real validation and authorized media E2E.
+
+
+### ARO-CHAT-0414 — Re-audit single-clip renderer and CI admission blocker (2026-11-27)
+- Re-read the mandatory repository instructions, canonical AI coding policy, startup prompt, and latest workstream records before continuing.
+- Re-verified PR #414 remains OPEN / DRAFT / UNMERGED on `workstream/aro-chat-0410-portrait-render-reconcile-2026-11-27`, head `48d781a6513a71f40369c32eeca0d9fc01b79360`, base `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`.
+- Re-audited production FFmpeg command construction, local source identity checks before and after rendering, private temporary staging, no-overwrite hard-link publication, file and directory fsync, MP4/H.264 validation, exact 1080x1920 portrait gate, selected-candidate CSV validation, and synthetic smoke output/hash checks.
+- No new reproducible source defect was established from the inspected code. No speculative code change was made merely to create a commit. No local tests were run in this session; no test PASS is claimed.
+- Latest exact-head Python CI run `45990955002` concluded `startup_failure`; workflow job listing returned zero jobs. No test steps executed. The available evidence still does not identify the root cause. Workflow dispatch is not exposed by the available GitHub connector actions; no unsupported dispatch was claimed.
+- Next P0 blocker remains hosted-runner admission plus obtaining an explicitly authorized GTA VI MP4 for real end-to-end validation. Stage 1/P0 remains INCOMPLETE. No merge, rebase, retarget, upload, publication, or deployment.
