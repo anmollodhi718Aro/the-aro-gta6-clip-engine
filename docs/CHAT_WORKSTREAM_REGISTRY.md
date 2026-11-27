@@ -3750,3 +3750,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Exact-head Actions run `45906206127` failed for Ubuntu unit tests, Windows unit tests, and Ubuntu synthetic smoke; all three job records have `steps: null` and no logs URL. No test step is evidenced; runner root cause remains UNKNOWN. This is not a code-test failure and not a pass.
 - Repository tests NOT RUN locally; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
 - PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment.
+
+
+### ARO-CHAT-0410 — Reconcile portrait renderer onto current Stage 1 base (2026-11-27)
+- Created clean branch `workstream/aro-chat-0410-portrait-render-reconcile-2026-11-27` from the latest tip of `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`; original PR #413 branch and PR #412 remain untouched.
+- Reapplied the portrait-render change onto the current base rather than rebasing or force-moving either existing branch. Renderer adds a 1080x1920 9:16 scale-and-pad filter, preserving the full frame.
+- Added unit assertions for scale, pad, and sample-aspect-ratio arguments. Strengthened synthetic smoke validation with a separate FFprobe query for the rendered 1080x1920 output, in addition to the renderer report checks.
+- Production commit: `825e9bcdb2f9cb1b8f55f4650aa49ef4a9bdbd62`; test commit: `b9fe5976b1371300140a72405dbebaf410131430`; smoke-test commit: `7ae43dcd61931d09ccb47d6b3ca4023ca7961530`.
+- Documentation entry records this reconciliation. Tests and FFmpeg smoke have NOT RUN in this session; GitHub Actions runner execution, independent review, owner-device Windows validation, and authorized GTA VI MP4 processing remain NOT VERIFIED.
+- No merge, rebase, retarget, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
