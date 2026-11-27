@@ -145,6 +145,22 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(self.output.read_bytes(), replacement_bytes)
 
 
+    def test_render_selected_clip_reports_invalid_path_without_stringifying_unsafe_objects(self):
+        class BrokenString:
+            def __str__(self):
+                raise RuntimeError("untrusted path string conversion failed")
+
+        broken = BrokenString()
+        invalid_video = render_selected_clip(broken, self.output, 1, 5)
+        self.assertEqual(invalid_video["status"], "FAIL")
+        self.assertEqual(invalid_video["source_path"], "<unavailable>")
+        self.assertFalse(invalid_video["processing_started"])
+
+        invalid_output = render_selected_clip(self.source, broken, 1, 5)
+        self.assertEqual(invalid_output["status"], "FAIL")
+        self.assertEqual(invalid_output["output_path"], "<unavailable>")
+        self.assertFalse(invalid_output["processing_started"])
+
     def test_sha256_selected_source_rejects_invalid_path_arguments(self):
         for invalid_path in (None, 7, [], {}, "", "   ", "\t"):
             with self.subTest(invalid_path=repr(invalid_path)):
