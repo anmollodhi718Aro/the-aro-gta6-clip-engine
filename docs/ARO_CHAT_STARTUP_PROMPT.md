@@ -2167,3 +2167,10 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Fixed cleanup to attempt every staged temporary file and preserve the primary publication error when cleanup also fails. Added regressions for multiple cleanup attempts and primary-error preservation.
 - Keep PR draft/open/unmerged. Unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Do not claim tests passed.
 - This is an independent code-safety task; it does not resolve the hosted-runner admission blocker or Stage 1/P0 acceptance. No merge, rebase, retarget, workflow retry/dispatch, live media processing, upload, publishing, or deployment.
+
+
+### Latest continuation — ARO-CHAT-0420 (2026-11-27)
+- Suggested title: ARO-CHAT-0420 | Safe Clip-Pack Cleanup Diagnostics.
+- Workstream ARO-GTA-P0-420 is a child of the ARO-CHAT-0419 clip-pack cleanup hardening branch; no existing PR branch or ancestry was modified.
+- Hardened cleanup-error formatting so a broken exception `__str__` falls back to `<unavailable>` rather than masking the primary publication error. Added a regression proving all staged files still receive cleanup attempts and the primary publication error remains visible.
+- Tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E, independent review, owner-device Windows, and authorized GTA VI media remain NOT VERIFIED. Keep draft/open/unmerged and all upload/publishing gates disabled.

@@ -271,5 +271,35 @@ class ClipPackTests(unittest.TestCase):
             self.assertEqual(markdown_path.read_text(encoding="utf-8"), "another run owns this file")
 
 
+    def test_broken_cleanup_exception_string_does_not_mask_primary_error(self) -> None:
+        rows = map_candidates_to_media([self.candidate()], self.origin)
+
+        class BrokenStringOSError(OSError):
+            def __str__(self):
+                raise RuntimeError("diagnostic formatting failed")
+
+        with tempfile.TemporaryDirectory() as folder:
+            markdown_path = Path(folder) / "clip_candidates.md"
+            markdown_path.write_text("owner file", encoding="utf-8")
+            real_unlink = Path.unlink
+            attempted = []
+
+            def fail_first_temp_cleanup(path, *args, **kwargs):
+                if path.suffix == ".tmp":
+                    attempted.append(path)
+                    if len(attempted) == 1:
+                        raise BrokenStringOSError()
+                return real_unlink(path, *args, **kwargs)
+
+            from unittest.mock import patch
+            with patch.object(Path, "unlink", new=fail_first_temp_cleanup):
+                with self.assertRaisesRegex(OSError, "publication was incomplete") as caught:
+                    write_clip_pack(rows, folder)
+
+            self.assertEqual(len(attempted), 2)
+            self.assertEqual(markdown_path.read_text(encoding="utf-8"), "owner file")
+            self.assertTrue(any("<unavailable>" in note for note in getattr(caught.exception, "__notes__", [])))
+
+
 if __name__ == "__main__":
     unittest.main()

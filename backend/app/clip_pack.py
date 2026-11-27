@@ -153,6 +153,14 @@ def map_candidates_to_media(
     return mapped
 
 
+def _safe_exception_detail(error: BaseException) -> str:
+    """Format an exception without letting a broken __str__ mask the real error."""
+    try:
+        return str(error)
+    except Exception:
+        return "<unavailable>"
+
+
 def _write_texts_no_overwrite(files: dict[Path, str]) -> None:
     """Stage all text outputs, then publish without replacing existing files."""
     staged: list[tuple[Path, Path]] = []
@@ -200,7 +208,7 @@ def _write_texts_no_overwrite(files: dict[Path, str]) -> None:
                 cleanup_errors.append((temporary, cleanup_error))
         if cleanup_errors:
             detail = "; ".join(
-                f"{path}: {error}" for path, error in cleanup_errors
+                f"{path}: {_safe_exception_detail(error)}" for path, error in cleanup_errors
             )
             message = f"clip-pack staging cleanup failed: {detail}"
             if active_error is None:

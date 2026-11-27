@@ -3831,3 +3831,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: `9963ae2e8b22daf7eee9dc3da4d5e8e724ad99bb`. Test commit recorded after test write.
 - GitHub read-back and PR creation are pending. Unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Status: IMPLEMENTED, NOT TESTED. Keep draft/open/unmerged. No merge, rebase, retarget, runner retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0420 — Keep broken cleanup diagnostics from masking primary failures (2026-11-27)
+- Chat title: ARO-CHAT-0420 | Safe Clip-Pack Cleanup Diagnostics.
+- Workstream: ARO-GTA-P0-420; new child branch `workstream/aro-chat-0420-safe-cleanup-diagnostics-2026-11-27`, based on `workstream/aro-chat-0419-report-staging-cleanup-failures-2026-11-27` (PR #433 branch); existing PRs and ancestry remain unchanged.
+- Static review found cleanup aggregation interpolated arbitrary `OSError` instances directly. An exception subclass with a failing `__str__` could raise while the `finally` block reports cleanup errors, masking the primary partial-publication failure despite the prior cleanup hardening.
+- Added a safe exception-detail formatter with a deterministic `<unavailable>` fallback and a regression that injects an unprintable cleanup error while confirming all temporary files are attempted and the primary publication error remains the raised exception.
+- Changed files: `backend/app/clip_pack.py`, `tests/test_clip_pack.py`, registry, and startup handoff.
+- Status: IMPLEMENTED; tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Keep draft/open/unmerged; no merge, rebase, retarget, workflow retry, OAuth, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
