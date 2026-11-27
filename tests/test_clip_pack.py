@@ -4,6 +4,9 @@ import csv
 import json
 import tempfile
 import unittest
+from contextlib import redirect_stderr
+from io import StringIO
+from unittest.mock import patch
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
 
@@ -189,6 +192,23 @@ class ClipPackTests(unittest.TestCase):
                 write_clip_pack(rows, folder)
             self.assertFalse(csv_path.exists())
             self.assertEqual(markdown_path.read_text(encoding="utf-8"), "another run owns this file")
+
+
+    def test_cli_rejects_non_string_plan_source_id_without_coercion(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            plan = Path(folder) / "plan.json"
+            plan.write_text(json.dumps({"source_id": 123, "candidates": []}), encoding="utf-8")
+            stderr = StringIO()
+            with patch("sys.argv", [
+                "clip-pack", str(plan), "--media-origin-utc", self.origin.isoformat(),
+                "--output-dir", str(Path(folder) / "out"),
+            ]), redirect_stderr(stderr):
+                from backend.app.clip_pack import main
+                result = main()
+            self.assertEqual(result, 2)
+            self.assertIn("source_id must be a non-empty string", stderr.getvalue())
+            self.assertFalse((Path(folder) / "out" / "clip_candidates.csv").exists())
+
 
 
 if __name__ == "__main__":
