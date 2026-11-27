@@ -196,7 +196,12 @@ def _write_texts_no_overwrite(files: dict[Path, str]) -> None:
 
 
 def write_clip_pack(rows: list[dict[str, Any]], output_dir: str | Path) -> tuple[Path, Path]:
-    destination = Path(output_dir).expanduser()
+    try:
+        destination = Path(output_dir).expanduser()
+    except RuntimeError as exc:
+        raise OSError(
+            f"cannot resolve clip-pack output directory {output_dir!s}: {exc}"
+        ) from exc
     destination.mkdir(parents=True, exist_ok=True)
     csv_path = destination / "clip_candidates.csv"
     markdown_path = destination / "clip_candidates.md"
