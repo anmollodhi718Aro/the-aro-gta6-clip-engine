@@ -2150,3 +2150,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Production commit: `cffcf865999dca0e64f7be777e9e913477c0b75a`; regression-test commit: `441649e60f7cca11cb4c03ac3dbdd0434378c254`.
 - Tests NOT RUN. Exact-head CI, synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED. Stage 1/P0 remains INCOMPLETE.
 - Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, live media, upload, publishing, or deployment.
+
+
+### Latest continuation — safe invalid render-path reporting (ARO-CHAT-0415, 2026-11-27)
+- New isolated branch: `workstream/aro-chat-0415-safe-render-input-labels-2026-11-27`, based on PR #414 exact head `54377c71b45d249543c682dc441367d944b01a72`.
+- Hardened invalid path-argument error reporting so an unsupported object with a raising `__str__` cannot escape the renderer's controlled FAIL response. Added regression coverage for both video and output arguments.
+- Production commit: `e0199cee8a59d9611a550db0a4e37ea001dd27c0`; test commit: `fc762a72c65b990c66dcd57896ba8177e00b2389`; registry commit recorded separately on this branch.
+- Tests NOT RUN; exact-head CI pending; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Keep Stage 1/P0 INCOMPLETE.
+- Preserve PR #414 and its ancestry. No merge, retarget, rebase, upload, publication, or deployment.
