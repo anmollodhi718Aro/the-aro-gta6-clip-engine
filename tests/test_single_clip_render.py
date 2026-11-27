@@ -400,16 +400,22 @@ class SingleClipRenderTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "regular non-symlink"):
             sha256_selected_source(link)
 
-    def test_candidate_csv_path_conversion_exception_returns_controlled_value_error(self):
-        class BrokenPath(type(Path())):
-            def __fspath__(self):
-                raise RuntimeError("candidate path conversion failed")
-
-        with self.assertRaisesRegex(
-            ValueError,
-            "candidate CSV could not be read: RuntimeError: candidate path conversion failed",
+    def test_candidate_csv_path_open_errors_return_controlled_value_error(self):
+        pack = self.root / "candidate-path-open-error.csv"
+        for error in (
+            RuntimeError("candidate path conversion failed"),
+            TypeError("candidate path conversion returned an invalid value"),
         ):
-            load_selected_candidate(BrokenPath("unusable.csv"), 1)
+            with self.subTest(error_type=type(error).__name__):
+                with patch(
+                    "backend.app.single_clip_render.Path.open",
+                    side_effect=error,
+                ):
+                    with self.assertRaisesRegex(
+                        ValueError,
+                        f"candidate CSV could not be read: {type(error).__name__}:",
+                    ):
+                        load_selected_candidate(pack, 1)
 
     def test_loads_exact_selected_review_ready_candidate(self):
         pack = self.root / "candidates.csv"
