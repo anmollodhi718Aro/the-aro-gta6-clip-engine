@@ -3753,6 +3753,8 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 
 
 ### ARO-CHAT-0410 — Reconcile portrait renderer onto current Stage 1 base (2026-11-27)
+- Deeper GitHub REST job-payload inspection for run `45961776984` confirms all three jobs have empty `steps: []`, `runner_id: 0`, empty `runner_name`, and `runner_group_id: 0`; each starts and completes within ~2–3 seconds. This is concrete evidence that no hosted runner was assigned and no workflow step ran. The workflow YAML itself specifies standard GitHub-hosted labels (`windows-latest`, `ubuntu-latest`). Root cause still cannot be distinguished between repository Actions policy/availability, account quota/billing, or GitHub hosted-runner service allocation from the available read-only metadata.
+
 - After the smoke-parser hardening commit, exact-head workflow run `45961776984` also failed before any visible job steps. Windows unit `140381032551`, Ubuntu synthetic smoke `140381032844`, and Ubuntu unit `140381032951` each report `steps: null` and no logs URL. This confirms the runner blocker persists on the updated head; no test execution is evidenced.
 
 - Follow-up static review found malformed-but-valid JSON shape could raise an uncaught `AttributeError` when FFprobe output was a JSON array/scalar. Hardened the smoke check to require a JSON object containing a non-empty list of stream objects, each exactly 1080x1920; malformed shapes now fail with a controlled RuntimeError. Commit: `48b0ab9ea0f59275810ddcb518c5c08a85f244d5`.
