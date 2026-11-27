@@ -13,7 +13,7 @@ GOOD_PROBE = json.dumps({
     "format": {"duration": "42.5", "format_name": "mov,mp4,m4a"},
     "streams": [
         {"codec_type": "video", "codec_name": "h264", "width": 1920, "height": 1080},
-        {"codec_type": "audio", "codec_name": "aac"},
+        {"codec_type": "audio", "codec_name": "aac", "channels": 2, "sample_rate": "48000"},
     ],
 })
 
@@ -83,11 +83,21 @@ class MediaSinglePreflightTests(unittest.TestCase):
         self.assertEqual(report["status"], "PASS")
         self.assertEqual(report["duration_seconds"], 42.5)
         self.assertEqual(report["video_streams"][0]["codec"], "h264")
+        self.assertEqual(report["audio_streams"], [{"codec": "aac", "channels": 2, "sample_rate": "48000"}])
         self.assertFalse(report["processing_started"])
         self.assertFalse(report["upload_performed"])
         self.assertFalse(report["publishing_enabled"])
         run.assert_called_once()
 
+    @patch("backend.app.media_single_preflight.subprocess.run")
+    def test_reports_empty_audio_stream_list_without_failing_video_preflight(self, run):
+        run.return_value = SimpleNamespace(stdout=json.dumps({
+            "format": {"duration": "10", "format_name": "mp4"},
+            "streams": [{"codec_type": "video", "codec_name": "h264", "width": 1280, "height": 720}],
+        }))
+        report = inspect_one_video(self.video)
+        self.assertEqual(report["status"], "PASS")
+        self.assertEqual(report["audio_streams"], [])
     @patch("backend.app.media_single_preflight.subprocess.run")
     def test_rejects_selected_path_replaced_with_symlink_during_probe(self, run):
         target = self.root / "original-target.mp4"
