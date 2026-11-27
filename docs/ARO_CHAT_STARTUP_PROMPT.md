@@ -2159,3 +2159,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Regression test covers partial publication, preservation of the pre-existing collision target, and no unlink of the first output.
 - Read back production, test, registry, and startup files from GitHub before claiming implementation complete. Tests have NOT RUN; do not claim TESTED or CI_VERIFIED. Do not retry the hosted-runner blocker just to create activity.
 - Keep the new PR draft/open/unmerged and preserve PR #414 ancestry. No merge, rebase, retarget, deployment, real-media processing, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0418 — Track clip-pack temporary files before writes (2026-11-27)
+- Continued from PR #417 exact documented head `3a62a5dfe63582214ccff1e1bf4651d6311467b3` on a new isolated child branch `workstream/aro-chat-0418-cleanup-staged-clip-pack-files-2026-11-27`; PR #417 and its ancestry remain unchanged.
+- Static review found a cleanup gap in `_write_texts_no_overwrite`: the temporary path was added to the cleanup list only after write/flush/fsync succeeded. A staging failure could therefore leave the just-created temporary file behind.
+- Moved cleanup registration immediately after temporary-file creation and added a regression test that injects an fsync failure, verifies the error remains visible, and confirms no temporary or published outputs remain.
+- Production and test changes are isolated to clip-pack staging. No media processing, upload, publishing, OAuth, credential, or deployment behavior changed.
+- Validation status: GitHub read-back pending; local tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Keep draft/unmerged. No merge, rebase, retarget, workflow retry/dispatch, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
