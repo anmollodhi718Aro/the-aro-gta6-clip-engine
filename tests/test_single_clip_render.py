@@ -18,7 +18,7 @@ from backend.app.single_clip_render import (
 )
 
 
-PASS = {"status": "PASS", "duration_seconds": 20.0, "format_name": "mov,mp4,m4a,3gp,3g2,mj2", "video_streams": [{"codec": "h264", "width": 1920, "height": 1080}]}
+PASS = {"status": "PASS", "duration_seconds": 20.0, "format_name": "mov,mp4,m4a,3gp,3g2,mj2", "video_streams": [{"codec": "h264", "width": 1080, "height": 1920}]}
 
 
 class SingleClipRenderTests(unittest.TestCase):
@@ -806,7 +806,7 @@ class SingleClipRenderTests(unittest.TestCase):
             "status": "PASS",
             "duration_seconds": 10 ** 400,
             "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
-            "video_streams": [{"codec": "h264", "width": 1920, "height": 1080}],
+            "video_streams": [{"codec": "h264", "width": 1080, "height": 1920}],
         }
         with patch(
             "backend.app.single_clip_render.inspect_one_video",
@@ -979,7 +979,7 @@ class SingleClipRenderTests(unittest.TestCase):
     @patch("backend.app.single_clip_render.render_clip")
     def test_preflight_and_renderer_consume_the_same_snapshot(self, render, preflight):
         render.side_effect = lambda *args, **kwargs: (self.output.write_bytes(b"rendered mp4"), self.output.resolve())[1]
-        preflight.side_effect = [PASS, {"status": "PASS", "duration_seconds": 6.0, "format_name": "mov,mp4,m4a,3gp,3g2,mj2", "video_streams": [{"codec": "h264", "width": 1920, "height": 1080}]}]
+        preflight.side_effect = [PASS, {"status": "PASS", "duration_seconds": 6.0, "format_name": "mov,mp4,m4a,3gp,3g2,mj2", "video_streams": [{"codec": "h264", "width": 1080, "height": 1920}]}]
         expected = hashlib.sha256(self.source.read_bytes()).hexdigest()
         report = render_selected_clip(
             self.source, self.output, 2, 8, execute=True, rights_confirmed=True,
@@ -1104,7 +1104,7 @@ class SingleClipRenderTests(unittest.TestCase):
             self.output.write_bytes(payload)
             return rendered
         render.side_effect = create_rendered_output
-        preflight.side_effect = [PASS, {"status": "PASS", "duration_seconds": 6.0, "format_name": "mov,mp4,m4a,3gp,3g2,mj2", "video_streams": [{"codec": "h264", "width": 1920, "height": 1080}]}]
+        preflight.side_effect = [PASS, {"status": "PASS", "duration_seconds": 6.0, "format_name": "mov,mp4,m4a,3gp,3g2,mj2", "video_streams": [{"codec": "h264", "width": 1080, "height": 1920}]}]
         report = render_selected_clip(
             self.source, self.output, 2, 8, execute=True, rights_confirmed=True,
         )
@@ -1138,7 +1138,7 @@ class SingleClipRenderTests(unittest.TestCase):
     @patch("backend.app.single_clip_render.render_clip")
     def test_rejects_rendered_output_with_non_h264_video(self, render, preflight):
         render.side_effect = lambda *args, **kwargs: (self.output.write_bytes(b"rendered"), self.output.resolve())[1]
-        invalid = dict(PASS, duration_seconds=6.0, video_streams=[{"codec": "vp9", "width": 1920, "height": 1080}])
+        invalid = dict(PASS, duration_seconds=6.0, video_streams=[{"codec": "vp9", "width": 1080, "height": 1920}])
         preflight.side_effect = [PASS, invalid]
         report = render_selected_clip(
             self.source, self.output, 2, 8, execute=True, rights_confirmed=True,
@@ -1151,9 +1151,29 @@ class SingleClipRenderTests(unittest.TestCase):
     def test_rendered_mp4_validation_accepts_h264_video_with_dimensions(self):
         valid = {
             "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
-            "video_streams": [{"codec": "h264", "width": 1920, "height": 1080}],
+            "video_streams": [{"codec": "h264", "width": 1080, "height": 1920}],
         }
         self.assertIsNone(_rendered_mp4_validation_error(valid))
+
+    def test_rendered_mp4_validation_rejects_landscape_output(self):
+        invalid = {
+            "format_name": "mp4",
+            "video_streams": [{"codec": "h264", "width": 1920, "height": 1080}],
+        }
+        self.assertEqual(
+            _rendered_mp4_validation_error(invalid),
+            "rendered output video stream 0 must be exactly 1080x1920 portrait",
+        )
+
+    def test_rendered_mp4_validation_rejects_nonstandard_portrait_dimensions(self):
+        invalid = {
+            "format_name": "mp4",
+            "video_streams": [{"codec": "h264", "width": 720, "height": 1280}],
+        }
+        self.assertEqual(
+            _rendered_mp4_validation_error(invalid),
+            "rendered output video stream 0 must be exactly 1080x1920 portrait",
+        )
 
     def test_rendered_mp4_validation_rejects_missing_video_stream(self):
         invalid = {"format_name": "mp4", "video_streams": []}
@@ -1166,8 +1186,8 @@ class SingleClipRenderTests(unittest.TestCase):
         invalid = {
             "format_name": "mp4",
             "video_streams": [
-                {"codec": "h264", "width": 1920, "height": 1080},
-                {"codec": "vp9", "width": 1920, "height": 1080},
+                {"codec": "h264", "width": 1080, "height": 1920},
+                {"codec": "vp9", "width": 1080, "height": 1920},
             ],
         }
         self.assertEqual(
@@ -1179,7 +1199,7 @@ class SingleClipRenderTests(unittest.TestCase):
         invalid = {
             "format_name": "mp4",
             "video_streams": [
-                {"codec": "h264", "width": 1920, "height": 1080},
+                {"codec": "h264", "width": 1080, "height": 1920},
                 None,
             ],
         }
@@ -1242,7 +1262,7 @@ class SingleClipRenderTests(unittest.TestCase):
                     "status": "PASS",
                     "duration_seconds": 6.0,
                     "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
-                    "video_streams": [{"codec": "h264", "width": 1920, "height": 1080}],
+                    "video_streams": [{"codec": "h264", "width": 1080, "height": 1920}],
                 }
             return PASS
 
@@ -1269,7 +1289,7 @@ class SingleClipRenderTests(unittest.TestCase):
         def mutate_during_output_probe(path, **kwargs):
             if Path(path) == self.output.resolve():
                 self.output.write_bytes(b"changed after probe with different length")
-                return {"status": "PASS", "duration_seconds": 6.0, "format_name": "mov,mp4,m4a,3gp,3g2,mj2", "video_streams": [{"codec": "h264", "width": 1920, "height": 1080}]}
+                return {"status": "PASS", "duration_seconds": 6.0, "format_name": "mov,mp4,m4a,3gp,3g2,mj2", "video_streams": [{"codec": "h264", "width": 1080, "height": 1920}]}
             return PASS
         render.side_effect = create_output
         preflight.side_effect = mutate_during_output_probe
@@ -1286,7 +1306,7 @@ class SingleClipRenderTests(unittest.TestCase):
     @patch("backend.app.single_clip_render.render_clip")
     def test_rejects_unexpectedly_short_rendered_output(self, render, preflight):
         render.side_effect = lambda *args, **kwargs: (self.output.write_bytes(b"rendered mp4"), self.output.resolve())[1]
-        preflight.side_effect = [PASS, {"status": "PASS", "duration_seconds": 1.0, "format_name": "mov,mp4,m4a,3gp,3g2,mj2", "video_streams": [{"codec": "h264", "width": 1920, "height": 1080}]}]
+        preflight.side_effect = [PASS, {"status": "PASS", "duration_seconds": 1.0, "format_name": "mov,mp4,m4a,3gp,3g2,mj2", "video_streams": [{"codec": "h264", "width": 1080, "height": 1920}]}]
         report = render_selected_clip(
             self.source, self.output, 2, 8, execute=True, rights_confirmed=True,
         )
@@ -1297,7 +1317,7 @@ class SingleClipRenderTests(unittest.TestCase):
     @patch("backend.app.single_clip_render.render_clip")
     def test_rejects_nearly_empty_output_for_short_clip(self, render, preflight):
         render.side_effect = lambda *args, **kwargs: (self.output.write_bytes(b"rendered mp4"), self.output.resolve())[1]
-        preflight.side_effect = [PASS, {"status": "PASS", "duration_seconds": 0.01, "format_name": "mov,mp4,m4a,3gp,3g2,mj2", "video_streams": [{"codec": "h264", "width": 1920, "height": 1080}]}]
+        preflight.side_effect = [PASS, {"status": "PASS", "duration_seconds": 0.01, "format_name": "mov,mp4,m4a,3gp,3g2,mj2", "video_streams": [{"codec": "h264", "width": 1080, "height": 1920}]}]
         report = render_selected_clip(
             self.source, self.output, 2, 2.1, execute=True, rights_confirmed=True,
         )

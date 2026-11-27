@@ -2,6 +2,11 @@
 
 Copy this block as the first instruction in every new AI engineering chat.
 
+
+## MANDATORY REPOSITORY-WIDE AI CODING POLICY
+
+Before any work, read `AGENTS.md` and `docs/ARO_AI_CODING_POLICY.md`. These govern every AI agent and coding assistant working in this repository. A `continue coding` message means continue the next safe, concrete task, not merely provide a plan. Follow the evidence, testing, rights, owner-approval, branch/PR, and publication restrictions in the canonical policy. For external AI tools that do not auto-load repository instructions, the owner must paste the policy/session-start instruction into that tool; repository files cannot force an unrelated service to obey instructions it never loads.
+
 ---
 
 ## FIRST RESPONSE: CHAT TITLE AND IDENTITY

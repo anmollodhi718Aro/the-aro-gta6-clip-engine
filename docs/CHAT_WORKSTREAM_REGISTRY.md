@@ -3750,3 +3750,60 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Exact-head Actions run `45906206127` failed for Ubuntu unit tests, Windows unit tests, and Ubuntu synthetic smoke; all three job records have `steps: null` and no logs URL. No test step is evidenced; runner root cause remains UNKNOWN. This is not a code-test failure and not a pass.
 - Repository tests NOT RUN locally; synthetic FFmpeg E2E NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
 - PR #412 and parent #386 remain OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment.
+
+
+### ARO-CHAT-0410 — Reconcile portrait renderer onto current Stage 1 base (2026-11-27)
+- Deeper GitHub REST job-payload inspection for run `45961776984` confirms all three jobs have empty `steps: []`, `runner_id: 0`, empty `runner_name`, and `runner_group_id: 0`; each starts and completes within ~2–3 seconds. This is concrete evidence that no hosted runner was assigned and no workflow step ran. The workflow YAML itself specifies standard GitHub-hosted labels (`windows-latest`, `ubuntu-latest`). Root cause still cannot be distinguished between repository Actions policy/availability, account quota/billing, or GitHub hosted-runner service allocation from the available read-only metadata.
+
+- After the smoke-parser hardening commit, exact-head workflow run `45961776984` also failed before any visible job steps. Windows unit `140381032551`, Ubuntu synthetic smoke `140381032844`, and Ubuntu unit `140381032951` each report `steps: null` and no logs URL. This confirms the runner blocker persists on the updated head; no test execution is evidenced.
+
+- Follow-up static review found malformed-but-valid JSON shape could raise an uncaught `AttributeError` when FFprobe output was a JSON array/scalar. Hardened the smoke check to require a JSON object containing a non-empty list of stream objects, each exactly 1080x1920; malformed shapes now fail with a controlled RuntimeError. Commit: `48b0ab9ea0f59275810ddcb518c5c08a85f244d5`.
+- Reviewed `.github/workflows/ci.yml`: both matrix jobs and the synthetic smoke job use standard `ubuntu-latest` / `windows-latest` hosted runners and include checkout, Python setup, compile, unittest, and FFmpeg smoke steps. No repository-level custom runner label or obvious YAML-level runner selector defect was found. Because failed jobs expose no steps/logs, the failure remains outside evidenced workflow steps; account/repository Actions policy, quota, or hosted-runner allocation still requires owner-side inspection. No workflow retry was issued because the same pre-step failure signature persists.
+- Local unit tests and FFmpeg E2E remain NOT RUN; static source review is not execution evidence.
+
+- Exact-head GitHub Actions run `45961341884` completed with failure for Windows unit, Ubuntu unit, and Ubuntu synthetic smoke jobs (`140379623217`, `140379623542`, `140379623565`). All three job records report `steps: null` and no logs URL; no test-step execution is evidenced. This is not a test pass or a code-test failure. Root cause remains UNKNOWN.
+- PR #414 metadata currently reports OPEN / DRAFT / UNMERGED and mergeable=true; do not merge until actual validation and review are recorded.
+
+- Created clean branch `workstream/aro-chat-0410-portrait-render-reconcile-2026-11-27` from the latest tip of `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`; original PR #413 branch and PR #412 remain untouched.
+- Reapplied the portrait-render change onto the current base rather than rebasing or force-moving either existing branch. Renderer adds a 1080x1920 9:16 scale-and-pad filter, preserving the full frame.
+- Added unit assertions for scale, pad, and sample-aspect-ratio arguments. Strengthened synthetic smoke validation with a separate FFprobe query for the rendered 1080x1920 output, in addition to the renderer report checks.
+- Production commit: `825e9bcdb2f9cb1b8f55f4650aa49ef4a9bdbd62`; test commit: `b9fe5976b1371300140a72405dbebaf410131430`; smoke-test commit: `7ae43dcd61931d09ccb47d6b3ca4023ca7961530`.
+- Documentation entry records this reconciliation. Tests and FFmpeg smoke have NOT RUN in this session; GitHub Actions runner execution, independent review, owner-device Windows validation, and authorized GTA VI MP4 processing remain NOT VERIFIED.
+- No merge, rebase, retarget, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0411 — Enforce exact portrait output at production validation (2026-11-27)
+- Continued PR #414 on its existing branch; no base/branch retargeting or merge.
+- Production renderer's final MP4/H.264 validation previously required positive dimensions but accepted landscape or lower-resolution outputs. Tightened the production gate to require every reported video stream to be exactly 1080x1920.
+- Updated renderer regression fixtures to use the promised 1080x1920 output and added explicit rejection tests for 1920x1080 landscape and 720x1280 portrait outputs.
+- Production commit: `2e3d8cc7d11f09347805eb5999b2eceae91f002e`; test commit: `5dab4ae1fae48793003c9de49c91cdd57bb3c45b`. Both files were read back from the PR branch.
+- Exact-head Actions run `45966477418` completed with `startup_failure`; workflow-run job listing returned no job records. No compile, unit-test, or FFmpeg smoke execution is evidenced. Hosted runner/account allocation remains an owner-side blocker; no source-code test failure is established.
+- Local Python unit tests and synthetic FFmpeg E2E remain NOT RUN in this session. Actual authorized GTA VI media processing remains NOT RUN. Stage 1/P0 remains INCOMPLETE.
+- No merge, upload, publishing, or deployment.
+
+
+### ARO-CHAT-0413 — Establish repository-wide AI coding governance (2026-11-27)
+- Added `docs/ARO_AI_CODING_POLICY.md` as the canonical policy for all AI-assisted and human coding work in this repository. It formalizes the owner's continuation workflow, evidence-only reporting, test requirements, media rights, human review, approval boundaries, branch/PR preservation, and Stage 1/P0 acceptance gates.
+- Added root `AGENTS.md` as the repository-wide AI-agent discovery file. It directs coding agents to load the canonical policy, startup prompt, and latest registry before work.
+- Updated `docs/ARO_CHAT_STARTUP_PROMPT.md` to require the policy at every new AI engineering session.
+- Policy and startup files were read back from the active PR branch after creation. No tests were run because this workstream changes documentation/instructions only.
+- External AI products that do not load repository instructions cannot be technically forced by a GitHub file; the owner must provide the session-start instruction to those tools. No merge, deployment, upload, publication, or branch retargeting.
+- Existing PR #414 remains OPEN / DRAFT / UNMERGED. Stage 1/P0 remains INCOMPLETE pending real validation and authorized media E2E.
+
+
+### ARO-CHAT-0414 — Re-audit single-clip renderer and CI admission blocker (2026-11-27)
+- Re-read the mandatory repository instructions, canonical AI coding policy, startup prompt, and latest workstream records before continuing.
+- Re-verified PR #414 remains OPEN / DRAFT / UNMERGED on `workstream/aro-chat-0410-portrait-render-reconcile-2026-11-27`, head `48d781a6513a71f40369c32eeca0d9fc01b79360`, base `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`.
+- Re-audited production FFmpeg command construction, local source identity checks before and after rendering, private temporary staging, no-overwrite hard-link publication, file and directory fsync, MP4/H.264 validation, exact 1080x1920 portrait gate, selected-candidate CSV validation, and synthetic smoke output/hash checks.
+- No new reproducible source defect was established from the inspected code. No speculative code change was made merely to create a commit. No local tests were run in this session; no test PASS is claimed.
+- Latest exact-head Python CI run `45990955002` concluded `startup_failure`; workflow job listing returned zero jobs. No test steps executed. The available evidence still does not identify the root cause. Workflow dispatch is not exposed by the available GitHub connector actions; no unsupported dispatch was claimed.
+- Next P0 blocker remains hosted-runner admission plus obtaining an explicitly authorized GTA VI MP4 for real end-to-end validation. Stage 1/P0 remains INCOMPLETE. No merge, rebase, retarget, upload, publication, or deployment.
+
+
+### ARO-CHAT-0415 — Exact-head portrait renderer and runner-admission audit (2026-11-27)
+- Continued on existing PR #414 branch `workstream/aro-chat-0410-portrait-render-reconcile-2026-11-27`; inspected head `54377c71b45d249543c682dc441367d944b01a72`, base `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`. PR #414 remains OPEN / DRAFT / UNMERGED.
+- Re-read `AGENTS.md`, `docs/ARO_AI_CODING_POLICY.md`, `docs/ARO_CHAT_STARTUP_PROMPT.md`, and this registry before work.
+- Reviewed PR #414's changed production renderer, portrait validation, synthetic smoke check, regression tests, and runner-probe workflow. The current diff applies a full-frame 1080x1920 scale/pad filter, enforces exact 1080x1920 output in final validation, and independently probes synthetic output dimensions. No additional reproducible source defect was established; no speculative production patch was made.
+- Exact-head Python CI run `45991470270` concluded `startup_failure`; job listing returned zero jobs. This provides no compile, unit-test, or smoke-step execution evidence and does not identify the underlying runner-admission cause. The PR has zero submitted reviews and zero inline review threads.
+- Repository tests NOT RUN in this session; synthetic FFmpeg E2E NOT RUN; owner-device Windows validation NOT VERIFIED; independent review NOT RECORDED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
+- No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, live media processing, upload, publishing, or deployment. Preserve PR #414 and its existing base/ancestry.

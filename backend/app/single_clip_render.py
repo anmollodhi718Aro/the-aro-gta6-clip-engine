@@ -297,6 +297,11 @@ def _rendered_mp4_validation_error(preflight: dict[str, Any]) -> str | None:
             value = video.get(dimension)
             if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
                 return f"rendered output has invalid video {dimension}"
+        if video["width"] != 1080 or video["height"] != 1920:
+            return (
+                f"rendered output video stream {index} must be exactly "
+                "1080x1920 portrait"
+            )
     return None
 
 

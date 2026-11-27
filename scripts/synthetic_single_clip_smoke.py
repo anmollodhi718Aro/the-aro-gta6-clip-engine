@@ -137,6 +137,25 @@ def run_smoke_test(*, ffmpeg: str = "ffmpeg", ffprobe: str = "ffprobe") -> dict:
             raise RuntimeError("synthetic output must not alias its source")
         if report.get("upload_performed") is not False or report.get("publishing_enabled") is not False:
             raise RuntimeError("smoke test unexpectedly enabled upload or publishing")
+        output_probe = subprocess.run(
+            [ffprobe_path, "-v", "error", "-select_streams", "v:0",
+             "-show_entries", "stream=width,height", "-of", "json", str(output)],
+            check=True, capture_output=True, text=True, timeout=30,
+        )
+        try:
+            probe_payload = json.loads(output_probe.stdout)
+        except (TypeError, ValueError) as exc:
+            raise RuntimeError("FFprobe returned malformed portrait stream metadata") from exc
+        if not isinstance(probe_payload, dict):
+            raise RuntimeError("FFprobe portrait metadata must be a JSON object")
+        probed_streams = probe_payload.get("streams")
+        if not isinstance(probed_streams, list) or not probed_streams or any(
+            not isinstance(stream, dict)
+            or stream.get("width") != 1080
+            or stream.get("height") != 1920
+            for stream in probed_streams
+        ):
+            raise RuntimeError("independent FFprobe check did not confirm 1080x1920 portrait output")
         digest = report.get("output_sha256")
         if (not isinstance(digest, str) or len(digest) != 64
                 or any(character not in "0123456789abcdef" for character in digest)):

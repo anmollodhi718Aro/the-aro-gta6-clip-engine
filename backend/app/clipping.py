@@ -138,6 +138,8 @@ def render_clip(
         "-t", f"{duration:.3f}",
         "-map", "0:v:0",
         "-map", "0:a?",
+        # Preserve the full source frame on a 9:16 canvas without cropping HUD/gameplay.
+        "-vf", "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1",
         "-c:v", "libx264",
         "-preset", "veryfast",
         "-crf", "23",
