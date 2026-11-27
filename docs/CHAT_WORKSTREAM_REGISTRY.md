@@ -3817,3 +3817,11 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Initial commits: production `9c17e0b7304c457499cbbad5988a40ddc7604d9e`, test `ceaa52466f35e97ad3c53cfa01a4428cd39bc0f2`. Follow-up corrected the source/test escape sequences so both fixtures contain an actual NUL: production `99b530260185e2ea3fd73b6e42f49977870ad188`, test `cb035a2b6934c2ee58d3af13037fb16f338e2225`; a second fixture correction ensures both the string and `Path` cases contain an actual NUL, test commit `183a16e4e201c267cfe89ca0641a42e700e0784c`.
 - GitHub source writes succeeded. Exact-head source/test read-back and local execution remain pending. Unit tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Keep this workstream draft-only. No merge, rebase, retarget, force-push, OAuth, credentials, live-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+ 
+### ARO-CHAT-0418 — Reject NUL characters in FFmpeg executable names (2026-11-27)
+- Started a separate child workstream from the exact PR #420 branch tip; PR #420 and its ancestry remain untouched.
+- Static review of `backend/app/clipping.py` found that a non-empty `ffmpeg_binary` containing an embedded NUL passed application validation and reached `subprocess.run()`, where Python raises a low-level `ValueError` during process argument encoding. This bypasses the renderer's documented executable validation boundary.
+- Added an explicit NUL-character check before filesystem staging or process invocation, plus a regression test asserting a clear validation error and that `subprocess.run` is never called.
+- Production and test changes are committed in this workstream. Local tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Draft-only. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, live-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.

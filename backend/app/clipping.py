@@ -54,6 +54,8 @@ def render_clip(
         raise PermissionError("media processing requires explicit rights confirmation")
     if not isinstance(ffmpeg_binary, str) or not ffmpeg_binary.strip():
         raise ValueError("ffmpeg_binary must be a non-empty executable name or path")
+    if "\x00" in ffmpeg_binary:
+        raise ValueError("ffmpeg_binary must not contain NUL characters")
     for name, value in (("input_path", input_path), ("output_path", output_path)):
         if not isinstance(value, (str, Path)):
             raise ValueError(f"{name} must be a non-empty string or pathlib.Path")
