@@ -2167,3 +2167,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Fixed cleanup to attempt every staged temporary file and preserve the primary publication error when cleanup also fails. Added regressions for multiple cleanup attempts and primary-error preservation.
 - Keep PR draft/open/unmerged. Unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Do not claim tests passed.
 - This is an independent code-safety task; it does not resolve the hosted-runner admission blocker or Stage 1/P0 acceptance. No merge, rebase, retarget, workflow retry/dispatch, live media processing, upload, publishing, or deployment.
+
+
+### ARO-CHAT-0420 — Harden clip-pack cleanup error formatting (2026-11-27)
+- Workstream: ARO-GTA-P0-420; child branch `workstream/aro-chat-0420-safe-cleanup-error-formatting-2026-11-27`, based on ARO-CHAT-0419 head `c9181d8812be9597a98a0c852e94834515463251`.
+- Static review found that formatting a cleanup `OSError` with an overridden/broken `__str__` could itself raise while executing the cleanup `finally` block, masking the original publication exception or preventing a controlled cleanup report.
+- Added defensive path/exception formatting with stable fallback labels and a regression using an `OSError` subclass whose `__str__` raises.
+- Production commit: `5093b642afcc2484885ee9e76f5d07d96ba0cd27`; regression-test commit: `55546bf94ede42435de9fd8d32f9e3e93b00455f`.
+- GitHub write responses succeeded. Tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Keep draft/open/unmerged. Do not retry/dispatch the hosted-runner blocker, merge, rebase, retarget, process live media, upload, publish, or deploy. Stage 1/P0 remains INCOMPLETE.
