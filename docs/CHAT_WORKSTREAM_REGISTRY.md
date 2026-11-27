@@ -3819,3 +3819,15 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Changed files: backend/app/clip_pack.py, tests/test_clip_pack.py, docs/CHAT_WORKSTREAM_REGISTRY.md, docs/ARO_CHAT_STARTUP_PROMPT.md.
 - GitHub source read-back: PENDING at time of entry. Local unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Status: IMPLEMENTED, NOT TESTED. Draft PR only; no merge, rebase, retarget, runner retry, OAuth, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0419 — Report all clip-pack staging cleanup failures (2026-11-27)
+- Chat title: ARO-CHAT-0419 | Report Clip-Pack Staging Cleanup Failures.
+- Workstream: ARO-GTA-P0-419; independent child branch `workstream/aro-chat-0419-report-staging-cleanup-failures-2026-11-27`, based on `workstream/aro-chat-0416-safe-clip-pack-rollback-2026-11-27` at starting SHA `3a62a5dfe63582214ccff1e1bf4651d6311467b3`. Existing PR #417 and its ancestry remain unchanged.
+- Static review found that the `finally` cleanup loop stopped at the first temporary-file unlink error. That could leave later staging files behind; during an existing publication failure it could also mask the more important partial-publication error.
+- Changed cleanup to attempt every staged temporary file, aggregate cleanup diagnostics, raise a cleanup error after otherwise successful publication, and attach cleanup diagnostics to an already-active primary exception without replacing it.
+- Added two regressions: all staging files are attempted after one unlink failure; a cleanup failure does not mask the primary partial-publication error or alter a pre-existing destination.
+- Changed files: `backend/app/clip_pack.py`, `tests/test_clip_pack.py`, this registry, and `docs/ARO_CHAT_STARTUP_PROMPT.md`.
+- Production commit: `9963ae2e8b22daf7eee9dc3da4d5e8e724ad99bb`. Test commit recorded after test write.
+- GitHub read-back and PR creation are pending. Unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Status: IMPLEMENTED, NOT TESTED. Keep draft/open/unmerged. No merge, rebase, retarget, runner retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
