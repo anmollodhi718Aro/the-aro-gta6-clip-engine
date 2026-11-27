@@ -2158,3 +2158,9 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Production commit: `e0199cee8a59d9611a550db0a4e37ea001dd27c0`; test commit: `fc762a72c65b990c66dcd57896ba8177e00b2389`; registry commit recorded separately on this branch.
 - Tests NOT RUN; exact-head CI pending; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Keep Stage 1/P0 INCOMPLETE.
 - Preserve PR #414 and its ancestry. No merge, retarget, rebase, upload, publication, or deployment.
+
+
+### ARO-CHAT-0415 regression coverage continuation — 2026-11-27
+- Follow-up regression coverage now checks both path labels for invalid-video and invalid-output inputs, including when both unsupported objects raise from `__str__`.
+- Test commit: `f71e07109165ab02c71808c7d32f4cd5507d3bb0`; registry commit: `71ae1253d962fcf3c1e70fa4b805e433a8d14453`.
+- Exact branch head: `71ae1253d962fcf3c1e70fa4b805e433a8d14453`. GitHub read-back verified. Local tests NOT RUN; exact-head PR CI NOT AVAILABLE as of this check. Keep PR #416 OPEN / DRAFT / UNMERGED and Stage 1/P0 INCOMPLETE.
