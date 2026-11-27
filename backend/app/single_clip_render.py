@@ -805,6 +805,14 @@ def _create_stable_source_snapshot(
         os.close(descriptor)
 
 
+def _safe_path_report_label(value: Any) -> str:
+    """Format an untrusted path argument for a failure report without masking the failure."""
+    try:
+        return str(value)
+    except Exception:
+        return "<unavailable>"
+
+
 def render_selected_clip(
     video_path: str | Path,
     output_path: str | Path,
@@ -832,8 +840,8 @@ def render_selected_clip(
     if not valid_video_path:
         return {
             "status": "FAIL",
-            "source_path": str(video_path),
-            "output_path": str(output_path),
+            "source_path": _safe_path_report_label(video_path),
+            "output_path": _safe_path_report_label(output_path),
             "start_seconds": start_seconds,
             "end_seconds": end_seconds,
             "processing_started": False,
@@ -847,8 +855,8 @@ def render_selected_clip(
     if not valid_output_path:
         return {
             "status": "FAIL",
-            "source_path": str(video_path),
-            "output_path": str(output_path),
+            "source_path": _safe_path_report_label(video_path),
+            "output_path": _safe_path_report_label(output_path),
             "start_seconds": start_seconds,
             "end_seconds": end_seconds,
             "processing_started": False,
