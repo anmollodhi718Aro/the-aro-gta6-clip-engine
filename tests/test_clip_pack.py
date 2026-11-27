@@ -45,6 +45,21 @@ class ClipPackTests(unittest.TestCase):
                 ):
                     map_candidates_to_media([candidate], self.origin)
 
+    def test_rejects_boolean_integer_metadata(self) -> None:
+        for field, value in (
+            ("score", True),
+            ("score", False),
+            ("peak_message_count", True),
+            ("peak_message_count", False),
+        ):
+            with self.subTest(field=field, value=value):
+                candidate = self.candidate()
+                candidate[field] = value
+                with self.assertRaisesRegex(
+                    ValueError, "invalid score or peak_message_count"
+                ):
+                    map_candidates_to_media([candidate], self.origin)
+
     def test_normalizes_non_utc_offsets_in_exported_timestamps(self) -> None:
         candidate = self.candidate()
         candidate["clip_start"] = "2026-11-19T17:30:30+05:30"

@@ -136,9 +136,15 @@ def map_candidates_to_media(
             renderable = False
             note = f"duration exceeds the {MAX_CLIP_SECONDS:g}-second renderer limit"
 
+        raw_score = candidate.get("score", 0)
+        raw_peak_message_count = candidate.get("peak_message_count", 0)
+        if isinstance(raw_score, bool) or isinstance(raw_peak_message_count, bool):
+            raise ValueError(
+                f"candidate {index} has invalid score or peak_message_count"
+            )
         try:
-            score = int(candidate.get("score", 0))
-            peak_message_count = int(candidate.get("peak_message_count", 0))
+            score = int(raw_score)
+            peak_message_count = int(raw_peak_message_count)
         except (TypeError, ValueError, OverflowError) as exc:
             raise ValueError(
                 f"candidate {index} has invalid score or peak_message_count"
