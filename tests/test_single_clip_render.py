@@ -154,12 +154,20 @@ class SingleClipRenderTests(unittest.TestCase):
         invalid_video = render_selected_clip(broken, self.output, 1, 5)
         self.assertEqual(invalid_video["status"], "FAIL")
         self.assertEqual(invalid_video["source_path"], "<unavailable>")
+        self.assertEqual(invalid_video["output_path"], str(self.output))
         self.assertFalse(invalid_video["processing_started"])
 
         invalid_output = render_selected_clip(self.source, broken, 1, 5)
         self.assertEqual(invalid_output["status"], "FAIL")
+        self.assertEqual(invalid_output["source_path"], str(self.source))
         self.assertEqual(invalid_output["output_path"], "<unavailable>")
         self.assertFalse(invalid_output["processing_started"])
+
+        invalid_both = render_selected_clip(broken, broken, 1, 5)
+        self.assertEqual(invalid_both["status"], "FAIL")
+        self.assertEqual(invalid_both["source_path"], "<unavailable>")
+        self.assertEqual(invalid_both["output_path"], "<unavailable>")
+        self.assertFalse(invalid_both["processing_started"])
 
     def test_sha256_selected_source_rejects_invalid_path_arguments(self):
         for invalid_path in (None, 7, [], {}, "", "   ", "\t"):
