@@ -117,6 +117,12 @@ def fit_clock_sync(
     if not math.isfinite(rate) or rate <= 0:
         raise ValueError("measured clock rate must be positive and finite")
 
+    # A least-squares fit can place its intercept slightly below zero even
+    # when every measured media position is non-negative. Keep the calibrated
+    # interval's first mapped position physically valid, then re-check the
+    # residual bound against the constrained fit.
+    intercept = max(0.0, intercept)
+
     drift_ppm = (rate - 1.0) * 1_000_000
     if abs(drift_ppm) > max_drift_ppm:
         raise ValueError(

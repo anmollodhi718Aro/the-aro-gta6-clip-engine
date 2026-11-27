@@ -65,6 +65,20 @@ class ClockSyncTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "media anchor positions"):
             fit_clock_sync(self.anchors((5, 4, 125)))
 
+    def test_nonnegative_anchor_positions_produce_nonnegative_fitted_origin(self):
+        anchors = self.anchors((0.0, 59.9, 120.0))
+        sync = fit_clock_sync(anchors)
+        self.assertEqual(sync.media_at_origin, 0.0)
+        self.assertEqual(sync.map_chat_time(self.origin), 0.0)
+        self.assertGreaterEqual(sync.map_chat_time(self.origin + timedelta(seconds=60)), 0.0)
+
+    def test_constrained_origin_still_obeys_residual_limit(self):
+        with self.assertRaisesRegex(ValueError, "residual"):
+            fit_clock_sync(
+                self.anchors((0.0, 59.9, 120.0)),
+                max_residual_seconds=0.05,
+            )
+
     def test_rejects_bad_anchor_residual(self):
         with self.assertRaisesRegex(ValueError, "residual"):
             fit_clock_sync(self.anchors((5, 65, 145)), max_residual_seconds=0.5, max_drift_ppm=1_000_000)
