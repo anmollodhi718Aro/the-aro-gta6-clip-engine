@@ -179,6 +179,70 @@ class ClipPackTests(unittest.TestCase):
             self.assertEqual(markdown_path.read_text(encoding="utf-8"), "owner-reviewed-markdown")
 
 
+    def test_staging_cleanup_attempts_every_file_and_reports_failures(self) -> None:
+        from backend.app.clip_pack import _write_texts_no_overwrite
+        from unittest.mock import patch
+
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            first = root / "first.txt"
+            second = root / "second.txt"
+            real_unlink = Path.unlink
+            attempted = []
+            failed_once = {"value": False}
+
+            def fail_first_staging_unlink(path, *args, **kwargs):
+                if path.name.startswith(".first.txt.") and not failed_once["value"]:
+                    failed_once["value"] = True
+                    attempted.append(path)
+                    raise PermissionError("simulated locked staging file")
+                if path.name.startswith(".first.txt.") or path.name.startswith(".second.txt."):
+                    attempted.append(path)
+                return real_unlink(path, *args, **kwargs)
+
+            with patch.object(Path, "unlink", new=fail_first_staging_unlink):
+                with self.assertRaisesRegex(OSError, "staging cleanup failed"):
+                    _write_texts_no_overwrite({first: "one", second: "two"})
+
+            self.assertTrue(first.exists())
+            self.assertTrue(second.exists())
+            self.assertEqual(len(attempted), 2)
+            self.assertTrue(any(path.name.startswith(".first.txt.") for path in attempted))
+            self.assertTrue(any(path.name.startswith(".second.txt.") for path in attempted))
+
+    def test_staging_cleanup_failure_does_not_mask_partial_publication_error(self) -> None:
+        from backend.app.clip_pack import _write_texts_no_overwrite
+        from unittest.mock import patch
+
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            first = root / "first.txt"
+            second = root / "second.txt"
+            second.write_text("pre-existing", encoding="utf-8")
+            real_unlink = Path.unlink
+            attempted = []
+            failed_once = {"value": False}
+
+            def fail_first_staging_unlink(path, *args, **kwargs):
+                if path.name.startswith(".first.txt.") and not failed_once["value"]:
+                    failed_once["value"] = True
+                    attempted.append(path)
+                    raise PermissionError("simulated locked staging file")
+                if path.name.startswith(".first.txt.") or path.name.startswith(".second.txt."):
+                    attempted.append(path)
+                return real_unlink(path, *args, **kwargs)
+
+            with patch.object(Path, "unlink", new=fail_first_staging_unlink):
+                with self.assertRaisesRegex(OSError, "already-published output") as caught:
+                    _write_texts_no_overwrite({first: "one", second: "two"})
+
+            self.assertTrue(first.exists())
+            self.assertEqual(second.read_text(encoding="utf-8"), "pre-existing")
+            self.assertEqual(len(attempted), 2)
+            notes = getattr(caught.exception, "__notes__", [])
+            if hasattr(caught.exception, "add_note"):
+                self.assertTrue(any("staging cleanup failed" in note for note in notes))
+
     def test_partial_publish_collision_preserves_outputs_without_racy_unlink(self) -> None:
         rows = map_candidates_to_media([self.candidate()], self.origin)
         with tempfile.TemporaryDirectory() as folder:
