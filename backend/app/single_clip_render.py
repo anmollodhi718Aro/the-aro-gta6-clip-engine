@@ -139,6 +139,10 @@ def sha256_selected_source(path: str | Path) -> str:
     ):
         raise ValueError("selected source path must be a non-empty string or pathlib.Path")
     source = Path(path).expanduser()
+    # Reject invalid filesystem path data before lstat/open can leak a raw
+    # embedded-NUL ValueError from the operating system boundary.
+    if "\x00" in str(source):
+        raise ValueError("selected source path must not contain NUL characters")
     try:
         before_path = source.lstat()
         if stat.S_ISLNK(before_path.st_mode) or not stat.S_ISREG(before_path.st_mode):
