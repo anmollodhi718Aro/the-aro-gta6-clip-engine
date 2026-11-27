@@ -2178,3 +2178,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Read back production, test, registry, and startup files before claiming implementation complete. Local tests and exact-head CI are NOT VERIFIED; synthetic FFmpeg E2E, independent review, owner-device Windows, and authorized GTA VI MP4 processing remain NOT VERIFIED / NOT RUN.
 - Post-creation exact-head CI run `45997460428` concluded `startup_failure`; workflow job listing returned zero jobs. No compile, unit-test, or FFmpeg smoke step execution is evidenced. This is a runner/startup blocker, not a test pass or a demonstrated code-test failure. No retry/dispatch was issued.
 - Keep draft/open/unmerged and preserve all parent PR ancestry. No merge, rebase, retarget, deployment, real-media processing, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation handoff — ARO-CHAT-0420 (2026-11-27)
+- Active task: keep the measured clock-fit origin non-negative on `workstream/aro-chat-0420-nonnegative-clock-fit-origin-2026-11-27`, based on PR #432 exact head `1fef28da820773a95c49a860236c56ff5e5c99a2`.
+- `fit_clock_sync()` now constrains a slightly negative least-squares intercept to zero and recalculates residuals, preserving the configured residual acceptance limit.
+- Added regressions for zero-origin mapping and constrained-fit residual rejection.
+- Changed files: `backend/app/clock_sync.py`, `tests/test_clock_sync.py`, `docs/CHAT_WORKSTREAM_REGISTRY.md`, and this startup handoff.
+- GitHub read-back is required before reporting implementation complete. Local tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Keep draft/open/unmerged. Do not retry the hosted-runner startup blocker merely to create activity. No merge, rebase, retarget, OAuth, credentials, real-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
