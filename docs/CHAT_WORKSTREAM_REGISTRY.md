@@ -3829,3 +3829,14 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: `08c072fe2217d33e06c9e54ccee8005e12f58ed8`; test commit: `0676ae4d1145e62c8faa90be3597b41833dbb4a7`.
 - GitHub writes completed. Exact-head source/test read-back pending; local unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Status: IMPLEMENTED, NOT TESTED. Keep draft-only and preserve PR #417 ancestry. No merge, rebase, retarget, workflow retry, OAuth, credentials, real-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0420 — Reject boolean clip-candidate integer metadata (2026-11-27)
+- Chat title: ARO-CHAT-0420 | Reject Boolean Clip Metadata.
+- Workstream: ARO-GTA-P0-420.
+- Branch: `workstream/aro-chat-0420-reject-boolean-clip-metadata-2026-11-27`; base: `workstream/aro-chat-0418-bound-clip-pack-metadata-2026-11-27`; starting SHA: `ffa06fe371603552aec45b241ea83f6c2ae60964` (PR #431 exact head).
+- Static review found Python's `bool` is a subclass of `int`, so `int(True)` and `int(False)` silently accepted malformed JSON metadata as score/count values 1 and 0.
+- Reject boolean `score` and `peak_message_count` values before integer conversion while preserving the existing conversion/error contract for other values.
+- Added regression coverage for both boolean values in both fields.
+- Local tests: NOT RUN in this connector session. Exact-head CI: NOT VERIFIED. Synthetic FFmpeg E2E: NOT RUN. Independent review: NOT RECORDED. Owner-device Windows: NOT VERIFIED. Authorized GTA VI MP4: NOT PROCESSED.
+- Status: IMPLEMENTED, NOT TESTED. Draft PR only; preserve PR #431 and its ancestry. No merge, rebase, retarget, runner retry/dispatch, OAuth, credentials, real-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
