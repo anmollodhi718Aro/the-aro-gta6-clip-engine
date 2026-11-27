@@ -2166,3 +2166,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Initial production/test commits: `9c17e0b7304c457499cbbad5988a40ddc7604d9e` / `ceaa52466f35e97ad3c53cfa01a4428cd39bc0f2`; final corrected NUL literals: `99b530260185e2ea3fd73b6e42f49977870ad188` / `cb035a2b6934c2ee58d3af13037fb16f338e2225`; corrected both string and `Path` test fixtures in `183a16e4e201c267cfe89ca0641a42e700e0784c`; registry handoff recorded on this branch.
 - Unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
 - Keep draft-only and preserve PR #416 ancestry. No merge, rebase, retarget, upload, publishing, or deployment.
+
+
+### Latest continuation — candidate-plan source ID type validation (ARO-CHAT-0418, 2026-11-27)
+- Started isolated branch `workstream/aro-chat-0418-preserve-source-id-type-2026-11-27` from `workstream/aro-chat-0417-reject-nul-candidate-path-2026-11-27`; preserved all existing PRs and their ancestry.
+- Found and fixed a CLI boundary coercion: numeric `source_id` values in the clip plan were converted to strings before the strict mapper could reject them. The CLI now validates supplied plan-level IDs as non-empty strings, preserves missing/null as `None`, and passes the validated value unchanged in both clock modes.
+- Added a CLI regression test confirming numeric plan IDs return controlled exit status 2 and create no output directory.
+- Production commit: `c95a7bbaeec1f2135d6d3bc821e6d75a2f363e41`; test commit: `1c233098e57602b22ae3d7b54d65fa2f61a11946`.
+- Local tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
+- PR remains draft-only/unmerged; no merge, retarget, rebase, upload, publication, or deployment.
