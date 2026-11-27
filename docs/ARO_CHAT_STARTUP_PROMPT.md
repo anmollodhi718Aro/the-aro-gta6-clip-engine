@@ -2158,3 +2158,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Production commit: `e0199cee8a59d9611a550db0a4e37ea001dd27c0`; test commit: `fc762a72c65b990c66dcd57896ba8177e00b2389`; registry commit recorded separately on this branch.
 - Tests NOT RUN; exact-head CI pending; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Keep Stage 1/P0 INCOMPLETE.
 - Preserve PR #414 and its ancestry. No merge, retarget, rebase, upload, publication, or deployment.
+
+
+### Latest continuation handoff — ARO-CHAT-0416 (2026-11-27)
+- Current isolated branch: `workstream/aro-chat-0416-safe-hash-report-2026-11-27`, based on the existing ARO-CHAT-0415 branch; prior PR/branch ancestry remains preserved.
+- Scope: ensure invalid non-string `expected_source_sha256` values are not echoed as non-JSON-serializable objects in renderer failure reports.
+- Production commit: `646d849a13e67f8c91eeff756c6387549cb86c4c`; regression test: `3e4f39e8aac1952b568ba0b48c41f17ecb64c862`; registry update: `8bec98da3b7a06f0b90882cc1ad456b2f303ff7b`.
+- Status: IMPLEMENTED; exact-head read-back and tests/CI pending. Do not claim TESTED or CI_VERIFIED until execution evidence is recorded.
+- Continue to preserve the hosted-runner and authorized-real-media blockers as separate WAITING items. No merge, rebase, retarget, deployment, upload, or publishing without explicit owner approval.
