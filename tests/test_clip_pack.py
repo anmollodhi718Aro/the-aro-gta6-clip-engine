@@ -4,10 +4,11 @@ import csv
 import json
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
 
-from backend.app.clip_pack import load_clock_sync, map_candidates_to_media, write_clip_pack
+from backend.app.clip_pack import load_clock_sync, main, map_candidates_to_media, write_clip_pack
 from backend.app.clock_sync import ClockAnchor, fit_clock_sync
 
 
@@ -155,6 +156,26 @@ class ClipPackTests(unittest.TestCase):
             sync = load_clock_sync(path)
             self.assertEqual(sync.source_id, "authorized-demo")
             self.assertAlmostEqual(sync.rate, 1.0)
+
+    def test_cli_rejects_non_string_plan_source_id_without_creating_outputs(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            plan_path = root / "plan.json"
+            output_dir = root / "clip_pack"
+            plan_path.write_text(json.dumps({
+                "source_id": 123,
+                "candidates": [self.candidate()],
+            }), encoding="utf-8")
+            with patch("sys.argv", [
+                "clip-pack", str(plan_path),
+                "--media-origin-utc", self.origin.isoformat(),
+                "--output-dir", str(output_dir),
+            ]), patch("sys.stderr") as stderr:
+                result = main()
+            self.assertEqual(result, 2)
+            stderr_text = "".join(call.args[0] for call in stderr.write.call_args_list)
+            self.assertIn("plan source_id must be a non-empty string", stderr_text)
+            self.assertFalse(output_dir.exists())
 
     def test_writes_csv_and_markdown_review_files(self) -> None:
         rows = map_candidates_to_media([self.candidate()], self.origin)

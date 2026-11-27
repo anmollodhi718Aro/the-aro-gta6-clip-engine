@@ -3817,3 +3817,15 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Initial commits: production `9c17e0b7304c457499cbbad5988a40ddc7604d9e`, test `ceaa52466f35e97ad3c53cfa01a4428cd39bc0f2`. Follow-up corrected the source/test escape sequences so both fixtures contain an actual NUL: production `99b530260185e2ea3fd73b6e42f49977870ad188`, test `cb035a2b6934c2ee58d3af13037fb16f338e2225`; a second fixture correction ensures both the string and `Path` cases contain an actual NUL, test commit `183a16e4e201c267cfe89ca0641a42e700e0784c`.
 - GitHub source writes succeeded. Exact-head source/test read-back and local execution remain pending. Unit tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Keep this workstream draft-only. No merge, rebase, retarget, force-push, OAuth, credentials, live-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0418 — Preserve candidate-plan source ID type at CLI boundary (2026-11-27)
+- New isolated branch: `workstream/aro-chat-0418-preserve-source-id-type-2026-11-27`, based on `workstream/aro-chat-0417-reject-nul-candidate-path-2026-11-27`. Existing PRs and their ancestry remain untouched. Exact branch starting commit SHA was not returned by the connected branch metadata action; do not infer it from file blob SHAs.
+- Static review found the clip-pack CLI coerced `payload["source_id"]` through `str(...)` in both clock modes before calling `map_candidates_to_media`. This bypassed the mapper's strict non-string source-ID validation; a numeric plan source ID could be accepted as text.
+- The CLI now validates an optional plan-level source ID as a non-empty string when supplied, preserves `None` when absent, and passes the original validated string without coercion.
+- Added `test_cli_rejects_non_string_plan_source_id_without_creating_outputs`, exercising the CLI entry point with a numeric source ID and asserting controlled exit status 2 and no output directory creation.
+- Production commit: `c95a7bbaeec1f2135d6d3bc821e6d75a2f363e41`; test commit: `1c233098e57602b22ae3d7b54d65fa2f61a11946`.
+- GitHub writes completed. Tests have NOT been run locally in this session; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Keep PR draft-only and unmerged. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, real-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+- Test-harness correction: capture all writes to the mocked stderr stream rather than inspecting only the final `print()` write call. Test commit: `25e73f1df7ba08ebaf6a9762707a4f802336390e`. This is a test assertion correction, not a test execution result.
