@@ -171,7 +171,7 @@ class SingleClipRenderTests(unittest.TestCase):
                     sha256_selected_source(invalid_path)
 
     def test_sha256_selected_source_rejects_nul_path_before_filesystem_access(self):
-        for invalid_path in ("selected\\x00.mp4", Path("selected\\x00.mp4")):
+        for invalid_path in ("selected\x00.mp4", Path("selected\x00.mp4")):
             with self.subTest(path_type=type(invalid_path).__name__):
                 with self.assertRaisesRegex(
                     ValueError, "selected source path must not contain NUL characters"
