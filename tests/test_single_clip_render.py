@@ -417,6 +417,22 @@ class SingleClipRenderTests(unittest.TestCase):
                     ):
                         load_selected_candidate(pack, 1)
 
+    def test_candidate_csv_error_with_broken_string_conversion_is_controlled(self):
+        class BrokenMessageRuntimeError(RuntimeError):
+            def __str__(self):
+                raise RuntimeError("secondary exception formatting failure")
+
+        pack = self.root / "candidate-path-broken-error-message.csv"
+        with patch(
+            "backend.app.single_clip_render.Path.open",
+            side_effect=BrokenMessageRuntimeError(),
+        ):
+            with self.assertRaisesRegex(
+                ValueError,
+                "candidate CSV could not be read: BrokenMessageRuntimeError: <unavailable>",
+            ):
+                load_selected_candidate(pack, 1)
+
     def test_loads_exact_selected_review_ready_candidate(self):
         pack = self.root / "candidates.csv"
         pack.write_text(
