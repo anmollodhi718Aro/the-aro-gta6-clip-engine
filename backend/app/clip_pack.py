@@ -153,6 +153,19 @@ def map_candidates_to_media(
     return mapped
 
 
+def _safe_cleanup_error_detail(path: Path, error: OSError) -> str:
+    """Format cleanup diagnostics without trusting exception/path string methods."""
+    try:
+        path_label = str(path)
+    except Exception:
+        path_label = "<unavailable path>"
+    try:
+        error_label = str(error)
+    except Exception:
+        error_label = "<unavailable error detail>"
+    return f"{path_label}: {type(error).__name__}: {error_label}"
+
+
 def _write_texts_no_overwrite(files: dict[Path, str]) -> None:
     """Stage all text outputs, then publish without replacing existing files."""
     staged: list[tuple[Path, Path]] = []
@@ -200,7 +213,8 @@ def _write_texts_no_overwrite(files: dict[Path, str]) -> None:
                 cleanup_errors.append((temporary, cleanup_error))
         if cleanup_errors:
             detail = "; ".join(
-                f"{path}: {error}" for path, error in cleanup_errors
+                _safe_cleanup_error_detail(path, error)
+                for path, error in cleanup_errors
             )
             message = f"clip-pack staging cleanup failed: {detail}"
             if active_error is None:
