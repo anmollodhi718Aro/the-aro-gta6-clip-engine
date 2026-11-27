@@ -79,7 +79,7 @@ class ClipRenderTests(unittest.TestCase):
                         0,
                         2,
                         rights_confirmed=True,
-                        ffmpeg_binary="ffmpeg\\x00malicious",
+                        ffmpeg_binary="ffmpeg\x00malicious",
                     )
                 run.assert_not_called()
 
