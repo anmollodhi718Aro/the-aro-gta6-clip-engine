@@ -161,6 +161,20 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertEqual(invalid_output["output_path"], "<unavailable>")
         self.assertFalse(invalid_output["processing_started"])
 
+    def test_invalid_expected_source_hash_report_is_json_serializable(self):
+        class UnsupportedHash:
+            def __str__(self):
+                raise RuntimeError("untrusted hash formatting must not run")
+
+        report = render_selected_clip(
+            self.source, self.output, 1, 5,
+            expected_source_sha256=UnsupportedHash(),
+        )
+        self.assertEqual(report["status"], "FAIL")
+        self.assertIsNone(report["expected_source_sha256"])
+        self.assertEqual(json.loads(json.dumps(report))["status"], "FAIL")
+        self.assertFalse(report["processing_started"])
+
     def test_sha256_selected_source_rejects_invalid_path_arguments(self):
         for invalid_path in (None, 7, [], {}, "", "   ", "\t"):
             with self.subTest(invalid_path=repr(invalid_path)):
