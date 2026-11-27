@@ -141,7 +141,7 @@ def sha256_selected_source(path: str | Path) -> str:
     source = Path(path).expanduser()
     # Reject invalid filesystem path data before lstat/open can leak a raw
     # embedded-NUL ValueError from the operating system boundary.
-    if "\\x00" in str(source):
+    if "\x00" in str(source):
         raise ValueError("selected source path must not contain NUL characters")
     try:
         before_path = source.lstat()
