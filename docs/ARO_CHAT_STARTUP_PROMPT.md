@@ -2168,3 +2168,10 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Production commit: `08c072fe2217d33e06c9e54ccee8005e12f58ed8`; test commit: `0676ae4d1145e62c8faa90be3597b41833dbb4a7`; registry commit: `b3d08ca93446951ee26a9ec39840e89b0e3cfddf`.
 - Local unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Keep draft-only and preserve PR #417 ancestry. No merge, rebase, retarget, workflow retry, OAuth, credentials, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation handoff — ARO-CHAT-0420 (2026-11-27)
+- Active task: reject boolean `score` and `peak_message_count` metadata in clip candidate JSON. Python booleans otherwise pass through `int()` as 1/0.
+- Branch: `workstream/aro-chat-0420-reject-boolean-clip-metadata-2026-11-27`, based on PR #431 exact head `ffa06fe371603552aec45b241ea83f6c2ae60964`; PR #431 remains unchanged.
+- Regression coverage exercises True and False for each metadata field. No media, rendering, upload, or publishing behavior is changed.
+- Local tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Keep the PR draft/open/unmerged. No runner retry, merge, rebase, retarget, deployment, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
