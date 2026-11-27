@@ -417,6 +417,10 @@ class SingleClipRenderTests(unittest.TestCase):
                     ):
                         load_selected_candidate(pack, 1)
 
+    def test_candidate_csv_path_with_embedded_nul_returns_controlled_value_error(self):
+        with self.assertRaisesRegex(ValueError, "candidate CSV path could not be opened"):
+            load_selected_candidate("invalid\x00candidate.csv", 1)
+
     def test_loads_exact_selected_review_ready_candidate(self):
         pack = self.root / "candidates.csv"
         pack.write_text(
