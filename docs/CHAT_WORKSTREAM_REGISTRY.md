@@ -3753,6 +3753,9 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 
 
 ### ARO-CHAT-0410 — Reconcile portrait renderer onto current Stage 1 base (2026-11-27)
+- Exact-head GitHub Actions run `45961341884` completed with failure for Windows unit, Ubuntu unit, and Ubuntu synthetic smoke jobs (`140379623217`, `140379623542`, `140379623565`). All three job records report `steps: null` and no logs URL; no test-step execution is evidenced. This is not a test pass or a code-test failure. Root cause remains UNKNOWN.
+- PR #414 metadata currently reports OPEN / DRAFT / UNMERGED and mergeable=true; do not merge until actual validation and review are recorded.
+
 - Created clean branch `workstream/aro-chat-0410-portrait-render-reconcile-2026-11-27` from the latest tip of `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`; original PR #413 branch and PR #412 remain untouched.
 - Reapplied the portrait-render change onto the current base rather than rebasing or force-moving either existing branch. Renderer adds a 1080x1920 9:16 scale-and-pad filter, preserving the full frame.
 - Added unit assertions for scale, pad, and sample-aspect-ratio arguments. Strengthened synthetic smoke validation with a separate FFprobe query for the rendered 1080x1920 output, in addition to the renderer report checks.
