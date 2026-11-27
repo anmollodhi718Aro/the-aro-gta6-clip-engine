@@ -2721,5 +2721,15 @@ class SingleClipRenderTests(unittest.TestCase):
         self.assertFalse(fallback["publishing_enabled"])
 
 
+    def test_candidate_csv_home_expansion_runtime_error_is_controlled(self):
+        with patch.object(
+            Path, "expanduser", side_effect=RuntimeError("home directory unavailable")
+        ):
+            with self.assertRaisesRegex(
+                ValueError, "candidate CSV could not be read: home directory unavailable"
+            ):
+                load_selected_candidate("~", 1)
+
+
 if __name__ == "__main__":
     unittest.main()

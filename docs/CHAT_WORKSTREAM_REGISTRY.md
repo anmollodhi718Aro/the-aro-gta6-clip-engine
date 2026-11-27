@@ -3817,3 +3817,13 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Initial commits: production `9c17e0b7304c457499cbbad5988a40ddc7604d9e`, test `ceaa52466f35e97ad3c53cfa01a4428cd39bc0f2`. Follow-up corrected the source/test escape sequences so both fixtures contain an actual NUL: production `99b530260185e2ea3fd73b6e42f49977870ad188`, test `cb035a2b6934c2ee58d3af13037fb16f338e2225`; a second fixture correction ensures both the string and `Path` cases contain an actual NUL, test commit `183a16e4e201c267cfe89ca0641a42e700e0784c`.
 - GitHub source writes succeeded. Exact-head source/test read-back and local execution remain pending. Unit tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Keep this workstream draft-only. No merge, rebase, retarget, force-push, OAuth, credentials, live-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0418 — Contain candidate CSV home-expansion runtime errors (2026-11-27)
+- Owner requested switching to an independent coding task rather than spending more time on the hosted-runner startup blocker.
+- Created isolated branch `workstream/aro-chat-0418-handle-expanduser-runtime-error-2026-11-27` from the exact PR #420 workstream commit `9815b793b7e52c2b4f53a3e44c05d1032b067ee0`; earlier PR branches and ancestry remain unchanged.
+- Static review found `load_selected_candidate()` called `Path.expanduser()` inside its guarded read path but omitted `RuntimeError` from the handled path-resolution exceptions. Python can raise this when the home directory cannot be determined, allowing an environment/path error to escape the helper's documented controlled `ValueError` boundary.
+- Added `RuntimeError` to the controlled candidate-CSV read error handling and a regression test that simulates home-directory expansion failure and expects the documented `ValueError`.
+- Production commit: `3c09ea2fe8a9341383296e5814af88e7a1d2b196`; regression-test commit: `248c1799b3ddcf7b61d4ea9b95dc7a94b40d8ccc`.
+- GitHub source writes completed. Exact-head read-back and test execution are pending; local tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Draft-only. No merge, rebase, retarget, force-push, workflow retry/dispatch, OAuth, credentials, live-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.

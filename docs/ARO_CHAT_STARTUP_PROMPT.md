@@ -2166,3 +2166,13 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Initial production/test commits: `9c17e0b7304c457499cbbad5988a40ddc7604d9e` / `ceaa52466f35e97ad3c53cfa01a4428cd39bc0f2`; final corrected NUL literals: `99b530260185e2ea3fd73b6e42f49977870ad188` / `cb035a2b6934c2ee58d3af13037fb16f338e2225`; corrected both string and `Path` test fixtures in `183a16e4e201c267cfe89ca0641a42e700e0784c`; registry handoff recorded on this branch.
 - Unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
 - Keep draft-only and preserve PR #416 ancestry. No merge, rebase, retarget, upload, publishing, or deployment.
+
+
+### Latest continuation — candidate CSV home-expansion error containment (ARO-CHAT-0418, 2026-11-27)
+- Switched to an independent input-validation task instead of retrying the external GitHub-hosted runner blocker.
+- New isolated branch: `workstream/aro-chat-0418-handle-expanduser-runtime-error-2026-11-27`, based on exact PR #420 workstream commit `9815b793b7e52c2b4f53a3e44c05d1032b067ee0`.
+- Hardened `load_selected_candidate()` so a `RuntimeError` from `Path.expanduser()` (for example, when the home directory cannot be determined) is converted into the helper's controlled candidate-CSV `ValueError`.
+- Added a regression test simulating the home-expansion failure.
+- Production commit: `3c09ea2fe8a9341383296e5814af88e7a1d2b196`; test commit: `248c1799b3ddcf7b61d4ea9b95dc7a94b40d8ccc`; registry commit: `e7122ec2c8955b779cb8c90673556c7e77b26e1e`.
+- GitHub writes completed. Exact-head read-back and test execution pending. Local tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
+- Keep draft-only. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, real-media processing, upload, publishing, or deployment.

@@ -83,7 +83,7 @@ def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, 
                     raise ValueError(f"candidate row {number} is missing required values")
                 if number == row_number:
                     selected = row
-    except (OSError, csv.Error, UnicodeError) as exc:
+    except (OSError, csv.Error, UnicodeError, RuntimeError) as exc:
         raise ValueError(f"candidate CSV could not be read: {exc}") from exc
     if selected is None:
         raise ValueError(f"candidate row {row_number} does not exist")
