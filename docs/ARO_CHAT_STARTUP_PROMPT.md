@@ -2159,3 +2159,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Regression test covers partial publication, preservation of the pre-existing collision target, and no unlink of the first output.
 - Read back production, test, registry, and startup files from GitHub before claiming implementation complete. Tests have NOT RUN; do not claim TESTED or CI_VERIFIED. Do not retry the hosted-runner blocker just to create activity.
 - Keep the new PR draft/open/unmerged and preserve PR #414 ancestry. No merge, rebase, retarget, deployment, real-media processing, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation handoff — ARO-CHAT-0418 (2026-11-27)
+- Active branch: `workstream/aro-chat-0418-bound-clip-pack-metadata-2026-11-27`, created from PR #417 branch `workstream/aro-chat-0416-safe-clip-pack-rollback-2026-11-27` at starting SHA `3a62a5dfe63582214ccff1e1bf4651d6311467b3`; prior workstreams and ancestry preserved.
+- Hardened `map_candidates_to_media`: reject non-object candidate records with a controlled `ValueError`, and normalize malformed `score` / `peak_message_count` conversion failures, including `OverflowError`, into a controlled validation error.
+- Added regression tests for non-object candidates and infinite metadata values.
+- Production commit: `08c072fe2217d33e06c9e54ccee8005e12f58ed8`; test commit: `0676ae4d1145e62c8faa90be3597b41833dbb4a7`; registry commit: `b3d08ca93446951ee26a9ec39840e89b0e3cfddf`.
+- Local unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Keep draft-only and preserve PR #417 ancestry. No merge, rebase, retarget, workflow retry, OAuth, credentials, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.

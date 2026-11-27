@@ -81,6 +81,8 @@ def map_candidates_to_media(
 
     mapped: list[dict[str, Any]] = []
     for index, candidate in enumerate(candidates, start=1):
+        if not isinstance(candidate, dict):
+            raise ValueError(f"candidate {index} must be an object")
         try:
             start = parse_datetime(candidate["clip_start"]).astimezone(timezone.utc)
             end = parse_datetime(candidate["clip_end"]).astimezone(timezone.utc)
@@ -134,10 +136,18 @@ def map_candidates_to_media(
             renderable = False
             note = f"duration exceeds the {MAX_CLIP_SECONDS:g}-second renderer limit"
 
+        try:
+            score = int(candidate.get("score", 0))
+            peak_message_count = int(candidate.get("peak_message_count", 0))
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise ValueError(
+                f"candidate {index} has invalid score or peak_message_count"
+            ) from exc
+
         mapped.append({
             "source_id": candidate_source,
-            "score": int(candidate.get("score", 0)),
-            "peak_message_count": int(candidate.get("peak_message_count", 0)),
+            "score": score,
+            "peak_message_count": peak_message_count,
             "peak_window_start": str(candidate.get("peak_window_start", "")),
             "clip_start_utc": start.isoformat(),
             "clip_end_utc": end.isoformat(),

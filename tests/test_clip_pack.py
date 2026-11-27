@@ -31,6 +31,20 @@ class ClipPackTests(unittest.TestCase):
         self.assertEqual(rows[0]["end_seconds"], 60.0)
         self.assertTrue(rows[0]["renderable"])
 
+    def test_rejects_non_object_candidate_records(self) -> None:
+        with self.assertRaisesRegex(ValueError, "candidate 1 must be an object"):
+            map_candidates_to_media([None], self.origin)
+
+    def test_rejects_non_finite_integer_metadata_without_leaking_overflow(self) -> None:
+        for field in ("score", "peak_message_count"):
+            with self.subTest(field=field):
+                candidate = self.candidate()
+                candidate[field] = float("inf")
+                with self.assertRaisesRegex(
+                    ValueError, "invalid score or peak_message_count"
+                ):
+                    map_candidates_to_media([candidate], self.origin)
+
     def test_normalizes_non_utc_offsets_in_exported_timestamps(self) -> None:
         candidate = self.candidate()
         candidate["clip_start"] = "2026-11-19T17:30:30+05:30"

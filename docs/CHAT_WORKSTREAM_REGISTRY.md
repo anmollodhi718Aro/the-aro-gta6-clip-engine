@@ -3819,3 +3819,13 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Changed files: backend/app/clip_pack.py, tests/test_clip_pack.py, docs/CHAT_WORKSTREAM_REGISTRY.md, docs/ARO_CHAT_STARTUP_PROMPT.md.
 - GitHub source read-back: PENDING at time of entry. Local unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Status: IMPLEMENTED, NOT TESTED. Draft PR only; no merge, rebase, retarget, runner retry, OAuth, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0418 — Bound clip-pack candidate record and metadata parsing (2026-11-27)
+- Independent workstream on branch `workstream/aro-chat-0418-bound-clip-pack-metadata-2026-11-27`, created from PR #417 branch `workstream/aro-chat-0416-safe-clip-pack-rollback-2026-11-27` at starting SHA `3a62a5dfe63582214ccff1e1bf4651d6311467b3`; prior branches and PR ancestry are preserved.
+- Static review found two malformed-input cases in `map_candidates_to_media`: a non-object candidate leaked an incidental attribute error, and JSON non-finite numeric metadata such as `Infinity` could make `int()` raise an uncaught `OverflowError`.
+- Candidate rows now require dictionary/object shape before timestamp access. Conversion of `score` and `peak_message_count` catches `TypeError`, `ValueError`, and `OverflowError`, then returns a controlled candidate-specific `ValueError`.
+- Added regression tests for a non-object candidate and infinite values in both integer metadata fields.
+- Production commit: `08c072fe2217d33e06c9e54ccee8005e12f58ed8`; test commit: `0676ae4d1145e62c8faa90be3597b41833dbb4a7`.
+- GitHub writes completed. Exact-head source/test read-back pending; local unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Status: IMPLEMENTED, NOT TESTED. Keep draft-only and preserve PR #417 ancestry. No merge, rebase, retarget, workflow retry, OAuth, credentials, real-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
