@@ -33,7 +33,12 @@ FIELDS = [
 def load_clock_sync(path: str | Path, *, max_residual_seconds: float | None = None,
                     max_drift_ppm: float | None = None) -> ClockSync:
     """Load operator-measured anchors and fit a bounded, source-specific clock."""
-    source = Path(path).expanduser()
+    try:
+        source = Path(path).expanduser()
+    except RuntimeError as exc:
+        raise OSError(
+            f"cannot resolve clock-anchor file path {path!s}: {exc}"
+        ) from exc
     payload = json.loads(source.read_text(encoding="utf-8"))
     if not isinstance(payload, dict) or not isinstance(payload.get("anchors"), list):
         raise ValueError("clock anchor JSON must contain an anchors array")

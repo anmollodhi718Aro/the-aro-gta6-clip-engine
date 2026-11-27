@@ -2167,3 +2167,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Fixed cleanup to attempt every staged temporary file and preserve the primary publication error when cleanup also fails. Added regressions for multiple cleanup attempts and primary-error preservation.
 - Keep PR draft/open/unmerged. Unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Do not claim tests passed.
 - This is an independent code-safety task; it does not resolve the hosted-runner admission blocker or Stage 1/P0 acceptance. No merge, rebase, retarget, workflow retry/dispatch, live media processing, upload, publishing, or deployment.
+
+
+### Latest continuation — clock-anchor path expansion error containment (ARO-CHAT-0420, 2026-11-27)
+- New independent branch: `workstream/aro-chat-0420-contain-clock-anchor-path-errors-2026-11-27`, based on PR #433 head `c9181d8812be9597a98a0c852e94834515463251`; preserve PR #433 and its ancestry.
+- `load_clock_sync()` now translates an unavailable-home `Path.expanduser()` RuntimeError into an actionable `OSError` handled by the CLI's existing controlled error path. The original RuntimeError remains the cause.
+- Added a regression test injecting the expansion failure; no file read/write is performed by the test.
+- Local tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Keep draft/open/unmerged. Do not retry/dispatch the hosted-runner blocker, merge, rebase, retarget, process real media, upload, publish, or deploy. Stage 1/P0 remains INCOMPLETE.
