@@ -67,6 +67,22 @@ class ClipRenderTests(unittest.TestCase):
                             )
                 run.assert_not_called()
 
+    def test_rejects_nul_in_ffmpeg_executable_before_invoking_process(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / "source.mov"
+            source.write_bytes(b"synthetic")
+            with patch("backend.app.clipping.subprocess.run") as run:
+                with self.assertRaisesRegex(ValueError, "ffmpeg_binary must not contain NUL"):
+                    render_clip(
+                        source,
+                        Path(folder) / "clip.mp4",
+                        0,
+                        2,
+                        rights_confirmed=True,
+                        ffmpeg_binary="ffmpeg\\x00malicious",
+                    )
+                run.assert_not_called()
+
     def test_rejects_invalid_duration(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / "source.mov"
