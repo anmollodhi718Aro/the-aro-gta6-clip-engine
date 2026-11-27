@@ -143,13 +143,18 @@ def run_smoke_test(*, ffmpeg: str = "ffmpeg", ffprobe: str = "ffprobe") -> dict:
             check=True, capture_output=True, text=True, timeout=30,
         )
         try:
-            probed_streams = json.loads(output_probe.stdout).get("streams", [])
+            probe_payload = json.loads(output_probe.stdout)
         except (TypeError, ValueError) as exc:
             raise RuntimeError("FFprobe returned malformed portrait stream metadata") from exc
-        if not probed_streams or any(
-            stream.get("width") != 1080 or stream.get("height") != 1920
-            for stream in probed_streams if isinstance(stream, dict)
-        ) or any(not isinstance(stream, dict) for stream in probed_streams):
+        if not isinstance(probe_payload, dict):
+            raise RuntimeError("FFprobe portrait metadata must be a JSON object")
+        probed_streams = probe_payload.get("streams")
+        if not isinstance(probed_streams, list) or not probed_streams or any(
+            not isinstance(stream, dict)
+            or stream.get("width") != 1080
+            or stream.get("height") != 1920
+            for stream in probed_streams
+        ):
             raise RuntimeError("independent FFprobe check did not confirm 1080x1920 portrait output")
         digest = report.get("output_sha256")
         if (not isinstance(digest, str) or len(digest) != 64
