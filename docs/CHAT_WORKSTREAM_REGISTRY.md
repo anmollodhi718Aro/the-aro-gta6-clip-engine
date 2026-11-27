@@ -3817,3 +3817,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: `f5dfaa6d223fd8cbcff5391213153e10d3efbbec`; test commits: `fbfd2092194a04f20e370c9fdbf987ca0632be53`, `1e86c94fc326c3b8c0c35cf4fe9af96fcaf5d163`.
 - GitHub write responses succeeded. Exact-head read-back pending; local unit tests NOT RUN; exact-head CI NOT YET VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Draft PR only. No merge, rebase, retarget, force-push, workflow retry/dispatch, OAuth, credential changes, real-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0418 — Keep candidate CSV error reporting safe (2026-11-27)
+- New isolated branch: `workstream/aro-chat-0418-safe-candidate-csv-errors-2026-11-27`, based on PR #419 exact head `004c4024c637c82514afc50e3530175179aea690`; PR #419 and earlier ancestry remain untouched.
+- Static review found the controlled candidate-CSV error handler interpolated the caught exception directly. An exception whose `__str__` itself raises could therefore escape the intended `ValueError` boundary while formatting the diagnostic.
+- Added `_safe_exception_detail` to contain even a failing exception string conversion and emit the fixed `<unavailable>` detail. Added a regression using a `RuntimeError` subclass whose `__str__` raises.
+- Production commit: `ba62ae37fd3210893d058c89d57e477de6d350be`; test commit: `51cb9fdc5c7d2ece931dcfd799fccdc15737acdb`.
+- GitHub writes succeeded. Local unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
+- Draft-only. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, real-media processing, upload, publishing, or deployment.
