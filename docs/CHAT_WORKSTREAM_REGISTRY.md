@@ -3843,3 +3843,9 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Changed files so far: `backend/app/clock_sync.py`, `tests/test_clock_sync.py`, this registry, and startup handoff.
 - Repository tests NOT RUN in this session; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Status: IMPLEMENTED, NOT TESTED. Keep draft/open/unmerged. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, real-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+#### ARO-CHAT-0420 exact-head CI observation
+- Python CI run `45998706927` was associated with code/test head `c32250d2a4977565841cf4e8296294b637a0d094` and concluded `startup_failure`.
+- Workflow job listing returned an empty array. No checkout, compile, unit-test, or other test-step execution is evidenced.
+- Classification: `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`; root cause UNKNOWN. This is neither an application test failure nor a test pass. No workflow retry/dispatch was issued.
