@@ -46,6 +46,36 @@ class YouTubeUploadTests(unittest.TestCase):
                 made_for_kids=False, owner_approved=True, upload_requested=True,
             )
 
+    def test_upload_gate_arguments_must_be_real_booleans(self):
+        invalid_flags = (
+            ("made_for_kids", {"made_for_kids": "false"}),
+            ("owner_approved", {"owner_approved": "false"}),
+            ("rights_confirmed", {"rights_confirmed": "false"}),
+            ("upload_requested", {"upload_requested": "false"}),
+        )
+        for name, override in invalid_flags:
+            with self.subTest(flag=name):
+                kwargs = {
+                    "made_for_kids": False,
+                    "owner_approved": True,
+                    "rights_confirmed": True,
+                    "upload_requested": True,
+                }
+                kwargs.update(override)
+                with self.assertRaisesRegex(TypeError, name):
+                    validate_upload(
+                        self.video, self.report, title="Short", **kwargs,
+                    )
+
+    def test_metadata_builder_rejects_non_boolean_made_for_kids(self):
+        for value in ("false", 0, 1, None):
+            with self.subTest(value=value):
+                with self.assertRaisesRegex(TypeError, "made_for_kids"):
+                    build_upload_body(
+                        title="Short", description="", tags=[],
+                        privacy="private", made_for_kids=value,
+                    )
+
     def test_actual_upload_validation_passes_with_both_approvals(self):
         video, body = validate_upload(
             self.video, self.report, title="Approved title",
