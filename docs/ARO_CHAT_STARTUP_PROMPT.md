@@ -2158,3 +2158,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Production commit: `e0199cee8a59d9611a550db0a4e37ea001dd27c0`; test commit: `fc762a72c65b990c66dcd57896ba8177e00b2389`; registry commit recorded separately on this branch.
 - Tests NOT RUN; exact-head CI pending; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Keep Stage 1/P0 INCOMPLETE.
 - Preserve PR #414 and its ancestry. No merge, retarget, rebase, upload, publication, or deployment.
+
+
+### Latest continuation — candidate CSV NUL-path validation (ARO-CHAT-0417, 2026-11-27)
+- New isolated branch: `workstream/aro-chat-0417-reject-nul-candidate-path-2026-11-27`, based on PR #416 exact head `7d73f33ee51519f16b8b987b0b3776606a8ed7cf`; earlier branches and ancestry preserved.
+- `load_selected_candidate` now rejects embedded NUL characters in the CSV filesystem path before attempting to open it. Added regression coverage for both string and `Path` path forms. The existing CSV-content NUL guard is unchanged.
+- Production commit: `9c17e0b7304c457499cbbad5988a40ddc7604d9e`; test commit: `ceaa52466f35e97ad3c53cfa01a4428cd39bc0f2`; registry commit recorded on this branch.
+- Unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
+- Keep draft-only and preserve PR #416 ancestry. No merge, rebase, retarget, upload, publishing, or deployment.
