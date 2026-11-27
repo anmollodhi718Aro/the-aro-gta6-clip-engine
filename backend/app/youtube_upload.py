@@ -42,6 +42,8 @@ def build_upload_body(
     privacy: str,
     made_for_kids: bool,
 ) -> dict[str, Any]:
+    if type(made_for_kids) is not bool:
+        raise TypeError("made_for_kids must be an explicit boolean")
     clean_title = title.strip()
     if not clean_title or len(clean_title) > 100:
         raise ValueError("title must contain 1 to 100 characters")
@@ -82,6 +84,14 @@ def validate_upload(
     upload_requested: bool = False,
 ) -> tuple[Path, dict[str, Any]]:
     """Validate local media, metadata, rights preflight and explicit approvals."""
+    for name, value in (
+        ("made_for_kids", made_for_kids),
+        ("owner_approved", owner_approved),
+        ("rights_confirmed", rights_confirmed),
+        ("upload_requested", upload_requested),
+    ):
+        if type(value) is not bool:
+            raise TypeError(f"{name} must be an explicit boolean")
     video = Path(video_path).expanduser()
     if not video.is_file():
         raise FileNotFoundError(f"local video file does not exist: {video}")
