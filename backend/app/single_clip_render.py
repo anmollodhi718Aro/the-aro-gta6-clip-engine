@@ -20,6 +20,14 @@ from .media_single_preflight import inspect_one_video
 
 
 
+def _safe_exception_detail(exc: BaseException) -> str:
+    """Format an exception for a validation report without trusting __str__()."""
+    try:
+        return str(exc)
+    except BaseException:
+        return "<unavailable>"
+
+
 def _reject_nul_candidate_csv_lines(handle):
     """Reject binary NUL bytes while streaming the complete candidate CSV.
 
@@ -79,7 +87,10 @@ def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, 
                 if number == row_number:
                     selected = row
     except (OSError, csv.Error, UnicodeError, TypeError, RuntimeError) as exc:
-        raise ValueError(f"candidate CSV could not be read: {type(exc).__name__}: {exc}") from exc
+        detail = _safe_exception_detail(exc)
+        raise ValueError(
+            f"candidate CSV could not be read: {type(exc).__name__}: {detail}"
+        ) from exc
     if selected is None:
         raise ValueError(f"candidate row {row_number} does not exist")
     if str(selected.get("renderable", "")).strip().lower() != "true":

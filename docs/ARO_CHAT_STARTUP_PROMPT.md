@@ -2167,3 +2167,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Production commit: `f5dfaa6d223fd8cbcff5391213153e10d3efbbec`; test commits: `fbfd2092194a04f20e370c9fdbf987ca0632be53`, `1e86c94fc326c3b8c0c35cf4fe9af96fcaf5d163`.
 - GitHub write responses succeeded. Exact-head read-back pending; local unit tests NOT RUN; exact-head CI NOT YET VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Draft PR only. No merge, rebase, retarget, force-push, workflow retry/dispatch, OAuth, credential changes, real-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation — safe candidate CSV exception diagnostics (ARO-CHAT-0418, 2026-11-27)
+- New isolated branch: `workstream/aro-chat-0418-safe-candidate-csv-errors-2026-11-27`, based on PR #419 exact head `004c4024c637c82514afc50e3530175179aea690`; prior PRs and ancestry preserved.
+- Hardened `load_selected_candidate` so a caught exception whose `__str__` raises cannot escape while constructing the controlled CSV-read `ValueError`. `_safe_exception_detail` returns `<unavailable>` if exception formatting fails.
+- Production commit: `ba62ae37fd3210893d058c89d57e477de6d350be`; regression-test commit: `51cb9fdc5c7d2ece931dcfd799fccdc15737acdb`; registry commit: `d7db9b8be8d40bb94461b6a1374d47eda1fb557c`.
+- Local unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
+- Keep draft-only and preserve PR #419 ancestry. No merge, rebase, retarget, workflow retry/dispatch, upload, publishing, or deployment.
