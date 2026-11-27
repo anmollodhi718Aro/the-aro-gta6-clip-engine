@@ -3840,3 +3840,14 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Local tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Post-creation exact-head CI run `45997460428` concluded `startup_failure`; workflow job listing returned zero jobs. No compile, unit-test, or FFmpeg smoke step execution is evidenced. This is a runner/startup blocker, not a test pass or a demonstrated code-test failure. No retry/dispatch was issued.
 - Draft-only work. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, real-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0420 — Keep fitted clock origin non-negative (2026-11-27)
+- Selected a separate clock-calibration correctness task after parking repeated hosted-runner startup failures. Duplicate-work check covered all open PRs and the latest registry handoff; no open PR was found for this clock-fit intercept boundary.
+- Branch: `workstream/aro-chat-0420-nonnegative-clock-fit-origin-2026-11-27`; base: PR #432 exact head `1fef28da820773a95c49a860236c56ff5e5c99a2`.
+- Static analysis identified a valid calibration edge case: least-squares fitting can produce a slightly negative intercept even when all measured media positions are non-negative. `fit_clock_sync()` could then return a calibration whose first in-range timestamp fails at mapping time.
+- Constrain the fitted intercept to zero when necessary and recompute residuals against that constrained fit. The existing residual tolerance remains authoritative and rejects a constrained fit that no longer meets it.
+- Added regressions for successful zero-origin mapping and for rejection when the constrained fit exceeds a tighter residual threshold.
+- Changed files: `backend/app/clock_sync.py`, `tests/test_clock_sync.py`, this registry, and `docs/ARO_CHAT_STARTUP_PROMPT.md`.
+- GitHub source/test writes: recorded on branch; local tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Status: IMPLEMENTED, NOT TESTED. Draft PR only; no merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, real-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
