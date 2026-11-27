@@ -2176,4 +2176,5 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Added regression coverage using an injected expansion failure; the test does not create or modify output files.
 - PR #428 hosted-runner startup blocker is parked: exact-head run `45997014215` reported `startup_failure`, with no test-step execution evidence. No retry/dispatch was issued.
 - Read back production, test, registry, and startup files before claiming implementation complete. Local tests and exact-head CI are NOT VERIFIED; synthetic FFmpeg E2E, independent review, owner-device Windows, and authorized GTA VI MP4 processing remain NOT VERIFIED / NOT RUN.
+- Post-creation exact-head CI run `45997460428` concluded `startup_failure`; workflow job listing returned zero jobs. No compile, unit-test, or FFmpeg smoke step execution is evidenced. This is a runner/startup blocker, not a test pass or a demonstrated code-test failure. No retry/dispatch was issued.
 - Keep draft/open/unmerged and preserve all parent PR ancestry. No merge, rebase, retarget, deployment, real-media processing, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
