@@ -137,6 +137,17 @@ def run_smoke_test(*, ffmpeg: str = "ffmpeg", ffprobe: str = "ffprobe") -> dict:
             raise RuntimeError("synthetic output must not alias its source")
         if report.get("upload_performed") is not False or report.get("publishing_enabled") is not False:
             raise RuntimeError("smoke test unexpectedly enabled upload or publishing")
+        rendered_preflight = report.get("rendered_preflight")
+        streams = rendered_preflight.get("video_streams") if isinstance(rendered_preflight, dict) else None
+        if not isinstance(streams, list) or not streams:
+            raise RuntimeError("synthetic render did not return verified video stream metadata")
+        if any(
+            not isinstance(stream, dict)
+            or stream.get("width") != 1080
+            or stream.get("height") != 1920
+            for stream in streams
+        ):
+            raise RuntimeError("synthetic render is not verified as 1080x1920 portrait output")
         digest = report.get("output_sha256")
         if (not isinstance(digest, str) or len(digest) != 64
                 or any(character not in "0123456789abcdef" for character in digest)):
