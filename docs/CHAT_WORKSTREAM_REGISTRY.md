@@ -3817,3 +3817,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Initial commits: production `9c17e0b7304c457499cbbad5988a40ddc7604d9e`, test `ceaa52466f35e97ad3c53cfa01a4428cd39bc0f2`. Follow-up corrected the source/test escape sequences so both fixtures contain an actual NUL: production `99b530260185e2ea3fd73b6e42f49977870ad188`, test `cb035a2b6934c2ee58d3af13037fb16f338e2225`; a second fixture correction ensures both the string and `Path` cases contain an actual NUL, test commit `183a16e4e201c267cfe89ca0641a42e700e0784c`.
 - GitHub source writes succeeded. Exact-head source/test read-back and local execution remain pending. Unit tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Keep this workstream draft-only. No merge, rebase, retarget, force-push, OAuth, credentials, live-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0418 — Preserve plan source ID types at CLI boundary (2026-11-27)
+- New child workstream branch: `workstream/aro-chat-0418-preserve-plan-source-id-type-2026-11-27`, based on the current ARO-CHAT-0417 branch; prior PRs and ancestry are preserved.
+- Static review found that the clip-pack CLI converted `payload.source_id` with `str(...)` before calling `map_candidates_to_media`. This bypassed the helper's explicit non-string source-ID validation: malformed JSON such as numeric `source_id: 123` could be accepted as the string `"123"`.
+- Production change: pass the original JSON value unchanged so the existing validation rejects malformed types. Added a CLI regression test asserting exit code 2, a clear validation message, and no output CSV creation.
+- Production commit: `597a5c1f3d9f5b2ffa92b6e5ea6d871cff27502a`; test commit: `63cb18f01948e6c56734f9cdd81ad54cbef6d99f`.
+- GitHub writes succeeded. Exact-head read-back is pending. Local unit tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Draft-only work. No merge, rebase, retarget, force-push, workflow retry/dispatch, OAuth, credentials, real-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
