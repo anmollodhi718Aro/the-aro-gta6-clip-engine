@@ -3738,3 +3738,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - PR #412 current HEAD remains `462fa0abace1dd1013b5ff5d1e74a03b69087a83`, OPEN / DRAFT / UNMERGED, base `workstream/aro-chat-0244-single-selected-clip-render-2026-11-25`. Retry was against prior recorded run/head `fbdc89133a5a2d26c1f8d8bdf03353ad82a83eef`, not the current HEAD. Current HEAD has no associated run in the available commit-run lookup.
 - Unit tests NOT RUN; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; Windows owner-device check NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
 - No merge, retarget, rebase, upload, publishing, or deployment.
+
+### ARO-CHAT-0406 — Portrait render output contract (2026-11-27)
+- Created child draft PR #413 from the recorded PR #412 workstream. PR #413 head `3882bbd475ceee1ff9a8f7b884623c6fc8b1c548`; base `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26` at `1662bcf696500aafd86f2be86144336b8b54e408`. PR #412 remains OPEN / DRAFT / UNMERGED.
+- Updated `backend/app/clipping.py` to preserve the full decoded source frame on a 1080x1920 canvas using aspect-ratio-preserving scale, padding, and square sample aspect ratio. This avoids cropping gameplay/HUD edges on landscape inputs.
+- Updated `tests/test_clipping.py` to assert the portrait filter arguments. Updated `scripts/synthetic_single_clip_smoke.py` to require the renderer's `rendered_preflight.video_streams` metadata to report 1080x1920. Source inspection confirms `inspect_one_video()` returns that exact metadata shape; the smoke-test assertion matches the current report contract.
+- Isolated generated-test-pattern FFmpeg filter check PASS: H.264 1080x1920, SAR 1:1, full decode succeeded. This is not a repository test or real-media validation.
+- Exact-head workflow run `45960277692` was created, but all three jobs (synthetic smoke, Ubuntu tests, Windows tests) ended `failure` with `steps: null` and `logs_url: null`. No visible runner step or test execution is evidenced; do not classify this as a source-code test failure or a pass.
+- Repository unit tests NOT VERIFIED; repository synthetic smoke NOT VERIFIED; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. No upload or publishing. Stage 1/P0 remains INCOMPLETE.
+- Keep PR #413 and parent PR #412 OPEN / DRAFT / UNMERGED. No merge, rebase, retarget, upload, publishing, or deployment.
