@@ -3831,3 +3831,13 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: `9963ae2e8b22daf7eee9dc3da4d5e8e724ad99bb`. Test commit recorded after test write.
 - GitHub read-back and PR creation are pending. Unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Status: IMPLEMENTED, NOT TESTED. Keep draft/open/unmerged. No merge, rebase, retarget, runner retry/dispatch, OAuth, credentials, live media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0420 — Contain clock-anchor path expansion errors (2026-11-27)
+- Selected as a separate, actionable CLI error-boundary task while the GitHub-hosted runner startup blocker remains parked; no workflow retry/dispatch.
+- Branch: `workstream/aro-chat-0420-contain-clock-anchor-path-errors-2026-11-27`, based on PR #433 head `c9181d8812be9597a98a0c852e94834515463251`; preserve PR #433 and all prior ancestry.
+- Static review found `load_clock_sync()` called `Path.expanduser()` outside its controlled error boundary. An unavailable home directory can raise `RuntimeError`, which bypasses the CLI's existing `OSError` handler.
+- Convert that expansion failure to an actionable `OSError`, preserving the original cause; add a regression test that injects the failure without reading or writing files.
+- Changed files: `backend/app/clip_pack.py`, `tests/test_clip_pack.py`, `docs/ARO_CHAT_0420_CLOCK_ANCHOR_PATH_ERROR.md`, this registry, and `docs/ARO_CHAT_STARTUP_PROMPT.md`.
+- Status: IMPLEMENTED, NOT TESTED. Local tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Keep draft/open/unmerged. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
