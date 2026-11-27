@@ -3753,6 +3753,8 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 
 
 ### ARO-CHAT-0410 — Reconcile portrait renderer onto current Stage 1 base (2026-11-27)
+- After the smoke-parser hardening commit, exact-head workflow run `45961776984` also failed before any visible job steps. Windows unit `140381032551`, Ubuntu synthetic smoke `140381032844`, and Ubuntu unit `140381032951` each report `steps: null` and no logs URL. This confirms the runner blocker persists on the updated head; no test execution is evidenced.
+
 - Follow-up static review found malformed-but-valid JSON shape could raise an uncaught `AttributeError` when FFprobe output was a JSON array/scalar. Hardened the smoke check to require a JSON object containing a non-empty list of stream objects, each exactly 1080x1920; malformed shapes now fail with a controlled RuntimeError. Commit: `48b0ab9ea0f59275810ddcb518c5c08a85f244d5`.
 - Reviewed `.github/workflows/ci.yml`: both matrix jobs and the synthetic smoke job use standard `ubuntu-latest` / `windows-latest` hosted runners and include checkout, Python setup, compile, unittest, and FFmpeg smoke steps. No repository-level custom runner label or obvious YAML-level runner selector defect was found. Because failed jobs expose no steps/logs, the failure remains outside evidenced workflow steps; account/repository Actions policy, quota, or hosted-runner allocation still requires owner-side inspection. No workflow retry was issued because the same pre-step failure signature persists.
 - Local unit tests and FFmpeg E2E remain NOT RUN; static source review is not execution evidence.
