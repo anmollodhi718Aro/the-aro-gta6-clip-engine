@@ -3807,3 +3807,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Exact-head Python CI run `45991470270` concluded `startup_failure`; job listing returned zero jobs. This provides no compile, unit-test, or smoke-step execution evidence and does not identify the underlying runner-admission cause. The PR has zero submitted reviews and zero inline review threads.
 - Repository tests NOT RUN in this session; synthetic FFmpeg E2E NOT RUN; owner-device Windows validation NOT VERIFIED; independent review NOT RECORDED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
 - No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, live media processing, upload, publishing, or deployment. Preserve PR #414 and its existing base/ancestry.
+
+
+### ARO-CHAT-0416 — Reject truthy non-boolean YouTube upload gates (2026-11-27)
+- Paused the blocked hosted-runner/authorized-media validation path as requested and selected an independent, code-level uploader validation task. Created isolated branch `workstream/aro-chat-0416-strict-upload-booleans-2026-11-27` from the verified PR #414 audit commit; PR #414 and its ancestry were not modified.
+- Static review found public Python entry points accepted truthy non-boolean values for `made_for_kids`, `owner_approved`, `rights_confirmed`, and `upload_requested`. In particular, a string such as `"false"` is truthy in Python and could satisfy approval gates when callers use the library API directly.
+- `validate_upload` now requires each gate argument to have exact type `bool` before file or rights-report processing. `build_upload_body` independently validates `made_for_kids` and no longer silently coerces arbitrary values with `bool(...)`.
+- Added regression tests for string-valued false on all four gates and invalid made-for-kids values (`"false"`, 0, 1, and None). Production commit: `b20bcff7a23920e86d2fa57317f26794f9c9f46a`; test commit: `063d03bf15a341b13f63cc8ead43f7a197b1f4de`.
+- Source and test writes were accepted by GitHub. Tests NOT RUN in this connector session; exact-head CI NOT VERIFIED; no upload or OAuth flow was invoked. This change does not implement or replace Issue #68's authenticated channel-owner approval integration. Public publishing remains disabled pending that separate owner-approved security work.
+- No merge, retarget, rebase, credential access, upload, publishing, or deployment.
