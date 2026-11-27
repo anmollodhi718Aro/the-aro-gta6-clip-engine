@@ -3808,3 +3808,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: `e0199cee8a59d9611a550db0a4e37ea001dd27c0`; test commit: `fc762a72c65b990c66dcd57896ba8177e00b2389`.
 - GitHub writes succeeded. Local tests NOT RUN; exact-head CI NOT YET AVAILABLE; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - PR #414 remains OPEN / DRAFT / UNMERGED. This workstream branch has not been merged or deployed. No OAuth, credentials, live media, upload, publishing, or deployment actions were performed. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0416 — Contain candidate CSV path-conversion failures (2026-11-27)
+- Switched away from the hosted-runner admission blocker and started a separate, isolated source-level task. New branch `workstream/aro-chat-0416-candidate-path-conversion-guard-2026-11-27` was created from PR #416 head `7d73f33ee51519f16b8b987b0b3776606a8ed7cf`; prior PRs and ancestry were left untouched.
+- Static review found `load_selected_candidate` accepted `pathlib.Path` subclasses but did not contain `TypeError` or `RuntimeError` raised during path conversion/open setup. A malformed path-like subclass could escape the function's documented controlled `ValueError` failure boundary.
+- Added controlled error conversion for `TypeError` and `RuntimeError` alongside existing filesystem/CSV/encoding errors. Added a regression using a concrete platform Path subclass whose `__fspath__` raises `RuntimeError`.
+- Production commit: `f5dfaa6d223fd8cbcff5391213153e10d3efbbec`; test commit: `fbfd2092194a04f20e370c9fdbf987ca0632be53`.
+- GitHub write responses succeeded. Exact-head read-back pending; local unit tests NOT RUN; exact-head CI NOT YET VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Draft PR only. No merge, rebase, retarget, force-push, workflow retry/dispatch, OAuth, credential changes, real-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
