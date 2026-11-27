@@ -1,0 +1,22 @@
+name: ARO Runner Admission Probe
+
+on:
+  push:
+    branches:
+      - workstream/aro-chat-0410-portrait-render-reconcile-2026-11-27
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    name: hosted-runner-admission-probe
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Confirm runner started
+        run: |
+          echo "ARO_RUNNER_PROBE_STARTED"
+          python --version
+          echo "ARO_RUNNER_PROBE_FINISHED"
