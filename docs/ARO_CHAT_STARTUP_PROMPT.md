@@ -2167,3 +2167,15 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Fixed cleanup to attempt every staged temporary file and preserve the primary publication error when cleanup also fails. Added regressions for multiple cleanup attempts and primary-error preservation.
 - Keep PR draft/open/unmerged. Unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Do not claim tests passed.
 - This is an independent code-safety task; it does not resolve the hosted-runner admission blocker or Stage 1/P0 acceptance. No merge, rebase, retarget, workflow retry/dispatch, live media processing, upload, publishing, or deployment.
+
+
+### Latest independent continuation — ARO-CHAT-0420 (2026-11-27)
+- Park the hosted-runner admission blocker; do not retry/dispatch workflows merely to create activity.
+- New child branch: `workstream/aro-chat-0420-bound-clock-numeric-overflow-2026-11-27`, based on PR #433 exact head `c9181d8812be9597a98a0c852e94834515463251`; preserve PR #433 and all parent ancestry.
+- Clock calibration now converts oversized-integer `math.isfinite` overflow into the documented invalid-number `ValueError` path for media positions and both tolerance parameters.
+- Production commit `19637b97ab30fce4a9cd8c10b078da9f72cc5f5a`; regression tests commit `c32250d2a4977565841cf4e8296294b637a0d094`.
+- Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Keep PR draft/open/unmerged. No merge, rebase, retarget, media processing, upload, publishing, or deployment.
+
+
+#### ARO-CHAT-0420 CI follow-up
+- Exact code/test head `c32250d2a4977565841cf4e8296294b637a0d094` received Python CI run `45998706927`, conclusion `startup_failure`; workflow job listing returned zero jobs. No test steps are evidenced; classify as `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`, root cause UNKNOWN. No retry/dispatch was issued.

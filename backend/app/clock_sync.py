@@ -14,6 +14,14 @@ from typing import Iterable
 from .models import parse_datetime
 
 
+def _is_finite_number(value: int | float) -> bool:
+    """Return False for numeric values too large for math.isfinite to convert."""
+    try:
+        return math.isfinite(value)
+    except OverflowError:
+        return False
+
+
 @dataclass(frozen=True)
 class ClockAnchor:
     """One manually verified pair of chat time and local-media position."""
@@ -31,7 +39,7 @@ class ClockAnchor:
         object.__setattr__(self, "chat_time", parse_datetime(self.chat_time).astimezone(timezone.utc))
         if isinstance(self.media_seconds, bool) or not isinstance(self.media_seconds, (int, float)):
             raise ValueError("media_seconds must be a finite number")
-        if not math.isfinite(self.media_seconds) or self.media_seconds < 0:
+        if not _is_finite_number(self.media_seconds) or self.media_seconds < 0:
             raise ValueError("media_seconds must be a finite non-negative number")
         object.__setattr__(self, "media_seconds", float(self.media_seconds))
 
@@ -74,14 +82,14 @@ def fit_clock_sync(
     if (
         isinstance(max_residual_seconds, bool)
         or not isinstance(max_residual_seconds, (int, float))
-        or not math.isfinite(max_residual_seconds)
+        or not _is_finite_number(max_residual_seconds)
         or max_residual_seconds <= 0
     ):
         raise ValueError("max_residual_seconds must be a positive finite number")
     if (
         isinstance(max_drift_ppm, bool)
         or not isinstance(max_drift_ppm, (int, float))
-        or not math.isfinite(max_drift_ppm)
+        or not _is_finite_number(max_drift_ppm)
         or max_drift_ppm <= 0
     ):
         raise ValueError("max_drift_ppm must be a positive finite number")

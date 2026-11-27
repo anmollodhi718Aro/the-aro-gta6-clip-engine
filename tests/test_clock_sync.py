@@ -91,6 +91,18 @@ class ClockSyncTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "max_drift_ppm"):
             fit_clock_sync(self.anchors(), max_drift_ppm=0)
 
+    def test_rejects_integer_media_position_too_large_for_float(self):
+        with self.assertRaisesRegex(ValueError, "media_seconds must be a finite"):
+            ClockAnchor("stream-1", self.origin, 10**10000)
+
+    def test_rejects_integer_residual_limit_too_large_for_float(self):
+        with self.assertRaisesRegex(ValueError, "max_residual_seconds"):
+            fit_clock_sync(self.anchors(), max_residual_seconds=10**10000)
+
+    def test_rejects_integer_drift_limit_too_large_for_float(self):
+        with self.assertRaisesRegex(ValueError, "max_drift_ppm"):
+            fit_clock_sync(self.anchors(), max_drift_ppm=10**10000)
+
 
 if __name__ == "__main__":
     unittest.main()
