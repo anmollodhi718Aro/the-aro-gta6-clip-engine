@@ -15,6 +15,17 @@ class ClipPackTests(unittest.TestCase):
     def setUp(self) -> None:
         self.origin = datetime(2026, 11, 19, 12, 0, 0, tzinfo=timezone.utc)
 
+    def test_clock_anchor_home_expansion_failure_is_reported_as_oserror(self) -> None:
+        from unittest.mock import patch
+
+        with patch.object(
+            Path,
+            "expanduser",
+            side_effect=RuntimeError("home directory unavailable"),
+        ):
+            with self.assertRaisesRegex(OSError, "cannot resolve clock-anchor file path"):
+                load_clock_sync("~/clock_anchors.json")
+
     def candidate(self, start: int = 30, end: int = 60) -> dict:
         return {
             "source_id": "authorized-demo",
