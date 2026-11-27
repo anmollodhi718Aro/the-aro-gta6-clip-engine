@@ -3828,3 +3828,14 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production and test changes are isolated to clip-pack staging. No media processing, upload, publishing, OAuth, credential, or deployment behavior changed.
 - Validation status: GitHub read-back pending; local tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Keep draft/unmerged. No merge, rebase, retarget, workflow retry/dispatch, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0419 — Contain clip-pack output-directory expansion errors (2026-11-27)
+- Selected as independent work after parking the hosted-runner startup blocker. PR #428 exact-head run `45997014215` concluded `startup_failure`; no job-step test execution is evidenced. PR #428 has no submitted reviews or inline review threads. No retry/dispatch was issued.
+- Branch: `workstream/aro-chat-0419-contain-output-dir-expansion-errors-2026-11-27`; parent/base: PR #428 head `eb56d07d6f57e81bce9781838ac03edd00d86bc8`. PR #428 and all prior ancestry remain untouched.
+- Static review found `write_clip_pack()` called `Path(output_dir).expanduser()` without containing `RuntimeError`. If Python cannot resolve the home directory, the CLI's existing controlled error boundary would be bypassed and the command could terminate with an uncaught exception.
+- Convert this specific expansion failure to an actionable `OSError`, preserving the original exception as its cause; the CLI already handles `OSError` with exit status 2.
+- Added a regression test injecting a home-directory expansion failure and asserting the controlled error contract. No filesystem writes are performed by this test.
+- Production commit: `111a6bdb7f537404002d1e2f2c63ef259f1bfb98`; regression-test commit: `7f97afdb31eca2e186f59fd2412cce1911298672`.
+- Local tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Draft-only work. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, real-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
