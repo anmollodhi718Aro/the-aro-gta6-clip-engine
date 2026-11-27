@@ -207,6 +207,18 @@ class ClipPackTests(unittest.TestCase):
             self.assertEqual(markdown_path.read_text(encoding="utf-8"), "another run owns this file")
 
 
+    def test_output_dir_home_expansion_failure_is_reported_as_oserror(self) -> None:
+        rows = map_candidates_to_media([self.candidate()], self.origin)
+        from unittest.mock import patch
+
+        with patch.object(
+            Path,
+            "expanduser",
+            side_effect=RuntimeError("home directory unavailable"),
+        ):
+            with self.assertRaisesRegex(OSError, "cannot resolve clip-pack output directory"):
+                write_clip_pack(rows, "~/clip_pack")
+
     def test_staging_fsync_failure_removes_created_temporary_file(self) -> None:
         rows = map_candidates_to_media([self.candidate()], self.origin)
         with tempfile.TemporaryDirectory() as folder:
