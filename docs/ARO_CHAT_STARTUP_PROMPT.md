@@ -2159,3 +2159,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Regression test covers partial publication, preservation of the pre-existing collision target, and no unlink of the first output.
 - Read back production, test, registry, and startup files from GitHub before claiming implementation complete. Tests have NOT RUN; do not claim TESTED or CI_VERIFIED. Do not retry the hosted-runner blocker just to create activity.
 - Keep the new PR draft/open/unmerged and preserve PR #414 ancestry. No merge, rebase, retarget, deployment, real-media processing, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation — clip-pack staging cleanup diagnostics (ARO-CHAT-0419, 2026-11-27)
+- Suggested chat title: ARO-CHAT-0419 | Report Clip-Pack Staging Cleanup Failures.
+- Workstream: ARO-GTA-P0-419; branch `workstream/aro-chat-0419-report-staging-cleanup-failures-2026-11-27`, based on `workstream/aro-chat-0416-safe-clip-pack-rollback-2026-11-27` at starting SHA `3a62a5dfe63582214ccff1e1bf4651d6311467b3`.
+- Fixed cleanup to attempt every staged temporary file and preserve the primary publication error when cleanup also fails. Added regressions for multiple cleanup attempts and primary-error preservation.
+- Keep PR draft/open/unmerged. Unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Do not claim tests passed.
+- This is an independent code-safety task; it does not resolve the hosted-runner admission blocker or Stage 1/P0 acceptance. No merge, rebase, retarget, workflow retry/dispatch, live media processing, upload, publishing, or deployment.
