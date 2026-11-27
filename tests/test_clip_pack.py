@@ -271,5 +271,31 @@ class ClipPackTests(unittest.TestCase):
             self.assertEqual(markdown_path.read_text(encoding="utf-8"), "another run owns this file")
 
 
+    def test_cleanup_diagnostic_survives_broken_exception_string(self) -> None:
+        from backend.app.clip_pack import _write_texts_no_overwrite
+        from unittest.mock import patch
+
+        class BrokenStringOSError(OSError):
+            def __str__(self) -> str:
+                raise RuntimeError("broken exception formatter")
+
+        with tempfile.TemporaryDirectory() as folder:
+            target = Path(folder) / "result.txt"
+
+            def fail_cleanup(path, *args, **kwargs):
+                if path.name.startswith(".result.txt.") and path.name.endswith(".tmp"):
+                    raise BrokenStringOSError("hidden cleanup detail")
+                return Path.unlink(path, *args, **kwargs)
+
+            with patch.object(Path, "unlink", new=fail_cleanup):
+                with self.assertRaisesRegex(OSError, "staging cleanup failed") as caught:
+                    _write_texts_no_overwrite({target: "published"})
+
+            self.assertTrue(target.exists())
+            self.assertEqual(target.read_text(encoding="utf-8"), "published")
+            self.assertIsInstance(caught.exception.__cause__, BrokenStringOSError)
+            self.assertIn("BrokenStringOSError", str(caught.exception))
+
+
 if __name__ == "__main__":
     unittest.main()
