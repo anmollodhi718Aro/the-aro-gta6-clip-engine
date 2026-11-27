@@ -3808,3 +3808,13 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: `e0199cee8a59d9611a550db0a4e37ea001dd27c0`; test commit: `fc762a72c65b990c66dcd57896ba8177e00b2389`.
 - GitHub writes succeeded. Local tests NOT RUN; exact-head CI NOT YET AVAILABLE; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - PR #414 remains OPEN / DRAFT / UNMERGED. This workstream branch has not been merged or deployed. No OAuth, credentials, live media, upload, publishing, or deployment actions were performed. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0416 — Keep invalid source-hash reports JSON-serializable (2026-11-27)
+- Parked the hosted-runner admission and authorized-real-media blockers; selected an independent renderer-report robustness task.
+- Static review found that an invalid non-string `expected_source_sha256` value was correctly rejected but copied unchanged into the failure report. A direct API caller passing an unsupported object could therefore receive a report that `json.dumps` cannot serialize.
+- Changed the invalid-hash failure report to preserve the rejected value only when it is a string; unsupported object types are represented as `null`. Validation remains fail-closed and no source/media processing starts.
+- Added a regression test using an object whose `__str__` raises; the test asserts FAIL, null hash echo, no processing, and JSON serialization.
+- Production commit: `646d849a13e67f8c91eeff756c6387549cb86c4c`; test commit: `3e4f39e8aac1952b568ba0b48c41f17ecb64c862`.
+- GitHub write responses succeeded. Exact-head read-back and hosted CI are pending; local unit tests NOT RUN. Synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Draft-only workstream. No merge, rebase, retarget, workflow retry/dispatch, real-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
