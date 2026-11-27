@@ -188,8 +188,32 @@ def _write_texts_no_overwrite(files: dict[Path, str]) -> None:
             ) from exc
         raise
     finally:
+        cleanup_errors: list[tuple[Path, OSError]] = []
+        active_error = sys.exc_info()[1]
         for temporary, _ in staged:
-            temporary.unlink(missing_ok=True)
+            try:
+                temporary.unlink(missing_ok=True)
+            except OSError as cleanup_error:
+                # Attempt every cleanup even if one staging file is locked or
+                # otherwise unavailable. Never replace the primary publication
+                # error with a secondary cleanup failure.
+                cleanup_errors.append((temporary, cleanup_error))
+        if cleanup_errors:
+            detail = "; ".join(
+                f"{path}: {error}" for path, error in cleanup_errors
+            )
+            message = f"clip-pack staging cleanup failed: {detail}"
+            if active_error is None:
+                raise OSError(message) from cleanup_errors[0][1]
+            if hasattr(active_error, "add_note"):
+                active_error.add_note(message)
+            else:
+                # Python versions without BaseException.add_note still retain
+                # the cleanup diagnostics for callers inspecting the exception.
+                try:
+                    setattr(active_error, "staging_cleanup_errors", tuple(cleanup_errors))
+                except Exception:
+                    pass
 
 
 def write_clip_pack(rows: list[dict[str, Any]], output_dir: str | Path) -> tuple[Path, Path]:
