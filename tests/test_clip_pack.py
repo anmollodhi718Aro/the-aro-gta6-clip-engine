@@ -179,15 +179,31 @@ class ClipPackTests(unittest.TestCase):
             self.assertEqual(markdown_path.read_text(encoding="utf-8"), "owner-reviewed-markdown")
 
 
-    def test_partial_publish_collision_rolls_back_only_new_output(self) -> None:
+    def test_partial_publish_collision_preserves_outputs_without_racy_unlink(self) -> None:
         rows = map_candidates_to_media([self.candidate()], self.origin)
         with tempfile.TemporaryDirectory() as folder:
             markdown_path = Path(folder) / "clip_candidates.md"
             markdown_path.write_text("another run owns this file", encoding="utf-8")
             csv_path = Path(folder) / "clip_candidates.csv"
-            with self.assertRaises(FileExistsError):
-                write_clip_pack(rows, folder)
-            self.assertFalse(csv_path.exists())
+            real_unlink = Path.unlink
+            unlink_targets = []
+
+            def record_unlink(path, *args, **kwargs):
+                if path == csv_path:
+                    unlink_targets.append(path)
+                return real_unlink(path, *args, **kwargs)
+
+            from unittest.mock import patch
+            with patch.object(Path, "unlink", new=record_unlink):
+                with self.assertRaisesRegex(OSError, "already-published output"):
+                    write_clip_pack(rows, folder)
+
+            # The first output remains available for owner inspection. The
+            # collision target is untouched, and rollback never unlinks by
+            # pathname after a separate identity check.
+            self.assertTrue(csv_path.exists())
+            self.assertIn("authorized-demo", csv_path.read_text(encoding="utf-8"))
+            self.assertEqual(unlink_targets, [])
             self.assertEqual(markdown_path.read_text(encoding="utf-8"), "another run owns this file")
 
 
