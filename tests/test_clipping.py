@@ -188,6 +188,10 @@ class ClipRenderTests(unittest.TestCase):
             self.assertIsInstance(args[0], list)
             self.assertTrue(kwargs["check"])
             self.assertEqual(args[0][args[0].index("-t") + 1], "3.000")
+            video_filter = args[0][args[0].index("-vf") + 1]
+            self.assertIn("scale=1080:1920:force_original_aspect_ratio=decrease", video_filter)
+            self.assertIn("pad=1080:1920", video_filter)
+            self.assertIn("setsar=1", video_filter)
             self.assertNotIn("shell", kwargs)
             self.assertEqual(kwargs["timeout"], 180)
             self.assertFalse(list(Path(folder).glob(".clip-*")))
