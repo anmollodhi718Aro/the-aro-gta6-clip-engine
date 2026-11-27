@@ -2168,3 +2168,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Production and test changes are isolated to clip-pack staging. No media processing, upload, publishing, OAuth, credential, or deployment behavior changed.
 - Validation status: GitHub read-back pending; local tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - Keep draft/unmerged. No merge, rebase, retarget, workflow retry/dispatch, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### Latest continuation handoff — ARO-CHAT-0419 (2026-11-27)
+- Active task: contain `Path.expanduser()` RuntimeError for the clip-pack output directory on `workstream/aro-chat-0419-contain-output-dir-expansion-errors-2026-11-27`, based on PR #428 head `eb56d07d6f57e81bce9781838ac03edd00d86bc8`.
+- `write_clip_pack()` now converts an unavailable-home expansion RuntimeError into an actionable OSError; the CLI's existing handler reports it as a controlled failure (exit status 2).
+- Added regression coverage using an injected expansion failure; the test does not create or modify output files.
+- PR #428 hosted-runner startup blocker is parked: exact-head run `45997014215` reported `startup_failure`, with no test-step execution evidence. No retry/dispatch was issued.
+- Read back production, test, registry, and startup files before claiming implementation complete. Local tests and exact-head CI are NOT VERIFIED; synthetic FFmpeg E2E, independent review, owner-device Windows, and authorized GTA VI MP4 processing remain NOT VERIFIED / NOT RUN.
+- Keep draft/open/unmerged and preserve all parent PR ancestry. No merge, rebase, retarget, deployment, real-media processing, upload, or publishing. Stage 1/P0 remains INCOMPLETE.
