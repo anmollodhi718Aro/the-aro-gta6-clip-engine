@@ -47,6 +47,11 @@ def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, 
         raise ValueError("candidate CSV path must be a non-empty string or pathlib.Path")
     try:
         path = Path(csv_path).expanduser()
+        # A NUL in the filesystem path is not valid on supported platforms.
+        # Reject it explicitly before open(), which otherwise raises a raw
+        # ValueError outside the normal candidate-file read-error boundary.
+        if "\\x00" in str(path):
+            raise ValueError("candidate CSV path must not contain NUL characters")
         # Accept an optional UTF-8 BOM from spreadsheet exports while keeping
         # the generated clip-pack CSV format unchanged.
         with path.open("r", encoding="utf-8-sig", newline="") as handle:
