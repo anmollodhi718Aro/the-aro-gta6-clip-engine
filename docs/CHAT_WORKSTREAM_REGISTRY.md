@@ -3780,3 +3780,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Exact-head Actions run `45966477418` completed with `startup_failure`; workflow-run job listing returned no job records. No compile, unit-test, or FFmpeg smoke execution is evidenced. Hosted runner/account allocation remains an owner-side blocker; no source-code test failure is established.
 - Local Python unit tests and synthetic FFmpeg E2E remain NOT RUN in this session. Actual authorized GTA VI media processing remains NOT RUN. Stage 1/P0 remains INCOMPLETE.
 - No merge, upload, publishing, or deployment.
+
+
+### ARO-CHAT-0413 — Establish repository-wide AI coding governance (2026-11-27)
+- Added `docs/ARO_AI_CODING_POLICY.md` as the canonical policy for all AI-assisted and human coding work in this repository. It formalizes the owner's continuation workflow, evidence-only reporting, test requirements, media rights, human review, approval boundaries, branch/PR preservation, and Stage 1/P0 acceptance gates.
+- Added root `AGENTS.md` as the repository-wide AI-agent discovery file. It directs coding agents to load the canonical policy, startup prompt, and latest registry before work.
+- Updated `docs/ARO_CHAT_STARTUP_PROMPT.md` to require the policy at every new AI engineering session.
+- Policy and startup files were read back from the active PR branch after creation. No tests were run because this workstream changes documentation/instructions only.
+- External AI products that do not load repository instructions cannot be technically forced by a GitHub file; the owner must provide the session-start instruction to those tools. No merge, deployment, upload, publication, or branch retargeting.
+- Existing PR #414 remains OPEN / DRAFT / UNMERGED. Stage 1/P0 remains INCOMPLETE pending real validation and authorized media E2E.
