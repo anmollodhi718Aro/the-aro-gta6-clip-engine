@@ -3770,3 +3770,13 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: `825e9bcdb2f9cb1b8f55f4650aa49ef4a9bdbd62`; test commit: `b9fe5976b1371300140a72405dbebaf410131430`; smoke-test commit: `7ae43dcd61931d09ccb47d6b3ca4023ca7961530`.
 - Documentation entry records this reconciliation. Tests and FFmpeg smoke have NOT RUN in this session; GitHub Actions runner execution, independent review, owner-device Windows validation, and authorized GTA VI MP4 processing remain NOT VERIFIED.
 - No merge, rebase, retarget, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0411 — Enforce exact portrait output at production validation (2026-11-27)
+- Continued PR #414 on its existing branch; no base/branch retargeting or merge.
+- Production renderer's final MP4/H.264 validation previously required positive dimensions but accepted landscape or lower-resolution outputs. Tightened the production gate to require every reported video stream to be exactly 1080x1920.
+- Updated renderer regression fixtures to use the promised 1080x1920 output and added explicit rejection tests for 1920x1080 landscape and 720x1280 portrait outputs.
+- Production commit: `2e3d8cc7d11f09347805eb5999b2eceae91f002e`; test commit: `5dab4ae1fae48793003c9de49c91cdd57bb3c45b`. Both files were read back from the PR branch.
+- Exact-head Actions run `45966477418` completed with `startup_failure`; workflow-run job listing returned no job records. No compile, unit-test, or FFmpeg smoke execution is evidenced. Hosted runner/account allocation remains an owner-side blocker; no source-code test failure is established.
+- Local Python unit tests and synthetic FFmpeg E2E remain NOT RUN in this session. Actual authorized GTA VI media processing remains NOT RUN. Stage 1/P0 remains INCOMPLETE.
+- No merge, upload, publishing, or deployment.
