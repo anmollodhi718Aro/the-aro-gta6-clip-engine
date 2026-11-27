@@ -2277,6 +2277,14 @@ class SingleClipRenderTests(unittest.TestCase):
                 ):
                     load_selected_candidate(invalid_path, 1)
 
+    def test_candidate_csv_rejects_nul_path_before_open(self):
+        for invalid_path in ("candidates\\x00.csv", Path("candidates\\x00.csv")):
+            with self.subTest(path_type=type(invalid_path).__name__):
+                with self.assertRaisesRegex(
+                    ValueError, "candidate CSV path must not contain NUL characters"
+                ):
+                    load_selected_candidate(invalid_path, 1)
+
     def test_candidate_csv_rejects_blank_path_strings(self):
         for invalid_path in ("", "   ", "\t"):
             with self.subTest(invalid_path=repr(invalid_path)):
