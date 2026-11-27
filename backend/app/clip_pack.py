@@ -165,10 +165,13 @@ def _write_texts_no_overwrite(files: dict[Path, str]) -> None:
                 prefix=f".{target.name}.", suffix=".tmp", delete=False,
             ) as handle:
                 temporary = Path(handle.name)
+                # Track the path immediately: write, flush, or fsync may fail
+                # before the staging context exits, and cleanup must still
+                # remove the temporary file created by NamedTemporaryFile.
+                staged.append((temporary, target))
                 handle.write(content)
                 handle.flush()
                 os.fsync(handle.fileno())
-            staged.append((temporary, target))
 
         for temporary, target in staged:
             os.link(temporary, target)
