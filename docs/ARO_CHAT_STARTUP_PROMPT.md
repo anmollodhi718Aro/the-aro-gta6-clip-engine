@@ -2166,3 +2166,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Initial production/test commits: `9c17e0b7304c457499cbbad5988a40ddc7604d9e` / `ceaa52466f35e97ad3c53cfa01a4428cd39bc0f2`; final corrected NUL literals: `99b530260185e2ea3fd73b6e42f49977870ad188` / `cb035a2b6934c2ee58d3af13037fb16f338e2225`; corrected both string and `Path` test fixtures in `183a16e4e201c267cfe89ca0641a42e700e0784c`; registry handoff recorded on this branch.
 - Unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
 - Keep draft-only and preserve PR #416 ancestry. No merge, rebase, retarget, upload, publishing, or deployment.
+
+
+### Latest continuation — reconcile non-destructive clip-pack recovery (ARO-CHAT-0418, 2026-11-27)
+- New isolated child branch: `workstream/aro-chat-0418-reconcile-safe-clip-pack-rollback-2026-11-27`, based on PR #420 branch `workstream/aro-chat-0417-reject-nul-candidate-path-2026-11-27` at exact starting SHA `46558260acee462b1bc32e114bad43d1ef49e2ac`. PR #420 and all prior branches/ancestry remain untouched.
+- Static review found the PR #420 ancestry still used a path-based `samefile()` check followed by `unlink()` during partial clip-pack publication rollback. A concurrent replacement between those operations could cause an unrelated destination file to be deleted. The same fix had landed on parallel PR #417, but was absent from this PR #420 ancestry.
+- Reconciled the safe behavior here: when a later output collides, preserve already-published outputs, clean only temporary staging files, and raise an actionable `OSError` naming the preserved paths. Added a regression asserting the first output remains available, the pre-existing collision file is unchanged, and no unlink is attempted on the published destination.
+- Production commit: `7143b1acf245ae9aeb94aee897672a6d09bf2de3`; test commit: `27a595c043806c64cb8ebeb4c9b74269ceabe783`.
+- GitHub writes succeeded. Local tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
+- Draft-only. No merge, rebase, retarget, force-push, workflow retry/dispatch, OAuth, credentials, real-media processing, upload, publishing, or deployment. Preserve PR #417 and PR #420 unchanged.
