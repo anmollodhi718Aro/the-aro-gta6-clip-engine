@@ -3808,3 +3808,6 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: `e0199cee8a59d9611a550db0a4e37ea001dd27c0`; test commit: `fc762a72c65b990c66dcd57896ba8177e00b2389`.
 - GitHub writes succeeded. Local tests NOT RUN; exact-head CI NOT YET AVAILABLE; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - PR #414 remains OPEN / DRAFT / UNMERGED. This workstream branch has not been merged or deployed. No OAuth, credentials, live media, upload, publishing, or deployment actions were performed. Stage 1/P0 remains INCOMPLETE.
+
+
+- Regression-test completeness follow-up (2026-11-27): expanded the unsafe-`__str__` path-report test to assert both report labels for each invalid-path branch and the combined case where both path arguments are unprintable. This verifies that neither report field can re-trigger the original formatting exception. Local tests NOT RUN; exact-head CI pending.
