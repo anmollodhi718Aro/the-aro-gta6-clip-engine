@@ -36,6 +36,7 @@ def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe"
         "duration_seconds": None,
         "format_name": None,
         "video_streams": [],
+        "audio_streams": [],
         "error": None,
         "processing_started": False,
         "upload_performed": False,
@@ -69,7 +70,7 @@ def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe"
 
         command = [
             ffprobe_binary, "-v", "error", "-show_entries",
-            "format=duration,format_name:stream=codec_type,codec_name,width,height",
+            "format=duration,format_name:stream=codec_type,codec_name,width,height,channels,sample_rate",
             "-of", "json", str(path),
         ]
         try:
@@ -161,6 +162,14 @@ def inspect_one_video(video_path: str | Path, *, ffprobe_binary: str = "ffprobe"
                     "height": stream.get("height"),
                 }
                 for stream in video_streams
+            ],
+            "audio_streams": [
+                {
+                    "codec": stream.get("codec_name"),
+                    "channels": stream.get("channels"),
+                    "sample_rate": stream.get("sample_rate"),
+                }
+                for stream in streams if stream.get("codec_type") == "audio"
             ],
         })
     except (OSError, ValueError, RuntimeError) as exc:
