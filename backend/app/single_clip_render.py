@@ -884,7 +884,9 @@ def render_selected_clip(
             "source_identity_verified": False,
             "source_snapshot_verified": False,
             "source_snapshot_created": False,
-            "expected_source_sha256": expected_source_sha256,
+            "expected_source_sha256": (
+                expected_source_sha256 if isinstance(expected_source_sha256, str) else None
+            ),
             "source_sha256": None,
             "upload_performed": False,
             "publishing_enabled": False,
