@@ -3838,4 +3838,5 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Added a regression test injecting a home-directory expansion failure and asserting the controlled error contract. No filesystem writes are performed by this test.
 - Production commit: `111a6bdb7f537404002d1e2f2c63ef259f1bfb98`; regression-test commit: `7f97afdb31eca2e186f59fd2412cce1911298672`.
 - Local tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Post-creation exact-head CI run `45997460428` concluded `startup_failure`; workflow job listing returned zero jobs. No compile, unit-test, or FFmpeg smoke step execution is evidenced. This is a runner/startup blocker, not a test pass or a demonstrated code-test failure. No retry/dispatch was issued.
 - Draft-only work. No merge, rebase, retarget, workflow retry/dispatch, OAuth, credentials, real-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
