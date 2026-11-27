@@ -207,5 +207,23 @@ class ClipPackTests(unittest.TestCase):
             self.assertEqual(markdown_path.read_text(encoding="utf-8"), "another run owns this file")
 
 
+    def test_staging_fsync_failure_removes_created_temporary_file(self) -> None:
+        rows = map_candidates_to_media([self.candidate()], self.origin)
+        with tempfile.TemporaryDirectory() as folder:
+            from unittest.mock import patch
+
+            with patch(
+                "backend.app.clip_pack.os.fsync",
+                side_effect=OSError("simulated staging fsync failure"),
+            ):
+                with self.assertRaisesRegex(OSError, "simulated staging fsync failure"):
+                    write_clip_pack(rows, folder)
+
+            self.assertEqual(list(Path(folder).glob(".*.tmp")), [])
+            self.assertFalse((Path(folder) / "clip_candidates.csv").exists())
+            self.assertFalse((Path(folder) / "clip_candidates.md").exists())
+
+
+
 if __name__ == "__main__":
     unittest.main()
