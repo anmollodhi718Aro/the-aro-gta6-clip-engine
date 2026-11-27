@@ -2166,3 +2166,11 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Initial production/test commits: `9c17e0b7304c457499cbbad5988a40ddc7604d9e` / `ceaa52466f35e97ad3c53cfa01a4428cd39bc0f2`; final corrected NUL literals: `99b530260185e2ea3fd73b6e42f49977870ad188` / `cb035a2b6934c2ee58d3af13037fb16f338e2225`; corrected both string and `Path` test fixtures in `183a16e4e201c267cfe89ca0641a42e700e0784c`; registry handoff recorded on this branch.
 - Unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
 - Keep draft-only and preserve PR #416 ancestry. No merge, rebase, retarget, upload, publishing, or deployment.
+
+
+## Latest workstream handoff — ARO-CHAT-0418 (2026-11-27)
+- Current branch: `workstream/aro-chat-0418-preserve-plan-source-id-type-2026-11-27`.
+- Task: preserve the JSON type of plan-level `source_id` at the clip-pack CLI boundary; do not coerce malformed values with `str()`.
+- Production commit: `597a5c1f3d9f5b2ffa92b6e5ea6d871cff27502a`; regression-test commit: `63cb18f01948e6c56734f9cdd81ad54cbef6d99f`.
+- Local tests have NOT RUN. Exact-head CI, synthetic FFmpeg E2E, independent review, owner-device Windows, and authorized GTA VI media E2E remain NOT VERIFIED.
+- Keep all PRs draft/unmerged and preserve ancestry. No OAuth, credential changes, real-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
