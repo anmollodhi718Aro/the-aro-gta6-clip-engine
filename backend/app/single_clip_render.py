@@ -47,9 +47,15 @@ def load_selected_candidate(csv_path: str | Path, row_number: int) -> dict[str, 
         raise ValueError("candidate CSV path must be a non-empty string or pathlib.Path")
     try:
         path = Path(csv_path).expanduser()
+        # Keep path-opening ValueError failures (for example, an embedded NUL)
+        # inside the public validation boundary without masking CSV/schema errors.
+        try:
+            handle_context = path.open("r", encoding="utf-8-sig", newline="")
+        except ValueError as exc:
+            raise ValueError(f"candidate CSV path could not be opened: {exc}") from exc
         # Accept an optional UTF-8 BOM from spreadsheet exports while keeping
         # the generated clip-pack CSV format unchanged.
-        with path.open("r", encoding="utf-8-sig", newline="") as handle:
+        with handle_context as handle:
             # DictReader is permissive by default: malformed quoting may be
             # accepted, extra cells are stored under the None key, and short
             # rows silently receive None values. Make all three conditions
