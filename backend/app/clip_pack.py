@@ -246,6 +246,10 @@ def main() -> int:
         payload = json.loads(args.plan.read_text(encoding="utf-8"))
         if not isinstance(payload, dict) or not isinstance(payload.get("candidates"), list):
             raise ValueError("plan must be an object containing a candidates array")
+        # Preserve the JSON value type. Coercing arbitrary values with str()
+        # could turn a malformed numeric/object source ID into a trusted-looking
+        # identifier and bypass map_candidates_to_media() validation.
+        plan_source_id = payload.get("source_id")
         if args.clock_anchors_json:
             sync = load_clock_sync(
                 args.clock_anchors_json,
@@ -254,12 +258,12 @@ def main() -> int:
             )
             rows = map_candidates_to_media(
                 payload["candidates"], clock_sync=sync,
-                source_id=str(payload.get("source_id") or ""),
+                source_id=plan_source_id,
             )
         else:
             rows = map_candidates_to_media(
                 payload["candidates"], args.media_origin_utc,
-                source_id=str(payload.get("source_id") or ""),
+                source_id=plan_source_id,
             )
         csv_path, markdown_path = write_clip_pack(rows, args.output_dir)
         ready = sum(1 for row in rows if row["renderable"])
