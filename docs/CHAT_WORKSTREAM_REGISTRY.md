@@ -3798,3 +3798,13 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - No new reproducible source defect was established from the inspected code. No speculative code change was made merely to create a commit. No local tests were run in this session; no test PASS is claimed.
 - Latest exact-head Python CI run `45990955002` concluded `startup_failure`; workflow job listing returned zero jobs. No test steps executed. The available evidence still does not identify the root cause. Workflow dispatch is not exposed by the available GitHub connector actions; no unsupported dispatch was claimed.
 - Next P0 blocker remains hosted-runner admission plus obtaining an explicitly authorized GTA VI MP4 for real end-to-end validation. Stage 1/P0 remains INCOMPLETE. No merge, rebase, retarget, upload, publication, or deployment.
+
+
+### ARO-CHAT-0415 — Make invalid renderer path reporting exception-safe (2026-11-27)
+- Continued from PR #414 exact head `54377c71b45d249543c682dc441367d944b01a72` on a new isolated branch `workstream/aro-chat-0415-safe-render-input-labels-2026-11-27`; PR #414 and its ancestry were not modified.
+- Static review found that `render_selected_clip` validated unsupported path argument types, but then called `str()` on those untrusted values while building its FAIL report. An object with a raising `__str__` could therefore escape the controlled validation path and raise instead of returning a fail-closed report.
+- Added `_safe_path_report_label`, which catches formatting exceptions and uses the fixed `<unavailable>` label; both invalid-video and invalid-output report paths use it.
+- Added a regression test using an object whose `__str__` raises, covering invalid video and output arguments and asserting FAIL with no processing started.
+- Production commit: `e0199cee8a59d9611a550db0a4e37ea001dd27c0`; test commit: `fc762a72c65b990c66dcd57896ba8177e00b2389`.
+- GitHub writes succeeded. Local tests NOT RUN; exact-head CI NOT YET AVAILABLE; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- PR #414 remains OPEN / DRAFT / UNMERGED. This workstream branch has not been merged or deployed. No OAuth, credentials, live media, upload, publishing, or deployment actions were performed. Stage 1/P0 remains INCOMPLETE.
