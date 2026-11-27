@@ -173,7 +173,8 @@ class ClipPackTests(unittest.TestCase):
             ]), patch("sys.stderr") as stderr:
                 result = main()
             self.assertEqual(result, 2)
-            self.assertIn("plan source_id must be a non-empty string", str(stderr.write.call_args))
+            stderr_text = "".join(call.args[0] for call in stderr.write.call_args_list)
+            self.assertIn("plan source_id must be a non-empty string", stderr_text)
             self.assertFalse(output_dir.exists())
 
     def test_writes_csv_and_markdown_review_files(self) -> None:
