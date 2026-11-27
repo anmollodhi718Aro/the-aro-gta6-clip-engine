@@ -2175,3 +2175,7 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Clock calibration now converts oversized-integer `math.isfinite` overflow into the documented invalid-number `ValueError` path for media positions and both tolerance parameters.
 - Production commit `19637b97ab30fce4a9cd8c10b078da9f72cc5f5a`; regression tests commit `c32250d2a4977565841cf4e8296294b637a0d094`.
 - Repository tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Keep PR draft/open/unmerged. No merge, rebase, retarget, media processing, upload, publishing, or deployment.
+
+
+#### ARO-CHAT-0420 CI follow-up
+- Exact code/test head `c32250d2a4977565841cf4e8296294b637a0d094` received Python CI run `45998706927`, conclusion `startup_failure`; workflow job listing returned zero jobs. No test steps are evidenced; classify as `CI_FAILURE / EXECUTION_NOT_ESTABLISHED`, root cause UNKNOWN. No retry/dispatch was issued.
