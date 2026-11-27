@@ -2175,3 +2175,5 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Production commit: `c95a7bbaeec1f2135d6d3bc821e6d75a2f363e41`; test commit: `1c233098e57602b22ae3d7b54d65fa2f61a11946`.
 - Local tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
 - PR remains draft-only/unmerged; no merge, retarget, rebase, upload, publication, or deployment.
+
+- Test-harness correction: capture all writes to the mocked stderr stream rather than inspecting only the final `print()` write call. Test commit: `25e73f1df7ba08ebaf6a9762707a4f802336390e`. This is a test assertion correction, not a test execution result.
