@@ -3798,3 +3798,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - No new reproducible source defect was established from the inspected code. No speculative code change was made merely to create a commit. No local tests were run in this session; no test PASS is claimed.
 - Latest exact-head Python CI run `45990955002` concluded `startup_failure`; workflow job listing returned zero jobs. No test steps executed. The available evidence still does not identify the root cause. Workflow dispatch is not exposed by the available GitHub connector actions; no unsupported dispatch was claimed.
 - Next P0 blocker remains hosted-runner admission plus obtaining an explicitly authorized GTA VI MP4 for real end-to-end validation. Stage 1/P0 remains INCOMPLETE. No merge, rebase, retarget, upload, publication, or deployment.
+
+
+### ARO-CHAT-0415 — Exact-head portrait renderer and runner-admission audit (2026-11-27)
+- Continued on existing PR #414 branch `workstream/aro-chat-0410-portrait-render-reconcile-2026-11-27`; inspected head `54377c71b45d249543c682dc441367d944b01a72`, base `workstream/aro-chat-0384-reject-nul-single-clip-candidate-csv-2026-11-26`. PR #414 remains OPEN / DRAFT / UNMERGED.
+- Re-read `AGENTS.md`, `docs/ARO_AI_CODING_POLICY.md`, `docs/ARO_CHAT_STARTUP_PROMPT.md`, and this registry before work.
+- Reviewed PR #414's changed production renderer, portrait validation, synthetic smoke check, regression tests, and runner-probe workflow. The current diff applies a full-frame 1080x1920 scale/pad filter, enforces exact 1080x1920 output in final validation, and independently probes synthetic output dimensions. No additional reproducible source defect was established; no speculative production patch was made.
+- Exact-head Python CI run `45991470270` concluded `startup_failure`; job listing returned zero jobs. This provides no compile, unit-test, or smoke-step execution evidence and does not identify the underlying runner-admission cause. The PR has zero submitted reviews and zero inline review threads.
+- Repository tests NOT RUN in this session; synthetic FFmpeg E2E NOT RUN; owner-device Windows validation NOT VERIFIED; independent review NOT RECORDED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
+- No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, live media processing, upload, publishing, or deployment. Preserve PR #414 and its existing base/ancestry.
