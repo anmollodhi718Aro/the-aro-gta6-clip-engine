@@ -173,13 +173,19 @@ def _write_texts_no_overwrite(files: dict[Path, str]) -> None:
         for temporary, target in staged:
             os.link(temporary, target)
             published.append((temporary, target))
-    except Exception:
-        for temporary, target in reversed(published):
-            try:
-                if target.exists() and os.path.samefile(temporary, target):
-                    target.unlink()
-            except OSError:
-                pass
+    except Exception as exc:
+        if published:
+            # A path-based samefile() check followed by unlink() is not an
+            # inode-conditional delete: another process can replace the
+            # destination between those calls and have its file deleted.
+            # Preserve already-published outputs and report their exact paths
+            # for manual reconciliation instead of risking unrelated data.
+            published_paths = ", ".join(str(target) for _, target in published)
+            raise OSError(
+                "clip-pack publication was incomplete; already-published "
+                f"output(s) were preserved for manual review: {published_paths}; "
+                f"original error: {exc}"
+            ) from exc
         raise
     finally:
         for temporary, _ in staged:
