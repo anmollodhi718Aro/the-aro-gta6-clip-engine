@@ -3808,3 +3808,12 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Production commit: `e0199cee8a59d9611a550db0a4e37ea001dd27c0`; test commit: `fc762a72c65b990c66dcd57896ba8177e00b2389`.
 - GitHub writes succeeded. Local tests NOT RUN; exact-head CI NOT YET AVAILABLE; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
 - PR #414 remains OPEN / DRAFT / UNMERGED. This workstream branch has not been merged or deployed. No OAuth, credentials, live media, upload, publishing, or deployment actions were performed. Stage 1/P0 remains INCOMPLETE.
+
+
+### ARO-CHAT-0417 — Reject NUL characters in candidate CSV paths (2026-11-27)
+- New isolated workstream branch: `workstream/aro-chat-0417-reject-nul-candidate-path-2026-11-27`, created from PR #416 exact head `7d73f33ee51519f16b8b987b0b3776606a8ed7cf`; PR #416 and earlier ancestry remain untouched.
+- Static review found that `load_selected_candidate` accepted a path string containing an embedded NUL through type/blank validation, then delegated it to `Path.open()`. Filesystem APIs reject that path with a raw `ValueError`, rather than the helper's explicit path-validation message.
+- Added explicit NUL-path rejection before filesystem access and regression coverage for both string and `Path` inputs. This is separate from the existing CSV-content NUL-byte guard.
+- Production commit: `9c17e0b7304c457499cbbad5988a40ddc7604d9e`; test commit: `ceaa52466f35e97ad3c53cfa01a4428cd39bc0f2`.
+- GitHub source writes succeeded. Exact-head source/test read-back and local execution remain pending. Unit tests NOT RUN; hosted CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Keep this workstream draft-only. No merge, rebase, retarget, force-push, OAuth, credentials, live-media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
