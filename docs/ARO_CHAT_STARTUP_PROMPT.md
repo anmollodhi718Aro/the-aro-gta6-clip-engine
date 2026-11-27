@@ -2150,3 +2150,12 @@ The test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canonically ARO-CH
 - Production commit: `cffcf865999dca0e64f7be777e9e913477c0b75a`; regression-test commit: `441649e60f7cca11cb4c03ac3dbdd0434378c254`.
 - Tests NOT RUN. Exact-head CI, synthetic FFmpeg E2E, independent review, owner-device Windows verification, and authorized GTA VI MP4 processing remain NOT VERIFIED. Stage 1/P0 remains INCOMPLETE.
 - Keep PR #412 and parent #386 OPEN / DRAFT / UNMERGED. No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, live media, upload, publishing, or deployment.
+
+
+## Latest continuation handoff — ARO-CHAT-0416 (2026-11-27)
+- Active independent task: make clip-pack partial-publication recovery non-destructive on workstream/aro-chat-0416-safe-clip-pack-rollback-2026-11-27, based on workstream/aro-chat-0410-portrait-render-reconcile-2026-11-27.
+- Production commit: 550f706e0d03447bbe6cf601f8fd871b4e0d6bd3; regression-test commit: aa5703da6ccfda035e39c2cba0176f0eec01122f.
+- _write_texts_no_overwrite() now preserves already-published artifacts after a later output collision and raises an actionable OSError naming those paths. It no longer uses a racy samefile() then unlink() rollback that could delete a replacement file.
+- Regression test covers partial publication, preservation of the pre-existing collision target, and no unlink of the first output.
+- Read back production, test, registry, and startup files from GitHub before claiming implementation complete. Tests have NOT RUN; do not claim TESTED or CI_VERIFIED. Do not retry the hosted-runner blocker just to create activity.
+- Keep the new PR draft/open/unmerged and preserve PR #414 ancestry. No merge, rebase, retarget, deployment, real-media processing, upload, or publishing. Stage 1/P0 remains INCOMPLETE.

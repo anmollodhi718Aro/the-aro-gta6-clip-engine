@@ -3807,3 +3807,15 @@ The CLI override test commit `40c96324a3bc5381527411c2dff7bf2699a21ee2` is canon
 - Exact-head Python CI run `45991470270` concluded `startup_failure`; job listing returned zero jobs. This provides no compile, unit-test, or smoke-step execution evidence and does not identify the underlying runner-admission cause. The PR has zero submitted reviews and zero inline review threads.
 - Repository tests NOT RUN in this session; synthetic FFmpeg E2E NOT RUN; owner-device Windows validation NOT VERIFIED; independent review NOT RECORDED; authorized GTA VI MP4 NOT PROCESSED. Stage 1/P0 remains INCOMPLETE.
 - No workflow retry/dispatch, merge, rebase, retarget, OAuth, credentials, live media processing, upload, publishing, or deployment. Preserve PR #414 and its existing base/ancestry.
+
+
+### ARO-CHAT-0416 — Make clip-pack partial-publication recovery non-destructive (2026-11-27)
+- Owner requested moving to another actionable task instead of repeatedly retrying the hosted-runner admission blocker. Continued with an independent clip-pack output-safety review; no runner retry or infrastructure changes.
+- Branch: workstream/aro-chat-0416-safe-clip-pack-rollback-2026-11-27; base: workstream/aro-chat-0410-portrait-render-reconcile-2026-11-27; starting SHA: 3309c2f57f95bd62020784d079b7b95ed9f99cee (latest confirmed base tip at branch creation).
+- Static review found _write_texts_no_overwrite() attempted rollback with os.path.samefile(temp, target) followed by target.unlink(). This is a time-of-check/time-of-use gap: another process could replace the destination after the identity check and have its unrelated file deleted.
+- Changed partial-publication handling to preserve any already-published destination and raise an OSError naming the exact artifact paths for manual reconciliation. Temporary staging files are still cleaned up. Existing destination files remain untouched; no automatic path-based rollback deletion is attempted.
+- Added regression coverage asserting that a first-published CSV remains available after a Markdown destination collision, the pre-existing Markdown file remains unchanged, and rollback does not unlink the published target.
+- Production commit: 550f706e0d03447bbe6cf601f8fd871b4e0d6bd3; test commit: aa5703da6ccfda035e39c2cba0176f0eec01122f.
+- Changed files: backend/app/clip_pack.py, tests/test_clip_pack.py, docs/CHAT_WORKSTREAM_REGISTRY.md, docs/ARO_CHAT_STARTUP_PROMPT.md.
+- GitHub source read-back: PENDING at time of entry. Local unit tests NOT RUN; exact-head CI NOT VERIFIED; synthetic FFmpeg E2E NOT RUN; independent review NOT RECORDED; owner-device Windows NOT VERIFIED; authorized GTA VI MP4 NOT PROCESSED.
+- Status: IMPLEMENTED, NOT TESTED. Draft PR only; no merge, rebase, retarget, runner retry, OAuth, media processing, upload, publishing, or deployment. Stage 1/P0 remains INCOMPLETE.
